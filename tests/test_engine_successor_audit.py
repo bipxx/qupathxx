@@ -106,3 +106,58 @@ def test_final_receipt_preserves_successor_and_original_source_identities():
                Path=Path,__file__=str(AUDITOR))
     exec(compile(ast.Module(body=updates,type_ignores=[]),str(AUDITOR),'exec'),scope)
     assert scope['report']['auditor']==dict(auditor,path='tools/ci/accept_unified_engine.py',sha256='script_digest')
+
+
+def legacy_record_guard():
+    return next(node for parent in statements() for node in ast.walk(parent)
+                if isinstance(node,ast.For) and ast.unparse(node.target)=='(suffix, count)'
+                and isinstance(node.iter,ast.List)
+                and ast.unparse(node.iter).startswith("[('test_pixel_archives'"))
+
+
+def legacy_record_fixture(tmp_path):
+    source=ast.parse((ROOT/'tests/test_pixel_stream_records.py').read_text(encoding='utf-8'))
+    function=next(n for n in source.body if isinstance(n,ast.FunctionDef)
+                  and n.name.startswith('test_legacy_schemas_load_and_transactionally_upgrade_to_schema'))
+    parameter=next(d for d in function.decorator_list if isinstance(d,ast.Call)
+                   and ast.unparse(d.func)=='pytest.mark.parametrize' and ast.literal_eval(d.args[0])=='version')
+    versions=range(*(ast.literal_eval(v) for v in parameter.args[1].args))
+    migrations=[function.name+'['+str(v)+']' for v in versions]
+    root=ET.Element('testsuite');record_cases=[]
+    required=eval(compile(ast.Expression(legacy_record_guard().iter),str(AUDITOR),'eval'),
+                  dict(args=SimpleNamespace(ndpi_readers=True)))
+    for module,count in required:
+        names=migrations+['retained_record_case_'+str(i) for i in range(22)] if module=='test_pixel_stream_records' else ['case_'+str(i) for i in range(count)]
+        for name in names:
+            case=ET.SubElement(root,'testcase',classname='tests.'+module,name=name)
+            if module=='test_pixel_stream_records':record_cases.append(case)
+    return root,record_cases
+
+
+def check_legacy_record_guard(tmp_path,root):
+    ET.ElementTree(root).write(tmp_path/'python-tests.xml',encoding='utf-8')
+    scope=dict(ET=ET,folder=tmp_path,args=SimpleNamespace(ndpi_readers=True),
+               job={'name':'source-bound fixture'},entry={})
+    exec(compile(ast.Module(body=[legacy_record_guard()],type_ignores=[]),str(AUDITOR),'exec'),scope)
+    return scope['entry']
+
+
+def test_legacy_record_gate_accepts_schema14_source_migrations(tmp_path):
+    root,cases=legacy_record_fixture(tmp_path)
+    assert len(cases)==35
+    result=check_legacy_record_guard(tmp_path,root)
+    assert len(result['test_pixel_stream_records_cases'])==35
+
+
+@pytest.mark.parametrize('change',['old_count','missing_version13','old_family','duplicate_identity',
+                                   'failed_version13','skipped_version13','error_version13'])
+def test_legacy_record_gate_refuses_incomplete_migrations(tmp_path,change):
+    root,cases=legacy_record_fixture(tmp_path)
+    final=next(c for c in cases if c.get('name').endswith('[13]'))
+    if change=='old_count':root.remove(cases[-1])
+    elif change=='missing_version13':final.set('name','replacement_case')
+    elif change=='old_family':
+        for case in cases:case.set('name',case.get('name').replace('to_schema14','to_schema13'))
+    elif change=='duplicate_identity':cases[-1].set('name',cases[-2].get('name'))
+    else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error'}[change])
+    with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)
