@@ -48,5 +48,6 @@ PixelStreamExportStats PixelStreamExportJob::poll(const Document& doc) {
     }
     return s.stats;
 }
-PixelStreamExportStats PixelStreamExportJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void PixelStreamExportJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+PixelStreamExportStats PixelStreamExportJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 }

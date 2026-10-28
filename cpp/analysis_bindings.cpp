@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/analysis.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
@@ -31,11 +32,12 @@ void bind_analysis(nb::module_& m) {
     nb::class_<AnalysisStats>(m,"AnalysisStats")
         .def_ro("state",&AnalysisStats::state).def_ro("error",&AnalysisStats::error).def_ro("generation",&AnalysisStats::generation)
         .def_ro("completed_tiles",&AnalysisStats::completed_tiles).def_ro("total_tiles",&AnalysisStats::total_tiles).def_ro("elapsed_ms",&AnalysisStats::elapsed_ms);
-    nb::class_<AnalysisJob>(m,"AnalysisJob").def(nb::init<>()).def("request",&AnalysisJob::request)
-        .def("poll",&AnalysisJob::poll,"document"_a,"selected_id"_a)
-        .def("wait",&AnalysisJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&AnalysisJob::cancel).def_prop_ro("busy",&AnalysisJob::busy).def_prop_ro("result",&AnalysisJob::result)
-        .def("keep_result",&AnalysisJob::keep_result,"document"_a,"selected_id"_a).def("verify_result",&AnalysisJob::verify_result,"document"_a,"record_id"_a);
+    using PythonAnalysisJob=qpx::bindings::OwnerJobHolder<AnalysisJob>;
+    nb::class_<PythonAnalysisJob>(m,"AnalysisJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&AnalysisJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&AnalysisJob::poll>(),"document"_a,"selected_id"_a)
+        .def("wait",[](PythonAnalysisJob& job,const Document& doc,std::uint64_t selected){return qpx::bindings::wait(job,doc,selected);},"document"_a,"selected_id"_a)
+        .def("cancel",qpx::bindings::owner_job_method<&AnalysisJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&AnalysisJob::busy>()).def_prop_ro("result",qpx::bindings::owner_job_method<&AnalysisJob::result>())
+        .def("keep_result",qpx::bindings::owner_job_method<&AnalysisJob::keep_result>(),"document"_a,"selected_id"_a).def("verify_result",qpx::bindings::owner_job_method<&AnalysisJob::verify_result>(),"document"_a,"record_id"_a);
     nb::class_<AnalysisRecord>(m,"AnalysisRecord").def_ro("id",&AnalysisRecord::id).def_ro("result",&AnalysisRecord::result)
         .def_ro("roi",&AnalysisRecord::roi).def_ro("tile_size",&AnalysisRecord::tile_size);
 }

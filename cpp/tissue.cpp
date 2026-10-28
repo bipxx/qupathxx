@@ -222,7 +222,8 @@ TissueStats TissueJob::poll(const Document& document,std::uint64_t id) {
     }
     if(!busy() && !impl_->result) impl_->request.reset();return impl_->stats;
 }
-TissueStats TissueJob::wait(const Document& document,std::uint64_t id) {poll(document,id);if(busy()) impl_->future.wait();return poll(document,id);}
+void TissueJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+TissueStats TissueJob::wait(const Document& document,std::uint64_t id) {poll(document,id);await_completion();return poll(document,id);}
 bool TissueJob::request_contours(TissueContourOptions options) {
     if(busy()) return false;
     options.validate();if(!has_geos()) throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");

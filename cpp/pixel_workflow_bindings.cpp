@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_stream.hpp"
@@ -120,11 +121,12 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_ro("valid_pixels",&PixelStreamExportStats::valid_pixels).def_ro("classified_pixels",&PixelStreamExportStats::classified_pixels)
         .def_ro("estimated_work_bytes",&PixelStreamExportStats::estimated_work_bytes).def_ro("elapsed_ms",&PixelStreamExportStats::elapsed_ms)
         .def_ro("current",&PixelStreamExportStats::current).def_ro("summary",&PixelStreamExportStats::summary);
-    nb::class_<PixelStreamExportJob>(m,"PixelStreamExportJob").def(nb::init<>())
-        .def("request",&PixelStreamExportJob::request,"document"_a,"object_id"_a,"model"_a,"path"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none(),"replace_existing"_a=false,"max_bytes"_a=1ULL<<40)
-        .def_prop_ro("busy",&PixelStreamExportJob::busy).def("cancel",&PixelStreamExportJob::cancel)
-        .def("poll",&PixelStreamExportJob::poll,"document"_a)
-        .def("wait",&PixelStreamExportJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>());
+    using PythonPixelStreamExportJob=qpx::bindings::OwnerJobHolder<PixelStreamExportJob>;
+    nb::class_<PythonPixelStreamExportJob>(m,"PixelStreamExportJob").def(nb::init<>())
+        .def("request",qpx::bindings::owner_job_method<&PixelStreamExportJob::request>(),"document"_a,"object_id"_a,"model"_a,"path"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none(),"replace_existing"_a=false,"max_bytes"_a=1ULL<<40)
+        .def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelStreamExportJob::busy>()).def("cancel",qpx::bindings::owner_job_method<&PixelStreamExportJob::cancel,false>())
+        .def("poll",qpx::bindings::owner_job_method<&PixelStreamExportJob::poll>(),"document"_a)
+        .def("wait",[](PythonPixelStreamExportJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a);
     nb::class_<PixelStreamReadStats>(m,"PixelStreamReadStats")
         .def_ro("state",&PixelStreamReadStats::state).def_ro("error",&PixelStreamReadStats::error).def_ro("generation",&PixelStreamReadStats::generation)
         .def_ro("block_index",&PixelStreamReadStats::block_index).def_ro("elapsed_ms",&PixelStreamReadStats::elapsed_ms)

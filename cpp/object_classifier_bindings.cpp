@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/object_classifier_archive.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
@@ -45,14 +46,15 @@ void bind_object_classifiers(nb::module_& m) {
     nb::class_<ObjectClassifierStats>(m,"ObjectClassifierStats").def_ro("state",&ObjectClassifierStats::state).def_ro("phase",&ObjectClassifierStats::phase)
         .def_ro("error",&ObjectClassifierStats::error).def_ro("generation",&ObjectClassifierStats::generation)
         .def_ro("completed_rows",&ObjectClassifierStats::completed_rows).def_ro("total_rows",&ObjectClassifierStats::total_rows).def_ro("elapsed_ms",&ObjectClassifierStats::elapsed_ms);
-    nb::class_<ObjectClassifierJob>(m,"ObjectClassifierJob").def(nb::init<>())
-        .def("train",&ObjectClassifierJob::train,"request"_a,"parameters"_a=ForestParameters{})
-        .def("predict",&ObjectClassifierJob::predict,"request"_a,"model"_a)
-        .def("poll",&ObjectClassifierJob::poll,"document"_a).def("wait",&ObjectClassifierJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&ObjectClassifierJob::cancel).def_prop_ro("busy",&ObjectClassifierJob::busy)
-        .def_prop_ro("model",&ObjectClassifierJob::model).def_prop_ro("table",&ObjectClassifierJob::table).def_prop_ro("result",&ObjectClassifierJob::result)
-        .def("apply",&ObjectClassifierJob::apply,"document"_a,"min_vote_fraction"_a=0,"retain_record"_a=true)
-        .def_prop_ro("archive",&ObjectClassifierJob::archive).def("retain_training",&ObjectClassifierJob::retain_training,"document"_a,"name"_a="Object classifier training");
+    using PythonObjectClassifierJob=qpx::bindings::OwnerJobHolder<ObjectClassifierJob>;
+    nb::class_<PythonObjectClassifierJob>(m,"ObjectClassifierJob").def(nb::init<>())
+        .def("train",qpx::bindings::owner_job_method<&ObjectClassifierJob::train>(),"request"_a,"parameters"_a=ForestParameters{})
+        .def("predict",qpx::bindings::owner_job_method<&ObjectClassifierJob::predict>(),"request"_a,"model"_a)
+        .def("poll",qpx::bindings::owner_job_method<&ObjectClassifierJob::poll>(),"document"_a).def("wait",[](PythonObjectClassifierJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
+        .def("cancel",qpx::bindings::owner_job_method<&ObjectClassifierJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&ObjectClassifierJob::busy>())
+        .def_prop_ro("model",qpx::bindings::owner_job_method<&ObjectClassifierJob::model>()).def_prop_ro("table",qpx::bindings::owner_job_method<&ObjectClassifierJob::table>()).def_prop_ro("result",qpx::bindings::owner_job_method<&ObjectClassifierJob::result>())
+        .def("apply",qpx::bindings::owner_job_method<&ObjectClassifierJob::apply>(),"document"_a,"min_vote_fraction"_a=0,"retain_record"_a=true)
+        .def_prop_ro("archive",qpx::bindings::owner_job_method<&ObjectClassifierJob::archive>()).def("retain_training",qpx::bindings::owner_job_method<&ObjectClassifierJob::retain_training>(),"document"_a,"name"_a="Object classifier training");
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("classifier_open",&GuiOptions::classifier_open).def_rw("classifier_selected_only",&GuiOptions::classifier_selected_only)
         .def_rw("classifier_unclassified_only",&GuiOptions::classifier_unclassified_only).def_rw("classifier_replace_model",&GuiOptions::classifier_replace_model)

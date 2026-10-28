@@ -341,7 +341,8 @@ CellStats CellJob::poll(const Document& doc,std::uint64_t id) {
         if(impl_->stale) impl_->stats.state="stale";else if(impl_->cancelled.load()) impl_->stats.state="cancelled";else if(!c.result) {impl_->stats.state="failed";impl_->stats.error=std::move(c.error);}else {impl_->result=std::move(c.result);impl_->stats.state="ready";impl_->stats.phase="complete";}} catch(const std::exception& e) {impl_->stats.state="failed";impl_->stats.error=e.what();}}
     if(!busy() && !impl_->result) impl_->request.reset();return impl_->stats;
 }
-CellStats CellJob::wait(const Document& doc,std::uint64_t id) {poll(doc,id);if(busy()) impl_->future.wait();return poll(doc,id);}
+void CellJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+CellStats CellJob::wait(const Document& doc,std::uint64_t id) {poll(doc,id);await_completion();return poll(doc,id);}
 std::vector<std::uint64_t> CellJob::keep_result(Document& doc,std::uint64_t id,std::string prefix,std::string classification) {
     if(poll(doc,id).state!="ready" || !impl_->result) throw std::logic_error("no current cells to publish");if(impl_->published) throw std::logic_error("cells already published; use Undo/Redo");
     auto ids=impl_->verified_record?doc.publish_cell_record(impl_->verified_record,std::move(prefix),std::move(classification)):

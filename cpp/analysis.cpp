@@ -178,8 +178,9 @@ AnalysisStats AnalysisJob::poll(const Document& document,std::uint64_t selected_
     if(!busy() && !impl_->result) impl_->request.reset();
     return impl_->stats;
 }
+void AnalysisJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
 AnalysisStats AnalysisJob::wait(const Document& document,std::uint64_t selected_id) {
-    poll(document,selected_id); if(busy()) impl_->future.wait(); return poll(document,selected_id);
+    poll(document,selected_id); await_completion(); return poll(document,selected_id);
 }
 std::uint64_t AnalysisJob::keep_result(Document& document,std::uint64_t selected_id) {
     if(poll(document,selected_id).state!="ready" || !impl_->request || !impl_->result) throw std::logic_error("no current analysis result to keep");

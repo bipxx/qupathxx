@@ -107,6 +107,8 @@ public:
     bool busy() const;void cancel();
     ObjectClassifierStats poll(const Document&);
     ObjectClassifierStats wait(const Document&);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     std::shared_ptr<const ForestModel> model() const;
     std::shared_ptr<const ObjectFeatureTable> table() const;
     std::shared_ptr<const ObjectClassificationResult> result() const;

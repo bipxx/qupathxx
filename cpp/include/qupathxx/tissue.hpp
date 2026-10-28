@@ -186,6 +186,8 @@ public:
     bool request(const TissueRequest&);
     TissueStats poll(const Document&,std::uint64_t selected_id);
     TissueStats wait(const Document&,std::uint64_t selected_id);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     void cancel();
     bool busy() const;
     std::shared_ptr<const TissueResult> result() const;

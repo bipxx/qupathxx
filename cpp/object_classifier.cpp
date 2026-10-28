@@ -237,7 +237,8 @@ ObjectClassifierStats ObjectClassifierJob::poll(const Document& doc) {
     }
     if(!busy() && !s.model) {s.request.reset();s.input_model.reset();}return s.stats;
 }
-ObjectClassifierStats ObjectClassifierJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void ObjectClassifierJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+ObjectClassifierStats ObjectClassifierJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const ForestModel> ObjectClassifierJob::model() const {return impl_->model;}
 std::shared_ptr<const ObjectFeatureTable> ObjectClassifierJob::table() const {return impl_->table;}
 std::shared_ptr<const ObjectClassificationResult> ObjectClassifierJob::result() const {return impl_->result;}

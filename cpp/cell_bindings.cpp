@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/cells.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
@@ -85,11 +86,12 @@ void bind_cells(nb::module_& m) {
         .def("cell_object_feature",&Document::cell_object_feature).def("cell_object_status",&Document::cell_object_status)
         .def("keep_cells",&Document::keep_cells).def("verify_cells",&Document::verify_cells).def("remove_cells",&Document::remove_cells);
     nb::class_<CellStats,AnalysisStats>(m,"CellStats").def_ro("phase",&CellStats::phase);
-    nb::class_<CellJob>(m,"CellJob").def(nb::init<>()).def("request",&CellJob::request)
-        .def("poll",&CellJob::poll,"document"_a,"selected_id"_a).def("wait",&CellJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&CellJob::cancel).def_prop_ro("busy",&CellJob::busy).def_prop_ro("result",&CellJob::result).def_prop_ro("published",&CellJob::published)
-        .def("keep_result",&CellJob::keep_result,"document"_a,"selected_id"_a,"name_prefix"_a="Cell","class_name"_a="")
-        .def("keep_record",&CellJob::keep_record,"document"_a,"selected_id"_a).def("verify_record",&CellJob::verify_record,"document"_a,"record_id"_a);
+    using PythonCellJob=qpx::bindings::OwnerJobHolder<CellJob>;
+    nb::class_<PythonCellJob>(m,"CellJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&CellJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&CellJob::poll>(),"document"_a,"selected_id"_a).def("wait",[](PythonCellJob& job,const Document& doc,std::uint64_t selected){return qpx::bindings::wait(job,doc,selected);},"document"_a,"selected_id"_a)
+        .def("cancel",qpx::bindings::owner_job_method<&CellJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&CellJob::busy>()).def_prop_ro("result",qpx::bindings::owner_job_method<&CellJob::result>()).def_prop_ro("published",qpx::bindings::owner_job_method<&CellJob::published>())
+        .def("keep_result",qpx::bindings::owner_job_method<&CellJob::keep_result>(),"document"_a,"selected_id"_a,"name_prefix"_a="Cell","class_name"_a="")
+        .def("keep_record",qpx::bindings::owner_job_method<&CellJob::keep_record>(),"document"_a,"selected_id"_a).def("verify_record",qpx::bindings::owner_job_method<&CellJob::verify_record>(),"document"_a,"record_id"_a);
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
     options.def_prop_rw("cell_parameters",[](const GuiOptions& o){return o.cell_parameters?*o.cell_parameters:CellParameters{};},[](GuiOptions& o,CellParameters p){p.validate();o.cell_parameters=std::make_shared<const CellParameters>(std::move(p));})
         .def_prop_rw("cell_grid",[](const GuiOptions& o){return o.cell_grid?std::optional<GridCellSampling>(*o.cell_grid):std::nullopt;},[](GuiOptions& o,std::optional<GridCellSampling> p){if(p) p->validate();o.cell_grid=p?std::make_shared<const GridCellSampling>(*p):nullptr;})

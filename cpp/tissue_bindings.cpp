@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/tissue.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
@@ -73,11 +74,12 @@ void bind_tissue(nb::module_& m) {
         .def("tissue_status",&Document::tissue_status,"record_id"_a)
         .def_prop_ro("tissue_records",&Document::tissue_records).def_prop_ro("tissue_record_count",&Document::tissue_record_count);
     nb::class_<TissueStats,AnalysisStats>(m,"TissueStats").def_ro("phase",&TissueStats::phase);
-    nb::class_<TissueJob>(m,"TissueJob").def(nb::init<>()).def("request",&TissueJob::request)
-        .def("poll",&TissueJob::poll,"document"_a,"selected_id"_a).def("wait",&TissueJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&TissueJob::cancel).def_prop_ro("busy",&TissueJob::busy).def_prop_ro("result",&TissueJob::result)
-        .def("request_contours",&TissueJob::request_contours,"options"_a=TissueContourOptions{}).def_prop_ro("contours",&TissueJob::contours).def_prop_ro("contours_published",&TissueJob::contours_published)
-        .def("keep_contours",&TissueJob::keep_contours,"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
-    auto job=nb::borrow<nb::class_<TissueJob>>(m.attr("TissueJob"));
-    job.def("keep_result",&TissueJob::keep_result,"document"_a,"selected_id"_a).def("verify_result",&TissueJob::verify_result,"document"_a,"record_id"_a);
+    using PythonTissueJob=qpx::bindings::OwnerJobHolder<TissueJob>;
+    nb::class_<PythonTissueJob>(m,"TissueJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&TissueJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&TissueJob::poll>(),"document"_a,"selected_id"_a).def("wait",[](PythonTissueJob& job,const Document& doc,std::uint64_t selected){return qpx::bindings::wait(job,doc,selected);},"document"_a,"selected_id"_a)
+        .def("cancel",qpx::bindings::owner_job_method<&TissueJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&TissueJob::busy>()).def_prop_ro("result",qpx::bindings::owner_job_method<&TissueJob::result>())
+        .def("request_contours",qpx::bindings::owner_job_method<&TissueJob::request_contours>(),"options"_a=TissueContourOptions{}).def_prop_ro("contours",qpx::bindings::owner_job_method<&TissueJob::contours>()).def_prop_ro("contours_published",qpx::bindings::owner_job_method<&TissueJob::contours_published>())
+        .def("keep_contours",qpx::bindings::owner_job_method<&TissueJob::keep_contours>(),"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
+    auto job=nb::borrow<nb::class_<PythonTissueJob>>(m.attr("TissueJob"));
+    job.def("keep_result",qpx::bindings::owner_job_method<&TissueJob::keep_result>(),"document"_a,"selected_id"_a).def("verify_result",qpx::bindings::owner_job_method<&TissueJob::verify_result>(),"document"_a,"record_id"_a);
 }

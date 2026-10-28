@@ -156,6 +156,8 @@ public:
     bool request(const CellRequest&);
     CellStats poll(const Document&,std::uint64_t selected_id);
     CellStats wait(const Document&,std::uint64_t selected_id);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     bool busy() const;void cancel();
     std::shared_ptr<const CellResult> result() const;
     bool published() const;

@@ -45,6 +45,8 @@ public:
         PixelStreamOptions={},std::optional<Rect> window={},bool replace_existing=false,std::uint64_t max_bytes=1ULL<<40);
     bool busy() const;void cancel();
     PixelStreamExportStats poll(const Document&);PixelStreamExportStats wait(const Document&);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };
