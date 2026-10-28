@@ -7,6 +7,8 @@
 #include "../geometry_archive.hpp"
 #include "../grid_cell_descriptor.hpp"
 #include "../sha256.hpp"
+#include "../provenance_codec.hpp"
+#include "qupathxx/provenance.hpp"
 #include "object_forest_fixture.hpp"
 #include <filesystem>
 #include <fstream>
@@ -82,6 +84,10 @@ void check_nominal_cells() {
     const auto historical=load(bytes);verify(reader->reads==3);
     verify(CellArchiveCodec::encode(*historical)==bytes && historical->cells()->labels()==result->cells()->labels());
     verify(historical->nuclei()->nominal_sampling()->source_request().downsample==1.5);
+    ProvenanceCodec::attach(historical->nuclei(),result->nuclei()->provenance());
+    auto changed_provenance=std::make_shared<AnalysisProvenance>(*result->nuclei()->provenance());++changed_provenance->captured_unix_ms;
+    rejects<std::invalid_argument>([&]{ProvenanceCodec::attach(historical->nuclei(),changed_provenance);});
+    rejects<std::invalid_argument>([&]{ProvenanceCodec::attach(historical->nuclei(),{});});
     Counter prefix;cell_detail::grid_parameters_write(prefix,p);const auto geometry_at=4+prefix.bytes;
     for(const auto offset:{geometry_at,geometry_at+16,geometry_at+32,geometry_at+48,geometry_at+56}) {
         auto bad=bytes;for(unsigned i=0;i<8;++i) bad[offset+i]=255;sign(bad,request.roi());rejects<std::exception>([&]{load(bad);});

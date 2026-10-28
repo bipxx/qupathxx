@@ -57,8 +57,8 @@ std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uin
     if(r.left) throw std::invalid_argument("trailing provenance bytes");p->environment=std::move(e);p->validate();return p;
 }
 void ProvenanceCodec::attach(const std::shared_ptr<const TissueResult>& result,std::shared_ptr<const AnalysisProvenance> p) {
-    if(p && (p->object_id!=result->object_id() || p->object_revision!=result->object_revision() || p->document_revision!=result->document_revision() || p->nucleus!=result->nucleus() || p->source.width!=result->image_bounds().width || p->source.height!=result->image_bounds().height || result->level()<0 || std::size_t(result->level())>=p->source.levels.size() || p->source.levels[result->level()].downsample!=(result->scientific_grid()?1.:result->downsample()))) throw std::invalid_argument("tissue/cell provenance identity mismatch");
-    if(result->scientific_grid() && result->provenance() && (!p || encode(*p)!=encode(*result->provenance())))
+    if(p && (p->object_id!=result->object_id() || p->object_revision!=result->object_revision() || p->document_revision!=result->document_revision() || p->nucleus!=result->nucleus() || p->source.width!=result->image_bounds().width || p->source.height!=result->image_bounds().height || result->level()<0 || std::size_t(result->level())>=p->source.levels.size() || p->source.levels[result->level()].downsample!=((result->scientific_grid() || result->nominal_sampling())?1.:result->downsample()))) throw std::invalid_argument("tissue/cell provenance identity mismatch");
+    if((result->scientific_grid() || result->nominal_sampling()) && result->provenance() && (!p || encode(*p)!=encode(*result->provenance())))
         throw std::invalid_argument("grid cell embedded and external provenance differ");
     std::const_pointer_cast<TissueResult>(result)->provenance_=std::move(p);
 }
