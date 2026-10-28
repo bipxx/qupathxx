@@ -11,6 +11,7 @@ common=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read
 require=common.require
 CASES=json.loads(Path(__file__).with_name('scientific-grid-cases.json').read_text(encoding='utf-8'))
 GUI_CASES={
+ 'test_rgb_nominal_preview_renders_native_pixels_in_imgui':('opt-in RGB nominal preview',),
  'test_reduced_budget_imgui_measure_keep_and_render':('requires quantitative project desktop','opt-in raw grid desktop'),
  'test_reduced_budget_managed_viewer_retains_verifies_and_saves':('requires quantitative project desktop','opt-in raw grid desktop'),
  'test_raw_grid_desktop_measure_keep_csv_and_render':('requires quantitative project desktop','opt-in raw grid desktop'),
@@ -27,6 +28,7 @@ NEGATIVE={
 }
 POSITIVE=['tests/typing/raw_grid_valid.py','tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 POSITIVE.append('tests/typing/rgb_nominal_valid.py')
+POSITIVE.append('examples/rgb_nominal_preview.py')
 NEGATIVE['rgb-nominal-typing-negative.log']=('rgb_nominal_invalid.py',[4,5,7])
 BASE={
  'resampling':['Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed','Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed','Scientific raster precision admission agrees with exhaustive binary64 sample checks','Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed','Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed','QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed'],

@@ -490,6 +490,11 @@
     "test_request_is_immutable_with_explicit_pixel_units[x_px]",
     "test_request_is_immutable_with_explicit_pixel_units[y_px]"
   ],
+  "test_rgb_nominal_preview": [
+    "test_preview_keeps_unknown_calibration_unknown",
+    "test_preview_preserves_native_pixels_nominal_calibration_and_owned_lifetime",
+    "test_rgb_nominal_preview_renders_native_pixels_in_imgui"
+  ],
   "test_rgb_nominal_reference": [
     "test_changed_holdout_payload_is_rejected[checker/crop_1_1.png]",
     "test_changed_holdout_payload_is_rejected[contract.json]",
