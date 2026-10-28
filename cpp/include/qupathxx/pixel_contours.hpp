@@ -25,6 +25,8 @@ public:
     bool request(const PixelPredictionRequest&,std::shared_ptr<const PixelPredictionResult>,TissueContourOptions={});
     bool busy() const;void cancel();
     PixelTrainingStats poll(const Document&);PixelTrainingStats wait(const Document&);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     std::shared_ptr<const PixelContours> result() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

@@ -159,7 +159,8 @@ PixelTrainingStats PixelTrainingJob::poll(const Document& doc) {
     if(busy() && s.future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {try {auto out=s.future.get();s.stats.elapsed_ms=out.ms;s.stats.completed_tiles=s.completed.load();s.stats.total_tiles=s.total.load();if(s.stale) s.stats.state="stale";else if(s.cancelled.load()) s.stats.state="cancelled";else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);}else {s.table=std::move(out.table);s.model=std::move(out.model);s.stats.state="ready";}}catch(const std::exception& e) {s.stats.state="failed";s.stats.error=e.what();}s.stats.phase="finished";}
     if(!busy() && !s.model) s.request.reset();return s.stats;
 }
-PixelTrainingStats PixelTrainingJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void PixelTrainingJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+PixelTrainingStats PixelTrainingJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const PixelTrainingTable> PixelTrainingJob::table() const {return impl_->table;}
 std::shared_ptr<const PixelClassifier> PixelTrainingJob::model() const {return impl_->model;}
 }

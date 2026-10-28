@@ -10,7 +10,7 @@ import numpy as np
 import pytest
 import qupathxx as q
 
-KINDS=('AnalysisJob','TissueJob','CellJob','StainEstimateJob','ObjectClassifierJob','PixelStreamExportJob')
+KINDS=('AnalysisJob','TissueJob','CellJob','StainEstimateJob','ObjectClassifierJob','PixelStreamExportJob','PixelTrainingJob','PixelPredictionJob','PixelContourJob')
 SELECTED=set(KINDS[:4])
 
 
@@ -60,17 +60,36 @@ def case_for(kind,tmp_path):
         return Case(kind,doc,obj,job,lambda:job.request(q.StainEstimateRequest(doc,obj,white=WHITE.tolist())))
     if kind=='ObjectClassifierJob':
         from test_object_classifier import workspace,parameters
-        training,labels=workspace();parameters_=parameters();parameters_.trees=512
+        training,labels=workspace();parameters_=parameters();parameters_.trees=256
         model=q.train_object_forest(q.extract_object_features(q.ObjectFeatureRequest(training,labels)),parameters_)
         doc=q.Document(q.Image(32,32,[80]*32*32*3));doc.set_history_limits(0,0)
         roi=q.Roi.rectangle(q.Rect(1,1,2,2));doc.execute([q.ObjectEdit.create_geometry(roi) for _ in range(20000)])
         ids=[a.id for a in doc.annotations]
         return Case(kind,doc,ids[0],job,lambda:job.predict(q.ObjectFeatureRequest(doc,ids),model))
-    if kind=='PixelStreamExportJob':
+    if kind=='PixelTrainingJob':
+        from test_pixel_workflows import scene
+        _,_,_,options=scene();size=1024
+        rgb=np.full((size,size,3),80,dtype=np.uint8);rgb[:,:size//2,0]=0;rgb[:,size//2:,0]=200
+        doc=q.Document(q.dense_image_server(q.Image.from_numpy(rgb)))
+        a=doc.add_rectangle(q.Rect(0,0,size//2,size));b=doc.add_rectangle(q.Rect(size//2,0,size//2,size))
+        doc.classify_objects([a],'A');doc.classify_objects([b],'B')
+        parameters=q.pixel_forest_parameters();parameters.trees=256;parameters.max_depth=4
+        options.max_samples=4096;options.max_samples_per_class=2048;options.tile_size=64
+        return Case(kind,doc,a,job,lambda:job.train(q.PixelTrainingRequest(doc,[a,b],options=options),parameters))
+    if kind=='PixelContourJob' and not q.has_geos:pytest.skip('optional GEOS contour backend')
+    if kind in ('PixelStreamExportJob','PixelPredictionJob','PixelContourJob'):
         from test_pixel_prediction_windows import setup
         from test_pixel_stream_export_job import options
         _,_,model=setup();size=1024;rgb=np.full((size,size,3),80,dtype=np.uint8)
         doc=q.Document(q.dense_image_server(q.Image.from_numpy(rgb)));obj=doc.add_rectangle(q.Rect(0,0,size,size))
+        prediction=q.PixelPredictionOptions();prediction.work_bytes=128*1024*1024
+        if kind=='PixelPredictionJob':return Case(kind,doc,obj,job,lambda:job.request(q.PixelPredictionRequest(doc,obj,model,prediction)))
+        if kind=='PixelContourJob':
+            def trace():
+                request=q.PixelPredictionRequest(doc,obj,model,prediction)
+                result=q.predict_pixel_region(request)
+                return job.request(request,result)
+            return Case(kind,doc,obj,job,trace)
         paths=[]
         def start():
             path=tmp_path/('stream-'+str(len(paths))+'.qps');paths.append(path)
@@ -114,7 +133,9 @@ def test_live_document_wait_releases_gil_and_rechecks_before_delivery(tmp_path,k
         if stats.state=='cancelled':assert not case.outputs[-1].exists()
         else:assert q.PixelStreamFile(str(case.outputs[-1])).declared_summary.sha256==stats.summary.sha256
     else:
-        assert stats.state==('stale' if action=='edit' else 'cancelled') and case.job.result is None
+        assert stats.state==('stale' if action=='edit' else 'cancelled')
+        if kind=='PixelTrainingJob':assert case.job.model is None and case.job.table is None
+        else:assert case.job.result is None
     assert case.start();fresh=case.wait()
     assert fresh.state==('saved' if kind=='PixelStreamExportJob' else 'ready'),fresh.error
     assert case.doc.revision==revision+(action=='edit')
@@ -140,6 +161,7 @@ def destroy_on_foreign_thread(kind,tmp_path):
 @pytest.mark.parametrize('kind',KINDS)
 def test_live_document_job_shutdown_releases_gil_and_joins(tmp_path,kind):
     if kind in KINDS[4:] and not q.has_classifier_training:pytest.skip('optional classifier training backend')
+    if kind=='PixelContourJob' and not q.has_geos:pytest.skip('optional GEOS contour backend')
     code="import sys;from pathlib import Path;sys.path.insert(0,sys.argv[1]);import test_document_job_waits as t;t.destroy_on_foreign_thread(sys.argv[2],Path(sys.argv[3]));print('joined')"
     child=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(Path(__file__).parent),kind,str(tmp_path)],capture_output=True,text=True,encoding='utf-8',timeout=30)
     assert child.returncode==0 and 'joined' in child.stdout,child.stdout+child.stderr
