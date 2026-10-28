@@ -293,7 +293,7 @@ struct ViewerOwner::Impl {
             if(!exporting && c.blocked && !replaced && !w.ticket->cancelled.load()) return;
             try {
                 auto e=w.seed;e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();
-                if(exporting) {e.path=report.path;e.committed=report.export_committed;e.rows=report.export_committed?report.export_rows:0;e.bytes=report.export_bytes;e.error=report.export_error;e.state=e.committed?(replaced?"detached":"succeeded"):report.export_state;}
+                if(exporting) {e.path=report.path;e.committed=report.export_committed;e.rows=report.export_committed?report.export_rows:0;e.bytes=report.export_bytes;e.error=report.export_error;e.state=e.committed?(replaced || report.export_state=="detached"?"detached":"succeeded"):report.export_state;}
                 else if(replaced || w.ticket->cancelled.load()) {e.state=stale?"stale":"cancelled";e.error="spatial viewer work cancelled or replaced";}
                 else if(report.state!="ready" && report.state!="historical" && report.state!="verified") {e.state=report.state=="stale"?"stale":report.state=="cancelled"?"cancelled":"failed";e.error=report.error;}
                 else {

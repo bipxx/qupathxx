@@ -82,7 +82,9 @@ void bind_spatial(nb::module_& m) {
         .def_ro("sources",&GuiSpatialReport::sources).def_ro("targets",&GuiSpatialReport::targets).def_ro("result",&GuiSpatialReport::result)
         .def_ro("analysis",&GuiSpatialReport::analysis).def_ro("export_state",&GuiSpatialReport::export_state).def_ro("export_error",&GuiSpatialReport::export_error)
         .def_ro("export_committed",&GuiSpatialReport::export_committed).def_ro("export_rows",&GuiSpatialReport::export_rows).def_ro("export_bytes",&GuiSpatialReport::export_bytes).def_ro("path",&GuiSpatialReport::path);
-    auto gui_options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));gui_options.def_rw("spatial",&GuiOptions::spatial);
+    auto gui_options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
+    gui_options.def_prop_rw("spatial",[](const GuiOptions& o)->std::optional<GuiSpatialOptions> {if(o.spatial)return *o.spatial;return {};},
+        [](GuiOptions& o,std::optional<GuiSpatialOptions> value){o.spatial=value?std::make_shared<const GuiSpatialOptions>(*value):nullptr;});
     auto gui_report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));gui_report.def_ro("spatial",&GuiReport::spatial);
     nb::class_<SpatialDistanceJob>(m,"SpatialDistanceJob").def(nb::init<>())
         .def("request",&SpatialDistanceJob::request,"request"_a).def("poll",&SpatialDistanceJob::poll,"document"_a)

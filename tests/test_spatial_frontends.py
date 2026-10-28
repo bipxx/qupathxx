@@ -35,7 +35,7 @@ def test_spatial_options_and_queue_without_renderer(tmp_path):
 def test_desktop_spatial_run_keep_export_verify_reopen(tmp_path):
     project,image,doc,a,b=scene();csv=tmp_path/'distances.csv';o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0;o.replay_timeout_seconds=20
     spatial=q.GuiSpatialOptions();spatial.open=True;spatial.sources=[a];spatial.targets=[b];spatial.csv_path=str(csv);o.spatial=spatial
-    o.inputs=[*click(4,q.GuiInputTarget.SPATIAL_RUN),ready(8,q.GuiInputWait.SPATIAL_READY),*click(12,q.GuiInputTarget.SPATIAL_KEEP),ready(16,q.GuiInputWait.SPATIAL_KEPT),*click(20,q.GuiInputTarget.SPATIAL_EXPORT),ready(24,q.GuiInputWait.SPATIAL_EXPORTED),*click(28,q.GuiInputTarget.SPATIAL_VERIFY),ready(32,q.GuiInputWait.SPATIAL_VERIFIED)]
+    o.inputs=[*click(4,q.GuiInputTarget.SPATIAL_RUN),ready(8,q.GuiInputWait.SPATIAL_READY),*click(12,q.GuiInputTarget.SPATIAL_KEEP),ready(16,q.GuiInputWait.SPATIAL_KEPT),*click(20,q.GuiInputTarget.SPATIAL_VERIFY),ready(24,q.GuiInputWait.SPATIAL_VERIFIED),*click(28,q.GuiInputTarget.SPATIAL_EXPORT),ready(32,q.GuiInputWait.SPATIAL_EXPORTED)]
     capture=tmp_path/'spatial.ppm';folder=os.environ.get('QUPATHXX_SPATIAL_FRONTEND_EVIDENCE_DIR')
     if folder:Path(folder).mkdir(parents=True,exist_ok=True);capture=Path(folder)/'spatial-verified.ppm'
     report=q.show(project,frame_limit=55,options=o,capture_path=str(capture));result=report.spatial
