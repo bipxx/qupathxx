@@ -1,0 +1,104 @@
+{
+  "schema": "qpx.schema-observer-repair/1",
+  "observer_source": "3aca3d9314e5930ddc95648c262d785e18510c1b",
+  "native_source": "c949826ceac5ca357a9eadabef218b30461e5686",
+  "original_candidate": "ee19be5743cc131b297bfdbccad393f99b67b7c7",
+  "original_failure": "Mandatory descriptor benchmark and engine auditor expected schema13; native project schema is14",
+  "regression": {
+    "red_failed": 2,
+    "green_passed": 2,
+    "auditor_controls_passed": 1007
+  },
+  "full_benchmarks": {
+    "records": 10000,
+    "headless": true,
+    "actual_gui": true
+  },
+  "compiler_inputs_unchanged": 410,
+  "native_rebuilt": false,
+  "engineering_accepted": false,
+  "release_accepted": false,
+  "general_speed_claim": false,
+  "files": [
+    {
+      "path": "benchmark-red.log",
+      "bytes": 4588,
+      "sha256": "b3ec66f44ce7f69d59274be343ea5b5bc2cc837eba9162f7f361a317eb0165f0"
+    },
+    {
+      "path": "benchmark-red.xml",
+      "bytes": 6415,
+      "sha256": "d4a42910b79713d574a76c2ea449eb39f6ba9dcc4bae83d3fb992f09a76d165c"
+    },
+    {
+      "path": "benchmark-green.log",
+      "bytes": 100,
+      "sha256": "33b660efd606080059e79eb46c3f8c92101440576d498eac4516b9ab7cb10cf2"
+    },
+    {
+      "path": "benchmark-green.xml",
+      "bytes": 549,
+      "sha256": "ab17319288482b59cda6fb047196feef3d1b56602f924a03e54dd3783d2103b4"
+    },
+    {
+      "path": "red-database-observation.json",
+      "bytes": 472,
+      "sha256": "071e200cd1f6ee6dd0a744b53ca45eab931705353b892b2fd59dfc4750a368d0"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1157,
+      "sha256": "087e766a3cfe7b268b22fa4d975f5ac2ce4e65c29be34ed445efa4a4ec9b039e"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 162578,
+      "sha256": "88a464df3db2ee9cf86b994f72e31b7be227ac99ac43b9dbe2de59c0cf7c2f15"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1396,
+      "sha256": "a0a599d688a168b6e383cbb012486042dd88b70c488c70847a769207e93150e6"
+    },
+    {
+      "path": "headless-10000.json",
+      "bytes": 1462,
+      "sha256": "de50c3a7e722219f7fbb9dd7a517ac3bb8837eabc362bb12ae4740c4f09f0047"
+    },
+    {
+      "path": "headless-10000.log",
+      "bytes": 1462,
+      "sha256": "de50c3a7e722219f7fbb9dd7a517ac3bb8837eabc362bb12ae4740c4f09f0047"
+    },
+    {
+      "path": "headless-command.json",
+      "bytes": 824,
+      "sha256": "beb35474c74b07d7bc5a8216cf43835d0970027445b953fb8662f5e6bd5caae2"
+    },
+    {
+      "path": "gui-10000.json",
+      "bytes": 1953,
+      "sha256": "20c3ac27cc193f9ed1c5167afaf7b543ad53389f3fb30c10e0b6e4f366f35a50"
+    },
+    {
+      "path": "gui-10000.log",
+      "bytes": 1953,
+      "sha256": "20c3ac27cc193f9ed1c5167afaf7b543ad53389f3fb30c10e0b6e4f366f35a50"
+    },
+    {
+      "path": "gui-command.json",
+      "bytes": 941,
+      "sha256": "7daa4d44a666fbc4205e47131da432cd2b69baaaa953e54af91cc496324639a2"
+    },
+    {
+      "path": "descriptor-catalog.png",
+      "bytes": 32117,
+      "sha256": "3eb4074c393f51137944492d2d2b32ca2506a657a5a1c0b454474c003f73e1cf"
+    },
+    {
+      "path": "source-proof.json",
+      "bytes": 128037,
+      "sha256": "0808cda670ce3e4e57e1999a089d8b6d73e73600c4aa5a3e20755523193ff77a"
+    }
+  ]
+}

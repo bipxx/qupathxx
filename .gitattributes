@@ -607,3 +607,4 @@ docs/benchmarks/spatial-faults-269/** -text -whitespace
 
 docs/benchmarks/document-waits-270/** -text -whitespace
 docs/benchmarks/spatial-waits-271/** -text -whitespace
+docs/benchmarks/schema-observer-272/** -text -whitespace

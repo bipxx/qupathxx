@@ -2,6 +2,31 @@
 
 ## Current execution card (2026-10-28)
 
+**Qualification271 has a terminal portable failure; Mac-native independently
+passes its complete audit.** The authenticated observation and original failures
+are under [observation271](benchmarks/spatial-waits-271/observation272/receipt.json).
+Windows/Linux headless and both manylinux builders fail the mandatory descriptor
+benchmark because it expects schema13 while native persistence writes14. The
+engine remains active in the latest recorded observation; do not restart it.
+Fresh portable consumers were skipped, so there is no portable acceptance.
+
+**Observer repair272 is locally verified** at 3aca3d9, using unchanged native
+c949826. [Receipt272](benchmarks/schema-observer-272/receipt.json) preserves two
+red/two green process regressions, both10000-record headless/actual-GUI benchmarks
+and1007 audit controls. The benchmark and engine auditor now require schema14;
+all existing payload/count/readback/UI budgets remain. The exact installed cohort
+adds both cases;534 source paths authenticate, including the dynamically launched
+benchmark, and all410 compiler inputs match both native270 and frozen271.
+No native rebuild or binary relabeling follows this observer-only repair.
+
+Next: finish observing the original engine, preserve its terminal artifacts and
+check for other failures before freezing a successor. Run complete qualification
+against the successor's own source; do not transfer original271 Mac acceptance
+or candidate262 acceptance to changed sources. AllM0-M7 and independent gates
+remain open.
+
+### Original campaign dispatch (preserved)
+
 **Combined spatial/wait candidate271 is frozen and its full qualification is
 running** at ee19be5 on feature/spatial-waits-qualification-271.
 [Campaign271](benchmarks/spatial-waits-271/receipt.json) records engine

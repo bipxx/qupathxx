@@ -1,0 +1,27 @@
+{
+  "schema": "qpx.pixel-stream-record-benchmark/1",
+  "records": 10000,
+  "stream_bytes": 27162,
+  "stream_blocks": 12,
+  "content_sha256": "9b1a9f906d16bd841f04fd82f6894d09eae8f8dff944be617e3cd8790035e3d2",
+  "descriptor_payload_bytes": 549,
+  "record_payload_bytes": 652,
+  "total_encoded_descriptor_bytes": 4548890,
+  "max_encoded_descriptor_bytes": 455,
+  "project_bytes": 5464064,
+  "project_schema": 14,
+  "prepare_ms": 1.2663998641073704,
+  "adopt_all_ms": 3.5603998694568872,
+  "save_ms": 97.35650010406971,
+  "open_ms": 45.73890008032322,
+  "gui": null,
+  "native_sha256": "be61c1b401037974a8058de644a16d6d0c46f43d20cb82c84563587f9ce9f46f",
+  "environment": {
+    "source_tree_sha256": "e0c08e79e6a8135d3b9bff4ce755ad359aa2d268c352b9248f3996f787a2088e",
+    "git_revision": "c949826ceac5ca357a9eadabef218b30461e5686",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Synthetic descriptor/catalog/persistence observation. All links reference one fully verified file; project embeds only its synthetic source image and bounded descriptor rows, not external stream arrays or model. Relative-path relocation is checked by tests. Optional GUI uses clipped dropdown/catalog steps and one historical block preview. No RSS, many distinct files, network storage, vendor WSI, hardware/frame-budget or biological acceptance. Project and external output retained."
+}

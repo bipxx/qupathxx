@@ -48,6 +48,15 @@ no additional agent delegation is implied by this table.
 
 Completed mechanisms stay out of the active implementation queue:
 
+Current qualification observation: original271 Mac-native passes its complete
+native audit. Portable fails the schema13 descriptor benchmark and skips fresh
+consumers; Windows/Linux headless show the same assertion. Engine observation
+remains active. [Observer272](benchmarks/schema-observer-272/receipt.json) repairs
+the strict benchmark/auditor expectation to14, with actual process red/green,
+10000-record GUI/headless and1007 audit controls, without rebuilding unchanged
+native inputs. Finish original engine diagnosis before freezing a successor;
+require the full source-matched roles, with no acceptance transfer.
+
 | Baseline | Recorded evidence and remaining boundary |
 | --- | --- |
 | E1 / exact TMA cohort | [Accepted combined receipt](benchmarks/tma-dearray-202-qualification.json), artifact `19371b7` / successor auditor `cc2f524`. Preserve the original rejection and separate artifact/auditor identities |
