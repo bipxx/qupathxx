@@ -3,6 +3,8 @@
 #include "spatial_archive.hpp"
 #include "sha256.hpp"
 #include <algorithm>
+#include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -45,6 +47,11 @@ void retained_contracts() {
     Scene closed;auto rq=closed.request();const auto rr=measure_spatial_distances(rq);closed.doc->server()->close();
     const auto retained=closed.doc->keep_spatial(rq,rr);check(closed.doc->spatial_status(retained)=="current");
     auto again=SpatialDistanceRequest::replay(*closed.doc,retained);check(closed.doc->verify_spatial(retained,again,measure_spatial_distances(again)));
+    Document capped(Image::demo());const auto object=capped.add_rectangle({1,1,1,1});
+    for(std::size_t i=0;i<10000;++i) {SpatialDistanceRequest rq(capped,{object},{});capped.keep_spatial(rq,measure_spatial_distances(rq));}
+    SpatialDistanceRequest full(capped,{object},{});const auto full_result=measure_spatial_distances(full);const auto before=capped.revision();
+    rejects<std::length_error>([&]{capped.keep_spatial(full,full_result);});check(capped.revision()==before && capped.spatial_record_count()==10000);
+    check(capped.remove_spatial(capped.spatial_records().front()->id));SpatialDistanceRequest retry(capped,{object},{});capped.keep_spatial(retry,measure_spatial_distances(retry));check(capped.spatial_record_count()==10000);
     std::cout<<"Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed\n";
 }
 void codec_contracts() {
@@ -62,6 +69,14 @@ void codec_contracts() {
     bad=bytes;std::fill(bad.begin()+4,bad.begin()+12,0);reseal(bad);rejects([&]{SpatialDistanceArchiveCodec::decode(bad.data(),bad.size());});
     bad=bytes;const auto at=std::search(bad.begin(),bad.end(),result->input_sha256().begin(),result->input_sha256().end());check(at!=bad.end());*at=*at=='0'?'1':'0';reseal(bad);rejects([&]{SpatialDistanceArchiveCodec::decode(bad.data(),bad.size());});
     bad=bytes;bad[bad.size()-64-8]^=1;reseal(bad);rejects([&]{SpatialDistanceArchiveCodec::decode(bad.data(),bad.size());});
+    // A foreign libm may round hypot by one ULP. Preserve that archived value
+    // and its own identity instead of rewriting it during structural decoding.
+    auto foreign=bytes;const auto rounded=std::nextafter(*result->rows().back().distance,INFINITY);std::uint64_t bits;std::memcpy(&bits,&rounded,8);
+    for(int i=0;i<8;++i) foreign[foreign.size()-64-8+i]=std::uint8_t(bits>>(8*i));
+    Sha256 h;auto text=[&](const std::string& value) {h.integer(value.size());h.update(value.data(),value.size());};text("qpx.centroid-nearest-result/1");text(result->input_sha256());h.integer(result->rows().size());
+    for(std::size_t i=0;i<result->rows().size();++i) {const auto& row=result->rows()[i];h.integer(row.source_id);h.integer(bool(row.target_id));if(row.target_id) {h.integer(*row.target_id);const auto value=i+1==result->rows().size()?rounded:*row.distance;std::memcpy(&bits,&value,8);h.integer(bits);}}
+    const auto foreign_hash=h.finish();auto where=std::search(foreign.begin(),foreign.end(),result->sha256().begin(),result->sha256().end());check(where!=foreign.end());std::copy(foreign_hash.begin(),foreign_hash.end(),where);reseal(foreign);
+    const auto portable=SpatialDistanceArchiveCodec::decode(foreign.data(),foreign.size());check(portable->result->sha256()==foreign_hash && portable->result->rows().back().distance==rounded);
     std::atomic<bool> cancelled{true};rejects([&]{SpatialDistanceArchiveCodec::encode(*record,&cancelled);});rejects([&]{SpatialDistanceArchiveCodec::decode(bytes.data(),bytes.size(),&cancelled);});
     SpatialDistanceRequest empty(*s.doc,{s.a},{});const auto empty_result=measure_spatial_distances(empty);const auto empty_id=s.doc->keep_spatial(empty,empty_result);
     const auto eb=SpatialDistanceArchiveCodec::encode(*s.doc->spatial_record(empty_id));const auto er=SpatialDistanceArchiveCodec::decode(eb.data(),eb.size());check(!er->result->rows()[0].distance && er->result->target_count()==0);
@@ -70,13 +85,14 @@ void codec_contracts() {
 void export_contracts(const fs::path& root) {
     Scene s;auto request=s.request();const auto result=measure_spatial_distances(request);const auto csv=spatial_distance_csv(*result);const auto target=root/"distances.csv";
     check(csv.find(",um,matched,qpx.centroid-nearest/1,")!=std::string::npos);
+    check(csv.find(",0.5,0.25,true,true\n")!=std::string::npos);
     check(save_spatial_distance_csv(*result,target.u8string())==csv.size() && read(target)==csv);
     rejects([&]{save_spatial_distance_csv(*result,target.u8string());});check(read(target)==csv);
     rejects<std::length_error>([&]{save_spatial_distance_csv(*result,target.u8string(),32,true);});check(read(target)==csv);
     rejects<std::length_error>([&]{spatial_distance_csv(*result,32);});rejects([&]{spatial_distance_csv(*result,0);});
     std::atomic<bool> cancelled{true};rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,&cancelled);});check(read(target)==csv);
     SpatialDistanceRequest empty(*s.doc,{s.a},{});const auto missing=measure_spatial_distances(empty);const auto missing_csv=spatial_distance_csv(*missing);
-    const auto line=missing_csv.substr(missing_csv.find('\n')+1);check(std::count(line.begin(),line.end(),',')==17 && line.find(",px,no_target,")!=std::string::npos);
+    const auto line=missing_csv.substr(missing_csv.find('\n')+1);check(std::count(line.begin(),line.end(),',')==21 && line.find(",px,no_target,")!=std::string::npos);
     check(line.find(",,,,,,,,px,no_target,")!=std::string::npos); // Seven absent fields need eight separators.
     check(save_spatial_distance_csv(*missing,target.u8string(),65536,true)==missing_csv.size() && read(target)==missing_csv);
     SpatialDistanceOptions o;o.exclude_self=false;SpatialDistanceRequest zero(*s.doc,{s.a},{s.a},o);const auto zr=measure_spatial_distances(zero);
@@ -118,6 +134,11 @@ void project_contracts(const fs::path& root) {
         statement+="PRAGMA user_version="+std::to_string(version);sql(old,statement);const auto original=read(old);
         auto legacy=Project::open(old.u8string());check(read(old)==original && legacy->document(empty_image)->spatial_record_count()==0);
         auto d=legacy->document(empty_image);const auto oid=d->add_rectangle({1,1,2,2});SpatialDistanceRequest r(*d,{oid},{});d->keep_spatial(r,measure_spatial_distances(r));
+        if(version==13) {
+            sql(old,"CREATE TRIGGER fail_save BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected migration failure'); END;");const auto prior=read(old);
+            rejects([&]{legacy->save(old.u8string());});check(read(old)==prior);
+            sql(old,"DROP TRIGGER fail_save");
+        }
         legacy->save(old.u8string());check(Project::open(old.u8string())->document(empty_image)->spatial_record_count()==1);
     }
     std::cout<<"Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed\n";

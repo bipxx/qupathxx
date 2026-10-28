@@ -11,13 +11,14 @@ std::string number(double value) {
 }
 void write_csv(const SpatialDistanceResult& result,const std::function<void(const std::string&)>& write,const std::atomic<bool>* cancelled) {
     detail::export_checkpoint(cancelled);
-    write("source_id,source_revision,source_kind,source_nucleus,source_x,source_y,target_id,target_revision,target_kind,target_nucleus,target_x,target_y,distance,units,status,algorithm,input_sha256,result_sha256\n");
+    write("source_id,source_revision,source_kind,source_nucleus,source_x,source_y,target_id,target_revision,target_kind,target_nucleus,target_x,target_y,distance,units,status,algorithm,input_sha256,result_sha256,x_scale,y_scale,prefer_nucleus,exclude_self\n");
     for(const auto& row:result.rows()) {
         detail::export_checkpoint(cancelled);
         std::string line=std::to_string(row.source_id)+","+std::to_string(row.source_revision)+","+std::to_string(unsigned(row.source_kind))+","+(row.source_nucleus?"true":"false")+","+number(row.source_centroid.x)+","+number(row.source_centroid.y)+",";
         if(row.target_id) line+=std::to_string(*row.target_id)+","+std::to_string(*row.target_revision)+","+std::to_string(unsigned(*row.target_kind))+","+(row.target_nucleus?"true":"false")+","+number(row.target_centroid->x)+","+number(row.target_centroid->y)+","+number(*row.distance);
         else line+=",,,,,,";
-        line+=std::string(",")+(result.options().units==SpatialDistanceUnits::Pixels?"px":"um")+","+(row.target_id?"matched":"no_target")+","+result.algorithm()+","+result.input_sha256()+","+result.sha256()+"\n";write(line);
+        const auto options=result.options();
+        line+=std::string(",")+(options.units==SpatialDistanceUnits::Pixels?"px":"um")+","+(row.target_id?"matched":"no_target")+","+result.algorithm()+","+result.input_sha256()+","+result.sha256()+","+number(result.x_scale())+","+number(result.y_scale())+","+(options.prefer_nucleus?"true":"false")+","+(options.exclude_self?"true":"false")+"\n";write(line);
     }
     detail::export_checkpoint(cancelled);
 }
