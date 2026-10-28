@@ -1,0 +1,9 @@
+{
+  "frozen_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "source_paths": 894,
+  "canonical_compiler_inputs": 424,
+  "controls_passed": 1086,
+  "shared_test_dependencies": true,
+  "compiled_runtime_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "source_unchanged": true
+}

@@ -677,3 +677,5 @@ tests/typing/nominal_frontends_valid.py text eol=lf
 tests/typing/nominal_frontends_invalid.py text eol=lf
 
 docs/benchmarks/nominal-cell-frontends-294/** -text -whitespace
+
+docs/benchmarks/nominal-cell-qualification-295/** -text -whitespace

@@ -16,7 +16,10 @@ package members/records authenticate; only one stub/RECORD change after compilat
 Original registration and GUI basis-expectation failures remain preserved; the
 53 unique desktop passes combine52 retained cases with the targeted repair,
 backed by unchanged AST/compiler-input proof.
-Next freeze the complete consumer source for applicable full platform roles.
+[Candidate295](benchmarks/nominal-cell-qualification-295/receipt.json) is frozen
+at a7eb78de. Complete engine/Mac-native/portable roles were dispatched once;
+the first exact-handle observation is queued with zero archives. Collect all11
+and run complete frozen-source audits before acceptance.
 OpenSlide is OFF and test dependencies are shared. Broader scientific/resource/
 hardware/support/license/release gates and all M0-M7 exits remain open.
 

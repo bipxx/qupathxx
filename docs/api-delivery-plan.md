@@ -16,7 +16,10 @@ package members/records authenticate; only one stub/RECORD change after compilat
 Original registration and GUI basis-expectation failures remain preserved; the
 53 unique desktop passes combine52 retained cases with the targeted repair,
 backed by unchanged AST/compiler-input proof.
-Next freeze the complete consumer source for applicable full platform roles.
+[Candidate295](benchmarks/nominal-cell-qualification-295/receipt.json) is frozen
+at a7eb78de. Complete engine/Mac-native/portable roles were dispatched once;
+the first exact-handle observation is queued with zero archives. Collect all11
+and run complete frozen-source audits before acceptance.
 OpenSlide is OFF and test dependencies are shared. Broader scientific/resource/
 hardware/support/license/release gates and all M0-M7 exits remain open.
 
@@ -191,9 +194,11 @@ batch engine, per-image ROI factory and checkpoint identity. Its single-target
 CLI selects one image/object through the same engine. Desktop/managed294 now
 uses that factory in existing direct/batch controls and queued nominal_cells
 commands. Pinned masks, publication/CSV, batch resume and managed save/export
-pass locally. Next freeze one complete consumer source for applicable full
-platform qualification after the source/cohort/package preflight; keep broader
-scientific/resource/hardware/support/release decisions separate. The SDK-created
+pass locally. Candidate295 is now frozen at a7eb78de after1086 fresh-checkout
+controls and424 canonical compiler-input matches. Observe its original engine,
+Mac-native and portable runs through completion; collect all11 authenticated
+archives and execute all three complete frozen-source auditors. Broader
+scientific/resource/hardware/support/release decisions remain separate. The SDK-created
 original-document desktop view passes locally; GUI creation controls are still
 required. SDK289 preview remains an independent new-source workflow.
 
