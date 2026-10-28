@@ -259,7 +259,13 @@ def test_raw_batch_cli_moved_bundle_and_unchanged_source_project(tmp_path):
         assert done.returncode == 0, done.stdout + done.stderr
         assert json.loads(done.stdout.splitlines()[-1])["reused"] == 2
         moved = tmp_path / "moved"
-        shutil.copytree(output, moved)
+        def copy_path(path):
+            text=str(path.resolve())
+            if os.name!='nt':return text
+            return "\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+        # The fixture copy must support the same long paths as native project
+        # opening; CopyFile2 otherwise fails before the moved-bundle assertions.
+        shutil.copytree(copy_path(output), copy_path(moved))
         for entry in result["images"]:
             original = Path(entry["path"])
             relative = next(v.relative_to(output) for v in output.rglob("result.qpxproj") if v.samefile(original))
