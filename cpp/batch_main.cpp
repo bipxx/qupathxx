@@ -38,6 +38,8 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
             "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
             "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
+            "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"
+            "                 --ids-bytes N (per file, max 4 MiB; at most 100000 IDs)\n"
             "Spatial measure: --units px|um --body --include-self --name TEXT (no targets means absent distances)\n"
             "                 --snapshot-bytes N --work-bytes N --max-distance-tests N\n"
             "                 --save-snapshot-bytes N --project-bytes N (new outputs only; geometry only)\n"

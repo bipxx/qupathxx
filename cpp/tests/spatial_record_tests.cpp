@@ -2,6 +2,7 @@
 #include "qupathxx/project_save.hpp"
 #include "spatial_archive.hpp"
 #include "sha256.hpp"
+#include "reader_file_guard.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -95,6 +96,8 @@ void export_contracts(const fs::path& root) {
     cancelled=false;rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,&cancelled,[&]{cancelled=true;});});check(read(target)==csv);cancelled=false;
     const auto raced=root/"raced.csv";
     rejects([&]{save_spatial_distance_csv(*result,raced.u8string(),65536,false,nullptr,[&]{std::ofstream(raced)<<"another writer";});});check(read(raced)=="another writer");
+    const auto input=root/"observed-input.txt";{std::ofstream(input)<<"original input";}detail::ReaderFileGuard observed(input.u8string());
+    rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,nullptr,[&]{std::ofstream(input)<<"changed input";observed.verify();});});check(read(target)==csv);
     SpatialDistanceRequest empty(*s.doc,{s.a},{});const auto missing=measure_spatial_distances(empty);const auto missing_csv=spatial_distance_csv(*missing);
     const auto line=missing_csv.substr(missing_csv.find('\n')+1);check(std::count(line.begin(),line.end(),',')==21 && line.find(",px,no_target,")!=std::string::npos);
     check(line.find(",,,,,,,,px,no_target,")!=std::string::npos); // Seven absent fields need eight separators.

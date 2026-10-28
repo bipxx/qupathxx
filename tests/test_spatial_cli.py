@@ -106,3 +106,37 @@ def test_unknown_calibration_and_image_record_selection(cli,tmp_path):
     run(cli,['--measure-spatial',source,output,'--image','99999','--source',a],1)
     run(cli,['--export-spatial',source,tmp_path/'none.csv','--image',image,'--record','99999'],1)
     assert not (tmp_path/'none.csv').exists()
+
+
+def test_id_files_bypass_command_line_limits_and_preserve_cohort_identity(cli,tmp_path):
+    doc=q.Document(q.Image.demo());point=q.Roi.points([q.Point(32,32)])
+    doc.execute([q.ObjectEdit.create_geometry(point) for _ in range(5000)])
+    ids=[a.id for a in doc.annotations];project=q.Project();image=project.add_document(doc,'Large explicit cohort',str(tmp_path/'missing.ppm'),'ppm')
+    source=tmp_path/'large.qpxproj';project.save(str(source));before=source.read_bytes()
+    sources=tmp_path/'sources.txt';sources.write_text(str(ids[-1])+'\r\n');targets=tmp_path/'targets.txt';targets.write_text('\n'.join(map(str,reversed(ids))))
+    original_sources=sources.read_bytes();original_targets=targets.read_bytes();output=tmp_path/'large-result.qpxproj'
+    report=run(cli,['--measure-spatial',source,output,'--image',image,'--source-ids',sources,'--target-ids',targets])
+    assert report['sources']==1 and report['targets']==5000
+    result=q.Project.open(str(output)).document(image).spatial_record(report['record_id']).result
+    assert result.row(0).target_id==ids[0] and result.row(0).distance==0 and result.target_object(4999).id==ids[-1]
+    assert source.read_bytes()==before and sources.read_bytes()==original_sources and targets.read_bytes()==original_targets
+    too_small=tmp_path/'too-small.qpxproj';run(cli,['--measure-spatial',source,too_small,'--image',image,'--source-ids',sources,'--target-ids',targets,'--ids-bytes','1'],1)
+    assert not too_small.exists()
+    run(cli,['--measure-spatial',source,sources,'--image',image,'--source-ids',sources,'--target-ids',targets],1)
+    assert sources.read_bytes()==original_sources
+    run(cli,['--measure-spatial',source,tmp_path/'mixed.qpxproj','--image',image,'--source',ids[0],'--source-ids',sources],2)
+
+
+@pytest.mark.parametrize('text',['','0','-1','+1','1,2','1\x00','18446744073709551616','1\n1'])
+def test_id_file_refusals_are_bounded_and_non_destructive(cli,tmp_path,text):
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+    run(cli,['--measure-spatial',source,output,'--image',image,'--source-ids',ids],1)
+    assert not output.exists() and source.read_bytes()==before and ids.read_bytes()==text.encode()
+
+
+def test_id_file_count_limit_and_empty_target_file(cli,tmp_path):
+    _,_,image,(a,_,_),source=scene(tmp_path);ids=tmp_path/'many.txt';ids.write_text('1\n'*100001);output=tmp_path/'refused.qpxproj'
+    error=run(cli,['--measure-spatial',source,output,'--image',image,'--source-ids',ids],1)
+    assert '100000' in error['error'] and not output.exists()
+    ids.write_text('');report=run(cli,['--measure-spatial',source,output,'--image',image,'--source',a,'--target-ids',ids])
+    assert report['targets']==0 and q.Project.open(str(output)).document(image).spatial_record(report['record_id']).result.row(0).distance is None
