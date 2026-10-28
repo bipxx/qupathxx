@@ -87,6 +87,18 @@ if args.linux_runtime_manifest:
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def unicode_input_native(cases,gui):
+    assert type(gui) is bool
+    selected=[c for c in cases if c.get('name')=='gui_replay']
+    assert len(selected)==1
+    case=selected[0]
+    assert all(case.find(tag) is None for tag in ['skipped','failure','error'])
+    lines=(case.findtext('system-out') or '').splitlines()
+    enabled='GUI Unicode scalar input and native undo/redo passed'
+    disabled='GUI Unicode scalar input disabled (GUI unavailable)'
+    assert lines.count(enabled if gui else disabled)==1 and (disabled if gui else enabled) not in lines
+    return dict(gui=gui,unicode_scalar_input_and_native_history_verified=gui)
 def junit(path):
     root=ET.parse(path).getroot()
     suites=[root] if root.tag=='testsuite' else root.findall('testsuite')
@@ -155,6 +167,7 @@ for job in run['jobs']:
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
     assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4+len(raw_classifier.CONTRACT['spatial_added_native_suites'])
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
+    entry['unicode_input_native']=unicode_input_native(native_cases,gui='GUI' in job['name'])
     entry['multifile_ome_native']=multifile.native(native_cases,tiff=job['name']!='Linux minimal native')
     entry['raw_classifier_native']=raw_classifier.native(native_cases,full=job['name']!='Linux minimal native')
     entry['resampling_native']=resampling.native(native_cases)

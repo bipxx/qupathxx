@@ -2,6 +2,21 @@
 
 ## Current execution card (2026-10-28)
 
+**Unicode input278 is implemented; native/package validation is next.** A separate
+actual-editor probe on retainednative048cf25 typed A + U+2000B + U+1F52C + U+96EA,
+applied the object edit and saved. Reopening the temporary project returns
+A + U+FFFD + U+FFFD + U+96EA. The original project, changed project and exact UTF8
+bytes are retained. This is data loss in the16-bit ImGui input path, separate
+from missing glyphs.
+
+The repair keeps pinned ImGui1.91.9b and enables its32-bit character ABI in every
+GUI/backend translation unit. The existing native gui_replay suite adds12 active
+input/rename/undo/redo checks covering UTF8, UTF16 and scalar input, with explicit
+GUI-enabled/disabled markers required by the engine auditor. Public Python APIs
+and fonts are unchanged. Next: one installed build, native/regression/cohort
+checks and the same actual editor save/reopen probe. Candidate276 predates this
+repair. Broader glyph coverage, shaping, atlas/DPI budgets and all M0-M7 gates remain.
+
 **Candidate276 is frozen for full own-source qualification** at9d92322 on
 feature/snapshot-waits-qualification-276. [Campaign276](benchmarks/snapshot-waits-276/receipt.json)
 records engine [40706232371](https://github.com/bipxx/qupathxx/actions/runs/40706232371),

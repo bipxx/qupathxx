@@ -161,3 +161,36 @@ def test_legacy_record_gate_refuses_incomplete_migrations(tmp_path,change):
     elif change=='duplicate_identity':cases[-1].set('name',cases[-2].get('name'))
     else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error'}[change])
     with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)
+
+
+def unicode_guard():
+    node=next(n for n in statements() if isinstance(n,ast.FunctionDef) and n.name=='unicode_input_native')
+    scope={};exec(compile(ast.Module(body=[node],type_ignores=[]),str(AUDITOR),'exec'),scope)
+    return scope['unicode_input_native']
+
+
+def unicode_case(gui):
+    case=ET.Element('testcase',name='gui_replay')
+    ET.SubElement(case,'system-out').text=('GUI Unicode scalar input and native undo/redo passed' if gui else
+                                         'GUI Unicode scalar input disabled (GUI unavailable)')+'\ngui replay passed\n'
+    return case
+
+
+@pytest.mark.parametrize('gui',[False,True])
+def test_unicode_input_native_requires_actual_gui_capability(gui):
+    result=unicode_guard()([unicode_case(gui)],gui)
+    assert result['unicode_scalar_input_and_native_history_verified'] is gui
+    with pytest.raises(AssertionError):unicode_guard()([unicode_case(not gui)],gui)
+
+
+@pytest.mark.parametrize('change',['missing','duplicate_suite','missing_marker','duplicate_marker',
+                                   'mixed_capability','skipped','failure','error'])
+def test_unicode_input_native_rejects_false_coverage(change):
+    case=unicode_case(True);cases=[case]
+    if change=='missing':cases=[]
+    elif change=='duplicate_suite':cases.append(case)
+    elif change=='missing_marker':case.find('system-out').text='gui replay passed\n'
+    elif change=='duplicate_marker':case.find('system-out').text*=2
+    elif change=='mixed_capability':case.find('system-out').text+=unicode_case(False).findtext('system-out')
+    else:ET.SubElement(case,change)
+    with pytest.raises(AssertionError):unicode_guard()(cases,True)
