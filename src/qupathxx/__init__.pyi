@@ -309,6 +309,7 @@ from ._native import (
     CellAlgorithm as CellAlgorithm,
     GridCellUnits as GridCellUnits,
     GridCellSampling as GridCellSampling,
+    NominalCellSampling as NominalCellSampling,
     GridCellParameters as GridCellParameters,
     ResolvedGridCellParameters as ResolvedGridCellParameters,
     CellParameters as CellParameters,
