@@ -1,0 +1,7 @@
+{
+  "observed_utc": "2026-10-28T22:29:44.8951445Z",
+  "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_native.dir\\Release\\bindings.obj",
+  "bytes": 7049102,
+  "last_write_utc": "2026-10-28T22:28:43.6861758Z",
+  "scope": "Completed object observed after the earlier in-flight observation. This is not a controlled compile-time benchmark."
+}

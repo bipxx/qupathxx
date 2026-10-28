@@ -1,0 +1,10 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "phase": "probe",
+  "png": "nominal-controls-probe.png",
+  "ppm_sha256": "785e4fec72bee8e1db4c0e4368ad1edbea8f9754c1676f3970954f2e6628f049",
+  "png_sha256": "ad1810f6dbfd9d0c7eeff4fee95b1a4be12e3acaf90057cc0b8d3d055df87420",
+  "original_document": true,
+  "pinned_detection_after_mode_switch": false,
+  "lossless": true
+}

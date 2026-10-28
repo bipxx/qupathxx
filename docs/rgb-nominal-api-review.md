@@ -78,6 +78,19 @@ typed detector flag order is independent. Sampling and detector identities enter
 the recipe, while unused legacy thresholds are canonicalized only for this mode.
 
 The [local293 receipt](benchmarks/nominal-cell-batch-293/receipt.json) covers
-installed Python/native CLI and standalone checkpoint/resume. Complete existing
-GUI/managed creation consumers next; full platform, biological/resource/hardware
+installed Python/native CLI and standalone checkpoint/resume.
+[Desktop/managed294](benchmarks/nominal-cell-frontends-294/receipt.json) adds
+`GuiOptions.cell_nominal` with owned getter/setter copies and
+`ViewerSession.nominal_cells` with copied native options. The owner captures ROI
+bounds and calibration when execution starts, then uses existing stale/cancel,
+archive and result-budget controls. `retain_result` keeps its existing meaning:
+cell commands archive on success; the flag controls the returned ticket payload.
+Direct/batch ImGui controls share sampling selection and typed detector fields.
+
+OD-sum GUI capture retains the existing identity-basis policy; stain-channel
+capture uses configured vectors. The actual recipe stores that choice. Corrected
+GUI test expectations are bound to exact checkpoint/recipe evidence, with the
+original failure retained. No numerical tolerance or product code was changed.
+
+The local consumers are delivered. Full platform, biological/resource/hardware
 and stable/beta/release acceptance remain separate.

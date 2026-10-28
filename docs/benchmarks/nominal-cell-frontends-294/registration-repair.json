@@ -1,0 +1,5 @@
+{
+  "failure": "Initial observer registration used full pytest node IDs instead of sorted case names. Three independent cohort controls rejected it before any native build.",
+  "repair": "Use existing manifest schema: sorted names after module separator. Preserve rejected XML and patch.",
+  "product_failure": false
+}

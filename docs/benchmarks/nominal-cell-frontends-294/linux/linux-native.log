@@ -1,0 +1,22 @@
+Internal ctest changing into directory: /tmp/qupathxx-nominal294-build
+Test project /tmp/qupathxx-nominal294-build
+    Start  4: object_classifier
+1/8 Test  #4: object_classifier ................   Passed    0.05 sec
+    Start  8: resampling
+2/8 Test  #8: resampling .......................   Passed    2.74 sec
+    Start 10: viewer_session
+3/8 Test #10: viewer_session ...................   Passed    0.39 sec
+    Start 14: project_batch
+4/8 Test #14: project_batch ....................   Passed    0.05 sec
+    Start 21: cell_records
+5/8 Test #21: cell_records .....................   Passed    0.40 sec
+    Start 22: cells
+6/8 Test #22: cells ............................   Passed    0.38 sec
+    Start 27: log_cell_recipe
+7/8 Test #27: log_cell_recipe ..................   Passed    0.22 sec
+    Start 36: stains
+8/8 Test #36: stains ...........................   Passed    0.11 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   4.43 sec

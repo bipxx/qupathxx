@@ -1,0 +1,115 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+      Start  1: pixel_workflows
+ 1/55 Test  #1: pixel_workflows ..................   Passed    1.85 sec
+      Start  2: pixel_features
+ 2/55 Test  #2: pixel_features ...................   Passed    0.14 sec
+      Start  3: classifier_io
+ 3/55 Test  #3: classifier_io ....................   Passed    0.14 sec
+      Start  4: object_classifier
+ 4/55 Test  #4: object_classifier ................   Passed    0.06 sec
+      Start  5: classifier
+ 5/55 Test  #5: classifier .......................   Passed    0.04 sec
+      Start  6: qptma_project
+ 6/55 Test  #6: qptma_project ....................   Passed    0.17 sec
+      Start  7: qptma
+ 7/55 Test  #7: qptma ............................   Passed    0.08 sec
+      Start  8: resampling
+ 8/55 Test  #8: resampling .......................   Passed    2.97 sec
+      Start  9: thumbnail
+ 9/55 Test  #9: thumbnail ........................   Passed    0.05 sec
+      Start 10: viewer_session
+10/55 Test #10: viewer_session ...................   Passed    1.26 sec
+      Start 11: tma
+11/55 Test #11: tma ..............................   Passed    0.21 sec
+      Start 12: tma_dearray
+12/55 Test #12: tma_dearray ......................   Passed    0.31 sec
+      Start 13: raw_image
+13/55 Test #13: raw_image ........................   Passed    0.33 sec
+      Start 14: project_batch
+14/55 Test #14: project_batch ....................   Passed    1.24 sec
+      Start 15: stain_estimation
+15/55 Test #15: stain_estimation .................   Passed    0.06 sec
+      Start 16: source_identity
+16/55 Test #16: source_identity ..................   Passed    0.20 sec
+      Start 17: file_fingerprint
+17/55 Test #17: file_fingerprint .................   Passed    0.08 sec
+      Start 18: provenance
+18/55 Test #18: provenance .......................   Passed    0.05 sec
+      Start 19: measurement_tables
+19/55 Test #19: measurement_tables ...............   Passed    0.07 sec
+      Start 20: cell_tables
+20/55 Test #20: cell_tables ......................   Passed    0.09 sec
+      Start 21: cell_records
+21/55 Test #21: cell_records .....................   Passed    0.69 sec
+      Start 22: overlay_surface
+22/55 Test #22: overlay_surface ..................   Passed    0.03 sec
+      Start 23: cells
+23/55 Test #23: cells ............................   Passed    0.24 sec
+      Start 24: cell_calibration
+24/55 Test #24: cell_calibration .................   Passed    0.06 sec
+      Start 25: masked_gaussian
+25/55 Test #25: masked_gaussian ..................   Passed    0.09 sec
+      Start 26: log_watershed
+26/55 Test #26: log_watershed ....................   Passed    0.09 sec
+      Start 27: cell_expansion
+27/55 Test #27: cell_expansion ...................   Passed    0.17 sec
+      Start 28: log_cell_recipe
+28/55 Test #28: log_cell_recipe ..................   Passed    0.13 sec
+      Start 29: decimal_quantities
+29/55 Test #29: decimal_quantities ...............   Passed    0.03 sec
+      Start 30: object_snapshots
+30/55 Test #30: object_snapshots .................   Passed    0.21 sec
+      Start 31: tissue_records
+31/55 Test #31: tissue_records ...................   Passed    0.11 sec
+      Start 32: tissue_contours
+32/55 Test #32: tissue_contours ..................   Passed    0.17 sec
+      Start 33: gui_replay
+33/55 Test #33: gui_replay .......................   Passed    0.17 sec
+      Start 34: tissue
+34/55 Test #34: tissue ...........................   Passed    0.05 sec
+      Start 35: sha256
+35/55 Test #35: sha256 ...........................   Passed    0.13 sec
+      Start 36: analysis
+36/55 Test #36: analysis .........................   Passed    0.05 sec
+      Start 37: stains
+37/55 Test #37: stains ...........................   Passed    0.07 sec
+      Start 38: core
+38/55 Test #38: core .............................   Passed    0.05 sec
+      Start 39: image_server
+39/55 Test #39: image_server .....................   Passed    0.04 sec
+      Start 40: tile_scheduler
+40/55 Test #40: tile_scheduler ...................   Passed    0.04 sec
+      Start 41: view_tiles
+41/55 Test #41: view_tiles .......................   Passed    0.03 sec
+      Start 42: document_edits
+42/55 Test #42: document_edits ...................   Passed    0.24 sec
+      Start 43: geometry
+43/55 Test #43: geometry .........................   Passed    0.05 sec
+      Start 44: geometry_edits
+44/55 Test #44: geometry_edits ...................   Passed    0.05 sec
+      Start 45: spatial
+45/55 Test #45: spatial ..........................   Passed    0.06 sec
+      Start 46: spatial_frontend
+46/55 Test #46: spatial_frontend .................   Passed    0.13 sec
+      Start 47: spatial_cli
+47/55 Test #47: spatial_cli ......................   Passed    0.56 sec
+      Start 48: spatial_records
+48/55 Test #48: spatial_records ..................   Passed    2.08 sec
+      Start 49: spatial_analysis
+49/55 Test #49: spatial_analysis .................   Passed    0.11 sec
+      Start 50: classes
+50/55 Test #50: classes ..........................   Passed    0.23 sec
+      Start 51: selection
+51/55 Test #51: selection ........................   Passed    0.22 sec
+      Start 52: project
+52/55 Test #52: project ..........................   Passed    0.16 sec
+      Start 53: interchange
+53/55 Test #53: interchange ......................   Passed    0.23 sec
+      Start 54: recovery
+54/55 Test #54: recovery .........................   Passed    0.21 sec
+      Start 55: project_save
+55/55 Test #55: project_save .....................   Passed    0.13 sec
+
+100% tests passed out of 55
+
+Total Test time (real) =  18.75 sec

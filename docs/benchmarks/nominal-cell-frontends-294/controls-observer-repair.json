@@ -1,0 +1,8 @@
+{
+  "failed_observers": [
+    "controls-toggle-initial-executed.py",
+    "controls-toggle2-executed.py"
+  ],
+  "failure": "The observer appended/extended GuiOptions.inputs getter copies rather than assigning the completed list. Only initial selection and scroll reached the viewer; idle was expected for that submitted list.",
+  "repair": "Assemble a local events list, then assign options.inputs once. Preserve prior source/captures; no product source or binary change."
+}

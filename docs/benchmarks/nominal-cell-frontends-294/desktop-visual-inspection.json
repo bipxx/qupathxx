@@ -1,0 +1,15 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "inspected": [
+    "nominal-desktop-0.png",
+    "nominal-desktop-1.png",
+    "nominal-controls-probe2.png",
+    "nominal-controls-toggle3.png"
+  ],
+  "observations": [
+    "Both original-document publish captures show three nucleus/body outlines aligned with the source objects.",
+    "The controls capture shows mutually exclusive explicit/nominal choices, downsample1.5, per-axis context, typed distance/area controls.",
+    "After actual mode clicks the nominal choice is checked, explicit choice is clear, context32 is visible, and detected core masks match the pinned fixture."
+  ],
+  "general_scientific_acceptance": false
+}

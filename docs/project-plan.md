@@ -1,21 +1,24 @@
 # qupathxx project plan
 
-**Nominal cell batch/CLI293 pass locally at native a7c8e4f4.**
-The [receipt](benchmarks/nominal-cell-batch-293/receipt.json) extends the
-[Python SDK292](benchmarks/nominal-cell-python-292/receipt.json) through existing
-project batches and the installed native CLI. Copied downsample/context options
-resolve each original image/ROI through the shared factory. QCL6 checkpoints,
-interruption/resume, per-image anisotropic calibration, changed-source detection
-and typed CSV pass. All28 new installed cases,55 Windows native/seven affected
-GCC sanitizer suites, scientific656/eight declared skips, consumers390/36,
-1081 auditor controls and10/7 typing files pass. Counts overlap. The actual
-standalone archive processes two images and reuses both checkpoints on clean PATH.
-424 compiler inputs,891 source paths,71 Windows/eight GCC products and39/43
-package members/records authenticate; observer fec05b5c changes only two stubs
-and RECORD. ImGui creation/batch controls and managed commands are next.
-OpenSlide is OFF and test dependencies are shared. Complete own-source platform,
-broader scientific/resource/hardware/support/release gates and all M0-M7 exits
-remain open. No general speed advantage is established.
+**Nominal cell desktop/managed294 pass locally at native bb190eb7.**
+The [receipt](benchmarks/nominal-cell-frontends-294/receipt.json) extends the
+[batch/CLI293 workflow](benchmarks/nominal-cell-batch-293/receipt.json) through
+existing ImGui direct/batch controls and `ViewerSession.nominal_cells`.
+Copied sampling options use the same original-ROI factory and typed detector.
+All14 new frontend cases pass with GUI enabled, including pinned masks with
+asymmetric context, archive/publish/CSV, batch resume and managed save/export.
+Two real captures are inspected.55 Windows native/eight GCC sanitizer suites,
+scientific665/13 and consumer390/36 passes/skips, 53 desktop cases,
+1086 auditor controls and11/8 typing files pass. Counts overlap. The actual
+standalone archive passes two-image resume and two layout/font smokes on clean PATH.
+424 compiler inputs,894 source paths,71 Windows/nine GCC products and39/43
+package members/records authenticate; only one stub/RECORD change after compilation.
+Original registration and GUI basis-expectation failures remain preserved; the
+53 unique desktop passes combine52 retained cases with the targeted repair,
+backed by unchanged AST/compiler-input proof.
+Next freeze the complete consumer source for applicable full platform roles.
+OpenSlide is OFF and test dependencies are shared. Broader scientific/resource/
+hardware/support/license/release gates and all M0-M7 exits remain open.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal

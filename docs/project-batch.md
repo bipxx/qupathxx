@@ -90,6 +90,18 @@ not miss resume solely because the shared CLI threshold flag also sets unused
 legacy values. Existing recipe identities remain unchanged. See the
 [local batch/CLI receipt](benchmarks/nominal-cell-batch-293/receipt.json).
 
+In ImGui, choose **Cells** in **Project batch**. With **Use image analysis
+settings** enabled, the batch inherits the inspector's nominal sampling and typed
+detector settings. To configure the batch separately, disable that checkbox,
+enable **Nominal RGB cell grid**, and enter its downsample/context and detector
+parameters. Enabling nominal sampling clears the explicit count-grid choice.
+Changing workflows clears the inactive nominal option before capture. The open
+project remains unchanged; use its independent checkpoints to inspect results.
+The [desktop receipt](benchmarks/nominal-cell-frontends-294/receipt.json) covers
+two-image execution and resume. For OD-sum detection, the existing GUI captures
+an identity stain basis; stain-channel detection uses the configured vectors.
+Recipe identity and saved metadata preserve the basis actually used.
+
 ```python
 import qupathxx as q
 

@@ -84,7 +84,8 @@ fresh replay. [SDK292](benchmarks/nominal-cell-python-292/receipt.json) exposes 
 same descriptor, original-document requests, results and classifier origins in
 Python. [Batch/CLI293](benchmarks/nominal-cell-batch-293/receipt.json) now resolves
 each image/ROI through that factory and reuses existing QCL6 checkpoints.
-ImGui/managed creation controls remain open. Opaque RGB
+[Desktop/managed294](benchmarks/nominal-cell-frontends-294/receipt.json) adds
+existing ImGui direct/batch controls and queued nominal_cells commands. Opaque RGB
 fixture agreement does not establish general Java rendering, transparency,
 vendor/pyramid behavior or biological acceptance.
 
@@ -198,8 +199,9 @@ checks cover the new surface.
 The [inspected desktop capture](benchmarks/nominal-cell-python-292/nominal-original-document.png)
 shows this SDK-created result on the original256x192 document with three published
 cells and0.5-um source calibration. This uses the existing ImGui viewer; new
-nominal creation controls and managed commands remain next. Batch/CLI options
-now pass the [local293 checks](benchmarks/nominal-cell-batch-293/receipt.json).
+nominal creation controls and managed commands now pass the
+[local294 checks](benchmarks/nominal-cell-frontends-294/receipt.json), including
+pinned masks, archive/publish/CSV, desktop batch resume and managed save/export.
 The earlier RGB read/preview API remains an independent new-source workflow.
 
 The cell recipe identity is `qpx.nominal-rgb-log-watershed-bodies/1`; its input
@@ -232,8 +234,10 @@ Native291 locally delivers steps2-4 below on the defined corpus, following the
 context290 primitive in step1. SDK292 supplies step5's Python descriptor/request,
 shared ROI factory, readonly results and classifier metadata, typed CSV and an
 actual original-document view. Batch/CLI293 adds per-ROI options, checkpoint
-identity and installed/standalone CLI delivery. Step5's ImGui/managed creation
-consumers remain next; step6 remains a broader validation boundary. The receipt retains both failed development runs
+identity and installed/standalone CLI delivery. Desktop/managed294 completes
+step5's existing creation/batch panels and queued command locally. Next freeze
+the complete consumer source for applicable platform qualification; step6 keeps
+its broader scientific/resource/hardware validation boundaries. The receipt retains both failed development runs
 and the source-specific repaired evidence.
 
 The current scientific grid stores integer extent and sample count; its step is

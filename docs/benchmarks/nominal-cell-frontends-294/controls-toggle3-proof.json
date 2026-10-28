@@ -1,0 +1,10 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "phase": "toggle3",
+  "png": "nominal-controls-toggle3.png",
+  "ppm_sha256": "8c891a28eba782c4e6c6f22863e6377dc3e2c87876f444352c5570e050c51164",
+  "png_sha256": "27e3621d97d2cbee6f0288f3494b439448a6c0dd3ebb8f3984e3c63012bdd111",
+  "original_document": true,
+  "pinned_detection_after_mode_switch": true,
+  "lossless": true
+}

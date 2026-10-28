@@ -1,0 +1,47 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_resampling_tests",
+    "bytes": 55644904,
+    "sha256": "c9d23b3559752ac7521bc936d7bdd40ce4066a6d7e15077eb290360d0c88b01b"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_cell_tests",
+    "bytes": 57807232,
+    "sha256": "0a61dfefae1a068414f38371538ad1532783d9b0c050d1ff42d892119efb25d2"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_cell_record_tests",
+    "bytes": 56230320,
+    "sha256": "45b376bc88d461284141a1da2c4df6eb7540a4a927b2e24a70c77ab6e3d32b7b"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_object_classifier_tests",
+    "bytes": 51907840,
+    "sha256": "c69f8a12ec1676dcdb08b70c80edc1fa4928423dfec4b609b11795c92a0ab3c2"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_log_cell_recipe_tests",
+    "bytes": 51816240,
+    "sha256": "48e657c00198c2c118f847b9a7829efef11f92bedb9b87681a1d2b41e2dab8ca"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_stains_tests",
+    "bytes": 6749712,
+    "sha256": "b9eb1d61a5bedf735751477d0bac730fb066faa372b0ac8080875e2ed090d2a3"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_project_batch_tests",
+    "bytes": 70541480,
+    "sha256": "c500c18b7c0eef98695271242e7afd9cdc68acbdd75791a45a86554b8c2ea5ff"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/qupathxx_viewer_session_tests",
+    "bytes": 78905616,
+    "sha256": "e744582bf19203a5855eb30881aef842e4ed961419eb7b567786f18bfb941ffb"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/linux/linux-products/libqupathxx_core.a",
+    "bytes": 150088556,
+    "sha256": "8c9fa862934d4eec9e4590a6bae2d71831ca879e98f6ef374f21e6f2e0b0164f"
+  }
+]

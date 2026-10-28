@@ -1,0 +1,23 @@
+{
+  "captures": [
+    {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\desktop-temp\\test_nominal_desktop_detect_ar0\\nominal-desktop.ppm",
+      "png": "nominal-desktop-0.png",
+      "width": 1100,
+      "height": 800,
+      "source_sha256": "0084c2adf783180309af21e9d95d7b71b452ca92e9e0c0d309670ab22cfac8cd",
+      "png_sha256": "32c48bb5e6f551787abe1ccec0d226da4fba64e1b8d5fe269be50fe01b07f233",
+      "lossless": true
+    },
+    {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\desktop-temp\\test_nominal_desktop_detect_ar1\\nominal-desktop.ppm",
+      "png": "nominal-desktop-1.png",
+      "width": 1100,
+      "height": 800,
+      "source_sha256": "0084c2adf783180309af21e9d95d7b71b452ca92e9e0c0d309670ab22cfac8cd",
+      "png_sha256": "32c48bb5e6f551787abe1ccec0d226da4fba64e1b8d5fe269be50fe01b07f233",
+      "lossless": true
+    }
+  ],
+  "raw_ppm_retained_locally": true
+}

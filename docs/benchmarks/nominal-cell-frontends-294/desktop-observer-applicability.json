@@ -1,0 +1,22 @@
+{
+  "initial_test_observer": "1334c4432fd49e561530efa598c4ef2ccd5ad740",
+  "repair_observer": "141ebd790e40176798a1efc77429c68d5c521eb0",
+  "changed_file": "tests/test_nominal_cell_frontends.py",
+  "changed_functions": [
+    "test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes"
+  ],
+  "unchanged_function_asts": {
+    "sampling": "9d2ae0b5199810b6a4e47131fe1d3ee3dd8f54f825e9fe354b595e4cb58bfb77",
+    "pinned": "2f41a8feea2ad69c85f0d5cdf8c2c69b97da908587dc9fb73c8ee6bc05763278",
+    "test_nominal_gui_options_own_sampling_and_detector_parameters": "55ef180fdddaf1aca285744e23e65ae47248465288b5459dff6cb803fb1c6dd1",
+    "test_nominal_gui_options_reject_invalid_sampling": "ac3e712d1e6d1da665cc179154ba8ad4ee206cff3cf20a22ca90389d38cb5fa5",
+    "test_nominal_managed_admission_precedes_enqueue": "467ca18fbac7e10ae12474cfe8c18fa1b2f756549afde8acc39a4c2bae65c253",
+    "test_nominal_managed_queued_cancellation_releases_copied_command": "6b43cca1dc8395386750aa4e036856006928124689d373a196d23ec537d93a4f",
+    "test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks": "5659e56aee262f26eeb44b345560debde1c169df396476a9d8410b9fe95d5ff3",
+    "test_nominal_managed_command_copies_retains_exports_and_saves": "e08d363e2eee6c95f9420e9d080b3cf4d7646568587f460f78f4ced45a057512"
+  },
+  "nonfunction_ast_unchanged": true,
+  "unchanged_compiler_inputs": 424,
+  "native_rebuilt": false,
+  "policy": "Retain the original 52 passing desktop cases and failed case; run only the corrected batch expectation. Reuse headless skips and unchanged typing/auditor controls explicitly; no production algorithm or tolerance changes."
+}

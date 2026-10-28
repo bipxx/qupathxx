@@ -1,0 +1,172 @@
+Start testing: Oct 28 18:20 EDT
+----------------------------------------------------------
+4/54 Testing: object_classifier
+4/54 Test: object_classifier
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_object_classifier_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"object_classifier" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+object classifier checks passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"object_classifier" end time: Oct 28 18:20 EDT
+"object_classifier" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/54 Testing: resampling
+8/54 Test: resampling
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_resampling_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"resampling" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed
+99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 0487b3a060e78aa7463deabe7d3988a22c5106e14382bb479451dc851d9dc6bd bb190eb7c467a74752ff87e8e6ab0491c995c493
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+<end of output>
+Test time =   2.74 sec
+----------------------------------------------------------
+Test Passed.
+"resampling" end time: Oct 28 18:20 EDT
+"resampling" time elapsed: 00:00:02
+----------------------------------------------------------
+
+10/54 Testing: viewer_session
+10/54 Test: viewer_session
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_viewer_session_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"viewer_session" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Raw pixel viewer unavailable: TIFF/project OFF
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed
+Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"viewer_session" end time: Oct 28 18:20 EDT
+"viewer_session" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/54 Testing: project_batch
+14/54 Test: project_batch
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_project_batch_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"project_batch" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Raw pixel batch unavailable: project/TIFF capability OFF
+Grid ROI count planning and tiny scientific centers passed; batch storage unavailable
+Nominal cell batch option admission passed; project storage unavailable
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"project_batch" end time: Oct 28 18:20 EDT
+"project_batch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/54 Testing: cell_records
+21/54 Test: cell_records
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_cell_record_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"cell_records" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 analytic ellipse and winding-policy geometry persistence passed; GEOS polygon case unavailable
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"cell_records" end time: Oct 28 18:20 EDT
+"cell_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/54 Testing: cells
+22/54 Test: cells
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_cell_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"cells" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed
+Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"cells" end time: Oct 28 18:20 EDT
+"cells" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/54 Testing: log_cell_recipe
+27/54 Test: log_cell_recipe
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_log_cell_recipe_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"log_cell_recipe" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+<end of output>
+Test time =   0.22 sec
+----------------------------------------------------------
+Test Passed.
+"log_cell_recipe" end time: Oct 28 18:20 EDT
+"log_cell_recipe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/54 Testing: stains
+36/54 Test: stains
+Command: "/tmp/qupathxx-nominal294-build/qupathxx_stains_tests"
+Directory: /tmp/qupathxx-nominal294-build
+"stains" start time: Oct 28 18:20 EDT
+Output:
+----------------------------------------------------------
+Native scientific float64 OD/stains, validity, captured basis and admission passed
+Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes
+stains passed
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"stains" end time: Oct 28 18:20 EDT
+"stains" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 18:20 EDT
