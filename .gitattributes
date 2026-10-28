@@ -663,3 +663,9 @@ tests/typing/nominal_cells_valid.py text eol=lf
 tests/typing/nominal_cells_invalid.py text eol=lf
 
 docs/benchmarks/nominal-cell-python-292/** -text -whitespace
+
+tests/test_nominal_cell_batches.py text eol=lf
+
+tests/typing/nominal_batches_valid.py text eol=lf
+
+tests/typing/nominal_batches_invalid.py text eol=lf

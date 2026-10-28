@@ -15,6 +15,9 @@ void bind_cells(nb::module_& m) {
         .value("SAMPLED_LOG_WATERSHED_BODIES",CellAlgorithm::SampledLogWatershedBodies)
         .value("GRID_LOG_WATERSHED_BODIES",CellAlgorithm::GridLogWatershedBodies);
     nb::enum_<GridCellUnits>(m,"GridCellUnits").value("LEVEL_ZERO_PIXELS",GridCellUnits::LevelZeroPixels).value("MICROMETRES",GridCellUnits::Micrometres);
+    nb::class_<NominalCellRoiSampling>(m,"NominalCellRoiSampling").def(nb::init<>())
+        .def_rw("downsample",&NominalCellRoiSampling::downsample).def_rw("context_x",&NominalCellRoiSampling::context_x)
+        .def_rw("context_y",&NominalCellRoiSampling::context_y).def_prop_ro("algorithm",&NominalCellRoiSampling::algorithm).def("validate",&NominalCellRoiSampling::validate);
     nb::class_<NominalCellSampling>(m,"NominalCellSampling")
         .def(nb::init<RgbNominalRequest,std::uint32_t,std::uint32_t>(),"request"_a,"context_x"_a=32,"context_y"_a=32)
         .def_prop_ro("source_request",[](const NominalCellSampling& n){return n.source_request();})

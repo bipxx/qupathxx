@@ -19,6 +19,7 @@ struct ProjectBatchOptions {
     std::uint64_t checkpoint_limit=1024ULL*1024*1024;
     TissueParameters tissue;CellParameters cells;
     std::optional<GridCellSampling> cell_grid;
+    std::optional<NominalCellRoiSampling> cell_nominal;
     GridCellParameters grid_cells;
     std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::optional<PixelClassifier> pixel_model;

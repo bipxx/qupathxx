@@ -3,6 +3,17 @@
 #include <cmath>
 
 namespace qpx {
+// ROI-based controller options, copied at capture. Each image/ROI resolves its
+// own integer source bounds; this is not a fixed-source sampling descriptor.
+struct NominalCellRoiSampling {
+    double downsample=1.5;
+    std::uint32_t context_x=32,context_y=32;
+    void validate() const {
+        if(!std::isfinite(downsample) || downsample<=0 || context_x>4096 || context_y>4096)
+            throw std::invalid_argument("nominal cell ROI sampling requires a finite positive downsample and0..4096 context samples");
+    }
+    const char* algorithm() const {return "qpx.rgb-nominal/1";}
+};
 // Immutable original-source rectangle, nominal lattice and detector context.
 // Context is in output samples; the reader's interpolation halo is separate.
 class NominalCellSampling {
