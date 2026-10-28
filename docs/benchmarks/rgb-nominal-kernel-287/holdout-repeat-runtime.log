@@ -1,0 +1,12 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+15:01:46.676 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+15:01:46.679 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+15:01:46.679 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+15:01:46.701 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+15:01:46.710 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+15:01:46.798 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+15:01:48.383 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\rgb-nominal-287\holdout-repeat\reference.json

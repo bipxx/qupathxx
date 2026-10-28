@@ -638,3 +638,6 @@ tests/fixtures/qupath-rgb-resampling-holdout-0.7.0/** -text -whitespace
 tests/fixtures/rgb-nominal-v1/** -text -whitespace
 tools/reference_rgb_nominal.py text eol=lf
 tests/test_rgb_nominal_reference.py text eol=lf
+
+docs/benchmarks/rgb-nominal-kernel-287/** -text -whitespace
+docs/benchmarks/font-archive-288/** -text -whitespace

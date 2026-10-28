@@ -1,0 +1,12 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-287-native\\Release\\qupathxx_resampling_tests.exe",
+    "bytes": 1329664,
+    "sha256": "fa1a626dd2a8969ef8008704cc1d3cd18caf321338ce70f136f0fb7f17659c3f"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-287-native\\Release\\qupathxx_core.lib",
+    "bytes": 102738290,
+    "sha256": "b03812a1154f33f11fd2cb14c7245b1515856a7b27f63527b5274128bb4422a9"
+  }
+]

@@ -1,0 +1,699 @@
+{
+  "cases": [
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_0_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_1_25",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "full_3_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "crop_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "gradient",
+      "request_name": "crop_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_0_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_1_25",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "full_3_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "crop_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "checker",
+      "request_name": "crop_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_0_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_1_25",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "full_3_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "crop_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "noise",
+      "request_name": "crop_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_0_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_1_25",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "full_3_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "crop_1_5",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "qupath-rgb-resampling-0.7.0",
+      "case_name": "cells",
+      "request_name": "crop_2_3",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_4_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "full_7_125",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "crop_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "crop_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "gradient",
+      "request_name": "crop_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_4_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "full_7_125",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "crop_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "crop_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "checker",
+      "request_name": "crop_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_4_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "full_7_125",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "crop_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "crop_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "noise",
+      "request_name": "crop_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_4_2",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "full_7_125",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "crop_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "crop_2_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "offset",
+      "request_name": "crop_2_75",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "wide",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "wide",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "wide",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "wide",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "wide",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "thin",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "thin",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "thin",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "thin",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "thin",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "one",
+      "request_name": "full_0_6",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "one",
+      "request_name": "full_0_9",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "one",
+      "request_name": "full_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "one",
+      "request_name": "full_1_1",
+      "changed_components": 0,
+      "maximum_error": 0
+    },
+    {
+      "corpus": "holdout",
+      "case_name": "one",
+      "request_name": "full_1_7",
+      "changed_components": 0,
+      "maximum_error": 0
+    }
+  ],
+  "exact": 99,
+  "total": 99
+}

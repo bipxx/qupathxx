@@ -1,5 +1,20 @@
 # QuPath workflow inventory
 
+**Private RGB nominal kernel287 passes99 pinned reads on Windows and GCC sanitizers.**
+The [receipt](benchmarks/rgb-nominal-kernel-287/receipt.json) binds native23edd7ed,
+36 original and63 held-out public QuPath reads. All72 held-out payloads repeat
+exactly.32.32 coordinates, eight-bit interpolation fractions and one final
+rounding reproduce every captured pixel. Crop interpolation uses global source
+context; a cropped-input model fails eight held-out cases. The private planner
+includes that halo, bounds buffers before IO and preserves large integer origins.
+The native resampling suite passes each Windows minimal/GCC13.3 ASan+UBSan
+profile, including opacity, admission, cancellation and malformed-window checks.
+12 reference checks,371 scientific fixture passes/seven declared GUI skips and
+1057 controls pass separately on the retained7231d95 Python runtime.418 canonical
+compiler inputs,752 source paths and four new retained products authenticate;
+all71 GUI products remain unchanged. SDK/readers/CLI/UI consumers and complete
+own-source qualification remain open. Default quantitative sampling is unchanged.
+
 **RGB input resampling286 is locally characterized at comparison83cd41df.**
 The [receipt](benchmarks/qupath-rgb-resampling-286/receipt.json) binds36 pinned
 public QuPath RGB reads, two complete byte-identical captures and82 new installed
@@ -17,19 +32,18 @@ scientific auditors require82 cases that its unchanged source does not contain.
 Broader specimen/tolerance, physical UI, hardware/support/release and M0-M7 gates
 remain open.
 
-**Font candidate285 is frozen; complete own-source qualification is running.**
-The [campaign](benchmarks/gui-font-qualification-285/receipt.json) binds source
-`1f71eb5`, engine [40743832312](https://github.com/bipxx/qupathxx/actions/runs/40743832312),
-Mac-native [40743845473](https://github.com/bipxx/qupathxx/actions/runs/40743845473)
-and portable [40743859500](https://github.com/bipxx/qupathxx/actions/runs/40743859500).
-Each full role was dispatched once.547 source paths authenticate;415 canonical
-compiler Git blobs equal tested localnative7231d95, with149 newline-only fresh
-checkout differences. Each hosted role builds its own frozen source; local
-binaries keep7231d95 provenance. Observe these exact runs, authenticate all11
-required archives and execute the prepared complete original-source auditors.
-Do not redispatch or move the frozen ref/checkout. Candidate281 remains the
-qualified feature baseline until combined285 acceptance exists; science,
-physical-monitor DPI, actual new-font Name editing and release remain separate.
+**Candidate285 engine is unaccepted; portable independently passes; Mac is pending.**
+The [archive repair288](benchmarks/font-archive-288/receipt.json) retains all nine
+currently available authenticated archives, the original engine rejection and
+complete original-source portable acceptance at frozen1f71eb5. Windows GUI passes
+55 native/4866 Python checks with14 declared skips including three legacy xfails;
+its standalone layout/slide stages fail because archive_windows omitted fonts.
+Observer01c3b9aa copies packaged font resources. The original CI archive fails
+locally with missing fonts; a resource-only repack of the same CI wheel/native
+bytes passes layout, reload and slide startup with clean PATH. Two unit cases
+and1059 controls pass. No native rebuild, CI redispatch, binary relabeling or
+combined acceptance follows. Observe the existing Mac run40743845473; preserve
+the frozen ref/checkout. Candidate281 remains the qualified feature baseline.
 
 **Current qualified feature baseline: candidate281 at `3f15c2b`.**
 The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source

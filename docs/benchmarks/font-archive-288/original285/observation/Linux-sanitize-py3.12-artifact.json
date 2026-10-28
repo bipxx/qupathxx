@@ -1,0 +1,20 @@
+{
+  "id": 12840214855,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg0MDIxNDg1NQ==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 61284,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12840214855",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12840214855/zip",
+  "expired": false,
+  "digest": "sha256:dea89c76aac661a7fa005c72017d70a60e68874da33582701b2383b6ca92e04a",
+  "created_at": "2026-10-28T18:30:11Z",
+  "updated_at": "2026-10-28T18:30:11Z",
+  "expires_at": "2026-11-11T18:30:10Z",
+  "workflow_run": {
+    "id": 40743832312,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/gui-font-qualification-285",
+    "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+  }
+}

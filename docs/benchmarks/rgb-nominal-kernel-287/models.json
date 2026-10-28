@@ -1,0 +1,1789 @@
+{
+  "cases": [
+    {
+      "case_name": "gradient",
+      "request_name": "full_0_75",
+      "models": {
+        "float64_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_25",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 107,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 243,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 107,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 243,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 107,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 243,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 107,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 243,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 80,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 153,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 80,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 153,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 80,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 153,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 80,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 153,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 48,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 3,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 28,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 60,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 6,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 28,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 60,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 31,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 67,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 6,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 28,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 60,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_3_75",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 21,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 3,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 35,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 35,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 26,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 40,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 35,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_0_75",
+      "models": {
+        "float64_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_25",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 125,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 125,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 125,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 125,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 104,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 104,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 104,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 104,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 96,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 96,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 24,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 28,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 54,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 59,
+          "maximum_error": 2
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 60,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 2
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 8,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 38,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 59,
+          "maximum_error": 2
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 60,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 2
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_3_75",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 50,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 19,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 22,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 25,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 44,
+          "maximum_error": 2
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 45,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 47,
+          "maximum_error": 2
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 7,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 24,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 44,
+          "maximum_error": 2
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 45,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 47,
+          "maximum_error": 2
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_0_75",
+      "models": {
+        "float64_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_25",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 88,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 148,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 88,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 148,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 88,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 148,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 88,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 148,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 83,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 86,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 83,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 86,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 83,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 86,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 83,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 86,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 54,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 54,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 54,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 11,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 54,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 11,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 13,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 20,
+          "maximum_error": 2
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 66,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 23,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 33,
+          "maximum_error": 2
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 64,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 14,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 68,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 23,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 33,
+          "maximum_error": 2
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 64,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_3_75",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 9,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 7,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 9,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 7,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 9,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 7,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 9,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 7,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 43,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 43,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 43,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 48,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 43,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 6,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 20,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 33,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 15,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 26,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 36,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 16,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 38,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 15,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 26,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 36,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_0_75",
+      "models": {
+        "float64_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_25",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 94,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 231,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 94,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 231,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 94,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 231,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 94,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 231,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 46,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 46,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 46,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 46,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 71,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 8,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 8,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 8,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 8,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 12,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 1,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 20,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 78,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 38,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 49,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 2
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 20,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 86,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 38,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 49,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 84,
+          "maximum_error": 2
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_3_75",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 17,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 17,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 17,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 17,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_1_5",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 62,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 62,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 62,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 50,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 62,
+          "maximum_error": 1
+        }
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_2_3",
+      "models": {
+        "float64_floor_joint": {
+          "changed_components": 2,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_round": {
+          "changed_components": 21,
+          "maximum_error": 1
+        },
+        "float64_floor_horizontal_floor": {
+          "changed_components": 87,
+          "maximum_error": 1
+        },
+        "float64_nearest_joint": {
+          "changed_components": 57,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_round": {
+          "changed_components": 70,
+          "maximum_error": 1
+        },
+        "float64_nearest_horizontal_floor": {
+          "changed_components": 90,
+          "maximum_error": 1
+        },
+        "fixed32_floor_joint": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "fixed32_floor_horizontal_round": {
+          "changed_components": 19,
+          "maximum_error": 1
+        },
+        "fixed32_floor_horizontal_floor": {
+          "changed_components": 87,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_joint": {
+          "changed_components": 57,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_round": {
+          "changed_components": 70,
+          "maximum_error": 1
+        },
+        "fixed32_nearest_horizontal_floor": {
+          "changed_components": 90,
+          "maximum_error": 1
+        }
+      }
+    }
+  ],
+  "scope": "Predetermined mathematical candidates; no automatic production edits"
+}

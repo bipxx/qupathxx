@@ -53,11 +53,39 @@ They add no scientific tolerance and do not remove the three legacy detector
 expected failures. Broader server types, transparency, pyramid selection,
 out-of-bounds requests and biological acceptance remain untested here.
 
+## Private native kernel and held-out context
+
+[Kernel287](benchmarks/rgb-nominal-kernel-287/receipt.json) adds63 independent
+public reads on new dimensions, nondyadic factors, offset crops and thin/single-
+pixel images. Two captures reproduce72 holdout payloads exactly. Native golden
+RGBA hashes derive directly from those PNGs and the original36 outputs; their
+generator performs no interpolation. The C++ kernel matches all99 under MSVC
+and GCC13.3 with ASan/UBSan.
+
+The observed fixed-point recipe uses32.32 center coordinates, truncated eight-
+bit interpolation fractions and one final half-up division by65536. Enlargement
+uses nearest centers. Centers outside the full source image become opaque black;
+bilinear edges inside that image clamp to its border. Integer origins stay
+separate from fractional offsets, including the tested3e12-pixel coordinates.
+
+Eight held-out crop cases fail if the source is cut to the requested rectangle
+before interpolation. Including neighboring source pixels resolves them exactly.
+The private planner therefore returns the needed level-zero source window,
+including interpolation context beyond the crop. It admits nominal extents,
+output and source-window buffers against the existing256MiB limit, including
+the halo. Window plus output can coexist; decoder costs remain additional.
+It rejects nonopaque/malformed windows and checks native cancellation throughout.
+
+This kernel is private. A public immutable request, ImageServer read adapter,
+nanobind interface, CLI and relevant UI/workflow consumers remain to be delivered.
+Opaque RGB fixture agreement does not establish general Java rendering,
+transparency, vendor/pyramid behavior or biological acceptance.
+
 ## Easiest production route
 
-Keep the existing area and typed scientific sampling policies. First implement
-an explicitly versioned RGB compatibility kernel against this immutable corpus,
-including the currently failing boundary and nondyadic cases. Kernel choice,
+Keep the existing area and typed scientific sampling policies. Reuse the
+private kernel287 for the native reader adapter and an explicitly versioned
+public RGB request; its99 captured boundary/nondyadic/context cases now pass. Kernel choice,
 nominal steps, source bounds and returned dimensions must be separate parts of
 its descriptor. Avoid selecting an interpolation mode from output shape alone.
 
