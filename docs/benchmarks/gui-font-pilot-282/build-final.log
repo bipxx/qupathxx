@@ -1,0 +1,6 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  legacy_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\legacy_probe.exe
+  dynamic_probe.cpp
+  dynamic_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\dynamic_probe.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt

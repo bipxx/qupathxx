@@ -1,0 +1,43 @@
+{
+  "legacy_imgui_commit": "4806a1924ff6181180bf5e4b8b79ab4394118875",
+  "legacy_library": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\final-products\\Release\\qupathxx_gui.lib",
+  "legacy_library_sha256": "05cd4544e1f8f529c748dcd676342b48ff7197d3ac08917eaafe3f8592952c6b",
+  "legacy_native_source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376",
+  "legacy_wchar_bits": 32,
+  "modern_imgui_tag": "v1.93.0-docking",
+  "modern_annotated_tag_sha": "4e02e84cbb85d48881388e7090c2dfa1708c02a1",
+  "modern_commit": "b916186e66aa3c02b72c6ca17455516512ed8049",
+  "noto_source": {
+    "repository": "https://github.com/notofonts/noto-cjk",
+    "commit": "f8d157532fbfaeda587e826d4cd5b21a49186f7c",
+    "license": "SIL Open Font License1.1",
+    "files": [
+      {
+        "path": "NotoSansCJKsc-Regular.otf",
+        "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+        "bytes": 16437364,
+        "git_blob": "dc15562470b4f842321894787a0d066879ccff8b",
+        "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+      },
+      {
+        "path": "LICENSE",
+        "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE",
+        "bytes": 4301,
+        "git_blob": "d952d62c065f3f35fb83a173496e90b21525aef3",
+        "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+      },
+      {
+        "path": "README-third_party.md",
+        "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/README-third_party.md",
+        "bytes": 888,
+        "git_blob": "ac5f87aaf99744c427c536d58e9064c55d3560af",
+        "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+      }
+    ],
+    "scope": "Local atlas experiment inputs; no application dependency changed"
+  },
+  "application_changed": false,
+  "application_rebuilt": false,
+  "gl_context": false,
+  "gpu_memory_values_are_simulated_from_dimensions": true
+}

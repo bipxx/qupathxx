@@ -17,6 +17,17 @@ redispatch or move the frozen ref/checkout. Candidate273 remains qualified until
 combined acceptance exists; independent M0-M7/science/hardware/support/release
 gates remain open.
 
+**Font pilot282 identifies the next M2 delivery path.** [Receipt282](benchmarks/gui-font-pilot-282/receipt.json)
+compares retained32-bit1.91.9b with pinned1.93 docking and unmodified OFL CJK/
+monochrome Emoji. All21 sampled codepoints are available at normal/large/maximal
+settings, and Latin raster/advance matches. A capped atlas exhausts during the
+1,600-glyph stress case: unmodified assertion-enabled code aborts; one narrow
+assertion removal preserves its existing fallback return and passes. CPU texture
+and simulated GPU peaks are recorded separately, with no GL/RSS or shaping claim.
+The [application route](gui-font-pipeline.md) is prepared; application font assets,
+backend dependency and GUI output are not changed by this pilot. Candidate281
+continues independently at its frozen source; do not rebuild/relabel it.
+
 **Stream header integrity279 is locally verified** at native3bd6591, wait-order
 observer128b313 and fixture-copy observer73b2f8e. [Receipt279](benchmarks/stream-header-integrity-279/receipt.json)
 binds22 old-runtime raw-header failures, one old RGB later-block failure/two

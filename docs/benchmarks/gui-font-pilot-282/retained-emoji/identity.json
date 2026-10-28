@@ -1,0 +1,7 @@
+{
+  "source_sha256": "7f0efd5fcbe04b48d557c3351c41bc76bc6e520750641c3bbc15356cd82dc5b6",
+  "binary_sha256": "8a7d618da6ce33f5bc305326118b4324f96e092b26871a14407a269922c8c668",
+  "cases": [
+    "dynamic-emoji-large.json"
+  ]
+}

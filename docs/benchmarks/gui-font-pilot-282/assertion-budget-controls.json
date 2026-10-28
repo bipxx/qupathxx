@@ -1,0 +1,44 @@
+[
+  {
+    "name": "assert-budget-red",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\build\\Release\\dynamic_assert_probe.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\NotoSansCJKsc-Regular.otf",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\assert-budget-red.json",
+      "3",
+      "2",
+      "1600",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\emoji\\NotoEmoji[wght].ttf"
+    ],
+    "returncode": 3,
+    "expected": "abort"
+  },
+  {
+    "name": "assert-budget-green",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\build\\Release\\dynamic_budget_probe.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\NotoSansCJKsc-Regular.otf",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\assert-budget-green.json",
+      "3",
+      "2",
+      "1600",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\emoji\\NotoEmoji[wght].ttf"
+    ],
+    "returncode": 0,
+    "expected": "pass"
+  },
+  {
+    "name": "assert-normal-green",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\build\\Release\\dynamic_budget_probe.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\NotoSansCJKsc-Regular.otf",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\assert-normal-green.json",
+      "3",
+      "2",
+      "0",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\emoji\\NotoEmoji[wght].ttf"
+    ],
+    "returncode": 0,
+    "expected": "pass"
+  }
+]
