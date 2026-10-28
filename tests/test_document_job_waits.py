@@ -49,6 +49,7 @@ class Case:
         self.kind,self.doc,self.obj,self.job,self.start=kind,doc,obj,job,start
         self.outputs=outputs if outputs is not None else []
     def wait(self):return call(self.job,self.kind,'wait',self.doc,self.obj)
+    def poll(self):return call(self.job,self.kind,'poll',self.doc,self.obj)
 
 
 def case_for(kind,tmp_path):
@@ -106,9 +107,13 @@ def case_for(kind,tmp_path):
 
 
 @pytest.mark.parametrize('kind',KINDS)
-@pytest.mark.parametrize('action',('edit','cancel'))
+@pytest.mark.parametrize('action',('edit','cancel','completed_edit','completed_cancel'))
 def test_live_document_wait_releases_gil_and_rechecks_before_delivery(tmp_path,kind,action):
     case=case_for(kind,tmp_path);assert case.start();revision=case.doc.revision
+    completed=action.startswith('completed_');action=action.removeprefix('completed_')
+    if completed:
+        initial=case.wait()
+        assert initial.state==('saved' if kind=='PixelStreamExportJob' else 'ready'),initial.error
     ready,gate,done=threading.Event(),threading.Event(),threading.Event();errors=[]
     def change():
         ready.set();gate.wait()
@@ -125,7 +130,18 @@ def test_live_document_wait_releases_gil_and_rechecks_before_delivery(tmp_path,k
         sys.setswitchinterval(1);gate.set();stats=case.wait();ran_during_wait=done.is_set()
     finally:
         sys.setswitchinterval(interval);gate.set();thread.join(10)
-    assert not thread.is_alive() and not errors and ran_during_wait
+    assert not thread.is_alive() and not errors
+    # A ready future may return before another Python thread is scheduled.
+    # The bounded4096-square analysis exercises the shared Document wait bridge's
+    # GIL release; fast jobs also exercise the valid completion-first ordering.
+    if kind=='AnalysisJob' and not completed:assert ran_during_wait
+    if not ran_during_wait:
+        assert stats.state==('saved' if kind=='PixelStreamExportJob' else 'ready'),stats.error
+    elif kind!='PixelStreamExportJob':
+        assert stats.state==('stale' if action=='edit' else 'cancelled'),stats.error
+    # When the edit/cancel happens after wait returned, the next owner delivery
+    # must reconcile it too. Never accept a retained result after invalidation.
+    stats=case.poll()
     assert not case.job.busy and case.doc.revision==revision+(action=='edit')
     if kind=='PixelStreamExportJob':
         assert stats.state in ('saved','cancelled')
