@@ -27,7 +27,7 @@ void limit_check(std::size_t bytes) {if(!bytes || bytes>1024u*1024*1024) throw s
 std::string spatial_distance_csv(const SpatialDistanceResult& result,std::size_t limit,const std::atomic<bool>* c) {
     limit_check(limit);std::string out;write_csv(result,[&](const std::string& line) {if(line.size()>limit-out.size()) throw std::length_error("spatial CSV exceeds byte limit");out+=line;},c);return out;
 }
-std::size_t save_spatial_distance_csv(const SpatialDistanceResult& result,const std::string& path,std::size_t limit,bool replace,const std::atomic<bool>* c) {
-    limit_check(limit);detail::AtomicExportFile out(path,limit,c);write_csv(result,[&](const std::string& line) {out.write(line.data(),line.size());},c);out.commit(replace);return out.bytes();
+std::size_t save_spatial_distance_csv(const SpatialDistanceResult& result,const std::string& path,std::size_t limit,bool replace,const std::atomic<bool>* c,const std::function<void()>& guard) {
+    limit_check(limit);detail::AtomicExportFile out(path,limit,c);write_csv(result,[&](const std::string& line) {out.write(line.data(),line.size());},c);if(guard) guard();out.commit(replace);return out.bytes();
 }
 }

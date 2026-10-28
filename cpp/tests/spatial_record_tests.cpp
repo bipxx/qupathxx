@@ -91,6 +91,10 @@ void export_contracts(const fs::path& root) {
     rejects<std::length_error>([&]{save_spatial_distance_csv(*result,target.u8string(),32,true);});check(read(target)==csv);
     rejects<std::length_error>([&]{spatial_distance_csv(*result,32);});rejects([&]{spatial_distance_csv(*result,0);});
     std::atomic<bool> cancelled{true};rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,&cancelled);});check(read(target)==csv);
+    rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,nullptr,[]{throw std::runtime_error("changed input before publication");});});check(read(target)==csv);
+    cancelled=false;rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,&cancelled,[&]{cancelled=true;});});check(read(target)==csv);cancelled=false;
+    const auto raced=root/"raced.csv";
+    rejects([&]{save_spatial_distance_csv(*result,raced.u8string(),65536,false,nullptr,[&]{std::ofstream(raced)<<"another writer";});});check(read(raced)=="another writer");
     SpatialDistanceRequest empty(*s.doc,{s.a},{});const auto missing=measure_spatial_distances(empty);const auto missing_csv=spatial_distance_csv(*missing);
     const auto line=missing_csv.substr(missing_csv.find('\n')+1);check(std::count(line.begin(),line.end(),',')==21 && line.find(",px,no_target,")!=std::string::npos);
     check(line.find(",,,,,,,,px,no_target,")!=std::string::npos); // Seven absent fields need eight separators.

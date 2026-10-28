@@ -2,6 +2,7 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/provenance.hpp"
 #include <thread>
+#include <functional>
 
 namespace qpx {
 enum class SpatialDistanceUnits { Pixels, Micrometres };
@@ -107,7 +108,8 @@ struct SpatialDistanceRecord {
 std::string spatial_distance_csv(const SpatialDistanceResult&,std::size_t byte_limit=64u*1024*1024,
     const std::atomic<bool>* cancelled=nullptr);
 std::size_t save_spatial_distance_csv(const SpatialDistanceResult&,const std::string& path,
-    std::size_t byte_limit=64u*1024*1024,bool replace=false,const std::atomic<bool>* cancelled=nullptr);
+    std::size_t byte_limit=64u*1024*1024,bool replace=false,const std::atomic<bool>* cancelled=nullptr,
+    const std::function<void()>& publication_guard={});
 std::shared_ptr<const SpatialDistanceResult> measure_spatial_distances(
     const SpatialDistanceRequest&,const std::atomic<bool>* cancelled=nullptr);
 struct SpatialDistanceStats {

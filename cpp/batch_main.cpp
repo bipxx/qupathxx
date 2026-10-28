@@ -3,6 +3,7 @@
 #include "pixel_stream_cli.hpp"
 #include "raw_pixel_cli.hpp"
 #include "cell_table_cli.hpp"
+#include "spatial_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
 #include "tma_dearray_cli.hpp"
@@ -34,6 +35,12 @@ int execute(const std::vector<std::string>& args) {
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
+            "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
+            "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
+            "Spatial measure: --units px|um --body --include-self --name TEXT (no targets means absent distances)\n"
+            "                 --snapshot-bytes N --work-bytes N --max-distance-tests N\n"
+            "                 --save-snapshot-bytes N --project-bytes N (new outputs only; geometry only)\n"
             "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
             "       qupathxx_batch --export-tma-cases PROJECT OUTPUT.csv [--image ID]\n"
             "       qupathxx_batch --export-tma-cohort PROJECT OUTPUT.csv (--image ID ... | --all-tma-images)\n"
@@ -107,6 +114,7 @@ int execute(const std::vector<std::string>& args) {
     try {
         if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
+        if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
         if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;
