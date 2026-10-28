@@ -183,12 +183,18 @@ ids=[a.id for a in doc.annotations];project=q.Project();project.add_document(doc
 o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0
 spatial=q.GuiSpatialOptions();spatial.open=spatial.run=True;spatial.sources=spatial.targets=ids
 analysis=spatial.analysis;analysis.max_distance_tests=1<<40;spatial.analysis=analysis;o.spatial=spatial
-e=q.GuiInput();e.frame=8;e.kind=q.GuiInputKind.CLOSE_WINDOW;o.inputs=[e]
-report=q.show(project,frame_limit=0,options=o)
+e=q.GuiInput();e.frame=8;e.kind=q.GuiInputKind.CLOSE_WINDOW
+# Viewing persists the camera, so acknowledge the ordinary dirty-close dialog.
+down=q.GuiInput();down.frame=10;down.kind=q.GuiInputKind.LEFT_DOWN;down.target=q.GuiInputTarget.DISCARD_CLOSE;down.wait_for=q.GuiInputWait.TARGET_READY
+up=q.GuiInput();up.frame=11;up.kind=q.GuiInputKind.LEFT_UP;up.target=q.GuiInputTarget.DISCARD_CLOSE
+o.inputs=[e,down,up]
+report=q.show(project,frame_limit=60,options=o)
+print(json.dumps(dict(replay_complete=report.replay_complete,state=report.spatial.state,busy=report.spatial.busy,frames=report.frames)))
+assert report.frames<60
 assert report.replay_complete and report.spatial.state=='cancelled' and not report.spatial.busy
 assert report.spatial.result is None and doc.spatial_record_count==0
 print(json.dumps(dict(state=report.spatial.state,distance_tests=report.spatial.analysis.distance_tests)))
 """
     child=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(tmp_path/'source.qpx')],capture_output=True,text=True,encoding='utf-8',timeout=30)
     assert child.returncode==0,child.stdout+child.stderr
-    observed=json.loads(child.stdout);assert observed['state']=='cancelled' and observed['distance_tests']>0
+    observed=json.loads(child.stdout.splitlines()[-1]);assert observed['state']=='cancelled' and observed['distance_tests']>0
