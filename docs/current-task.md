@@ -2,6 +2,24 @@
 
 ## Current execution card (2026-10-28)
 
+**Combined spatial/wait candidate271 is frozen and its full qualification is
+running** at ee19be5 on feature/spatial-waits-qualification-271.
+[Campaign271](benchmarks/spatial-waits-271/receipt.json) records engine
+[40688686191](https://github.com/bipxx/qupathxx/actions/runs/40688686191), Mac-native
+[40688699973](https://github.com/bipxx/qupathxx/actions/runs/40688699973) and portable
+[40688712236](https://github.com/bipxx/qupathxx/actions/runs/40688712236), each with
+its full required semantic inputs. Initial authoritative queries show the engine
+and portable runs active and both Mac jobs queued. No role is accepted yet.
+
+The clean audit checkout authenticates531 source paths. All410 compiler-input
+Git blobs equal the locally tested c949826 source; its binaries remain labeled
+c949826 and observer f068594. Candidate271 must build and qualify its own source.
+Do not rebuild/relabel local products for a documentation/stub delta or move this
+frozen ref. **Next:** observe these same run IDs, retain/authenticate all11 expected
+archives and execute every applicable complete auditor. No main promotion or
+release follows. Candidate262 remains qualified until that acceptance exists.
+
+
 **M6 Document-wait safety270 is locally verified** at native c949826 and
 contract/stub observer f068594. [Receipt270](benchmarks/document-waits-270/receipt.json)
 records all55 native suites and72 new controls across nine older controllers:
@@ -21,9 +39,9 @@ inputs remain unchanged through observer edits. Only generated _native.pyi and
 RECORD change after compilation; all33 installed members,37 RECORD entries, loaded
 GEOS/notices and531 source paths authenticate.99 prior products remain retained.
 
-**Next:** freeze one combined spatial/wait source and run the complete engine,
-Mac-native and portable qualification roles. Those roles must build and qualify
-their own source; local c949826/f068594 evidence is not relabeled. Candidate262
+The later271 campaign above now owns the combined freeze and full role runs.
+Those roles must build and qualify their own source; local c949826/f068594
+evidence is not relabeled. Candidate262
 remains the qualified baseline. M0-M7, science, general speed, eligible hardware,
 clean-machine support and release gates remain open.
 

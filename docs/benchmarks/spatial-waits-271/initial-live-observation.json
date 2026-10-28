@@ -1,0 +1,114 @@
+{
+  "observed_at": "2026-10-28T12:33:43.923322+00:00",
+  "runs": [
+    {
+      "role": "engine",
+      "run": 40688686191,
+      "status": "in_progress",
+      "conclusion": "",
+      "jobs": [
+        {
+          "name": "Windows GUI Python 3.12 software GL",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "Linux headless Python 3.12 NumPy 2",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "Linux minimal native",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "Linux ASan UBSan native",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "Windows headless Python 3.11 NumPy 1",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "macOS native ${{ matrix.architecture }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Manylinux build Python ${{ matrix.python }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Debian consumer Python ${{ matrix.python }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    },
+    {
+      "role": "macos",
+      "run": 40688699973,
+      "status": "queued",
+      "conclusion": "",
+      "jobs": [
+        {
+          "name": "macOS native arm64",
+          "status": "queued",
+          "conclusion": ""
+        },
+        {
+          "name": "macOS native x86_64",
+          "status": "queued",
+          "conclusion": ""
+        },
+        {
+          "name": "matrix.name",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Manylinux build Python ${{ matrix.python }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Debian consumer Python ${{ matrix.python }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    },
+    {
+      "role": "portable",
+      "run": 40688712236,
+      "status": "in_progress",
+      "conclusion": "",
+      "jobs": [
+        {
+          "name": "Manylinux build Python 3.11",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "Manylinux build Python 3.12",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "matrix.name",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "macOS native ${{ matrix.architecture }}",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    }
+  ]
+}
