@@ -4,6 +4,7 @@
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
+#include "spatial_output_guard.hpp"
 #include "batch_checkpoint.hpp"
 #include "utf8_text.hpp"
 #include <charconv>
@@ -30,19 +31,7 @@ std::vector<std::uint64_t> read_ids(const ReaderFileGuard& guard,std::size_t lim
     }
     std::sort(ids.begin(),ids.end());if(std::adjacent_find(ids.begin(),ids.end())!=ids.end()) throw std::invalid_argument("duplicate spatial cohort ID");return ids;
 }
-void protect_path(const std::string& input,const std::string& identity,const std::string& output) {
-    // Resolve existing parent aliases even when a linked image/sidecar is absent.
-    const auto a=std::filesystem::weakly_canonical(std::filesystem::u8path(input));
-    const auto b=std::filesystem::weakly_canonical(std::filesystem::u8path(output));
-#ifdef _WIN32
-    const auto wa=a.wstring(),wb=b.wstring();
-    if(CompareStringOrdinal(wa.data(),int(wa.size()),wb.data(),int(wb.size()),TRUE)==CSTR_EQUAL)
-#else
-    if(a==b)
-#endif
-        throw std::invalid_argument("spatial output aliases a protected input path");
-    guard_file_output(input,identity,output);
-}
+
 }
 std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2 || (args[1]!="--measure-spatial" && args[1]!="--export-spatial" && args[1]!="--verify-spatial")) return {};
@@ -83,7 +72,7 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
     try {
         export_checkpoint(&cancelled);const auto source=export_path(args[2]);const auto output=verify?std::string{}:export_path(args[3]);
         ReaderFileGuard observed(source);
-        if(!verify) protect_path(source,observed.version()->identity,output);
+        if(!verify) protect_spatial_path(source,observed.version()->identity,output);
         std::unique_ptr<ReaderFileGuard> source_ids_guard,target_ids_guard;
         if(!source_ids_file.empty()) {source_ids_guard=std::make_unique<ReaderFileGuard>(export_path(source_ids_file));sources=read_ids(*source_ids_guard,ids_bytes,cancelled);if(sources.empty()) throw std::invalid_argument("spatial source ID file is empty");}
         if(!target_ids_file.empty()) {target_ids_guard=std::make_unique<ReaderFileGuard>(export_path(target_ids_file));targets=read_ids(*target_ids_guard,ids_bytes,cancelled);}
@@ -91,14 +80,14 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         std::shared_ptr<const SpatialDistanceResult> result;
         auto protect=[&] {
             observed.verify();export_checkpoint(&cancelled);if(verify) return;
-            protect_path(source,observed.version()->identity,output);
-            for(const auto* guard:{source_ids_guard.get(),target_ids_guard.get()}) if(guard) {guard->verify();protect_path(guard->version()->path,guard->version()->identity,output);}
-            for(const auto* suffix:{"-journal","-wal","-shm"}) protect_path(source+suffix,"",output);
-            for(const auto& entry:images) if(!entry.embedded && !entry.source_path.empty()) protect_path(export_path(entry.source_path),"",output);
+            protect_spatial_path(source,observed.version()->identity,output);
+            for(const auto* guard:{source_ids_guard.get(),target_ids_guard.get()}) if(guard) {guard->verify();protect_spatial_path(guard->version()->path,guard->version()->identity,output);}
+            for(const auto* suffix:{"-journal","-wal","-shm"}) protect_spatial_path(source+suffix,"",output);
+            for(const auto& entry:images) if(!entry.embedded && !entry.source_path.empty()) protect_spatial_path(export_path(entry.source_path),"",output);
             if(result && result->provenance()->reader_source) {
                 const auto& files=*result->provenance()->reader_source;
-                if(files.primary) protect_path(files.primary->path,files.primary->identity,output);
-                for(const auto& file:files.companions) protect_path(file.path,file.identity,output);
+                if(files.primary) protect_spatial_path(files.primary->path,files.primary->identity,output);
+                for(const auto& file:files.companions) protect_spatial_path(file.path,file.identity,output);
             }
         };
         protect();std::size_t bytes=0;

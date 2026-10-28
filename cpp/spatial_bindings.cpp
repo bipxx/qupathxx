@@ -1,4 +1,5 @@
 #include "qupathxx/spatial_analysis.hpp"
+#include "qupathxx/spatial_frontend.hpp"
 #include <nanobind/nanobind.h>
 #include <algorithm>
 #include <stdexcept>
@@ -70,6 +71,19 @@ void bind_spatial(nb::module_& m) {
         .def_ro("total_rows",&SpatialDistanceStats::total_rows).def_ro("distance_tests",&SpatialDistanceStats::distance_tests)
         .def_ro("snapshot_bytes",&SpatialDistanceStats::snapshot_bytes).def_ro("work_bytes",&SpatialDistanceStats::work_bytes)
         .def_ro("capture_ms",&SpatialDistanceStats::capture_ms).def_ro("elapsed_ms",&SpatialDistanceStats::elapsed_ms);
+    nb::class_<GuiSpatialOptions>(m,"GuiSpatialOptions").def(nb::init<>())
+        .def_rw("open",&GuiSpatialOptions::open).def_rw("run",&GuiSpatialOptions::run)
+        .def_rw("sources",&GuiSpatialOptions::sources).def_rw("targets",&GuiSpatialOptions::targets)
+        .def_rw("analysis",&GuiSpatialOptions::analysis).def_rw("record_id",&GuiSpatialOptions::record_id)
+        .def_rw("csv_path",&GuiSpatialOptions::csv_path).def_rw("csv_bytes",&GuiSpatialOptions::csv_bytes).def("validate",&GuiSpatialOptions::validate);
+    nb::class_<GuiSpatialReport>(m,"GuiSpatialReport")
+        .def_ro("state",&GuiSpatialReport::state).def_ro("error",&GuiSpatialReport::error).def_ro("record_status",&GuiSpatialReport::record_status)
+        .def_ro("busy",&GuiSpatialReport::busy).def_ro("record_id",&GuiSpatialReport::record_id).def_ro("rows",&GuiSpatialReport::rows)
+        .def_ro("sources",&GuiSpatialReport::sources).def_ro("targets",&GuiSpatialReport::targets).def_ro("result",&GuiSpatialReport::result)
+        .def_ro("analysis",&GuiSpatialReport::analysis).def_ro("export_state",&GuiSpatialReport::export_state).def_ro("export_error",&GuiSpatialReport::export_error)
+        .def_ro("export_committed",&GuiSpatialReport::export_committed).def_ro("export_rows",&GuiSpatialReport::export_rows).def_ro("export_bytes",&GuiSpatialReport::export_bytes).def_ro("path",&GuiSpatialReport::path);
+    auto gui_options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));gui_options.def_rw("spatial",&GuiOptions::spatial);
+    auto gui_report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));gui_report.def_ro("spatial",&GuiReport::spatial);
     nb::class_<SpatialDistanceJob>(m,"SpatialDistanceJob").def(nb::init<>())
         .def("request",&SpatialDistanceJob::request,"request"_a).def("poll",&SpatialDistanceJob::poll,"document"_a)
         .def("wait",[](SpatialDistanceJob& job,const Document& doc) {

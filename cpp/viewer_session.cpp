@@ -16,14 +16,15 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours,SpatialMeasure,SpatialInspect,SpatialVerify,SpatialExport};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours","spatial_measure","spatial_inspect","spatial_verify","spatial_export"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
 struct TmaAxisCommand {bool column=false,remove=false,missing=false;std::size_t index=0;std::optional<std::vector<Rect>> bounds;};
 struct Command {
     Action action;std::uint64_t image=0,object=0,after=0;std::optional<std::uint64_t> revision;std::size_t limit=64;
-    bool flag=false,nucleus=false,file_replay=false;std::string text,raw_file_path;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
+    bool flag=false,nucleus=false,file_replay=false;std::string text,raw_file_path;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids,targets;
+    SpatialDistanceOptions spatial;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
     RawRegionRequest raw_region;TiffView tiff_view;std::optional<TmaAxisCommand> tma_axis;
     std::optional<TmaDearrayOptions> tma_dearray;
@@ -41,7 +42,7 @@ struct Command {
     TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
     std::optional<GridCellSampling> cell_grid;GridCellParameters grid_cells;
     explicit Command(Action a):action(a) {}
-    std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+raw_file_path.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
+    std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+raw_file_path.capacity()+edits.capacity()*sizeof(ObjectEdit)+(ids.capacity()+targets.capacity())*8+(transform?sizeof(StainTransform)+128:0);
         if(raw_pixel_settings) n+=raw_pixel_settings->payload_bytes();
         if(raw_pixel_model) n+=4ULL*raw_pixel_model->bytes().size()+64ULL*raw_pixel_model->forest().node_count()+65536;
         n+=raw_pixel_save.resume_path.capacity();
@@ -67,6 +68,7 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.raw_pixel_file_contours) n+=e.raw_pixel_file_contours->payload_bytes();
     if(e.raw_analysis) n+=e.raw_analysis->payload_bytes();
     if(e.tma_dearray)n+=e.tma_dearray->payload_bytes();
+    if(e.spatial)n+=e.spatial->payload_bytes();
     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
 }
 }
@@ -109,6 +111,19 @@ bool ViewerSession::cancel(std::uint64_t id) {
 }
 std::uint64_t ViewerSession::catalog(std::uint64_t after,std::size_t limit) {if(!limit || limit>256) throw std::invalid_argument("catalog page limit must be 1..256");Command c(Action::Catalog);c.after=after;c.limit=limit;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::inspect(std::uint64_t image,std::uint64_t object) {Command c(Action::Inspect);c.image=image;c.object=object;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::spatial_distances(std::uint64_t image,const std::vector<std::uint64_t>& sources,const std::vector<std::uint64_t>& targets,SpatialDistanceOptions options,bool keep,std::optional<std::uint64_t> revision) {
+    options.validate();if(options.snapshot_bytes>impl_->limits.snapshot_bytes)throw std::length_error("spatial capture exceeds viewer snapshot limit");if(sources.empty() || sources.size()>100000 || targets.size()>100000) throw std::invalid_argument("spatial viewer cohort count exceeds its limit");
+    Command c(Action::SpatialMeasure);c.image=image;c.ids=sources;c.targets=targets;c.spatial=options;c.flag=keep;c.revision=revision;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::inspect_spatial(std::uint64_t image,std::uint64_t record) {
+    if(!record) throw std::invalid_argument("spatial inspection requires a record");Command c(Action::SpatialInspect);c.image=image;c.after=record;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::verify_spatial(std::uint64_t image,std::uint64_t record) {
+    if(!record) throw std::invalid_argument("spatial verification requires a record");Command c(Action::SpatialVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::export_spatial(std::uint64_t image,std::uint64_t record,const std::string& path,std::size_t limit) {
+    if(!record || !limit || limit>1024u*1024*1024) throw std::invalid_argument("invalid spatial export record/limit");Command c(Action::SpatialExport);c.image=image;c.after=record;c.text=detail::export_path(path);c.limit=limit;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::detect_tma_grid(std::uint64_t image,TmaDearrayOptions options,std::optional<std::uint64_t> revision) {
     if(!image)throw std::invalid_argument("TMA detection requires an image ID");
     options.validate();
@@ -210,6 +225,7 @@ struct ViewerOwner::Impl {
         std::shared_ptr<ImageServer> reader,replacement;std::future<ViewerEvent> future;std::size_t region_limit=0;
         std::unique_ptr<RawPixelFrontend> raw_pixel;std::shared_ptr<Document> raw_pixel_document;
         std::shared_ptr<const char> tma_identity;
+        std::unique_ptr<SpatialFrontend> spatial;std::shared_ptr<Document> spatial_document;
     };
     std::shared_ptr<ViewerSession::Impl> state;std::unique_ptr<Work> work;bool ended=false;
     std::uint64_t cycle=0;
@@ -266,6 +282,26 @@ struct ViewerOwner::Impl {
                 if((command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours || command.action==Action::RawPixelFileContours) && command.flag) {const auto& ids=w.raw_pixel->publish(*doc,command.text);std::copy(ids.begin(),ids.end(),e.object_ids.begin());e.committed=true;}
                 else if(command.flag) {if(command.action==Action::RawPixelTrain && report.training) e.record_id=w.raw_pixel->keep_training(*doc);else if(report.link) e.record_id=w.raw_pixel->keep_link(*doc);}
                 e.committed=e.committed || bool(e.record_id);e.document_revision=doc->revision();e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));
+            }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
+        }
+        if(w.spatial) {
+            const bool exporting=command.action==Action::SpatialExport;
+            bool replaced=stale || c.closing;std::shared_ptr<Document> document;
+            try {document=c.project->document(command.image);if(document!=w.spatial_document)replaced=true;}catch(const std::out_of_range&) {replaced=true;}
+            if(replaced || w.ticket->cancelled.load()) w.spatial->cancel();
+            w.spatial->poll(document?*document:*w.spatial_document);auto report=w.spatial->report();if(report.busy) return;
+            if(!exporting && c.blocked && !replaced && !w.ticket->cancelled.load()) return;
+            try {
+                auto e=w.seed;e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();
+                if(exporting) {e.path=report.path;e.committed=report.export_committed;e.rows=report.export_committed?report.export_rows:0;e.bytes=report.export_bytes;e.error=report.export_error;e.state=e.committed?(replaced?"detached":"succeeded"):report.export_state;}
+                else if(replaced || w.ticket->cancelled.load()) {e.state=stale?"stale":"cancelled";e.error="spatial viewer work cancelled or replaced";}
+                else if(report.state!="ready" && report.state!="historical" && report.state!="verified") {e.state=report.state=="stale"?"stale":report.state=="cancelled"?"cancelled":"failed";e.error=report.error;}
+                else {
+                    e.spatial=report.result;e.rows=report.rows;e.record_id=report.record_id;e.verified=report.state=="verified";reserve(w.ticket,e);
+                    if(command.action==Action::SpatialMeasure && command.flag) {e.record_id=w.spatial->keep(*document);e.committed=true;}
+                    e.document_revision=document->revision();e.state="succeeded";
+                }
+                complete(w.ticket,std::move(e));
             }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
         }
         if(w.future.wait_for(std::chrono::seconds(0))!=std::future_status::ready) return;
@@ -326,6 +362,14 @@ struct ViewerOwner::Impl {
         auto pending=std::make_unique<Work>();pending->ticket=ticket;pending->command=std::move(command);pending->seed=e;pending->started=started;pending->cycle=cycle;auto& cmd=*pending->command;
         if(cmd.action==Action::Save) {if(!c.save(cmd.text)) throw std::runtime_error("a GUI save is already running");work=std::move(pending);return;}
         if(cmd.action==Action::Activate) {c.activate(e.image_id);work=std::move(pending);return;}
+        if(cmd.action==Action::SpatialMeasure || cmd.action==Action::SpatialInspect || cmd.action==Action::SpatialVerify || cmd.action==Action::SpatialExport) {
+            if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            pending->spatial=std::make_unique<SpatialFrontend>();pending->spatial_document=doc;
+            if(cmd.action==Action::SpatialMeasure) pending->spatial->measure(*doc,cmd.ids,cmd.targets,cmd.spatial);
+            else if(cmd.action==Action::SpatialVerify) pending->spatial->verify(*doc,cmd.after);
+            else {pending->spatial->inspect(*doc,cmd.after);if(cmd.action==Action::SpatialExport)pending->spatial->export_csv(*doc,cmd.text,cmd.limit,spatial_project_paths(c.project.get(),c.catalog,state->limits.snapshot_bytes),state->limits.snapshot_bytes);}
+            work=std::move(pending);return;
+        }
         if(cmd.action==Action::RawPixelTrain || cmd.action==Action::RawPixelPredict || cmd.action==Action::RawPixelExport || cmd.action==Action::RawPixelRead || cmd.action==Action::RawPixelContours || cmd.action==Action::RawPixelStreamContours || cmd.action==Action::RawPixelFileContours) {
             if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             pending->raw_pixel=std::make_unique<RawPixelFrontend>();pending->raw_pixel_document=doc;
@@ -404,7 +448,7 @@ void ViewerOwner::pump(const ViewerContext& context) {
 }
 void ViewerOwner::finish(const ViewerContext& context) {
     if(impl_->ended) return;
-    if(impl_->work) {auto& w=*impl_->work;w.ticket->cancelled.store(true);if(w.command->action==Action::Save) {if(context.cancel_save) context.cancel_save();impl_->poll(context);}else if(w.future.valid()) {w.future.wait();auto closing=context;closing.closing=true;impl_->poll(closing);}if(impl_->work) {impl_->failure(w.ticket,"viewer closed before completion","cancelled");impl_->work.reset();}}
+    if(impl_->work) {auto& w=*impl_->work;w.ticket->cancelled.store(true);if(w.command->action==Action::Save) {if(context.cancel_save) context.cancel_save();impl_->poll(context);}else if(w.spatial) {w.spatial->finish(*w.spatial_document,false);auto closing=context;closing.closing=true;impl_->poll(closing);}else if(w.future.valid()) {w.future.wait();auto closing=context;closing.closing=true;impl_->poll(closing);}if(impl_->work) {impl_->failure(w.ticket,"viewer closed before completion","cancelled");impl_->work.reset();}}
     fail("");
 }
 ViewerStats ViewerOwner::stats() const {std::lock_guard<std::mutex> lock(impl_->state->mutex);return impl_->state->stats;}

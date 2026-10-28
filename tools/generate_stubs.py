@@ -44,6 +44,9 @@ def main():
             elif line.startswith('def '):current=''
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
+            if current in ('ViewerEvent','GuiSpatialReport'):line=line.replace('-> SpatialDistanceResult:', '-> SpatialDistanceResult | None:')
+            if current=='GuiReport':line=line.replace('-> GuiSpatialReport:', '-> GuiSpatialReport | None:')
+            if current=='GuiOptions' and 'def spatial(' in line:line=line.replace('-> GuiSpatialOptions:', '-> GuiSpatialOptions | None:').replace('arg: GuiSpatialOptions,','arg: GuiSpatialOptions | None,')
             if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')

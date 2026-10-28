@@ -6,6 +6,7 @@
 #include "qupathxx/raw_tables.hpp"
 #include "qupathxx/raw_pixel_frontend.hpp"
 #include "qupathxx/tma_dearray.hpp"
+#include "qupathxx/spatial_frontend.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
 struct ViewerLimits {
@@ -26,6 +27,7 @@ struct ViewerEvent {
     std::shared_ptr<const TissueResult> tissue;
     std::shared_ptr<const CellResult> cells;
     std::shared_ptr<const TmaDearrayResult> tma_dearray;
+    std::shared_ptr<const SpatialDistanceResult> spatial;
     std::shared_ptr<const PixelBuffer> pixels;
     std::shared_ptr<const RawAnalysisResult> raw_analysis;
     std::shared_ptr<const RawPixelBuffer> raw_pixels;
@@ -68,6 +70,10 @@ public:
     // Preview only; use execute(qptma_grid_edits(result.grid), expected_revision)
     // for a separately authorized, bounded and atomic owner-side apply.
     std::uint64_t detect_tma_grid(std::uint64_t image_id,TmaDearrayOptions={},std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t spatial_distances(std::uint64_t image,const std::vector<std::uint64_t>& sources,const std::vector<std::uint64_t>& targets,SpatialDistanceOptions={},bool keep=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t inspect_spatial(std::uint64_t image,std::uint64_t record);
+    std::uint64_t verify_spatial(std::uint64_t image,std::uint64_t record);
+    std::uint64_t export_spatial(std::uint64_t image,std::uint64_t record,const std::string& path,std::size_t byte_limit=64u*1024*1024);
     std::uint64_t select(std::uint64_t image_id,const std::vector<std::uint64_t>&);
     std::uint64_t activate(std::uint64_t image_id);
     std::uint64_t read_region(std::uint64_t image_id,RegionRequest);

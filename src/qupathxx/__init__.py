@@ -1,6 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
-    SpatialDistanceUnits, SpatialDistanceOptions, SpatialObjectSnapshot, SpatialDistanceRequest, SpatialDistanceRow, SpatialDistanceResult, SpatialDistanceRecord, SpatialDistanceStats, SpatialDistanceJob, measure_spatial_distances, spatial_distance_csv, save_spatial_distance_csv,
+    GuiSpatialOptions, GuiSpatialReport, SpatialDistanceUnits, SpatialDistanceOptions, SpatialObjectSnapshot, SpatialDistanceRequest, SpatialDistanceRow, SpatialDistanceResult, SpatialDistanceRecord, SpatialDistanceStats, SpatialDistanceJob, measure_spatial_distances, spatial_distance_csv, save_spatial_distance_csv,
     RawPixelTrainingSettings, GuiRawPixelOptions, GuiRawPixelReport,
     ScientificRawLattice, ScientificRawWindowAxis, ScientificRawWindow, ScientificRawWindowData,
     scientific_raw_window_work_bytes, read_scientific_raw_window, digest_scientific_raw_window, RawPixelFeatureScale,
@@ -74,7 +74,7 @@ from ._native import (
 )
 
 __all__ = [
-    'SpatialDistanceUnits', 'SpatialDistanceOptions', 'SpatialObjectSnapshot', 'SpatialDistanceRequest', 'SpatialDistanceRow', 'SpatialDistanceResult', 'SpatialDistanceRecord', 'SpatialDistanceStats', 'SpatialDistanceJob', 'measure_spatial_distances', 'spatial_distance_csv', 'save_spatial_distance_csv',
+    'GuiSpatialOptions', 'GuiSpatialReport', 'SpatialDistanceUnits', 'SpatialDistanceOptions', 'SpatialObjectSnapshot', 'SpatialDistanceRequest', 'SpatialDistanceRow', 'SpatialDistanceResult', 'SpatialDistanceRecord', 'SpatialDistanceStats', 'SpatialDistanceJob', 'measure_spatial_distances', 'spatial_distance_csv', 'save_spatial_distance_csv',
     "RawPixelTrainingSettings", "GuiRawPixelOptions", "GuiRawPixelReport",
     'ScientificRawLattice', 'ScientificRawWindowAxis', 'ScientificRawWindow', 'ScientificRawWindowData',
     'scientific_raw_window_work_bytes', 'read_scientific_raw_window', 'digest_scientific_raw_window', 'RawPixelFeatureScale',

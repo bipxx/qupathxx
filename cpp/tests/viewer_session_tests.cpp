@@ -27,6 +27,26 @@ struct Harness {
     ViewerEvent until(detail::ViewerOwner& owner,ViewerSession& session,std::uint64_t ticket) {const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(20);for(;;) {step(owner);const auto event=session.poll(ticket);if(event.state!="queued" && event.state!="running") return event;if(std::chrono::steady_clock::now()>end) throw std::runtime_error("viewer test timeout");std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
 };
 
+void spatial_session_contracts(const std::filesystem::path& root) {
+    Harness h;auto doc=std::make_shared<Document>(Image::demo());const auto a=doc->add_detection(Roi::points({{32,32}})),b=doc->add_detection(Roi::points({{35,36}}));
+    const auto image=h.project->add_document(doc);h.images=h.project->images();ViewerSession session("spatial.qpxproj");detail::ViewerOwner owner(session);
+    const auto ticket=session.spatial_distances(image,{a},{b},{},true,doc->revision());const auto result=h.until(owner,session,ticket);
+    check(result.state=="succeeded" && result.committed && result.record_id && result.spatial && result.spatial->rows()[0].distance==5);const auto record=result.record_id;
+    auto retained=result.spatial;session.take(ticket);check(session.stats().retained_bytes==0);
+    auto next=session.inspect_spatial(image,record);auto view=h.until(owner,session,next);check(view.state=="succeeded" && view.spatial->sha256()==retained->sha256());session.take(next);
+    next=session.verify_spatial(image,record);view=h.until(owner,session,next);check(view.state=="succeeded" && view.verified && !view.committed);session.take(next);
+    const auto csv=(root/"spatial.csv").u8string();next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="succeeded" && view.committed && view.path==csv);session.take(next);
+    next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="failed" && !view.committed);session.take(next);
+    const auto before=doc->spatial_record_count();next=session.spatial_distances(image,{a},{b},{},true);session.cancel(next);view=h.until(owner,session,next);check(view.state=="cancelled" && doc->spatial_record_count()==before);session.take(next);
+    next=session.spatial_distances(image,{a},{b},{},true,doc->revision());doc->rename_annotation(a,"stale before capture");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
+    next=session.spatial_distances(image,{a},{b},{},true);h.step(owner);doc->rename_annotation(b,"stale before delivery");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
+    ViewerLimits limits;limits.result_bytes=65536;ViewerSession bounded("spatial-limited.qpxproj",limits);detail::ViewerOwner bound_owner(bounded);
+    std::vector<Annotation> objects;for(std::uint64_t i=0;i<1000;++i)objects.push_back({1000+i,"Point",Roi::points({{double(i%100),double(i/100)}})});
+    auto ids=doc->append_objects(objects,{});next=bounded.spatial_distances(image,ids,ids,{},true);view=h.until(bound_owner,bounded,next);check(view.state=="failed" && doc->spatial_record_count()==before);bounded.take(next);bound_owner.finish(h.context);
+    owner.finish(h.context);check(retained->rows()[0].distance==5);
+    std::cout<<"Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed\n";
+}
+
 void raw_pixel_session_contracts(const std::filesystem::path& root) {
     if(!has_project() || !has_tiff()) {std::cout<<"Raw pixel viewer unavailable: TIFF/project OFF\n";return;}
     Harness h;const auto path=root/"raw-viewer.tif";qpx_test::raw_pixel_tiff_fixture(path);auto server=open_tiff(path.u8string());auto doc=std::make_shared<Document>(server);
@@ -329,6 +349,7 @@ int main() {
             check(retained_raw->statistics().means[0]==26448. && retained_raw->source()->primary);
             controller.finish(test.context);
         }
+        spatial_session_contracts(root);
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

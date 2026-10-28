@@ -17,7 +17,7 @@ void bind_viewer_session(nb::module_& m) {
         .def_ro("ticket",&ViewerEvent::ticket).def_ro("epoch",&ViewerEvent::epoch).def_ro("image_id",&ViewerEvent::image_id).def_ro("object_id",&ViewerEvent::object_id).def_ro("record_id",&ViewerEvent::record_id).def_ro("document_revision",&ViewerEvent::document_revision)
         .def_ro("action",&ViewerEvent::action).def_ro("state",&ViewerEvent::state).def_ro("error",&ViewerEvent::error).def_ro("path",&ViewerEvent::path).def_ro("committed",&ViewerEvent::committed).def_ro("verified",&ViewerEvent::verified).def_ro("elapsed_ms",&ViewerEvent::elapsed_ms)
         .def_ro("object_ids",&ViewerEvent::object_ids).def_ro("images",&ViewerEvent::images).def_ro("object",&ViewerEvent::object).def_ro("metadata",&ViewerEvent::metadata)
-        .def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
+        .def_ro("spatial",&ViewerEvent::spatial).def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
         .def_prop_ro("tma_dearray",[](const ViewerEvent& e)->std::optional<std::shared_ptr<const TmaDearrayResult>> {if(e.tma_dearray)return e.tma_dearray;return {};})
         .def_ro("raw_analysis",&ViewerEvent::raw_analysis).def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
         .def_ro("raw_pixel_training",&ViewerEvent::raw_pixel_training).def_ro("raw_pixel_checkpoint",&ViewerEvent::raw_pixel_checkpoint)
@@ -33,6 +33,14 @@ void bind_viewer_session(nb::module_& m) {
         .def("poll",&ViewerSession::poll,"ticket"_a).def("wait",&ViewerSession::wait,"ticket"_a,"timeout_seconds"_a=30.,nb::call_guard<nb::gil_scoped_release>()).def("take",&ViewerSession::take,"ticket"_a).def("cancel",&ViewerSession::cancel,"ticket"_a)
         .def("catalog",&ViewerSession::catalog,"after_id"_a=0,"limit"_a=64).def("inspect",&ViewerSession::inspect,"image_id"_a,"object_id"_a=0)
         .def("execute",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,ObjectEdit> values,std::string label,std::optional<std::uint64_t> revision){if(nb::len(values)>s.limits().max_edits) throw std::length_error("viewer edit count exceeds limit");std::vector<ObjectEdit> edits;edits.reserve(nb::len(values));for(auto item:values) edits.push_back(nb::cast<ObjectEdit>(item));return s.execute(image,edits,std::move(label),revision);},"image_id"_a,"edits"_a,"label"_a="Python edits","expected_revision"_a=nb::none())
+        .def("spatial_distances",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,std::uint64_t> a,nb::typed<nb::sequence,std::uint64_t> b,SpatialDistanceOptions options,bool keep,std::optional<std::uint64_t> revision) {
+            if(!nb::len(a) || nb::len(a)>100000 || nb::len(b)>100000)throw std::length_error("spatial viewer cohort count exceeds limit");
+            std::vector<std::uint64_t> sources,targets;sources.reserve(nb::len(a));targets.reserve(nb::len(b));for(auto v:a)sources.push_back(nb::cast<std::uint64_t>(v));for(auto v:b)targets.push_back(nb::cast<std::uint64_t>(v));
+            return s.spatial_distances(image,sources,targets,options,keep,revision);
+        },"image_id"_a,"sources"_a,"targets"_a,"options"_a=SpatialDistanceOptions{},"keep"_a=false,"expected_revision"_a=nb::none())
+        .def("inspect_spatial",&ViewerSession::inspect_spatial,"image_id"_a,"record_id"_a)
+        .def("verify_spatial",&ViewerSession::verify_spatial,"image_id"_a,"record_id"_a)
+        .def("export_spatial",&ViewerSession::export_spatial,"image_id"_a,"record_id"_a,"path"_a,"byte_limit"_a=64u*1024*1024)
         .def("insert_tma_row",&ViewerSession::insert_tma_row,"image_id"_a,"index"_a,"label"_a="","bounds"_a=nb::none(),"missing"_a=false,"expected_revision"_a=nb::none())
         .def("insert_tma_column",&ViewerSession::insert_tma_column,"image_id"_a,"index"_a,"label"_a="","bounds"_a=nb::none(),"missing"_a=false,"expected_revision"_a=nb::none())
         .def("remove_tma_row",&ViewerSession::remove_tma_row,"image_id"_a,"index"_a,"expected_revision"_a=nb::none())
@@ -72,6 +80,7 @@ void bind_viewer_session(nb::module_& m) {
         if(options.grid_cell_parameters) options.grid_cell_parameters=std::make_shared<const GridCellParameters>(*options.grid_cell_parameters);
         if(options.stain_estimate_parameters) options.stain_estimate_parameters=std::make_shared<const StainEstimateParameters>(*options.stain_estimate_parameters);
         if(options.batch_options) options.batch_options=std::make_shared<const ProjectBatchOptions>(*options.batch_options);
+        if(options.spatial) options.spatial=std::make_shared<const GuiSpatialOptions>(*options.spatial);
         if(options.raw_pixel) options.raw_pixel=std::make_shared<const GuiRawPixelOptions>(*options.raw_pixel);
         GuiReport report;{nb::gil_scoped_release release;report=run_viewer_session(session,frames,capture,options);}return report;
     },"session"_a,"frame_limit"_a=0,"capture_path"_a="","options"_a=GuiOptions{});
