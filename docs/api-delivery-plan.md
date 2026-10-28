@@ -1,5 +1,23 @@
 # API and workflow delivery paths
 
+**Nominal cell Python SDK292 and shared ROI factory pass locally at nativeab706d47.**
+The [receipt](benchmarks/nominal-cell-python-292/receipt.json) binds readonly owned
+sampling descriptors on requests, results, masks and QCA6 origins, the explicit
+CellRequest constructor and shared native `for_nominal_roi` bounds planner.
+All31 new installed cases pass, including captured masks/features, ownership,
+async keep, QCL6 project replay, typed CSV7/8 and QCA6 origins. Nominal CSV now
+avoids the former area-grid-only dereference and records requested extents/counts
+separately from nominal steps.55 Windows native/six affected GCC ASan+UBSan suites,
+scientific628/eight declared GUI skips, consumer390/36 passes/skips,1076 audit
+controls and9/6 typing files pass. Counts overlap.423 compiler inputs,887 source
+paths,71 Windows/seven GCC products,39 installed members and43 wheel rows verify.
+Only two generated stubs/RECORD change at observer8a90c43f after the native build.
+An inspected real ImGui capture shows the original256x192 document and three
+published nominal cells; it is not a derived-image preview. Direct/batch CLI,
+checkpoint options, GUI creation controls and managed commands remain next.
+OpenSlide is OFF and test dependencies are shared. Own-source full platform,
+broader science/resource/hardware/support/release gates and all M0-M7 exits stay open.
+
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
 sampling descriptor and original-document CellRequest, shared physical detector,
@@ -163,11 +181,15 @@ order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-ord
 phase-preserving context input, original-owner capture, shared detector/result
 geometry, versioned persistence/replay, then all existing consumers. Context290
 delivers the input primitive and native291 locally verifies original-owner capture,
-shared detection, QCL6 project replay and QCA6 origins. Next expose the immutable
-descriptor/request/result through nanobind, then reuse ROI bounds planning in one
-native nominal-ROI request factory for direct/batch CLI, checkpoints and existing
-ImGui/managed controls. Carry the recipe through each consumer; the SDK289 preview
-remains an independent new-source workflow.
+shared detection, QCL6 project replay and QCA6 origins. SDK292 now exposes the
+immutable descriptor/request/result and classifier metadata through nanobind,
+with a shared native `for_nominal_roi` factory, stubs, strict typing and CSV7/8.
+Next carry validated downsample/context options through direct/batch CLI,
+checkpoint identity and existing ImGui/managed controls. Resolve the source bounds
+per image/ROI through that factory; do not reuse a descriptor captured on a
+different source. Reuse existing job/publication/export paths. The SDK-created
+original-document desktop view passes locally; GUI creation controls are still
+required. SDK289 preview remains an independent new-source workflow.
 
 
 This is the single ordered implementation queue. The [current task](current-task.md)

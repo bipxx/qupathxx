@@ -1,0 +1,52 @@
+{
+  "native_source": "ab706d47bca3bb7fcbe05e1416b81c928e550ed4",
+  "stub_observer_source": "8a90c43f85d832404a85c098df46bc25fefd155f",
+  "windows_fingerprint": "465a51f48a6ed0834e8264b561e6b89b87d0abdca464620e23ba31bcd718fae8",
+  "linux_fingerprint": "a35170fb6478bd0dccc756da12a8257b4b0c217dd7bd6029c25079ea77485cb4",
+  "source_paths": 887,
+  "compiler_inputs": 423,
+  "retained_windows_products": 71,
+  "retained_gcc_products": 7,
+  "package_members": 39,
+  "wheel_records": 43,
+  "tests": {
+    "native.xml": {
+      "passed": 55,
+      "skipped": 0
+    },
+    "linux/linux-native.xml": {
+      "passed": 6,
+      "skipped": 0
+    },
+    "api.xml": {
+      "passed": 31,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 628,
+      "skipped": 8
+    },
+    "preflight.xml": {
+      "passed": 1076,
+      "skipped": 0
+    },
+    "consumers.xml": {
+      "passed": 390,
+      "skipped": 36
+    }
+  },
+  "positive_typing_files": 9,
+  "negative_typing_files": 6,
+  "new_nominal_typing_errors": 6,
+  "csv_nominal_versions": [
+    7,
+    8
+  ],
+  "nominal_python_api_delivered": true,
+  "original_document_desktop_capture_inspected": true,
+  "nominal_cli_batch_gui_controls_delivered": false,
+  "own_source_platform_qualified": false,
+  "scientific_acceptance": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

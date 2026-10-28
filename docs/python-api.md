@@ -147,3 +147,24 @@ for absent targets/distances. Native-only constructions and optional job publica
 are enforced by generated stubs and strict positive/negative typing fixtures.
 [Receipt266](benchmarks/spatial-python-266/receipt.json) records the Windows
 CPython3.12 installed/GIL/lifetime/schema tests. CLI and application controls remain.
+
+## Original-document nominal RGB cells
+
+`NominalCellSampling` wraps a readonly `RgbNominalRequest`, per-axis context and
+owned lattice geometry. Pass it to the additive CellRequest constructor for an
+explicit crop, or use `CellRequest.for_nominal_roi(document, object_id, transform,
+downsample, context_x=32, context_y=32, parameters=GridCellParameters())` to resolve
+bounds in native code. The ROI itself stays unchanged.
+
+Requests, cell results, mask results and classifier feature sources expose owned
+optional `nominal_sampling` descriptors. Existing natural/area recipes return
+`None`. Use `grid_parameters` and `resolved_grid_parameters` for the typed recipe;
+legacy scalar guards remain explicit. Detection, jobs, project storage, replay,
+publication and CSV all reuse their existing native implementations.
+
+See the [workflow](qupath-rgb-resampling.md#native-original-document-cell-recipe),
+[strict typed example](../tests/typing/nominal_cells_valid.py) and
+[installed checks](../tests/test_nominal_cell_python.py). The new binding supports
+original-slide workflows; it does not turn the separate RGB preview document into
+authority for its original image. CLI/batch options and GUI/managed creation
+commands remain next.

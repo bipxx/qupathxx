@@ -80,7 +80,9 @@ Kernel287 was private. [SDK289](benchmarks/rgb-nominal-sdk-289/receipt.json)
 now supplies the public immutable request, ImageServer adapter, nanobind interface,
 region CLI and an independent ImGui preview example. [Native cells291](benchmarks/nominal-cells-291/receipt.json)
 now adds original-document nominal cell capture, detection, historical storage and
-fresh replay. Its thin Python/CLI/batch/ImGui/managed consumers remain open. Opaque RGB
+fresh replay. [SDK292](benchmarks/nominal-cell-python-292/receipt.json) exposes the
+same descriptor, original-document requests, results and classifier origins in
+Python. CLI/batch options and ImGui/managed creation controls remain open. Opaque RGB
 fixture agreement does not establish general Java rendering, transparency,
 vendor/pyramid behavior or biological acceptance.
 
@@ -156,9 +158,46 @@ auto replay = qpx::CellRequest::replay(document, record_id);
 bool verified = document.verify_cells(record_id, replay, *qpx::detect_cells(replay));
 ```
 
-This is native C++ delivery. Python bindings for the new cell descriptor and its
-constructor, CLI/batch options and application controls are the next consumers.
-The earlier Python RGB read/preview API remains available independently.
+The same native recipe is available through Python. The shared ROI factory
+encloses fractional bounds in an integer source rectangle without changing the
+original ROI. Direct descriptor construction remains available for an explicit
+rectangle. Descriptor properties are readonly owned values and survive reader,
+request and result closure.
+
+```python
+parameters = q.GridCellParameters()
+parameters.threshold = .4
+parameters.min_nucleus_area = 16
+parameters.max_nucleus_area = 512
+request = q.CellRequest.for_nominal_roi(
+    doc, object_id, transform, 1.5, context_x=0, context_y=0, parameters=parameters)
+job = q.CellJob()
+job.request(request)
+status = job.wait(doc, object_id)
+if status.state != "ready":
+    raise RuntimeError(status.error or status.state)
+record_id = job.keep_record(doc, object_id)
+sampling = doc.cell_record(record_id).result.nominal_sampling
+assert sampling is not None
+assert sampling.source_request.downsample == 1.5
+options = q.CellTableOptions()
+options.include_capture_calibration = True
+q.save_cell_measurements_csv(doc, "cells.csv", [record_id], options)
+if q.has_geos:
+    doc.publish_cell_record(record_id)
+```
+
+`CellRequest`, `CellResult` and their mask results expose `nominal_sampling`;
+natural and area-grid results return `None`. QCA6 cell feature sources expose
+the same descriptor and resolved typed parameters. Their legacy scalar parameter
+properties stay guarded. The installed stubs and strict positive/negative typing
+checks cover the new surface.
+
+The [inspected desktop capture](benchmarks/nominal-cell-python-292/nominal-original-document.png)
+shows this SDK-created result on the original256x192 document with three published
+cells and0.5-um source calibration. This uses the existing ImGui viewer; new
+nominal creation controls, CLI/batch options and managed commands remain next.
+The earlier RGB read/preview API remains an independent new-source workflow.
 
 The cell recipe identity is `qpx.nominal-rgb-log-watershed-bodies/1`; its input
 identity is `qpx.nominal-cell-rgb/1`. It captures the original document's owner,
@@ -187,8 +226,10 @@ requires exact agreement with embedded provenance.
 ### Original-document cell recipe implementation order
 
 Native291 locally delivers steps2-4 below on the defined corpus, following the
-context290 primitive in step1. Step5 is the next delivery work; step6 remains a
-broader validation boundary. The receipt retains both failed development runs
+context290 primitive in step1. SDK292 supplies step5's Python descriptor/request,
+shared ROI factory, readonly results and classifier metadata, typed CSV and an
+actual original-document view. Step5's direct/batch CLI, checkpoint and ImGui/
+managed creation consumers remain next; step6 remains a broader validation boundary. The receipt retains both failed development runs
 and the source-specific repaired evidence.
 
 The current scientific grid stores integer extent and sample count; its step is

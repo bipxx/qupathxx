@@ -661,3 +661,5 @@ tests/test_nominal_cell_python.py text eol=lf
 tests/typing/nominal_cells_valid.py text eol=lf
 
 tests/typing/nominal_cells_invalid.py text eol=lf
+
+docs/benchmarks/nominal-cell-python-292/** -text -whitespace

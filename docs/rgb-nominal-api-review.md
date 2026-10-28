@@ -57,7 +57,18 @@ Fresh replay uses the original reader and exact request equality includes nomina
 origin/extents, step and context. Embedded/external provenance must match exactly;
 the source remains unit level zero. Older encodings/defaults remain supported.
 
-The native descriptor and request constructor are not yet in Python. Complete their
-readonly bindings/exports/stubs/typing and then CLI/batch/GUI/managed consumers using
-the same native factory. The locally passing native291 receipt does not accept
-those missing frontend workflows or a stable/beta/release contract.
+SDK292 delivers readonly Python descriptor/request/result/classifier metadata,
+exports, generated stubs and strict typing. `for_nominal_roi` reuses the area-grid
+enclosing-bounds helper and retains the original ROI. Public fields return owned
+copies. The existing detect/wait paths retain their GIL and native ownership
+contracts.31 new installed cases pass.
+
+CSV readers needed an explicit nominal branch before this exposure: typed results
+previously assumed a non-null ScientificGrid. New table schemas7/8 discriminate
+`nominal_rgb`, keeping requested extents, core counts and nominal steps separate.
+Existing natural/area formats remain unchanged. Classifier scalar guards include
+nominal sources, and readonly resolved parameters remain available.
+
+Complete CLI/batch/GUI/managed creation consumers using the same native ROI
+factory. The native291/SDK292 local receipts do not accept those missing workflows
+or a stable/beta/release contract.
