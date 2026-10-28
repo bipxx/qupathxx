@@ -69,6 +69,15 @@ previously assumed a non-null ScientificGrid. New table schemas7/8 discriminate
 Existing natural/area formats remain unchanged. Classifier scalar guards include
 nominal sources, and readonly resolved parameters remain available.
 
-Complete CLI/batch/GUI/managed creation consumers using the same native ROI
-factory. The native291/SDK292 local receipts do not accept those missing workflows
-or a stable/beta/release contract.
+Batch/CLI293 adds mutable `NominalCellRoiSampling` downsample/context options,
+copied by `ProjectBatchRequest` and resolved through the same factory per ROI.
+The fixed-source readonly descriptor remains separate. Existing typed detector
+parameters, batch checkpoints and single-target selection are reused. Explicit
+area/nominal and legacy flag conflicts reject before opening the project;
+typed detector flag order is independent. Sampling and detector identities enter
+the recipe, while unused legacy thresholds are canonicalized only for this mode.
+
+The [local293 receipt](benchmarks/nominal-cell-batch-293/receipt.json) covers
+installed Python/native CLI and standalone checkpoint/resume. Complete existing
+GUI/managed creation consumers next; full platform, biological/resource/hardware
+and stable/beta/release acceptance remain separate.

@@ -1,22 +1,21 @@
 # API and workflow delivery paths
 
-**Nominal cell Python SDK292 and shared ROI factory pass locally at nativeab706d47.**
-The [receipt](benchmarks/nominal-cell-python-292/receipt.json) binds readonly owned
-sampling descriptors on requests, results, masks and QCA6 origins, the explicit
-CellRequest constructor and shared native `for_nominal_roi` bounds planner.
-All31 new installed cases pass, including captured masks/features, ownership,
-async keep, QCL6 project replay, typed CSV7/8 and QCA6 origins. Nominal CSV now
-avoids the former area-grid-only dereference and records requested extents/counts
-separately from nominal steps.55 Windows native/six affected GCC ASan+UBSan suites,
-scientific628/eight declared GUI skips, consumer390/36 passes/skips,1076 audit
-controls and9/6 typing files pass. Counts overlap.423 compiler inputs,887 source
-paths,71 Windows/seven GCC products,39 installed members and43 wheel rows verify.
-Only two generated stubs/RECORD change at observer8a90c43f after the native build.
-An inspected real ImGui capture shows the original256x192 document and three
-published nominal cells; it is not a derived-image preview. Direct/batch CLI,
-checkpoint options, GUI creation controls and managed commands remain next.
-OpenSlide is OFF and test dependencies are shared. Own-source full platform,
-broader science/resource/hardware/support/release gates and all M0-M7 exits stay open.
+**Nominal cell batch/CLI293 pass locally at native a7c8e4f4.**
+The [receipt](benchmarks/nominal-cell-batch-293/receipt.json) extends the
+[Python SDK292](benchmarks/nominal-cell-python-292/receipt.json) through existing
+project batches and the installed native CLI. Copied downsample/context options
+resolve each original image/ROI through the shared factory. QCL6 checkpoints,
+interruption/resume, per-image anisotropic calibration, changed-source detection
+and typed CSV pass. All28 new installed cases,55 Windows native/seven affected
+GCC sanitizer suites, scientific656/eight declared skips, consumers390/36,
+1081 auditor controls and10/7 typing files pass. Counts overlap. The actual
+standalone archive processes two images and reuses both checkpoints on clean PATH.
+424 compiler inputs,891 source paths,71 Windows/eight GCC products and39/43
+package members/records authenticate; observer fec05b5c changes only two stubs
+and RECORD. ImGui creation/batch controls and managed commands are next.
+OpenSlide is OFF and test dependencies are shared. Complete own-source platform,
+broader scientific/resource/hardware/support/release gates and all M0-M7 exits
+remain open. No general speed advantage is established.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
@@ -184,10 +183,12 @@ delivers the input primitive and native291 locally verifies original-owner captu
 shared detection, QCL6 project replay and QCA6 origins. SDK292 now exposes the
 immutable descriptor/request/result and classifier metadata through nanobind,
 with a shared native `for_nominal_roi` factory, stubs, strict typing and CSV7/8.
-Next carry validated downsample/context options through direct/batch CLI,
-checkpoint identity and existing ImGui/managed controls. Resolve the source bounds
-per image/ROI through that factory; do not reuse a descriptor captured on a
-different source. Reuse existing job/publication/export paths. The SDK-created
+Batch/CLI293 now carries copied downsample/context options through the shared
+batch engine, per-image ROI factory and checkpoint identity. Its single-target
+CLI selects one image/object through the same engine. Next finish existing
+ImGui creation/batch controls and managed-viewer commands; resolve bounds through
+the same factory and reuse current job/publication/export paths. Then freeze one
+complete consumer source for applicable full platform qualification. The SDK-created
 original-document desktop view passes locally; GUI creation controls are still
 required. SDK289 preview remains an independent new-source workflow.
 

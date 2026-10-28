@@ -37,6 +37,59 @@ project opening and snapshot capture precede the batch cancellation loop.
 
 ## Python and C++
 
+For original-source nominal RGB cell detection, set `cell_nominal` and reuse
+the typed detector parameters in `grid_cells`:
+
+```python
+import qupathxx as q
+
+project = q.Project.open("study.qpxproj")
+transform = q.StainTransform([[.65, .70, .29], [.07, .99, .11]])
+sampling = q.NominalCellRoiSampling()
+sampling.downsample = 1.5
+sampling.context_x = sampling.context_y = 0
+options = q.ProjectBatchOptions()
+options.kind = q.ProjectBatchKind.CELLS
+options.cell_nominal = sampling
+parameters = q.GridCellParameters()
+parameters.threshold = .4
+parameters.min_nucleus_area = 16
+parameters.max_nucleus_area = 512
+options.grid_cells = parameters
+request = q.ProjectBatchRequest(project, transform, options=options)
+report = q.run_project_batch(request, "nominal-results")
+```
+
+Supply a stain basis appropriate to the acquisition; this example uses the CLI
+default H&E basis. Request capture copies the options. Each selected ROI
+resolves its own enclosing source rectangle and image calibration through
+`CellRequest.for_nominal_roi`; its fractional ROI geometry remains unchanged.
+`NominalCellRoiSampling` is mutable configuration, while `NominalCellSampling`
+is the readonly fixed-source descriptor returned by the resulting requests and
+records. The two types have different purposes.
+
+The same workflow runs through the existing executable:
+
+```text
+qupathxx_batch study.qpxproj nominal-results --kind cells --cell-algorithm nominal --cell-nominal-downsample 1.5 --cell-nominal-context 0,0 --threshold .4 --grid-min-area 16 --grid-max-area 512
+```
+
+Use `--image ID --object ID` for a single target. Nominal mode shares `--grid-*`
+detector controls, including `--grid-units px|um`; typed flags work before or
+after nominal flags. It rejects area-grid sampling and legacy algorithm, level,
+tile or physical-area flags. Downsample must be a finite positive decimal;
+each context axis is 0..4096 output samples. Defaults are downsample1.5 and
+32 samples of context per axis. The context0 example matches the pinned fixture;
+choose detector context appropriate to the intended workflow.
+
+Sampling and typed detector parameters enter the batch recipe. Existing QCL6
+checkpoints, sampled-input hashing, interruption/resume and typed CSV are reused.
+Changing source pixels or sampling prevents reuse. Inactive legacy thresholds
+are canonicalized only for this new mode, so equivalent Python/CLI requests do
+not miss resume solely because the shared CLI threshold flag also sets unused
+legacy values. Existing recipe identities remain unchanged. See the
+[local batch/CLI receipt](benchmarks/nominal-cell-batch-293/receipt.json).
+
 ```python
 import qupathxx as q
 

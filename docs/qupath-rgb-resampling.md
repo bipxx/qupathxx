@@ -82,7 +82,9 @@ region CLI and an independent ImGui preview example. [Native cells291](benchmark
 now adds original-document nominal cell capture, detection, historical storage and
 fresh replay. [SDK292](benchmarks/nominal-cell-python-292/receipt.json) exposes the
 same descriptor, original-document requests, results and classifier origins in
-Python. CLI/batch options and ImGui/managed creation controls remain open. Opaque RGB
+Python. [Batch/CLI293](benchmarks/nominal-cell-batch-293/receipt.json) now resolves
+each image/ROI through that factory and reuses existing QCL6 checkpoints.
+ImGui/managed creation controls remain open. Opaque RGB
 fixture agreement does not establish general Java rendering, transparency,
 vendor/pyramid behavior or biological acceptance.
 
@@ -196,7 +198,8 @@ checks cover the new surface.
 The [inspected desktop capture](benchmarks/nominal-cell-python-292/nominal-original-document.png)
 shows this SDK-created result on the original256x192 document with three published
 cells and0.5-um source calibration. This uses the existing ImGui viewer; new
-nominal creation controls, CLI/batch options and managed commands remain next.
+nominal creation controls and managed commands remain next. Batch/CLI options
+now pass the [local293 checks](benchmarks/nominal-cell-batch-293/receipt.json).
 The earlier RGB read/preview API remains an independent new-source workflow.
 
 The cell recipe identity is `qpx.nominal-rgb-log-watershed-bodies/1`; its input
@@ -228,8 +231,9 @@ requires exact agreement with embedded provenance.
 Native291 locally delivers steps2-4 below on the defined corpus, following the
 context290 primitive in step1. SDK292 supplies step5's Python descriptor/request,
 shared ROI factory, readonly results and classifier metadata, typed CSV and an
-actual original-document view. Step5's direct/batch CLI, checkpoint and ImGui/
-managed creation consumers remain next; step6 remains a broader validation boundary. The receipt retains both failed development runs
+actual original-document view. Batch/CLI293 adds per-ROI options, checkpoint
+identity and installed/standalone CLI delivery. Step5's ImGui/managed creation
+consumers remain next; step6 remains a broader validation boundary. The receipt retains both failed development runs
 and the source-specific repaired evidence.
 
 The current scientific grid stores integer extent and sample count; its step is

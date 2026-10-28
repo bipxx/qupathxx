@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-batch-293-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_cells.py",
+    "tests/test_cell_records.py",
+    "tests/test_cell_calibration.py",
+    "tests/test_cell_area_limits.py",
+    "tests/test_cell_domain_replay.py",
+    "tests/test_cell_feature_links.py",
+    "tests/test_cell_tables.py",
+    "tests/test_cell_object_tables.py",
+    "tests/test_object_classifier.py",
+    "tests/test_object_classifier_archives.py",
+    "tests/test_tissue.py",
+    "tests/test_tissue_levels.py",
+    "tests/test_tissue_records.py",
+    "tests/test_tissue_contours.py",
+    "tests/test_tissue_cleanup.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-batch-293\\consumers.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-batch-293\\consumers-temp"
+  ],
+  "returncode": 0
+}
