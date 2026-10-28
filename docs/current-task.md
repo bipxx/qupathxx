@@ -13,33 +13,41 @@ original260 failures/successes remain preserved under their own source identitie
 The timed-out Mac arm64 download was retried without redispatch; partial bytes
 remain retained. All **M0-M7 remain Partial**.
 
-**SPAT1 native persistence/export is locally verified** at1738022. The
-[receipt265](benchmarks/spatial-records-265/receipt.json) adds retained records,
-QSD1 archives, project schema14 and bounded atomic CSV over capture264. Ten affected
-native suites pass each Windows GEOS-ON/OFF profile;902 final tooling controls
-pass. All400 compiler inputs,503 raw source paths, unchanged SDKs and11 retained
-products per profile authenticate. The failed first compile and11 passing
-intermediate products remain preserved under their own source identities.
+**SPAT1 Python delivery is locally installed and verified** at native9fa565a,
+with generated stub observer2a16bd2. [Receipt266](benchmarks/spatial-python-266/receipt.json)
+binds all401 compiler inputs,507 observer source paths, the installed wheel's
+33 package members, actual loaded GEOS bytes/notices and37 RECORD entries.
+All53 native suites pass. Installed scope is404 passes/eight explicit skips across
+412 unique cases:40 new spatial cases plus364 existing schema/project passes.
+Final observer controls pass902. Strict mypy2.4.0 accepts one positive file and
+emits exactly eight intended negative diagnostics. SDKs and prior products remain.
 
-Tests cover exact capture authority, clone/replay, calibration/object staleness,
-closed and missing image sources without pixel IO, historical handles, the10000-
-record cap and retry after removal, deterministic archive roundtrip and corrupt/
-orphan refusal. Immutable async save survives live record removal. All13 older
-schemas open without writes and upgrade on save; an injected migration failure
-preserves the original database bytes. CSV includes float64 distance, explicit
-absence/zero, units, per-axis scales, policies and input/result identities; size/
-cancel/no-overwrite failures preserve the existing output and clean temporaries.
+The thin bindings expose native capture/result/jobs, retained records, replay/
+verification and atomic CSV. Rows are bounded pages(default256/max4096), and
+mutable Point/options values are detached copies. Job wait polls under the GIL,
+releases it only for native worker readiness and rechecks after reacquiring.
+Concurrent edit/cancel, owner refusal, detached ownership and shutdown controls
+pass. The native source_only provenance flag is now visible in Python.
 
-Native reference scope remains18 geometry cases ON/16 OFF plus four upstream
-storage cases. Four plane cases are unsupported; two polygons are unavailable
-without GEOS. No broader scientific or performance claim follows. Fifteen existing
-Python schema/migration expectation files are updated to14; their new-runtime
-execution remains pending. No spatial wheel or qualification was dispatched.
+The first installed run's33 failures/seven passes remain preserved:32 cases
+reached a missing provenance property, one fixture used the wrong calibration
+API. Correcting those leaves all40 passing without changing scientific tolerances.
+A post-generation source observer correctly refused changed stubs against the
+older commit; observer2a16bd2 authenticates the stubs separately. All401 compiler
+inputs remain byte-identical; only two stub wheel payloads and RECORD change.
+No native rebuild or source relabel was used for that observer edit.
 
-**Next:** bind the stable request/result/job/record/export APIs through nanobind,
-then deliver CLI and ImGui/managed table/run/cancel/export/history/save/reopen
-consumers. Complete installed lifetime/GIL/typing and migration tests together,
-then qualify the finished workflow at its own frozen source.
+Six skips require OpenSlide, one an identified OpenSlide fixture and one a generated
+large pyramid. Windows shares test dependencies/SDKs and has OpenSlide OFF;
+clean-machine and other platforms remain unaccepted for this source. Native
+reference scope stays18/16 geometry plus four storage cases, with four planes
+unsupported. Existing strict scientific failures and all M0-M7 gates remain.
+
+**Next:** deliver spatial CLI and ImGui/managed run/cancel/table/history/export/
+save/reopen consumers through the same native ownership and persistence paths.
+Qualify that complete workflow once at its own frozen source. Older blanket-GIL-
+release wait(Document) bindings need a separate M6 concurrency audit; this slice
+verifies spatial waiting only.
 [The API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
 Readers and required codecs remain open-source-only. Broader spatial/reader/
 interchange/automation/UI work, three strict scientific xfails, biological/model

@@ -1,0 +1,18 @@
+[
+  "test_spatial_python",
+  "test_analysis_records",
+  "test_cell_feature_links",
+  "test_cell_records",
+  "test_object_classifier_archives",
+  "test_pixel_archives",
+  "test_pixel_stream_records",
+  "test_project",
+  "test_project_save",
+  "test_project_views",
+  "test_provenance",
+  "test_raw_records",
+  "test_recovery_association",
+  "test_tiff_project",
+  "test_tissue_records",
+  "test_tma"
+]

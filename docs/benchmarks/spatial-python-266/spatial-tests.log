@@ -1,0 +1,1270 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.F......                                 [100%]
+================================== FAILURES ===================================
+_ test_scalar_rows_match_independent_nearest_formula[empty-False-False-False] _
+
+physical = False, nucleus = False, exclude = False, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[empty-False-False-True] __
+
+physical = True, nucleus = False, exclude = False, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[empty-False-True-False] __
+
+physical = False, nucleus = True, exclude = False, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[empty-False-True-True] __
+
+physical = True, nucleus = True, exclude = False, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[empty-True-False-False] __
+
+physical = False, nucleus = False, exclude = True, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[empty-True-False-True] __
+
+physical = True, nucleus = False, exclude = True, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[empty-True-True-False] __
+
+physical = False, nucleus = True, exclude = True, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[empty-True-True-True] ___
+
+physical = True, nucleus = True, exclude = True, cohort = 'empty'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[self-False-False-False] __
+
+physical = False, nucleus = False, exclude = False, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-False-False-True] __
+
+physical = True, nucleus = False, exclude = False, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-False-True-False] __
+
+physical = False, nucleus = True, exclude = False, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-False-True-True] ___
+
+physical = True, nucleus = True, exclude = False, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-True-False-False] __
+
+physical = False, nucleus = False, exclude = True, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-True-False-True] ___
+
+physical = True, nucleus = False, exclude = True, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[self-True-True-False] ___
+
+physical = False, nucleus = True, exclude = True, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+___ test_scalar_rows_match_independent_nearest_formula[self-True-True-True] ___
+
+physical = True, nucleus = True, exclude = True, cohort = 'self'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-False-False-False] _
+
+physical = False, nucleus = False, exclude = False, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-False-False-True] _
+
+physical = True, nucleus = False, exclude = False, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-False-True-False] _
+
+physical = False, nucleus = True, exclude = False, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-False-True-True] _
+
+physical = True, nucleus = True, exclude = False, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-True-False-False] _
+
+physical = False, nucleus = False, exclude = True, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-True-False-True] _
+
+physical = True, nucleus = False, exclude = True, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-True-True-False] _
+
+physical = False, nucleus = True, exclude = True, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+_ test_scalar_rows_match_independent_nearest_formula[coincident-True-True-True] _
+
+physical = True, nucleus = True, exclude = True, cohort = 'coincident'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[all-False-False-False] __
+
+physical = False, nucleus = False, exclude = False, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[all-False-False-True] ___
+
+physical = True, nucleus = False, exclude = False, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[all-False-True-False] ___
+
+physical = False, nucleus = True, exclude = False, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+___ test_scalar_rows_match_independent_nearest_formula[all-False-True-True] ___
+
+physical = True, nucleus = True, exclude = False, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+__ test_scalar_rows_match_independent_nearest_formula[all-True-False-False] ___
+
+physical = False, nucleus = False, exclude = True, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+___ test_scalar_rows_match_independent_nearest_formula[all-True-False-True] ___
+
+physical = True, nucleus = False, exclude = True, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+___ test_scalar_rows_match_independent_nearest_formula[all-True-True-False] ___
+
+physical = False, nucleus = True, exclude = True, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+___ test_scalar_rows_match_independent_nearest_formula[all-True-True-True] ____
+
+physical = True, nucleus = True, exclude = True, cohort = 'all'
+
+    @pytest.mark.parametrize('physical',[False,True])
+    @pytest.mark.parametrize('nucleus',[False,True])
+    @pytest.mark.parametrize('exclude',[False,True])
+    @pytest.mark.parametrize('cohort',['empty','self','coincident','all'])
+    def test_scalar_rows_match_independent_nearest_formula(physical,nucleus,exclude,cohort):
+        doc,a,b,c=scene();options=q.SpatialDistanceOptions()
+        options.units=q.SpatialDistanceUnits.MICROMETRES if physical else q.SpatialDistanceUnits.PIXELS
+        options.prefer_nucleus=nucleus;options.exclude_self=exclude
+        targets={'empty':[],'self':[a],'coincident':[c],'all':[c,b,a]}[cohort]
+        request=q.SpatialDistanceRequest(doc,[b,a],targets,options)
+        result=q.measure_spatial_distances(request)
+        assert request.matches(doc) and result.belongs_to(request)
+        assert result.row_count==result.source_count==2 and result.target_count==len(targets)
+        assert result.input_sha256==request.input_sha256 and result.algorithm=='qpx.centroid-nearest/1'
+        assert len(result.sha256)==len(result.input_sha256)==64
+        points={a:(32,32),b:((35,36) if nucleus else (38,38)),c:(32,32)}
+        sx,sy=(.5,.25) if physical else (1,1)
+        assert (result.x_scale,result.y_scale)==(sx,sy)
+        for row in result.rows():
+            x,y=points[row.source_id]
+            candidates=[(math.hypot((points[t][0]-x)*sx,(points[t][1]-y)*sy),t) for t in targets if not exclude or t!=row.source_id]
+            assert (row.source_centroid.x,row.source_centroid.y)==(x,y)
+            assert row.source_nucleus==(row.source_id==b and nucleus)
+            if not candidates:
+                assert row.distance is row.target_id is row.target_revision is row.target_centroid is row.target_kind is None
+            else:
+                distance,target=min(candidates)
+                assert row.target_id==target and row.distance==pytest.approx(distance,abs=1e-9,rel=1e-12)
+                assert (row.target_centroid.x,row.target_centroid.y)==points[target]
+>       assert request.provenance.source_only and result.provenance.document_revision==doc.revision
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.AnalysisProvenance' object has no attribute 'source_only'
+
+tests\test_spatial_python.py:54: AttributeError
+______________ test_admission_calibration_stale_and_owner_guards ______________
+
+    def test_admission_calibration_stale_and_owner_guards():
+        doc,a,b,c=scene()
+        for sources,targets in [([],[]),([a,a],[b]),([a],[b,b]),([9999],[])]:
+            with pytest.raises((ValueError,IndexError)):q.SpatialDistanceRequest(doc,sources,targets)
+        for field,value in [('snapshot_bytes',1),('work_bytes',1),('max_distance_tests',0)]:
+            options=q.SpatialDistanceOptions();setattr(options,field,value)
+            with pytest.raises(ValueError):q.SpatialDistanceRequest(doc,[a],[b],options)
+>       doc.set_calibration(None,None);options=q.SpatialDistanceOptions();options.units=q.SpatialDistanceUnits.MICROMETRES
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: set_calibration(): incompatible function arguments. The following argument types are supported:
+E           1. set_calibration(self, arg0: float, arg1: float, /) -> None
+E       
+E       Invoked with types: qupathxx._native.Document, NoneType, NoneType
+
+tests\test_spatial_python.py:88: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-False-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-False-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-False-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-False-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-True-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-True-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-True-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[empty-True-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-False-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-False-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-False-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-False-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-True-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-True-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-True-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[self-True-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-False-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-False-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-False-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-False-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-True-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-True-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-True-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[coincident-True-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-False-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-False-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-False-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-False-True-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-True-False-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-True-False-True]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-True-True-False]
+FAILED tests/test_spatial_python.py::test_scalar_rows_match_independent_nearest_formula[all-True-True-True]
+FAILED tests/test_spatial_python.py::test_admission_calibration_stale_and_owner_guards
+33 failed, 7 passed in 1.42s

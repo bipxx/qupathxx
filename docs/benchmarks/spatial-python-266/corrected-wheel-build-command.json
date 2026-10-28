@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial_python_266_corrected_backend.py"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "returncode": 0,
+  "seconds": 31.221030400134623
+}

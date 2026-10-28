@@ -1,0 +1,36 @@
+{
+  "state": "initial_attribution_corrected",
+  "reason": "The initial generic capture assigned the enclosing build source to auxiliary static libraries without proving their separate compilation origin. Their bytes remain authenticated; application-source attribution is unknown. Final product metadata already uses null for these dependencies.",
+  "source_unknown": [
+    {
+      "path": "nanobind-static.lib",
+      "source": null,
+      "bytes": 2876768,
+      "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a"
+    },
+    {
+      "path": "qupathxx_gui.lib",
+      "source": null,
+      "bytes": 16577816,
+      "sha256": "7963fe1c024977bc4f34b93e816506d4b160f6c6845ba8ec20fd8c7e8d49aaea"
+    },
+    {
+      "path": "qupathxx_sqlite.lib",
+      "source": null,
+      "bytes": 3244188,
+      "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29"
+    },
+    {
+      "path": "qupathxx_tiff_xml.lib",
+      "source": null,
+      "bytes": 364046,
+      "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5"
+    },
+    {
+      "path": "_native.lib",
+      "source": null,
+      "bytes": 9334,
+      "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d"
+    }
+  ]
+}

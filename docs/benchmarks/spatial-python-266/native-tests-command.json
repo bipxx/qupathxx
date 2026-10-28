@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-python-266\\native-tests.xml"
+  ],
+  "source": "27b37e9a7a41a041fd8f82ed6fde8ab44a8176b2",
+  "returncode": 0,
+  "seconds": 16.349160300102085
+}

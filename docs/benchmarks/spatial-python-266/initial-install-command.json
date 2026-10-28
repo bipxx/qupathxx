@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-python-266-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-python-266\\initial-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 0,
+  "seconds": 2.3010253999382257
+}

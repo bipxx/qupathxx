@@ -15,9 +15,10 @@ retained records, QSD1, schema14 project save/reopen and atomic CSV at1738022.
 Ten affected native suites pass each Windows GEOS-ON/OFF profile, including
 all13 legacy upgrades, failed-migration rollback,10000-record admission, stale/
 historical and export fault controls. Final902 tooling controls pass;400 compiler
-inputs and503 raw sources authenticate. Next deliver Python/CLI/ImGui/managed
-consumers and installed validation. No new spatial wheel/platform qualification
-is claimed. Frozen candidate262 retains its separate complete engineering scope.
+inputs and503 raw sources authenticate. [Python266](benchmarks/spatial-python-266/receipt.json) now installs the thin
+Python API at9fa565a:53 native suites,404 installed passes/eight skips,902 observer
+controls and exact typing diagnostics pass. CLI/ImGui/managed consumers and
+full own-source qualification remain. Frozen candidate262 retains its separate complete engineering scope.
 Native oracle coverage stays18 geometry cases ON/16 OFF plus four separate
 upstream storage cases, with four nonzero-plane cases unsupported.
 Neighbourhood counts, signed geometry distances, density maps and tiled feature
@@ -121,4 +122,59 @@ input/result hashes, X/Y scales and nucleus/self policies. Object kinds0/1/2 mea
 annotation/detection/cell. Absent target/distance columns are empty; zero is a
 matched numeric distance. The default cap is64 MiB; allowed caps are1 byte..1 GiB.
 Cancellation or failed admission/publication leaves an existing destination intact.
-These are native C++ APIs; Python and application controls are the next delivery.
+These native C++ APIs now have the installed Python surface below. Application
+CLI/ImGui/managed controls remain the next delivery.
+
+## Installed Python surface
+
+The public package exports `SpatialDistanceUnits`, `SpatialDistanceOptions`,
+`SpatialObjectSnapshot`, `SpatialDistanceRequest`, `SpatialDistanceRow`,
+`SpatialDistanceResult`, `SpatialDistanceRecord`, `SpatialDistanceStats`,
+`SpatialDistanceJob`, `measure_spatial_distances`, `spatial_distance_csv` and
+`save_spatial_distance_csv`. Document exposes spatial_records/spatial_record_count,
+spatial_record/spatial_status, keep_spatial, verify_spatial and remove_spatial.
+AnalysisProvenance.source_only explicitly
+identifies whole-source capture without fabricating an object ID.
+
+```python
+import qupathxx as q
+
+doc = q.Document(q.Image.demo())
+a = doc.add_rectangle(q.Rect(20, 20, 10, 10))
+b = doc.add_rectangle(q.Rect(50, 60, 10, 10))
+request = q.SpatialDistanceRequest(doc, [a], [b])  # Pixel units by default.
+job = q.SpatialDistanceJob()
+job.request(request)
+stats = job.wait(doc)
+result = job.result
+if stats.state != "ready" or result is None:
+    raise RuntimeError(stats.error or stats.state)
+row = result.row(0)
+record_id = doc.keep_spatial(request, result)
+q.save_spatial_distance_csv(result, "distances.csv")  # Refuses an existing file.
+project = q.Project()
+image = project.add_document(doc)
+project.save("study.qpxproj")
+```
+
+Use `result.row_count`, `row(index)` and `rows(start=0,limit=256)` for inspection;
+pages are limited to4096 copied rows. No whole-table copy is implicit. Snapshot
+centroids, row Points and options are detached values, so Python mutation cannot
+edit captured native inputs. Target ID/revision/centroid/kind and distance are
+nullable; do not replace absence with zero. Result/snapshot/record values are
+native-only constructions. Strict stubs preserve nullable job.result and rows.
+
+Request capture and owner job/Document operations hold the GIL. The job's Python
+wait releases it only while waiting for native readiness; both document checks
+hold it. Direct kernels and CSV conversion/export release it over immutable data.
+Cancel is thread-safe; owner operations from another thread refuse. Worker teardown
+owns no Python Document/reader, and shutdown joins before releasing native state.
+Keeping a record advances the document revision, invalidating the earlier request;
+the retained record's status/replay uses its saved geometry/cohort/calibration.
+
+Installed evidence covers Windows CPython3.12 only with shared test dependencies;
+OpenSlide and large-fixture skips are explicit. The native binary stays at9fa565a,
+generated stubs at2a16bd2. All401 compiler inputs stay identical; the final wheel
+updates only the two stub payloads/RECORD, with every other payload unchanged.
+This does not imply CLI/UI delivery, multiplane support, general performance,
+biological validation or supported release readiness.

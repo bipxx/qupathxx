@@ -126,3 +126,13 @@ reader close and parent-variable deletion; writable copies use `copy=True`.
 
 This interface has local Windows isolated-candidate checks. Complete wheel,
 platform and grid CLI/batch/ImGui producer qualification remain pending.
+
+## Spatial distances
+
+The [spatial workflow](spatial-analysis.md#installed-python-surface) now has locally
+verified nanobind requests, immutable results, owner jobs, retained project records
+and CSV export. Use bounded rows(start,limit) pages or row(index), and retain None
+for absent targets/distances. Native-only constructions and optional job publication
+are enforced by generated stubs and strict positive/negative typing fixtures.
+[Receipt266](benchmarks/spatial-python-266/receipt.json) records the Windows
+CPython3.12 installed/GIL/lifetime/schema tests. CLI and application controls remain.

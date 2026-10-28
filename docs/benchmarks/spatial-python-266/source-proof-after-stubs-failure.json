@@ -1,0 +1,7 @@
+{
+  "native_source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "state": "failed_observation",
+  "error": "raw classifier source differs: src/qupathxx/__init__.pyi",
+  "cause": "The observer ran after stub generation against the earlier compile commit; the source checker correctly rejected modified stub files",
+  "resolution": "Authenticate the stub successor separately and prove all401 native inputs unchanged; do not rebuild or relabel native code"
+}
