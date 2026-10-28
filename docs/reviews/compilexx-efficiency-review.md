@@ -14,6 +14,13 @@ three qualification roles are dispatched once; full acceptance remains pending.
 Candidate258 acceptance stays source-bound. No main promotion, supported release
 or M0-M7 completion is implied.
 
+The original262 Linux-only audit now accepts headless/minimal/sanitizer scopes
+at e2282b8; complete portable builder/fresh-consumer acceptance also passes.
+Windows GUI/Mac arm64 and full engine/Mac-native joins remain pending. The separate
+[next-workflow foundation263](../benchmarks/spatial-native-263/receipt.json) locally
+verifies geometry/index primitives without another wheel or campaign. Capture,
+persistence and frontends remain in that workflow.
+
 Applied efficiency improvements:
 
 - Distinguish worker readiness from owner delivery. A future can finish between

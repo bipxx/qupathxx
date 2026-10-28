@@ -2,9 +2,10 @@
 
 SPAT1 is the next prepared SCI1-B workflow: measure each selected object's
 centroid distance to a selected target cohort, inspect the immutable table,
-export it and save/reopen it. This is a prepared contract and independent
-reference, not a delivered native API. Candidate260 qualification remains the
-active gate. Neighbourhood counts, signed geometry distances, density maps and
+export it and save/reopen it. The [native geometry/query foundation](benchmarks/spatial-native-263/receipt.json)
+is locally verified at 3af9572 in Windows GEOS-ON/OFF builds. Captured requests,
+results/jobs, persistence and Python/CLI/UI delivery are still pending. Frozen
+candidate262 qualification remains the active platform gate. Neighbourhood counts, signed geometry distances, density maps and
 tiled feature aggregation remain required subsequent spatial work.
 
 ## Observable behavior
@@ -62,7 +63,7 @@ their identities. Synthetic reference agreement is not biological validation.
 | Result and persistence | Reuse native immutable result, retained-record, archive and incremental table-export conventions | One row per source, nullable distance/status, stable units/schema/identity; save/reopen, historical inspection, currentness checks and bounded atomic export. No ad hoc frontend CSV |
 | Python and CLI | Thin nanobind request/result/job surface and the existing batch-command route after native behavior stabilizes | Installed origin, GIL/lifetime/typing, direct/job parity, interruption and immutable output checks |
 | ImGui and managed viewer | Existing owner jobs, selection controls, poll/cancel/take and table/export actions | Actual select/run/cancel/retry/export/save/reopen interactions; edits refuse stale publication, shutdown joins before document/reader release |
-| Integration | Package the completed workflow once, then freeze its own source for required platform roles | Exact native/installed/front-end/persistence cohorts, source identity and full applicable audits; candidate260 acceptance cannot transfer to changed spatial code |
+| Integration | Package the completed workflow once, then freeze its own source for required platform roles | Exact native/installed/front-end/persistence cohorts, source identity and full applicable audits; candidate262 acceptance cannot transfer to changed spatial code |
 
 Keep `query_region` as the documented inclusive bounds-candidate query and
 `pick` as exact point-to-geometry refinement. Neither API is a centroid-distance

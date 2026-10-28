@@ -1,0 +1,369 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JPEG (missing: JPEG_LIBRARY JPEG_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- Include resource version information for LibTIFF
+-- 
+-- Libtiff is now configured for Windows-10.0.26200
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             C:/Users/HEQ/AppData/Local/Temp/tmpozu5a7l_/wheel/platlib
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler:                       C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    FALSE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       ON
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   Old JPEG support:                   Requested:OFF Availability:FALSE Support:FALSE (Depends on JPEG Support)
+--   JPEG 8/12 bit dual mode:            Requested:OFF Availability:FALSE Support:FALSE
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- Using the multi-header code from C:/Users/HEQ/Projects/qupathxx/build/cp312-cp312-win_amd64/_deps/json-src/include/
+-- Configuring done (1.0s)
+-- Generating done (3.2s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_tiff_xml.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_sqlite.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  core.cpp
+  tma.cpp
+  tma_tables.cpp
+  document_edits.cpp
+  selection.cpp
+  geometry.cpp
+  spatial_index.cpp
+  image_server.cpp
+  view_tiles.cpp
+  project.cpp
+  project_recovery.cpp
+  project_save.cpp
+  interchange.cpp
+  analysis.cpp
+  analysis_records.cpp
+  tissue.cpp
+  tissue_contours.cpp
+  tissue_records.cpp
+  tissue_archive.cpp
+  cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Ty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Ty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'qpx::CellKernel::run'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<std::allocator<float>>::_Emplace_back<double&>(double &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+  Generating Code...
+  Compiling...
+  scientific_raster.cpp
+  scientific_cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+  scientific_cell_archive.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cell_archive.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cell_archive.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+  tma_case_export.cpp
+  qptma.cpp
+  tma_dearray.cpp
+  raw_image.cpp
+  raw_analysis.cpp
+  raw_analysis_records.cpp
+  raw_analysis_archive.cpp
+  raw_tables.cpp
+  object_classifier.cpp
+  pixel_features.cpp
+  raw_pixel_workflows.cpp
+  raw_pixel_archive.cpp
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  pixel_training.cpp
+  pixel_prediction.cpp
+  pixel_stream.cpp
+  pixel_stream_file.cpp
+  Generating Code...
+  Compiling...
+  pixel_stream_export_job.cpp
+  pixel_stream_read_job.cpp
+  pixel_stream_records.cpp
+  pixel_contour_job.cpp
+  pixel_classifier_archive.cpp
+  pixel_classifier_records.cpp
+  document_classifications.cpp
+  geometry_archive.cpp
+  object_classifier_archive.cpp
+  object_classifier_records.cpp
+  raw_pixel_contour_job.cpp
+  raw_pixel_window_workflows.cpp
+  raw_pixel_tiled_training.cpp
+  raw_pixel_tiled_archive.cpp
+  raw_pixel_training_checkpoint.cpp
+  raw_pixel_file_jobs.cpp
+  raw_pixel_stream_records.cpp
+  raw_pixel_stream.cpp
+  raw_stream_boundaries.cpp
+  raw_pixel_stream_contours.cpp
+  Generating Code...
+  Compiling...
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(57,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(58,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  workspace_preferences.cpp
+  cell_records.cpp
+  cell_archive.cpp
+  cell_tables.cpp
+  measurement_tables.cpp
+  provenance_codec.cpp
+  file_fingerprint.cpp
+  stain_estimation.cpp
+  input_digest.cpp
+  batch_checkpoint.cpp
+  project_batch.cpp
+  viewer_session.cpp
+  raw_pixel_frontend.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  geometry_tests.cpp
+  qupathxx_geometry_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_geometry_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  spatial_tests.cpp
+  qupathxx_spatial_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_spatial_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  geometry_edits_tests.cpp
+  qupathxx_geometry_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_geometry_edits_tests.exe

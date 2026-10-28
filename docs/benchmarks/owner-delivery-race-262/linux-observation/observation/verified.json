@@ -1,0 +1,41 @@
+{
+  "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+  "files": [
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12798346256,
+      "run_id": 40646189840,
+      "bytes": 58589,
+      "digest": "sha256:d6b04dc4a5abeb79a1c43efa334f9d893eadfa69f582699b78ab974a1f63347c"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12798163109,
+      "run_id": 40646189840,
+      "bytes": 14761512,
+      "digest": "sha256:d964b77520be7c166bd3e824f9be351227a779be170652be65be8c56c5ba2460"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12797447829,
+      "run_id": 40646189840,
+      "bytes": 51154,
+      "digest": "sha256:4c93cf4101d0a66eb0baa2ed344f8f7c0e6e6664d8d10e6bdc67c62646deb820"
+    },
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12798565925,
+      "run_id": 40646201004,
+      "bytes": 16192934,
+      "digest": "sha256:537c90483a56aa8b4fb6e322ba3e912981c74fb8e239c95d95916d35f34696a5"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12798263538,
+      "run_id": 40646221175,
+      "bytes": 15145952,
+      "digest": "sha256:ebf02cb404a4d17ad3184e7a5332d46ff4131e529a4fb6b29b639e7b27029feb"
+    }
+  ],
+  "accepted": false
+}

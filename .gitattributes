@@ -591,3 +591,4 @@ tests/fixtures/qupath-spatial-0.7.0/** -text -whitespace
 tools/upstream/qupath_spatial_reference.groovy text eol=lf
 tools/capture_qupath_spatial.py text eol=lf
 docs/benchmarks/owner-delivery-race-262/** -text -whitespace
+docs/benchmarks/spatial-native-263/** -text -whitespace

@@ -43,9 +43,22 @@ public-main application baseline61e546e remain unchanged; no promotion or releas
   build/ci/owner-delivery-qualification-262-audit. No earlier acceptance transfers;
   preserve live jobs and failed observations rather than redispatching.
 
-After this qualification, continue with [SPAT1 centroid distances](spatial-analysis.md):
-26 independent QuPath reference cases and17 controls are prepared, with native,
-Python/CLI/UI, persistence and platform delivery still open. The
+The original 262 Linux-only engine audit now accepts all three profiles at
+unchanged e2282b8: 50 native suites each, 3959 headless Python passes, including the
+repaired sanitizer viewer-session path. The complete portable builder/fresh-consumer
+auditor now accepts both Python versions at the same source. Nine of eleven
+archives authenticate; Windows GUI and Mac arm64 remain pending. Full engine and
+Mac-native acceptance are still open. A retained metadata TLS timeout was resolved
+by re-observing the same original handles; no role was restarted.
+
+While that source qualifies, [SPAT1 centroid distances](spatial-analysis.md) has
+native groundwork at 3af9572: ROI centroids and the existing index's nearest-point
+query pass three affected native suites in each Windows GEOS-ON/OFF profile,
+including 600 exhaustive nearest-query comparisons. Its [receipt263](benchmarks/spatial-native-263/receipt.json)
+retains the six changed compiler inputs and source-bound products. No new wheel
+or qualification was dispatched for that groundwork. The 26 independent QuPath
+reference cases and 17 controls remain prepared; owner capture, immutable results/
+jobs, persistence and Python/CLI/UI delivery still follow in the same workflow. The
 [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
 Remaining reader/interchange/automation/UI work, three strict scientific xfails,
 independent biological/model comparisons, representative performance/resource/

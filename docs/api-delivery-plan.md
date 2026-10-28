@@ -94,13 +94,17 @@ split/merge requirements without weakening acceptance criteria.
 
 ## Prepared next workflow: SPAT1 centroid distances
 
-While candidate262 qualifies, [SPAT1](spatial-analysis.md) has a frozen independent
-QuPath reference: 26 synthetic cases and 17 validator controls pass. It is
-reference-ready, with native implementation still pending. Geometry tolerances
-remain fixed; separate default-FLOAT and explicit-DOUBLE cases record the pinned
-upstream storage cast. No native rebuild, new platform dispatch or transferred
-acceptance follows from this preparation. After the existing qualification gate,
-use the native geometry/capture/index/table/frontend checkpoints in that contract.
+While candidate262 qualifies, [SPAT1](spatial-analysis.md) has 26 independent
+QuPath reference cases and 17 validator controls. The [native foundation263](benchmarks/spatial-native-263/receipt.json)
+now verifies true geometry centroids and point-only nearest queries at 3af9572:
+three affected native suites pass Windows GEOS ON and OFF, with 600 exhaustive
+nearest-query comparisons. The source is separate from frozen e2282b8; no new
+wheel or platform campaign follows from this preparatory foundation. Next implement
+owner capture of selected IDs/revisions/calibration and bounded immutable result/
+job semantics, followed by versioned retention/export and Python/CLI/ImGui/managed
+viewer delivery. Full workflow and source-specific qualification remain pending.
+The fixed reference tolerances and separate upstream FLOAT/DOUBLE storage cases
+remain unchanged.
 Reader/interchange/automation, broader spatial operations and every other M0-M7
 requirement remain in scope; this preparation does not restart completed contours.
 
@@ -169,7 +173,7 @@ full parity or release acceptance.
 | Object classifiers: `ObjectFeatureRequest`, `extract_object_features`, forest training/classification and archives | Reuse frozen feature schema, training snapshot and portable model archive; expose missing workflow actions through existing jobs | Expanded feature schema/versioning and independent research/model comparison. Verify source links, absent labels, deterministic predictions and applying classes as an undoable command |
 | Pixel classifiers/streaming: RGB `PixelTrainingRequest`, `PixelPredictionRequest`, `PixelPredictionStream`; native `RawPixelRecipe`, `RawPixelClassifier`, `RawPixelClassification`, `RawPixelTrainingRequest`, `RawPixelPredictionRequest` and their jobs; file/export/read jobs | Use windowed and block streaming paths to bound large slides; compose masks/contours and captured model identity. Preserve hash-only resume | Typed quantitative features follow SCI1-A1-A6; stitched contours and unmatched-grid feature semantics remain separate. Test seams against independent full-image references, IO cancellation, model/provenance persistence and research acceptance |
 | Headless batches: `ProjectBatchRequest`, `ProjectBatchJob`, checkpoint APIs, `qupathxx_batch` | Adapt existing request/result/archive paths into the shared batch engine. For grid cells set `kind=CELLS`, `cell_grid` and `grid_cells`; each image resolves its own calibration. CLI and UI use the same native factory and options | Grid interruption/resume, per-image calibration, typed CSV and QCL5 checkpoints pass source169 engineering qualification. Remaining scientific/platform scope, partial failure, source/model replacement, abandoned-work cleanup and stable memory remain. Distributed workers require a later contract |
-| Spatial analysis: `Roi`, existing native spatial index and ROI/measurement queries | Build bounded neighborhood/distance/density queries on the current index and calibrated measurements; expose immutable tables through the established jobs/export layer | Specify units, metric, point/area semantics and anisotropic behavior, then independent nearest-neighbor/overlap/density fixtures and large-scene query/memory evidence. No full point-cloud copy per frame |
+| Spatial analysis: native `Roi::centroid`, `SpatialIndex::nearest_point`, ROI/measurement queries | [Foundation263](benchmarks/spatial-native-263/receipt.json) locally verifies centroid and nearest-point primitives in Windows GEOS-ON/OFF builds. Next capture source/target identities, revisions, calibration and budgets on the owner; use the existing immutable request/job/table/persistence patterns, then bind the complete workflow thinly | SPAT1 still needs captured result/currentness, cancellation and quotas, versioned retention/export, Python/CLI/ImGui/managed delivery and its own platform acceptance. The 26-case upstream reference remains the later comparison oracle. Neighborhood/density/signed-distance/tiled aggregation contracts and representative resource evidence remain required; no dense point-cloud copy per frame |
 | Recorded workflow automation: native commands, parameterized requests and retained records | Compose a versioned ordered workflow manifest from existing request/command identities; reuse batch execution and per-stage archive/restart checks | Define dependency/data references, error/cancel policy and reproducible replay before promising general pipeline automation; validate one multi-stage workflow across script, CLI and UI |
 | Managed Python viewer: `ViewerSession.execute`, `grid_cells`, notifications and analysis endpoints | Submit `grid_cells` while the native owner pumps; submission copies the recipe and owner-stage capture resolves calibration. Reuse poll/wait/take, cancellation and retention; edits/publication stay on the owner | Grid producer/owner retention, export/save and stale/calibration delivery pass native/installed desktop checks locally. Broader lifecycle/backpressure/shutdown and platform qualification remain. Add endpoints only for missing real workflows; no Python callbacks owning native workers |
 | Python API/NumPy: public `__all__`, generated stubs, `.numpy()`, `from_numpy` | Keep native authority and thin exports; validate mutable inputs before copy/GIL release. Generate stubs from the newly installed wheel, package them, then check typed examples | Additive API compatibility, array strides/dtype/lifetime, errors and shutdown. Record optional skips by capability. Avoid manually maintaining generated signatures |
@@ -612,9 +616,12 @@ straight-boundary characterization only; it does not waive representative
 workloads, eligible hardware or the complete process/resource acceptance lane.
 
 Cost controls: do not rebuild SDKs for observer/documentation changes, introduce
-a new runner or persistent PASS cache, or start another public API while this
-qualification closure is ready. Retain failed attempts and source-bound reference
-products; temporary build cleanup must preserve those inputs and live job files.
+a new runner or persistent PASS cache, or dispatch a second qualification for
+unfinished next-workflow primitives. Bounded native preparation of the named
+SPAT1 workflow may progress in the mutable integration checkout while the frozen
+candidate qualifies; preserve prior products and never modify its frozen source.
+Retain failed attempts and source-bound references; temporary build cleanup must
+preserve those inputs and live job files.
 
 [Broader local regression251](benchmarks/raw-integration-regression-251/receipt.json)
 has now exercised all 4,420 installed test identities at runtime3039f0c.

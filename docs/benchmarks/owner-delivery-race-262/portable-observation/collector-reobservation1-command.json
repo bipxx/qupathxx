@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\collect_candidate262.py"
+  ],
+  "returncode": 0,
+  "seconds": 228.35356000019237,
+  "scope": "Read original handles and archives after transient metadata TLS timeout; no dispatch"
+}

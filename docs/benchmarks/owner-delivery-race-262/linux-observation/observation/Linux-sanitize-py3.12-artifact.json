@@ -1,0 +1,20 @@
+{
+  "id": 12798346256,
+  "node_id": "MDg6QXJ0aWZhY3QxMjc5ODM0NjI1Ng==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 58589,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798346256",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798346256/zip",
+  "expired": false,
+  "digest": "sha256:d6b04dc4a5abeb79a1c43efa334f9d893eadfa69f582699b78ab974a1f63347c",
+  "created_at": "2026-10-28T06:56:11Z",
+  "updated_at": "2026-10-28T06:56:11Z",
+  "expires_at": "2026-11-11T06:56:10Z",
+  "workflow_run": {
+    "id": 40646189840,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/owner-delivery-qualification-262",
+    "head_sha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+  }
+}

@@ -222,6 +222,101 @@
       "sha256": "02ca055906823df87ed7fff56d8ffd4cfa01abcff26c32ce633b2d70fec561ba"
     },
     {
+      "path": "linux-observation/linux-engine-acceptance.json",
+      "bytes": 508445,
+      "sha256": "81741fba654f1bc5587f39f5bd5d15c6f98139ac98876021a4fad0b67eb7d1e0"
+    },
+    {
+      "path": "linux-observation/linux-engine-audit-command.json",
+      "bytes": 773,
+      "sha256": "543d13888cb4c829906659dc643e40ae328003dc2e69c66f4e133e9d8404d72f"
+    },
+    {
+      "path": "linux-observation/linux-engine-audit.log",
+      "bytes": 283,
+      "sha256": "3d4311d8438b3996e83670099a8b594746c58d19fbdf25e3956b4c99b88b4d73"
+    },
+    {
+      "path": "linux-observation/observation/engine-artifacts.json",
+      "bytes": 2739,
+      "sha256": "43a41c10611e05d2eb1cb7d743d33244151b446ab99b24e65225fb702e4c5420"
+    },
+    {
+      "path": "linux-observation/observation/engine-run.json",
+      "bytes": 24513,
+      "sha256": "d393c3ce308b8385ba34373eacc55d0fa8d4ed2fb39c8e0f7e3c238abb78dd56"
+    },
+    {
+      "path": "linux-observation/observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 818,
+      "sha256": "197e721c5dbb2b3b955cb8d73603658c75a8661c36628fd5fa95dbfbb030fdfe"
+    },
+    {
+      "path": "linux-observation/observation/Linux-headless-py3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-observation/observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "ea0aab478dcdead44bb9b7dd7f1c03834f454de5cb517150e98c0bd072cf78cd"
+    },
+    {
+      "path": "linux-observation/observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "f0ef8ba249d153678fee3046266f3cf667094783bfdbb42cd116b8d2a44c9580"
+    },
+    {
+      "path": "linux-observation/observation/Linux-sanitize-py3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-observation/observation/macos-artifacts.json",
+      "bytes": 946,
+      "sha256": "5548bb67c99e67b1782adcc332ea91bb3245506c25405473bcb61291261e7b86"
+    },
+    {
+      "path": "linux-observation/observation/macos-native-x86_64-artifact.json",
+      "bytes": 816,
+      "sha256": "fbd298f69d58ecf4c06e769402b42f8156a28005f65ced812e083bb343466edd"
+    },
+    {
+      "path": "linux-observation/observation/macos-native-x86_64-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-observation/observation/macos-run.json",
+      "bytes": 4511,
+      "sha256": "e26af9f19932d76af9376af8bad0e89e003019c5a728de53da5a8ae16a519d31"
+    },
+    {
+      "path": "linux-observation/observation/manylinux-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "13064fa3df2de4ff3a89f38d9260bd9d47fc04d8d99034cb12c0e039c1d9ba4a"
+    },
+    {
+      "path": "linux-observation/observation/manylinux-3.11-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-observation/observation/portable-artifacts.json",
+      "bytes": 941,
+      "sha256": "5035064fe35fecc59f66063edbbc951cf5f8caf8effe46ce6c9fde2db2366331"
+    },
+    {
+      "path": "linux-observation/observation/portable-run.json",
+      "bytes": 9332,
+      "sha256": "2d5fba36c16793828322d3c3e6aa437987c74c84557963e04f4c9ab4e4d93368"
+    },
+    {
+      "path": "linux-observation/observation/verified.json",
+      "bytes": 1272,
+      "sha256": "30030550ab3e8832f2f181e78e077e87e01211600876ea6fe02a19ac4c79c453"
+    },
+    {
       "path": "native-tests-command.json",
       "bytes": 588,
       "sha256": "956cda1d6dad369e537bfc5dac30f7ee73e8b1dd648422c5bef769c7144b56f8"
@@ -305,6 +400,136 @@
       "path": "original-raw_pixel_frontend.cpp",
       "bytes": 19582,
       "sha256": "c3724413234aeae357fe57845d12d4378eebdac78d05080b09d96232fb192faf"
+    },
+    {
+      "path": "portable-observation/collector-reobservation1-command.json",
+      "bytes": 295,
+      "sha256": "d49c2a0b2cd70e7aba1a67df0371f8adeb116c79b5f2ef921274701fe3c7e67e"
+    },
+    {
+      "path": "portable-observation/collector-reobservation1.log",
+      "bytes": 578,
+      "sha256": "374edc5b2ddf3e4b87c261711e89fa079af8aa289faa364a1e90615e52f9cfa9"
+    },
+    {
+      "path": "portable-observation/collector-transient-failure.json",
+      "bytes": 473,
+      "sha256": "e446d7a7ece98cdf9a8b01d519c90e5404289b55ce622642ce7ec7a5b4425b89"
+    },
+    {
+      "path": "portable-observation/observation/engine-artifacts.json",
+      "bytes": 3640,
+      "sha256": "3da6563368f21a309efef39db775def16d84b3505b65b9a83d515e8352cc6232"
+    },
+    {
+      "path": "portable-observation/observation/engine-run.json",
+      "bytes": 24827,
+      "sha256": "dcb912b9635b917c3fb217c2e7d2d3c6c0b38ee6990e9e9cc03dfe856256ee63"
+    },
+    {
+      "path": "portable-observation/observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 818,
+      "sha256": "197e721c5dbb2b3b955cb8d73603658c75a8661c36628fd5fa95dbfbb030fdfe"
+    },
+    {
+      "path": "portable-observation/observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "ea0aab478dcdead44bb9b7dd7f1c03834f454de5cb517150e98c0bd072cf78cd"
+    },
+    {
+      "path": "portable-observation/observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "f0ef8ba249d153678fee3046266f3cf667094783bfdbb42cd116b8d2a44c9580"
+    },
+    {
+      "path": "portable-observation/observation/macos-artifacts.json",
+      "bytes": 946,
+      "sha256": "5548bb67c99e67b1782adcc332ea91bb3245506c25405473bcb61291261e7b86"
+    },
+    {
+      "path": "portable-observation/observation/macos-native-x86_64-artifact.json",
+      "bytes": 816,
+      "sha256": "fbd298f69d58ecf4c06e769402b42f8156a28005f65ced812e083bb343466edd"
+    },
+    {
+      "path": "portable-observation/observation/macos-run.json",
+      "bytes": 4511,
+      "sha256": "e26af9f19932d76af9376af8bad0e89e003019c5a728de53da5a8ae16a519d31"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "13064fa3df2de4ff3a89f38d9260bd9d47fc04d8d99034cb12c0e039c1d9ba4a"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "22f0129be8c9e54727c52d80fc7a4321bd59f465d23690f0c99721827e21cb6b"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-consumer-3.11-artifact.json",
+      "bytes": 817,
+      "sha256": "6dba9c033cf892dbe7715927bd1f3405ea02075e4b950493204393334020205c"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-consumer-3.11-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-consumer-3.12-artifact.json",
+      "bytes": 817,
+      "sha256": "4264236252e80d3464ec4515a2a991ddd0b394cf0ab485f48ee5053427f07bf1"
+    },
+    {
+      "path": "portable-observation/observation/manylinux-consumer-3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "portable-observation/observation/portable-artifacts.json",
+      "bytes": 3629,
+      "sha256": "1f9ebb5dbdf2411b5b9d74ff854ad6c8332b0f443469ea06805ec4457ca313fd"
+    },
+    {
+      "path": "portable-observation/observation/portable-run.json",
+      "bytes": 16287,
+      "sha256": "7dc82f0f264fccae24f7fc8d6faf283f220bd729394b933ed075781ccaed1945"
+    },
+    {
+      "path": "portable-observation/observation/verified.json",
+      "bytes": 2213,
+      "sha256": "4389d6bfa893f64e4a85de381f3021887d1abd9a0fe9aa44b3c8fe650cf574ca"
+    },
+    {
+      "path": "portable-observation/observation/Windows-headless-py3.11-artifact.json",
+      "bytes": 820,
+      "sha256": "aa7de886eed1eb94706f99f372490d3a0de32cd8b67e6c2316466c5b385514f4"
+    },
+    {
+      "path": "portable-observation/portable-acceptance.json",
+      "bytes": 510269,
+      "sha256": "eddc90a8d844c2495fe9f2e9847a63d9ab54635755aac7bf9bf560e31143cadb"
+    },
+    {
+      "path": "portable-observation/portable-audit-command.json",
+      "bytes": 862,
+      "sha256": "8531692598fff7a4b07c7bb847d4b27ea4fe581ea550f554b7dd53fcc53ffd2d"
+    },
+    {
+      "path": "portable-observation/portable-audit.log",
+      "bytes": 126,
+      "sha256": "ba7402d4e2621e20f180241bded86458fdeea3420c11dceebaba8c82c2d956d6"
+    },
+    {
+      "path": "portable-observation/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "7dc82f0f264fccae24f7fc8d6faf283f220bd729394b933ed075781ccaed1945"
     },
     {
       "path": "preflight-tests-command.json",
@@ -436,5 +661,39 @@
       "bytes": 380,
       "sha256": "dfe4a3013ddd9f2b36ca1ab1bfaa99d532cc10b003ace168bc8ec9ff01568199"
     }
-  ]
+  ],
+  "linux_engineering_scope": {
+    "accepted": true,
+    "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+    "native_suites_per_profile": 50,
+    "profiles": [
+      "headless",
+      "minimal",
+      "ASan/UBSan"
+    ],
+    "headless_python_passed": 3959,
+    "full_engine_accepted": false
+  },
+  "portable_engineering_scope": {
+    "accepted": true,
+    "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+    "policy": "manylinux_2_28_x86_64",
+    "builders": [
+      "3.11",
+      "3.12"
+    ],
+    "fresh_consumers": [
+      "3.11",
+      "3.12"
+    ]
+  },
+  "latest_partial_observation": {
+    "path": "portable-observation/observation",
+    "authenticated_archives": 9,
+    "missing": [
+      "Windows-gui-py3.12",
+      "macos-native-arm64"
+    ],
+    "overall_accepted": false
+  }
 }
