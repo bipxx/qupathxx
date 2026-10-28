@@ -37,10 +37,11 @@ class Case:
         self.job,self.start,self.verify=job,start,verify
 
 
-def case_for(kind,tmp_path):
+def case_for(kind,tmp_path,*,slow=False):
     job=getattr(q,kind)()
     if kind=='FileFingerprintJob':
-        data=b'snapshot-job-owner\x00'*262144
+        block=b'snapshot-job-owner\x00'
+        data=block*((64*1024*1024//len(block)) if slow else 262144)
         path=tmp_path/'input.bin';path.write_bytes(data)
         def verify(stats):
             assert stats.state=='succeeded' and job.result.sha256==hashlib.sha256(data).hexdigest()
@@ -95,7 +96,8 @@ def test_snapshot_request_is_owner_only(tmp_path,kind):
 @pytest.mark.parametrize('kind',KINDS)
 @pytest.mark.parametrize('action',['poll','cancel'])
 def test_snapshot_wait_serializes_collection_and_allows_cancel(tmp_path,kind,action):
-    case=case_for(kind,tmp_path);assert case.start()
+    check_liveness=kind=='FileFingerprintJob' and action=='poll'
+    case=case_for(kind,tmp_path,slow=check_liveness);assert case.start()
     gate=threading.Event();done=threading.Event();errors=[]
     def other():
         gate.wait()
@@ -110,7 +112,11 @@ def test_snapshot_wait_serializes_collection_and_allows_cancel(tmp_path,kind,act
         sys.setswitchinterval(1);gate.set();stats=case.job.wait();ran_during_wait=done.is_set()
     finally:
         sys.setswitchinterval(interval);gate.set();thread.join(10)
-    assert not thread.is_alive() and not errors and ran_during_wait
+    assert not thread.is_alive() and not errors
+    # An already completed future may return before another thread is scheduled.
+    # The bounded larger hash exercises shared-bridge GIL liveness; the other
+    # cases check serialization/cancellation whether work finishes early or late.
+    if check_liveness:assert ran_during_wait
     if action=='poll':case.verify(stats)
     else:assert stats.state in ('succeeded','ready','cancelled'),stats.error
     busy=case.job.busy

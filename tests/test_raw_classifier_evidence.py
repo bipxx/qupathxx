@@ -71,6 +71,11 @@ def test_exact_installed_contract_has_explicit_skips(gui):
     assert report['declared_skips']==(1 if gui else 48)
 
 
+def test_snapshot_wait_source_closure_includes_filename_fixture():
+    assert {'tests/test_snapshot_job_waits.py','tests/test_pixel_stream_read_job.py',
+            'tests/data/pixel-streams/rectangle-v1-windows.qps'}<=set(evidence.SOURCES)
+
+
 @pytest.mark.parametrize('module',list(evidence.CONTRACT['installed']))
 @pytest.mark.parametrize('change',['missing','duplicate','rename','wrong_class','failure','error','unexpected_skip'])
 def test_installed_module_false_acceptance_controls(module,change):
