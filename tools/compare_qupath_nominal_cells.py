@@ -80,7 +80,7 @@ def captured_processing_rgb(source,case,bounds,downsample):
     return rgb,labels
 
 
-def feature_checks(result,masks,rgb,white,calibration,bounds,downsample,tolerance):
+def feature_checks(result,masks,rgb,white,calibration,downsample,tolerance):
     import numpy as np
     od=np.maximum(0,np.log10(np.asarray(white)/np.maximum(rgb.astype(float),1)))
     features={f.label:f for f in result.features}
@@ -139,7 +139,14 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     canvases={name:nominal_canvas(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
     expected={name:np.frombuffer(gzip.decompress((path/(name+'.u32le.gz')).read_bytes()),dtype='<u4').reshape(height,width) for name in masks}
     metrics={name:comparison.metrics(expected[name],canvas,contract['comparison']) for name,canvas in canvases.items()}
-    checks=feature_checks(result,masks,processing,contract['white'],(px,py),bounds,downsample,contract['comparison'])
+    checks=feature_checks(result,masks,processing,contract['white'],(px,py),downsample,contract['comparison'])
+    foreground_differences={}
+    for name,actual in canvases.items():
+        extra=(actual>0)&(expected[name]==0);missing=(expected[name]>0)&(actual==0)
+        foreground_differences[name]={}
+        for side,mask in [('reference_only',missing),('native_only',extra)]:
+            coordinates=np.argwhere(mask)
+            foreground_differences[name][side]=dict(count=len(coordinates),first_xy=[[int(x),int(y)] for y,x in coordinates[:32]],truncated=len(coordinates)>32)
     processing_metrics=None if processing_labels is None else {name:comparison.metrics(processing_labels[name],mask,contract['comparison']) for name,mask in masks.items()}
     regions={(r['compartment'],r['label']):r for r in reference['regions']};features={f.label:f for f in result.features};differences=[]
     for name,prefix in [('nucleus','nucleus'),('body','cell')]:
@@ -153,6 +160,7 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     return dict(case_name=case['name'],algorithm=result.algorithm,units=units,grid_scope=grid_scope,original_source_request=True,
         source_bounds=bounds,nominal_downsample=downsample,core_shape=list(next(iter(masks.values())).shape),context=[context,context],
         independent_processing_rgb_exact=True,feature_checks=checks,level_zero_segmentation=metrics,processing_segmentation=processing_metrics,
+        foreground_pixel_differences=foreground_differences,
         reference_feature_domain='level-zero pixel centers',native_feature_domain='nominal processing pixel centers',matched_reference_feature_differences=differences,
         processing_label_sha256={k:hashlib.sha256(v.astype('<u4').tobytes()).hexdigest() for k,v in masks.items()},
         level_zero_label_sha256={k:hashlib.sha256(v.astype('<u4').tobytes()).hexdigest() for k,v in canvases.items()},input_sha256=result.nuclei.input_sha256)

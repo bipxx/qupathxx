@@ -60,7 +60,7 @@ def test_installed_exact_cohort_and_scope(gui):
     assert not result['scientific_acceptance']
 
 
-@pytest.mark.parametrize('module',['test_public_stubs','test_qupath_rgb_resampling','test_rgb_nominal_reference','test_rgb_nominal_api','test_rgb_nominal_preview','test_nominal_cell_python','test_nominal_cell_batches','test_nominal_cell_frontends'])
+@pytest.mark.parametrize('module',['test_public_stubs','test_qupath_rgb_resampling','test_rgb_nominal_reference','test_rgb_nominal_api','test_rgb_nominal_preview','test_nominal_cell_python','test_nominal_cell_batches','test_nominal_cell_frontends','test_qupath_nominal_cells_reference'])
 def test_installed_manifest_matches_independent_pytest_collection(module):
     # Manifest-derived fixtures cannot detect a new real test omitted from CASES.
     import os
