@@ -1,0 +1,217 @@
+{
+  "schema": "qpx.owner-delivery-qualification/1",
+  "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+  "ref": "feature/owner-delivery-qualification-262",
+  "observed_at_utc": "2026-10-28T08:09:36.608663+00:00",
+  "engineering_accepted": true,
+  "roles": {
+    "engine": {
+      "run": 40646189840,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40646189840",
+      "state": "accepted"
+    },
+    "macos": {
+      "run": 40646201004,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40646201004",
+      "state": "accepted"
+    },
+    "portable": {
+      "run": 40646221175,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40646221175",
+      "state": "accepted"
+    }
+  },
+  "artifacts": [
+    {
+      "role": "engine",
+      "name": "Windows-gui-py3.12",
+      "run_id": 40646189840,
+      "artifact_id": 12799296439,
+      "bytes": 27950570,
+      "sha256": "d59e035236c1831342f5701c45e0f22f29d6f48e160de30de2d9ad8acd1957ef"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-sanitize-py3.12",
+      "run_id": 40646189840,
+      "artifact_id": 12798346256,
+      "bytes": 58589,
+      "sha256": "d6b04dc4a5abeb79a1c43efa334f9d893eadfa69f582699b78ab974a1f63347c"
+    },
+    {
+      "role": "engine",
+      "name": "Windows-headless-py3.11",
+      "run_id": 40646189840,
+      "artifact_id": 12798298898,
+      "bytes": 11872499,
+      "sha256": "454433b9e856915270d1689b198e4631f858b4f7ea9f312b55eb8741beac5875"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-headless-py3.12",
+      "run_id": 40646189840,
+      "artifact_id": 12798163109,
+      "bytes": 14761512,
+      "sha256": "d964b77520be7c166bd3e824f9be351227a779be170652be65be8c56c5ba2460"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-minimal-py3.12",
+      "run_id": 40646189840,
+      "artifact_id": 12797447829,
+      "bytes": 51154,
+      "sha256": "4c93cf4101d0a66eb0baa2ed344f8f7c0e6e6664d8d10e6bdc67c62646deb820"
+    },
+    {
+      "role": "macos",
+      "name": "macos-native-arm64",
+      "run_id": 40646201004,
+      "artifact_id": 12798644539,
+      "bytes": 15111804,
+      "sha256": "75f4c35f152b1ddbb666b9e93618277311dc010b348ad9b0a9ad65bad187612d"
+    },
+    {
+      "role": "macos",
+      "name": "macos-native-x86_64",
+      "run_id": 40646201004,
+      "artifact_id": 12798565925,
+      "bytes": 16192934,
+      "sha256": "537c90483a56aa8b4fb6e322ba3e912981c74fb8e239c95d95916d35f34696a5"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-consumer-3.11",
+      "run_id": 40646221175,
+      "artifact_id": 12799140276,
+      "bytes": 81286,
+      "sha256": "fdbaa4ea7e3f4266dd2576ada0cec64986bf5493a9089a2c55ee10a110c13748"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-consumer-3.12",
+      "run_id": 40646221175,
+      "artifact_id": 12798413897,
+      "bytes": 82375,
+      "sha256": "9631597bcc7538a20a382b9c3ed607f524e14aa8aff23429dc06e49185b1adb4"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-3.11",
+      "run_id": 40646221175,
+      "artifact_id": 12798263538,
+      "bytes": 15145952,
+      "sha256": "ebf02cb404a4d17ad3184e7a5332d46ff4131e529a4fb6b29b639e7b27029feb"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-3.12",
+      "run_id": 40646221175,
+      "artifact_id": 12797464647,
+      "bytes": 15144269,
+      "sha256": "24444ee5b36fbc861cbf4bd84d7a7430f2f77eaedc595a15d257fe89013852c5"
+    }
+  ],
+  "visual_review": {
+    "path": "gui-overview.png",
+    "bytes": 677384,
+    "sha256": "2d9242ba32be757ead30af68410d08a4733d93de52de8afe630949bdc8d8fe06",
+    "scope": "whole-slide overview rendering and layout only"
+  },
+  "public_main_changed": false,
+  "spatial264_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "evidence": [
+    {
+      "path": "collector-verified.json",
+      "bytes": 2681,
+      "sha256": "30848161309f2d22bd6a94b1cd26f021e208143138795033da387580b7b4b92a"
+    },
+    {
+      "path": "engine-acceptance.json",
+      "bytes": 851852,
+      "sha256": "94c5f5e663400778f4340b05612547649ef9f4ca79d9b7c2f94098745db073f0"
+    },
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 4536,
+      "sha256": "6146192cb1a8a862332b648ac54c9c79ca2c7ce0002023c1fe3ec5f04a667269"
+    },
+    {
+      "path": "engine-audit-command.json",
+      "bytes": 824,
+      "sha256": "991a0b498ecde2cfa008678f58bc2ce546a1865d3f351f5e3a87988206540dd3"
+    },
+    {
+      "path": "engine-audit.log",
+      "bytes": 488,
+      "sha256": "26dba2756aef8fc799ab36c7340ecf0c6d45de8cffda8153eac742decc3fcf7b"
+    },
+    {
+      "path": "engine-run.json",
+      "bytes": 25146,
+      "sha256": "4b00fe6c80a657f7432995edc9e6119e6487a2e99884965e77c8684ee0a03c14"
+    },
+    {
+      "path": "gui-overview.png",
+      "bytes": 677384,
+      "sha256": "2d9242ba32be757ead30af68410d08a4733d93de52de8afe630949bdc8d8fe06"
+    },
+    {
+      "path": "interpretation.md",
+      "bytes": 1373,
+      "sha256": "cce6af04e865ae606635c9a7e3207fbfef017820c2616e92ce0ae091f5245568"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 370296,
+      "sha256": "18626581e70d64c08b5dd0e0aa6e8f9c44845d6606973448dfd155aafc0b49cd"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1842,
+      "sha256": "82da46ae95457fce13d9099f2b1582d0f2cbb4f380154211a72c1ca21a3c0794"
+    },
+    {
+      "path": "macos-audit-command.json",
+      "bytes": 688,
+      "sha256": "a400bd70994c09a3696fb66fa0de016c359fead24388ce888c798aa8959d44e3"
+    },
+    {
+      "path": "macos-audit.log",
+      "bytes": 161,
+      "sha256": "d8fbff821b122ed4120774ee808a579a0770b915817c20ef0f29cb618bb9c079"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "7a8c53e812bf0cbfda43bae1d717963ede51e210fdf22103ac15a4a005c297f0"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 510269,
+      "sha256": "eddc90a8d844c2495fe9f2e9847a63d9ab54635755aac7bf9bf560e31143cadb"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 3629,
+      "sha256": "1f9ebb5dbdf2411b5b9d74ff854ad6c8332b0f443469ea06805ec4457ca313fd"
+    },
+    {
+      "path": "portable-audit-command.json",
+      "bytes": 862,
+      "sha256": "8531692598fff7a4b07c7bb847d4b27ea4fe581ea550f554b7dd53fcc53ffd2d"
+    },
+    {
+      "path": "portable-audit.log",
+      "bytes": 126,
+      "sha256": "ba7402d4e2621e20f180241bded86458fdeea3420c11dceebaba8c82c2d956d6"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 16287,
+      "sha256": "7dc82f0f264fccae24f7fc8d6faf283f220bd729394b933ed075781ccaed1945"
+    }
+  ]
+}

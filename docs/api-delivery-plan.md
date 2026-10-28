@@ -1,7 +1,7 @@
 # API and workflow delivery paths
 
 This is the forward execution companion to [the full M0–M7 plan](project-plan.md).
-Planning update: 2026-10-27 UTC. “API” here means a project entry point or workflow, not a credential. No service
+Planning update: 2026-10-28 UTC. “API” here means a project entry point or workflow, not a credential. No service
 API keys are required for the current native application. Names below are
 existing entry points; proposed behavior is identified as remaining work. The
 canonical signatures remain the public headers and generated Python stubs.
@@ -41,8 +41,8 @@ no additional agent delegation is implied by this table.
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
 | Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
-| 1 / RAW-DELIVERY1 + M3-ALIAS1: qualify raw owner delivery and stable locators | Locally delivered at frozen `e2282b8`; root owns qualification. [Receipt262](benchmarks/owner-delivery-race-262/receipt.json) preserves old-code failure/new-code pass under the same forced completion transition. Original260 engine failed; complete Mac/portable successes remain source-bound | Reuse the existing native jobs. After worker readiness, collect completion on the owner before consuming result/status; final code contains no diagnostic wait. Observe the original262 runs below and run complete auditors from the frozen checkout; no redispatch for documentation edits | Full engine, both Mac-native architectures and portable builder/fresh-consumer acceptance at e2282b8. Local51 native,897 controls,386 installed passes/six skips across392 identities, stubs/typing and raw-source/product proofs pass. Preserve stale/cancel/retry, source/model and no-overwrite guards; a5b5394 remains immutable |
-| 2 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | Select one unmet, fixture-ready reader/interchange/spatial/automation requirement using the delivery sequence below. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
+| Complete / RAW-DELIVERY1 + M3-ALIAS1 | Engineering accepted at frozen e2282b8; [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) joins all11 authenticated archives and complete engine/Mac-native/portable audits | Reuse retained source-bound products. No redispatch for documentation or spatial preparation | Declared engineering scope only; public main unchanged and all independent M0-M7 gates retained |
+| 1 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | Finish SPAT1 retention/archive/export using existing analysis-record and table-export patterns, then deliver Python/CLI/ImGui/managed adapters. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
 
@@ -94,15 +94,16 @@ split/merge requirements without weakening acceptance criteria.
 
 ## Prepared next workflow: SPAT1 centroid distances
 
-While candidate262 qualifies, [SPAT1](spatial-analysis.md) has 26 independent
-QuPath reference cases and 17 validator controls. The [native foundation263](benchmarks/spatial-native-263/receipt.json)
-now verifies true geometry centroids and point-only nearest queries at 3af9572:
-three affected native suites pass Windows GEOS ON and OFF, with 600 exhaustive
-nearest-query comparisons. The source is separate from frozen e2282b8; no new
-wheel or platform campaign follows from this preparatory foundation. Next implement
-owner capture of selected IDs/revisions/calibration and bounded immutable result/
-job semantics, followed by versioned retention/export and Python/CLI/ImGui/managed
-viewer delivery. Full workflow and source-specific qualification remain pending.
+Candidate262 now has complete declared engineering acceptance. [SPAT1](spatial-analysis.md)
+has26 independent QuPath cases and17 validator controls. Foundation263 provides
+centroids and nearest queries; [capture264](benchmarks/spatial-capture-264/receipt.json)
+adds immutable requests/results and owner jobs at2b9c5d7. Four native suites pass
+each Windows GEOS-ON/OFF profile. Corrected902 tooling controls pass at7bb8d78;
+all395 compiler inputs are unchanged, so native products were reused.
+Next extend existing retained-record/archive and incremental atomic table export
+paths, then deliver Python/CLI/ImGui/managed consumers. Do not create another job
+framework or dispatch a qualification for unfinished primitives. No new spatial
+wheel, biological, resource, performance or full-platform acceptance is claimed.
 The fixed reference tolerances and separate upstream FLOAT/DOUBLE storage cases
 remain unchanged.
 Reader/interchange/automation, broader spatial operations and every other M0-M7
@@ -173,7 +174,7 @@ full parity or release acceptance.
 | Object classifiers: `ObjectFeatureRequest`, `extract_object_features`, forest training/classification and archives | Reuse frozen feature schema, training snapshot and portable model archive; expose missing workflow actions through existing jobs | Expanded feature schema/versioning and independent research/model comparison. Verify source links, absent labels, deterministic predictions and applying classes as an undoable command |
 | Pixel classifiers/streaming: RGB `PixelTrainingRequest`, `PixelPredictionRequest`, `PixelPredictionStream`; native `RawPixelRecipe`, `RawPixelClassifier`, `RawPixelClassification`, `RawPixelTrainingRequest`, `RawPixelPredictionRequest` and their jobs; file/export/read jobs | Use windowed and block streaming paths to bound large slides; compose masks/contours and captured model identity. Preserve hash-only resume | Typed quantitative features follow SCI1-A1-A6; stitched contours and unmatched-grid feature semantics remain separate. Test seams against independent full-image references, IO cancellation, model/provenance persistence and research acceptance |
 | Headless batches: `ProjectBatchRequest`, `ProjectBatchJob`, checkpoint APIs, `qupathxx_batch` | Adapt existing request/result/archive paths into the shared batch engine. For grid cells set `kind=CELLS`, `cell_grid` and `grid_cells`; each image resolves its own calibration. CLI and UI use the same native factory and options | Grid interruption/resume, per-image calibration, typed CSV and QCL5 checkpoints pass source169 engineering qualification. Remaining scientific/platform scope, partial failure, source/model replacement, abandoned-work cleanup and stable memory remain. Distributed workers require a later contract |
-| Spatial analysis: native `Roi::centroid`, `SpatialIndex::nearest_point`, ROI/measurement queries | [Foundation263](benchmarks/spatial-native-263/receipt.json) locally verifies centroid and nearest-point primitives in Windows GEOS-ON/OFF builds. Next capture source/target identities, revisions, calibration and budgets on the owner; use the existing immutable request/job/table/persistence patterns, then bind the complete workflow thinly | SPAT1 still needs captured result/currentness, cancellation and quotas, versioned retention/export, Python/CLI/ImGui/managed delivery and its own platform acceptance. The 26-case upstream reference remains the later comparison oracle. Neighborhood/density/signed-distance/tiled aggregation contracts and representative resource evidence remain required; no dense point-cloud copy per frame |
+| Spatial analysis: `SpatialDistanceRequest`, `SpatialDistanceResult`, `SpatialDistanceJob`, `Roi::centroid`, `SpatialIndex::nearest_point` | [native capture264](benchmarks/spatial-capture-264/receipt.json) locally verifies owner capture, identity/revision freshness, nullable deterministic distances, cancellation and snapshot/work/comparison quotas. Reuse existing records/codecs/export paths next, then bind the complete workflow thinly | Versioned retention/export, Python/CLI/ImGui/managed delivery and source-specific platform acceptance remain. Neighborhood/density/signed-distance/tiled aggregation and representative resource evidence remain required |
 | Recorded workflow automation: native commands, parameterized requests and retained records | Compose a versioned ordered workflow manifest from existing request/command identities; reuse batch execution and per-stage archive/restart checks | Define dependency/data references, error/cancel policy and reproducible replay before promising general pipeline automation; validate one multi-stage workflow across script, CLI and UI |
 | Managed Python viewer: `ViewerSession.execute`, `grid_cells`, notifications and analysis endpoints | Submit `grid_cells` while the native owner pumps; submission copies the recipe and owner-stage capture resolves calibration. Reuse poll/wait/take, cancellation and retention; edits/publication stay on the owner | Grid producer/owner retention, export/save and stale/calibration delivery pass native/installed desktop checks locally. Broader lifecycle/backpressure/shutdown and platform qualification remain. Add endpoints only for missing real workflows; no Python callbacks owning native workers |
 | Python API/NumPy: public `__all__`, generated stubs, `.numpy()`, `from_numpy` | Keep native authority and thin exports; validate mutable inputs before copy/GIL release. Generate stubs from the newly installed wheel, package them, then check typed examples | Additive API compatibility, array strides/dtype/lifetime, errors and shutdown. Record optional skips by capability. Avoid manually maintaining generated signatures |
@@ -583,19 +584,20 @@ The native owner-delivery defect is now locally repaired at e2282b8 with a
 controlled before/after witness; [receipt262](benchmarks/owner-delivery-race-262/receipt.json)
 records one changed compiler input and the completed installed validation.
 
-The immediate action is to finish the original262 qualification campaign:
+The original262 campaign is engineering accepted under the
+[combined closeout](benchmarks/owner-delivery-race-262/closeout/receipt.json):
 
 | Role / original run | State at this planning update | Required action |
 | --- | --- | --- |
-| [Engine40646189840](https://github.com/bipxx/qupathxx/actions/runs/40646189840) | Dispatched at e2282b8 | Authenticate all five archives; require the complete engine auditor, including sanitizer viewer_session |
-| [Mac40646201004](https://github.com/bipxx/qupathxx/actions/runs/40646201004) | Dispatched at e2282b8 | Authenticate both architectures; require native, Mach-O and relocation gates |
-| [Portable40646221175](https://github.com/bipxx/qupathxx/actions/runs/40646221175) | Dispatched at e2282b8 | Authenticate both builders and both fresh consumers; require complete portable gates |
+| [Engine40646189840](https://github.com/bipxx/qupathxx/actions/runs/40646189840) | Accepted at e2282b8 | All five archives and the complete engine auditor pass, including sanitizer viewer_session |
+| [Mac40646201004](https://github.com/bipxx/qupathxx/actions/runs/40646201004) | Accepted at e2282b8 | Both architectures, native, Mach-O and relocation gates pass |
+| [Portable40646221175](https://github.com/bipxx/qupathxx/actions/runs/40646221175) | Accepted at e2282b8 | Both builders and both fresh consumers pass complete portable gates |
 
 Preserve original handles and partial transfers. Quiet builds or observer timeouts
 are not retry authorization. Audit from the immutable
 `build/ci/owner-delivery-qualification-262-audit` checkout. Candidate258 and original260
 acceptance cannot transfer to this repair. Mac-native does not qualify Mac Python/
-GUI/OpenSlide. Follow qualification with the prepared SPAT1 workflow; independent
+GUI/OpenSlide. Continue the partially implemented SPAT1 workflow; independent
 scientific/performance/hardware/support/release gates and all M0-M7 scope remain.
 
 The following B6 steps are completed historical evidence, not a second queue.

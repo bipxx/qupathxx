@@ -2,69 +2,44 @@
 
 ## Current execution card (2026-10-28)
 
-**The raw frontend owner-delivery race is locally repaired** at `e2282b8`, frozen
-on `feature/owner-delivery-qualification-262`. [Receipt262](benchmarks/owner-delivery-race-262/receipt.json)
-records the controlled reproduction, final package and pending platform campaign.
-All **M0-M7 remain Partial**. Qualified feature baseline a5b5394/candidate258 and
-public-main application baseline61e546e remain unchanged; no promotion or release.
+**Candidate262 is engineering qualified** at frozen `e2282b8` on
+`feature/owner-delivery-qualification-262`. The [combined closeout](benchmarks/owner-delivery-race-262/closeout/receipt.json)
+binds all11 archives and complete engine, both Mac-native and portable builder/
+fresh-consumer audits. Windows GUI passes51 native/4448 Python; headless50/3965;
+Linux headless50/3959; Linux minimal/sanitizer each50 native. The completed
+whole-slide GUI overview was visually inspected. Mac-native excludes Python/GUI/
+OpenSlide; public-main application baseline61e546e is unchanged. Candidate258 and
+original260 failures/successes remain preserved under their own source identities.
+The timed-out Mac arm64 download was retried without redispatch; partial bytes
+remain retained. All **M0-M7 remain Partial**.
 
-- **Observed defect:** a worker can finish between owner poll and busy checks.
-  `busy=false` then precedes owner-side future collection, so a preview can be
-  reported without its result. A controlled wait forces exactly that boundary:
-  old code fails the native streamed-preview assertion, repaired code passes the
-  complete viewer suite with the same transition. The original sanitizer assertion
-  is line81; the controlled direct preview is line72. The hosted schedule itself
-  was not instrumented. Final source contains no diagnostic wait or logging.
-- **Actual repair:** once a raw worker is no longer busy, collect its completion
-  with another owner poll before reading result/status. Apply the same discipline
-  across stream/full-grid contours, prediction, training/checkpoint and file
-  operations, including transitions into historical replay. Stale/cancelled
-  completions drain before subsequent requests. No public API, schema, algorithm,
-  source/model guard or overwrite policy changes.
-- **Final local validation:** all 51 native suites, 897 controls and 386 installed
-  passes/six declared skips across 392 unique GUI/managed/CLI/project identities
-  pass. Stubs match; five positive/four negative typing files produce exactly 20
-  intended errors. The installed 33 wheel members, source/fingerprint/runtime/
-  notices, unchanged SDKs and55 retained final products authenticate. One of 392
-  compiler inputs changes; all 490 raw source paths authenticate in a clean frozen
-  checkout. Local Windows shares test dependencies and has OpenSlide OFF;
-  clean-machine and platform acceptance remain separate.
-- **Original260 is terminal:** its engine fails one sanitizer viewer_session
-  suite (49/50); the other four engine profiles pass. Both Mac-native architectures
-  and portable builders/fresh consumers pass complete audits at f9ad28f. All11
-  archives authenticate in the [scoped closeout](benchmarks/root-locator-fix-260/terminal/receipt.json).
-  The first Mac audit hit a retained GitHub TLS timeout; re-observing the same
-  handles/archives passes. Original260 remains globally unaccepted.
-- **Successor262 dispatched once at e2282b8:** observe
-  [engine40646189840](https://github.com/bipxx/qupathxx/actions/runs/40646189840),
-  [Mac40646201004](https://github.com/bipxx/qupathxx/actions/runs/40646201004) and
-  [portable40646221175](https://github.com/bipxx/qupathxx/actions/runs/40646221175).
-  Authenticate original archives and run complete applicable auditors from
-  build/ci/owner-delivery-qualification-262-audit. No earlier acceptance transfers;
-  preserve live jobs and failed observations rather than redispatching.
+**SPAT1 native capture/result/jobs are locally verified** at2b9c5d7. The
+[receipt264](benchmarks/spatial-capture-264/receipt.json) retains four affected
+native suites per Windows GEOS-ON/OFF profile, five products per profile,498 raw
+source paths and395 compiler inputs. Requests capture object identities,
+revisions, selected geometry hashes, centroids, units and per-axis calibration;
+workers consult no live Document/reader and perform zero pixel IO. Deterministic
+nullable results, source/object replacement, stale running/ready jobs, cross-thread
+cancel, owner-thread guards, shutdown join and memory/comparison quotas pass.
+Completed futures remain busy until owner delivery.
 
-The original 262 Linux-only engine audit now accepts all three profiles at
-unchanged e2282b8: 50 native suites each, 3959 headless Python passes, including the
-repaired sanitizer viewer-session path. The complete portable builder/fresh-consumer
-auditor now accepts both Python versions at the same source. Nine of eleven
-archives authenticate; Windows GUI and Mac arm64 remain pending. Full engine and
-Mac-native acceptance are still open. A retained metadata TLS timeout was resolved
-by re-observing the same original handles; no role was restarted.
+Pinned native comparisons cover18 geometry cases ON/16 OFF and four separate
+upstream FLOAT/DOUBLE conversion cases. Four nonzero-plane cases are unsupported;
+GEOS OFF additionally excludes two polygon cases. No all26-case parity is claimed.
+The first test compile failure and initial900-pass/two-failure tooling run remain
+preserved. A temporary Git fixture now mirrors production raw-byte attributes;
+corrected902 controls pass at7bb8d78. Every compiler input is byte-identical to
+2b9c5d7, so the tested native products were preserved and reused without rebuilding.
+SDK trees are unchanged; no new spatial wheel/platform qualification was dispatched.
 
-While that source qualifies, [SPAT1 centroid distances](spatial-analysis.md) has
-native groundwork at 3af9572: ROI centroids and the existing index's nearest-point
-query pass three affected native suites in each Windows GEOS-ON/OFF profile,
-including 600 exhaustive nearest-query comparisons. Its [receipt263](benchmarks/spatial-native-263/receipt.json)
-retains the six changed compiler inputs and source-bound products. No new wheel
-or qualification was dispatched for that groundwork. The 26 independent QuPath
-reference cases and 17 controls remain prepared; owner capture, immutable results/
-jobs, persistence and Python/CLI/UI delivery still follow in the same workflow. The
-[API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
-Remaining reader/interchange/automation/UI work, three strict scientific xfails,
-independent biological/model comparisons, representative performance/resource/
-hardware budgets, Unicode glyphs, clean-machine support, project licensing and
-distribution/signing/release remain open. Readers and required codecs remain
-open-source-only. [History](project-plan-history.md) preserves earlier cards.
+**Next:** reuse existing retained analysis records/codecs and bounded atomic table
+export for SPAT1 save/reopen/history/CSV, then add thin nanobind, CLI, ImGui and
+managed-viewer consumers. Qualify that complete workflow at its own frozen source.
+[The API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
+Readers and required codecs remain open-source-only. Broader spatial/reader/
+interchange/automation/UI work, three strict scientific xfails, biological/model
+comparisons, representative performance/resource/hardware budgets, Unicode,
+clean-machine support, project licensing and distribution/signing/release remain.
 
 
 ## Preserved local baselines

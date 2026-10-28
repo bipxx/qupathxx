@@ -11,8 +11,8 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-28 UTC, through locally verified frozen candidate262
-`e2282b8`; candidate258 `a5b5394` remains the qualified feature baseline.
+Planning update: 2026-10-28 UTC, through engineering-qualified candidate262
+`e2282b8` and locally verified spatial capture264 at `2b9c5d7`.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
@@ -36,8 +36,8 @@ this update is a reconciliation, not a new independent model review.
 | Candidate257 / terminal Windows failure | `d57df01` retains complete Mac-native, Linux-only engine and portable acceptance. [Original Windows artifacts](benchmarks/raw-path-fixture-258/original257/engine-run.json) preserve one failed relocation fixture in each profile | Windows/Linux matrix is unaccepted. Continuing the fixture exposed real long-path checkpoint/fingerprint gaps; no old acceptance transfers to the repair |
 | Qualified feature candidate258 | [Combined engineering receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) at `a5b5394`: all 11 archives authenticate; complete five-profile engine, both Mac-native architectures and portable builders/fresh consumers pass. Windows GUI: 51 native/4,429 Python; headless: 50/3,946; Linux headless: 50/3,942 | Explicit-root locator reuse (witness259), Unicode/broader UI, science/hardware/support/release and all remaining M0-M7 requirements stay open. Public-main baseline is unchanged |
 | Locator serialization candidate260 | [Local receipt](benchmarks/root-locator-fix-260/receipt.json) at f9ad28f: image/QSL1/QWL1 locators stabilize, four red/green cases pass | [Terminal260](benchmarks/root-locator-fix-260/terminal/receipt.json): complete Mac/portable audits pass; engine fails one sanitizer viewer_session assertion, so the candidate remains unaccepted |
-| Owner-delivery repair candidate262 | [Receipt262](benchmarks/owner-delivery-race-262/receipt.json) at e2282b8: controlled old-code failure/new-code pass; final51 native,897 controls,386 installed passes/six skips, stubs/typing/source/package proofs pass | Original engine40646189840, Mac40646201004 and portable40646221175 are dispatched once. Full platform acceptance remains pending; shared-dependency Windows tests are not clean-machine evidence |
-| SPAT1 native foundation263 | [Local receipt263](benchmarks/spatial-native-263/receipt.json) at 3af9572: true ROI centroids and existing-index nearest points; three affected native suites pass each Windows GEOS-ON/OFF profile with 600 exhaustive query comparisons | Native groundwork only. Owner capture, immutable result/job, persistence and Python/CLI/UI delivery remain pending; no new wheel or inherited platform acceptance |
+| Qualified feature candidate262 | [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) at e2282b8: all11 archives authenticate; full five-profile engine, both Mac-native architectures and portable builders/fresh consumers pass | Public main is unchanged. Mac Python/GUI/OpenSlide, scientific/hardware/UI/support/release gates remain; spatial263/264 inherits no acceptance |
+| SPAT1 native capture264 | [native capture264](benchmarks/spatial-capture-264/receipt.json) at2b9c5d7 adds immutable captured requests/results and owner jobs to foundation263. Four affected suites pass each Windows GEOS-ON/OFF profile; corrected902 tooling controls pass at7bb8d78 with all395 compiler inputs unchanged | Persistence/retention/export and Python/CLI/ImGui/managed delivery remain. Four upstream plane cases are unsupported; no new wheel, platform or performance acceptance |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.
@@ -50,8 +50,9 @@ image and RGB/raw stream serialization while preserving source/model and
 no-overwrite guards. Four regressions fail on the retained qualified baseline
 and pass on that runtime. Original260 then exposed a distinct owner-delivery
 race in the sanitizer preview test. Repair262 at e2282b8 now collects the future
-before delivery; local checks pass and its original qualification runs are live.
-Complete those audits before platform acceptance. Do not rebuild for a plan edit.
+before delivery; local checks and all original complete qualification audits now pass.
+Candidate262 becomes the qualified feature baseline; candidate258 stays preserved.
+Do not rebuild for a plan edit or transfer qualification to changed spatial code.
 The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) owns this sequence.
 Original failures, observer249's setup failure, observer252's binary mismatch,
 the negative tiny witness and original-object255's controlled link comparison

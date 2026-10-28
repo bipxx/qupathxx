@@ -1,0 +1,207 @@
+{
+  "schema": "qpx.spatial-native-capture/1",
+  "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+  "observer_source": "7bb8d78",
+  "fingerprint": "1250ecf71a94f808df2002e670a484d21e43fb9ace85e3f38c4f83d3be7adb21",
+  "compiler_inputs": 395,
+  "raw_source_paths": 498,
+  "native_suites_per_profile": 4,
+  "profiles": [
+    "Windows MSVC GEOS ON",
+    "Windows MSVC GEOS OFF"
+  ],
+  "tooling_controls": {
+    "initial_passed": 900,
+    "initial_failed": 2,
+    "corrected_passed": 902,
+    "corrected_failed": 0
+  },
+  "oracle": {
+    "geometry_on": 18,
+    "geometry_off": 16,
+    "explicit_storage_conversion": 4,
+    "unsupported_planes": 4,
+    "unavailable_polygons_off": 2
+  },
+  "retained_current_products_per_profile": 5,
+  "request_result_jobs_implemented": true,
+  "persistence_export_frontends_implemented": false,
+  "new_wheel_built": false,
+  "platform_engineering_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "sdks_unchanged": true,
+  "evidence": [
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 42513,
+      "sha256": "db8f6ebcbd1d023599a1333a0c4206b92f97ec895d191b2dcc923f1c39bc0d58"
+    },
+    {
+      "path": "compilexx-note-prefix-proof.json",
+      "bytes": 368,
+      "sha256": "2db3a9a1192287f0622aac9fe4091ccadcc8b93c5d2593d61856dd21e4e96f86"
+    },
+    {
+      "path": "geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "f79947043d949bc3ef73047c1e5bf4aa73815ecf4a10d6954f05a9cde3d9ede1"
+    },
+    {
+      "path": "initial-compiler-inputs.json",
+      "bytes": 42513,
+      "sha256": "f5084fa9970cbc8ae1d6068d96d414860d47e3e5f529fa37e01ffe9de0663a9a"
+    },
+    {
+      "path": "native-source-proof.json",
+      "bytes": 119181,
+      "sha256": "fff6fec2d0997852b02385b8ffb055dfb8a2c7338080c1186b39db946f3b61b8"
+    },
+    {
+      "path": "off-build-command.json",
+      "bytes": 490,
+      "sha256": "62a3691205d90388306abc4a7df1f29f2dc97f0a56017e7327548b1578512848"
+    },
+    {
+      "path": "off-build.log",
+      "bytes": 29131,
+      "sha256": "54bda13d6cbea5fab9ab3c67cded1f68bbb0d95479beedf46ee933c4bcd39a55"
+    },
+    {
+      "path": "off-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "893e00099b687a3dcef1caaaee30195c3217c165fd524f67b6554223cd695b06"
+    },
+    {
+      "path": "off-CMakeCache.txt",
+      "bytes": 41519,
+      "sha256": "25fc43b177953dede8db2c37bec9c37090c278b71366e9e1ff7595257e7dbd39"
+    },
+    {
+      "path": "off-native-tests-command.json",
+      "bytes": 532,
+      "sha256": "aa4d625a7e48991f574879750ea4d16df0d65e0c9a0f67de6fb4a157a86ce432"
+    },
+    {
+      "path": "off-native-tests.log",
+      "bytes": 526,
+      "sha256": "28e5f626f51437e56ab4d1b8b915bba69cb9fcc8d4bb5b6b1b3c62513d9b94f9"
+    },
+    {
+      "path": "off-native-tests.xml",
+      "bytes": 1780,
+      "sha256": "f766487562f6750c2549c85556a315876f10d0ea7d23f1105a3e73b089a27d7b"
+    },
+    {
+      "path": "off-previous-products.json",
+      "bytes": 2976,
+      "sha256": "b86d90f738de765d337610c1869e8c4fd2031c995b2306cb48c908586c09d602"
+    },
+    {
+      "path": "off-products.json",
+      "bytes": 1037,
+      "sha256": "0905a27ce00a27dae67e6ced35c9c8cfe474fce7ee2c1c879ed78ec03083b79e"
+    },
+    {
+      "path": "on-build-command.json",
+      "bytes": 572,
+      "sha256": "aa5ba1b4bebcf64b0a4e239ac846df439cc62824782982c447ade496f706165c"
+    },
+    {
+      "path": "on-build.log",
+      "bytes": 14665,
+      "sha256": "fa3a6b40b58acd9ffc78ac18f5c65c212fc5bcfe5beb78e50e13e151c4dbdad0"
+    },
+    {
+      "path": "on-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "5781f64aa534dfba78e53de8507f4792ab9645ab4ef52244ef532469423a0739"
+    },
+    {
+      "path": "on-CMakeCache.txt",
+      "bytes": 43624,
+      "sha256": "3cef50a49d9fce3686cb48441838e3e8c0580fb19fac7985c2fb30d33a6bf945"
+    },
+    {
+      "path": "on-corrected-build-command.json",
+      "bytes": 492,
+      "sha256": "b53b6cef7e1f7baa0d95adf6207ef3a69fe2c78d27974346047e59095769985d"
+    },
+    {
+      "path": "on-corrected-build.log",
+      "bytes": 8072,
+      "sha256": "a776b03e6e96d6b892ac8cc815f20925544fd8ca2917979320f8d0be2fdcff57"
+    },
+    {
+      "path": "on-native-tests-command.json",
+      "bytes": 533,
+      "sha256": "f88434d68440767079b16305f25f7358f25daffe8c8b912f881af35b33fb5e92"
+    },
+    {
+      "path": "on-native-tests.log",
+      "bytes": 528,
+      "sha256": "bf14dae7b1e95195d31fb1db95f14edb89e3fb12d1a151b415bce369ddbfaa72"
+    },
+    {
+      "path": "on-native-tests.xml",
+      "bytes": 1790,
+      "sha256": "6d1c841ef469f783f4a2b887f040e7aaa83c0b8ec21e32e14f825e25b509026f"
+    },
+    {
+      "path": "on-previous-products.json",
+      "bytes": 12700,
+      "sha256": "1c100674da6269bfc8a74b818947abfb0cdff226a54c45356f1503ccbed5cc78"
+    },
+    {
+      "path": "on-products.json",
+      "bytes": 1037,
+      "sha256": "a6ee7f7092b5ae814c9ea05b0fd0c78c025b898866996c6a83122dbf41af145b"
+    },
+    {
+      "path": "opencv-sdk-files.json",
+      "bytes": 22441,
+      "sha256": "2b74faaadcf24a73e3c32aa6da59f9989879b3fc6821e889df172159ce8fb4be"
+    },
+    {
+      "path": "preflight-corrected-tests-command.json",
+      "bytes": 1692,
+      "sha256": "a3e957b811a51a55d90293491c24ada990628942887553934ddc8621d413ba8a"
+    },
+    {
+      "path": "preflight-corrected-tests.log",
+      "bytes": 1075,
+      "sha256": "75ef081d7cc6043be4e2764c18c8a385541ff4f591fc03a1f115253c6b118d0b"
+    },
+    {
+      "path": "preflight-corrected.xml",
+      "bytes": 142850,
+      "sha256": "16ba31d0beecd5334befdbf007dbec8d985179f8c043d08c3d0ecdc8af63ca68"
+    },
+    {
+      "path": "preflight-tests-command.json",
+      "bytes": 1541,
+      "sha256": "8228ed6cfe7ef0ca8b6774b44afe2e5ba7071264de91bec9e00bef48b57c6401"
+    },
+    {
+      "path": "preflight-tests.log",
+      "bytes": 7559,
+      "sha256": "940dfa077df4ab498dbf81eccc84b0a4d9978c5d2fc3b87ddc1d290b92863f58"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 148904,
+      "sha256": "ebd9e3013981e95f2ed1ed2bfa3332d8c4e56fde879d957b4f7483e4b2a72eec"
+    },
+    {
+      "path": "tooling-source-equivalence.json",
+      "bytes": 295,
+      "sha256": "c4539877d46635ae3735bed218d53aa563abab415e7b574b4625acca7963de37"
+    },
+    {
+      "path": "interpretation.md",
+      "bytes": 1885,
+      "sha256": "b7d84a515c53949a81887ab5843f98f3ff85d2351df7f03151b979b0ca264fd5"
+    }
+  ]
+}

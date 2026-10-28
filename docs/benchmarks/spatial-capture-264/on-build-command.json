@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "--build",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "--config",
+    "Release",
+    "--target",
+    "qupathxx_spatial_analysis_tests",
+    "qupathxx_geometry_tests",
+    "qupathxx_spatial_tests",
+    "qupathxx_geometry_edits_tests",
+    "--parallel",
+    "2"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 1,
+  "seconds": 131.57357800006866
+}

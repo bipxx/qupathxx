@@ -3,10 +3,21 @@
 SPAT1 is the next prepared SCI1-B workflow: measure each selected object's
 centroid distance to a selected target cohort, inspect the immutable table,
 export it and save/reopen it. The [native geometry/query foundation](benchmarks/spatial-native-263/receipt.json)
-is locally verified at 3af9572 in Windows GEOS-ON/OFF builds. Captured requests,
-results/jobs, persistence and Python/CLI/UI delivery are still pending. Frozen
-candidate262 qualification remains the active platform gate. Neighbourhood counts, signed geometry distances, density maps and
-tiled feature aggregation remain required subsequent spatial work.
+is locally verified at 3af9572. [Capture264](benchmarks/spatial-capture-264/receipt.json)
+adds owner-captured IDs/revisions/centroids/geometry hashes, immutable results,
+budgeted nearest queries and owner jobs at2b9c5d7. Four affected native suites pass
+each Windows GEOS-ON/OFF profile. Workers retain no live Document or reader and
+perform zero pixel IO. Geometry freshness binds document identity/revision; a
+closed image source alone does not invalidate a geometry-only request.
+
+Next implement versioned retained records/archive and bounded atomic CSV export,
+then thin Python/CLI/ImGui/managed delivery. Native oracle coverage is18 geometry
+cases ON/16 OFF plus four separately checked upstream storage-conversion cases;
+four nonzero-plane cases are explicitly unsupported. Corrected902 tooling controls
+pass at7bb8d78 without rebuilding unchanged native inputs. Frozen candidate262 has
+separate complete engineering acceptance; none transfers to spatial264.
+Neighbourhood counts, signed geometry distances, density maps and tiled feature
+aggregation remain required subsequent spatial work.
 
 ## Observable behavior
 

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^(geometry|geometry_edits|spatial|spatial_analysis)$",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-capture-264\\on-native-tests.xml"
+  ],
+  "returncode": 0
+}
