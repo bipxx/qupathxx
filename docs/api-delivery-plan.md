@@ -1,5 +1,30 @@
 # API and workflow delivery paths
 
+**Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
+The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
+sampling descriptor and original-document CellRequest, shared physical detector,
+original-coordinate contours, QCL6 historical storage/project replay and QCA6
+classifier origins. The pinned source reproduces processing RGB, three cells,
+379 nucleus pixels and825 body pixels; RGB/OD features pass the original1e-6
+checks. Added3x4 context preserves core labels. All55 Windows native suites and
+six affected GCC13.3 ASan/UBSan suites pass. Installed regressions pass597/eight
+declared scientific GUI skips and390/36 consumer passes/skips;1071 unique audit
+controls pass across20 files. Counts overlap.423 compiler inputs,883 source paths,
+71 Windows/seven repaired GCC products,39 package members and43 RECORD rows
+authenticate. Public stubs are unchanged. Both earlier failed native runs remain
+preserved: an external-reader embedding fixture, then a real source-pyramid versus
+nominal-step provenance bug. The repaired project reopens and verifies against
+its original source. Python nominal bindings and CLI/batch/ImGui/managed consumers
+remain open; this package verifies native delivery and existing public interfaces.
+OpenSlide is OFF and test dependencies are shared. Broader science, full source-
+bound platform/resource/hardware/support/release gates and all M0-M7 exits stay open.
+
+**Font285 is terminal and unaccepted overall.** Its [terminal291 receipt](benchmarks/gui-font-qualification-285/terminal291/receipt.json)
+authenticates all11 archives. The complete original Mac auditor accepts54 native
+suites per architecture at frozen1f71eb5; portable independently passes. Engine
+remains failed. No redispatch, old-source rebuild or acceptance transfer occurred;
+candidate281 remains the qualified feature baseline.
+
 **Original-slide nominal cell integration is in progress; context290 passes locally.**
 The [receipt](benchmarks/rgb-nominal-context-290/receipt.json) binds native65c03e4e:
 one affected minimal native suite passes each MSVC/GCC13.3 ASan+UBSan profile.
@@ -72,7 +97,7 @@ scientific auditors require82 cases that its unchanged source does not contain.
 Broader specimen/tolerance, physical UI, hardware/support/release and M0-M7 gates
 remain open.
 
-**Candidate285 engine is unaccepted; portable independently passes; Mac is pending.**
+**Historical pre-terminal291 observation: candidate285 engine unaccepted; portable passed; Mac was pending.**
 The [archive repair288](benchmarks/font-archive-288/receipt.json) retains all nine
 currently available authenticated archives, the original engine rejection and
 complete original-source portable acceptance at frozen1f71eb5. Windows GUI passes
@@ -137,7 +162,12 @@ The next RGB cell-analysis slice follows the [original-document implementation
 order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order):
 phase-preserving context input, original-owner capture, shared detector/result
 geometry, versioned persistence/replay, then all existing consumers. Context290
-prepares only the first step. SDK289 preview does not close the remaining steps.
+delivers the input primitive and native291 locally verifies original-owner capture,
+shared detection, QCL6 project replay and QCA6 origins. Next expose the immutable
+descriptor/request/result through nanobind, then reuse ROI bounds planning in one
+native nominal-ROI request factory for direct/batch CLI, checkpoints and existing
+ImGui/managed controls. Carry the recipe through each consumer; the SDK289 preview
+remains an independent new-source workflow.
 
 
 This is the single ordered implementation queue. The [current task](current-task.md)

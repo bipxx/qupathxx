@@ -1,0 +1,12 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cells-291\\intermediate-products\\qupathxx_cell_tests.exe",
+    "bytes": 3884544,
+    "sha256": "3f67dba12157087d833ce32fda7b6bca26ab13d83e93c15bb69ca350425494c6"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cells-291\\intermediate-products\\qupathxx_core.lib",
+    "bytes": 116732252,
+    "sha256": "9f212e30a48384af7c0ff0cadacc8244edfa4f8444c7bc9f5203d045983d459d"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "id": 12843625174,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg0MzYyNTE3NA==",
+  "name": "manylinux-consumer-3.11",
+  "size_in_bytes": 86882,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12843625174",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12843625174/zip",
+  "expired": false,
+  "digest": "sha256:7c45911b273d5f1895434ce63033e1c9b89b366130ee21e1e2f861cfc131744c",
+  "created_at": "2026-10-28T18:50:57Z",
+  "updated_at": "2026-10-28T18:50:57Z",
+  "expires_at": "2026-11-11T18:50:57Z",
+  "workflow_run": {
+    "id": 40743859500,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/gui-font-qualification-285",
+    "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "all_package_bytes_preserved": true,
+  "architecture": "x86_64",
+  "batch": {
+    "failed": 0,
+    "records": 1,
+    "saved": 1,
+    "source_identity": "c75c6b9f10de06bcb03787f54a3f2ea9"
+  },
+  "checkpoint_sha256": "21322c9a18214b2541c9e97d3c6f16990647fa33766cb6032a7c21bc352cc17a",
+  "commands": [
+    {
+      "arguments": [
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/bin/qupathxx_region",
+        "--thumbnail",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/input.ppm",
+        "1",
+        "1",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/output.pam",
+        "--source-pixels",
+        "2"
+      ],
+      "exit_code": 0,
+      "label": "region",
+      "loader_diagnostics": true,
+      "stderr_sha256": "e14d3ec643fb233d6eff6f6cbe43984432ee951706679dc1f80fb825565309ed",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "arguments": [
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/bin/qupathxx_batch",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/input.qpxproj",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/batch",
+        "--kind",
+        "od",
+        "--image",
+        "1",
+        "--object",
+        "1"
+      ],
+      "exit_code": 0,
+      "label": "batch",
+      "loader_diagnostics": true,
+      "stderr_sha256": "5347230b507f7bdb5e3856991e70680b5d2498baf4668df373316049e296fabc",
+      "stdout_sha256": "01984a24ec91bd99f3e7f674994155ada7a9d6fb5ddd79368cd22dffa6ed584b"
+    },
+    {
+      "arguments": [
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/bin/qupathxx_batch",
+        "--export-csv",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/batch/image-1-5b446addc36b4e44f8a38cf7c9a65fc5f40c46102c213394548eb69f38606dcc/078655a9a1bbe0fb9eff994051a6cba8db7f37f08cbfd1327c7d93ba2ba39f7a.qpxproj",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/measurements.csv"
+      ],
+      "exit_code": 0,
+      "label": "export",
+      "loader_diagnostics": true,
+      "stderr_sha256": "a02ad8b7ef9a26f052fb47bec8214a3f1b0ca30dfb4f52c7c0eec41ec1d37c28",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "arguments": [
+        "/Library/Frameworks/Python.framework/Versions/3.12/bin/python",
+        "-I",
+        "/Users/runner/work/qupathxx/qupathxx/tools/ci/check_macos_relocated_runtime.py",
+        "--geometry-child",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/lib/libgeos_c.1.dylib",
+        "--geometry-output",
+        "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/geometry-child.json"
+      ],
+      "exit_code": 0,
+      "label": "geometry",
+      "loader_diagnostics": false,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "d7b5037fbe7466207ddceaef1a7ff3b0a9df6750922a02d01e33f1967881f8eb"
+    }
+  ],
+  "csv": {
+    "absolute_tolerance": 2e-07,
+    "means": [
+      0.9294189214706421,
+      0.6283889412879944,
+      0.4522976577281952
+    ],
+    "roi_area_px2": 4,
+    "roi_area_um2": 0.5,
+    "roi_length_um": 3,
+    "rows": 1,
+    "samples": 4,
+    "source_tree_sha256": "a69ac4e64794b9d47e9978cc872a7a310d0399b5f6b7687293e8711f6f3cd8de"
+  },
+  "csv_sha256": "4190892481c79bbacd7180a130e655d110f1dfe3b9cae6035e78322cdbade4fb",
+  "fixture_preserved": true,
+  "fixture_sha256": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b",
+  "fresh_package": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces",
+  "geometry": {
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "library": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/lib/libgeos_c.1.dylib",
+    "mapped": [
+      {
+        "path": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/lib/libgeos.3.15.0.dylib",
+        "sha256": "2bc114c33e97f7186cb67c110ae2328d4a473bf0453ce9c6453c154adfaded7b"
+      },
+      {
+        "path": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/relocated-runtime/fresh relocated package with spaces/lib/libgeos_c.1.dylib",
+        "sha256": "22d150b2c853f5b5571bd3802692e409aa9036f8e2d4528f279f26cfa2bb3013"
+      }
+    ],
+    "release_ready": false,
+    "schema": "qpx.macos-geos-relocated-child/1",
+    "union_area": 150.0
+  },
+  "geometry_report_sha256": "4dc9c93873aa5bcddaa949f2a240f75be077d5d9ac11f9fbb7db40e8c13d842b",
+  "loader_diagnostics_used": true,
+  "loader_search_overrides_used": false,
+  "pam_sha256": "062bb23b51b196f8da688693af599b0daa193d5e6a034a27b01e8f03ded1dca5",
+  "path_with_spaces": true,
+  "plan_sha256": "ee65f94e7070c6d8d7dc457fa460184c7cabc796af48df6e2b4f45b4c8c3652b",
+  "region_rgba": [
+    60,
+    100,
+    180,
+    255
+  ],
+  "release_ready": false,
+  "relocated_archive_sha256": "116d97416369605adf829a68046caa1d052866328e45ad06e6f4f6dd669a99f5",
+  "schema": "qpx.macos-relocated-runtime/1",
+  "scope": "Fresh archive extraction with spaces: exact native region pixels, migrated embedded-project OD/checkpoint/CSV, GEOS union and actual native/GEOS package image mappings with clean loader search environment. Host engineering proof only; no older-OS, arbitrary ABI, biological, Python/GUI/OpenSlide or supported-release acceptance."
+}

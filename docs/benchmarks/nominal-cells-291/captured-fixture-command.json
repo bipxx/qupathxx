@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "tools/reference_nominal_cells.py"
+  ],
+  "returncode": 0
+}

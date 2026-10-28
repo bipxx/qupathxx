@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_resampling_tests",
+    "bytes": 55636224,
+    "sha256": "1e26956424f4df170ce6b079d53c430aad8d100b2824538b2151c3f8fbb7a16f"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_cell_tests",
+    "bytes": 56040312,
+    "sha256": "5c0cc763680c6a8769b87296daa3e1336c24de5fc0f4ac80a873657d0d4fe20b"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_cell_record_tests",
+    "bytes": 56221632,
+    "sha256": "f510e7f29253ac78d2a3451318a2b9ee2a6303ebdbb1cdea68035c60aec109cd"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_object_classifier_tests",
+    "bytes": 51895008,
+    "sha256": "976ebe58e50e6ff94a7b37f6bf5fec76d64edbf47e0681032bfd78f3162c98e4"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_log_cell_recipe_tests",
+    "bytes": 51811624,
+    "sha256": "5f4d5fa9224fec2edf814c5f8ab38507e2baf44bcc73897663073412fcf5cce7"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/qupathxx_stains_tests",
+    "bytes": 6749856,
+    "sha256": "5cd5872236fd125f0add568c323435fb8aecc9a9f140fd2cb68c76fdb21e5784"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cells-291/linux-repaired/linux-products/libqupathxx_core.a",
+    "bytes": 150011776,
+    "sha256": "9f1106720ed3944ce6e171d6cc61eb339b3b0ade6fa587d6e3ca3b60155914e5"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "native_source": "37a7df5195af47e0f5c1965e09f8dbec4e469a60",
+  "windows_fingerprint": "5ac73535fb6c2aaf46a9a7ab8a9781267c53e54c17c81fbce20d8e4704dc9cac",
+  "linux_fingerprint": "50f37b97ea492e2a5af6c87f74510a4842673436ef596904b7c754d14f0af8f5",
+  "compiler_inputs": 423,
+  "source_paths": 883,
+  "windows_native_suites": 55,
+  "gcc_sanitized_native_suites": 6,
+  "retained_windows_products": 71,
+  "retained_repaired_gcc_products": 7,
+  "captured_native_nucleus_pixels": 379,
+  "captured_native_body_pixels": 825,
+  "captured_cells": 3,
+  "independent_original_document_capture": true,
+  "QCL6_project_replay_verified": true,
+  "QCA6_classifier_origins_verified_windows": true,
+  "python_nominal_cell_api_delivered": false,
+  "nominal_cli_batch_gui_delivered": false,
+  "own_source_platform_qualified": false,
+  "scientific_acceptance": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

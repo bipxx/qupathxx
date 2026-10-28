@@ -78,8 +78,9 @@ It rejects nonopaque/malformed windows and checks native cancellation throughout
 
 Kernel287 was private. [SDK289](benchmarks/rgb-nominal-sdk-289/receipt.json)
 now supplies the public immutable request, ImageServer adapter, nanobind interface,
-region CLI and an independent ImGui preview example. Original-document analysis,
-capture/archive/replay opt-in and its application control remain open. Opaque RGB
+region CLI and an independent ImGui preview example. [Native cells291](benchmarks/nominal-cells-291/receipt.json)
+now adds original-document nominal cell capture, detection, historical storage and
+fresh replay. Its thin Python/CLI/batch/ImGui/managed consumers remain open. Opaque RGB
 fixture agreement does not establish general Java rendering, transparency,
 vendor/pyramid behavior or biological acceptance.
 
@@ -127,19 +128,68 @@ new source has no original-source capture/replay authority.
 
 ## Remaining production integration
 
-Keep existing area and typed scientific sampling defaults. If detector or batch
-workflows opt into nominal RGB, retain the algorithm version, nominal transform,
-original source identity and halo policy in their capture/archive/replay recipes
-before exposing that option in existing application controls. Reuse this native
-adapter and current job/publication consumers; do not filter pixels in Python or
-start a second viewer/controller implementation.
+Keep existing area and typed scientific sampling defaults. The native cell recipe
+below retains the algorithm version, nominal transform, original source identity
+and halo policy in QCL6/QCA6. Carry that recipe through the remaining CLI, batch
+and application consumers. Reuse the native adapter and current job/publication
+consumers; do not filter pixels in Python or start a second viewer/controller.
 
 Accept the integrated workflow through one source-bound platform qualification
 after local consumer and persistence evidence. The reference runtime remains an
 optional generator; the C++ application does not invoke Java to obtain pixels.
 No general speed, sampler-equivalence or research-accuracy claim follows here.
 
+### Native original-document cell recipe
+
+The C++ contract now accepts `NominalCellSampling` without creating a derived
+document or virtual pyramid level:
+
+```cpp
+qpx::GridCellParameters parameters;
+parameters.threshold = .4;
+parameters.sigma = 1; // level-zero pixels unless units selects micrometres
+qpx::NominalCellSampling sampling(qpx::RgbNominalRequest(0, 0, 256, 192, 1.5), 0, 0);
+qpx::CellRequest request(document, object_id, transform, sampling, parameters);
+auto result = qpx::detect_cells(request);
+auto record_id = document.keep_cells(request, result);
+auto replay = qpx::CellRequest::replay(document, record_id);
+bool verified = document.verify_cells(record_id, replay, *qpx::detect_cells(replay));
+```
+
+This is native C++ delivery. Python bindings for the new cell descriptor and its
+constructor, CLI/batch options and application controls are the next consumers.
+The earlier Python RGB read/preview API remains available independently.
+
+The cell recipe identity is `qpx.nominal-rgb-log-watershed-bodies/1`; its input
+identity is `qpx.nominal-cell-rgb/1`. It captures the original document's owner,
+ROI, transform, source and calibration. The descriptor retains integer source
+origin/extents, nominal binary64 step and nonnegative per-axis output context.
+Contexts default to32 samples per axis and are capped at4096. Read admission
+includes the interpolation halo and simultaneous detector buffers before IO.
+Every world center must remain strictly between its representable edges.
+
+Context feeds the existing float64 physical LoG/watershed and expansion kernels;
+published labels belong only to supported nominal core centers inside the ROI.
+Nominal support means a world center inside the original image, distinct from
+the full-area support rule of scientific area sampling. Unknown calibration
+stays unknown; physical parameters require both axes. Sample areas and centroids
+use the nominal step and original per-axis calibration.
+
+QCL6 stores nominal geometry, original provenance, masks, features and historical
+domain. Source-free decoding validates the stored recipe and regenerates derived
+geometry. Project reopen restores an unverified historical record; fresh replay
+reads the original source and verification compares the retained recipe/result.
+QCA6 preserves nominal cell classifier origins alongside legacy and area-grid
+origin types. Existing QCL/QCA1-5 formats remain supported. Nominal sampling does
+not change source level zero: provenance attachment checks unit source scale and
+requires exact agreement with embedded provenance.
+
 ### Original-document cell recipe implementation order
+
+Native291 locally delivers steps2-4 below on the defined corpus, following the
+context290 primitive in step1. Step5 is the next delivery work; step6 remains a
+broader validation boundary. The receipt retains both failed development runs
+and the source-specific repaired evidence.
 
 The current scientific grid stores integer extent and sample count; its step is
 their exact rational ratio. A nominal256-pixel request at1.5 has171 output samples

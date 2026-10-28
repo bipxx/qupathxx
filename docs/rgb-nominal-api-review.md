@@ -36,3 +36,28 @@ No proto/OpenAPI API-linter configuration applies to this repository surface.
 Use the native captured-pixel/reader-fault checks, installed Python/CLI cases,
 stub guards, strict typing and existing CI audit controls. Complete those before
 platform qualification; UI and scientific workflow opt-in remain separate work.
+
+## Original-document native cell extension291
+
+`CellRequest(document, object_id, transform, NominalCellSampling, GridCellParameters)`
+is additive to both existing constructors. The immutable descriptor wraps the
+unit-bearing RGB request and two output-context sample counts. Its edges/centers
+keep the nominal transform; returned dimensions never replace that transform.
+The existing cell controller, physical kernels and publication owner checks are
+shared with scientific area grids. Area grids retain their rational geometry.
+
+Result masks expose `nominal_sampling()` separately from `scientific_grid()` and
+their world-coordinate sample edges retain original-slide coordinates. Unsupported
+world precision, context and memory budgets fail before pixel IO; late cancellation
+produces no partial result. Physical units require both captured calibration axes.
+
+QCL6 and QCA6 explicitly retain the nominal descriptor and algorithm identity.
+Historical records decode without reading the source and return no live authority.
+Fresh replay uses the original reader and exact request equality includes nominal
+origin/extents, step and context. Embedded/external provenance must match exactly;
+the source remains unit level zero. Older encodings/defaults remain supported.
+
+The native descriptor and request constructor are not yet in Python. Complete their
+readonly bindings/exports/stubs/typing and then CLI/batch/GUI/managed consumers using
+the same native factory. The locally passing native291 receipt does not accept
+those missing frontend workflows or a stable/beta/release contract.
