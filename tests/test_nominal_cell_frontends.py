@@ -90,7 +90,8 @@ def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_
 def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
     from test_gui_batch import options as batch_options
     project,docs,transform,preset,_=cohort()
-    expected=q.ProjectBatchRequest(project,transform,options=preset)
+    # Existing OD-sum GUI capture uses an identity basis, independently of its visible stain vectors.
+    expected=q.ProjectBatchRequest(project,q.StainTransform([[1,0,0],[0,1,0]]),options=preset)
     ui=batch_options(tmp_path/'results',preset);ui.settle_tiles=True
     for attempt in range(2):
         report=q.show(project,frame_limit=40,options=ui)
@@ -100,6 +101,7 @@ def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
         for entry,(image,original,_) in zip(result.images,docs):
             run=q.Project.open(entry.path).document(image).cell_records[0].result
             assert run.nominal_sampling.source_request.downsample==1.5 and original.cell_record_count==0
+            assert run.nuclei.stains==[[1,0,0],[0,1,0],[0,0,1]]
             if image==docs[0][0]:pinned(run)
 
 
