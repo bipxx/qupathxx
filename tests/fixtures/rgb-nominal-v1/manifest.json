@@ -1,0 +1,58 @@
+{
+  "schema": "qpx.rgb-nominal-golden-manifest/1",
+  "cases": 99,
+  "baseline_manifest_sha256": "f423900a817b8371002e02e808adb0ad6e2f706e95c73d8028a1f80f1172405b",
+  "holdout_manifest_sha256": "77ec919eeafd1133d41949d2c772f93498e703c4c88d366571f3ac9ca00a2b81",
+  "generator_sha256": "94f406677767375442e0348e49c87b3312b86e11afc61e16357c4edc6cf0a45f",
+  "interpolation_performed": false,
+  "files": {
+    "index.txt": {
+      "bytes": 14108,
+      "sha256": "cfc4cb26bd5fe376a2ba762f41418dbe0e44adc5116726b361e7f2c0404aceff"
+    },
+    "sources/baseline_cells.rgb": {
+      "bytes": 147456,
+      "sha256": "1d0be4f9c8d057876b650371b021cb93e7f3d8be63d90befb66037f1d4960443"
+    },
+    "sources/baseline_checker.rgb": {
+      "bytes": 663,
+      "sha256": "7c2b2713ec25be59faa9a8e6b80c884a29d6551bb8682b60c14fef4b00f44fea"
+    },
+    "sources/baseline_gradient.rgb": {
+      "bytes": 663,
+      "sha256": "96e14ce2518cb0b273048ffba8f0f10db128356088e84ae7f2046285e23fbf9e"
+    },
+    "sources/baseline_noise.rgb": {
+      "bytes": 663,
+      "sha256": "2ee028b2c8e5bb33aad7d951734f47b6127c9eec11a147685308716d0e06188d"
+    },
+    "sources/holdout_checker.rgb": {
+      "bytes": 2697,
+      "sha256": "7b71bc8e948d54c212a4658ae0c0edea8efb19ad971576eeecf61e5b0e22a253"
+    },
+    "sources/holdout_gradient.rgb": {
+      "bytes": 2697,
+      "sha256": "878e102fefa727359655af32f3c7b26064fa1483d9c14f5a9f27ebc402ed5304"
+    },
+    "sources/holdout_noise.rgb": {
+      "bytes": 2697,
+      "sha256": "68d4328997e13d0764279bd90ba91d21d08a6195ed67bf38c6393b64222b3fda"
+    },
+    "sources/holdout_offset.rgb": {
+      "bytes": 4653,
+      "sha256": "9178f447f9bda3d9a2d76ebc747f3fa4e2e1ef25f96c8e7988bbae8af9340d8a"
+    },
+    "sources/holdout_one.rgb": {
+      "bytes": 3,
+      "sha256": "3c6a04ffeaf1c1be6eb2591d35baee4fc30856ccc08f7562ba347b65f09cbc54"
+    },
+    "sources/holdout_thin.rgb": {
+      "bytes": 69,
+      "sha256": "a6f45c1396bcf3d1bc1a9c8cecfd77e1fb2fb1f62041dc1b1b1435a78b247220"
+    },
+    "sources/holdout_wide.rgb": {
+      "bytes": 57,
+      "sha256": "b24f098758069080d1c18bbb05af8dc0f18f6fda1db0873ae227bcfb3dbc74b1"
+    }
+  }
+}

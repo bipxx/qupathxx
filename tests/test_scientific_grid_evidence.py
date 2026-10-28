@@ -60,7 +60,7 @@ def test_installed_exact_cohort_and_scope(gui):
     assert not result['scientific_acceptance']
 
 
-@pytest.mark.parametrize('module',['test_public_stubs','test_qupath_rgb_resampling'])
+@pytest.mark.parametrize('module',['test_public_stubs','test_qupath_rgb_resampling','test_rgb_nominal_reference'])
 def test_installed_manifest_matches_independent_pytest_collection(module):
     # Manifest-derived fixtures cannot detect a new real test omitted from CASES.
     import os
@@ -180,6 +180,7 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
 
 @pytest.mark.parametrize('failure',['missing','duplicate'])
 @pytest.mark.parametrize('marker',[
+    '99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed',
     'Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed',
     'Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed',
     'Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed',

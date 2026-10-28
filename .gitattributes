@@ -632,3 +632,9 @@ tools/upstream/qupath_rgb_resampling.groovy text eol=lf
 tests/test_qupath_rgb_resampling.py text eol=lf
 
 docs/benchmarks/qupath-rgb-resampling-286/** -text -whitespace
+
+tests/fixtures/qupath-rgb-resampling-holdout-0.7.0/** -text -whitespace
+
+tests/fixtures/rgb-nominal-v1/** -text -whitespace
+tools/reference_rgb_nominal.py text eol=lf
+tests/test_rgb_nominal_reference.py text eol=lf

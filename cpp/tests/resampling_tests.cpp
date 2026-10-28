@@ -11,6 +11,7 @@ void check_scientific_rgb_sampling();
 void raw_scientific_numeric_tests();
 void check_scientific_raw_sampling();
 void check_scientific_raw_analysis();
+void check_rgb_nominal_sampling();
 void check(bool ok) {if(!ok) throw std::runtime_error("resampling assertion failed");}
 template<class E,class F> void rejects(F f) {try {f();}catch(const E&){return;}throw std::runtime_error("missing resampling rejection");}
 // Independent all-source floating overlap oracle; production walks intersecting
@@ -38,6 +39,7 @@ struct InvalidReader:ImageServer {
     void close() override{}bool closed() const override{return false;}
 };
 int main(){try {
+    check_rgb_nominal_sampling();
     check_scientific_grid_geometry();
     check_scientific_rgb_sampling();
     raw_scientific_numeric_tests();
