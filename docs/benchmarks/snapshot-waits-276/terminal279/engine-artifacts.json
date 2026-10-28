@@ -1,0 +1,105 @@
+{
+  "total_count": 5,
+  "artifacts": [
+    {
+      "id": 12827667784,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgyNzY2Nzc4NA==",
+      "name": "Windows-gui-py3.12",
+      "size_in_bytes": 28214436,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12827667784",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12827667784/zip",
+      "expired": false,
+      "digest": "sha256:0dc0511bd4233974de3b2986a746de43e2633ae31324fb2b894aba85796cbb6a",
+      "created_at": "2026-10-28T15:22:21Z",
+      "updated_at": "2026-10-28T15:22:21Z",
+      "expires_at": "2026-11-11T15:22:18Z",
+      "workflow_run": {
+        "id": 40706232371,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/snapshot-waits-qualification-276",
+        "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+      }
+    },
+    {
+      "id": 12826591043,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgyNjU5MTA0Mw==",
+      "name": "Linux-headless-py3.12",
+      "size_in_bytes": 14955758,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12826591043",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12826591043/zip",
+      "expired": false,
+      "digest": "sha256:e9a8f2baecc8c360f46f419c90fd1329a40c4784fed9f84726f8fd3ae8189dc4",
+      "created_at": "2026-10-28T14:57:24Z",
+      "updated_at": "2026-10-28T14:57:24Z",
+      "expires_at": "2026-11-11T14:57:23Z",
+      "workflow_run": {
+        "id": 40706232371,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/snapshot-waits-qualification-276",
+        "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+      }
+    },
+    {
+      "id": 12824899703,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgyNDg5OTcwMw==",
+      "name": "Windows-headless-py3.11",
+      "size_in_bytes": 11973736,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12824899703",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12824899703/zip",
+      "expired": false,
+      "digest": "sha256:1e856e827e91e86c37dfff602d6585287323271befc0ed5cf7d515561aec1e37",
+      "created_at": "2026-10-28T15:04:19Z",
+      "updated_at": "2026-10-28T15:04:19Z",
+      "expires_at": "2026-11-11T15:04:17Z",
+      "workflow_run": {
+        "id": 40706232371,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/snapshot-waits-qualification-276",
+        "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+      }
+    },
+    {
+      "id": 12824789831,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgyNDc4OTgzMQ==",
+      "name": "Linux-sanitize-py3.12",
+      "size_in_bytes": 61289,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12824789831",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12824789831/zip",
+      "expired": false,
+      "digest": "sha256:4521b6f4f18eca354e54085a8040a38e8900c2c410e8cf41f38671017d2f5a62",
+      "created_at": "2026-10-28T14:50:07Z",
+      "updated_at": "2026-10-28T14:50:07Z",
+      "expires_at": "2026-11-11T14:50:06Z",
+      "workflow_run": {
+        "id": 40706232371,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/snapshot-waits-qualification-276",
+        "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+      }
+    },
+    {
+      "id": 12823638446,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgyMzYzODQ0Ng==",
+      "name": "Linux-minimal-py3.12",
+      "size_in_bytes": 53559,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12823638446",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12823638446/zip",
+      "expired": false,
+      "digest": "sha256:be400119c6d85636592d0d3bc86fd6eebcd1a07e88a51e1c40161aafe83c7407",
+      "created_at": "2026-10-28T14:36:35Z",
+      "updated_at": "2026-10-28T14:36:35Z",
+      "expires_at": "2026-11-11T14:36:34Z",
+      "workflow_run": {
+        "id": 40706232371,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/snapshot-waits-qualification-276",
+        "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+      }
+    }
+  ]
+}

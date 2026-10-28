@@ -2,38 +2,39 @@
 
 ## Current execution card (2026-10-28)
 
-**Unicode input278 is implemented; native/package validation is next.** A separate
-actual-editor probe on retainednative048cf25 typed A + U+2000B + U+1F52C + U+96EA,
-applied the object edit and saved. Reopening the temporary project returns
-A + U+FFFD + U+FFFD + U+96EA. The original project, changed project and exact UTF8
-bytes are retained. This is data loss in the16-bit ImGui input path, separate
-from missing glyphs.
+**Stream header integrity279 is implemented; installed build/green checks are next.**
+Candidate276 is terminal and unaccepted: all11 archives authenticate, original
+frozen auditors independently accept Mac-native and portable roles, and the
+engine refuses the Windows GUI header-mutation failure. The [terminal receipt](benchmarks/snapshot-waits-276/terminal279/receipt.json)
+preserves that failure, all three run identities and original auditor outputs.
+Do not redispatch276 or transfer273 acceptance to later sources.
 
-The repair keeps pinned ImGui1.91.9b and enables its32-bit character ABI in every
-GUI/backend translation unit. The existing native gui_replay suite adds12 active
-input/rename/undo/redo checks covering UTF8, UTF16 and scalar input, with explicit
-GUI-enabled/disabled markers required by the engine auditor. Public Python APIs
-and fonts are unchanged. Next: one installed build, native/regression/cohort
-checks and the same actual editor save/reopen probe. Candidate276 predates this
-repair. Broader glyph coverage, shaping, atlas/DPI budgets and all M0-M7 gates remain.
+Retainednative048cf25 accepts20 same-stamp QWS header mutations across
+check_unchanged/link/read_block/verify/trace, plus two mutations beyond the first
+64KiB chunk in a greater-than128KiB header. Windows fixtures restore the actual
+modified/change tokens after closing the data writer. The analogous QPS reader
+rejects changed headers on first-block/full verify but accepts a later block
+(one failing/two passing controls). Timestamp metadata does not prove unchanged
+content; the original CI timing mechanism is not yet established.
 
-**Candidate276 is frozen for full own-source qualification** at9d92322 on
-feature/snapshot-waits-qualification-276. [Campaign276](benchmarks/snapshot-waits-276/receipt.json)
-records engine [40706232371](https://github.com/bipxx/qupathxx/actions/runs/40706232371),
-Mac-native [40706246737](https://github.com/bipxx/qupathxx/actions/runs/40706246737)
-and portable [40706261296](https://github.com/bipxx/qupathxx/actions/runs/40706261296).
-Initial observations show all three queued.539 source paths authenticate;410
-compiler Git blobs equal testednative048cf25, with144 newline-only fresh-checkout
-differences recorded. Local binaries keep their048cf25 provenance; every hosted
-role must build and qualify its own9d92322 source.
+The repair compares all cached QWS header bytes in fixed64KiB chunks, preserving
+cancellation and existing work budgets, and checks framing at delivery/link
+boundaries. QPS reuses its existing header hash on every indexed read. No public
+Python API, wire format, dependency or whole-file hash per block is added.
+Next: one installed build, all native suites, exact installed cohorts including
+22 raw-header cases, the41-case QPS file cohort, typing/package/source evidence
+and one complete own-source platform qualification after stabilization.
 
-An initial CLI GET of workflow metadata timed out. Its attempt is preserved;
-authoritative branch/event queries confirmed zero runs before recovery through
-verified workflow ID392658909. One actual run per role is identified with the
-unchanged full semantic inputs. Do not rerun either dispatch script. Next:
-observe these exact IDs, authenticate all11 required archives and execute the
-complete frozen-source auditors. Qualified273 remains the baseline until that
-acceptance exists. All independent M0-M7 and release/scientific/hardware gates stay open.
+**Unicode input278 is locally verified at native d0f10ae.** The [local receipt](benchmarks/gui-unicode-input-278/receipt.json)
+binds55 native suites,12 active UTF8/UTF16/scalar input/history cases,355 installed
+GUI passes/one skip,308 nonrendering passes/48 skips and1033 audit controls.
+Actual Name editing saves/reopens supplementary Unicode exactly, including GUI
+Undo/Redo plus save/reopen. Seven positive/five negative typing files with28
+exact errors, unchanged stubs,33 package members,37 wheel records,410 compiler
+inputs and retained69 prior/69 final products authenticate. This is a local
+Windows GUI-capable environment sharing test dependencies, not a clean machine
+or a headless wheel. Broader glyph coverage, shaping, DPI/atlas budgets and
+own-source platform acceptance remain. All M0-M7 remain Partial.
 
 **Candidate273 is fully engineering-qualified at5f1760a.** [Closeout275](benchmarks/schema-observer-273/closeout275/receipt.json)
 binds all11 authenticated archives, complete five-profile engine acceptance, both

@@ -1,0 +1,9 @@
+{
+  "native_source": "048cf254db302f0a1997dac249a8688da26e13e7",
+  "input_text": "A\ud840\udc0b\ud83d\udd2c\u96ea",
+  "actual_name": "A\ufffd\ufffd\u96ea",
+  "actual_utf8_hex": "41efbfbdefbfbde99baa",
+  "preserved": false,
+  "original_fixture_retained": true,
+  "after_sha256": "b20806685542f471ac61582020245211d6bb562d777354cdaa4ee314b2011d8a"
+}

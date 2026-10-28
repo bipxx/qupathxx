@@ -67,13 +67,14 @@ def test_native_false_acceptance_controls(suite,change):
 @pytest.mark.parametrize('gui',[False,True])
 def test_exact_installed_contract_has_explicit_skips(gui):
     report=evidence.python(python_cases(gui),gui=gui)
-    assert report['passed']==(355 if gui else 308)
+    assert report['passed']==(377 if gui else 330)
     assert report['declared_skips']==(1 if gui else 48)
 
 
 def test_snapshot_wait_source_closure_includes_filename_fixture():
     assert {'tests/test_snapshot_job_waits.py','tests/test_pixel_stream_read_job.py',
-            'tests/data/pixel-streams/rectangle-v1-windows.qps'}<=set(evidence.SOURCES)
+            'tests/data/pixel-streams/rectangle-v1-windows.qps',
+            'tests/raw_file_mutation.py'}<=set(evidence.SOURCES)
 
 
 @pytest.mark.parametrize('module',list(evidence.CONTRACT['installed']))

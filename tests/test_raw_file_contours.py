@@ -4,10 +4,12 @@ from pathlib import Path
 import json
 import os
 import subprocess
+import numpy as np
 from qupathxx import _native
 import pytest
 import qupathxx as q
 from test_gui_raw_pixel import scene, model_for
+from raw_file_mutation import mutate_header
 
 pytestmark=pytest.mark.skipif(not(q.has_tiff and q.has_geos and q.has_project and q.has_classifier_training),reason="TIFF/GEOS/project and actual forest backend")
 
@@ -100,6 +102,39 @@ def test_moved_history_opens_and_corrupt_or_missing_history_refuses(case,tmp_pat
     file=q.RawPixelStreamFile(str(moved),limits);result=q.trace_raw_pixel_stream_file(file,options);assert Path(result.link.path).samefile(moved)
     with moved.open("r+b") as f:f.seek(150);byte=f.read(1);f.seek(150);f.write(bytes([byte[0]^64]))
     with pytest.raises((RuntimeError,ValueError)):q.trace_raw_pixel_stream_file(file,options)
+
+
+@pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+@pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+    *_,limits,options=case;path,_=save(case,tmp_path)
+    reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+    original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+    offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+    assert 12<=offset<body_end
+    mutate_header(path,offset)
+    action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+            "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+            "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+    with pytest.raises((RuntimeError,ValueError)):action()
+    assert not reader.verified
+
+
+@pytest.mark.parametrize("part",["second_chunk","last_body_byte"])
+def test_large_header_checks_every_chunk_with_bounded_work(case,tmp_path,part):
+    values=list(case);recipe=values[5].recipe;columns=len(recipe.feature_schema)
+    samples=np.repeat(np.arange(128,dtype=np.float32)[:,None],columns,axis=1)
+    labels=(np.arange(128)%2).astype(np.uint32)
+    parameters=q.ForestParameters();parameters.trees=256;parameters.max_depth=8
+    forest=q.train_forest(samples,labels,recipe.feature_schema,["A","B"],parameters)
+    values[5]=q.RawPixelClassifier(forest,recipe);values[7].work_bytes=8*1024**2
+    path,_=save(values,tmp_path);reader=q.RawPixelStreamFile(str(path),values[7])
+    reader.verify();assert reader.verified and reader.payload_bytes<=values[7].work_bytes
+    original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+    assert body_end>2*65536
+    mutate_header(path,65536 if part=="second_chunk" else body_end-1)
+    with pytest.raises((RuntimeError,ValueError)):reader.verify()
+    assert not reader.verified
 
 
 def test_cli_historical_wkt_without_source_and_bounded_json(case,tmp_path):

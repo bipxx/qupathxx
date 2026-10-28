@@ -1,0 +1,165 @@
+{
+  "schema": "qpx.snapshot-waits-terminal/1",
+  "source": "9d923225cb53009506042f6c27df2aff91e123e2",
+  "authenticated_archives": 11,
+  "engineering_accepted": false,
+  "engine_run": 40706232371,
+  "engine_conclusion": "failure",
+  "macos_run": 40706246737,
+  "macos_native_independently_accepted": true,
+  "portable_run": 40706261296,
+  "portable_independently_accepted": true,
+  "frozen_original_auditors": true,
+  "reruns": 0,
+  "failures": [
+    {
+      "classname": "tests.test_raw_file_contours",
+      "name": "test_moved_history_opens_and_corrupt_or_missing_history_refuses",
+      "message": "Failed: DID NOT RAISE any of (RuntimeError, ValueError)"
+    }
+  ],
+  "qualified_feature_baseline": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "release_ready": false,
+  "files": [
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 4536,
+      "sha256": "e0c2c774b6b3033b95a173831d2d57551d7c78618c4bc2704861d43eaf5a83f1"
+    },
+    {
+      "path": "engine-run.json",
+      "bytes": 25146,
+      "sha256": "cdbbf12511050a44b683932f18c9658debb444eb4fd793bcd90437638ed46924"
+    },
+    {
+      "path": "Linux-headless-py3.12-artifact.json",
+      "bytes": 818,
+      "sha256": "de33d906a96a87abb5ad3a095a29ce4430eb88f19f46d88d0e1d033140ea695f"
+    },
+    {
+      "path": "Linux-minimal-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "3c2bda7de301f7354c9c3a52bf765dcfdfcf72a7c2aac526125b5898ad551344"
+    },
+    {
+      "path": "Linux-sanitize-py3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "009e73fcfd125f5d28de6a184fc3e06df4d65047efac15e4d577e1d2593a2d40"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1842,
+      "sha256": "ec0cf77df385353737f2079b02650cc60b9c32874b27f2aa6a922b94bbc2562b"
+    },
+    {
+      "path": "macos-native-arm64-artifact.json",
+      "bytes": 815,
+      "sha256": "05dfc5024628c7464eaf6dc482be67db2966c90b7379247c1f3b8a496a9e9bfe"
+    },
+    {
+      "path": "macos-native-x86_64-artifact.json",
+      "bytes": 816,
+      "sha256": "760f9208101822330c2640af03697068f9beb3434c533708932d41d44b13d7dd"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "d5d7ab7dabc7f5a2cf26008929bcf5a4ce26ae67322024b4e79f382181991014"
+    },
+    {
+      "path": "manylinux-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "41d234ee3be0f52290ed55f8470337ed887c56ad3f10b1a8acc7c42b9d1705f7"
+    },
+    {
+      "path": "manylinux-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "682adf87439dd26c53723889128c2b0ccb48750be24616d90ed352d819fb2e18"
+    },
+    {
+      "path": "manylinux-consumer-3.11-artifact.json",
+      "bytes": 817,
+      "sha256": "9e240422d2de9b75d3e280cf7900577c6c3f97dc3735c258ffa94858163a22fd"
+    },
+    {
+      "path": "manylinux-consumer-3.12-artifact.json",
+      "bytes": 817,
+      "sha256": "fd4cfcf7d45e6625bb1f97b2d660da0e1eb1574407e257460b95a24a830998ce"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 3629,
+      "sha256": "4c3987461e8098c06fbf49ca5fef83fbbaf2f0da795f30f05e7c0e7ccd2c56d3"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 16287,
+      "sha256": "3111b2806219b49070f283eb2f9674a9409604a537565b5c8f56dec48e77d76d"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2681,
+      "sha256": "7cd4ae5c5405df84878bcd8266b90250ff52c9f53fd17ea5ba2b4fd1a95c017e"
+    },
+    {
+      "path": "Windows-gui-py3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "1694e446cda25a99ef8749b265585a0d9dcbad0b3d5a0a10726daf480ab04dd3"
+    },
+    {
+      "path": "Windows-headless-py3.11-artifact.json",
+      "bytes": 820,
+      "sha256": "6d23e0d45a3efb27a57fd5f00dff6c018a3c5ac5a74ce33e47f6d440cd16611c"
+    },
+    {
+      "path": "engine-audit-exit.json",
+      "bytes": 842,
+      "sha256": "205aebee23da84b43cb40565dafa8574dcc23264a6b78a9524dba03699e6b8c8"
+    },
+    {
+      "path": "engine-complete-audit.log",
+      "bytes": 342,
+      "sha256": "25ee46e8d3590a825b2d7d43b8069e2f92a216f457c4d84d75926a92af58597a"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 386302,
+      "sha256": "ee0b5a72daf88267a77946b1ab981b83aba4868685fcea514e45abc2da8db536"
+    },
+    {
+      "path": "macos-audit-exit.json",
+      "bytes": 706,
+      "sha256": "f8c6ee9dc4d3cca05c9fba1d237a11ef2557123a5d2ab84c69fe935bd3788d26"
+    },
+    {
+      "path": "macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "dfda6e0f41fc3bbbc73ca836ecd20b1b0aa4654b1a005bc095239ebcadfed108"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 530529,
+      "sha256": "054be9d44272457aac94955fd01f59bcaea82a077b077cd7b5838c59e62083da"
+    },
+    {
+      "path": "portable-audit-exit.json",
+      "bytes": 875,
+      "sha256": "e93b241dbf94b105bce8eab9485d88238f01be289a0960b0c66579c0dcf61bf2"
+    },
+    {
+      "path": "portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "9ac544c5f01eed35fbd913f65d4fe5cb7d1012627dbb45c9a654e00a98c28dd5"
+    },
+    {
+      "path": "windows-gui/python-tests.xml",
+      "bytes": 689298,
+      "sha256": "90e9ba9a01017918ccc361721001856caa5c5679a0175641a04aa80d0c3f312b"
+    },
+    {
+      "path": "windows-gui/diagnostic-stages.json",
+      "bytes": 43061,
+      "sha256": "a2185fb870c5b122e2fb40e12b5ad2f7b9ae0c895ba20aad47864bd9af9a89cd"
+    }
+  ]
+}

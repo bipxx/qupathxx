@@ -108,11 +108,22 @@ struct RawPixelStreamFile::Impl {
     mutable std::mutex reader;mutable std::atomic<bool> verified{false};std::atomic<bool> cancelled{false};
 };
 struct RawPixelStreamFileCodec {
-    static void framing(const RawPixelStreamFile::Impl& s,std::istream& file) {
-        file.seekg(0);if(read(file,12)!=Bytes(s.header.begin(),s.header.begin()+12)) throw std::runtime_error("raw stream framing changed");file.seekg(std::streamoff(s.header.size()-64));if(read_text(file,64)!=s.header_hash) throw std::runtime_error("raw stream header changed");file.seekg(std::streamoff(s.summary.bytes-s.tail.size()));if(read(file,s.tail.size())!=s.tail) throw std::runtime_error("raw stream completion changed");
+    static void framing(const RawPixelStreamFile::Impl& s,std::istream& file,const std::atomic<bool>* c=nullptr) {
+        // Stamps can remain unchanged after a same-size write. Compare the
+        // actual header, not just its stored checksum, against the bytes whose
+        // checksum and descriptor were validated when opening. Fixed scratch
+        // fits the existing file work allowance; no second header allocation.
+        stop(c);stop(&s.cancelled);file.seekg(0);std::array<std::uint8_t,65536> buffer{};
+        for(std::size_t at=0;at<s.header.size();) {
+            stop(c);stop(&s.cancelled);const auto count=std::min(buffer.size(),s.header.size()-at);
+            exact(file,buffer.data(),count);
+            if(std::memcmp(buffer.data(),s.header.data()+at,count)) throw std::runtime_error("raw stream header changed");
+            at+=count;
+        }
+        file.seekg(std::streamoff(s.summary.bytes-s.tail.size()));if(read(file,s.tail.size())!=s.tail) throw std::runtime_error("raw stream completion changed");stop(c);stop(&s.cancelled);
     }
     template<class Visitor> static void verified_blocks(RawPixelStreamFile::Impl& s,std::istream& file,Visitor&& visitor,const std::atomic<bool>* c) {
-        framing(s,file);auto sum=initial(*s.descriptor,s.header_hash);
+        framing(s,file,c);auto sum=initial(*s.descriptor,s.header_hash);
         for(std::uint64_t i=0;i<s.summary.completed_windows;++i) {const auto item=block(s,file,i,c);accumulate(sum,*item.first,item.second);visitor(*item.first);}
         totals(sum,s.summary);
     }
@@ -162,7 +173,7 @@ std::size_t RawPixelStreamFile::payload_bytes() const {
 }
 const std::shared_ptr<const AnalysisProvenance>& RawPixelStreamFile::provenance() const {return impl_->descriptor->provenance;}
 std::shared_ptr<const RawPixelWindowClassification> RawPixelStreamFile::read_block(std::uint64_t index,const std::atomic<bool>* c) const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file);auto out=RawPixelStreamFileCodec::block(s,file,index,c).first;guard.verify();return out;}catch(...) {s.verified.store(false);throw;}
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file,c);auto out=RawPixelStreamFileCodec::block(s,file,index,c).first;guard.verify();return out;}catch(...) {s.verified.store(false);throw;}
 }
 void RawPixelStreamFile::verify(const std::atomic<bool>* c) const {
     auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::verified_blocks(s,file,[](const RawPixelWindowClassification&) {},c);stop(c);stop(&s.cancelled);guard.verify();s.verified.store(true);
@@ -170,12 +181,12 @@ void RawPixelStreamFile::verify(const std::atomic<bool>* c) const {
 void RawPixelStreamFile::cancel() {impl_->cancelled.store(true,std::memory_order_relaxed);impl_->verified.store(false);}
 bool RawPixelStreamFile::verified() const {return impl_->verified.load() && !impl_->cancelled.load();}
 void RawPixelStreamFile::check_unchanged() const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();}catch(...) {s.verified.store(false);throw;}
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file);guard.verify();}catch(...) {s.verified.store(false);throw;}
 }
 std::shared_ptr<const RawPixelStreamLink> RawPixelStreamFile::link() const {
     auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);
     try {stop(&s.cancelled);if(!s.verified.load()) throw std::logic_error("verify the complete raw stream prefix before preparing a link");
-        detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();const auto& d=*s.descriptor;
+        detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file);guard.verify();const auto& d=*s.descriptor;
         auto out=std::shared_ptr<RawPixelStreamLink>(new RawPixelStreamLink(d.lattice,d.region,d.options));out->path_=s.path;out->model_=d.model.sha256();out->request_=d.request_sha;out->header_=s.header_hash;out->header_bytes_=s.header.size();out->summary_=s.summary;out->summary_.reused_windows=0;out->object_=d.provenance->object_id;out->revision_=d.provenance->document_revision;out->version_=s.version;out->validate();stop(&s.cancelled);return out;
     }catch(...) {s.verified.store(false);throw;}
 }

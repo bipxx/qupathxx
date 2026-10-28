@@ -41,7 +41,7 @@ public:
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
     std::shared_ptr<const RawPixelWindowClassification> read_block(std::uint64_t,const std::atomic<bool>* cancelled=nullptr) const;
     void verify(const std::atomic<bool>* cancelled=nullptr) const;
-    // Lightweight identity/stamp check for delivery of previously read data.
+    // Identity/stamp and bounded header/footer check for previously read data.
     // Does not scan blocks or turn an unverified prefix into a verified one.
     void check_unchanged() const;
     std::shared_ptr<const RawPixelStreamLink> link() const;

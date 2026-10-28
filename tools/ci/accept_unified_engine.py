@@ -275,10 +275,15 @@ for job in run['jobs']:
             entry['gui_pixel_contour_benchmark']=contour_gui
 
 
-        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',38),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',35),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
+        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',41),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',35),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith(suffix)]
             assert len(cases)==count and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases), (job['name'], suffix, count, len(cases), [(t.get('name'),[k for k in ['skipped','failure','error'] if t.find(k) is not None]) for t in cases if any(t.find(k) is not None for k in ['skipped','failure','error'])])
             entry[suffix+'_cases']=[t.get('name') for t in cases]
+            if suffix=='test_pixel_stream_file':
+                names={t.get('name') for t in cases}
+                required={f'test_same_stamp_header_changes_refuse_cached_model_use[{operation}]'
+                          for operation in ['read_first','read_later','verify']}
+                assert len(names)==41 and required<=names, (job['name'],'stream header mutation identities missing or duplicated')
             if suffix=='test_pixel_stream_records':
                 names={t.get('name') for t in cases}
                 required={f'test_legacy_schemas_load_and_transactionally_upgrade_to_schema14[{v}]' for v in range(1,14)}

@@ -17,8 +17,12 @@ authenticates all11 archives and accepts the full engine/Mac-native/portable rol
 Candidate262 remains preserved as the prior feature baseline; public main is unchanged.
 Snapshot-controller waits274 now verify locally at native048cf25/observer92bb6c2;
 candidate273 predates that repair and supplies no acceptance for it.
-Candidate276 freezes9d92322 for the complete source-matched qualification of274
-and observer275; all three full roles are queued in the initial observation.
+Candidate276 at9d92322 is terminal and unaccepted: the engine fails a saved-stream
+header mutation case; original Mac-native and portable auditors independently
+accept their roles. [Terminal evidence](benchmarks/snapshot-waits-276/terminal279/receipt.json)
+preserves all11 archives and failures. Unicode278 has [local verification](benchmarks/gui-unicode-input-278/receipt.json)
+at native d0f10ae; stream-integrity279 is implemented and awaits installed build/
+green checks. No later source inherits273 qualification.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 

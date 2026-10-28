@@ -128,6 +128,9 @@ def legacy_record_fixture(tmp_path):
                   dict(args=SimpleNamespace(ndpi_readers=True)))
     for module,count in required:
         names=migrations+['retained_record_case_'+str(i) for i in range(22)] if module=='test_pixel_stream_records' else ['case_'+str(i) for i in range(count)]
+        if module=='test_pixel_stream_file':
+            names=[f'test_same_stamp_header_changes_refuse_cached_model_use[{operation}]'
+                   for operation in ['read_first','read_later','verify']]+['file_case_'+str(i) for i in range(38)]
         for name in names:
             case=ET.SubElement(root,'testcase',classname='tests.'+module,name=name)
             if module=='test_pixel_stream_records':record_cases.append(case)
@@ -147,6 +150,19 @@ def test_legacy_record_gate_accepts_schema14_source_migrations(tmp_path):
     assert len(cases)==35
     result=check_legacy_record_guard(tmp_path,root)
     assert len(result['test_pixel_stream_records_cases'])==35
+    assert len(result['test_pixel_stream_file_cases'])==41
+
+
+@pytest.mark.parametrize('change',['old_count','missing_later','duplicate','failure','error','skipped'])
+def test_legacy_stream_gate_requires_header_mutation_controls(tmp_path,change):
+    root,_=legacy_record_fixture(tmp_path)
+    cases=[case for case in root if case.get('classname')=='tests.test_pixel_stream_file']
+    later=next(case for case in cases if case.get('name')=='test_same_stamp_header_changes_refuse_cached_model_use[read_later]')
+    if change=='old_count':root.remove(later)
+    elif change=='missing_later':later.set('name','unrelated_replacement')
+    elif change=='duplicate':cases[-1].set('name',cases[-2].get('name'))
+    else:ET.SubElement(later,change)
+    with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)
 
 
 @pytest.mark.parametrize('change',['old_count','missing_version13','old_family','duplicate_identity',

@@ -10,6 +10,7 @@ import numpy as np
 import pytest
 import qupathxx as q
 from test_pixel_prediction_windows import setup
+from raw_file_mutation import mutate_header
 
 pytestmark=pytest.mark.skipif(not q.has_classifier_training,reason='optional training backend')
 
@@ -23,6 +24,18 @@ def producer(doc,root,model,block_size=16,window=None):
 def saved(tmp_path,block_size=16,window=None):
     doc,root,model=setup();stream=producer(doc,root,model,block_size,window);path=tmp_path/'mask.qps'
     summary=q.save_pixel_stream(stream,str(path));return doc,root,model,path,summary
+
+
+@pytest.mark.parametrize('operation',['read_first','read_later','verify'])
+def test_same_stamp_header_changes_refuse_cached_model_use(tmp_path,operation):
+    *_,path,summary=saved(tmp_path);assert summary.blocks>1
+    reader=q.PixelStreamFile(str(path));reader.verify();assert reader.verified
+    # The QPS header archive starts after the fixed 68-byte grid prefix.
+    mutate_header(path,150)
+    action={'read_first':lambda:reader.read_block(0),
+            'read_later':lambda:reader.read_block(1),'verify':reader.verify}[operation]
+    with pytest.raises((RuntimeError,ValueError)):action()
+    assert not reader.verified
 
 
 @pytest.mark.parametrize('block_size',[16,32,256])

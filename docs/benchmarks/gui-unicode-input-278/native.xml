@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="55"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="21"
+	timestamp="2026-10-28T11:30:46"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="2.30703" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw training work admission: live=268356034 historical=268430517; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw replay refusal [historical]: type=class std::invalid_argument message=raw pixel contours require the matching l...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="pixel_features" classname="pixel_features" time="0.179796" status="run">
+		<properties/>
+		<system-out>Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed
+Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed
+Raw lattice windows: 13 Fraction wide means, 20 large irreducible uint64 samples, huge dense lattice, bounded chunk mutation, admission/cancel and 9072 exact tiled feature slots passed
+Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="classifier_io" classname="classifier_io" time="0.112497" status="run">
+		<properties/>
+		<system-out>classifier IO checks passed
+</system-out>
+	</testcase>
+	<testcase name="object_classifier" classname="object_classifier" time="0.0795524" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="classifier" classname="classifier" time="0.0574346" status="run">
+		<properties/>
+		<system-out>classifier checks passed; training=1
+</system-out>
+	</testcase>
+	<testcase name="qptma_project" classname="qptma_project" time="0.217421" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1241476257284400\\imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1241476257284400\\exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+	<testcase name="qptma" classname="qptma" time="0.114948" status="run">
+		<properties/>
+		<system-out>QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed
+NATIVE_QPTMA_LITERAL_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts\qptma-1241476502693000\native-literal-text.qptma
+NATIVE_QPTMA_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts\qptma-1241476502693000\native-export.qptma
+</system-out>
+	</testcase>
+	<testcase name="resampling" classname="resampling" time="2.94861" status="run">
+		<properties/>
+		<system-out>Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine i...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="thumbnail" classname="thumbnail" time="0.0571975" status="run">
+		<properties/>
+		<system-out>Thumbnail planning, area/alpha oracle, budgets, cancellation and ownership passed
+</system-out>
+	</testcase>
+	<testcase name="viewer_session" classname="viewer_session" time="1.22096" status="run">
+		<properties/>
+		<system-out>Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1
+Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1
+Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery p...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="tma" classname="tma" time="0.295843" status="run">
+		<properties/>
+		<system-out>TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV read-transfer bytes: 0
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+	<testcase name="tma_dearray" classname="tma_dearray" time="0.371333" status="run">
+		<properties/>
+		<system-out>TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_PHYSICAL anisotropic units, captured document overrides, unknown/invalid/overflow refusal, pixel recipe preservation and physical identities passed
+TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed
+TMA_DEARRAY_PHYSICAL_OWNER owner calibration capture, unknown refusal and stale calibration delivery passed...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="raw_image" classname="raw_image" time="0.46523" status="run">
+		<properties/>
+		<system-out>TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed
+TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed
+TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed
+Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed
+Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+</system-out>
+	</testcase>
+	<testcase name="project_batch" classname="project_batch" time="1.39258" status="run">
+		<properties/>
+		<system-out>Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed
+Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed
+Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="stain_estimation" classname="stain_estimation" time="0.0975354" status="run">
+		<properties/>
+		<system-out>Native stain estimation, models, budgets, cancellation and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="source_identity" classname="source_identity" time="0.112923" status="run">
+		<properties/>
+		<system-out>Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+	<testcase name="file_fingerprint" classname="file_fingerprint" time="0.112813" status="run">
+		<properties/>
+		<system-out>Namespace-stable locators, missing-source lexical comparison and incompatible/literal root fallback passed
+Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+</system-out>
+	</testcase>
+	<testcase name="provenance" classname="provenance" time="0.0656365" status="run">
+		<properties/>
+		<system-out>Capture-time source/environment provenance, native codec and kernels passed
+</system-out>
+	</testcase>
+	<testcase name="measurement_tables" classname="measurement_tables" time="0.114181" status="run">
+		<properties/>
+		<system-out>Measurement tables, snapshots, locale, bounds, cancellation and atomic jobs passed
+</system-out>
+	</testcase>
+	<testcase name="cell_tables" classname="cell_tables" time="0.132095" status="run">
+		<properties/>
+		<system-out>Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed
+QCA5 mixed grid/natural classifier sources and CSV project save/reopen passed
+Grid cell CSV schema 5/6, mixed/manual rows, captured units, QCA5 provenance and upsampled source limits passed
+Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+</system-out>
+	</testcase>
+	<testcase name="cell_records" classname="cell_records" time="0.839163" status="run">
+		<properties/>
+		<system-out>Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 SQLite save, reopen, provenance attachment, replay and second save passed
+QCL5 analytic ellipse, polygon hole and winding-policy geometry persistence passed
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="overlay_surface" classname="overlay_surface" time="0.0465257" status="run">
+		<properties/>
+		<system-out>Physical canvas bounds, DPI alignment and exact budget endpoints passed
+</system-out>
+	</testcase>
+	<testcase name="cells" classname="cells" time="0.152556" status="run">
+		<properties/>
+		<system-out>Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="cell_calibration" classname="cell_calibration" time="0.0773308" status="run">
+		<properties/>
+		<system-out>Captured anisotropic areas/centroids, legacy unknown, detached lifetime and numerical ranges passed
+</system-out>
+	</testcase>
+	<testcase name="masked_gaussian" classname="masked_gaussian" time="0.0980625" status="run">
+		<properties/>
+		<system-out>Direct 2D Gaussian, empty/holey domains, block edges and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="log_watershed" classname="log_watershed" time="0.120159" status="run">
+		<properties/>
+		<system-out>Sampled shape 26 frozen masks and maxima passed
+LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed
+</system-out>
+	</testcase>
+	<testcase name="cell_expansion" classname="cell_expansion" time="0.200928" status="run">
+		<properties/>
+		<system-out>Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="log_cell_recipe" classname="log_cell_recipe" time="0.171741" status="run">
+		<properties/>
+		<system-out>Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+</system-out>
+	</testcase>
+	<testcase name="decimal_quantities" classname="decimal_quantities" time="0.0400255" status="run">
+		<properties/>
+		<system-out>installed comma C locale exercised: 1
+decimal quantities: strict syntax, range, concurrency and locale checks passed
+signed decimal fields: grammar, representable subnormals and locale independence passed
+</system-out>
+	</testcase>
+	<testcase name="object_snapshots" classname="object_snapshots" time="0.29605" status="run">
+		<properties/>
+		<system-out>Object snapshot boundaries, copy, undo, empty blocks and recovery isolation passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_records" classname="tissue_records" time="0.160381" status="run">
+		<properties/>
+		<system-out>Tissue archive codec, authority, snapshot isolation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_contours" classname="tissue_contours" time="0.216131" status="run">
+		<properties/>
+		<system-out>Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS explicit-grid edges, ROI holes and anisotropic areas passed
+tissue contour topology, publication and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="gui_replay" classname="gui_replay" time="0.102853" status="run">
+		<properties/>
+		<system-out>GUI Unicode scalar input and native undo/redo passed
+gui replay passed
+</system-out>
+	</testcase>
+	<testcase name="tissue" classname="tissue" time="0.0719159" status="run">
+		<properties/>
+		<system-out>tissue passed
+</system-out>
+	</testcase>
+	<testcase name="sha256" classname="sha256" time="0.0534147" status="run">
+		<properties/>
+		<system-out>SHA-256 passed
+</system-out>
+	</testcase>
+	<testcase name="analysis" classname="analysis" time="0.0743664" status="run">
+		<properties/>
+		<system-out>analysis passed
+</system-out>
+	</testcase>
+	<testcase name="stains" classname="stains" time="0.100304" status="run">
+		<properties/>
+		<system-out>Native scientific float64 OD/stains, validity, captured basis and admission passed
+Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes
+stains passed
+</system-out>
+	</testcase>
+	<testcase name="core" classname="core" time="0.0568824" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="image_server" classname="image_server" time="0.0539714" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="tile_scheduler" classname="tile_scheduler" time="0.0543789" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="view_tiles" classname="view_tiles" time="0.0507871" status="run">
+		<properties/>
+		<system-out>Tile selection, DPI, bounds and huge-image request cap passed
+</system-out>
+	</testcase>
+	<testcase name="document_edits" classname="document_edits" time="0.251068" status="run">
+		<properties/>
+		<system-out>Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+	<testcase name="geometry" classname="geometry" time="0.0675813" status="run">
+		<properties/>
+		<system-out>ROI centroids: analytic bodies, area/length/point weights, numeric limits and shared snapshots passed; GEOS=1
+Analytic shapes, topology, ownership and shape undo passed; GEOS 3.15.0-CAPI-1.21.0
+</system-out>
+	</testcase>
+	<testcase name="geometry_edits" classname="geometry_edits" time="0.0658522" status="run">
+		<properties/>
+		<system-out>Vertex edits, holes, area overlay and journal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial" classname="spatial" time="0.0874427" status="run">
+		<properties/>
+		<system-out>Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed
+Spatial queries, delta updates, picking and undo passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_frontend" classname="spatial_frontend" time="0.120854" status="run">
+		<properties/>
+		<system-out>Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_cli" classname="spatial_cli" time="0.619548" status="run">
+		<properties/>
+		<system-out>Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="2.56032" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_analysis" classname="spatial_analysis" time="0.149184" status="run">
+		<properties/>
+		<system-out>Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed
+Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed
+Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed
+</system-out>
+	</testcase>
+	<testcase name="classes" classname="classes" time="0.242014" status="run">
+		<properties/>
+		<system-out>Class registry, counts, atomic edits and history passed
+</system-out>
+	</testcase>
+	<testcase name="selection" classname="selection" time="0.250234" status="run">
+		<properties/>
+		<system-out>Selection, classification and atomic delete passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.194885" status="run">
+		<properties/>
+		<system-out>Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.277582" status="run">
+		<properties/>
+		<system-out>Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+	<testcase name="recovery" classname="recovery" time="0.291205" status="run">
+		<properties/>
+		<system-out>Native physical path adaptation preserves logical names and UNC/drive policy passed
+Native async snapshot isolation, primary preservation and restoration passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.182966" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

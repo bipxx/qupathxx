@@ -1,0 +1,9 @@
+{
+  "native_source": "d0f10ae60f9d768c774756036f70db479792a1a7",
+  "input_text": "A\ud840\udc0b\ud83d\udd2c\u96ea",
+  "actual_name": "A\ud840\udc0b\ud83d\udd2c\u96ea",
+  "actual_utf8_hex": "41f0a0808bf09f94ace99baa",
+  "preserved": true,
+  "after_sha256": "754f52cd4edfd8e9de1ccffb6bf726d343218b44a5ab7a50a66c10d523959542",
+  "glyph_coverage_fixed": false
+}
