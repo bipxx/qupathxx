@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40726273936",
+    "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q281-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-qualification-281\\engine-acceptance.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-qualification-281-audit",
+  "returncode": 0
+}

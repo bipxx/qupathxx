@@ -2,35 +2,26 @@
 
 ## Current execution card (2026-10-28)
 
-**Candidate281 is frozen and full own-source qualification is running** at
-3f15c2b on feature/stream-header-qualification-281. [Campaign281](benchmarks/stream-header-qualification-281/receipt.json)
-binds engine [40726273936](https://github.com/bipxx/qupathxx/actions/runs/40726273936),
-Mac-native [40726289400](https://github.com/bipxx/qupathxx/actions/runs/40726289400)
-and portable [40726306463](https://github.com/bipxx/qupathxx/actions/runs/40726306463).
-Each full role was dispatched once; initial authoritative observations show all
-queued and zero archives.540 frozen source paths authenticate;410 canonical
-compiler Git blobs equal localnative3bd6591, with144 newline-only fresh-checkout
-differences. Local binaries retain3bd6591 provenance; each hosted role builds its
-own3f15c2b source. Next: observe these exact IDs, authenticate all11 required
-archives and execute every applicable complete frozen-source auditor. Do not
-redispatch or move the frozen ref/checkout. Candidate273 remains qualified until
-combined acceptance exists; independent M0-M7/science/hardware/support/release
-gates remain open.
+**Current qualified feature baseline: candidate281 at `3f15c2b`.**
+The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source
+engine, Mac-native and portable audits. Its source-specific GUI overview has
+been inspected. This supersedes older campaign observations below; public main
+is unchanged. The later font source `7231d95` is locally built and passes55 native
+suites and five targeted desktop font cases; broader installed/desktop/audit
+regressions are running. It inherits no281 platform acceptance. Three strict
+scientific expected failures, representative speed/hardware, broader biology,
+clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
 
-**Font delivery283 is implemented; installed build and GUI validation are next.**
-The integration pins ImGui1.93 docking/core/backends together, packages verified
-OFL CJK/monochrome Emoji assets and notices, authenticates a bounded immutable
-module-relative font snapshot and requests glyphs dynamically. A hash-checked
-generated draw implementation removes only the proven quota assertion; the
-upstream checkout remains untouched. GuiScale changes typography without
-rereading font files; atlas/baked-font state invalidates cached canvas pixels.
-Backend migration also preserves per-texture filtering and matches its new
-nearest-pixel framebuffer rounding. Native resource/glyph/quota controls and
-real Unicode-versus-question-mark/cache-scale regressions are added. Retained
-native3bd6591 fails the actual-glyph comparison while its cache control passes.
-52 auditor seam tests pass. No new native product, package or platform acceptance
-is claimed yet. Candidate281 must continue using its frozen original auditors;
-the new font markers intentionally reject older font-free artifacts.
+**Font delivery283 local validation is in progress.** The pinned ImGui1.93
+core/backends, module-relative OFL CJK/Emoji assets and recoverable atlas cap
+are built in native7231d95. All55 native suites and five actual GUI font tests
+pass, including real glyph rendering, cached pixels across scale changes,
+working-directory independence and missing/corrupt asset repair. The rendered
+Unicode capture has been inspected. Full installed cohorts, broader desktop
+regressions and1053 expected audit controls are running. These local tests share
+test dependencies; no clean-machine, real GPU peak-memory, shaping, bidi or
+own-source platform qualification is claimed. Preserve the initial stale-source
+configure failure and the later native compatibility compile failure separately.
 
 **Font pilot282 identifies the next M2 delivery path.** [Receipt282](benchmarks/gui-font-pilot-282/receipt.json)
 compares retained32-bit1.91.9b with pinned1.93 docking and unmodified OFL CJK/

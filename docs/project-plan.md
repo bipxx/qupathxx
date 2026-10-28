@@ -1,5 +1,15 @@
 # qupathxx project plan
 
+**Current qualified feature baseline: candidate281 at `3f15c2b`.**
+The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source
+engine, Mac-native and portable audits. Its source-specific GUI overview has
+been inspected. This supersedes older campaign observations below; public main
+is unchanged. The later font source `7231d95` is locally built and passes55 native
+suites and five targeted desktop font cases; broader installed/desktop/audit
+regressions are running. It inherits no281 platform acceptance. Three strict
+scientific expected failures, representative speed/hardware, broader biology,
+clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
+
 Build a C++ bioimage analysis application with a nanobind Python interface and
 Dear ImGui desktop UI. The first useful release must open real whole-slide
 images, edit and save annotations, run reproducible tissue and cell analysis,

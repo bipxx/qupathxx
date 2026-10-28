@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40726289400",
+    "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q281-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-qualification-281\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-qualification-281-audit",
+  "returncode": 0
+}

@@ -1,0 +1,489 @@
+{
+  "conclusion": "success",
+  "databaseId": 40726306463,
+  "headSha": "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+  "jobs": [
+    {
+      "completedAt": "2026-10-28T17:08:41Z",
+      "conclusion": "success",
+      "databaseId": 122950416317,
+      "name": "Manylinux build Python 3.12",
+      "startedAt": "2026-10-28T16:45:45Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-28T16:45:48Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-28T16:45:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:20Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-28T16:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:23Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 3,
+          "startedAt": "2026-10-28T16:46:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:40Z",
+          "conclusion": "success",
+          "name": "Qualification dependencies",
+          "number": 4,
+          "startedAt": "2026-10-28T16:46:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:41Z",
+          "conclusion": "success",
+          "name": "Baseline GEOS SDK cache",
+          "number": 5,
+          "startedAt": "2026-10-28T16:46:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:41Z",
+          "conclusion": "success",
+          "name": "Baseline OpenCV SDK cache",
+          "number": 6,
+          "startedAt": "2026-10-28T16:46:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:46:42Z",
+          "conclusion": "success",
+          "name": "Reader fixture cache",
+          "number": 7,
+          "startedAt": "2026-10-28T16:46:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:11Z",
+          "conclusion": "success",
+          "name": "Build qualify and recheck",
+          "number": 8,
+          "startedAt": "2026-10-28T16:46:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:14Z",
+          "conclusion": "success",
+          "name": "Qualified wheel and audit evidence",
+          "number": 9,
+          "startedAt": "2026-10-28T17:08:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:32Z",
+          "conclusion": "success",
+          "name": "Post Reader fixture cache",
+          "number": 14,
+          "startedAt": "2026-10-28T17:08:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:35Z",
+          "conclusion": "success",
+          "name": "Post Baseline OpenCV SDK cache",
+          "number": 15,
+          "startedAt": "2026-10-28T17:08:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:37Z",
+          "conclusion": "success",
+          "name": "Post Baseline GEOS SDK cache",
+          "number": 16,
+          "startedAt": "2026-10-28T17:08:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:37Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 17,
+          "startedAt": "2026-10-28T17:08:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:39Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 18,
+          "startedAt": "2026-10-28T17:08:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:39Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-28T17:08:39Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950416317"
+    },
+    {
+      "completedAt": "2026-10-28T17:09:10Z",
+      "conclusion": "success",
+      "databaseId": 122950416815,
+      "name": "Manylinux build Python 3.11",
+      "startedAt": "2026-10-28T16:46:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-28T16:46:56Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-28T16:46:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:26Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-28T16:46:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:30Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 3,
+          "startedAt": "2026-10-28T16:47:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:46Z",
+          "conclusion": "success",
+          "name": "Qualification dependencies",
+          "number": 4,
+          "startedAt": "2026-10-28T16:47:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:46Z",
+          "conclusion": "success",
+          "name": "Baseline GEOS SDK cache",
+          "number": 5,
+          "startedAt": "2026-10-28T16:47:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:47Z",
+          "conclusion": "success",
+          "name": "Baseline OpenCV SDK cache",
+          "number": 6,
+          "startedAt": "2026-10-28T16:47:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T16:47:47Z",
+          "conclusion": "success",
+          "name": "Reader fixture cache",
+          "number": 7,
+          "startedAt": "2026-10-28T16:47:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:48Z",
+          "conclusion": "success",
+          "name": "Build qualify and recheck",
+          "number": 8,
+          "startedAt": "2026-10-28T16:47:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:08:50Z",
+          "conclusion": "success",
+          "name": "Qualified wheel and audit evidence",
+          "number": 9,
+          "startedAt": "2026-10-28T17:08:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:04Z",
+          "conclusion": "success",
+          "name": "Post Reader fixture cache",
+          "number": 14,
+          "startedAt": "2026-10-28T17:08:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:05Z",
+          "conclusion": "success",
+          "name": "Post Baseline OpenCV SDK cache",
+          "number": 15,
+          "startedAt": "2026-10-28T17:09:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:06Z",
+          "conclusion": "success",
+          "name": "Post Baseline GEOS SDK cache",
+          "number": 16,
+          "startedAt": "2026-10-28T17:09:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:07Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 17,
+          "startedAt": "2026-10-28T17:09:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:09Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 18,
+          "startedAt": "2026-10-28T17:09:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-28T17:09:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950416815"
+    },
+    {
+      "completedAt": "2026-10-28T16:28:31Z",
+      "conclusion": "skipped",
+      "databaseId": 122950419285,
+      "name": "matrix.name",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950419285"
+    },
+    {
+      "completedAt": "2026-10-28T16:28:31Z",
+      "conclusion": "skipped",
+      "databaseId": 122950419954,
+      "name": "macOS native ${{ matrix.architecture }}",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950419954"
+    },
+    {
+      "completedAt": "2026-10-28T17:12:56Z",
+      "conclusion": "success",
+      "databaseId": 122973804412,
+      "name": "Debian consumer Python 3.11",
+      "startedAt": "2026-10-28T17:09:13Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-28T17:09:15Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-28T17:09:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:19Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-28T17:09:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:21Z",
+          "conclusion": "success",
+          "name": "System C++ runtime",
+          "number": 3,
+          "startedAt": "2026-10-28T17:09:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:27Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 4,
+          "startedAt": "2026-10-28T17:09:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:29Z",
+          "conclusion": "success",
+          "name": "Run actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0",
+          "number": 5,
+          "startedAt": "2026-10-28T17:09:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:47Z",
+          "conclusion": "success",
+          "name": "Install qualified candidate",
+          "number": 6,
+          "startedAt": "2026-10-28T17:09:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:50Z",
+          "conclusion": "success",
+          "name": "Fresh consumer workflows",
+          "number": 7,
+          "startedAt": "2026-10-28T17:09:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:52Z",
+          "conclusion": "success",
+          "name": "Consumer evidence",
+          "number": 8,
+          "startedAt": "2026-10-28T17:12:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:52Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 15,
+          "startedAt": "2026-10-28T17:12:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:54Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 16,
+          "startedAt": "2026-10-28T17:12:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:54Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-28T17:12:54Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122973804412"
+    },
+    {
+      "completedAt": "2026-10-28T17:12:20Z",
+      "conclusion": "success",
+      "databaseId": 122973804534,
+      "name": "Debian consumer Python 3.12",
+      "startedAt": "2026-10-28T17:09:13Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-28T17:09:14Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-28T17:09:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:19Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-28T17:09:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:21Z",
+          "conclusion": "success",
+          "name": "System C++ runtime",
+          "number": 3,
+          "startedAt": "2026-10-28T17:09:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:26Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 4,
+          "startedAt": "2026-10-28T17:09:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:28Z",
+          "conclusion": "success",
+          "name": "Run actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0",
+          "number": 5,
+          "startedAt": "2026-10-28T17:09:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:09:45Z",
+          "conclusion": "success",
+          "name": "Install qualified candidate",
+          "number": 6,
+          "startedAt": "2026-10-28T17:09:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:12Z",
+          "conclusion": "success",
+          "name": "Fresh consumer workflows",
+          "number": 7,
+          "startedAt": "2026-10-28T17:09:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:14Z",
+          "conclusion": "success",
+          "name": "Consumer evidence",
+          "number": 8,
+          "startedAt": "2026-10-28T17:12:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:14Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 15,
+          "startedAt": "2026-10-28T17:12:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:18Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 16,
+          "startedAt": "2026-10-28T17:12:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-28T17:12:18Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-28T17:12:18Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122973804534"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463"
+}
