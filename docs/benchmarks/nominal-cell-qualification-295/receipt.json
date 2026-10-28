@@ -144,6 +144,18 @@
       "path": "observers/collect_candidate295.py",
       "bytes": 4852,
       "sha256": "a7735d609aa09ae2baa403c98e4f8f14e29b46d7a57cbf56cf2d65eb08d7e1b8"
+    },
+    {
+      "path": "plan-scope-restoration.json",
+      "bytes": 1210,
+      "sha256": "39ec770d35c1f5991438e697f131ebcc6bff29f6369bfbb1b90b1f24228a5ef8"
+    },
+    {
+      "path": "plan-scope-notes-append-proof.json",
+      "bytes": 359,
+      "sha256": "2d55ec25651e04ff6a6e6bfc4e97854a465ab794bb5f572d24f72890fb873f45"
     }
-  ]
+  ],
+  "plan_scope_preserved": true,
+  "plan_scope_repair": "All19 headings and scope/acceptance sections restored verbatim from frozen a7eb78de before push; only11 scheduling lines replaced. Frozen source unchanged."
 }

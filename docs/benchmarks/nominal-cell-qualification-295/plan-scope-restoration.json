@@ -1,0 +1,28 @@
+{
+  "base_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "headings_preserved": [
+    "# qupathxx project plan",
+    "## Current execution map",
+    "## Scope and release boundaries",
+    "## Starting foundation (historical; not the current backlog)",
+    "## Architecture and ownership",
+    "## Contracts to establish first",
+    "## Milestones and acceptance criteria",
+    "### M0 Baseline and representative workloads",
+    "### M1 Image servers and whole slide access",
+    "### M2 Tiled viewer and ImGui workspace",
+    "### M3 Objects and annotation editing",
+    "### M4 Projects and interchange",
+    "### M5 Reproducible native analysis",
+    "### M6 Python workflows and batch execution",
+    "### M7 Distribution and supported workflow release",
+    "## Validation and performance targets",
+    "## Broader QuPath parity backlog",
+    "## Execution order from the present state",
+    "## Planning and validation discipline"
+  ],
+  "acceptance_and_scope_section_sha256": "b6a47ba22113f5cafdd33748d005add843c2131e36eff623002240e3865712b1",
+  "acceptance_and_scope_restored_verbatim": true,
+  "replaced_scheduling_lines": 11,
+  "frozen_candidate_unchanged": true
+}
