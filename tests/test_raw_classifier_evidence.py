@@ -139,11 +139,16 @@ def test_production_owners_execute_shared_raw_admission(name,required):
 
 
 def test_source_closure_covers_shared_kernels_jobs_frontends_and_consumers():
+    assert {'cpp/spatial_analysis.cpp','cpp/include/qupathxx/spatial_analysis.hpp','cpp/tests/spatial_analysis_tests.cpp',
+            'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json',
+            'tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy',
+            'tools/capture_qupath_spatial.py'}<=set(evidence.SOURCES)
     assert {'tools/profile_raw_stream_contours.py','tools/check_tma_large_pyramid.py','tests/test_raw_stream_resource_profile.py','tests/fixtures/raw-stream-resources-v1/contract.json','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json','cpp/raw_pixel_frontend.cpp','cpp/raw_pixel_window_workflows.cpp','cpp/tissue_contours.cpp','cpp/raw_pixel_file_jobs.cpp','cpp/project_batch.cpp','cpp/include/qupathxx/raw_pixel_frontend.hpp','tests/test_raw_pixel_python.py','tests/test_gui_pixel_classifier.py','tests/test_viewer_session.py','tools/ci/raw-classifier-cases.json','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json'}<=set(evidence.SOURCES)
     assert len(evidence.SOURCES)==len(set(evidence.SOURCES))
 
 
-@pytest.mark.parametrize('changed_path',['cpp/raw_pixel_frontend.cpp','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json'])
+@pytest.mark.parametrize('changed_path',['cpp/raw_pixel_frontend.cpp','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
+    'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json','tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy','tools/capture_qupath_spatial.py'])
 def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch,changed_path):
     if shutil.which('git') is None:
         pytest.skip('development source-proof fixture requires git; package consumers do not')

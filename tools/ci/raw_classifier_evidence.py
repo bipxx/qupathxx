@@ -22,6 +22,10 @@ def source_paths():
            # Filename launches/dynamic references are not AST import edges.
            'tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py',
            'tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
+           # The native spatial suite reads these by filename, outside AST imports.
+           'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json',
+           'tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy',
+           'tools/capture_qupath_spatial.py',
            'tools/profile_raw_stream_contours.py','tools/check_tma_large_pyramid.py',
            'tests/test_raw_stream_resource_profile.py','tests/fixtures/raw-stream-resources-v1/contract.json',
            'src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
@@ -45,7 +49,7 @@ SOURCES=source_paths()
 
 
 def source_contract(root,commit):
-    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/',))
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/'))
 
 
 def _suite(cases,name,markers):

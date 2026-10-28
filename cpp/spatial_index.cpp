@@ -7,6 +7,12 @@
 #include <stdexcept>
 
 namespace qpx {
+std::size_t SpatialIndex::estimated_bytes(std::size_t n) {
+    if(n>(std::numeric_limits<std::size_t>::max()-sizeof(SpatialIndex)-sizeof(Node))/(sizeof(SpatialEntry)+sizeof(Node)))
+        throw std::length_error("spatial index payload estimate overflow");
+    return sizeof(SpatialIndex)+n*sizeof(SpatialEntry)+(n/2+1)*sizeof(Node);
+}
+std::size_t SpatialIndex::payload_bytes() const {return sizeof(*this)+entries_.capacity()*sizeof(SpatialEntry)+nodes_.capacity()*sizeof(Node);}
 void validate_query_bounds(Rect b) {
     if(!std::isfinite(b.x) || !std::isfinite(b.y) || !std::isfinite(b.width) || !std::isfinite(b.height) ||
         b.width<0 || b.height<0 || !std::isfinite(b.x+b.width) || !std::isfinite(b.y+b.height))
@@ -54,7 +60,7 @@ std::vector<std::uint64_t> SpatialIndex::query(Rect bounds) const {
     return result;
 }
 std::optional<SpatialNeighbor> SpatialIndex::nearest_point(Point point,double sx,double sy,
-    std::optional<std::uint64_t> exclude,const std::atomic<bool>* cancelled) const {
+    std::optional<std::uint64_t> exclude,const std::atomic<bool>* cancelled,std::uint64_t* remaining) const {
     if(!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(sx) ||
        !std::isfinite(sy) || sx<=0 || sy<=0)
         throw std::invalid_argument("nearest point query requires finite coordinates and positive finite scales");
@@ -88,6 +94,7 @@ std::optional<SpatialNeighbor> SpatialIndex::nearest_point(Point point,double sx
         if(node.end-node.begin<=8) {
             for(auto i=node.begin;i<node.end;++i) {
                 const auto& e=entries_[i];if(exclude && e.id==*exclude) continue;
+                if(remaining) {if(!*remaining) throw std::length_error("spatial nearest distance-test budget exceeded");--*remaining;}
                 const auto distance=std::hypot(delta(e.bounds.x,point.x,sx),delta(e.bounds.y,point.y,sy));
                 if(!best || distance<best->distance || (distance==best->distance && e.id<best->id)) best=SpatialNeighbor{e.id,distance};
             }

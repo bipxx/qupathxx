@@ -50,6 +50,7 @@ class RawPixelStreamLink;struct RawPixelStreamRecord;
 class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
+class SpatialDistanceRequest;
 struct ObjectClassifierRecord;
 struct CellParameters;
 struct GridCellSampling;
@@ -131,6 +132,7 @@ class Document {
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
     friend class ObjectFeatureRequest;
+    friend class SpatialDistanceRequest;
     friend class detail::GuiPixelClassifier;
     friend class detail::GuiTma;
     friend class detail::GuiRaw;
