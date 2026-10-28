@@ -1,0 +1,14 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/CMakeLists.txt'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/build
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/CMakeLists.txt
+  font_gl_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-font-gl-284\build\Release\font_gl_probe.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-font-gl-284/CMakeLists.txt

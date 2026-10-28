@@ -23,9 +23,26 @@ files with28 expected diagnostics verify. Stubs are unchanged. The Unicode
 capture was inspected. Initial configure/compile failures remain preserved.
 The orchestration's mixed path-separator filter omitted preflight inputs before
 execution; the separate corrected observer ran all20 original files successfully.
-This Windows GUI-capable runtime shares test dependencies. Actual GL peak
-storage/RSS, physical-monitor DPI, shaping/bidi, actual editor interaction on
-this new font runtime and own-source platform qualification remain open.
+This Windows GUI-capable runtime shares test dependencies. Real GL atlas
+measurements now follow below; physical-monitor DPI, shaping/bidi, actual editor
+interaction on this new font runtime and own-source platform qualification remain open.
+
+**Real OpenGL font measurements284 pass on retained native7231d95.**
+The [receipt](benchmarks/gui-font-gl-284/receipt.json) drives the production font
+loader/backends through six standalone GL sessions on NVIDIA RTX4090/driver610.88.
+All25 texture readbacks match CPU atlas pixels, and every observed atlas object
+is absent after shutdown. Queried live atlas storage peaks at33,030,144 bytes
+(31.5MiB) during quota growth; individual textures stay at or below16MiB.
+The1,600-supported-glyph stress case loads1,429 and recovers with fallback.
+Normal/repeated-normal storage is262,144 bytes. These are scope-specific resource
+measurements, not a whole-app speed or physical VRAM claim. Whole-process working
+set is sampled separately and includes driver/readback buffers; immutable font
+assets persist across windows. Synthetic densities do not qualify physical DPI;
+the OS clipped the maximal window to2560x1901 rather than2560x1920.
+An initial probe link omitted core/SHA dependencies; the retained core library
+and bcrypt resolve it without rebuilding any product. Actual Name-editor input
+could not run because Computer Use's native pipe remained unavailable after
+retry/reset; no app input occurred. Keep that gate open and continue other work.
 
 **Font pilot282 identifies the next M2 delivery path.** [Receipt282](benchmarks/gui-font-pilot-282/receipt.json)
 compares retained32-bit1.91.9b with pinned1.93 docking and unmodified OFL CJK/

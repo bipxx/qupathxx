@@ -1,0 +1,289 @@
+{
+  "schema": "qpx.gui-font-real-gl/1",
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "state": "six-real-opengl-probe-sessions-accepted",
+  "scope": "Retained production GUI/core libraries and production GLFW/OpenGL backends, driven by a standalone resource probe; not a whole-application benchmark.",
+  "system": "Windows-11-10.0.26200-SP0",
+  "sessions": [
+    {
+      "name": "normal",
+      "logical_scale": 1,
+      "synthetic_framebuffer_density": 1,
+      "framebuffer_width": 640,
+      "framebuffer_height": 480,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 262144,
+      "queried_gl_storage_peak_bytes": 262144,
+      "creates": 1,
+      "updates": 1,
+      "retired_during_frames": 0,
+      "readbacks": 2,
+      "readback_bytes": 524288,
+      "stress_glyphs_present": 0,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 13266944,
+      "rss_observed_peak": 141279232,
+      "rss_after_session": 120172544
+    },
+    {
+      "name": "fractional",
+      "logical_scale": 1.5,
+      "synthetic_framebuffer_density": 1.25,
+      "framebuffer_width": 800,
+      "framebuffer_height": 600,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 262144,
+      "queried_gl_storage_peak_bytes": 262144,
+      "creates": 1,
+      "updates": 1,
+      "retired_during_frames": 0,
+      "readbacks": 2,
+      "readback_bytes": 524288,
+      "stress_glyphs_present": 0,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 120176640,
+      "rss_observed_peak": 125136896,
+      "rss_after_session": 122871808
+    },
+    {
+      "name": "large",
+      "logical_scale": 3,
+      "synthetic_framebuffer_density": 2,
+      "framebuffer_width": 1280,
+      "framebuffer_height": 960,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 786432,
+      "queried_gl_storage_peak_bytes": 786432,
+      "creates": 2,
+      "updates": 1,
+      "retired_during_frames": 1,
+      "readbacks": 3,
+      "readback_bytes": 1310720,
+      "stress_glyphs_present": 0,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 122871808,
+      "rss_observed_peak": 133206016,
+      "rss_after_session": 130846720
+    },
+    {
+      "name": "maximal",
+      "logical_scale": 6,
+      "synthetic_framebuffer_density": 4,
+      "framebuffer_width": 2560,
+      "framebuffer_height": 1901,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 16515072,
+      "queried_gl_storage_peak_bytes": 16515072,
+      "creates": 6,
+      "updates": 1,
+      "retired_during_frames": 5,
+      "readbacks": 7,
+      "readback_bytes": 24903680,
+      "stress_glyphs_present": 0,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 130846720,
+      "rss_observed_peak": 198488064,
+      "rss_after_session": 181514240
+    },
+    {
+      "name": "quota",
+      "logical_scale": 3,
+      "synthetic_framebuffer_density": 2,
+      "framebuffer_width": 1280,
+      "framebuffer_height": 960,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 33030144,
+      "queried_gl_storage_peak_bytes": 33030144,
+      "creates": 7,
+      "updates": 2,
+      "retired_during_frames": 6,
+      "readbacks": 9,
+      "readback_bytes": 34340864,
+      "stress_glyphs_present": 1429,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 181514240,
+      "rss_observed_peak": 241733632,
+      "rss_after_session": 207093760
+    },
+    {
+      "name": "repeat_normal",
+      "logical_scale": 1,
+      "synthetic_framebuffer_density": 1,
+      "framebuffer_width": 640,
+      "framebuffer_height": 480,
+      "gl_version": "3.3.0 NVIDIA 610.88",
+      "gl_vendor": "NVIDIA Corporation",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "cpu_atlas_peak_bytes": 262144,
+      "queried_gl_storage_peak_bytes": 262144,
+      "creates": 1,
+      "updates": 1,
+      "retired_during_frames": 0,
+      "readbacks": 2,
+      "readback_bytes": 524288,
+      "stress_glyphs_present": 0,
+      "live_before_shutdown": 1,
+      "live_after_shutdown": 0,
+      "rss_before_session": 207093760,
+      "rss_observed_peak": 209350656,
+      "rss_after_session": 207028224
+    }
+  ],
+  "total_exact_texture_readbacks": 25,
+  "total_readback_bytes": 62128128,
+  "maximum_queried_live_texture_storage_bytes": 33030144,
+  "individual_texture_cap_bytes": 16777216,
+  "actual_framebuffer_scales": [
+    {
+      "name": "normal",
+      "x": 1.0,
+      "y": 1.0
+    },
+    {
+      "name": "fractional",
+      "x": 1.25,
+      "y": 1.25
+    },
+    {
+      "name": "large",
+      "x": 2.0,
+      "y": 2.0
+    },
+    {
+      "name": "maximal",
+      "x": 4.0,
+      "y": 3.9604166666666667
+    },
+    {
+      "name": "quota",
+      "x": 2.0,
+      "y": 2.0
+    },
+    {
+      "name": "repeat_normal",
+      "x": 1.0,
+      "y": 1.0
+    }
+  ],
+  "window_height_clipped_by_os": "maximal: requested1920, observed1901; actual y density1901/480, not4",
+  "exact_gpu_cpu_pixels": true,
+  "every_observed_atlas_deleted": true,
+  "rss_scope": "Point samples of whole-process working set including driver, window buffers and measurement readbacks; neither font-only attribution nor a continuous peak measurement.",
+  "physical_vram_measured": false,
+  "physical_monitor_dpi_accepted": false,
+  "new_runtime_name_editor_accepted": false,
+  "name_editor_observation": "Computer Use list_windows failed: native pipe unavailable, os error2; same failure after retry and fresh kernel initialization. No app input performed.",
+  "first_link_failure_preserved": true,
+  "production_source_changed": false,
+  "own_source_platform_qualified": false,
+  "scientific_accepted": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "build-attempt2.log",
+      "bytes": 940,
+      "sha256": "b624b958e345dc73a499400cdfdb0f6cf6657efd7e8b7e493ae3430ffcc8e500"
+    },
+    {
+      "path": "build-exit-attempt2.json",
+      "bytes": 294,
+      "sha256": "1ff0ebe9cced45ace12099484178283cee83883ca619e3bef47dc6a1f8424ad4"
+    },
+    {
+      "path": "build-exit.json",
+      "bytes": 294,
+      "sha256": "2a6cb97b10982e1567b39cb5450939f3f04e68f89d0f31ce201c004a24252c02"
+    },
+    {
+      "path": "build.log",
+      "bytes": 3324,
+      "sha256": "c414d9520bf7ddfca3f62138fc0e5394e18fb65b230edaec3ac20b1997e88d05"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 1381,
+      "sha256": "7a2bc049f1cdcb99c7ba314da0ec6a2222f10375ba3263b59949ef381c18bf0f"
+    },
+    {
+      "path": "configure.log",
+      "bytes": 594,
+      "sha256": "c665ec86d0cff698df572d30d5806f36f6f9b32aa74e6d72333bee512e1e8586"
+    },
+    {
+      "path": "input-identity-attempt2.json",
+      "bytes": 9431,
+      "sha256": "187174c41c066a68a20c8c4abe3eab12c3e2578a07e460e2e65e1de7695371b9"
+    },
+    {
+      "path": "input-identity.json",
+      "bytes": 9178,
+      "sha256": "81b1b346e5cb1297f0009361faee4b5d1b2710f82269ae762e1478bb27093a42"
+    },
+    {
+      "path": "measurements.jsonl",
+      "bytes": 3400,
+      "sha256": "81d58727c456d126a03126ab62db595ea31abf1731daca39a1280cf0959df7b6"
+    },
+    {
+      "path": "probe.cpp",
+      "bytes": 9642,
+      "sha256": "3cbf7801453810b772220e0fdcbc02bff77e3ce6d72c54ebaa9a658583dd64ec"
+    },
+    {
+      "path": "receipt-local.json",
+      "bytes": 4933,
+      "sha256": "557af3afa1aab847f0c1a021332574160d1eccc2740dcc40051de1fb983bf809"
+    },
+    {
+      "path": "run-exit.json",
+      "bytes": 230,
+      "sha256": "b6536652660c8f0ef1c2239fdce9b702dcaba77f2ccb15dd4715e6a1882a41f5"
+    },
+    {
+      "path": "run-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "attempt1/CMakeLists.txt",
+      "bytes": 1293,
+      "sha256": "46faaa6c6591ee32dc1694f73cd004a2c1a384cce6119808184cb496d07e5447"
+    },
+    {
+      "path": "attempt1/probe.cpp",
+      "bytes": 9642,
+      "sha256": "3cbf7801453810b772220e0fdcbc02bff77e3ce6d72c54ebaa9a658583dd64ec"
+    },
+    {
+      "path": "attempt1/run_font_gl_284.py",
+      "bytes": 3676,
+      "sha256": "611dee730814107b7b84af6bc9cfdb21327ff12452fe989b574acedc4412fa9e"
+    },
+    {
+      "path": "tools/run_font_gl_284.py",
+      "bytes": 3899,
+      "sha256": "d466756ca74a983dbd873ed375801f1473251e2890f0a110a5e5630d4d3159ae"
+    },
+    {
+      "path": "tools/publish_font_gl_284.py",
+      "bytes": 9847,
+      "sha256": "da5fd71bce99cc9d0c48b5754b50fbc371f8c7b4ffcf8ca04cfa3b263a680a1d"
+    }
+  ]
+}

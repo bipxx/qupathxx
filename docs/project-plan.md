@@ -10,6 +10,12 @@ passes,115 additional desktop passes and1053 audit controls. See the
 [local font receipt](benchmarks/gui-font-delivery-283/receipt.json). Counts overlap. It inherits no281 platform acceptance. Three strict
 scientific expected failures, representative speed/hardware, broader biology,
 clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
+Real-GL [probe284](benchmarks/gui-font-gl-284/receipt.json) now verifies25 exact
+texture readbacks and cleanup across six sessions of retained font source7231d95.
+Peak queried live atlas storage is31.5MiB during quota growth; this is one-system
+texture storage evidence. Physical DPI, new-runtime Name editing and source-bound
+platform acceptance remain open.
+
 
 Build a C++ bioimage analysis application with a nanobind Python interface and
 Dear ImGui desktop UI. The first useful release must open real whole-slide

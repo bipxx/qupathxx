@@ -1,7 +1,9 @@
 # GUI font delivery
 
-The application preserves supplementary UTF8 input but its224-glyph default font
-still displays placeholders. [Pilot282](benchmarks/gui-font-pilot-282/receipt.json)
+The old application preserved supplementary UTF8 input but its224-glyph font
+displayed placeholders. Delivery283 now packages dynamic international fonts
+and has local Windows acceptance; [real GL measurements284](benchmarks/gui-font-gl-284/receipt.json)
+add exact texture readback and cleanup evidence on the retained production runtime. [Pilot282](benchmarks/gui-font-pilot-282/receipt.json)
 compares the retained32-bit ImGui1.91.9b library with pinned1.93.0-docking
 `b916186e66aa3c02b72c6ca17455516512ed8049`. The annotated tag object is not the
 commit. The pilot changes no application dependency or binary.
@@ -60,8 +62,12 @@ sources through their own complete platform roles after local delivery.
 The live texture cap is16MiB, not a total font-memory bound. Old/new CPU textures
 and GPU resources coexist during growth. The pilot's stress case peaks at
 33,292,288 CPU texture bytes and33,030,144 simulated GPU bytes. The two immutable
-font files add18,419,960 bytes before loader metadata. Measure real GL allocations,
-transient behavior and RSS; do not infer them from a CPU protocol simulation.
+font files add18,419,960 bytes before loader metadata. Real GL probe284 now queries33,030,144 bytes of peak live atlas storage in its
+quota case, authenticates25 complete texture readbacks and checks cleanup across
+six sessions. Whole-process working set is sampled with driver/readback overhead.
+This measures GL channel storage, not physical VRAM or font-only RSS; the probe
+uses synthetic densities and its maximal window height is OS-clipped. Broader
+hardware and actual monitor delivery remain open.
 The pinned OpenGL3 backend requires RGBA32, so Alpha8 CPU support alone provides
 no GPU saving.
 
