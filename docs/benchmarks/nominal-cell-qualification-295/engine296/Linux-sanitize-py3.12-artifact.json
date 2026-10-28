@@ -1,0 +1,20 @@
+{
+  "id": 12858081960,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg1ODA4MTk2MA==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 63874,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12858081960",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12858081960/zip",
+  "expired": false,
+  "digest": "sha256:d23a90adeb10c2c72a3c399fb4ecc99b2c792314193c7a1a0c4af9a18590d75d",
+  "created_at": "2026-10-28T22:57:15Z",
+  "updated_at": "2026-10-28T22:57:15Z",
+  "expires_at": "2026-11-11T22:57:14Z",
+  "workflow_run": {
+    "id": 40782637825,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/nominal-cell-qualification-295",
+    "head_sha": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee"
+  }
+}

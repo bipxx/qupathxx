@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\nominal-cell-qualification-295-audit\tools\ci\accept_unified_engine.py", line 135, in <module>
+    assert run['status']=='completed' and run['conclusion']=='success'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

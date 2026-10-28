@@ -1,0 +1,39 @@
+[
+  {
+    "label": "venv",
+    "argv": [
+      "python3",
+      "-m",
+      "venv",
+      "--without-pip",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-comparison296-linux-env"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "install",
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-comparison296-linux-env/bin/python",
+      "-I",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,'/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-frontends-294-env/Lib/site-packages');runpy.run_module(\"pip\",run_name=\"__main__\")",
+      "install",
+      "--no-index",
+      "--disable-pip-version-check",
+      "--no-deps",
+      "--ignore-installed",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/q295-all/Linux-headless-py3.12/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "record-requests",
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-comparison296-linux-env/bin/python",
+      "-I",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/record_nominal_recipe296.py",
+      "linux"
+    ],
+    "returncode": 0
+  }
+]

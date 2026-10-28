@@ -1,0 +1,2758 @@
+{
+  "native_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "comparison_tool_sha256": "fad394e18d7aa5206ec6e9ea501af8e83b10ebaaab6a8c5987c101dee629b78a",
+  "reconstructed_from_immutable_inputs": true,
+  "native_detection_rerun": false,
+  "requests": [
+    {
+      "profile": "roi-context0",
+      "case_name": "blank",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "isolated_three",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "touching_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "gap_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "size_filters",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "roi_cut_hole",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "roi": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "hole": [
+        110,
+        72,
+        35,
+        28
+      ],
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        128,
+        192
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 83913823
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "gradient_noise",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "anisotropic_level0",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.25
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "roi-context0",
+      "case_name": "resampled_reference",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.5,
+        "step_y": 1.5,
+        "sigma_x": 0.6666666666666666,
+        "sigma_y": 0.6666666666666666,
+        "min_nucleus_samples": 8,
+        "max_nucleus_samples": 227
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.5,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        128,
+        171
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 83311307
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "blank",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "isolated_three",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "touching_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "gap_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "size_filters",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "roi_cut_hole",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "roi": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "hole": [
+        110,
+        72,
+        35,
+        28
+      ],
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        128,
+        192
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90404447
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "gradient_noise",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "anisotropic_level0",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.25
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "roi-context32",
+      "case_name": "resampled_reference",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.5,
+        "step_y": 1.5,
+        "sigma_x": 0.6666666666666666,
+        "sigma_y": 0.6666666666666666,
+        "min_nucleus_samples": 8,
+        "max_nucleus_samples": 227
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.5,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        128,
+        171
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 89354187
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "blank",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "isolated_three",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "touching_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "gap_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "size_filters",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "roi_cut_hole",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "hole": [
+        110,
+        72,
+        35,
+        28
+      ],
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90404447
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "gradient_noise",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "anisotropic_level0",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.0,
+        "step_y": 1.0,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.25
+      ],
+      "downsample": 1.0,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90403379
+    },
+    {
+      "profile": "full-context0",
+      "case_name": "resampled_reference",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 1.0,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_area": 16.0,
+        "max_nucleus_area": 512.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "LEVEL_ZERO_PIXELS",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 1.5,
+        "step_y": 1.5,
+        "sigma_x": 0.6666666666666666,
+        "sigma_y": 0.6666666666666666,
+        "min_nucleus_samples": 8,
+        "max_nucleus_samples": 227
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.5,
+      "context": [
+        0,
+        0
+      ],
+      "core_shape": [
+        128,
+        171
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 83311307
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "blank",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "isolated_three",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "touching_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "gap_pair",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "size_filters",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "roi_cut_hole",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "roi": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "hole": [
+        110,
+        72,
+        35,
+        28
+      ],
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        128,
+        192
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 90404447
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "gradient_noise",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.5,
+        "step_y": 0.5,
+        "sigma_x": 1.0,
+        "sigma_y": 1.0,
+        "min_nucleus_samples": 16,
+        "max_nucleus_samples": 512
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.0,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        192,
+        256
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 98925619
+    },
+    {
+      "profile": "physical-context32",
+      "case_name": "resampled_reference",
+      "parameters": {
+        "threshold": 0.4,
+        "sigma": 0.5,
+        "log_prominence": 0.5,
+        "min_peak_radius": 0.0,
+        "min_seed_distance": 0.0,
+        "cell_expansion": 2.5,
+        "min_nucleus_area": 4.0,
+        "max_nucleus_area": 128.0,
+        "max_cells": 10000,
+        "work_bytes": 268435456,
+        "units": "MICROMETRES",
+        "feature": "OPTICAL_DENSITY_SUM",
+        "sampling_policy": "GEOMETRY_COVERAGE",
+        "contours": {
+          "clip_to_roi": true,
+          "max_components": 10000,
+          "max_edges": 250000,
+          "max_vertices": 250000,
+          "work_bytes": 33554432
+        }
+      },
+      "resolved": {
+        "step_x": 0.75,
+        "step_y": 0.75,
+        "sigma_x": 0.6666666666666666,
+        "sigma_y": 0.6666666666666666,
+        "min_nucleus_samples": 8,
+        "max_nucleus_samples": 227
+      },
+      "source_bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "roi": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "hole": null,
+      "calibration_um": [
+        0.5,
+        0.5
+      ],
+      "downsample": 1.5,
+      "context": [
+        32,
+        32
+      ],
+      "core_shape": [
+        128,
+        171
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "vectors": [
+        [
+          0.65,
+          0.7,
+          0.29
+        ],
+        [
+          0.07,
+          0.99,
+          0.11
+        ]
+      ],
+      "estimated_work_bytes": 89354187
+    }
+  ]
+}

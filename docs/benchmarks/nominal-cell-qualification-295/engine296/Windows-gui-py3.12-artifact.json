@@ -1,0 +1,20 @@
+{
+  "id": 12859254264,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg1OTI1NDI2NA==",
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 58154503,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12859254264",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12859254264/zip",
+  "expired": false,
+  "digest": "sha256:d985d81a4a19bf195f8f7d10df54d37262ef0c4cb696e3cf460e31e34c695e36",
+  "created_at": "2026-10-28T23:30:37Z",
+  "updated_at": "2026-10-28T23:30:37Z",
+  "expires_at": "2026-11-11T23:30:34Z",
+  "workflow_run": {
+    "id": 40782637825,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/nominal-cell-qualification-295",
+    "head_sha": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee"
+  }
+}

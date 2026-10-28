@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q295-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-qualification-295\\portable-run-terminal.json",
+    "--commit",
+    "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-qualification-295\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-qualification-295-audit",
+  "returncode": 0,
+  "frozen_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "run": 40782658569
+}

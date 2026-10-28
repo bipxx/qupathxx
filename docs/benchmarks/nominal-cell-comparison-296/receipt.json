@@ -1,0 +1,460 @@
+{
+  "schema": "qpx.nominal-cells-corpus-local/1",
+  "observer_source": "0c8748486c1a123f92c1a4b0476ecb8376931aba",
+  "windows_native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "linux_native_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "windows_native_sha256": "17b36da747f9df5bc8e30b27fdb43eff13649c77234d4736794a9c57460bb4a4",
+  "linux_wheel_sha256": "a2bfa379bbfa38eb0324665222fd68abacce622188b902c58521e4a73d7a0f9f",
+  "source_paths": 896,
+  "unchanged_compiler_inputs": 424,
+  "unchanged_windows_products": 71,
+  "unchanged_windows_package_members": 39,
+  "linux_package_members": 42,
+  "native_rebuilt": false,
+  "tests": {
+    "api.xml": {
+      "passed": 35,
+      "skipped": 0
+    },
+    "linux/api.xml": {
+      "passed": 35,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 700,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1087,
+      "skipped": 0
+    }
+  },
+  "counts_overlap": true,
+  "matrices": [
+    {
+      "name": "roi-context0",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "roi-context32",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "full-context0",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "physical-context32",
+      "cases": 8,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    }
+  ],
+  "exact_level_zero_mask_cases": 8,
+  "total_pixel_cases": 9,
+  "roi_difference_retained": true,
+  "processing_and_level_zero_feature_domains_separate": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "own_source_platform_qualification": false,
+  "segmentation_parity_accepted": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "state": "two-host-nine-case-characterization-locally-verified",
+  "setup_failures": "WSL ensurepip unavailable; root pip path absent; isolated direct pip script import failed. Preserve originals and successful explicit-module bootstrap.",
+  "initial_report_source": "66c1ba37a7e721720f1ae0bcee866b4f4969d892",
+  "final_report_source": "0c8748486c1a123f92c1a4b0476ecb8376931aba",
+  "remaining": [
+    "Clipped-ROI Gaussian/arithmetic compatibility",
+    "Broader biological/vendor/scale/nondyadic coverage",
+    "Source-bound platform/resource/hardware/support/release gates and all M0-M7 exits"
+  ],
+  "files": [
+    {
+      "path": "api.xml",
+      "bytes": 6086,
+      "sha256": "123f6069bf55d5b93b5bf7156fe7c53e9d99da98b9c39953dcceedcdddcb22fe"
+    },
+    {
+      "path": "comparison-commands.json",
+      "bytes": 2075,
+      "sha256": "c644fbc243c9bf72d745d4c18b7ba8dc46b9fc0dd2e11fccb76b40133debc614"
+    },
+    {
+      "path": "compilexx-append-proof.json",
+      "bytes": 360,
+      "sha256": "b81fcacdb5da71b8ac01cb63e8b550eebbb08fa885c672cdc46964ba7c477296"
+    },
+    {
+      "path": "full-context0.json",
+      "bytes": 51731,
+      "sha256": "58b8a6187421eb87476cfda421be5170fd41674424c2d378c48155ed2c9af5f0"
+    },
+    {
+      "path": "full-context0.log",
+      "bytes": 152,
+      "sha256": "3f8cb04539ace60de46c063608133cdafee495f8e96bdefcaf264f6ded79fb16"
+    },
+    {
+      "path": "initial-collection.log",
+      "bytes": 4510,
+      "sha256": "20c7ef9ca8b9e7d33738ee50a7a84e4e29371cba17691892a811a42ccea7061e"
+    },
+    {
+      "path": "physical-context32.json",
+      "bytes": 45539,
+      "sha256": "b30bfe1476f467b02e65f343d0389d4b88887fd2137e07fc1c6f65f09f7ec951"
+    },
+    {
+      "path": "physical-context32.log",
+      "bytes": 157,
+      "sha256": "a2d39ecabd1d11196fb036c96c8f11d7f96351275d5198fad1465d7a427df429"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1348,
+      "sha256": "6ee4de8330bc38e5a245618621f305dc08250decad078463866a38dc89a7976d"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1319,
+      "sha256": "ce904e587637df66839a5bd42e742f76ea4593dbaf1015090bb92d75b9e2b28f"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 175032,
+      "sha256": "86b520272917703e919793cc6751cd4206b6d50f3db7f4223dc8e5e821dfadf1"
+    },
+    {
+      "path": "raw_classifier_evidence-source-proof.json",
+      "bytes": 133461,
+      "sha256": "7ead62a8c5d289c566cbb23ed9230513e263de4e1aeba4011d58e2c5e0e2d350"
+    },
+    {
+      "path": "roi-context0.json",
+      "bytes": 51749,
+      "sha256": "2f1526fb7db6b665863be304db3572af6ffa34a46d8d657f1220890602ea1877"
+    },
+    {
+      "path": "roi-context0.log",
+      "bytes": 151,
+      "sha256": "974d424b6c1899392b5eaa3a893e60e4dea79dfa7d7508e30acf9980085f011b"
+    },
+    {
+      "path": "roi-context32.json",
+      "bytes": 51782,
+      "sha256": "2f06bf52f102f40dfb2a3bb64c5380a3f9530c59b70eea15cd6b1840be088d5f"
+    },
+    {
+      "path": "roi-context32.log",
+      "bytes": 152,
+      "sha256": "bf28e064946b0df7968fb1b5a23d6c33f5a0a783c49032ec16254130efec5b27"
+    },
+    {
+      "path": "scientific-admission.json",
+      "bytes": 113,
+      "sha256": "56a10aeb1b3e2de30c8b483312580ab2e77cb225e32e14d4754a6953ded2b1bc"
+    },
+    {
+      "path": "scientific-command.json",
+      "bytes": 1845,
+      "sha256": "0cafd733bf05ea32eff54bc8bda315a3de6363626574d5dde3d10b14337e111a"
+    },
+    {
+      "path": "scientific.log",
+      "bytes": 844,
+      "sha256": "461d17634ecb96d9e10da5b05cc6a817cdf0d70f2e409179c7b9c588b37f23b5"
+    },
+    {
+      "path": "scientific.xml",
+      "bytes": 109246,
+      "sha256": "cbb82ff18a87f10cc7f360c75e77cd3aa18574c7adfce9900926de0520cf305b"
+    },
+    {
+      "path": "scientific_grid_evidence-source-proof.json",
+      "bytes": 189433,
+      "sha256": "5c0d2814ab624e5bab9063bd407c538b21720d0270a192484a1d3206db424b6b"
+    },
+    {
+      "path": "source-runtime-proof.json",
+      "bytes": 3571,
+      "sha256": "c33adc3e8b815ae35933797172d5eb8519009e1b4bb3a98eeaed1cd0abf8e51e"
+    },
+    {
+      "path": "windows/commands.json",
+      "bytes": 2439,
+      "sha256": "886a04bd8784ba6016b1ae7cafea26471ca3bad76c6824acde96980fc537f14f"
+    },
+    {
+      "path": "windows/full-context0.json",
+      "bytes": 59248,
+      "sha256": "297360fb8ed36ab0d4deea1c92f1fcfc2e644a6af2f543488324a40540b8cda4"
+    },
+    {
+      "path": "windows/full-context0.log",
+      "bytes": 161,
+      "sha256": "4ac187351bd5a086c45f70aa80e358f4b18dd40213defb6fc7e5cc1adf985755"
+    },
+    {
+      "path": "windows/physical-context32.json",
+      "bytes": 52425,
+      "sha256": "8e381c5d292e2ef3e3437c4e6427050200509b0aa33f27448d0cd182d2809694"
+    },
+    {
+      "path": "windows/physical-context32.log",
+      "bytes": 166,
+      "sha256": "0d6a3cb6c5b7228c35627b0b6d1d0e3907da1adfd89a7dfabec3a2ae60872b5a"
+    },
+    {
+      "path": "windows/roi-context0.json",
+      "bytes": 57745,
+      "sha256": "1fe22a10df2e3368d4958d0a28961c67233eeb7f736171a2c2c88cc572a3c2ff"
+    },
+    {
+      "path": "windows/roi-context0.log",
+      "bytes": 160,
+      "sha256": "3316d5a016b557591535093de255b1d293908c93cbd493a39116b5505c135858"
+    },
+    {
+      "path": "windows/roi-context32.json",
+      "bytes": 59299,
+      "sha256": "c0b0130a476951583e662c0213abb7f2165dcf20867868fbdcda0fa60fddf04f"
+    },
+    {
+      "path": "windows/roi-context32.log",
+      "bytes": 161,
+      "sha256": "c56c611289893bc8d7945d571acc10861904a79e7006957461800626042b693f"
+    },
+    {
+      "path": "linux/api.log",
+      "bytes": 100,
+      "sha256": "867c454fc20b7cb44b817bf3d990c1d45a1d082532235a6b2497b023f3fb2fc4"
+    },
+    {
+      "path": "linux/api.xml",
+      "bytes": 6088,
+      "sha256": "8ade8613920d69e7059e6b387c0ea5684ab25abf7e14621b25d2ac6b13cd6533"
+    },
+    {
+      "path": "linux/commands.json",
+      "bytes": 4994,
+      "sha256": "85d62305b88615323517563a5d13def895fc915ff708d6780ca0399612e9af71"
+    },
+    {
+      "path": "linux/full-context0.json",
+      "bytes": 57268,
+      "sha256": "0dc55b77aca560729e5891e8b716795aef392157c863b7787a0c5ac3fede6aa6"
+    },
+    {
+      "path": "linux/full-context0.log",
+      "bytes": 154,
+      "sha256": "8973e54469068e8ed342068be967e0b7871c78575c56f5159466a10bb850ac44"
+    },
+    {
+      "path": "linux/identity.log",
+      "bytes": 570,
+      "sha256": "dd46a71c0da928f26a84be5ffbfe2f9e154f109d8c9761837898d22544a2587d"
+    },
+    {
+      "path": "linux/install-shared-pip.log",
+      "bytes": 212,
+      "sha256": "76b081a5087c541fc7dc83d09e7c833d2c9c2bafa7b9010dd43f1deeb005269a"
+    },
+    {
+      "path": "linux/install.log",
+      "bytes": 271,
+      "sha256": "5163fcc81e6b4e645bdf45d0d19f495226cf403f53337e3d22c2e71172fc8ce8"
+    },
+    {
+      "path": "linux/installed-proof.json",
+      "bytes": 7588,
+      "sha256": "caa5946cac64c0f349f6994289c4755d636fcd7fe48ad4508c93665ba2989255"
+    },
+    {
+      "path": "linux/physical-context32.json",
+      "bytes": 50672,
+      "sha256": "dcb31b99101e281917165fcb37ad8a28e800df06cac3419293f77cff90182d82"
+    },
+    {
+      "path": "linux/physical-context32.log",
+      "bytes": 159,
+      "sha256": "679e27c3a7fb93049198ba1988882d02a52afabc66f5dfea000b9ab6de1b7823"
+    },
+    {
+      "path": "linux/roi-context0.json",
+      "bytes": 55845,
+      "sha256": "6365619616233f0fa77ed07836ea5c68a08e9a9d207ff11f11747582af4f5e99"
+    },
+    {
+      "path": "linux/roi-context0.log",
+      "bytes": 153,
+      "sha256": "22ee328ff2834f3ef4c2662f29b595d8ddc110749dccd0389679b0f477da7349"
+    },
+    {
+      "path": "linux/roi-context32.json",
+      "bytes": 57319,
+      "sha256": "ac48bc70e4c167ecd4f3ef5649b2cc11611e2874b7fb700941b6de9de1d79bcb"
+    },
+    {
+      "path": "linux/roi-context32.log",
+      "bytes": 154,
+      "sha256": "e15795944adaf2d678edb1210071f6e9cc669e5a501bef54b932da7cbd7c63c3"
+    },
+    {
+      "path": "linux/venv-without-pip.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux/venv.log",
+      "bytes": 418,
+      "sha256": "21533befc706859105eaf2fce1f9d310b6d4c876ec20568ce1025f2c800faae2"
+    },
+    {
+      "path": "observers/validate_nominal_comparison296.py",
+      "bytes": 4688,
+      "sha256": "553d03a1de755da04e2c99c830846d7afbd1a0fd55b71a8049837aecc3daf77f"
+    },
+    {
+      "path": "observers/linux_nominal_comparison296.py",
+      "bytes": 3258,
+      "sha256": "1d17a2fa44eea287c816fa4c41731bd456dcf96489d2be0f86c8146d302ccf73"
+    },
+    {
+      "path": "observers/linux_nominal_comparison296_resume.py",
+      "bytes": 3527,
+      "sha256": "e19363072ccdbf6a04503d69553a6fa9b138c265871cf4b0a3b6ababce107a81"
+    },
+    {
+      "path": "observers/linux_nominal_comparison296_resume2.py",
+      "bytes": 3564,
+      "sha256": "ae27c4c6c9855b08a567b85ee63b7517d4007faa3d75587774075784c063f3ef"
+    },
+    {
+      "path": "observers/linux_nominal_comparison296_resume3.py",
+      "bytes": 3703,
+      "sha256": "0229ae83c298ebe146fb9ef8882a60cc0837abac5d3b68e179f40ee7a39f1e52"
+    },
+    {
+      "path": "observers/prove_nominal_comparison296.py",
+      "bytes": 5767,
+      "sha256": "b1b736f2d5baa76b1313ec8dfcc13f15b74c020dc799d3923f63db46c3f86148"
+    },
+    {
+      "path": "windows/request-recipes.json",
+      "bytes": 58105,
+      "sha256": "c2df642a390ff9f052dfed02760a77fcbcfa8b3a52a0061369a226fe279c2924"
+    },
+    {
+      "path": "linux/request-recipes.json",
+      "bytes": 55347,
+      "sha256": "624b1d8c24b04476c21fad494400c5ba55b401fd606fa9e4315995dec4803a68"
+    },
+    {
+      "path": "linux-recording/commands.json",
+      "bytes": 1158,
+      "sha256": "393442404158580e718bbb8b7b83dc6f75be1e1683e7325b42803a78a00cb927"
+    },
+    {
+      "path": "linux-recording/install.log",
+      "bytes": 179,
+      "sha256": "6271b365c3b7b5de7736845c96320457dc3d31c61a3ba0aefe1a85ee803ba01c"
+    },
+    {
+      "path": "linux-recording/installation-proof.json",
+      "bytes": 396,
+      "sha256": "b461a58f0bda15c2003a3d29d078e80246d822411b86890e3a7d360f06246eda"
+    },
+    {
+      "path": "linux-recording/record-requests.log",
+      "bytes": 71,
+      "sha256": "118d5ec8a1250575f80bf852f648e58c789e4ca5ffcb914cb5aef551ab14f04d"
+    },
+    {
+      "path": "linux-recording/venv.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observers/record_nominal_recipe296.py",
+      "bytes": 4304,
+      "sha256": "a103ed62a78ec298aa2392a331a493c6f6b2de1cee53e013910cff6b348c59d9"
+    },
+    {
+      "path": "observers/linux_nominal_recipe296.py",
+      "bytes": 2211,
+      "sha256": "e38c958fe9ebb230d9e02c08094afef8b60b5ac8ddf090510b3ab9622c70199c"
+    },
+    {
+      "path": "metadata-notes-append-proof.json",
+      "bytes": 444,
+      "sha256": "273ab253a58fc004447d706a5097e68eb318b86c8fb43da5c20a0d9f1e3d9c00"
+    }
+  ],
+  "request_recipe_sidecars": {
+    "requests_per_host": 35,
+    "parameters_and_resolved_values_equal": true,
+    "reconstructed_without_detector_reexecution": true,
+    "estimated_work_bytes_recorded_per_host": true
+  },
+  "temporary_environment_note": "Original /tmp environment disappeared after its completed run; reports and installation proof were retained before exit. A durable project venv using the same authenticated wheel records request-only metadata without rerunning tests/detection."
+}

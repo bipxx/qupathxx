@@ -1,0 +1,58 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "original_locale": "English_United States.936",
+  "header_prefix": [
+    80,
+    54,
+    10
+  ],
+  "rows": [
+    {
+      "locale": "English_United States.936",
+      "operation": "read-ppm",
+      "state": "passed"
+    },
+    {
+      "locale": "English_United States.936",
+      "operation": "auto",
+      "state": "passed"
+    },
+    {
+      "locale": "English_United States.936",
+      "operation": "explicit-ppm",
+      "state": "passed"
+    },
+    {
+      "locale": "English_United States.1252",
+      "operation": "read-ppm",
+      "state": "passed"
+    },
+    {
+      "locale": "English_United States.1252",
+      "operation": "auto",
+      "state": "failed",
+      "type": "RuntimeError",
+      "error": "No mapping for the Unicode character exists in the target multi-byte code page."
+    },
+    {
+      "locale": "English_United States.1252",
+      "operation": "explicit-ppm",
+      "state": "passed"
+    },
+    {
+      "locale": "C",
+      "operation": "read-ppm",
+      "state": "passed"
+    },
+    {
+      "locale": "C",
+      "operation": "auto",
+      "state": "passed"
+    },
+    {
+      "locale": "C",
+      "operation": "explicit-ppm",
+      "state": "passed"
+    }
+  ]
+}

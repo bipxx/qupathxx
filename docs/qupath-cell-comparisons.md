@@ -20,9 +20,10 @@ anisotropic calibration and a requested resampling grid.
 For calibrated QuPath input, pixel-space sigma, expansion and size limits are
 converted with the averaged pixel size and its square. That mapping follows
 the pinned plugin's parameter units; it does not make the algorithms equivalent.
-Native detection currently uses sampled-pixel parameters on natural image grids.
-The resampling case requests 0.75 micrometers on a 0.5 micrometer source. It is
-explicitly marked as a grid mismatch; native arbitrary resampling remains open.
+The original legacy comparison uses sampled-pixel parameters on natural image
+grids. Its resampling case requests 0.75 micrometers on a 0.5 micrometer source
+and retains that recipe's grid mismatch. The original-source nominal recipe has
+a separate comparison below; these historical results retain their identities.
 
 Each capture retains the PNG, cell/nucleus GeoJSON, all plugin measurements,
 independent pixel-center RGB/OD/stain means and original/decoded label maps.
@@ -120,6 +121,66 @@ the explicit sampling engineering scope. The [Windows comparison](benchmarks/qup
 retains every case and both sampling policies.
 
 ## Reproduction and limits
+
+### Original-source nominal production recipe
+
+`tools/compare_qupath_nominal_cells.py` runs the existing nominal cell request on
+each original image in the immutable nine-case capture. The default processing
+rectangle is the shared ROI factory's integer enclosure. `--grid-scope full-image`
+uses an explicit full-image nominal descriptor while retaining the target ROI.
+Both routes use the same native detector. Threshold, sigma, expansion and area
+limits come from the capture; the typed LoG recipe keeps its existing zero
+peak-radius/spacing defaults. The legacy distance recipe and its strict expected
+failures remain unchanged.
+
+The [two-host receipt](benchmarks/nominal-cell-comparison-296/receipt.json) records
+35 new installed checks on Windows and Linux. Eight cases have exact level-zero
+nucleus/body raster masks, counts, one-to-one matches, pixel centroids and
+split/merge relations. They include the original-source downsample1.5 case.
+Every body mask matches across all nine cases. Cross-host mask hashes, metrics,
+processing arithmetic decisions and boundary diagnostics agree exactly.
+
+| Scope | Nucleus foreground IoU | Body foreground IoU |
+| --- | ---: | ---: |
+| Seven natural-grid cases without a clipped ROI | 1 | 1 |
+| Resampled reference at nominal step1.5 | 1 | 1 |
+| Clipped ROI, context0 | 0.99481865 | 1 |
+| Clipped ROI, context32 | 0.96984925 | 1 |
+
+The ROI differences retain the earlier four reference-only pixels at context0
+and24 native-only pixels at context32, with exact coordinates in the reports.
+Matching the processing extent does not change the normalized-Gaussian recipe
+into the plugin's arithmetic. The report remains `characterized-partial` with
+`segmentation_parity_accepted: false`; no epsilon, cropping rule or tolerance
+change is introduced to force agreement.
+
+Nominal features use processing-grid pixels. At step1, their RGB/OD means also
+match the independent level-zero region means under the original1e-6 tolerances.
+At step1.5, the six level-zero region-mean comparisons differ. Independent
+captured processing RGB, label counts, RGB/OD means and calibrated sample areas
+pass the same tolerances. The reports retain both domains and every difference.
+Descriptor/count/shape/context checks precede exact rational projection; hidden
+context labels and uncovered level-zero centers reject.
+
+Pixel-unit comparisons include the anisotropic source. Isotropic micrometre
+requests reproduce the pixel recipes. The physical comparison explicitly omits
+the anisotropic conversion because the plugin's averaged calibration and the
+native per-axis metric define different requests; this does not close M5's
+anisotropic physical requirements. Request-recipe sidecars record requested and
+resolved parameters, ROI/hole, source calibration and sampling per case.
+
+The Windows runtime remains native bb190eb7; Linux uses an authenticated CI295
+wheel at a7eb78de. All424 compiler inputs and the retained Windows product/package
+bytes are unchanged. No native rebuild follows this harness-only change.
+Comparison observer0c874848 has its own source proof and does not inherit
+frozen295's complete qualification. The corpus is synthetic; broader biological,
+vendor, scale, nondyadic and resource/hardware requirements remain open.
+
+```text
+python -I tools/compare_qupath_nominal_cells.py --context 0 --report build/nominal-roi-context0.json
+python -I tools/compare_qupath_nominal_cells.py --context 32 --units micrometres --report build/nominal-physical.json
+python -I -m pytest tests/test_qupath_nominal_cells_reference.py -q
+```
 
 ### Explicit-grid production recipe
 

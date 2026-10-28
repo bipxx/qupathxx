@@ -682,3 +682,5 @@ docs/benchmarks/nominal-cell-qualification-295/** -text -whitespace
 
 tools/compare_qupath_nominal_cells.py text eol=lf
 tests/test_qupath_nominal_cells_reference.py text eol=lf
+
+docs/benchmarks/nominal-cell-comparison-296/** -text -whitespace

@@ -1,0 +1,122 @@
+{
+  "schema": "qpx.nominal-cells-corpus-local/1",
+  "observer_source": "0c8748486c1a123f92c1a4b0476ecb8376931aba",
+  "windows_native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "linux_native_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "windows_native_sha256": "17b36da747f9df5bc8e30b27fdb43eff13649c77234d4736794a9c57460bb4a4",
+  "linux_wheel_sha256": "a2bfa379bbfa38eb0324665222fd68abacce622188b902c58521e4a73d7a0f9f",
+  "source_paths": 896,
+  "unchanged_compiler_inputs": 424,
+  "unchanged_windows_products": 71,
+  "unchanged_windows_package_members": 39,
+  "linux_package_members": 42,
+  "native_rebuilt": false,
+  "tests": {
+    "api.xml": {
+      "passed": 35,
+      "skipped": 0
+    },
+    "linux/api.xml": {
+      "passed": 35,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 700,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1087,
+      "skipped": 0
+    }
+  },
+  "counts_overlap": true,
+  "matrices": [
+    {
+      "name": "roi-context0",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "roi-context32",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "full-context0",
+      "cases": 9,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    },
+    {
+      "name": "physical-context32",
+      "cases": 8,
+      "exact_cross_host_fields": [
+        "case_name",
+        "source_bounds",
+        "nominal_downsample",
+        "core_shape",
+        "context",
+        "independent_processing_rgb_exact",
+        "feature_checks",
+        "level_zero_segmentation",
+        "processing_segmentation",
+        "foreground_pixel_differences",
+        "processing_label_sha256",
+        "level_zero_label_sha256"
+      ],
+      "feature_domain_decisions_equal": true
+    }
+  ],
+  "exact_level_zero_mask_cases": 8,
+  "total_pixel_cases": 9,
+  "roi_difference_retained": true,
+  "processing_and_level_zero_feature_domains_separate": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "own_source_platform_qualification": false,
+  "segmentation_parity_accepted": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}
