@@ -1,0 +1,14 @@
+{
+  "observer_source": "01bcdda861436ec71ff06b2a18debfc9ec37558a",
+  "native_source": "11f70cd1133612fd059fd0c294f6b7eb60103679",
+  "windows_fingerprint": "fa8fdd1c98e808ff954769dfa5a091f5597d145edc908c84a0778f643499aa7a",
+  "canonical_compiler_inputs": 418,
+  "windows_bytes_unchanged": true,
+  "linux_canonical_inputs_match": true,
+  "source_paths": 872,
+  "domain_counts": {
+    "raw_classifier_evidence": 553,
+    "scientific_grid_evidence": 757
+  },
+  "default_sampling_changed": false
+}

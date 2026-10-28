@@ -1,5 +1,29 @@
 # QuPath workflow inventory
 
+**RGB nominal SDK289 is locally verified at native11f70cd1.**
+The [receipt](benchmarks/rgb-nominal-sdk-289/receipt.json) binds an immutable
+level-zero pixel request, native ImageServer adapter, thin GIL-releasing Python
+binding and installed region CLI. All99 captured reads match through each public
+Python/CLI route;55 Windows native suites and224 API cases pass. GCC13.3
+ASan/UBSan passes the public native oracle and99 CLI processes. A separate owned
+ImGui preview passes three cases, including rendered pixels and nominal per-axis
+calibration. The final scientific cohort passes597/eight declared GUI skips,
+1071 audit controls pass, and both scientific8/5 and raw7/5 typing groups verify.
+Counts overlap.418 compiler inputs,872 current source paths,71 retained Windows
+products, three GCC products,39 package members and43 wheel records authenticate.
+Only two generated stubs and RECORD change in the final wheel; native source and
+fingerprint stay11f70cd1/fa8fdd1c. Initial ZIP verifier failure and independent
+fresh-reader recovery are preserved. Standalone delivery passes99 CLI hashes and
+two layout/font smokes from the final wheel. This local GUI profile has OpenSlide
+OFF and shared test dependencies; it is not clean-machine/platform acceptance.
+Original-document detector/batch capture, archive/replay policy opt-in and a
+corresponding application control remain open. The preview is a new image source,
+not replay authority for the original slide. Default scientific sampling and
+three strict legacy xfails are unchanged. Candidate281 remains qualified;
+candidate285 engine remains unaccepted and its existing Mac arm64 job is pending.
+All M0-M7, general speed, broader biology, hardware/support and release gates
+remain partial/open.
+
 **Private RGB nominal kernel287 passes99 pinned reads on Windows and GCC sanitizers.**
 The [receipt](benchmarks/rgb-nominal-kernel-287/receipt.json) binds native23edd7ed,
 36 original and63 held-out public QuPath reads. All72 held-out payloads repeat

@@ -76,30 +76,67 @@ output and source-window buffers against the existing256MiB limit, including
 the halo. Window plus output can coexist; decoder costs remain additional.
 It rejects nonopaque/malformed windows and checks native cancellation throughout.
 
-This kernel is private. A public immutable request, ImageServer read adapter,
-nanobind interface, CLI and relevant UI/workflow consumers remain to be delivered.
-Opaque RGB fixture agreement does not establish general Java rendering,
-transparency, vendor/pyramid behavior or biological acceptance.
+Kernel287 was private. [SDK289](benchmarks/rgb-nominal-sdk-289/receipt.json)
+now supplies the public immutable request, ImageServer adapter, nanobind interface,
+region CLI and an independent ImGui preview example. Original-document analysis,
+capture/archive/replay opt-in and its application control remain open. Opaque RGB
+fixture agreement does not establish general Java rendering, transparency,
+vendor/pyramid behavior or biological acceptance.
 
-## Easiest production route
+## Public native, Python and CLI route
 
-Keep the existing area and typed scientific sampling policies. Reuse the
-private kernel287 for the native reader adapter and an explicitly versioned
-public RGB request; its99 captured boundary/nondyadic/context cases now pass. Kernel choice,
-nominal steps, source bounds and returned dimensions must be separate parts of
-its descriptor. Avoid selecting an interpolation mode from output shape alone.
+The additive contract is `qpx.rgb-nominal/1`; see the
+[API review](rgb-nominal-api-review.md) and
+[native header](../cpp/include/qupathxx/resampling.hpp). Coordinates and extents
+are integer level-zero pixels; downsample is a positive dimensionless nominal
+step. The reader must expose a unit level zero. Returned dimensions are rounded
+from extent/step; they do not redefine that step.
 
-Then expose that native descriptor through thin nanobind bindings and the
-existing region-reading CLI. Reuse the current owned pixel buffers, admission,
-cancellation and image-server lifetime contracts. If detector or batch workflows
-opt into this policy later, retain its version, nominal transform and source
-identity in their capture/archive/replay recipes before exposing the option in
-the existing UI. Matching captured RGB must not grant replay authority for a
-different original source. Default scientific policies stay explicit.
+```python
+import qupathxx as q
 
-Accept that complete workflow through one source-bound platform qualification
-after local kernel and consumer evidence. The reference runtime remains an
-optional generator; the C++ application must not invoke Java to obtain pixels.
+source = q.dense_image_server(q.Image.read_ppm("input.ppm"))
+try:
+    request = q.RgbNominalRequest(0, 0, 17, 13, 1.5)
+    pixels = q.read_rgb_nominal_region(source, request)
+finally:
+    source.close()
+rgba = pixels.numpy()  # owned 9-by-11-by-4 output remains valid
+assert request.algorithm == "qpx.rgb-nominal/1"
+```
+
+```text
+qupathxx_region --rgb-nominal input.ppm 0 0 17 13 1.5 output.pam
+python examples/rgb_nominal_preview.py input.ppm --width-px 17 --height-px 13 --downsample 1.5
+```
+
+The constructor validates dimensions, finite positive step, overflow and budgets
+before pixel IO. The native read plans and validates one bounded level-zero window
+including its interpolation halo; a wholly outside request produces opaque black
+without decoder IO. Closed readers, malformed/nonopaque windows and decoder errors
+produce no partial result. Native cancellation is checked around synchronous IO
+and during sampling; it cannot interrupt the decoder itself. Python releases the
+GIL for the read and returns owned storage. The CLI validates requests before
+opening the source, protects the source path and writes PAM after a full read.
+
+The example imports native RGB pixels into a new document and uses the existing
+ImGui viewer. Known X/Y calibration is multiplied by nominal downsample separately;
+unknown calibration stays unknown. This avoids substituting the realized output
+dimension ratio. The original reader is closed before showing the preview. The
+new source has no original-source capture/replay authority.
+
+## Remaining production integration
+
+Keep existing area and typed scientific sampling defaults. If detector or batch
+workflows opt into nominal RGB, retain the algorithm version, nominal transform,
+original source identity and halo policy in their capture/archive/replay recipes
+before exposing that option in existing application controls. Reuse this native
+adapter and current job/publication consumers; do not filter pixels in Python or
+start a second viewer/controller implementation.
+
+Accept the integrated workflow through one source-bound platform qualification
+after local consumer and persistence evidence. The reference runtime remains an
+optional generator; the C++ application does not invoke Java to obtain pixels.
 No general speed, sampler-equivalence or research-accuracy claim follows here.
 
 ## Reproduction

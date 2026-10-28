@@ -646,3 +646,5 @@ tests/typing/rgb_nominal_valid.py text eol=lf
 tests/typing/rgb_nominal_invalid.py text eol=lf
 examples/rgb_nominal_preview.py text eol=lf
 tests/test_rgb_nominal_preview.py text eol=lf
+
+docs/benchmarks/rgb-nominal-sdk-289/** -text -whitespace

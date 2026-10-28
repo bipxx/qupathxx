@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-sdk-289-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "mypy",
+    "--strict",
+    "--no-incremental",
+    "tests/typing/raw_grid_valid.py",
+    "tests/typing/valid_api.py",
+    "tests/typing/hierarchy_valid.py",
+    "tests/typing/grid_cells_valid.py",
+    "examples/live_workflow.py",
+    "examples/region_workflow.py",
+    "tests/typing/rgb_nominal_valid.py"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 0
+}

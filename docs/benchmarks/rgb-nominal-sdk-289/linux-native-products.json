@@ -1,0 +1,17 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/rgb-nominal-sdk-289/linux-products/qupathxx_resampling_tests",
+    "bytes": 54903896,
+    "sha256": "b9d48df41af02e62acd0313a1a4071b8a9a6370772e335ec003ba8147db52afa"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/rgb-nominal-sdk-289/linux-products/qupathxx_region",
+    "bytes": 6208360,
+    "sha256": "b5cac776201d16ddc48f95a37b432454d9f0023865c46bbc23e204a2f79d8e1a"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/rgb-nominal-sdk-289/linux-products/libqupathxx_core.a",
+    "bytes": 148651516,
+    "sha256": "0406ad08381a2c705ee83bdd5b3f787d38ae3648e190622821f77de06ec2ffc5"
+  }
+]
