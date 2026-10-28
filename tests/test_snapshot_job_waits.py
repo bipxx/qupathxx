@@ -142,3 +142,26 @@ def test_snapshot_controller_allows_foreign_cancel(job_type):
     with ThreadPoolExecutor(max_workers=1) as pool:
         pool.submit(job.cancel).result(timeout=10)
     assert job.poll().state=='idle'
+
+
+@pytest.mark.parametrize('kind,operation',[
+    ('FileFingerprintJob','result'),('FileFingerprintJob','association'),
+    ('FileFingerprintJob','request_source'),('ThumbnailJob','result'),
+    ('PixelStreamReadJob','read'),('PixelStreamReadJob','verify'),
+    ('PixelStreamReadJob','close'),('PixelStreamReadJob','open_link'),
+])
+def test_snapshot_remaining_entry_points_are_owner_only(kind,operation):
+    job=getattr(q,kind)()
+    source=q.Document(q.Image.demo()).server.reader_source
+    from test_pixel_stream_read_job import FIXTURE
+    link=q.prepare_pixel_stream_link(str(FIXTURE)) if operation=='open_link' else None
+    def foreign():
+        value=getattr(job,operation)
+        if operation=='request_source':return value(source)
+        if operation=='read':return value(0)
+        if operation=='open_link':return value(link)
+        return value() if callable(value) else value
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        with pytest.raises(RuntimeError,match='owner thread'):
+            pool.submit(foreign).result(timeout=10)
+    assert job.poll().state=='idle'
