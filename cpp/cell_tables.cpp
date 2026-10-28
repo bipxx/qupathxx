@@ -42,7 +42,7 @@ struct CellTableRequest::Data {
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
     struct Block {std::shared_ptr<const Document::ObjectBlock> value;std::size_t image=0;};
     std::vector<Entry> entries;std::vector<Image> images;std::vector<Block> blocks;CellTableOptions options;
-    std::string identity;bool project=false,detector_parameters=false,grid_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
+    std::string identity;bool project=false,detector_parameters=false,grid_parameters=false,nominal_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
         if(options.published_objects) {append_objects(doc,id,std::move(name),record_ids);return;}
@@ -120,6 +120,7 @@ struct CellTableRequest::Data {
     void finish(std::chrono::steady_clock::time_point start) {
         for(const auto& entry:entries) {
             const bool grid=entry.record->result->grid_parameters()!=nullptr;grid_parameters=grid_parameters || grid;
+            nominal_parameters=nominal_parameters || bool(entry.record->result->nuclei()->nominal_sampling());
             detector_parameters=detector_parameters || grid || entry.record->result->parameters().algorithm!=CellAlgorithm::DistanceWatershed;
         }
         charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
@@ -160,7 +161,7 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        const auto version=std::to_string(request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
+        const auto version=std::to_string(request.data_->nominal_parameters?(request.data_->options.include_capture_calibration?8:7):request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
             (request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
         if(request.data_->options.published_objects) return std::string(request.data_->project?"qpx.project-cell-object-table/":"qpx.cell-object-table/")+version;
         return std::string(request.data_->project?"qpx.project-cell-table/":"qpx.cell-table/")+version;
@@ -168,7 +169,7 @@ struct CellTableWriter {
     static void detector(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->detector_parameters) return;
         if(!result) {row.separator();row.separator();row.separator();return;}
-        if(result->grid_parameters()) {row.string("grid-log-bodies");row.separator();row.separator();return;}
+        if(result->grid_parameters()) {row.string(result->nuclei()->nominal_sampling()?"nominal-log-bodies":"grid-log-bodies");row.separator();row.separator();return;}
         const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::SampledLogWatershedBodies?"log-sampled":(p.algorithm==CellAlgorithm::LogWatershedBodies?"log-bodies":(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance")));
         if(p.algorithm!=CellAlgorithm::DistanceWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
         else {row.separator();row.separator();}
@@ -209,11 +210,17 @@ struct CellTableWriter {
     static void grid(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->grid_parameters) return;
         if(!result) {for(std::size_t i=0;i<grid_columns().size();++i) row.separator();return;}
-        const auto& n=*result->nuclei();row.string(result->grid_parameters()?"explicit":"natural");row.real(n.downsample_x());row.real(n.downsample_y());
+        const auto& n=*result->nuclei();row.string(n.nominal_sampling()?"nominal_rgb":result->grid_parameters()?"explicit":"natural");row.real(n.downsample_x());row.real(n.downsample_y());
         if(!result->grid_parameters()) {for(std::size_t i=3;i<grid_columns().size();++i) row.separator();return;}
-        const auto& g=*n.scientific_grid();const auto& p=*result->grid_parameters();const auto& q=*result->resolved_grid_parameters();
+        const auto& p=*result->grid_parameters();const auto& q=*result->resolved_grid_parameters();
         auto signed_integer=[&](std::int64_t value){row.separator();row.text+=std::to_string(value);};
-        for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) signed_integer(v);
+        if(const auto* nominal=n.nominal_sampling()) {
+            const auto& r=nominal->source_request();const auto& source=n.provenance()->source;
+            for(auto v:{source.width,source.height,r.x_px,r.y_px,r.width_px,r.height_px,nominal->core_width(),nominal->core_height(),std::int64_t(nominal->context_x()),std::int64_t(nominal->context_y())}) signed_integer(v);
+        } else {
+            const auto& g=*n.scientific_grid();
+            for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) signed_integer(v);
+        }
         row.string(p.units==GridCellUnits::Micrometres?"um":"level_zero_px");
         for(auto v:{p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_area}) row.real(v);
         optional(row,p.max_nucleus_area);for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) row.real(v);

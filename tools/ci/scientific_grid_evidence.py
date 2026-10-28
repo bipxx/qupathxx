@@ -29,7 +29,9 @@ NEGATIVE={
 POSITIVE=['tests/typing/raw_grid_valid.py','tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 POSITIVE.append('tests/typing/rgb_nominal_valid.py')
 POSITIVE.append('examples/rgb_nominal_preview.py')
+POSITIVE.append('tests/typing/nominal_cells_valid.py')
 NEGATIVE['rgb-nominal-typing-negative.log']=('rgb_nominal_invalid.py',[4,5,7])
+NEGATIVE['nominal-cells-typing-negative.log']=('nominal_cells_invalid.py',[4,5,6,7,7,7])
 BASE={
  'resampling':['Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed','Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed','Scientific raster precision admission agrees with exhaustive binary64 sample checks','Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed','Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed','QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
@@ -44,6 +46,7 @@ BASE['resampling'].append('99 pinned RGB nominal reads, fixed-point bytes, globa
 BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed')
 BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed')
 BASE['cells'].append('Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed')
+BASE['cells'].append('Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed')
 CONDITIONAL=[
  ('raw_image','tiff','TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed'),
  ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),
@@ -71,6 +74,7 @@ EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
 EXTRA+=('tools/qupath_roi_cell_debug.py','tools/fetch_qupath.py',
         'tools/upstream/qupath_cell_debug_probe.groovy')
 EXTRA+=('tools/qupath_resampled_cell_debug.py','tools/ci/run_macos_native.py')
+EXTRA+=('tests/test_object_classifier_archives.py','tests/test_object_classifier.py')
 EXTRA+=('tools/qupath_rgb_resampling.py','tools/upstream/qupath_rgb_resampling.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')

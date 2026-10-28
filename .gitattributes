@@ -655,3 +655,9 @@ tests/fixtures/nominal-cells-v1/** -text -whitespace
 tools/reference_nominal_cells.py text eol=lf
 
 docs/benchmarks/nominal-cells-291/** -text -whitespace
+
+tests/test_nominal_cell_python.py text eol=lf
+
+tests/typing/nominal_cells_valid.py text eol=lf
+
+tests/typing/nominal_cells_invalid.py text eol=lf

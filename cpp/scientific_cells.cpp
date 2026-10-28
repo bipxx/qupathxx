@@ -79,6 +79,11 @@ CellRequest CellRequest::for_grid_roi(const Document& document,std::uint64_t id,
     auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,p.work_bytes);
     return CellRequest(document,id,transform,std::move(grid),std::move(p));
 }
+CellRequest CellRequest::for_nominal_roi(const Document& document,std::uint64_t id,const StainTransform& transform,double downsample,
+    std::uint32_t context_x,std::uint32_t context_y,GridCellParameters p) {
+    p.validate();const auto b=detail::roi_source_bounds(document.metadata(),document.annotation(id).geometry);
+    return CellRequest(document,id,transform,NominalCellSampling(RgbNominalRequest(b.x,b.y,b.width,b.height,downsample),context_x,context_y),std::move(p));
+}
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,GridCellParameters p):
     CellRequest(doc,id,transform,CellSamplingGrid(std::move(grid)),std::move(p)) {}
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,NominalCellSampling sampling,GridCellParameters p):

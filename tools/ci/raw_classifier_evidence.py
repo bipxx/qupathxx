@@ -36,6 +36,8 @@ def source_paths():
            'tests/test_raw_classifier_evidence.py','tests/test_macos_native_failure_capture.py','tests/test_ci_execution_boundaries.py','tests/test_source_proof_reuse.py','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json','docs/reader-license-policy.md',
            'third_party/ProggyForever-LICENSE.txt',
            'tests/test_rgb_nominal_api.py','tests/typing/rgb_nominal_valid.py','tests/typing/rgb_nominal_invalid.py',
+           'tests/test_nominal_cell_python.py','tests/test_object_classifier_archives.py','tests/test_object_classifier.py',
+           'tests/typing/nominal_cells_valid.py','tests/typing/nominal_cells_invalid.py',
            'tools/reference_nominal_cells.py',*('tests/fixtures/nominal-cells-v1/'+name for name in ('manifest.json','source.rgb','processed.rgb','nucleus.u32le','body.u32le'))}
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in suffixes)

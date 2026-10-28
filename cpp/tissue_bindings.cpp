@@ -38,6 +38,7 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("downsample",&TissueResult::downsample).def_prop_ro("input_format",&TissueResult::input_format)
         .def_prop_ro("downsample_x",&TissueResult::downsample_x).def_prop_ro("downsample_y",&TissueResult::downsample_y)
         .def_prop_ro("scientific_grid",[](const TissueResult& r){return r.scientific_grid()?std::optional<ScientificGrid>(*r.scientific_grid()):std::nullopt;})
+        .def_prop_ro("nominal_sampling",[](const TissueResult& r){return r.nominal_sampling()?std::optional<NominalCellSampling>(*r.nominal_sampling()):std::nullopt;})
         .def("sample_edge_x",&TissueResult::sample_edge_x,"index"_a).def("sample_edge_y",&TissueResult::sample_edge_y,"index"_a)
         .def_prop_ro("roi",&TissueResult::roi).def_prop_ro("image_bounds",&TissueResult::image_bounds)
         .def_prop_ro("labels",[](const TissueResult& r){return nb::bytes(reinterpret_cast<const char*>(r.labels().data()),r.labels().size()*sizeof(std::uint32_t));})

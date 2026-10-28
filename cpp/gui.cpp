@@ -1882,7 +1882,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::PopItemWidth();
             if(const auto result=cell_job.result()) {
                 ImGui::Text("Detected cells: %zu",result->features().size());ImGui::Text("Markers: %zu / %.3f ms",result->markers().size(),result->elapsed_ms());
-                if(const auto* grid=result->nuclei()->scientific_grid()) {
+                if(const auto* nominal=result->nuclei()->nominal_sampling()) {
+                    ImGui::Text("Nominal RGB grid: %lld x %lld",static_cast<long long>(nominal->core_width()),static_cast<long long>(nominal->core_height()));
+                    ImGui::Text("Nominal sample step: %.5g px",nominal->source_request().downsample);
+                } else if(const auto* grid=result->nuclei()->scientific_grid()) {
                     ImGui::Text("Cell grid: %lld x %lld",static_cast<long long>(grid->x().samples()),static_cast<long long>(grid->y().samples()));
                     ImGui::Text("Sample steps: %.5g x %.5g px",result->nuclei()->downsample_x(),result->nuclei()->downsample_y());
                 } else ImGui::Text("Cell level: %d / %.5gx",result->nuclei()->level(),result->nuclei()->downsample());

@@ -1,6 +1,7 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/cell_tables.hpp"
 #include "qupathxx/object_classifier_archive.hpp"
 #include "../cell_archive.hpp"
 #include "../object_classifier_archive.hpp"
@@ -55,6 +56,14 @@ void check_nominal_cells() {
     p.contours.work_bytes=1024*1024;
     const NominalCellSampling sampling(RgbNominalRequest(0,0,256,192,1.5),0,0);
     const CellRequest request(doc,id,transform,sampling,p);verify(reader->reads==0);
+    const auto factory=CellRequest::for_nominal_roi(doc,id,transform,1.5,0,0,p);
+    verify(factory.nominal_sampling()->source_request().width_px==256 && factory.bounds().width==256.5 && reader->reads==0);
+    {
+        Document fractional(Image::demo());const auto object=fractional.add_rectangle({20.25,30.5,80.5,60.25});
+        const auto planned=CellRequest::for_nominal_roi(fractional,object,transform,2.3,3,4,p);const auto& n=*planned.nominal_sampling();
+        const auto& r=n.source_request();verify(r.x_px==20 && r.y_px==30 && r.width_px==81 && r.height_px==61 && r.downsample==2.3);
+        verify(n.context_x()==3 && n.context_y()==4 && planned.roi().equals(fractional.annotation(object).geometry));
+    }
     verify(request.nominal_sampling() && !request.scientific_grid() && request.grid_parameters());
     verify(request.bounds().width==256.5 && request.bounds().height==192);
     verify(request.nominal_sampling()->edge_x(171)==256.5 && request.nominal_sampling()->center_x(170)==255.75);
@@ -95,6 +104,10 @@ void check_nominal_cells() {
     auto bad=bytes;bad[3]=7;sign(bad,request.roi());rejects<std::exception>([&]{load(bad);});
     bad=bytes;bad[bytes.size()/2]^=1;rejects<std::exception>([&]{load(bad);});
     const auto run=doc.keep_cells(request,result);verify(doc.cell_status(run)=="current");
+    const auto csv=cell_measurements_csv(CellTableRequest(doc,{run}));
+    verify(csv.find("qpx.cell-table/7")!=std::string::npos && csv.find("nominal_rgb")!=std::string::npos && csv.find("nominal-log-bodies")!=std::string::npos);
+    CellTableOptions table_options;table_options.include_capture_calibration=true;
+    verify(cell_measurements_csv(CellTableRequest(doc,{run},table_options)).find("qpx.cell-table/8")!=std::string::npos);
     const auto replay=CellRequest::replay(doc,run);verify(replay.nominal_sampling() && doc.verify_cells(run,replay,*detect_cells(replay)));
     reader->changed=true;verify(input_sha256(request)!=result->nuclei()->input_sha256());
     verify(!doc.verify_cells(run,replay,*detect_cells(replay)) && doc.cell_status(run)=="verification_failed");reader->changed=false;
@@ -148,4 +161,5 @@ void check_nominal_cells() {
     const auto unknown=detect_cells(CellRequest(doc,id,transform,sampling,p));verify(!unknown->calibrated_feature(1).cell_sample_area_um2);
     reader->close();verify(load(bytes)->cells()->labels()==result->cells()->labels());rejects<std::runtime_error>([&]{detect_cells(request);});
     std::cout<<"Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed\n";
+    std::cout<<"Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed\n";
 }

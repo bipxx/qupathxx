@@ -68,6 +68,8 @@ public:
     std::size_t estimated_work_bytes() const {return work_;}
     static CellRequest replay(const Document&,std::uint64_t record_id);
     static CellRequest for_grid_roi(const Document&,std::uint64_t,const StainTransform&,GridCellSampling={},GridCellParameters={});
+    static CellRequest for_nominal_roi(const Document&,std::uint64_t,const StainTransform&,double downsample,
+        std::uint32_t context_x=32,std::uint32_t context_y=32,GridCellParameters={});
     // Resolve inclusive physical area bounds on the selected natural grid.
     // Returned parameters contain the frozen sampled-pixel cutoffs used by the
     // ordinary detector/archive/replay path; invocation arguments are not kept.

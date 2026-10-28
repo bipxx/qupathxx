@@ -19,7 +19,7 @@ bool equivalent(const TissueResult& a,const TissueResult& b) {
 std::size_t TissueRecord::payload_bytes() const {if(!result) throw std::invalid_argument("tissue record has no mask");return sizeof(TissueRecord)+192+producer.capacity()+result->retained_bytes()+result->roi().payload_bytes()+result->algorithm().capacity()+result->input_sha256().capacity();}
 void Document::restore_tissue(std::shared_ptr<const TissueRecord> record) {
     if(!record || !record->result || !record->id || record->id>revision_ || record->result->document_revision()>=record->id ||
-       !record->result->object_id() || record->result->object_id()>=next_id_ || record->producer.empty() || record->producer.size()>256 || record->producer.find('\0')!=std::string::npos || record->result->scientific_grid())
+       !record->result->object_id() || record->result->object_id()>=next_id_ || record->producer.empty() || record->producer.size()>256 || record->producer.find('\0')!=std::string::npos || record->result->scientific_grid() || record->result->nominal_sampling())
         throw std::invalid_argument("invalid tissue archive record");
     const auto bytes=record->payload_bytes();
     if(tissue_.size()>=10000 || bytes>256u*1024u*1024u-tissue_bytes_) throw std::length_error("tissue archive exceeds its 10000-record/256 MiB limit");
@@ -39,7 +39,7 @@ void Document::restore_tissue(std::shared_ptr<const TissueRecord> record) {
     tissue_bytes_+=bytes;
 }
 std::uint64_t Document::keep_tissue(const TissueRequest& request,std::shared_ptr<const TissueResult> result) {
-    if(result && result->scientific_grid()) throw std::invalid_argument("explicit-grid masks require their versioned cell record");
+    if(result && (result->scientific_grid() || result->nominal_sampling())) throw std::invalid_argument("explicit-grid masks require their versioned cell record");
     if(!result || !request.matches(*this,request.object_id()) || request.ticket_!=result->ticket_) throw std::invalid_argument("tissue result does not match its current request");
     advance(revision_);auto record=std::make_shared<TissueRecord>();record->id=revision_+1;record->result=std::move(result);
     ++revision_;try {restore_tissue(record);} catch(...) {--revision_;throw;}
