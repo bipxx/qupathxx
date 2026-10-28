@@ -67,7 +67,7 @@ def test_native_false_acceptance_controls(suite,change):
 @pytest.mark.parametrize('gui',[False,True])
 def test_exact_installed_contract_has_explicit_skips(gui):
     report=evidence.python(python_cases(gui),gui=gui)
-    assert report['passed']==(233 if gui else 186)
+    assert report['passed']==(305 if gui else 258)
     assert report['declared_skips']==(1 if gui else 48)
 
 
@@ -99,7 +99,7 @@ def test_headless_declaration_is_not_an_arbitrary_skip(module,change):
 
 def test_typing_positive_and_negative_nonempty_counts(tmp_path):
     typing_logs(tmp_path);report=evidence.typing(tmp_path)
-    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(6,5,28)
+    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(7,5,28)
 
 
 @pytest.mark.parametrize('kind',['zero_files','wrong_files','missing_error','extra_error','wrong_line','wrong_summary','missing_log'])
