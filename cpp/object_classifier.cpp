@@ -70,7 +70,7 @@ ObjectFeatureRequest::ObjectFeatureRequest(const Document& doc,const std::vector
                 const auto record=doc.cell_record(link.record_id);const auto& result=*record->result;const auto& nucleus=*result.nuclei();
                 auto run=std::make_shared<ObjectCellFeatureSource>();run->record_id=link.record_id;run->object_id=nucleus.object_id();run->object_revision=nucleus.object_revision();run->document_revision=nucleus.document_revision();run->cell_count=result.features().size();run->producer=record->producer;run->algorithm=result.algorithm();run->input_sha256=nucleus.input_sha256();run->roi=nucleus.roi();run->level=nucleus.level();run->white=nucleus.white();run->stains=nucleus.stains();run->provenance=nucleus.provenance();
                 if(result.grid_parameters()) {
-                    run->scientific_grid=*nucleus.scientific_grid();run->grid_parameters=*result.grid_parameters();run->resolved_grid_parameters=*result.resolved_grid_parameters();
+                    if(nucleus.nominal_sampling()) run->nominal_sampling=std::make_shared<const NominalCellSampling>(*nucleus.nominal_sampling());else run->scientific_grid=*nucleus.scientific_grid();run->grid_parameters=*result.grid_parameters();run->resolved_grid_parameters=*result.resolved_grid_parameters();
                     run->parameters.algorithm=CellAlgorithm::GridLogWatershedBodies;run->downsample=std::numeric_limits<double>::quiet_NaN();
                 } else {run->parameters=result.parameters();run->downsample=nucleus.downsample();}
                 charge(run->payload_bytes());found=source_runs.emplace(link.record_id,std::move(run)).first;

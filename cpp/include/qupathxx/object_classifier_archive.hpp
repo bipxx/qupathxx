@@ -16,6 +16,7 @@ struct ObjectCellFeatureSource {
     // carry typed values here; scalar downsample is NaN and parameters.validate
     // rejects the grid algorithm rather than silently reinterpret its units.
     std::optional<ScientificGrid> scientific_grid;
+    std::shared_ptr<const NominalCellSampling> nominal_sampling;
     std::optional<GridCellParameters> grid_parameters;
     ResolvedGridCellParameters resolved_grid_parameters;
     std::size_t payload_bytes() const;

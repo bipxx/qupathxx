@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace qpx;
 void check_scientific_cells();
+void check_nominal_cells();
 void check(bool v) {if(!v) throw std::runtime_error("cell check failed");}
 class AlphaDomain final:public ImageServer {
     ImageMetadata info;
@@ -24,6 +25,7 @@ public:
 int main() {
  try {
     check_scientific_cells();
+    check_nominal_cells();
     std::vector<double> tiny_sigma_values{1,2,3,4};
     cell_detail::gaussian(tiny_sigma_values,std::vector<std::uint8_t>(4,1),2,2,1e-300,nullptr);
     check(tiny_sigma_values==std::vector<double>({1,2,3,4}));

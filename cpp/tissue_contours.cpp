@@ -57,6 +57,9 @@ template<class Emit> void boundary_runs(const StreamBoundaryRaster& mask,Emit&& 
 }
 template<class Mask> const RawPixelStreamGeometry* stream_geometry(const Mask&) {return nullptr;}
 const RawPixelStreamGeometry* stream_geometry(const StreamBoundaryRaster& m) {return &m.network.geometry;}
+template<class Mask> const NominalCellSampling* nominal_geometry(const Mask&) {return nullptr;}
+const NominalCellSampling* nominal_geometry(const TissueResult& m) {return m.nominal_sampling();}
+
 template<class Mask> std::size_t boundary_payload(const Mask&) {return 0;}
 std::size_t boundary_payload(const StreamBoundaryRaster& m) {
     return sizeof(m.network)+m.network.runs.capacity()*sizeof(detail::RawBoundaryRun)+m.network.class_counts.capacity()*sizeof(std::uint64_t);
@@ -172,15 +175,16 @@ struct TissueContourKernel {
             checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
-            struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const std::atomic<bool>* cancelled;};
+            struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};
             const auto grid=mask.scientific_grid();const auto stream=stream_geometry(mask);
-            Mapping mapping{mask.bounds(),(grid || stream)?0.:mask.downsample(),grid,stream,cancelled};
+            const auto nominal=nominal_geometry(mask);
+            Mapping mapping{mask.bounds(),(grid || stream || nominal)?0.:mask.downsample(),grid,stream,nominal,cancelled};
             if(grid) validate_scientific_raster_geometry(*grid,cancelled);
             else if(stream) {
                 const auto& r=stream->region;
                 validate_scientific_axis_geometry(stream->lattice.x(),r.first_x,r.first_x+r.width,cancelled);
                 validate_scientific_axis_geometry(stream->lattice.y(),r.first_y,r.first_y+r.height,cancelled);
-            } else {
+            } else if(!nominal) {
                 const auto far_x=mapping.bounds.x+(mask.width()-1)*mapping.scale,far_y=mapping.bounds.y+(mask.height()-1)*mapping.scale;
                 if(!std::isfinite(far_x+mapping.scale) || !std::isfinite(far_y+mapping.scale) || mapping.bounds.x+mapping.scale<=mapping.bounds.x || mapping.bounds.y+mapping.scale<=mapping.bounds.y || far_x+mapping.scale<=far_x || far_y+mapping.scale<=far_y)
                     throw std::invalid_argument("tissue contour grid loses coordinate precision");
@@ -207,7 +211,10 @@ struct TissueContourKernel {
                 areas[label-1]+=static_cast<std::uint64_t>(std::llround(area));
                 auto world=backend.own(GEOSGeom_transformXY_r(backend.ctx,face,[](double* xx,double* yy,void* user)->int {
                     const auto& m=*static_cast<Mapping*>(user);if(m.cancelled && m.cancelled->load(std::memory_order_relaxed)) return 0;
-                    if(m.stream) {
+                    if(m.nominal) {
+                        if(!std::isfinite(*xx) || !std::isfinite(*yy) || *xx<0 || *yy<0 || *xx>m.nominal->width() || *yy>m.nominal->height() || std::trunc(*xx)!=*xx || std::trunc(*yy)!=*yy) return 0;
+                        *xx=m.nominal->edge_x(std::int64_t(*xx));*yy=m.nominal->edge_y(std::int64_t(*yy));
+                    } else if(m.stream) {
                         const auto& r=m.stream->region;
                         if(!std::isfinite(*xx) || !std::isfinite(*yy) || *xx<0 || *yy<0 || *xx>r.width || *yy>r.height || std::trunc(*xx)!=*xx || std::trunc(*yy)!=*yy) return 0;
                         try {

@@ -16,10 +16,17 @@ auto grid_parameters(const GridCellParameters& p) {return std::make_tuple(p.unit
     p.min_nucleus_area,p.max_nucleus_area,p.sampling_policy,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
 auto grid(const ScientificGrid& g) {return std::make_tuple(g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context());}
 auto resolved(const ResolvedGridCellParameters& p) {return std::make_tuple(p.step_x,p.step_y,p.sigma_x,p.sigma_y,p.min_nucleus_samples,p.max_nucleus_samples);}
+auto nominal(const NominalCellSampling& n) {
+    const auto& r=n.source_request();return std::make_tuple(r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,n.context_x(),n.context_y());
+}
+bool same_sampling(const TissueResult& a,const TissueResult& b) {
+    if(a.nominal_sampling() || b.nominal_sampling()) return a.nominal_sampling() && b.nominal_sampling() && nominal(*a.nominal_sampling())==nominal(*b.nominal_sampling());
+    return a.scientific_grid() && b.scientific_grid() && grid(*a.scientific_grid())==grid(*b.scientific_grid());
+}
 bool same_grid_request(const CellResult& a,const CellResult& b) {
     const auto& x=a.nuclei()->provenance();const auto& y=b.nuclei()->provenance();
-    return a.grid_parameters() && b.grid_parameters() && a.nuclei()->scientific_grid() && b.nuclei()->scientific_grid() && x && y &&
-        grid_parameters(*a.grid_parameters())==grid_parameters(*b.grid_parameters()) && grid(*a.nuclei()->scientific_grid())==grid(*b.nuclei()->scientific_grid()) &&
+    return a.grid_parameters() && b.grid_parameters() && same_sampling(*a.nuclei(),*b.nuclei()) && x && y &&
+        grid_parameters(*a.grid_parameters())==grid_parameters(*b.grid_parameters()) &&
         resolved(*a.resolved_grid_parameters())==resolved(*b.resolved_grid_parameters()) && x->effective_pixel_width_um==y->effective_pixel_width_um && x->effective_pixel_height_um==y->effective_pixel_height_um;
 }
 bool same_request(const CellResult& a,const CellResult& b) {
@@ -136,8 +143,10 @@ bool Document::remove_cells(std::uint64_t id) {
 CellRequest CellRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.cell_record(id);const auto& r=*record->result->nuclei();
     if(record->result->grid_parameters()) {
-        if(!r.scientific_grid() || !r.provenance()) throw std::invalid_argument("saved grid cell geometry or provenance is missing");
-        CellRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),*r.scientific_grid(),*record->result->grid_parameters());
+        if((!r.scientific_grid() && !r.nominal_sampling()) || !r.provenance()) throw std::invalid_argument("saved grid cell geometry or provenance is missing");
+        const auto transform=StainTransform::from_normalized(r.stains(),r.white());
+        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,*r.nominal_sampling(),*record->result->grid_parameters()):
+            CellRequest(document,r.object_id(),transform,*r.scientific_grid(),*record->result->grid_parameters());
         const auto& p=request.scientific_->source.provenance();
         if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) ||
            p->effective_pixel_width_um!=r.provenance()->effective_pixel_width_um || p->effective_pixel_height_um!=r.provenance()->effective_pixel_height_um ||

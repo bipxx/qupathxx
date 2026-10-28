@@ -43,6 +43,7 @@ BASE={
 BASE['resampling'].append('99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed')
 BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed')
 BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed')
+BASE['cells'].append('Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed')
 CONDITIONAL=[
  ('raw_image','tiff','TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed'),
  ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),
@@ -62,7 +63,7 @@ CONDITIONAL=[
 ]
 # Bind the committed file inventory, including every reference vector/header and
 # consumer. Fixture bytes remain raw; code permits only checkout CRLF changes.
-FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','qupath-rgb-resampling-0.7.0','qupath-rgb-resampling-holdout-0.7.0','rgb-nominal-v1','raw-scientific-means-v1','raw-scientific-sampling-v1','raw-grid-statistics-v1','raw-grid-archive-v1'))
+FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','qupath-rgb-resampling-0.7.0','qupath-rgb-resampling-holdout-0.7.0','rgb-nominal-v1','nominal-cells-v1','raw-scientific-means-v1','raw-scientific-sampling-v1','raw-grid-statistics-v1','raw-grid-archive-v1'))
 EXTRA=('docs/scientific-grid-contract.md','tools/ci/run.py','tools/ci/run_manylinux.py','tools/ci/requirements.txt','tools/ci/scientific_grid_evidence.py','tools/ci/scientific-grid-cases.json','tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py','.github/workflows/ci.yml','tools/generate_stubs.py','tests/test_scientific_grid_evidence.py','tests/test_stub_signature_guard.py','tests/test_public_stubs.py',*POSITIVE,*('tests/typing/'+v[0] for v in NEGATIVE.values()))
 EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
         'tools/qupath_cells_fixture.py','tools/upstream/qupath_cells_reference.groovy',

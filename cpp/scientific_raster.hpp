@@ -3,6 +3,7 @@
 #include "qupathxx/scientific_sampling.hpp"
 
 namespace qpx {
+struct CellRgbInput;
 // Internal construction for the additive cell recipe, never a way to put an
 // explicit grid into QTM1/2 or QCL1-4. Canonical input identity is constructed
 // from the retained decoded snapshot, never a second read of mutable input.
@@ -25,6 +26,8 @@ std::vector<TissueComponent> scientific_raster_components(const ScientificGrid&,
 std::uint64_t scientific_raster_work_bytes(const ScientificGrid&,std::uint32_t count,const Roi&,const AnalysisProvenance&);
 std::string scientific_raster_input_sha256(const AnalysisRequest&,const ScientificRgbGrid&,const std::atomic<bool>* cancelled=nullptr);
 struct ScientificRasterKernel {
+    static std::shared_ptr<const TissueResult> make(const AnalysisRequest&,const CellRgbInput&,
+        std::vector<std::uint32_t> labels,const ScientificRasterSpec&,const std::atomic<bool>* cancelled=nullptr);
     static std::shared_ptr<const TissueResult> make(const AnalysisRequest&,const ScientificRgbGrid&,
         std::vector<std::uint32_t> labels,const ScientificRasterSpec&,const std::atomic<bool>* cancelled=nullptr);
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
+#include "qupathxx/nominal_cell_sampling.hpp"
 namespace qpx {
 enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
 enum class GridCellUnits { LevelZeroPixels, Micrometres };
@@ -28,6 +29,7 @@ struct ResolvedGridCellParameters {
     std::uint64_t min_nucleus_samples=0,max_nucleus_samples=0;
 };
 struct ScientificCellContext;
+struct CellSamplingGrid;
 struct CellParameters {
     CellAlgorithm algorithm=CellAlgorithm::DistanceWatershed;
     double log_prominence=.5;
@@ -49,9 +51,11 @@ class CellRequest {
 public:
     CellRequest(const Document&,std::uint64_t,const StainTransform&,CellParameters={});
     CellRequest(const Document&,std::uint64_t,const StainTransform&,ScientificGrid,GridCellParameters={});
+    CellRequest(const Document&,std::uint64_t,const StainTransform&,NominalCellSampling,GridCellParameters={});
     bool matches(const Document&,std::uint64_t) const;
     const CellParameters& parameters() const;
     const ScientificGrid* scientific_grid() const;
+    const NominalCellSampling* nominal_sampling() const;
     const GridCellParameters* grid_parameters() const;
     const ResolvedGridCellParameters* resolved_grid_parameters() const;
     std::uint64_t object_id() const;
@@ -70,6 +74,7 @@ public:
     static CellRequest with_nucleus_area_limits(const Document&,std::uint64_t,const StainTransform&,
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={});
 private:
+    CellRequest(const Document&,std::uint64_t,const StainTransform&,CellSamplingGrid,GridCellParameters);
     friend struct CellKernel;
     friend struct ScientificCellKernel;
     friend struct InputDigestKernel;

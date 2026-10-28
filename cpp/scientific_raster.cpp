@@ -2,6 +2,7 @@
 #include "qupathxx/provenance.hpp"
 #include "sha256.hpp"
 #include "geometry_archive.hpp"
+#include "cell_sampling_grid.hpp"
 #include <array>
 #include <algorithm>
 #include <cmath>
@@ -152,6 +153,42 @@ std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisR
     result->threshold_pixels_=result->cleaned_pixels_=spec.body?foreground:spec.threshold_pixels;result->estimated_work_bytes_=static_cast<std::size_t>(charge);
     const auto left=result->sample_edge_x(0),top=result->sample_edge_y(0),right=result->sample_edge_x(result->width()),bottom=result->sample_edge_y(result->height());
     result->bounds_={left,top,right-left,bottom-top};result->components_=std::move(components);
+    checkpoint(cancelled);return result;
+}
+std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisRequest& source,const CellRgbInput& input,
+    std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::atomic<bool>* cancelled) {
+    if(input.area) return make(source,*input.area,std::move(labels),spec,cancelled);
+    checkpoint(cancelled);const auto& p=spec.parameters;const auto& grid=input.grid;p.validate();
+    if(!spec.ticket || !grid.nominal || p.level!=0 || p.sampling_policy!=source.sampling_policy() ||
+       source.kind()!=(p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans) || !source.provenance() ||
+       source.provenance()->source.width!=grid.image_width() || source.provenance()->source.height!=grid.image_height() || labels.size()!=input.valid().size())
+        throw std::invalid_argument("nominal cell raster source or dimensions differ");
+    std::uint32_t count=0;std::uint64_t samples=0,foreground=0;
+    for(std::size_t i=0;i<labels.size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        const auto eligible=input.valid()[i] && grid.core_roi_contains(source.roi(),source.sampling_policy(),i%std::size_t(grid.width()),i/std::size_t(grid.width()));
+        samples+=eligible;
+        if(labels[i]) {
+            if(!eligible || labels[i]>p.max_components) throw std::invalid_argument("nominal cell label exceeds eligible core domain or component limit");
+            count=std::max(count,labels[i]);++foreground;
+        }
+    }
+    if(!samples || spec.threshold_pixels>samples || spec.raw_components<count || spec.raw_components>p.max_components || (!spec.body && foreground>spec.threshold_pixels))
+        throw std::invalid_argument("nominal cell raster counters differ");
+    const auto charge=29ULL*labels.size()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
+        source.provenance()->payload_bytes()+2ULL*source.roi().payload_bytes()+sizeof(TissueResult)+sizeof(NominalCellSampling)+65536;
+    if(charge>p.work_bytes) throw std::length_error("nominal cell raster exceeds work budget");
+    const auto digest=cell_raster_input_sha256(source,input,cancelled);
+    if(!spec.input_sha256.empty() && spec.input_sha256!=digest) throw std::invalid_argument("nominal cell raster input differs");
+    auto result=std::shared_ptr<TissueResult>(new TissueResult());result->nominal_sampling_=grid.nominal;result->ticket_=spec.ticket;
+    result->roi_=source.roi();result->provenance_=source.provenance();result->image_bounds_={0,0,double(grid.image_width()),double(grid.image_height())};
+    result->parameters_=p;result->white_=source.transform().white();result->stains_=source.transform().stains();
+    result->object_id_=source.object_id();result->object_revision_=source.object_revision();result->document_revision_=source.document_revision();result->nucleus_=source.nucleus();
+    result->algorithm_=spec.body?"qpx.nominal-cell-bodies/1":"qpx.nominal-cell-nuclei/1";result->input_format_override_=grid.input_format();result->input_sha256_=digest;
+    result->downsample_=grid.step_x();result->samples_=samples;result->foreground_pixels_=foreground;result->raw_components_=spec.raw_components;
+    result->threshold_pixels_=result->cleaned_pixels_=spec.body?foreground:spec.threshold_pixels;result->estimated_work_bytes_=std::size_t(charge);
+    result->components_=grid.components(labels,count,cancelled);result->labels_=std::move(labels);
+    const auto x=grid.edge_x(0),y=grid.edge_y(0);result->bounds_={x,y,grid.edge_x(grid.width())-x,grid.edge_y(grid.height())-y};
     checkpoint(cancelled);return result;
 }
 }

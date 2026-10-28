@@ -1,5 +1,5 @@
 #include "qupathxx/scientific_channels.hpp"
-#include "stain_matrix.hpp"
+#include "scientific_channel_values.hpp"
 #include <cmath>
 #include <stdexcept>
 namespace qpx {
@@ -24,23 +24,8 @@ struct ScientificChannelKernel {
         if(!work_bytes || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("invalid scientific channel work budget");
         const auto charge=scientific_channel_work_bytes(input);
         if(charge>work_bytes) throw std::length_error("scientific channel input/output exceed work budget");
-        const auto inverse=detail::stain_inverse(transform.stains());
         ScientificChannels result(input,transform,mode,static_cast<std::size_t>(charge));
-        for(std::size_t i=0;i<input.valid().size();++i) {
-            if((i&4095)==0) checkpoint(cancelled);if(!input.valid()[i]) continue;
-            ColorVector od;
-            for(unsigned c=0;c<3;++c) od[c]=optical_density(input.values()[i*3+c],transform.white()[c]);
-            if(mode==ScientificChannelMode::Stains) {
-                for(unsigned stain=0;stain<3;++stain) {
-                    const auto r=od[0]*inverse.cofactors[stain][0]/inverse.determinant;
-                    const auto g=od[1]*inverse.cofactors[stain][1]/inverse.determinant;
-                    const auto b=od[2]*inverse.cofactors[stain][2]/inverse.determinant;
-                    const auto value=(r+g)+b;
-                    if(!std::isfinite(value)) throw std::overflow_error("scientific stain channel is not representable");
-                    result.values_[i*3+stain]=value;
-                }
-            } else for(unsigned c=0;c<3;++c) result.values_[i*3+c]=od[c];
-        }
+        detail::scientific_channel_values(input.values(),input.valid(),transform,mode==ScientificChannelMode::Stains,result.values_,cancelled);
         checkpoint(cancelled);return result;
     }
 };
