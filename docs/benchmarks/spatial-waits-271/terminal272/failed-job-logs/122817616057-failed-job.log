@@ -1,0 +1,487 @@
+﻿2026-10-28T12:32:52.1002745Z Current runner version: '2.338.0'
+2026-10-28T12:32:52.1024396Z ##[group]Runner Image Provisioner
+2026-10-28T12:32:52.1025044Z Hosted Compute Agent
+2026-10-28T12:32:52.1025439Z Version: 20261021.618
+2026-10-28T12:32:52.1025869Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-28T12:32:52.1026397Z Build Date: 2026-10-21T00:45:21Z
+2026-10-28T12:32:52.1026869Z Worker ID: {4f15e458-ae5e-4445-8871-b039411d817d}
+2026-10-28T12:32:52.1027364Z Region: centralus
+2026-10-28T12:32:52.1027746Z Cloud: Azure
+2026-10-28T12:32:52.1028094Z ##[endgroup]
+2026-10-28T12:32:52.1029100Z ##[group]Operating System
+2026-10-28T12:32:52.1029558Z Microsoft Windows Server 2022
+2026-10-28T12:32:52.1029991Z 10.0.20348
+2026-10-28T12:32:52.1030351Z Datacenter
+2026-10-28T12:32:52.1030700Z ##[endgroup]
+2026-10-28T12:32:52.1031097Z ##[group]Runner Image
+2026-10-28T12:32:52.1031522Z Image: windows-2022
+2026-10-28T12:32:52.1031901Z Version: 20261022.344.1
+2026-10-28T12:32:52.1033208Z Included Software: https://github.com/actions/runner-images/blob/win22/20261022.344/images/windows/Windows2022-Readme.md
+2026-10-28T12:32:52.1034319Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261022.344
+2026-10-28T12:32:52.1035004Z ##[endgroup]
+2026-10-28T12:32:52.1035832Z ##[group]GITHUB_TOKEN Permissions
+2026-10-28T12:32:52.1037191Z Contents: read
+2026-10-28T12:32:52.1037615Z Metadata: read
+2026-10-28T12:32:52.1037992Z ##[endgroup]
+2026-10-28T12:32:52.1039657Z Secret source: Actions
+2026-10-28T12:32:52.1040286Z Cache mode: write
+2026-10-28T12:32:52.1040789Z Prepare workflow directory
+2026-10-28T12:32:52.3427239Z Prepare all required actions
+2026-10-28T12:32:52.3466279Z Getting action download info
+2026-10-28T12:32:52.6392650Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2026-10-28T12:32:52.9463138Z Download action repository 'actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c' (SHA:e797f83bcb11b83ae66e0230d6156d7c80228e7c)
+2026-10-28T12:32:53.0584871Z Download action repository 'actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0' (SHA:a7833574556fa59680c1b7cb190c1735db73ebf0)
+2026-10-28T12:32:53.1781357Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-10-28T12:32:53.5621216Z Complete job name: Windows GUI Python 3.12 software GL
+2026-10-28T12:32:53.8057262Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+2026-10-28T12:32:53.8058641Z with:
+2026-10-28T12:32:53.8059194Z   persist-credentials: false
+2026-10-28T12:32:53.8059843Z   repository: bipxx/qupathxx
+2026-10-28T12:32:53.8065593Z   token: ***
+2026-10-28T12:32:53.8066121Z   ssh-strict: true
+2026-10-28T12:32:53.8066666Z   ssh-user: git
+2026-10-28T12:32:53.8067188Z   clean: true
+2026-10-28T12:32:53.8067747Z   sparse-checkout-cone-mode: true
+2026-10-28T12:32:53.8068394Z   fetch-depth: 1
+2026-10-28T12:32:53.8068943Z   fetch-tags: false
+2026-10-28T12:32:53.8069523Z   show-progress: true
+2026-10-28T12:32:53.8070092Z   lfs: false
+2026-10-28T12:32:53.8070623Z   submodules: false
+2026-10-28T12:32:53.8071178Z   set-safe-directory: true
+2026-10-28T12:32:53.8071943Z ##[endgroup]
+2026-10-28T12:32:53.9190965Z Syncing repository: bipxx/qupathxx
+2026-10-28T12:32:53.9192869Z ##[group]Getting Git version info
+2026-10-28T12:32:53.9193750Z Working directory is 'D:\a\qupathxx\qupathxx'
+2026-10-28T12:32:53.9769658Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-28T12:32:54.4910841Z git version 2.56.0.windows.3
+2026-10-28T12:32:54.4943196Z ##[endgroup]
+2026-10-28T12:32:54.4958437Z Temporarily overriding HOME='D:\a\_temp\736cdd49-bd4f-4741-8568-3820280fbd77' before making global git config changes
+2026-10-28T12:32:54.4960045Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T12:32:54.4967026Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\qupathxx\qupathxx
+2026-10-28T12:32:54.5496911Z Deleting the contents of 'D:\a\qupathxx\qupathxx'
+2026-10-28T12:32:54.5501303Z ##[group]Initializing the repository
+2026-10-28T12:32:54.5508881Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\qupathxx\qupathxx
+2026-10-28T12:32:54.6201942Z Initialized empty Git repository in D:/a/qupathxx/qupathxx/.git/
+2026-10-28T12:32:54.6233876Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/bipxx/qupathxx
+2026-10-28T12:32:54.6841459Z ##[endgroup]
+2026-10-28T12:32:54.6842501Z ##[group]Disabling automatic garbage collection
+2026-10-28T12:32:54.6843504Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-28T12:32:54.7078675Z ##[endgroup]
+2026-10-28T12:32:54.7079643Z ##[group]Setting up auth
+2026-10-28T12:32:54.7088704Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T12:32:54.7335054Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-28T12:32:56.0622818Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T12:32:56.0862857Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-28T12:32:56.5099996Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-28T12:32:56.5345584Z ##[endgroup]
+2026-10-28T12:32:56.5346327Z ##[group]Fetching the repository
+2026-10-28T12:32:56.5356302Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ee19be5743cc131b297bfdbccad393f99b67b7c7:refs/remotes/origin/feature/spatial-waits-qualification-271
+2026-10-28T12:32:59.4882947Z From https://github.com/bipxx/qupathxx
+2026-10-28T12:32:59.4883773Z  * [new ref]         ee19be5743cc131b297bfdbccad393f99b67b7c7 -> origin/feature/spatial-waits-qualification-271
+2026-10-28T12:32:59.4911367Z ##[endgroup]
+2026-10-28T12:32:59.4911881Z ##[group]Determining the checkout info
+2026-10-28T12:32:59.4915573Z ##[endgroup]
+2026-10-28T12:32:59.4922371Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-28T12:32:59.5283000Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-28T12:32:59.5512603Z ##[group]Checking out the ref
+2026-10-28T12:32:59.5519965Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B feature/spatial-waits-qualification-271 refs/remotes/origin/feature/spatial-waits-qualification-271
+2026-10-28T12:33:00.5976653Z Updating files:  75% (5122/6810)
+2026-10-28T12:33:00.6101538Z Updating files:  76% (5176/6810)
+2026-10-28T12:33:00.6224262Z Updating files:  77% (5244/6810)
+2026-10-28T12:33:00.6401426Z Updating files:  78% (5312/6810)
+2026-10-28T12:33:00.6504837Z Updating files:  79% (5380/6810)
+2026-10-28T12:33:00.6644666Z Updating files:  80% (5448/6810)
+2026-10-28T12:33:00.6767452Z Updating files:  81% (5517/6810)
+2026-10-28T12:33:00.6875169Z Updating files:  82% (5585/6810)
+2026-10-28T12:33:00.6984304Z Updating files:  83% (5653/6810)
+2026-10-28T12:33:00.7092678Z Updating files:  84% (5721/6810)
+2026-10-28T12:33:00.7316399Z Updating files:  85% (5789/6810)
+2026-10-28T12:33:00.7515696Z Updating files:  86% (5857/6810)
+2026-10-28T12:33:00.7640736Z Updating files:  87% (5925/6810)
+2026-10-28T12:33:00.7732793Z Updating files:  88% (5993/6810)
+2026-10-28T12:33:00.7842650Z Updating files:  89% (6061/6810)
+2026-10-28T12:33:00.7953068Z Updating files:  90% (6129/6810)
+2026-10-28T12:33:00.8056825Z Updating files:  91% (6198/6810)
+2026-10-28T12:33:00.8275032Z Updating files:  92% (6266/6810)
+2026-10-28T12:33:00.8382471Z Updating files:  93% (6334/6810)
+2026-10-28T12:33:00.8489939Z Updating files:  94% (6402/6810)
+2026-10-28T12:33:00.8608964Z Updating files:  95% (6470/6810)
+2026-10-28T12:33:00.8706119Z Updating files:  96% (6538/6810)
+2026-10-28T12:33:00.8801959Z Updating files:  97% (6606/6810)
+2026-10-28T12:33:00.8912127Z Updating files:  98% (6674/6810)
+2026-10-28T12:33:00.9018880Z Updating files:  99% (6742/6810)
+2026-10-28T12:33:00.9019210Z Updating files: 100% (6810/6810)
+2026-10-28T12:33:00.9019473Z Updating files: 100% (6810/6810), done.
+2026-10-28T12:33:00.9177356Z Switched to a new branch 'feature/spatial-waits-qualification-271'
+2026-10-28T12:33:00.9234405Z branch 'feature/spatial-waits-qualification-271' set up to track 'origin/feature/spatial-waits-qualification-271'.
+2026-10-28T12:33:00.9295165Z ##[endgroup]
+2026-10-28T12:33:00.9692703Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-28T12:33:00.9910079Z ee19be5743cc131b297bfdbccad393f99b67b7c7
+2026-10-28T12:33:00.9935672Z ##[group]Removing auth
+2026-10-28T12:33:00.9942489Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T12:33:01.0176487Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-28T12:33:01.4400027Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T12:33:01.4610341Z http.https://github.com/.extraheader
+2026-10-28T12:33:01.4638999Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-10-28T12:33:01.4877321Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-28T12:33:01.9124127Z ##[endgroup]
+2026-10-28T12:33:02.0336978Z ##[group]Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+2026-10-28T12:33:02.0337330Z with:
+2026-10-28T12:33:02.0337485Z   python-version: 3.12
+2026-10-28T12:33:02.0337669Z   check-latest: false
+2026-10-28T12:33:02.0339828Z   token: ***
+2026-10-28T12:33:02.0339993Z   update-environment: true
+2026-10-28T12:33:02.0340170Z   allow-prereleases: false
+2026-10-28T12:33:02.0340337Z   freethreaded: false
+2026-10-28T12:33:02.0340493Z ##[endgroup]
+2026-10-28T12:33:02.1586131Z ##[group]Installed versions
+2026-10-28T12:33:02.1756965Z (node:2108) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T12:33:02.1757632Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T12:33:02.1758768Z Successfully set up CPython (3.12.10)
+2026-10-28T12:33:02.1759506Z ##[endgroup]
+2026-10-28T12:33:02.2148377Z ##[group]Run python -m pip install -r tools/ci/requirements.txt
+2026-10-28T12:33:02.2148810Z [36;1mpython -m pip install -r tools/ci/requirements.txt[0m
+2026-10-28T12:33:02.3173652Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-28T12:33:02.3173937Z env:
+2026-10-28T12:33:02.3174156Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:02.3174522Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:33:02.3174874Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:02.3175180Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:02.3175467Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:02.3175708Z ##[endgroup]
+2026-10-28T12:33:08.4115348Z Ignoring numpy: markers 'python_version < "3.12"' don't match your environment
+2026-10-28T12:33:08.6317243Z Collecting nanobind==3.1.0 (from -r tools/ci/requirements.txt (line 1))
+2026-10-28T12:33:08.8294316Z   Downloading nanobind-3.1.0-py3-none-any.whl.metadata (1.8 kB)
+2026-10-28T12:33:08.9512704Z Collecting scikit-build-core==1.1.1 (from -r tools/ci/requirements.txt (line 2))
+2026-10-28T12:33:08.9656199Z   Downloading scikit_build_core-1.1.1-py3-none-any.whl.metadata (19 kB)
+2026-10-28T12:33:09.1283532Z Collecting pytest==9.1.1 (from -r tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:09.1444104Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-28T12:33:09.4270150Z Collecting numpy==2.5.4 (from -r tools/ci/requirements.txt (line 4))
+2026-10-28T12:33:09.4412296Z   Downloading numpy-2.5.4-cp312-cp312-win_amd64.whl.metadata (6.6 kB)
+2026-10-28T12:33:09.7404793Z Collecting Pillow==13.0.0 (from -r tools/ci/requirements.txt (line 6))
+2026-10-28T12:33:09.7552632Z   Downloading pillow-13.0.0-cp312-cp312-win_amd64.whl.metadata (9.3 kB)
+2026-10-28T12:33:09.9311092Z Collecting tifffile==2024.9.20 (from -r tools/ci/requirements.txt (line 7))
+2026-10-28T12:33:09.9485837Z   Downloading tifffile-2024.9.20-py3-none-any.whl.metadata (32 kB)
+2026-10-28T12:33:10.0177187Z Collecting openslide-python==1.4.6 (from -r tools/ci/requirements.txt (line 8))
+2026-10-28T12:33:10.0329386Z   Downloading openslide_python-1.4.6-cp311-abi3-win_amd64.whl.metadata (5.2 kB)
+2026-10-28T12:33:10.2404008Z Collecting scipy==1.16.3 (from -r tools/ci/requirements.txt (line 9))
+2026-10-28T12:33:10.2565319Z   Downloading scipy-1.16.3-cp312-cp312-win_amd64.whl.metadata (60 kB)
+2026-10-28T12:33:10.5420545Z Collecting scikit-image==0.26.0 (from -r tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:10.5569569Z   Downloading scikit_image-0.26.0-cp312-cp312-win_amd64.whl.metadata (15 kB)
+2026-10-28T12:33:10.7072868Z Collecting mypy==2.4.0 (from -r tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:10.7214188Z   Downloading mypy-2.4.0-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+2026-10-28T12:33:10.7750266Z Requirement already satisfied: packaging>=23.2 in C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages (from scikit-build-core==1.1.1->-r tools/ci/requirements.txt (line 2)) (26.3)
+2026-10-28T12:33:10.8060733Z Collecting pathspec>=0.12.0 (from scikit-build-core==1.1.1->-r tools/ci/requirements.txt (line 2))
+2026-10-28T12:33:10.8199226Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-10-28T12:33:10.8370350Z Requirement already satisfied: colorama>=0.4 in C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3)) (0.4.6)
+2026-10-28T12:33:10.9610354Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:10.9756287Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-10-28T12:33:11.1816267Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:11.1959285Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-10-28T12:33:11.2945084Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:11.3091639Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-28T12:33:11.4424772Z Collecting networkx>=3.0 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:11.4564112Z   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+2026-10-28T12:33:11.5183431Z Collecting imageio!=2.35.0,>=2.33 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:11.5328715Z   Downloading imageio-2.38.1-py3-none-any.whl.metadata (9.7 kB)
+2026-10-28T12:33:11.6031583Z Collecting lazy-loader>=0.4 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:11.6175927Z   Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+2026-10-28T12:33:11.6718409Z Collecting typing_extensions>=4.6.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:11.6860962Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-28T12:33:11.7435141Z Collecting mypy_extensions>=1.0.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:11.7585767Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-10-28T12:33:11.9183937Z Collecting librt>=0.16.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:11.9343414Z   Downloading librt-0.16.0-cp312-cp312-win_amd64.whl.metadata (1.3 kB)
+2026-10-28T12:33:12.0181021Z Collecting ast-serialize<1.0.0,>=0.11.2 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:12.0327804Z   Downloading ast_serialize-0.13.1-cp39-abi3-win_amd64.whl.metadata (1.4 kB)
+2026-10-28T12:33:12.0993752Z Downloading nanobind-3.1.0-py3-none-any.whl (316 kB)
+2026-10-28T12:33:12.1461115Z Downloading scikit_build_core-1.1.1-py3-none-any.whl (293 kB)
+2026-10-28T12:33:12.1818825Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-28T12:33:12.2419392Z Downloading numpy-2.5.4-cp312-cp312-win_amd64.whl (12.6 MB)
+2026-10-28T12:33:12.3559740Z    ---------------------------------------- 12.6/12.6 MB 111.9 MB/s  0:00:00
+2026-10-28T12:33:12.3707504Z Downloading pillow-13.0.0-cp312-cp312-win_amd64.whl (7.3 MB)
+2026-10-28T12:33:12.4268352Z    ---------------------------------------- 7.3/7.3 MB 149.1 MB/s  0:00:00
+2026-10-28T12:33:12.4421578Z Downloading tifffile-2024.9.20-py3-none-any.whl (228 kB)
+2026-10-28T12:33:12.4796808Z Downloading openslide_python-1.4.6-cp311-abi3-win_amd64.whl (35 kB)
+2026-10-28T12:33:12.5083611Z Downloading scipy-1.16.3-cp312-cp312-win_amd64.whl (38.6 MB)
+2026-10-28T12:33:13.0626428Z    ---------------------------------------- 38.6/38.6 MB 70.0 MB/s  0:00:00
+2026-10-28T12:33:13.0804146Z Downloading scikit_image-0.26.0-cp312-cp312-win_amd64.whl (11.9 MB)
+2026-10-28T12:33:13.2079168Z    ---------------------------------------- 11.9/11.9 MB 93.2 MB/s  0:00:00
+2026-10-28T12:33:13.2228476Z Downloading mypy-2.4.0-cp312-cp312-win_amd64.whl (11.4 MB)
+2026-10-28T12:33:13.3034490Z    ---------------------------------------- 11.4/11.4 MB 142.6 MB/s  0:00:00
+2026-10-28T12:33:13.3180148Z Downloading ast_serialize-0.13.1-cp39-abi3-win_amd64.whl (1.2 MB)
+2026-10-28T12:33:13.3369207Z    ---------------------------------------- 1.2/1.2 MB 60.6 MB/s  0:00:00
+2026-10-28T12:33:13.3522108Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-10-28T12:33:13.3885722Z Downloading imageio-2.38.1-py3-none-any.whl (328 kB)
+2026-10-28T12:33:13.4186829Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-10-28T12:33:13.4493512Z Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+2026-10-28T12:33:13.4783186Z Downloading librt-0.16.0-cp312-cp312-win_amd64.whl (126 kB)
+2026-10-28T12:33:13.5044037Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-28T12:33:13.5345783Z Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+2026-10-28T12:33:13.5617674Z    ---------------------------------------- 2.1/2.1 MB 117.5 MB/s  0:00:00
+2026-10-28T12:33:13.5758472Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-10-28T12:33:13.6018450Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-28T12:33:13.6303891Z    ---------------------------------------- 1.3/1.3 MB 65.9 MB/s  0:00:00
+2026-10-28T12:33:13.6443998Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-28T12:33:14.0613702Z Installing collected packages: typing_extensions, pygments, pluggy, Pillow, pathspec, numpy, networkx, nanobind, mypy_extensions, librt, lazy-loader, iniconfig, ast-serialize, tifffile, scipy, scikit-build-core, pytest, openslide-python, mypy, imageio, scikit-image
+2026-10-28T12:33:48.7644902Z 
+2026-10-28T12:33:48.7668225Z Successfully installed Pillow-13.0.0 ast-serialize-0.13.1 imageio-2.38.1 iniconfig-2.3.1 lazy-loader-0.6 librt-0.16.0 mypy-2.4.0 mypy_extensions-1.1.0 nanobind-3.1.0 networkx-3.7 numpy-2.5.4 openslide-python-1.4.6 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.1.1 scikit-build-core-1.1.1 scikit-image-0.26.0 scipy-1.16.3 tifffile-2024.9.20 typing_extensions-4.16.0
+2026-10-28T12:33:48.9708684Z ##[group]Run Set-DisplayResolution -Width 1920 -Height 1080 -Force
+2026-10-28T12:33:48.9709126Z [36;1mSet-DisplayResolution -Width 1920 -Height 1080 -Force[0m
+2026-10-28T12:33:48.9709400Z [36;1mGet-DisplayResolution[0m
+2026-10-28T12:33:48.9740185Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-10-28T12:33:48.9740504Z env:
+2026-10-28T12:33:48.9740712Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:48.9741055Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:33:48.9741394Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:48.9741699Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:48.9742007Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:48.9742257Z ##[endgroup]
+2026-10-28T12:33:57.6796410Z s e t r e s   w i l l   n o w   a t t e m p t   t o   a p p l y   t h e   f o l l o w i n g   d i s p l a y   s e t t i n g s :   
+2026-10-28T12:33:57.6797162Z  
+2026-10-28T12:33:57.6800027Z  
+2026-10-28T12:33:57.6801544Z      W i d t h :                     1 9 2 0 
+2026-10-28T12:33:57.6802091Z  
+2026-10-28T12:33:57.6802982Z  
+2026-10-28T12:33:57.6803356Z      H e i g h t :                   1 0 8 0 
+2026-10-28T12:33:57.6803687Z  
+2026-10-28T12:33:57.6804093Z  
+2026-10-28T12:33:57.6804990Z  T h e   n e w   d i s p l a y   s e t t i n g s   h a v e   b e e n   s a v e d . 
+2026-10-28T12:33:57.6805758Z  
+2026-10-28T12:33:57.6806033Z  
+2026-10-28T12:33:57.7184413Z  1 9 2 0 x 1 0 8 0 
+2026-10-28T12:33:57.7196988Z  
+2026-10-28T12:33:58.3653310Z  
+2026-10-28T12:33:58.5571517Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:33:58.5571840Z with:
+2026-10-28T12:33:58.5571990Z   path: build/deps/geos-sdk
+2026-10-28T12:33:58.5572338Z   key: geos-3.15.0-windows-2022-X64-3331bfb42c92f996e55370c1043e4645e3fbfb103209741a5e97e9cc98607ce0
+2026-10-28T12:33:58.5572717Z   enableCrossOsArchive: false
+2026-10-28T12:33:58.5572907Z   fail-on-cache-miss: false
+2026-10-28T12:33:58.5573069Z   lookup-only: false
+2026-10-28T12:33:58.5573218Z   save-always: false
+2026-10-28T12:33:58.5573355Z env:
+2026-10-28T12:33:58.5573555Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:58.5573897Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:33:58.5574226Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:58.5574516Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:58.5574849Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:33:58.5575082Z ##[endgroup]
+2026-10-28T12:33:59.0768349Z Cache hit for: geos-3.15.0-windows-2022-X64-3331bfb42c92f996e55370c1043e4645e3fbfb103209741a5e97e9cc98607ce0
+2026-10-28T12:33:59.7384446Z Received 2466417 of 2466417 (100.0%), 4.9 MBs/sec
+2026-10-28T12:33:59.7385533Z Cache Size: ~2 MB (2466417 B)
+2026-10-28T12:33:59.7407703Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/77acba77-2d17-4810-adb9-d74d3ec21652/cache.tzst -P -C D:/a/qupathxx/qupathxx --force-local --use-compress-program "zstd -d"
+2026-10-28T12:33:59.9800486Z Cache restored successfully
+2026-10-28T12:33:59.9888253Z Cache restored from key: geos-3.15.0-windows-2022-X64-3331bfb42c92f996e55370c1043e4645e3fbfb103209741a5e97e9cc98607ce0
+2026-10-28T12:34:00.1786317Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:34:00.1786649Z with:
+2026-10-28T12:34:00.1786807Z   path: build/deps/opencv-sdk
+2026-10-28T12:34:00.1787176Z   key: opencv-4.11.0-windows-2022-X64-5113ec347da93ba27f584170b58a73aa87019e86b9e251d20074f20c1134f9ae
+2026-10-28T12:34:00.1787551Z   enableCrossOsArchive: false
+2026-10-28T12:34:00.1787740Z   fail-on-cache-miss: false
+2026-10-28T12:34:00.1787909Z   lookup-only: false
+2026-10-28T12:34:00.1788250Z   save-always: false
+2026-10-28T12:34:00.1788394Z env:
+2026-10-28T12:34:00.1788596Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:00.1788950Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:34:00.1789294Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:00.1789594Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:00.1789921Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:00.1790153Z ##[endgroup]
+2026-10-28T12:34:00.4970105Z Cache hit for: opencv-4.11.0-windows-2022-X64-5113ec347da93ba27f584170b58a73aa87019e86b9e251d20074f20c1134f9ae
+2026-10-28T12:34:01.0411277Z Received 5790124 of 5790124 (100.0%), 14.6 MBs/sec
+2026-10-28T12:34:01.0412600Z Cache Size: ~6 MB (5790124 B)
+2026-10-28T12:34:01.0431481Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/f334dc28-fc5c-4a58-af33-a6f96308d66f/cache.tzst -P -C D:/a/qupathxx/qupathxx --force-local --use-compress-program "zstd -d"
+2026-10-28T12:34:01.1357638Z Cache restored successfully
+2026-10-28T12:34:01.1443701Z Cache restored from key: opencv-4.11.0-windows-2022-X64-5113ec347da93ba27f584170b58a73aa87019e86b9e251d20074f20c1134f9ae
+2026-10-28T12:34:01.3349340Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:34:01.3349719Z with:
+2026-10-28T12:34:01.3349871Z   path: build/fixtures
+2026-10-28T12:34:01.3350196Z   key: reader-fixtures-3f652dc8da5eff8c6b0e68ae9dfda790151ac0efd1d492a7839535e3c886e4dd
+2026-10-28T12:34:01.3350552Z   enableCrossOsArchive: false
+2026-10-28T12:34:01.3350738Z   fail-on-cache-miss: false
+2026-10-28T12:34:01.3350915Z   lookup-only: false
+2026-10-28T12:34:01.3351072Z   save-always: false
+2026-10-28T12:34:01.3351224Z env:
+2026-10-28T12:34:01.3351431Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:01.3351786Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:34:01.3352151Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:01.3352450Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:01.3352781Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:01.3353026Z ##[endgroup]
+2026-10-28T12:34:01.6704320Z Cache hit for: reader-fixtures-3f652dc8da5eff8c6b0e68ae9dfda790151ac0efd1d492a7839535e3c886e4dd
+2026-10-28T12:34:02.2227766Z Received 1781937 of 1781937 (100.0%), 4.5 MBs/sec
+2026-10-28T12:34:02.2229363Z Cache Size: ~2 MB (1781937 B)
+2026-10-28T12:34:02.2248785Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/726cdb52-ff7c-4eff-9cba-0275843adcf3/cache.tzst -P -C D:/a/qupathxx/qupathxx --force-local --use-compress-program "zstd -d"
+2026-10-28T12:34:02.2617174Z Cache restored successfully
+2026-10-28T12:34:02.2700038Z Cache restored from key: reader-fixtures-3f652dc8da5eff8c6b0e68ae9dfda790151ac0efd1d492a7839535e3c886e4dd
+2026-10-28T12:34:02.2938360Z ##[group]Run python -I tools/ci/run.py --mode 'gui' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
+2026-10-28T12:34:02.2938968Z [36;1mpython -I tools/ci/run.py --mode 'gui' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS[0m
+2026-10-28T12:34:02.2948447Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-28T12:34:02.2948758Z env:
+2026-10-28T12:34:02.2948978Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:02.2949342Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T12:34:02.2949696Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:02.2950006Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:02.2950318Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T12:34:02.2950577Z   LIVE_REFERENCE: --live-reference
+2026-10-28T12:34:02.2950978Z   EXTENDED_READERS: --extended-readers
+2026-10-28T12:34:02.2951179Z ##[endgroup]
+2026-10-28T12:34:08.1465068Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\fetch_reader_fixtures.py --extended
+2026-10-28T12:35:27.5020707Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -m pip wheel . --no-deps --no-build-isolation --wheel-dir D:\a\qupathxx\qupathxx\build\ci\job\wheels --config-settings build-dir=D:\a\qupathxx\qupathxx\build\ci\job\native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=ON --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=D:\a\qupathxx\qupathxx\build\deps\geos-sdk --config-settings cmake.define.OpenCV_DIR=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk\share\licenses\opencv --config-settings cmake.define.OpenSlide_ROOT=D:\a\qupathxx\qupathxx\build\ci\deps\openslide\openslide-bin-4.0.1.2-windows-x64
+2026-10-28T12:48:24.1480984Z + ctest --test-dir D:\a\qupathxx\qupathxx\build\ci\job\native-build -C Release --output-on-failure --test-output-size-passed 1048576 --output-junit D:\a\qupathxx\qupathxx\build\ci\job\native-tests.xml
+2026-10-28T12:48:38.1103902Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --output D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+2026-10-28T12:48:38.3748913Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --verify D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+2026-10-28T12:48:38.6396474Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\probe_pe_forwarders.py --work D:\a\qupathxx\qupathxx\build\ci\job\native-forwarder-probe --output D:\a\qupathxx\qupathxx\build\ci\job\pe-forwarder-native.json
+2026-10-28T12:48:41.0172387Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -m venv D:\a\qupathxx\qupathxx\build\ci\job\install
+2026-10-28T12:48:44.3851196Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -m pip install -r D:\a\qupathxx\qupathxx\tools\ci\requirements.txt D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+2026-10-28T12:49:01.4828075Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\assets.py --software-python D:\a\qupathxx\qupathxx\build\ci\job\software-python --mesa-root D:\a\qupathxx\qupathxx\build\ci\deps\mesa\x64
+2026-10-28T12:49:01.6723960Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\check_install.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --output D:\a\qupathxx\qupathxx\build\ci\job\installed-workflow.json --standalone-project D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj --openslide-version 4.0.1 --gui --software-gl
+2026-10-28T12:49:04.0350478Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=D:\a\qupathxx\qupathxx\build\ci\job/python-tests.xml
+2026-10-28T13:07:06.8462825Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\compare_qupath_cells.py --cell-algorithm log-bodies --report D:\a\qupathxx\qupathxx\build\ci\job\qupath-cells-body-comparison.json
+2026-10-28T13:07:07.8057665Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\compare_qupath_cells.py --cell-algorithm log-sampled --report D:\a\qupathxx\qupathxx\build\ci\job\qupath-cells-sampled-comparison.json
+2026-10-28T13:07:08.7448146Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\compare_qupath_ndpi_cells.py --image D:\a\qupathxx\qupathxx\build\fixtures\CMU-1.ndpi --reference D:\a\qupathxx\qupathxx\tests\fixtures\qupath-ndpi-cells-0.7.0\capture --include-sampled --context-padding 0 --report D:\a\qupathxx\qupathxx\build\ci\job\qupath-ndpi-sampled-context0.json
+2026-10-28T13:07:12.9699700Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\compare_qupath_ndpi_cells.py --image D:\a\qupathxx\qupathxx\build\fixtures\CMU-1.ndpi --reference D:\a\qupathxx\qupathxx\tests\fixtures\qupath-ndpi-cells-0.7.0\capture --include-sampled --context-padding 32 --report D:\a\qupathxx\qupathxx\build\ci\job\qupath-ndpi-sampled-context32.json
+2026-10-28T13:07:16.7953213Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_vendor_reader.py --slide D:\a\qupathxx\qupathxx\build\fixtures\CMU-1.svs --output D:\a\qupathxx\qupathxx\build\ci\job\vendor-reader-benchmark.json
+2026-10-28T13:07:17.3480358Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_vendor_reader.py --slide D:\a\qupathxx\qupathxx\build\fixtures\CMU-1.ndpi --output D:\a\qupathxx\qupathxx\build\ci\job\ndpi-reader-benchmark.json
+2026-10-28T13:07:17.6869761Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_overview.py --slide D:\a\qupathxx\qupathxx\build\fixtures\CMU-1.svs --output D:\a\qupathxx\qupathxx\build\ci\job\gui-overview-benchmark.json --capture D:\a\qupathxx\qupathxx\build\ci\job\gui-overview.png
+2026-10-28T13:07:22.4449918Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_classifier.py --output D:\a\qupathxx\qupathxx\build\ci\job\classifier-benchmark.json
+2026-10-28T13:07:25.3468869Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_object_classifier.py --rows 10000 --output D:\a\qupathxx\qupathxx\build\ci\job\object-classifier-benchmark.json
+2026-10-28T13:07:25.5054661Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_classifier_archives.py --rows 10000 --output D:\a\qupathxx\qupathxx\build\ci\job\classifier-archive-benchmark.json
+2026-10-28T13:07:25.8296960Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_classifier.py --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-classifier-benchmark.json
+2026-10-28T13:07:27.1922085Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_workflow.py --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-workflow-benchmark.json
+2026-10-28T13:07:28.1933639Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream.py --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-benchmark.json
+2026-10-28T13:07:30.3740258Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_file.py --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file.qps --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file-benchmark.json
+2026-10-28T13:07:32.9299093Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_read.py --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file.qps --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-read-benchmark.json
+2026-10-28T13:07:33.3444262Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_input_digest.py --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-input-digest-benchmark.json
+2026-10-28T13:07:34.0453519Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_project_pixel_batch.py --work D:\a\qupathxx\qupathxx\build\ci\job\project-pixel-batch --output D:\a\qupathxx\qupathxx\build\ci\job\project-pixel-batch-benchmark.json
+2026-10-28T13:07:37.8565451Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\probe_project_pixel_batch_cancel.py --work D:\a\qupathxx\qupathxx\build\ci\job\pixel-batch-interrupt --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-batch-interrupt.json
+2026-10-28T13:07:38.1903600Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_tiff_reader.py --output D:\a\qupathxx\qupathxx\build\ci\job\tiff-reader-benchmark.json
+2026-10-28T13:07:39.0208932Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_raw_records.py --output D:\a\qupathxx\qupathxx\build\ci\job\raw-records-benchmark.json
+2026-10-28T13:07:42.5936963Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_tma.py --output D:\a\qupathxx\qupathxx\build\ci\job\tma-benchmark.json
+2026-10-28T13:07:42.7961551Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_cli.py --work D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-cli --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-cli-benchmark.json
+2026-10-28T13:07:45.5010919Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file.qps --project D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-links.qpxproj --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-record-benchmark.json
+2026-10-28T13:07:45.8597636Z Traceback (most recent call last):
+2026-10-28T13:07:45.8605230Z   File "D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py", line 64, in <module>
+2026-10-28T13:07:45.8605838Z     if __name__=='__main__':main()
+2026-10-28T13:07:45.8606099Z                             ^^^^^^
+2026-10-28T13:07:45.8606523Z   File "D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py", line 36, in main
+2026-10-28T13:07:45.8607063Z     assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+2026-10-28T13:07:45.8607489Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-28T13:07:45.8607880Z AssertionError
+2026-10-28T13:07:45.8608047Z 
+2026-10-28T13:07:45.8609355Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_file.py --job --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-job.qps --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-job-benchmark.json
+2026-10-28T13:07:48.4643076Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_archives.py --output D:\a\qupathxx\qupathxx\build\ci\job\pixel-archive-benchmark.json
+2026-10-28T13:07:49.2553385Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_tiff_reader.py --gui --output D:\a\qupathxx\qupathxx\build\ci\job\gui-tiff-reader-benchmark.json --capture D:\a\qupathxx\qupathxx\build\ci\job\gui-tiff-reader.ppm
+2026-10-28T13:07:51.7257333Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_tma.py --gui --output D:\a\qupathxx\qupathxx\build\ci\job\gui-tma-benchmark.json --capture D:\a\qupathxx\qupathxx\build\ci\job\gui-tma.ppm
+2026-10-28T13:07:53.8995406Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py --gui --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file.qps --project D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream-links.qpxproj --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream-record-benchmark.json
+2026-10-28T13:07:54.2634588Z Traceback (most recent call last):
+2026-10-28T13:07:54.2635264Z   File "D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py", line 64, in <module>
+2026-10-28T13:07:54.2635681Z     if __name__=='__main__':main()
+2026-10-28T13:07:54.2635948Z                             ^^^^^^
+2026-10-28T13:07:54.2636586Z   File "D:\a\qupathxx\qupathxx\tools\benchmark_pixel_stream_records.py", line 36, in main
+2026-10-28T13:07:54.2637214Z     assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+2026-10-28T13:07:54.2637778Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-28T13:07:54.2638171Z AssertionError
+2026-10-28T13:07:54.2638358Z 
+2026-10-28T13:07:54.2646947Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel_stream_read.py --file D:\a\qupathxx\qupathxx\build\ci\job\pixel-stream-file.qps --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream-read-benchmark.json --capture D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream-read.ppm
+2026-10-28T13:07:56.9182145Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel_stream.py --file D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream.qps --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-stream-benchmark.json
+2026-10-28T13:08:03.1040718Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel.py --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-benchmark.json
+2026-10-28T13:08:05.6943465Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel_contours.py --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-contour-benchmark.json
+2026-10-28T13:08:10.9320211Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel_archives.py --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-archive-benchmark.json
+2026-10-28T13:08:17.7809798Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\benchmark_gui_pixel_archives.py --viewport --output D:\a\qupathxx\qupathxx\build\ci\job\gui-pixel-window-benchmark.json
+2026-10-28T13:08:23.0630360Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\generate_stubs.py --check
+2026-10-28T13:08:23.3142052Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_grid_valid.py tests/typing/valid_api.py tests/typing/hierarchy_valid.py tests/typing/grid_cells_valid.py examples/live_workflow.py examples/region_workflow.py
+2026-10-28T13:08:26.0271953Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/scientific_grid_invalid.py
+2026-10-28T13:08:28.6451974Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/scientific_channels_invalid.py
+2026-10-28T13:08:31.2559140Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/grid_cells_invalid.py
+2026-10-28T13:08:33.8697520Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_grid_invalid.py
+2026-10-28T13:08:36.4892410Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/tma_axes_invalid.py
+2026-10-28T13:08:39.0828316Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/tma_dearray_valid.py
+2026-10-28T13:08:41.7412614Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/tma_dearray_invalid.py
+2026-10-28T13:08:44.3559109Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/tma_dearray_units_invalid.py
+2026-10-28T13:08:46.9882442Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/source_companions_valid.py
+2026-10-28T13:08:49.6155699Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/source_companions_invalid.py
+2026-10-28T13:08:52.2205807Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_pixel_valid.py tests/typing/raw_batch_valid.py tests/typing/raw_frontend_valid.py examples/raw_classifier_workflow.py tests/typing/raw_stream_contour_valid.py tests/typing/spatial_valid.py tests/typing/document_job_waits_valid.py
+2026-10-28T13:08:54.9839155Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_pixel_invalid.py
+2026-10-28T13:08:57.7912311Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_batch_invalid.py
+2026-10-28T13:09:00.5152878Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_frontend_invalid.py
+2026-10-28T13:09:03.3286208Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/raw_stream_contour_invalid.py
+2026-10-28T13:09:06.1012436Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/spatial_invalid.py
+2026-10-28T13:09:08.7943480Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/invalid_api.py
+2026-10-28T13:09:11.4734631Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/qptma_invalid.py
+2026-10-28T13:09:14.0913725Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m mypy --strict --no-incremental tests/typing/hierarchy_invalid.py
+2026-10-28T13:09:18.1856201Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --native-archive D:\a\qupathxx\qupathxx\build\ci\job\qupathxx-windows-x64-candidate.zip --gui --output D:\a\qupathxx\qupathxx\build\ci\job\windows-native-runtime-manifest.json
+2026-10-28T13:09:18.3968174Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --native-archive D:\a\qupathxx\qupathxx\build\ci\job\qupathxx-windows-x64-candidate.zip --gui --verify D:\a\qupathxx\qupathxx\build\ci\job\windows-native-runtime-manifest.json
+2026-10-28T13:09:18.6654915Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_app.exe --project D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj --layout D:\a\qupathxx\qupathxx\build\ci\job\standalone-workspace.ini --smoke
+2026-10-28T13:09:20.8274416Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_app.exe --project D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj --layout D:\a\qupathxx\qupathxx\build\ci\job\standalone-workspace.ini --smoke
+2026-10-28T13:09:22.7850251Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_batch.exe D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj D:\a\qupathxx\qupathxx\build\ci\job\standalone-batch --kind stains
+2026-10-28T13:09:22.8276473Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_region.exe D:\a\qupathxx\qupathxx\build\ci\job\standalone.ppm 0 0 0 2 2 D:\a\qupathxx\qupathxx\build\ci\job\standalone.pam
+2026-10-28T13:09:22.8419643Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_region.exe --thumbnail D:\a\qupathxx\qupathxx\build\ci\job\standalone.ppm 1 1 D:\a\qupathxx\qupathxx\build\ci\job\standalone-thumbnail.pam
+2026-10-28T13:09:22.8523048Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -c import sys,numpy as np,tifffile; tifffile.imwrite(sys.argv[1],np.full((32,48,3),[40,80,160],dtype=np.uint8),photometric='rgb',tile=(16,16),compression='deflate',metadata=None) D:\a\qupathxx\qupathxx\build\ci\job\standalone-thumbnail.tif
+2026-10-28T13:09:22.9631571Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_region.exe --thumbnail D:\a\qupathxx\qupathxx\build\ci\job\standalone-thumbnail.tif 31 23 D:\a\qupathxx\qupathxx\build\ci\job\standalone-tiff-thumbnail.pam
+2026-10-28T13:09:22.9751577Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_app.exe D:\a\qupathxx\qupathxx\build\fixtures\CMU-1-Small-Region.svs --smoke
+2026-10-28T13:09:24.8825449Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_region.exe D:\a\qupathxx\qupathxx\build\fixtures\CMU-1-Small-Region.svs 0 0 0 32 24 D:\a\qupathxx\qupathxx\build\ci\job\standalone-slide.pam
+2026-10-28T13:09:24.9000453Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\qupathxx\qupathxx_region.exe D:\a\qupathxx\qupathxx\build\fixtures\CMU-1-Small-Region.svs 0 0 0 32 24 D:\a\qupathxx\qupathxx\build\ci\job\installed-slide.pam
+2026-10-28T13:09:24.9180111Z + D:\a\qupathxx\qupathxx\build\ci\job\standalone-test\qupathxx_region.exe --thumbnail D:\a\qupathxx\qupathxx\build\fixtures\CMU-1-Small-Region.svs 250 150 D:\a\qupathxx\qupathxx\build\ci\job\standalone-slide-thumbnail.pam
+2026-10-28T13:09:24.9357247Z Traceback (most recent call last):
+2026-10-28T13:09:24.9358079Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 500, in <module>
+2026-10-28T13:09:24.9359367Z     main()
+2026-10-28T13:09:24.9360851Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 494, in main
+2026-10-28T13:09:24.9362116Z     diagnostics.finish()
+2026-10-28T13:09:24.9362684Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 98, in finish
+2026-10-28T13:09:24.9363866Z     if self.state!='passed':raise RuntimeError('installed diagnostics failed: '+', '.join(failed))
+2026-10-28T13:09:24.9364487Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-28T13:09:24.9365210Z RuntimeError: installed diagnostics failed: pixel-stream-record-benchmark, gui-pixel-stream-record-benchmark
+2026-10-28T13:09:24.9625378Z ##[error]Process completed with exit code 1.
+2026-10-28T13:09:24.9890987Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+2026-10-28T13:09:24.9891368Z with:
+2026-10-28T13:09:24.9891538Z   name: Windows-gui-py3.12
+2026-10-28T13:09:24.9891729Z   if-no-files-found: warn
+2026-10-28T13:09:24.9891914Z   retention-days: 14
+2026-10-28T13:09:24.9892445Z   path: build/ci/job/*.log
+build/ci/job/*.json
+build/ci/job/*.xml
+build/ci/job/gui-overview.png
+build/ci/job/wheels/*.whl
+build/ci/job/qupathxx-windows-x64-candidate.zip
+
+2026-10-28T13:09:24.9893001Z   compression-level: 6
+2026-10-28T13:09:24.9893179Z   overwrite: false
+2026-10-28T13:09:24.9893347Z   include-hidden-files: false
+2026-10-28T13:09:24.9893529Z env:
+2026-10-28T13:09:24.9893743Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T13:09:24.9894100Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-10-28T13:09:24.9894443Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T13:09:24.9894775Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T13:09:24.9895087Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-10-28T13:09:24.9895370Z ##[endgroup]
+2026-10-28T13:09:25.1265593Z (node:3464) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T13:09:25.1266223Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T13:09:25.1631310Z With the provided path, there will be 122 files uploaded
+2026-10-28T13:09:25.1635523Z Artifact name is valid!
+2026-10-28T13:09:25.1636710Z Root directory input is valid!
+2026-10-28T13:09:25.4718127Z Beginning upload of artifact content to blob storage
+2026-10-28T13:09:25.7879753Z (node:3464) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-28T13:09:26.4566626Z Uploaded bytes 8388608
+2026-10-28T13:09:26.7464460Z Uploaded bytes 16777216
+2026-10-28T13:09:27.0730645Z Uploaded bytes 25165824
+2026-10-28T13:09:27.2043349Z Uploaded bytes 28209650
+2026-10-28T13:09:27.2540981Z Finished uploading artifact content to blob storage!
+2026-10-28T13:09:27.2544582Z SHA256 digest of uploaded artifact zip is 6945b2d652668a173e75c259f807cfa71b11e41114cccf1a94e31cd851bd9e8d
+2026-10-28T13:09:27.2546742Z Finalizing artifact upload
+2026-10-28T13:09:27.7186050Z Artifact Windows-gui-py3.12.zip successfully finalized. Artifact ID 12819046379
+2026-10-28T13:09:27.7186872Z Artifact Windows-gui-py3.12 has been successfully uploaded! Final size is 28209650 bytes. Artifact ID is 12819046379
+2026-10-28T13:09:27.7197637Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40688686191/artifacts/12819046379
+2026-10-28T13:09:27.7798056Z Post job cleanup.
+2026-10-28T13:09:27.9347836Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-28T13:09:27.9625023Z git version 2.56.0.windows.3
+2026-10-28T13:09:27.9671438Z Temporarily overriding HOME='D:\a\_temp\a7d466cd-a840-4c55-b107-5dcb4ce9ec37' before making global git config changes
+2026-10-28T13:09:27.9672374Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T13:09:27.9681517Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\qupathxx\qupathxx
+2026-10-28T13:09:27.9937423Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T13:09:28.0191179Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-28T13:09:28.4290923Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T13:09:28.4539732Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-28T13:09:28.9657161Z Cleaning up orphan processes
+2026-10-28T13:09:28.9894649Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

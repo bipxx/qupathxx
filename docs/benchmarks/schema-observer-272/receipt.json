@@ -99,6 +99,56 @@
       "path": "source-proof.json",
       "bytes": 128037,
       "sha256": "0808cda670ce3e4e57e1999a089d8b6d73e73600c4aa5a3e20755523193ff77a"
+    },
+    {
+      "path": "gui-cohort.log",
+      "bytes": 448,
+      "sha256": "e267eba2debee6faf5544d07daf66aada9317be6ae79fa6e9d529f9bc7d686b4"
+    },
+    {
+      "path": "gui-cohort.xml",
+      "bytes": 43649,
+      "sha256": "ca815b3723195c6dadb310a7591f7eb9798590944cedbf06c05c122582033030"
+    },
+    {
+      "path": "gui-cohort-command.json",
+      "bytes": 1221,
+      "sha256": "6ee5ab6a97fc9e9330a986f27960c773a0adb0634094d73e66503fac0e61593a"
+    },
+    {
+      "path": "gui-cohort-admission.json",
+      "bytes": 1673,
+      "sha256": "88742041fc75633458d56700b6bec676810dda66349e33ba22b8a2883855ecf7"
+    },
+    {
+      "path": "nonrendering-cohort.log",
+      "bytes": 439,
+      "sha256": "1c914c768ffdb072ee93516db7ea5a2c6c9611a034cab673e8291e50744d2123"
+    },
+    {
+      "path": "nonrendering-cohort.xml",
+      "bytes": 54887,
+      "sha256": "9696d6a1583badc2c8ec974918fcdd658de9fc316b108e03c0ee9be3005f85af"
+    },
+    {
+      "path": "nonrendering-cohort-command.json",
+      "bytes": 1240,
+      "sha256": "d392061cd6f7eb1bba7bcce3a42cfb21a692a92556db8f3202145baabe9d99fc"
+    },
+    {
+      "path": "nonrendering-cohort-admission.json",
+      "bytes": 1674,
+      "sha256": "c62dd23d7b5526c3779c36acc463c34de4eecd72f9ea430c0d6ecad03ac6ea6b"
     }
-  ]
+  ],
+  "installed_gui_cohort": {
+    "passed": 307,
+    "declared_skips": 1
+  },
+  "installed_nonrendering_cohort": {
+    "passed": 260,
+    "declared_skips": 48,
+    "gui_capable_package": true,
+    "headless_wheel": false
+  }
 }

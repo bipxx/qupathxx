@@ -1,0 +1,197 @@
+{
+  "schema": "qpx.qualification-terminal/1",
+  "source": "ee19be5743cc131b297bfdbccad393f99b67b7c7",
+  "observation": "20261028T131956Z",
+  "authenticated_archives": 9,
+  "expected_missing_archives": "Both fresh portable consumers skipped after builder failures",
+  "engine_accepted": false,
+  "portable_accepted": false,
+  "combined_accepted": false,
+  "macos_native_accepted_separately": "../observation272/macos-acceptance.json",
+  "only_failed_diagnostic": "Stale schema13 assertion in descriptor benchmark, including GUI mode",
+  "profiles": {
+    "Windows-gui-py3.12": {
+      "collected": 4729,
+      "passed": 4715,
+      "skip_or_xfail": 14,
+      "failed_stages": [
+        "gui-pixel-stream-record-benchmark",
+        "pixel-stream-record-benchmark"
+      ]
+    },
+    "Windows-headless-py3.11": {
+      "collected": 4729,
+      "passed": 4216,
+      "skip_or_xfail": 513,
+      "failed_stages": [
+        "pixel-stream-record-benchmark"
+      ]
+    },
+    "Linux-headless-py3.12": {
+      "collected": 4729,
+      "passed": 4210,
+      "skip_or_xfail": 519,
+      "failed_stages": [
+        "pixel-stream-record-benchmark"
+      ]
+    },
+    "manylinux-3.11": {
+      "collected": 4729,
+      "passed": 4210,
+      "skip_or_xfail": 519,
+      "failed_stages": [
+        "pixel-stream-record-benchmark"
+      ]
+    },
+    "manylinux-3.12": {
+      "collected": 4729,
+      "passed": 4210,
+      "skip_or_xfail": 519,
+      "failed_stages": [
+        "pixel-stream-record-benchmark"
+      ]
+    }
+  },
+  "files": [
+    {
+      "path": "engine-run.json",
+      "bytes": 25146,
+      "sha256": "8f65e0a265d181936c0a321685ada54d605fa7eb57c8228d3a874d69694aa192"
+    },
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 4531,
+      "sha256": "7d717a2b3a9cd8e1f25c9c28fb6f127a5da6b368dd231d438b950b5c5ff4cb97"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "1f47d9af749764cd6f211bfcf36e912c5c83150597f893bd53aa50610dd2e554"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1840,
+      "sha256": "415a1e45516df8c243c6e5864abd78003cd9fe7ec0f22d5a79df353307241db1"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 10027,
+      "sha256": "04fbc44ebaa5612e64aa95b1b13f2399afd1abc731eb65f70129ae5963be64fa"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 1827,
+      "sha256": "ae8c33440242c6f6fc292f520fd2875bf45b19d69f8451c287ed41e0c0fec3d6"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2205,
+      "sha256": "8383ae62ba375f0982f6423ad3d11ad754a3856c256777ee6f506b8fe7047fe9"
+    },
+    {
+      "path": "Windows-gui-py3.12/pixel-stream-record-benchmark.log",
+      "bytes": 496,
+      "sha256": "8bfc1c88b4052cbe64415c03460c2146f00adbffc254433682a97d92ebd4d313"
+    },
+    {
+      "path": "Windows-gui-py3.12/gui-pixel-stream-record-benchmark.log",
+      "bytes": 496,
+      "sha256": "8bfc1c88b4052cbe64415c03460c2146f00adbffc254433682a97d92ebd4d313"
+    },
+    {
+      "path": "Windows-gui-py3.12/diagnostic-stages.json",
+      "bytes": 43139,
+      "sha256": "64e4564aa238e9ca6512a60bf4ad7459a19482fc8629df17d3537398fd6b4816"
+    },
+    {
+      "path": "Windows-gui-py3.12/python-tests.xml",
+      "bytes": 676860,
+      "sha256": "984790ba2b5e8b9630d387de3befd65daa14c8f1579b3dc543ba48bd22acf625"
+    },
+    {
+      "path": "Windows-headless-py3.11/pixel-stream-record-benchmark.log",
+      "bytes": 496,
+      "sha256": "8bfc1c88b4052cbe64415c03460c2146f00adbffc254433682a97d92ebd4d313"
+    },
+    {
+      "path": "Windows-headless-py3.11/diagnostic-stages.json",
+      "bytes": 32357,
+      "sha256": "eb580364bf99557f252044bb96ef6685882a7ca755c4e02e06ad93706d2a7e5a"
+    },
+    {
+      "path": "Windows-headless-py3.11/python-tests.xml",
+      "bytes": 767289,
+      "sha256": "37efba98e590bcb2ed4b4177e18a6a126afdae9df4f469c94d2ce43804a55755"
+    },
+    {
+      "path": "Linux-headless-py3.12/pixel-stream-record-benchmark.log",
+      "bytes": 514,
+      "sha256": "4339386e0e36fbe838def1c255e5d821ce59e3eb46bf12a7c32e086746a25c50"
+    },
+    {
+      "path": "Linux-headless-py3.12/diagnostic-stages.json",
+      "bytes": 31930,
+      "sha256": "ef67a2e9b9abce0cd0a9c5bb258eb1328a7fed3cefa39d3151a7e6aadc994bad"
+    },
+    {
+      "path": "Linux-headless-py3.12/python-tests.xml",
+      "bytes": 775114,
+      "sha256": "c2d20cf4ab9287a6151275316691f99a8a0069739346e2266949c01cd6e7ef34"
+    },
+    {
+      "path": "manylinux-3.11/pixel-stream-record-benchmark.log",
+      "bytes": 488,
+      "sha256": "6365a935033a68c3be9b8e809db7bbbad4299d16a076f79b708e0be8c395828a"
+    },
+    {
+      "path": "manylinux-3.11/diagnostic-stages.json",
+      "bytes": 30517,
+      "sha256": "3544f86ffcd3413154882037b60ca0080693a30e8162c68079d28f8c4f8eca7f"
+    },
+    {
+      "path": "manylinux-3.11/python-tests.xml",
+      "bytes": 768405,
+      "sha256": "227dac0e18ea00bd10fb01b38d9714e8dd5c82f56f57c3950882907f64b892ef"
+    },
+    {
+      "path": "manylinux-3.12/pixel-stream-record-benchmark.log",
+      "bytes": 488,
+      "sha256": "6365a935033a68c3be9b8e809db7bbbad4299d16a076f79b708e0be8c395828a"
+    },
+    {
+      "path": "manylinux-3.12/diagnostic-stages.json",
+      "bytes": 30519,
+      "sha256": "495f1a807e2843cf484aa7affe70a53bc6f56a848189402182381f319d21edf6"
+    },
+    {
+      "path": "manylinux-3.12/python-tests.xml",
+      "bytes": 768405,
+      "sha256": "31ebee9e875fa5bc94e5c5fd28f08fc943ff4ffb0823499a7e394d22c26c31d8"
+    },
+    {
+      "path": "failed-job-logs/122817616057-failed-job.log",
+      "bytes": 56526,
+      "sha256": "0a8b074b94c63a26c196b61458106ecc818b41e3f81747869d19af0b6c1b1e7d"
+    },
+    {
+      "path": "failed-job-logs/122817616277-failed-job.log",
+      "bytes": 50282,
+      "sha256": "c79f64823cd8ac9f54728d7fe2234c0ad08571885651d8fffd24d2b687babd46"
+    },
+    {
+      "path": "failed-job-logs/122817616590-failed-job.log",
+      "bytes": 48591,
+      "sha256": "6f288aaf2f4520f39fd8ea5fe68709e1492baa952d4a1f84b824c98eafb56a90"
+    },
+    {
+      "path": "failed-job-logs/122817702416-failed-job.log",
+      "bytes": 57756,
+      "sha256": "dc41c4c3953874d771356d5537792166fc39a83f331446b4e58d2a975c36c491"
+    },
+    {
+      "path": "failed-job-logs/122817702845-failed-job.log",
+      "bytes": 57998,
+      "sha256": "e4ae743b4fcaea6919efac1d80ccb553e8e0a3442d22f0b8e0f66043f327b8f7"
+    }
+  ]
+}

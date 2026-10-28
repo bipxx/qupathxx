@@ -1,0 +1,538 @@
+﻿2026-10-28T12:33:02.6008568Z Current runner version: '2.338.0'
+2026-10-28T12:33:02.6045202Z ##[group]Runner Image Provisioner
+2026-10-28T12:33:02.6046744Z Hosted Compute Agent
+2026-10-28T12:33:02.6047791Z Version: 20261021.618
+2026-10-28T12:33:02.6049284Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-28T12:33:02.6050532Z Build Date: 2026-10-21T00:45:21Z
+2026-10-28T12:33:02.6051708Z Worker ID: {6cd1b7b8-d416-4c35-849a-4df081f45826}
+2026-10-28T12:33:02.6052952Z Region: eastus
+2026-10-28T12:33:02.6053872Z Cloud: Azure
+2026-10-28T12:33:02.6054775Z ##[endgroup]
+2026-10-28T12:33:02.6057113Z ##[group]Operating System
+2026-10-28T12:33:02.6058516Z Ubuntu
+2026-10-28T12:33:02.6059492Z 24.04.5
+2026-10-28T12:33:02.6060344Z LTS
+2026-10-28T12:33:02.6061752Z ##[endgroup]
+2026-10-28T12:33:02.6062731Z ##[group]Runner Image
+2026-10-28T12:33:02.6063691Z Image: ubuntu-24.04
+2026-10-28T12:33:02.6064747Z Version: 20261012.334.1
+2026-10-28T12:33:02.6066872Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-28T12:33:02.6069961Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-28T12:33:02.6071629Z ##[endgroup]
+2026-10-28T12:33:02.6073636Z ##[group]GITHUB_TOKEN Permissions
+2026-10-28T12:33:02.6076754Z Contents: read
+2026-10-28T12:33:02.6077766Z Metadata: read
+2026-10-28T12:33:02.6079030Z ##[endgroup]
+2026-10-28T12:33:02.6082266Z Secret source: Actions
+2026-10-28T12:33:02.6083813Z Cache mode: write
+2026-10-28T12:33:02.6085383Z Prepare workflow directory
+2026-10-28T12:33:02.6809098Z Prepare all required actions
+2026-10-28T12:33:02.6859308Z Getting action download info
+2026-10-28T12:33:02.8436505Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2026-10-28T12:33:02.9843604Z Download action repository 'actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0' (SHA:a7833574556fa59680c1b7cb190c1735db73ebf0)
+2026-10-28T12:33:03.4005660Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-10-28T12:33:03.8553852Z Complete job name: Manylinux build Python 3.12
+2026-10-28T12:33:03.9316211Z ##[group]Checking docker version
+2026-10-28T12:33:03.9330506Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+2026-10-28T12:33:04.8061673Z '1.48'
+2026-10-28T12:33:04.8083008Z Docker daemon API version: '1.48'
+2026-10-28T12:33:04.8084007Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+2026-10-28T12:33:04.8278431Z '1.48'
+2026-10-28T12:33:04.8294952Z Docker client API version: '1.48'
+2026-10-28T12:33:04.8302019Z ##[endgroup]
+2026-10-28T12:33:04.8305669Z ##[group]Clean up resources from previous jobs
+2026-10-28T12:33:04.8312795Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=0d45db"
+2026-10-28T12:33:04.8472380Z ##[command]/usr/bin/docker network prune --force --filter "label=0d45db"
+2026-10-28T12:33:04.8617499Z ##[endgroup]
+2026-10-28T12:33:04.8618663Z ##[group]Create local container network
+2026-10-28T12:33:04.8629871Z ##[command]/usr/bin/docker network create --label 0d45db github_network_452c91195bd7430d8ad51c3a26cfc3f1
+2026-10-28T12:33:04.9175365Z 7d846135115c3488fa87b6f57fe621d4428f0177a4b6b0fd921caada0a100c85
+2026-10-28T12:33:04.9199714Z ##[endgroup]
+2026-10-28T12:33:04.9225812Z ##[group]Starting job container
+2026-10-28T12:33:04.9251478Z ##[command]/usr/bin/docker pull quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
+2026-10-28T12:33:05.2544149Z quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff: Pulling from pypa/manylinux_2_28_x86_64
+2026-10-28T12:33:05.2549660Z 5fa148f122e0: Pulling fs layer
+2026-10-28T12:33:05.2554417Z 608eea55ca8c: Pulling fs layer
+2026-10-28T12:33:05.2556252Z f376596853cb: Pulling fs layer
+2026-10-28T12:33:05.2557818Z 4f4fb700ef54: Pulling fs layer
+2026-10-28T12:33:05.2559750Z 1fd5bd6a95ae: Pulling fs layer
+2026-10-28T12:33:05.2561853Z 3b41c1659d40: Pulling fs layer
+2026-10-28T12:33:05.2563888Z bc76c9b46f10: Pulling fs layer
+2026-10-28T12:33:05.2565551Z f5cb1f91451e: Pulling fs layer
+2026-10-28T12:33:05.2567083Z 07476a1ff446: Pulling fs layer
+2026-10-28T12:33:05.2568665Z 739cca444a10: Pulling fs layer
+2026-10-28T12:33:05.2570169Z bfb15b9ceb91: Pulling fs layer
+2026-10-28T12:33:05.2571546Z a6ef61ceee2a: Pulling fs layer
+2026-10-28T12:33:05.2572907Z a69eb196ba0e: Pulling fs layer
+2026-10-28T12:33:05.2574256Z dc95e1a45ed4: Pulling fs layer
+2026-10-28T12:33:05.2575565Z 217c6ab82107: Pulling fs layer
+2026-10-28T12:33:05.2576847Z 38299504c3d9: Pulling fs layer
+2026-10-28T12:33:05.2578312Z aaaf25a024e8: Pulling fs layer
+2026-10-28T12:33:05.2579743Z 9dc04b3abd4b: Pulling fs layer
+2026-10-28T12:33:05.2581132Z 1d0aba417372: Pulling fs layer
+2026-10-28T12:33:05.2582384Z 549a8c0ee2ea: Pulling fs layer
+2026-10-28T12:33:05.2583668Z 5c321396de7d: Pulling fs layer
+2026-10-28T12:33:05.2584895Z 3b41c1659d40: Waiting
+2026-10-28T12:33:05.2586052Z bc76c9b46f10: Waiting
+2026-10-28T12:33:05.2587218Z f5cb1f91451e: Waiting
+2026-10-28T12:33:05.2588581Z 07476a1ff446: Waiting
+2026-10-28T12:33:05.2589732Z 739cca444a10: Waiting
+2026-10-28T12:33:05.2590845Z bfb15b9ceb91: Waiting
+2026-10-28T12:33:05.2591746Z a6ef61ceee2a: Waiting
+2026-10-28T12:33:05.2592505Z a69eb196ba0e: Waiting
+2026-10-28T12:33:05.2593146Z dc95e1a45ed4: Waiting
+2026-10-28T12:33:05.2593744Z 4f4fb700ef54: Waiting
+2026-10-28T12:33:05.2594352Z 217c6ab82107: Waiting
+2026-10-28T12:33:05.2595232Z 1fd5bd6a95ae: Waiting
+2026-10-28T12:33:05.2595765Z 38299504c3d9: Waiting
+2026-10-28T12:33:05.2596422Z aaaf25a024e8: Waiting
+2026-10-28T12:33:05.2596954Z 9dc04b3abd4b: Waiting
+2026-10-28T12:33:05.2597582Z 1d0aba417372: Waiting
+2026-10-28T12:33:05.2598390Z 549a8c0ee2ea: Waiting
+2026-10-28T12:33:05.2599155Z 5c321396de7d: Waiting
+2026-10-28T12:33:05.3571796Z f376596853cb: Verifying Checksum
+2026-10-28T12:33:05.3572846Z f376596853cb: Download complete
+2026-10-28T12:33:05.3593805Z 608eea55ca8c: Verifying Checksum
+2026-10-28T12:33:05.3594982Z 608eea55ca8c: Download complete
+2026-10-28T12:33:05.3887143Z 4f4fb700ef54: Verifying Checksum
+2026-10-28T12:33:05.3889561Z 4f4fb700ef54: Download complete
+2026-10-28T12:33:05.3902382Z 1fd5bd6a95ae: Verifying Checksum
+2026-10-28T12:33:05.3903880Z 1fd5bd6a95ae: Download complete
+2026-10-28T12:33:05.4251529Z 3b41c1659d40: Verifying Checksum
+2026-10-28T12:33:05.4254116Z 3b41c1659d40: Download complete
+2026-10-28T12:33:05.4572701Z f5cb1f91451e: Verifying Checksum
+2026-10-28T12:33:05.4574026Z f5cb1f91451e: Download complete
+2026-10-28T12:33:05.5115169Z 07476a1ff446: Download complete
+2026-10-28T12:33:05.5495681Z 739cca444a10: Verifying Checksum
+2026-10-28T12:33:05.5498961Z 739cca444a10: Download complete
+2026-10-28T12:33:05.6063440Z bfb15b9ceb91: Verifying Checksum
+2026-10-28T12:33:05.6074360Z bfb15b9ceb91: Download complete
+2026-10-28T12:33:05.6464556Z a6ef61ceee2a: Verifying Checksum
+2026-10-28T12:33:05.6467335Z a6ef61ceee2a: Download complete
+2026-10-28T12:33:05.6989886Z a69eb196ba0e: Verifying Checksum
+2026-10-28T12:33:05.6996968Z a69eb196ba0e: Download complete
+2026-10-28T12:33:05.7313948Z dc95e1a45ed4: Verifying Checksum
+2026-10-28T12:33:05.7315173Z dc95e1a45ed4: Download complete
+2026-10-28T12:33:05.7671435Z 217c6ab82107: Verifying Checksum
+2026-10-28T12:33:05.7673749Z 217c6ab82107: Download complete
+2026-10-28T12:33:05.8030170Z 5fa148f122e0: Verifying Checksum
+2026-10-28T12:33:05.8032841Z 5fa148f122e0: Download complete
+2026-10-28T12:33:05.8114143Z 38299504c3d9: Verifying Checksum
+2026-10-28T12:33:05.8116476Z 38299504c3d9: Download complete
+2026-10-28T12:33:05.9192460Z aaaf25a024e8: Download complete
+2026-10-28T12:33:05.9590612Z 1d0aba417372: Verifying Checksum
+2026-10-28T12:33:05.9592544Z 1d0aba417372: Download complete
+2026-10-28T12:33:05.9826779Z 9dc04b3abd4b: Verifying Checksum
+2026-10-28T12:33:05.9839383Z 9dc04b3abd4b: Download complete
+2026-10-28T12:33:06.0183906Z 5c321396de7d: Verifying Checksum
+2026-10-28T12:33:06.0186117Z 5c321396de7d: Download complete
+2026-10-28T12:33:06.4274408Z bc76c9b46f10: Verifying Checksum
+2026-10-28T12:33:06.4274970Z bc76c9b46f10: Download complete
+2026-10-28T12:33:08.7674781Z 5fa148f122e0: Pull complete
+2026-10-28T12:33:08.8443317Z 549a8c0ee2ea: Verifying Checksum
+2026-10-28T12:33:08.8443873Z 549a8c0ee2ea: Download complete
+2026-10-28T12:33:11.7060529Z 608eea55ca8c: Pull complete
+2026-10-28T12:33:11.7170296Z f376596853cb: Pull complete
+2026-10-28T12:33:11.7260943Z 4f4fb700ef54: Pull complete
+2026-10-28T12:33:11.7501223Z 1fd5bd6a95ae: Pull complete
+2026-10-28T12:33:11.7600950Z 3b41c1659d40: Pull complete
+2026-10-28T12:33:20.4041710Z bc76c9b46f10: Pull complete
+2026-10-28T12:33:20.4162654Z f5cb1f91451e: Pull complete
+2026-10-28T12:33:20.4609409Z 07476a1ff446: Pull complete
+2026-10-28T12:33:20.4695417Z 739cca444a10: Pull complete
+2026-10-28T12:33:20.5223332Z bfb15b9ceb91: Pull complete
+2026-10-28T12:33:20.5312849Z a6ef61ceee2a: Pull complete
+2026-10-28T12:33:20.5721420Z a69eb196ba0e: Pull complete
+2026-10-28T12:33:20.5800711Z dc95e1a45ed4: Pull complete
+2026-10-28T12:33:20.6054598Z 217c6ab82107: Pull complete
+2026-10-28T12:33:20.6172700Z 38299504c3d9: Pull complete
+2026-10-28T12:33:20.6559891Z aaaf25a024e8: Pull complete
+2026-10-28T12:33:20.8746723Z 9dc04b3abd4b: Pull complete
+2026-10-28T12:33:20.8977842Z 1d0aba417372: Pull complete
+2026-10-28T12:33:35.3894517Z 549a8c0ee2ea: Pull complete
+2026-10-28T12:33:35.4122420Z 5c321396de7d: Pull complete
+2026-10-28T12:33:35.4155425Z Digest: sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
+2026-10-28T12:33:35.4163730Z Status: Downloaded newer image for quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
+2026-10-28T12:33:35.4173572Z quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
+2026-10-28T12:33:35.4256295Z ##[command]/usr/bin/docker create --name 4e7237fef2614bf3a0395e6a88234723_quayiopypamanylinux_2_28_x86_64sha256076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff_0f34a3 --label 0d45db --workdir /__w/qupathxx/qupathxx --network github_network_452c91195bd7430d8ad51c3a26cfc3f1  -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff "-f" "/dev/null"
+2026-10-28T12:33:35.4570297Z 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:33:35.4597073Z ##[command]/usr/bin/docker start 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:33:35.6783792Z 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:33:35.6803856Z ##[command]/usr/bin/docker ps --all --filter id=4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+2026-10-28T12:33:35.7002838Z 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 Up Less than a second
+2026-10-28T12:33:35.7021946Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:33:35.7142128Z CI=true
+2026-10-28T12:33:35.7142462Z HOME=/github/home
+2026-10-28T12:33:35.7142808Z GITHUB_ACTIONS=true
+2026-10-28T12:33:35.7143877Z PATH=/opt/clang/bin:/opt/rh/gcc-toolset-14/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2026-10-28T12:33:35.7144442Z LANG=en_US.UTF-8
+2026-10-28T12:33:35.7144670Z AUDITWHEEL_POLICY=manylinux_2_28
+2026-10-28T12:33:35.7144918Z AUDITWHEEL_ARCH=x86_64
+2026-10-28T12:33:35.7145145Z AUDITWHEEL_PLAT=manylinux_2_28_x86_64
+2026-10-28T12:33:35.7145672Z LC_ALL=en_US.UTF-8
+2026-10-28T12:33:35.7145870Z LANGUAGE=en_US.UTF-8
+2026-10-28T12:33:35.7146128Z DEVTOOLSET_ROOTPATH=/opt/rh/gcc-toolset-14/root
+2026-10-28T12:33:35.7146927Z LD_LIBRARY_PATH=/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:/opt/rh/gcc-toolset-14/root/usr/lib64/dyninst:/opt/rh/gcc-toolset-14/root/usr/lib/dyninst
+2026-10-28T12:33:35.7147678Z PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+2026-10-28T12:33:35.7147972Z PIPX_DISABLE_SHARED_LIBS_AUTO_UPGRADE=1
+2026-10-28T12:33:35.7148605Z SSL_CERT_FILE=/opt/_internal/certs.pem
+2026-10-28T12:33:35.7161916Z ##[endgroup]
+2026-10-28T12:33:35.7171144Z ##[group]Waiting for all services to be ready
+2026-10-28T12:33:35.7172696Z ##[endgroup]
+2026-10-28T12:33:35.7446931Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+2026-10-28T12:33:35.7447623Z with:
+2026-10-28T12:33:35.7447851Z   persist-credentials: false
+2026-10-28T12:33:35.7448408Z   repository: bipxx/qupathxx
+2026-10-28T12:33:35.7450902Z   token: ***
+2026-10-28T12:33:35.7451119Z   ssh-strict: true
+2026-10-28T12:33:35.7451335Z   ssh-user: git
+2026-10-28T12:33:35.7451528Z   clean: true
+2026-10-28T12:33:35.7451744Z   sparse-checkout-cone-mode: true
+2026-10-28T12:33:35.7452011Z   fetch-depth: 1
+2026-10-28T12:33:35.7452212Z   fetch-tags: false
+2026-10-28T12:33:35.7452422Z   show-progress: true
+2026-10-28T12:33:35.7452628Z   lfs: false
+2026-10-28T12:33:35.7452822Z   submodules: false
+2026-10-28T12:33:35.7453039Z   set-safe-directory: true
+2026-10-28T12:33:35.7453534Z env:
+2026-10-28T12:33:35.7453748Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:35.7454010Z ##[endgroup]
+2026-10-28T12:33:35.7521677Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:33:36.1968955Z Syncing repository: bipxx/qupathxx
+2026-10-28T12:33:36.1970343Z ##[group]Getting Git version info
+2026-10-28T12:33:36.1970694Z Working directory is '/__w/qupathxx/qupathxx'
+2026-10-28T12:33:36.1971223Z [command]/usr/local/bin/git version
+2026-10-28T12:33:36.2008567Z git version 2.56.0
+2026-10-28T12:33:36.2037658Z ##[endgroup]
+2026-10-28T12:33:36.2054472Z Temporarily overriding HOME='/__w/_temp/d345aa83-513a-4123-a3aa-6ae1efe16a02' before making global git config changes
+2026-10-28T12:33:36.2055808Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T12:33:36.2061428Z [command]/usr/local/bin/git config --global --add safe.directory /__w/qupathxx/qupathxx
+2026-10-28T12:33:36.2102866Z Deleting the contents of '/__w/qupathxx/qupathxx'
+2026-10-28T12:33:36.2107501Z ##[group]Initializing the repository
+2026-10-28T12:33:36.2112129Z [command]/usr/local/bin/git init /__w/qupathxx/qupathxx
+2026-10-28T12:33:36.2165432Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-28T12:33:36.2166402Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-28T12:33:36.2167303Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-28T12:33:36.2168276Z hint: call:
+2026-10-28T12:33:36.2168638Z hint:
+2026-10-28T12:33:36.2169164Z hint: 	git config --global init.defaultBranch <name>
+2026-10-28T12:33:36.2169788Z hint:
+2026-10-28T12:33:36.2170338Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-28T12:33:36.2172302Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-28T12:33:36.2173021Z hint:
+2026-10-28T12:33:36.2173367Z hint: 	git branch -m <name>
+2026-10-28T12:33:36.2173789Z hint:
+2026-10-28T12:33:36.2174372Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-28T12:33:36.2175345Z Initialized empty Git repository in /__w/qupathxx/qupathxx/.git/
+2026-10-28T12:33:36.2182512Z [command]/usr/local/bin/git remote add origin https://github.com/bipxx/qupathxx
+2026-10-28T12:33:36.2231071Z ##[endgroup]
+2026-10-28T12:33:36.2232093Z ##[group]Disabling automatic garbage collection
+2026-10-28T12:33:36.2236385Z [command]/usr/local/bin/git config --local gc.auto 0
+2026-10-28T12:33:36.2274768Z ##[endgroup]
+2026-10-28T12:33:36.2275584Z ##[group]Setting up auth
+2026-10-28T12:33:36.2283085Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T12:33:36.2325205Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-28T12:33:36.2736404Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T12:33:36.2768356Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-28T12:33:36.3151260Z [command]/usr/local/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-28T12:33:36.3196478Z ##[endgroup]
+2026-10-28T12:33:36.3197152Z ##[group]Fetching the repository
+2026-10-28T12:33:36.3209990Z [command]/usr/local/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ee19be5743cc131b297bfdbccad393f99b67b7c7:refs/remotes/origin/feature/spatial-waits-qualification-271
+2026-10-28T12:33:37.6759312Z From https://github.com/bipxx/qupathxx
+2026-10-28T12:33:37.6760245Z  * [new ref]         ee19be5743cc131b297bfdbccad393f99b67b7c7 -> origin/feature/spatial-waits-qualification-271
+2026-10-28T12:33:37.6766801Z ##[endgroup]
+2026-10-28T12:33:37.6768573Z ##[group]Determining the checkout info
+2026-10-28T12:33:37.6769351Z ##[endgroup]
+2026-10-28T12:33:37.6775763Z [command]/usr/local/bin/git sparse-checkout disable
+2026-10-28T12:33:37.6828427Z [command]/usr/local/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-28T12:33:37.6865379Z ##[group]Checking out the ref
+2026-10-28T12:33:37.6877350Z [command]/usr/local/bin/git checkout --progress --force -B feature/spatial-waits-qualification-271 refs/remotes/origin/feature/spatial-waits-qualification-271
+2026-10-28T12:33:38.3095613Z Switched to a new branch 'feature/spatial-waits-qualification-271'
+2026-10-28T12:33:38.3101578Z branch 'feature/spatial-waits-qualification-271' set up to track 'origin/feature/spatial-waits-qualification-271'.
+2026-10-28T12:33:38.3140535Z ##[endgroup]
+2026-10-28T12:33:38.3187924Z [command]/usr/local/bin/git log -1 --format=%H
+2026-10-28T12:33:38.3219206Z ee19be5743cc131b297bfdbccad393f99b67b7c7
+2026-10-28T12:33:38.3229966Z ##[group]Removing auth
+2026-10-28T12:33:38.3235773Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T12:33:38.3276536Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-28T12:33:38.3665374Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T12:33:38.3696313Z http.https://github.com/.extraheader
+2026-10-28T12:33:38.3709253Z [command]/usr/local/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-28T12:33:38.3750206Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-28T12:33:38.4125160Z ##[endgroup]
+2026-10-28T12:33:38.4360169Z ##[group]Run "$PYBIN/python" -m pip install --only-binary=:all: -r tools/ci/requirements-manylinux.txt
+2026-10-28T12:33:38.4360964Z [36;1m"$PYBIN/python" -m pip install --only-binary=:all: -r tools/ci/requirements-manylinux.txt[0m
+2026-10-28T12:33:38.4365191Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-10-28T12:33:38.4365523Z env:
+2026-10-28T12:33:38.4365736Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:38.4366211Z ##[endgroup]
+2026-10-28T12:33:39.8734928Z WARNING: The directory '/github/home/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+2026-10-28T12:33:40.0235852Z Ignoring numpy: markers 'python_version < "3.12"' don't match your environment
+2026-10-28T12:33:40.0515587Z Collecting nanobind==3.1.0 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 1))
+2026-10-28T12:33:40.0769291Z   Downloading nanobind-3.1.0-py3-none-any.whl.metadata (1.8 kB)
+2026-10-28T12:33:40.0891863Z Collecting scikit-build-core==1.1.1 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 2))
+2026-10-28T12:33:40.0933774Z   Downloading scikit_build_core-1.1.1-py3-none-any.whl.metadata (19 kB)
+2026-10-28T12:33:40.1160706Z Collecting pytest==9.1.1 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:40.1193743Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-28T12:33:40.3242543Z Collecting numpy==2.5.4 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 4))
+2026-10-28T12:33:40.3279183Z   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-10-28T12:33:40.4807773Z Collecting Pillow==13.0.0 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 6))
+2026-10-28T12:33:40.4847236Z   Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-10-28T12:33:40.5056905Z Collecting tifffile==2024.9.20 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 7))
+2026-10-28T12:33:40.5101449Z   Downloading tifffile-2024.9.20-py3-none-any.whl.metadata (32 kB)
+2026-10-28T12:33:40.5281720Z Collecting openslide-python==1.4.6 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 8))
+2026-10-28T12:33:40.5326537Z   Downloading openslide_python-1.4.6-cp311-abi3-manylinux1_x86_64.manylinux_2_5_x86_64.whl.metadata (5.1 kB)
+2026-10-28T12:33:40.6418982Z Collecting scipy==1.16.3 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 9))
+2026-10-28T12:33:40.6462211Z   Downloading scipy-1.16.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (62 kB)
+2026-10-28T12:33:40.7153782Z Collecting scikit-image==0.26.0 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:40.7189951Z   Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+2026-10-28T12:33:40.8193634Z Collecting mypy==2.4.0 (from -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:40.8232432Z   Downloading mypy-2.4.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-28T12:33:40.8539771Z Collecting auditwheel==6.6.0 (from -r tools/ci/requirements-manylinux.txt (line 2))
+2026-10-28T12:33:40.8587156Z   Downloading auditwheel-6.6.0-py3-none-any.whl.metadata (7.3 kB)
+2026-10-28T12:33:40.8723455Z Collecting patchelf==0.17.2.4 (from -r tools/ci/requirements-manylinux.txt (line 3))
+2026-10-28T12:33:40.8774852Z   Downloading patchelf-0.17.2.4-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.musllinux_1_1_x86_64.whl.metadata (3.7 kB)
+2026-10-28T12:33:40.8794902Z Requirement already satisfied: packaging==26.3 in /opt/python/cp312-cp312/lib/python3.12/site-packages (from -r tools/ci/requirements-manylinux.txt (line 4)) (26.3)
+2026-10-28T12:33:40.8846607Z Collecting pyelftools==0.33 (from -r tools/ci/requirements-manylinux.txt (line 5))
+2026-10-28T12:33:40.8884443Z   Downloading pyelftools-0.33-py3-none-any.whl.metadata (1.0 kB)
+2026-10-28T12:33:40.8965429Z Collecting pathspec>=0.12.0 (from scikit-build-core==1.1.1->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 2))
+2026-10-28T12:33:40.9003265Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-10-28T12:33:40.9081246Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:40.9113862Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-10-28T12:33:40.9214060Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:40.9246996Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-10-28T12:33:40.9374252Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 3))
+2026-10-28T12:33:40.9410884Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-28T12:33:40.9586477Z Collecting networkx>=3.0 (from scikit-image==0.26.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:40.9619427Z   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+2026-10-28T12:33:40.9789956Z Collecting imageio!=2.35.0,>=2.33 (from scikit-image==0.26.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:40.9825278Z   Downloading imageio-2.38.1-py3-none-any.whl.metadata (9.7 kB)
+2026-10-28T12:33:40.9990225Z Collecting lazy-loader>=0.4 (from scikit-image==0.26.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 10))
+2026-10-28T12:33:41.0037245Z   Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+2026-10-28T12:33:41.0158483Z Collecting typing_extensions>=4.6.0 (from mypy==2.4.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:41.0193725Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-28T12:33:41.0253623Z Collecting mypy_extensions>=1.0.0 (from mypy==2.4.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:41.0289289Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-10-28T12:33:41.1661604Z Collecting librt>=0.16.0 (from mypy==2.4.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:41.1705811Z   Downloading librt-0.16.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-10-28T12:33:41.2170901Z Collecting ast-serialize<1.0.0,>=0.11.2 (from mypy==2.4.0->-r /__w/qupathxx/qupathxx/tools/ci/requirements.txt (line 11))
+2026-10-28T12:33:41.2206734Z   Downloading ast_serialize-0.13.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.4 kB)
+2026-10-28T12:33:41.2344639Z Downloading nanobind-3.1.0-py3-none-any.whl (316 kB)
+2026-10-28T12:33:41.2436365Z Downloading scikit_build_core-1.1.1-py3-none-any.whl (293 kB)
+2026-10-28T12:33:41.2486724Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-28T12:33:41.2526736Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-10-28T12:33:41.2908616Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 466.6 MB/s  0:00:00
+2026-10-28T12:33:41.2953291Z Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-10-28T12:33:41.3089730Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 617.7 MB/s  0:00:00
+2026-10-28T12:33:41.3143595Z Downloading tifffile-2024.9.20-py3-none-any.whl (228 kB)
+2026-10-28T12:33:41.3193181Z Downloading openslide_python-1.4.6-cp311-abi3-manylinux1_x86_64.manylinux_2_5_x86_64.whl (36 kB)
+2026-10-28T12:33:41.3229658Z Downloading scipy-1.16.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (35.7 MB)
+2026-10-28T12:33:41.5370678Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.7/35.7 MB 169.1 MB/s  0:00:00
+2026-10-28T12:33:41.5401028Z Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (13.6 MB)
+2026-10-28T12:33:41.6057957Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.6/13.6 MB 211.9 MB/s  0:00:00
+2026-10-28T12:33:41.6095582Z Downloading mypy-2.4.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (15.6 MB)
+2026-10-28T12:33:41.7473063Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 114.9 MB/s  0:00:00
+2026-10-28T12:33:41.7526222Z Downloading auditwheel-6.6.0-py3-none-any.whl (59 kB)
+2026-10-28T12:33:41.7582440Z Downloading patchelf-0.17.2.4-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.musllinux_1_1_x86_64.whl (482 kB)
+2026-10-28T12:33:41.7642023Z Downloading pyelftools-0.33-py3-none-any.whl (201 kB)
+2026-10-28T12:33:41.7683110Z Downloading ast_serialize-0.13.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2026-10-28T12:33:41.7721466Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 910.2 MB/s  0:00:00
+2026-10-28T12:33:41.7756913Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-10-28T12:33:41.7793974Z Downloading imageio-2.38.1-py3-none-any.whl (328 kB)
+2026-10-28T12:33:41.7832165Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-10-28T12:33:41.7864444Z Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+2026-10-28T12:33:41.7905454Z Downloading librt-0.16.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-10-28T12:33:41.7929370Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 532.0/532.0 kB 842.5 MB/s  0:00:00
+2026-10-28T12:33:41.8019283Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-28T12:33:41.8063314Z Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+2026-10-28T12:33:41.8117950Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 650.4 MB/s  0:00:00
+2026-10-28T12:33:41.8162829Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-10-28T12:33:41.8204578Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-28T12:33:41.8245005Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 569.3 MB/s  0:00:00
+2026-10-28T12:33:41.8292790Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-28T12:33:42.1422504Z Installing collected packages: typing_extensions, pygments, pyelftools, pluggy, Pillow, pathspec, patchelf, numpy, networkx, nanobind, mypy_extensions, librt, lazy-loader, iniconfig, ast-serialize, tifffile, scipy, scikit-build-core, pytest, openslide-python, mypy, imageio, auditwheel, scikit-image
+2026-10-28T12:33:55.0313994Z 
+2026-10-28T12:33:55.0345950Z Successfully installed Pillow-13.0.0 ast-serialize-0.13.1 auditwheel-6.6.0 imageio-2.38.1 iniconfig-2.3.1 lazy-loader-0.6 librt-0.16.0 mypy-2.4.0 mypy_extensions-1.1.0 nanobind-3.1.0 networkx-3.7 numpy-2.5.4 openslide-python-1.4.6 patchelf-0.17.2.4 pathspec-1.1.1 pluggy-1.7.0 pyelftools-0.33 pygments-2.21.0 pytest-9.1.1 scikit-build-core-1.1.1 scikit-image-0.26.0 scipy-1.16.3 tifffile-2024.9.20 typing_extensions-4.16.0
+2026-10-28T12:33:55.0351460Z WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2026-10-28T12:33:55.2104213Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:33:55.2104706Z with:
+2026-10-28T12:33:55.2104977Z   path: build/deps/geos-sdk
+2026-10-28T12:33:55.2105546Z   key: manylinux228-geos-a1860022bc1c0d2e3b391c909ec29f772af285e2cf572785202d0e1b7577a7b6
+2026-10-28T12:33:55.2106136Z   enableCrossOsArchive: false
+2026-10-28T12:33:55.2106399Z   fail-on-cache-miss: false
+2026-10-28T12:33:55.2106635Z   lookup-only: false
+2026-10-28T12:33:55.2106844Z   save-always: false
+2026-10-28T12:33:55.2107043Z env:
+2026-10-28T12:33:55.2107244Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:55.2107503Z ##[endgroup]
+2026-10-28T12:33:55.2134760Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:33:55.5074283Z Cache not found for input keys: manylinux228-geos-a1860022bc1c0d2e3b391c909ec29f772af285e2cf572785202d0e1b7577a7b6
+2026-10-28T12:33:55.5869134Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:33:55.5869592Z with:
+2026-10-28T12:33:55.5869807Z   path: build/deps/opencv-sdk
+2026-10-28T12:33:55.5870474Z   key: manylinux228-opencv-025b99adb030528d6f2a2cead19debdd53f55425813b2340c23865a66127679c
+2026-10-28T12:33:55.5871009Z   enableCrossOsArchive: false
+2026-10-28T12:33:55.5871269Z   fail-on-cache-miss: false
+2026-10-28T12:33:55.5871517Z   lookup-only: false
+2026-10-28T12:33:55.5871737Z   save-always: false
+2026-10-28T12:33:55.5871946Z env:
+2026-10-28T12:33:55.5872153Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:55.5872426Z ##[endgroup]
+2026-10-28T12:33:55.5876493Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:33:55.8690025Z Cache not found for input keys: manylinux228-opencv-025b99adb030528d6f2a2cead19debdd53f55425813b2340c23865a66127679c
+2026-10-28T12:33:55.9520717Z ##[group]Run actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+2026-10-28T12:33:55.9521129Z with:
+2026-10-28T12:33:55.9521334Z   path: build/fixtures
+2026-10-28T12:33:55.9521763Z   key: reader-fixtures-ab2fc3f2c6cb43cbfe46190d589e82595c38f6e9933ba1135e8d761978a464bb
+2026-10-28T12:33:55.9522287Z   enableCrossOsArchive: false
+2026-10-28T12:33:55.9522555Z   fail-on-cache-miss: false
+2026-10-28T12:33:55.9522799Z   lookup-only: false
+2026-10-28T12:33:55.9523013Z   save-always: false
+2026-10-28T12:33:55.9523219Z env:
+2026-10-28T12:33:55.9523423Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:55.9523691Z ##[endgroup]
+2026-10-28T12:33:55.9527764Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:33:56.2291095Z Cache not found for input keys: reader-fixtures-ab2fc3f2c6cb43cbfe46190d589e82595c38f6e9933ba1135e8d761978a464bb
+2026-10-28T12:33:56.2473199Z ##[group]Run export PATH="$PYBIN:$PATH"
+2026-10-28T12:33:56.2473785Z [36;1mexport PATH="$PYBIN:$PATH"[0m
+2026-10-28T12:33:56.2474583Z [36;1m"$PYBIN/python" -I tools/ci/run_manylinux.py --work build/ci/portable $EXTENDED_READERS[0m
+2026-10-28T12:33:56.2475656Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-10-28T12:33:56.2476188Z env:
+2026-10-28T12:33:56.2476539Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:33:56.2476889Z   EXTENDED_READERS: --extended-readers
+2026-10-28T12:33:56.2477152Z ##[endgroup]
+2026-10-28T12:33:59.3879364Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/fetch_reader_fixtures.py --extended
+2026-10-28T12:35:00.0330915Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/build_geos_sdk.py --jobs 2
+2026-10-28T12:38:34.8216649Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/build_opencv_sdk.py --jobs 2
+2026-10-28T12:40:20.9741106Z + /opt/python/cp312-cp312/bin/python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /__w/qupathxx/qupathxx/build/ci/portable/wheels --config-settings build-dir=/__w/qupathxx/qupathxx/build/ci/portable/native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=OFF --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=/__w/qupathxx/qupathxx/build/deps/geos-sdk --config-settings cmake.define.QUPATHXX_BUNDLE_GEOS=ON --config-settings cmake.define.OpenCV_DIR=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/lib64/cmake/opencv4 --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/share/licenses/opencv --config-settings cmake.define.OpenSlide_ROOT=/__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --config-settings cmake.define.QUPATHXX_BUNDLE_OPENSLIDE=ON
+2026-10-28T12:46:04.5181994Z + ctest --test-dir /__w/qupathxx/qupathxx/build/ci/portable/native-build -C Release --output-on-failure --test-output-size-passed 1048576 --output-junit /__w/qupathxx/qupathxx/build/ci/portable/native-tests.xml
+2026-10-28T12:46:11.3490314Z + /opt/python/cp312-cp312/bin/python -m venv /__w/qupathxx/qupathxx/build/ci/portable/install
+2026-10-28T12:46:13.8696329Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -m pip install -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl
+2026-10-28T12:46:28.9741975Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+2026-10-28T12:46:29.2892413Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --verify /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+2026-10-28T12:46:29.6044278Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_linux_runtime.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --geos-sdk /__w/qupathxx/qupathxx/build/deps/geos-sdk --openslide-sdk /__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --output /__w/qupathxx/qupathxx/build/ci/portable/linux-runtime.json
+2026-10-28T12:46:30.0246931Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_install.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/installed-workflow.json --standalone-project /__w/qupathxx/qupathxx/build/ci/portable/standalone-input.qpxproj --openslide-version 4.0.1 --openslide-runtime-sha256 552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df
+2026-10-28T12:46:30.4908366Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=/__w/qupathxx/qupathxx/build/ci/portable/python-tests.xml
+2026-10-28T12:49:25.6673552Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/compare_qupath_cells.py --cell-algorithm log-bodies --report /__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-body-comparison.json
+2026-10-28T12:49:26.6872828Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/compare_qupath_cells.py --cell-algorithm log-sampled --report /__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-sampled-comparison.json
+2026-10-28T12:49:27.7051509Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/compare_qupath_ndpi_cells.py --image /__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi --reference /__w/qupathxx/qupathxx/tests/fixtures/qupath-ndpi-cells-0.7.0/capture --include-sampled --context-padding 0 --report /__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context0.json
+2026-10-28T12:49:31.9332302Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/compare_qupath_ndpi_cells.py --image /__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi --reference /__w/qupathxx/qupathxx/tests/fixtures/qupath-ndpi-cells-0.7.0/capture --include-sampled --context-padding 32 --report /__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context32.json
+2026-10-28T12:49:35.7616352Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_vendor_reader.py --slide /__w/qupathxx/qupathxx/build/fixtures/CMU-1.svs --output /__w/qupathxx/qupathxx/build/ci/portable/vendor-reader-benchmark.json
+2026-10-28T12:49:36.3785290Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_vendor_reader.py --slide /__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi --output /__w/qupathxx/qupathxx/build/ci/portable/ndpi-reader-benchmark.json
+2026-10-28T12:49:36.7947152Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_classifier.py --output /__w/qupathxx/qupathxx/build/ci/portable/classifier-benchmark.json
+2026-10-28T12:49:40.2685009Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_object_classifier.py --rows 10000 --output /__w/qupathxx/qupathxx/build/ci/portable/object-classifier-benchmark.json
+2026-10-28T12:49:40.4341679Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_classifier_archives.py --rows 10000 --output /__w/qupathxx/qupathxx/build/ci/portable/classifier-archive-benchmark.json
+2026-10-28T12:49:40.7000209Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_classifier.py --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-classifier-benchmark.json
+2026-10-28T12:49:42.3192724Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_workflow.py --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-workflow-benchmark.json
+2026-10-28T12:49:43.5876223Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream.py --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-benchmark.json
+2026-10-28T12:49:46.4607384Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_file.py --file /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file-benchmark.json
+2026-10-28T12:49:49.7856905Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_read.py --file /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-read-benchmark.json
+2026-10-28T12:49:50.4025020Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_input_digest.py --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-input-digest-benchmark.json
+2026-10-28T12:49:51.3704324Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_project_pixel_batch.py --work /__w/qupathxx/qupathxx/build/ci/portable/project-pixel-batch --output /__w/qupathxx/qupathxx/build/ci/portable/project-pixel-batch-benchmark.json
+2026-10-28T12:49:56.7032751Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/probe_project_pixel_batch_cancel.py --work /__w/qupathxx/qupathxx/build/ci/portable/pixel-batch-interrupt --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-batch-interrupt.json
+2026-10-28T12:49:57.0695103Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_tiff_reader.py --output /__w/qupathxx/qupathxx/build/ci/portable/tiff-reader-benchmark.json
+2026-10-28T12:49:57.8876564Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_raw_records.py --output /__w/qupathxx/qupathxx/build/ci/portable/raw-records-benchmark.json
+2026-10-28T12:50:00.7605502Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_tma.py --output /__w/qupathxx/qupathxx/build/ci/portable/tma-benchmark.json
+2026-10-28T12:50:00.9767154Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_cli.py --work /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-cli --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-cli-benchmark.json
+2026-10-28T12:50:04.5519562Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_records.py --file /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps --project /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-links.qpxproj --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-record-benchmark.json
+2026-10-28T12:50:04.9671821Z Traceback (most recent call last):
+2026-10-28T12:50:04.9673858Z   File "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_records.py", line 64, in <module>
+2026-10-28T12:50:04.9674816Z     if __name__=='__main__':main()
+2026-10-28T12:50:04.9675206Z                             ^^^^^^
+2026-10-28T12:50:04.9675947Z   File "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_records.py", line 36, in main
+2026-10-28T12:50:04.9676816Z     assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+2026-10-28T12:50:04.9677499Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-28T12:50:04.9677967Z AssertionError
+2026-10-28T12:50:04.9678424Z 
+2026-10-28T12:50:04.9688261Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_file.py --job --file /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-job.qps --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-job-benchmark.json
+2026-10-28T12:50:08.2916671Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/benchmark_pixel_archives.py --output /__w/qupathxx/qupathxx/build/ci/portable/pixel-archive-benchmark.json
+2026-10-28T12:50:09.0595230Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/generate_stubs.py --check
+2026-10-28T12:50:09.3761352Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_grid_valid.py tests/typing/valid_api.py tests/typing/hierarchy_valid.py tests/typing/grid_cells_valid.py examples/live_workflow.py examples/region_workflow.py
+2026-10-28T12:50:13.0020149Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/scientific_grid_invalid.py
+2026-10-28T12:50:16.5778779Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/scientific_channels_invalid.py
+2026-10-28T12:50:20.2074752Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/grid_cells_invalid.py
+2026-10-28T12:50:23.7846635Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_grid_invalid.py
+2026-10-28T12:50:27.4115852Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/tma_axes_invalid.py
+2026-10-28T12:50:30.9882034Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/tma_dearray_valid.py
+2026-10-28T12:50:34.5645157Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/tma_dearray_invalid.py
+2026-10-28T12:50:38.1398983Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/tma_dearray_units_invalid.py
+2026-10-28T12:50:41.7175247Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/source_companions_valid.py
+2026-10-28T12:50:45.2927867Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/source_companions_invalid.py
+2026-10-28T12:50:48.9202555Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_pixel_valid.py tests/typing/raw_batch_valid.py tests/typing/raw_frontend_valid.py examples/raw_classifier_workflow.py tests/typing/raw_stream_contour_valid.py tests/typing/spatial_valid.py tests/typing/document_job_waits_valid.py
+2026-10-28T12:50:52.5457351Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_pixel_invalid.py
+2026-10-28T12:50:56.1237345Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_batch_invalid.py
+2026-10-28T12:50:59.6995357Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_frontend_invalid.py
+2026-10-28T12:51:03.2748461Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/raw_stream_contour_invalid.py
+2026-10-28T12:51:06.8505543Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/spatial_invalid.py
+2026-10-28T12:51:10.4788572Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/invalid_api.py
+2026-10-28T12:51:14.0591441Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/qptma_invalid.py
+2026-10-28T12:51:17.6863763Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m mypy --strict --no-incremental tests/typing/hierarchy_invalid.py
+2026-10-28T12:51:21.2142252Z Traceback (most recent call last):
+2026-10-28T12:51:21.2143155Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 500, in <module>
+2026-10-28T12:51:21.2150557Z     main()
+2026-10-28T12:51:21.2151149Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 494, in main
+2026-10-28T12:51:21.2151873Z     diagnostics.finish()
+2026-10-28T12:51:21.2153026Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 98, in finish
+2026-10-28T12:51:21.2154115Z     if self.state!='passed':raise RuntimeError('installed diagnostics failed: '+', '.join(failed))
+2026-10-28T12:51:21.2155144Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-28T12:51:21.2156246Z RuntimeError: installed diagnostics failed: pixel-stream-record-benchmark
+2026-10-28T12:51:21.2276328Z Traceback (most recent call last):
+2026-10-28T12:51:21.2277614Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 49, in <module>
+2026-10-28T12:51:21.2279510Z     if __name__=='__main__':main()
+2026-10-28T12:51:21.2282814Z                             ^^^^^^
+2026-10-28T12:51:21.2283569Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 23, in main
+2026-10-28T12:51:21.2284204Z     subprocess.run(command,cwd=root,check=True)
+2026-10-28T12:51:21.2284959Z   File "/opt/python/cp312-cp312/lib/python3.12/subprocess.py", line 571, in run
+2026-10-28T12:51:21.2285633Z     raise CalledProcessError(retcode, process.args,
+2026-10-28T12:51:21.2286925Z subprocess.CalledProcessError: Command '['/opt/python/cp312-cp312/bin/python', '-I', '/__w/qupathxx/qupathxx/tools/ci/run.py', '--mode', 'headless', '--work', '/__w/qupathxx/qupathxx/build/ci/portable', '--extended-readers']' returned non-zero exit status 1.
+2026-10-28T12:51:21.2401202Z ##[error]Process completed with exit code 1.
+2026-10-28T12:51:21.2473713Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+2026-10-28T12:51:21.2474158Z with:
+2026-10-28T12:51:21.2474352Z   name: manylinux-3.12
+2026-10-28T12:51:21.2474580Z   retention-days: 14
+2026-10-28T12:51:21.2474799Z   if-no-files-found: warn
+2026-10-28T12:51:21.2475290Z   path: build/ci/portable/qualified/*.whl
+build/ci/portable/*.json
+build/ci/portable/*.xml
+build/ci/portable/*.log
+
+2026-10-28T12:51:21.2475815Z   compression-level: 6
+2026-10-28T12:51:21.2476032Z   overwrite: false
+2026-10-28T12:51:21.2476244Z   include-hidden-files: false
+2026-10-28T12:51:21.2476480Z env:
+2026-10-28T12:51:21.2476674Z   PYBIN: /opt/python/cp312-cp312/bin
+2026-10-28T12:51:21.2476928Z ##[endgroup]
+2026-10-28T12:51:21.2481002Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:51:21.5121679Z (node:14670) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-28T12:51:21.5123732Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-28T12:51:21.5517253Z With the provided path, there will be 87 files uploaded
+2026-10-28T12:51:21.5517749Z Artifact name is valid!
+2026-10-28T12:51:21.5517985Z Root directory input is valid!
+2026-10-28T12:51:21.7843793Z Beginning upload of artifact content to blob storage
+2026-10-28T12:51:21.9500872Z (node:14670) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-28T12:51:22.0855859Z Uploaded bytes 523297
+2026-10-28T12:51:22.1034087Z Finished uploading artifact content to blob storage!
+2026-10-28T12:51:22.1035777Z SHA256 digest of uploaded artifact zip is 0676bc88f23dd5fbda0c81e1bdf5f11dd444ea9232989924bb68eff48e1618fd
+2026-10-28T12:51:22.1037246Z Finalizing artifact upload
+2026-10-28T12:51:22.5401935Z Artifact manylinux-3.12.zip successfully finalized. Artifact ID 12817376878
+2026-10-28T12:51:22.5403402Z Artifact manylinux-3.12 has been successfully uploaded! Final size is 523297 bytes. Artifact ID is 12817376878
+2026-10-28T12:51:22.5409757Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40688712236/artifacts/12817376878
+2026-10-28T12:51:22.5648667Z Post job cleanup.
+2026-10-28T12:51:22.5655835Z ##[command]/usr/bin/docker exec  4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186 sh -c "cat /etc/*release | grep ^ID"
+2026-10-28T12:51:22.7465191Z [command]/usr/local/bin/git version
+2026-10-28T12:51:22.7511263Z git version 2.56.0
+2026-10-28T12:51:22.7556714Z Temporarily overriding HOME='/__w/_temp/b090579c-e07e-4733-bdea-35655c8264f1' before making global git config changes
+2026-10-28T12:51:22.7558758Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-28T12:51:22.7564731Z [command]/usr/local/bin/git config --global --add safe.directory /__w/qupathxx/qupathxx
+2026-10-28T12:51:22.7613031Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-28T12:51:22.7684718Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-28T12:51:22.8147087Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-28T12:51:22.8195796Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-28T12:51:22.8757353Z Stop and remove container: 4e7237fef2614bf3a0395e6a88234723_quayiopypamanylinux_2_28_x86_64sha256076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff_0f34a3
+2026-10-28T12:51:22.8762632Z ##[command]/usr/bin/docker rm --force 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:51:25.2114951Z 4279309505b36140c8b9f2e5c3e621d4779cdb247425d4588073cb1948ca8186
+2026-10-28T12:51:25.2154048Z Remove container network: github_network_452c91195bd7430d8ad51c3a26cfc3f1
+2026-10-28T12:51:25.2160048Z ##[command]/usr/bin/docker network rm github_network_452c91195bd7430d8ad51c3a26cfc3f1
+2026-10-28T12:51:25.3125292Z github_network_452c91195bd7430d8ad51c3a26cfc3f1
+2026-10-28T12:51:25.3204239Z Cleaning up orphan processes
+2026-10-28T12:51:25.3692302Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

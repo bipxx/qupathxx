@@ -2,13 +2,14 @@
 
 ## Current execution card (2026-10-28)
 
-**Qualification271 has a terminal portable failure; Mac-native independently
-passes its complete audit.** The authenticated observation and original failures
-are under [observation271](benchmarks/spatial-waits-271/observation272/receipt.json).
-Windows/Linux headless and both manylinux builders fail the mandatory descriptor
-benchmark because it expects schema13 while native persistence writes14. The
-engine remains active in the latest recorded observation; do not restart it.
-Fresh portable consumers were skipped, so there is no portable acceptance.
+**Qualification271 is terminal and unaccepted as a combined candidate; Mac-native
+independently passes its complete audit.** The [terminal receipt](benchmarks/spatial-waits-271/terminal272/receipt.json)
+binds all nine available archives, original failed-job logs and package XML.
+Windows GUI/headless, Linux headless and both manylinux builders fail only the
+descriptor benchmark diagnostic stages because they expect schema13 while native
+persistence writes14. Windows GUI also fails its GUI-mode descriptor benchmark.
+No installed Python testcase fails in these five profiles. Fresh portable
+consumers were skipped, so there is no portable acceptance. Do not rerun271.
 
 **Observer repair272 is locally verified** at 3aca3d9, using unchanged native
 c949826. [Receipt272](benchmarks/schema-observer-272/receipt.json) preserves two
@@ -17,10 +18,11 @@ and1007 audit controls. The benchmark and engine auditor now require schema14;
 all existing payload/count/readback/UI budgets remain. The exact installed cohort
 adds both cases;534 source paths authenticate, including the dynamically launched
 benchmark, and all410 compiler inputs match both native270 and frozen271.
+Exact installed admission passes307/one declared skip in GUI mode and260/48 skips
+in nonrendering mode on the same GUI-capable package, not a headless wheel.
 No native rebuild or binary relabeling follows this observer-only repair.
 
-Next: finish observing the original engine, preserve its terminal artifacts and
-check for other failures before freezing a successor. Run complete qualification
+Next: freeze a successor with this stabilized observer repair. Run complete qualification
 against the successor's own source; do not transfer original271 Mac acceptance
 or candidate262 acceptance to changed sources. AllM0-M7 and independent gates
 remain open.

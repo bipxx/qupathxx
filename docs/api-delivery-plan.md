@@ -51,10 +51,12 @@ Completed mechanisms stay out of the active implementation queue:
 Current qualification observation: original271 Mac-native passes its complete
 native audit. Portable fails the schema13 descriptor benchmark and skips fresh
 consumers; Windows/Linux headless show the same assertion. Engine observation
-remains active. [Observer272](benchmarks/schema-observer-272/receipt.json) repairs
+is now terminal with the same GUI/non-GUI descriptor assertion. [Observer272](benchmarks/schema-observer-272/receipt.json) repairs
 the strict benchmark/auditor expectation to14, with actual process red/green,
 10000-record GUI/headless and1007 audit controls, without rebuilding unchanged
-native inputs. Finish original engine diagnosis before freezing a successor;
+native inputs. Exact installed admission passes307/one GUI skip and260/48
+nonrendering skips on that GUI-capable package. [Terminal271](benchmarks/spatial-waits-271/terminal272/receipt.json)
+preserves all nine available archives and original failures. Freeze a successor;
 require the full source-matched roles, with no acceptance transfer.
 
 | Baseline | Recorded evidence and remaining boundary |
