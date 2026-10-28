@@ -2,6 +2,25 @@
 
 ## Current execution card (2026-10-28)
 
+**Successor273 is frozen and full qualification is running** at5f1760a on
+feature/schema-observer-qualification-273. [Campaign273](benchmarks/schema-observer-273/receipt.json)
+records engine [40695971669](https://github.com/bipxx/qupathxx/actions/runs/40695971669),
+Mac-native [40695988673](https://github.com/bipxx/qupathxx/actions/runs/40695988673)
+and portable [40696004980](https://github.com/bipxx/qupathxx/actions/runs/40696004980).
+Each was dispatched once with the full semantic inputs.534 source paths
+authenticate;410 canonical compiler Git blobs equal localnativec949826. The fresh
+audit checkout has144 CRLF/LF-only byte differences from local compilation inputs;
+these are recorded, not claimed byte-identical. Every hosted role builds its own
+frozen source. Local native products remain labeledc949826.
+
+Next: observe these exact run IDs, authenticate all11 required archives and run
+the complete applicable frozen-source auditors. Do not redispatch or move the
+frozen ref. Candidate262 remains the fully engineering-qualified baseline; no
+original271 scoped acceptance transfers. M0-M7, science, representative speed,
+hardware, clean-machine support, license and release gates remain open.
+
+### Original271 terminal state and repair272
+
 **Qualification271 is terminal and unaccepted as a combined candidate; Mac-native
 independently passes its complete audit.** The [terminal receipt](benchmarks/spatial-waits-271/terminal272/receipt.json)
 binds all nine available archives, original failed-job logs and package XML.
@@ -22,7 +41,7 @@ Exact installed admission passes307/one declared skip in GUI mode and260/48 skip
 in nonrendering mode on the same GUI-capable package, not a headless wheel.
 No native rebuild or binary relabeling follows this observer-only repair.
 
-Next: freeze a successor with this stabilized observer repair. Run complete qualification
+The successor273 above now runs complete qualification
 against the successor's own source; do not transfer original271 Mac acceptance
 or candidate262 acceptance to changed sources. AllM0-M7 and independent gates
 remain open.

@@ -12,7 +12,8 @@ workflow reference. Python API design and the ImGui frontend are new work.
 ## Current execution map
 
 Planning update: 2026-10-28 UTC, through engineering-qualified candidate262
-`e2282b8` and locally verified Document-wait270 at `c949826` (contract/stub observer `f068594`).
+`e2282b8`, locally verified Document-wait270 at `c949826`, schema-observer repair272
+at3aca3d9 and frozen successor273 at5f1760a with full qualification running.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
@@ -43,6 +44,7 @@ this update is a reconciliation, not a new independent model review.
 | M6 Document waits270 | [Receipt270](benchmarks/document-waits-270/receipt.json):55 native suites,72 nine-controller controls,545 unique installed GUI-mode passes,1000 auditor controls and matching typing/package/runtime evidence | Freeze combined spatial/wait source for full own-source qualification. Broad M6, science, representative hardware/speed, support and release gates remain |
 | Combined candidate271 | ee19be5 frozen; [terminal272](benchmarks/spatial-waits-271/terminal272/receipt.json) authenticates nine available archives and retains original logs/XML. Mac-native independently passes complete audit; engine/portable fail schema13 descriptor diagnostics and fresh consumers are skipped | Combined acceptance unavailable. Retain failed/skipped roles and original source; candidate262 remains the qualified baseline. No release/main promotion |
 | Observer repair272 / original271 diagnosis | [Repair272](benchmarks/schema-observer-272/receipt.json) at3aca3d9: two red/two green benchmark process controls,10000-record headless/GUI benchmarks,1007 audit controls and exact installed admission307/one GUI skip,260/48 nonrendering skips. All410 compiler inputs unchanged;534 source paths authenticate | Freeze one successor own-source campaign. Original271 and262 acceptance never transfers to changed source; no broad science, speed or release acceptance |
+| Successor273 qualification | [Campaign273](benchmarks/schema-observer-273/receipt.json) at5f1760a: full engine/Mac-native/portable roles each dispatched once.534 authenticated source paths;410 compiler Git blobs equal localnativec949826, with fresh-checkout newline differences recorded | In progress. Require all11 authenticated archives and complete frozen-source auditors. Candidate262 remains qualified; no acceptance transfer, main promotion or release |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.
