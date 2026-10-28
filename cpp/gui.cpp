@@ -2198,7 +2198,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const auto clip=draw->_CmdHeader.ClipRect;const auto* shared=ImGui::GetDrawListSharedData();
         OverlayKey next_overlay_key{&document,selection.get(),document.render_revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
             offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),static_cast<ImTextureID>(ImGui::GetIO().Fonts->TexData->UniqueID),
-            draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
+            draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationMaxError,shared->CircleTessellationMaxError,
             tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
             show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body,pixel_classifier.preview().generation(),pixel_classifier.show_overlay(),pixel_classifier.preview_ready(),raw_pixel.preview().generation(),raw_pixel.shown(),raw_pixel.preview().ready()};
         next_overlay_key.font_baked_id=ImGui::GetFontBaked()->BakedId;
