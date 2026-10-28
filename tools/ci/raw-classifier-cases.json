@@ -163,6 +163,103 @@
       "test_replay_rejects_changed_owner_parameters[calibration]",
       "test_replay_rejects_changed_owner_parameters[roi]",
       "test_replay_requires_verification_and_fresh_exact_capture_then_undo"
+    ],
+    "test_spatial_python": [
+      "test_admission_calibration_stale_and_owner_guards",
+      "test_closed_source_is_valid_for_geometry_only_requests",
+      "test_job_cancel_retry_and_budget_failure",
+      "test_readonly_values_pages_and_snapshot_lifetimes",
+      "test_retained_project_history_missing_source_and_atomic_csv",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-True-True]",
+      "test_wait_releases_gil_and_checks_document_only_after_reacquiring[cancel]",
+      "test_wait_releases_gil_and_checks_document_only_after_reacquiring[edit]",
+      "test_worker_shutdown_releases_python_owner_before_native_join"
+    ],
+    "test_spatial_cli": [
+      "test_id_file_count_limit_and_empty_target_file",
+      "test_id_file_refusals_are_bounded_and_non_destructive[+1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[-1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[0]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1,2]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[18446744073709551616]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1\\n1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1\\x00]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[]",
+      "test_id_files_bypass_command_line_limits_and_preserve_cohort_identity",
+      "test_native_measure_export_verify_and_reopen[False-False-px]",
+      "test_native_measure_export_verify_and_reopen[False-False-um]",
+      "test_native_measure_export_verify_and_reopen[False-True-px]",
+      "test_native_measure_export_verify_and_reopen[False-True-um]",
+      "test_native_measure_export_verify_and_reopen[True-False-px]",
+      "test_native_measure_export_verify_and_reopen[True-False-um]",
+      "test_native_measure_export_verify_and_reopen[True-True-px]",
+      "test_native_measure_export_verify_and_reopen[True-True-um]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra0]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra1]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra2]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra3]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra4]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra5]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra6]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra7]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra8]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra9]",
+      "test_source_aliases_limits_and_stale_history_are_non_destructive",
+      "test_unknown_calibration_and_image_record_selection"
+    ],
+    "test_spatial_frontends": [
+      "test_actual_window_close_cancels_and_joins_spatial_worker",
+      "test_desktop_active_cancel_and_retry_without_publication",
+      "test_desktop_failed_analysis_never_exposes_partial_rows",
+      "test_desktop_history_survives_removal_or_failed_fresh_replay[changed]",
+      "test_desktop_history_survives_removal_or_failed_fresh_replay[removed]",
+      "test_desktop_image_switch_retires_spatial_authority[ready]",
+      "test_desktop_image_switch_retires_spatial_authority[round-trip]",
+      "test_desktop_image_switch_retires_spatial_authority[running]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[byte-limit]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[existing]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[linked-image]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[project]",
+      "test_desktop_spatial_run_keep_export_verify_reopen",
+      "test_managed_running_spatial_cancel_or_edit_then_retry[cancel]",
+      "test_managed_running_spatial_cancel_or_edit_then_retry[edit]",
+      "test_managed_spatial_keep_history_verify_export_save",
+      "test_spatial_config_rejects_invalid_values[csv_bytes-0]",
+      "test_spatial_config_rejects_invalid_values[csv_bytes-1073741825]",
+      "test_spatial_config_rejects_invalid_values[csv_path-bad\\x00path]",
+      "test_spatial_config_rejects_invalid_values[run-True]",
+      "test_spatial_options_and_queue_without_renderer"
     ]
   },
   "training_off_skip": {
@@ -186,6 +283,25 @@
       "Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed",
       "Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed",
       "Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed"
+    ],
+    "spatial": [
+      "Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed",
+      "Spatial queries, delta updates, picking and undo passed"
+    ],
+    "spatial_analysis": [
+      "Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed",
+      "Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed"
+    ],
+    "spatial_records": [
+      "Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed",
+      "Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed",
+      "Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed"
+    ],
+    "spatial_frontend": [
+      "Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed"
+    ],
+    "viewer_session": [
+      "Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed"
     ]
   },
   "native_full": {
@@ -207,6 +323,18 @@
     "project_batch": [
       "Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed",
       "Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed"
+    ],
+    "spatial": [],
+    "spatial_frontend": [],
+    "spatial_analysis": [
+      "Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed"
+    ],
+    "spatial_records": [
+      "Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed",
+      "Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed"
+    ],
+    "spatial_cli": [
+      "Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed"
     ]
   },
   "native_disabled": {
@@ -216,6 +344,15 @@
     "pixel_workflows": [
       "Raw streamed geometry: GEOS-unavailable refusal passed",
       "Raw streamed contour workflow: GEOS-unavailable direct/job pre-IO refusal passed"
+    ],
+    "spatial_analysis": [
+      "Spatial pinned QuPath reference unavailable: INTERCHANGE OFF"
+    ],
+    "spatial_records": [
+      "Spatial project archive capability unavailable in this build"
+    ],
+    "spatial_cli": [
+      "Spatial CLI project capability unavailable"
     ]
   },
   "typing_positive": [
@@ -223,7 +360,8 @@
     "tests/typing/raw_batch_valid.py",
     "tests/typing/raw_frontend_valid.py",
     "examples/raw_classifier_workflow.py",
-    "tests/typing/raw_stream_contour_valid.py"
+    "tests/typing/raw_stream_contour_valid.py",
+    "tests/typing/spatial_valid.py"
   ],
   "typing_positive_log": "raw-classifier-typing.log",
   "typing_negative": {
@@ -265,6 +403,19 @@
         16,
         18,
         22
+      ]
+    },
+    "spatial_invalid.py": {
+      "log": "spatial-typing-negative.log",
+      "lines": [
+        3,
+        5,
+        5,
+        8,
+        8,
+        11,
+        12,
+        13
       ]
     }
   },
@@ -331,6 +482,36 @@
         "type": "pytest.skip",
         "message": "opt-in GUI"
       }
+    },
+    "test_spatial_frontends": {
+      "names": [
+        "test_actual_window_close_cancels_and_joins_spatial_worker",
+        "test_desktop_active_cancel_and_retry_without_publication",
+        "test_desktop_failed_analysis_never_exposes_partial_rows",
+        "test_desktop_history_survives_removal_or_failed_fresh_replay[changed]",
+        "test_desktop_history_survives_removal_or_failed_fresh_replay[removed]",
+        "test_desktop_image_switch_retires_spatial_authority[ready]",
+        "test_desktop_image_switch_retires_spatial_authority[round-trip]",
+        "test_desktop_image_switch_retires_spatial_authority[running]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[byte-limit]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[existing]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[linked-image]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[project]",
+        "test_desktop_spatial_run_keep_export_verify_reopen",
+        "test_managed_running_spatial_cancel_or_edit_then_retry[cancel]",
+        "test_managed_running_spatial_cancel_or_edit_then_retry[edit]",
+        "test_managed_spatial_keep_history_verify_export_save"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in actual spatial desktop/managed viewer"
+      }
     }
-  }
+  },
+  "spatial_added_native_suites": [
+    "spatial_analysis",
+    "spatial_records",
+    "spatial_cli",
+    "spatial_frontend"
+  ]
 }

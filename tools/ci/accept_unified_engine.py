@@ -153,7 +153,7 @@ local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_te
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
-    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4
+    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4+len(raw_classifier.CONTRACT['spatial_added_native_suites'])
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['multifile_ome_native']=multifile.native(native_cases,tiff=job['name']!='Linux minimal native')
     entry['raw_classifier_native']=raw_classifier.native(native_cases,full=job['name']!='Linux minimal native')

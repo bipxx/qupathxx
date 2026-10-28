@@ -51,10 +51,10 @@ def test_native_profile_requires_its_actual_capability(full):
     with pytest.raises(ValueError):evidence.native(native_cases(not full),full=full)
 
 
-@pytest.mark.parametrize('suite',[0,1,2])
+@pytest.mark.parametrize('suite',sorted(set(evidence.CONTRACT['native_base'])|set(evidence.CONTRACT['native_full'])))
 @pytest.mark.parametrize('change',['missing','duplicate','failure','error','skipped','marker_missing','marker_duplicate','disabled_claim'])
 def test_native_false_acceptance_controls(suite,change):
-    cases=native_cases();case=cases[suite]
+    cases=native_cases();case=next(c for c in cases if c.get('name')==suite)
     if change=='missing':cases.remove(case)
     elif change=='duplicate':cases.append(copy.deepcopy(case))
     elif change in ['failure','error','skipped']:E.SubElement(case,change)
@@ -67,8 +67,8 @@ def test_native_false_acceptance_controls(suite,change):
 @pytest.mark.parametrize('gui',[False,True])
 def test_exact_installed_contract_has_explicit_skips(gui):
     report=evidence.python(python_cases(gui),gui=gui)
-    assert report['passed']==(142 if gui else 111)
-    assert report['declared_skips']==(1 if gui else 32)
+    assert report['passed']==(233 if gui else 186)
+    assert report['declared_skips']==(1 if gui else 48)
 
 
 @pytest.mark.parametrize('module',list(evidence.CONTRACT['installed']))
@@ -99,7 +99,7 @@ def test_headless_declaration_is_not_an_arbitrary_skip(module,change):
 
 def test_typing_positive_and_negative_nonempty_counts(tmp_path):
     typing_logs(tmp_path);report=evidence.typing(tmp_path)
-    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(5,4,20)
+    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(6,5,28)
 
 
 @pytest.mark.parametrize('kind',['zero_files','wrong_files','missing_error','extra_error','wrong_line','wrong_summary','missing_log'])

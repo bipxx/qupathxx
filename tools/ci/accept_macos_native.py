@@ -71,7 +71,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         require(data['commit']==commit and data['architecture']==arch,'native record source/architecture differs')
         xml=ET.parse(folder/'native-tests.xml').getroot()
         cases=list(xml.iter('testcase'))
-        require(len(cases)==data['tests']['passed']==50,'native suite count differs')
+        require(len(cases)==data['tests']['passed']==50+len(raw_classifier.CONTRACT['spatial_added_native_suites']),'native suite count differs')
         require(not any(t.find(k) is not None for t in cases for k in ['failure','error','skipped']),
                 'native test failed or skipped')
         require(sorted(t.get('name') for t in cases)==sorted(data['tests']['names']),'native suite ledger differs')
@@ -104,7 +104,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
                 'invalid executable digest')
         links=(folder/'batch-runtime-links.log').read_text()
         require('@rpath/libgeos_c.' in links and 'libSystem.B.dylib' in links,'native runtime link record differs')
-        entries.append(dict(architecture=arch,native_passed=50,frozen_shape_masks_and_maxima=26,
+        entries.append(dict(architecture=arch,native_passed=len(cases),frozen_shape_masks_and_maxima=26,
             sampled_production_native=sampled_cells,
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
         entries[-1]['multifile_ome_native']=multifile.native(cases)

@@ -14,8 +14,8 @@ import qupathxx as q
 @pytest.fixture(scope='session')
 def cli():
     value=os.environ.get('QUPATHXX_SPATIAL_CLI')
-    if not value:pytest.skip('requires an explicitly staged spatial CLI')
-    path=Path(value).resolve();assert path.is_file()
+    path=Path(value).resolve() if value else Path(q.__file__).resolve().with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+    assert path.is_file(), 'installed spatial CLI is missing'
     return path
 
 
@@ -61,7 +61,7 @@ def test_native_measure_export_verify_and_reopen(cli,tmp_path,units,body,empty):
     assert restored.identity==project.identity and restored.active_image==project.active_image and len(restored.images)==2
     assert record.name=='Nearest α' and other.spatial_status(record.id)=='unverified'
     assert record.result.sha256==report['result_sha256'] and record.result.input_sha256==report['input_sha256']
-    assert record.result.provenance.environment.git_revision==os.environ['QUPATHXX_SPATIAL_CLI_SOURCE']
+    assert record.result.provenance.environment.git_revision==os.environ.get('QUPATHXX_SPATIAL_CLI_SOURCE',q.build_environment().git_revision)
     row=record.result.row(1)
     if empty:assert row.distance is None
     else:
