@@ -1,12 +1,52 @@
 #include "qupathxx/core.hpp"
 #include <cmath>
+#include <future>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 using namespace qpx;
 void check(bool value) { if(!value) throw std::runtime_error("geometry check failed"); }
 Ring square(double a,double b) { return {{a,a},{b,a},{b,b},{a,b}}; }
+void centroid_is(const Roi& roi,double x,double y) {
+    const auto point=roi.centroid();
+    check(std::abs(point.x-x)<=1e-9+1e-12*std::abs(x));
+    check(std::abs(point.y-y)<=1e-9+1e-12*std::abs(y));
+}
+void centroid_contracts() {
+    centroid_is(Roi::rectangle({2,4,8,6}),6,7);
+    centroid_is(Roi::ellipse({2,4,8,6}),6,7);
+    centroid_is(Roi::points({{0,0},{6,0},{0,3}}),2,1);
+    centroid_is(Roi::points({{0,0},{0,0},{6,3}}),2,1);
+    centroid_is(Roi::points({{7,-9}}),7,-9);
+    centroid_is(Roi::polyline({{0,0},{6,0},{6,2}}),3.75,.25);
+    centroid_is(Roi::polyline({{0,0},{0,0},{6,0},{6,2},{6,2}}),3.75,.25);
+    const auto high=std::numeric_limits<double>::max();
+    centroid_is(Roi::points({{high/2,high/4},{high,high/4}}),high/2+high/4,high/4);
+    centroid_is(Roi::polyline({{high/2,0},{high,0}}),high/2+high/4,0);
+    bool rejected=false;try {Roi{}.centroid();}catch(const std::invalid_argument&) {rejected=true;}check(rejected);
+    if(has_geos()) {
+        const auto triangle=Roi::polygon({{0,0},{6,0},{0,6}});
+        centroid_is(triangle,2,2);
+        centroid_is(Roi::polygon({{0,6},{6,0},{0,0}}),2,2);
+        centroid_is(triangle.translated(1000000000,-2000000000),1000000002,-1999999998);
+        centroid_is(Roi::polygon(square(0,10),{square(1,3)}),5.125,5.125);
+        const auto donut=Roi::polygon(square(0,10),{square(2,8)});
+        centroid_is(donut,5,5);check(!donut.contains(donut.centroid()));
+        centroid_is(Roi::polygon({{0,0},{2,0},{2,1},{1,1},{1,2},{0,2}}),5./6,5./6);
+        const auto parts=Roi::multipolygon({PolygonPart(square(0,2)),
+            PolygonPart({{10,0},{14,0},{14,4},{10,4}})});
+        centroid_is(parts,9.8,1.8);
+        std::vector<std::future<void>> tasks;
+        for(int i=0;i<8;++i) tasks.push_back(std::async(std::launch::async,[parts] {
+            for(int j=0;j<100;++j) centroid_is(parts,9.8,1.8);
+        }));
+        for(auto& task:tasks) task.get();
+    }
+    std::cout<<"ROI centroids: analytic bodies, area/length/point weights, numeric limits and shared snapshots passed; GEOS="<<has_geos()<<'\n';
+}
 int main() {
     try {
+        centroid_contracts();
         auto ellipse=Roi::ellipse({0,0,4,4});
         check(std::abs(ellipse.area()-4*3.141592653589793)<1e-10);
         check(ellipse.contains({2,2}) && !ellipse.contains({0,0}));

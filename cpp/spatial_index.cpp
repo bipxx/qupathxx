@@ -1,6 +1,7 @@
 #include "qupathxx/spatial_index.hpp"
 #include "qupathxx/core.hpp"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
@@ -17,7 +18,7 @@ bool bounds_intersect(Rect a,Rect b) {
 SpatialIndex::SpatialIndex(std::vector<SpatialEntry> entries) : entries_(std::move(entries)) {
     if(entries_.size()>std::numeric_limits<std::size_t>::max()/2) throw std::length_error("spatial index size overflow");
     nodes_.reserve(entries_.size()/2+1);
-    for(const auto& e:entries_) validate_query_bounds(e.bounds);
+    for(const auto& e:entries_) {validate_query_bounds(e.bounds);points_only_=points_only_ && e.bounds.width==0 && e.bounds.height==0;}
     if(!entries_.empty()) build(0,entries_.size());
 }
 std::size_t SpatialIndex::build(std::size_t begin,std::size_t end) {
@@ -27,7 +28,7 @@ std::size_t SpatialIndex::build(std::size_t begin,std::size_t end) {
         b=entries_[i].bounds; left=std::min(left,b.x); top=std::min(top,b.y); right=std::max(right,b.x+b.width); bottom=std::max(bottom,b.y+b.height);
     }
     Rect extent{left,top,right-left,bottom-top}; validate_query_bounds(extent);
-    auto index=nodes_.size(); nodes_.push_back({extent,begin,end,0,0});
+    auto index=nodes_.size(); nodes_.push_back({extent,right,bottom,begin,end,0,0});
     if(end-begin>8) {
         const bool horizontal=right-left>=bottom-top; auto middle=begin+(end-begin)/2;
         std::nth_element(entries_.begin()+begin,entries_.begin()+middle,entries_.begin()+end,[&](const auto& a,const auto& b) {
@@ -51,6 +52,54 @@ std::vector<std::uint64_t> SpatialIndex::query(Rect bounds) const {
         } else { work.push_back(node.left); work.push_back(node.right); }
     }
     return result;
+}
+std::optional<SpatialNeighbor> SpatialIndex::nearest_point(Point point,double sx,double sy,
+    std::optional<std::uint64_t> exclude,const std::atomic<bool>* cancelled) const {
+    if(!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(sx) ||
+       !std::isfinite(sy) || sx<=0 || sy<=0)
+        throw std::invalid_argument("nearest point query requires finite coordinates and positive finite scales");
+    if(!points_only_) throw std::invalid_argument("nearest point query requires a point-only spatial index");
+    auto checkpoint=[&] {if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("spatial query cancelled");};
+    checkpoint();if(nodes_.empty()) return {};
+    auto delta=[](double a,double b,double scale) {
+        const auto difference=a-b;
+        // Opposite near-limit coordinates can overflow before a small physical
+        // scale brings their separation back into the representable range.
+        return std::abs(std::isfinite(difference)?difference*scale:a*scale-b*scale);
+    };
+    auto lower=[&](std::size_t i) {
+        const auto& n=nodes_[i];
+        const auto x=point.x<n.bounds.x?delta(n.bounds.x,point.x,sx):point.x>n.max_x?delta(point.x,n.max_x,sx):0.;
+        const auto y=point.y<n.bounds.y?delta(n.bounds.y,point.y,sy):point.y>n.max_y?delta(point.y,n.max_y,sy):0.;
+        // L-infinity is conservative for Euclidean pruning without squaring or
+        // rounding a norm upward. Maxima retain actual coordinates, rather than
+        // reconstructing a possibly rounded-inward origin + extent.
+        return std::max(x,y);
+    };
+    struct Visit {std::size_t node;double lower;};
+    // Median splitting limits depth to the address width; no per-query heap or
+    // source-by-target distance matrix is required.
+    std::array<Visit,std::numeric_limits<std::size_t>::digits+1> work{};
+    std::size_t used=0;work[used++]={0,lower(0)};std::optional<SpatialNeighbor> best;
+    while(used) {
+        checkpoint();const auto visit=work[--used];
+        if(best && visit.lower>best->distance) continue;
+        const auto& node=nodes_[visit.node];
+        if(node.end-node.begin<=8) {
+            for(auto i=node.begin;i<node.end;++i) {
+                const auto& e=entries_[i];if(exclude && e.id==*exclude) continue;
+                const auto distance=std::hypot(delta(e.bounds.x,point.x,sx),delta(e.bounds.y,point.y,sy));
+                if(!best || distance<best->distance || (distance==best->distance && e.id<best->id)) best=SpatialNeighbor{e.id,distance};
+            }
+        } else {
+            const auto a=lower(node.left),b=lower(node.right);
+            if(used+2>work.size()) throw std::length_error("spatial query traversal exceeds address depth");
+            if(a<=b) {work[used++]={node.right,b};work[used++]={node.left,a};}
+            else {work[used++]={node.left,a};work[used++]={node.right,b};}
+        }
+    }
+    if(best && !std::isfinite(best->distance)) throw std::overflow_error("nearest point distance exceeds numeric range");
+    return best;
 }
 void Document::refresh_spatial() const {
     if(!spatial_rebuild_ && spatial_) return;

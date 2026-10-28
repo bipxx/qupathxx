@@ -229,6 +229,45 @@ struct Roi::Data {
 const Roi::Data& Roi::data() const { if(!data_) throw std::invalid_argument("ROI geometry is empty"); return *data_; }
 RoiKind Roi::kind() const { return data().kind; }
 Rect Roi::bounds() const { return data().bounds; }
+Point Roi::centroid() const {
+    const auto& d=data();
+    Point result;
+    if(d.kind==RoiKind::Rectangle || d.kind==RoiKind::Ellipse)
+        result={d.bounds.x+d.bounds.width/2,d.bounds.y+d.bounds.height/2};
+    else if(d.kind==RoiKind::Points || d.kind==RoiKind::Polyline) {
+        // Accumulate offsets from the lower bound rather than absolute moments.
+        // Means stay within the finite extent even near the double range limit.
+        const auto& points=d.paths.front();double x=0,y=0,total=0;
+        for(std::size_t i=0;i<points.size();++i) {
+            double weight=1,px=points[i].x-d.bounds.x,py=points[i].y-d.bounds.y;
+            if(d.kind==RoiKind::Polyline) {
+                if(!i) continue;
+                const auto& a=points[i-1];const auto& b=points[i];
+                weight=std::hypot(b.x-a.x,b.y-a.y);if(!weight) continue;
+                px=(a.x-d.bounds.x)/2+(b.x-d.bounds.x)/2;
+                py=(a.y-d.bounds.y)/2+(b.y-d.bounds.y)/2;
+            }
+            total+=weight;const auto fraction=weight/total;
+            x+=(px-x)*fraction;y+=(py-y)*fraction;
+        }
+        result={d.bounds.x+x,d.bounds.y+y};
+    } else {
+#ifdef QUPATHXX_HAS_GEOS
+        std::lock_guard<std::mutex> lock(d.backend->mutex);
+        auto destroy=[&](GEOSGeometry* g){GEOSGeom_destroy_r(d.backend->ctx,g);};
+        std::unique_ptr<GEOSGeometry,decltype(destroy)> point(
+            GEOSGetCentroid_r(d.backend->ctx,d.backend->geometry),destroy);
+        if(!point || !GEOSGeomGetX_r(d.backend->ctx,point.get(),&result.x) ||
+           !GEOSGeomGetY_r(d.backend->ctx,point.get(),&result.y))
+            throw std::runtime_error(std::string("ROI centroid: ")+d.backend->error.data());
+#else
+        throw std::runtime_error("polygon centroid requires QUPATHXX_BUILD_GEOS=ON");
+#endif
+    }
+    if(!std::isfinite(result.x) || !std::isfinite(result.y))
+        throw std::overflow_error("ROI centroid exceeds numeric range");
+    return result;
+}
 double Roi::area() const { return data().area; }
 double Roi::perimeter() const { const auto& d=data(); return d.kind==RoiKind::Ellipse?ellipse_length(d.bounds.width/2,d.bounds.height/2):d.length; }
 double Roi::scaled_length(double sx,double sy) const {
