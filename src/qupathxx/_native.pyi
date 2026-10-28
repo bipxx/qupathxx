@@ -1877,6 +1877,30 @@ class GuiInputTarget(enum.Enum):
 
     RAW_PIXEL_APPLY_FILE = 119
 
+    SPATIAL_OPEN = 120
+
+    SPATIAL_SOURCES = 121
+
+    SPATIAL_TARGETS = 122
+
+    SPATIAL_RUN = 123
+
+    SPATIAL_CANCEL = 124
+
+    SPATIAL_KEEP = 125
+
+    SPATIAL_INSPECT = 126
+
+    SPATIAL_VERIFY = 127
+
+    SPATIAL_EXPORT = 128
+
+    SPATIAL_REMOVE = 129
+
+    SPATIAL_PATH = 130
+
+    SPATIAL_RECORD_ID = 131
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -1999,6 +2023,14 @@ class GuiInputWait(enum.Enum):
     PIXEL_STREAM_VERIFIED = 39
 
     PIXEL_STREAM_LINKED = 40
+
+    SPATIAL_READY = 61
+
+    SPATIAL_KEPT = 62
+
+    SPATIAL_VERIFIED = 63
+
+    SPATIAL_EXPORTED = 64
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2353,6 +2385,12 @@ class GuiOptions:
 
     @tissue_max_hole_pixels.setter
     def tissue_max_hole_pixels(self, arg: int, /) -> None: ...
+
+    @property
+    def spatial(self) -> GuiSpatialOptions | None: ...
+
+    @spatial.setter
+    def spatial(self, arg: GuiSpatialOptions | None, /) -> None: ...
 
     @property
     def stain_estimate_parameters(self) -> StainEstimateParameters: ...
@@ -3287,6 +3325,9 @@ class GuiReport:
     def saved_tissue_status(self) -> str: ...
 
     @property
+    def spatial(self) -> GuiSpatialReport | None: ...
+
+    @property
     def stain_estimate_state(self) -> str: ...
 
     @property
@@ -3990,6 +4031,109 @@ class SpatialDistanceStats:
 
     @property
     def elapsed_ms(self) -> float: ...
+
+class GuiSpatialOptions:
+    def __init__(self) -> None: ...
+
+    @property
+    def open(self) -> bool: ...
+
+    @open.setter
+    def open(self, arg: bool, /) -> None: ...
+
+    @property
+    def run(self) -> bool: ...
+
+    @run.setter
+    def run(self, arg: bool, /) -> None: ...
+
+    @property
+    def sources(self) -> list[int]: ...
+
+    @sources.setter
+    def sources(self, arg: Sequence[int], /) -> None: ...
+
+    @property
+    def targets(self) -> list[int]: ...
+
+    @targets.setter
+    def targets(self, arg: Sequence[int], /) -> None: ...
+
+    @property
+    def analysis(self) -> SpatialDistanceOptions: ...
+
+    @analysis.setter
+    def analysis(self, arg: SpatialDistanceOptions, /) -> None: ...
+
+    @property
+    def record_id(self) -> int: ...
+
+    @record_id.setter
+    def record_id(self, arg: int, /) -> None: ...
+
+    @property
+    def csv_path(self) -> str: ...
+
+    @csv_path.setter
+    def csv_path(self, arg: str, /) -> None: ...
+
+    @property
+    def csv_bytes(self) -> int: ...
+
+    @csv_bytes.setter
+    def csv_bytes(self, arg: int, /) -> None: ...
+
+    def validate(self) -> None: ...
+
+class GuiSpatialReport:
+    def __init__(self, _native_only: Never) -> None: ...
+    @property
+    def state(self) -> str: ...
+
+    @property
+    def error(self) -> str: ...
+
+    @property
+    def record_status(self) -> str: ...
+
+    @property
+    def busy(self) -> bool: ...
+
+    @property
+    def record_id(self) -> int: ...
+
+    @property
+    def rows(self) -> int: ...
+
+    @property
+    def sources(self) -> int: ...
+
+    @property
+    def targets(self) -> int: ...
+
+    @property
+    def result(self) -> SpatialDistanceResult | None: ...
+
+    @property
+    def analysis(self) -> SpatialDistanceStats: ...
+
+    @property
+    def export_state(self) -> str: ...
+
+    @property
+    def export_error(self) -> str: ...
+
+    @property
+    def export_committed(self) -> bool: ...
+
+    @property
+    def export_rows(self) -> int: ...
+
+    @property
+    def export_bytes(self) -> int: ...
+
+    @property
+    def path(self) -> str: ...
 
 class SpatialDistanceJob:
     def __init__(self) -> None: ...
@@ -10874,6 +11018,9 @@ class ViewerEvent:
     def metadata(self) -> ImageMetadata | None: ...
 
     @property
+    def spatial(self) -> SpatialDistanceResult | None: ...
+
+    @property
     def analysis(self) -> AnalysisResult | None: ...
 
     @property
@@ -11005,6 +11152,14 @@ class ViewerSession:
     def inspect(self, image_id: int, object_id: int = ...) -> int: ...
 
     def execute(self, image_id: int, edits: Sequence[ObjectEdit], label: str = ..., expected_revision: int | None = ...) -> int: ...
+
+    def spatial_distances(self, image_id: int, sources: Sequence[int], targets: Sequence[int], options: SpatialDistanceOptions = ..., keep: bool = ..., expected_revision: int | None = ...) -> int: ...
+
+    def inspect_spatial(self, image_id: int, record_id: int) -> int: ...
+
+    def verify_spatial(self, image_id: int, record_id: int) -> int: ...
+
+    def export_spatial(self, image_id: int, record_id: int, path: str, byte_limit: int = ...) -> int: ...
 
     def insert_tma_row(self, image_id: int, index: int, label: str = ..., bounds: Sequence[Rect] | None = ..., missing: bool = ..., expected_revision: int | None = ...) -> int: ...
 
