@@ -1,0 +1,237 @@
+{
+  "schema": "qpx.rgb-nominal-context/1",
+  "state": "private-context-input-verified-cell-workflow-still-in-progress",
+  "native_source": "65c03e4e714d84536f58d4bfe424041855a986fc",
+  "windows_fingerprint": "9ed4c952395225fa92707825fe32d9cb12718a3bb55a101706d0281dfdbfe1f2",
+  "linux_fingerprint": "49693d7ed5cd83669b84800f727d18044370546111c9ae63ab7d4505c7fcb4ad",
+  "canonical_compiler_inputs": 418,
+  "source_paths": 872,
+  "retained_windows_products": 3,
+  "retained_gcc_products": 3,
+  "sdk289_gui_products_unchanged": 71,
+  "windows_native_suites": 1,
+  "gcc_asan_ubsan_native_suites": 1,
+  "pinned_captured_cases_per_toolchain": 99,
+  "stitch_tile_sizes": [
+    1,
+    7,
+    32
+  ],
+  "core_context_cases_per_toolchain": 99,
+  "independent_negative_context_translations": 6,
+  "cli_hashes_per_toolchain": 99,
+  "auditor_controls": 136,
+  "auditor_runtime_source": "11f70cd1133612fd059fd0c294f6b7eb60103679",
+  "windows_full_native_output_recovered_from_existing_ctest_log": true,
+  "linux_full_native_output_available": false,
+  "linux_tmp_build_absent_after_terminal_run": true,
+  "linux_original_xml_new_marker_intact": true,
+  "test_rerun_for_output_recovery": false,
+  "public_api_changed": false,
+  "cell_recipe_delivered": false,
+  "own_source_platform_qualified": false,
+  "scientific_acceptance": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "counts_overlap": true,
+  "context_limit_per_side": 4096,
+  "windows_profile": "minimal native: Python/GUI/GEOS/TIFF/OpenSlide/project/training OFF",
+  "gcc_profile": "GCC13.3 ASan+UBSan minimal native; leak detection and halt-on-error enabled",
+  "input_output_limit_bytes": 268435456,
+  "context_is_not_interpolation_halo": true,
+  "existing_sdk289_native_source": "11f70cd1133612fd059fd0c294f6b7eb60103679",
+  "new_python_wheel_built": false,
+  "new_gui_product_built": false,
+  "observer_failures": [
+    "Post-test Windows helper decoded UTF-8 using GBK; native build/test succeeded and were not repeated",
+    "Later full-log observer found completed Linux /tmp build absent; original passing XML retains the new marker, CLI records and native products remain retained"
+  ],
+  "next": "Original-document CellRequest capture and explicit nominal result geometry, shared cell kernels, versioned archive/replay and existing Python/CLI/batch/GUI consumers",
+  "files": [
+    {
+      "path": "auditor-command.json",
+      "bytes": 622,
+      "sha256": "3d47af48e97bb8266e5c75e717a5a87587e648d127b1f86b743740cc68687677"
+    },
+    {
+      "path": "auditor.log",
+      "bytes": 183,
+      "sha256": "2c89b1e4a98aa2422bc76165c950055ea73960a7ab4e7aa1ab5d6a5a79edac69"
+    },
+    {
+      "path": "auditor.xml",
+      "bytes": 23766,
+      "sha256": "3cb6861c1141cdc0b23a855507e179f5ca5b692b3b66d9022c08e389bd071efb"
+    },
+    {
+      "path": "compiler-inputs-initial.json",
+      "bytes": 44559,
+      "sha256": "b0ce3025ec622d8d609d720376fad059e97539f9e668c6cab8a41a4acd53f4e0"
+    },
+    {
+      "path": "compilexx-append-proof.json",
+      "bytes": 360,
+      "sha256": "f8c5ffd028ce3aec152b66c5e6676bbe6d68a26f11da16b108bf0f18e90a3ddb"
+    },
+    {
+      "path": "initial-proof-observer.py",
+      "bytes": 6598,
+      "sha256": "727278a3780174f79ac2c7bbfbbf61fb68d0a029a5dc68de48851fea440833c2"
+    },
+    {
+      "path": "linux-autocrlf.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-build-manifest.hpp",
+      "bytes": 708,
+      "sha256": "b4eb6352729628f6af04e3372999264e5df5a0217869182e05045d222d3429e7"
+    },
+    {
+      "path": "linux-build.log",
+      "bytes": 556700,
+      "sha256": "ecf35f0449a6893717ccb98489443426b912fe1430093c986e5af3788edcc95e"
+    },
+    {
+      "path": "linux-checkout.log",
+      "bytes": 100,
+      "sha256": "2245cd3f10da4bf4190354b49fdb9c3f97f53afda1c6963a4798396730a3e9f7"
+    },
+    {
+      "path": "linux-cli-cases.json",
+      "bytes": 39460,
+      "sha256": "b6da497b4bc683197019b7c9720ab4470e2a2ace0c100642b0df22b3468ea858"
+    },
+    {
+      "path": "linux-clone.log",
+      "bytes": 52,
+      "sha256": "77626c8754fbddcf440ba4cbf17df95541a6616edf1aaeb93d2fba3ea1d2b220"
+    },
+    {
+      "path": "linux-command-results.json",
+      "bytes": 2164,
+      "sha256": "7c23c634f56542bdcd1ca5f111f6d9f16b491dc6ad4a3313ec6fe9342f77a456"
+    },
+    {
+      "path": "linux-compiler-inputs.json",
+      "bytes": 97972,
+      "sha256": "87e8f77e7f9afdee1e30af8488d620e8ec23527c97dd1ed0d423cb56d425843d"
+    },
+    {
+      "path": "linux-compiler-version.txt",
+      "bytes": 246,
+      "sha256": "88b7c4b67564a146863224148116065fee418539f0a408f3636a68f3bde51805"
+    },
+    {
+      "path": "linux-configure.log",
+      "bytes": 743,
+      "sha256": "0364a35d65d3af4b9ba545375921795309271488af40a2e944564e446a12978a"
+    },
+    {
+      "path": "linux-native-products.json",
+      "bytes": 688,
+      "sha256": "8eb1f839f6a175e5b42daf16bf2f615299c055df0ad27bb1a8d6234ff38df140"
+    },
+    {
+      "path": "linux-native.log",
+      "bytes": 281,
+      "sha256": "a1214d465bf3bd5da7966d55d2bc895e2cd7d14643f10b949d22db4fc30e1d15"
+    },
+    {
+      "path": "linux-native.xml",
+      "bytes": 1444,
+      "sha256": "68b074f513543312d440c72654f1addcd1ae02110bcefdc3450e0f353d0c8293"
+    },
+    {
+      "path": "linux-source-fingerprint.json",
+      "bytes": 144,
+      "sha256": "53da63aafde5582e4a08287d55103d9833e401d3da64019aaf1dcdbf16a97dbe"
+    },
+    {
+      "path": "proof-observer-failure.json",
+      "bytes": 451,
+      "sha256": "bc8272b1eeb8d3c599c9eb8d2cf290d38d06802a9272066cc04a47b47c434c2e"
+    },
+    {
+      "path": "raw_classifier_evidence-source-proof.json",
+      "bytes": 127733,
+      "sha256": "3ac388076c1f44ce2338d0f6309a509e5e13bef7cb8290dae2f5ef51cb5db7c8"
+    },
+    {
+      "path": "scientific_grid_evidence-source-proof.json",
+      "bytes": 183711,
+      "sha256": "86944be34f898a192cc4a86956963c8a0ac5744020be8164525f18203f029b1e"
+    },
+    {
+      "path": "source-runtime-proof.json",
+      "bytes": 1296,
+      "sha256": "02b308d837c4401618285898de0b9d4439121a24fb3a14f7b1e5ba1565e7e000"
+    },
+    {
+      "path": "windows-build-manifest.hpp",
+      "bytes": 706,
+      "sha256": "1825d37bce3f61375f9c06e067dcdcae35e69d5d9934da9130d06468d7e777ab"
+    },
+    {
+      "path": "windows-build.log",
+      "bytes": 1801,
+      "sha256": "4c583491a18fdb687aa8b74bb807f5bb5ae8e5e64f32a9049c60fbe2c3a0480a"
+    },
+    {
+      "path": "windows-cli-cases.json",
+      "bytes": 54213,
+      "sha256": "63f715ae5b09fb2dc70170178b2df1cccca8100016243ed8a17c75b718f62b7f"
+    },
+    {
+      "path": "windows-command-results.json",
+      "bytes": 947,
+      "sha256": "4f543ee8322f2b59536b61171e33226ccb3ac5dc95beb979e028162ac943e80c"
+    },
+    {
+      "path": "windows-native-complete.log",
+      "bytes": 3134,
+      "sha256": "e3f8602bd807605dcccfe45b36be8b28360e0dfc8ed44727268cb3a3f575754d"
+    },
+    {
+      "path": "windows-native-products.json",
+      "bytes": 728,
+      "sha256": "56f9b5182773e361ed7359e169a31cf0109f2589a847a6e43ad73bed3b11a8bb"
+    },
+    {
+      "path": "windows-native.log",
+      "bytes": 234,
+      "sha256": "800d3ef6d684bc09ef40653dca05b4197a43e7db683e6cd0c62fb955fd20fad6"
+    },
+    {
+      "path": "windows-native.xml",
+      "bytes": 1470,
+      "sha256": "bbcbf669a6c75bd6fb36e52fb820c64b839b212bd54b6e69065631206643e888"
+    },
+    {
+      "path": "windows-observer-failure.json",
+      "bytes": 323,
+      "sha256": "4acba2b5b36617afa187dcd4922652644b37e23d25e8200134a4e49cd62a4cb3"
+    },
+    {
+      "path": "observers/build_rgb_windows290.py",
+      "bytes": 3394,
+      "sha256": "c0344b28e54fcb775d877ec7b860729edf147e361629510694f70043cd23beb9"
+    },
+    {
+      "path": "observers/linux_rgb_context290.py",
+      "bytes": 5480,
+      "sha256": "e8b85aa8fa1bdefa36d8e8eca5c9450b0b04824e9dd75082444378c9708ddca4"
+    },
+    {
+      "path": "observers/validate_rgb_context290.py",
+      "bytes": 2030,
+      "sha256": "a301dac1dfa22af6ae9fcc665edd199b12f9b85cd682dce60d4c9a970be1eade"
+    },
+    {
+      "path": "observers/prove_rgb_context290.py",
+      "bytes": 6921,
+      "sha256": "0795d3fc7b391c98f74c624e31653a0422b27d6602565b460196ae9cc98b1da1"
+    }
+  ]
+}

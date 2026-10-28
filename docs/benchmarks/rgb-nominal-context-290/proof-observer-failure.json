@@ -1,0 +1,8 @@
+{
+  "stage": "recover-full-native-stdout",
+  "error": "Frozen Linux /tmp/qupathxx-rgb290-build no longer exists when separately observed after the terminal run",
+  "tests_terminal_success": true,
+  "retained_gcc_products_available": true,
+  "rebuild_required": false,
+  "recovery": "Keep passing original Linux XML and CLI observations with retained hashes; recover only existing Windows full CTest log. No test rerun or source recreation."
+}

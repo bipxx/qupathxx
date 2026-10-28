@@ -648,3 +648,5 @@ examples/rgb_nominal_preview.py text eol=lf
 tests/test_rgb_nominal_preview.py text eol=lf
 
 docs/benchmarks/rgb-nominal-sdk-289/** -text -whitespace
+
+docs/benchmarks/rgb-nominal-context-290/** -text -whitespace

@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-sdk-289-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_scientific_grid_evidence.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\auditor.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\auditor-temp"
+  ],
+  "returncode": 0,
+  "product_source": "11f70cd1133612fd059fd0c294f6b7eb60103679",
+  "scope": "auditor controls/independent collection only; not the new native runtime"
+}

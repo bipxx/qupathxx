@@ -1,0 +1,34 @@
+[
+  {
+    "label": "windows-build",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-287-native",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_resampling_tests",
+      "qupathxx_region",
+      "--parallel",
+      "2"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "windows-native",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rgb-nominal-287-native",
+      "-C",
+      "Release",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\windows-native.xml"
+    ],
+    "returncode": 0
+  }
+]

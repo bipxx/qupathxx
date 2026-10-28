@@ -1,0 +1,17 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\windows-products\\qupathxx_resampling_tests.exe",
+    "bytes": 1341440,
+    "sha256": "a134dadcac01c53c060d212933f8bfb3ca3f106df2c66424c650499525b38133"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\windows-products\\qupathxx_region.exe",
+    "bytes": 280576,
+    "sha256": "3e4d696ef4232dd8c5c9f219cef0f8a7aadb446959ba14522cf8ad15940418bd"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rgb-nominal-context-290\\windows-products\\qupathxx_core.lib",
+    "bytes": 102757876,
+    "sha256": "24933c2667218ad0ca43da16bbccae4451f783bcf5ff59fe744ba2951cb83a94"
+  }
+]

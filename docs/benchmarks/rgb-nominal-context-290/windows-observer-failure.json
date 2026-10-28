@@ -1,0 +1,8 @@
+{
+  "stage": "post-native-sanitizer-script-preparation",
+  "error": "UnicodeDecodeError: Windows GBK default could not decode UTF-8 source template",
+  "native_build_returncode": 0,
+  "native_test_returncode": 0,
+  "rebuild_required": false,
+  "recovery": "Decode UTF-8 explicitly in a separate preparation step"
+}

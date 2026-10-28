@@ -1,5 +1,21 @@
 # API and workflow delivery paths
 
+**Original-slide nominal cell integration is in progress; context290 passes locally.**
+The [receipt](benchmarks/rgb-nominal-context-290/receipt.json) binds native65c03e4e:
+one affected minimal native suite passes each MSVC/GCC13.3 ASan+UBSan profile.
+All99 captured outputs stitch exactly at three tile sizes and keep unchanged cores
+with added context; six source translations check negative context independently.
+Each toolchain also passes99 real CLI hashes.136 scientific auditor controls use
+the explicitly identified prior installed SDK289 runtime.418 canonical compiler
+inputs,872 source paths, six new retained native products and71 unchanged SDK289
+GUI products authenticate. Context windows keep the original nominal sampling
+phase. No new Python/GUI package or original-document cell/archive/replay recipe
+is delivered by this private primitive. The [implementation order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order)
+now names original-owner capture, shared kernels/result geometry, additive archive
+and replay, then existing consumers. Both observer failures and available original
+logs are preserved; no completed tests/builds were repeated for their recovery.
+Full source-bound platform/science/hardware/release gates and all M0-M7 exits stay open.
+
 **RGB nominal SDK289 is locally verified at native11f70cd1.**
 The [receipt](benchmarks/rgb-nominal-sdk-289/receipt.json) binds an immutable
 level-zero pixel request, native ImageServer adapter, thin GIL-releasing Python
@@ -116,6 +132,13 @@ required parity; retain vendor-format work supported by eligible open-source
 implementations. Copyleft readers remain eligible subject to distribution terms.
 
 ## Dependency lanes and immediate queue
+
+The next RGB cell-analysis slice follows the [original-document implementation
+order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order):
+phase-preserving context input, original-owner capture, shared detector/result
+geometry, versioned persistence/replay, then all existing consumers. Context290
+prepares only the first step. SDK289 preview does not close the remaining steps.
+
 
 This is the single ordered implementation queue. The [current task](current-task.md)
 records observed state; the [efficiency review](reviews/compilexx-efficiency-review.md)

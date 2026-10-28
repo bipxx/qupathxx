@@ -139,6 +139,61 @@ after local consumer and persistence evidence. The reference runtime remains an
 optional generator; the C++ application does not invoke Java to obtain pixels.
 No general speed, sampler-equivalence or research-accuracy claim follows here.
 
+### Original-document cell recipe implementation order
+
+The current scientific grid stores integer extent and sample count; its step is
+their exact rational ratio. A nominal256-pixel request at1.5 has171 output samples
+and a256.5-pixel lattice span. Replacing1.5 with256/171 would change geometry and
+calibration. Keep nominal RGB as a distinct captured recipe; do not add a hidden
+sampling mode to existing scientific area grids or reinterpret QCL5 bytes.
+
+1. **Lattice-preserving input windows.** [Private context290](benchmarks/rgb-nominal-context-290/receipt.json) adds
+   `plan_rgb_nominal_window`: output indices refer to the original request,
+   including negative context. Each tile retains its original fixed-point phase
+   and reads only its required source halo. The99 captured outputs stitch exactly
+   at1/7/32-pixel tile sizes; core pixels are unchanged with added context. Six
+   exact-factor source translations independently check negative context. These
+   checks prepare input delivery; they do not implement a cell recipe.
+2. **Capture on the original document.** Add an explicit nominal request overload
+   to `CellRequest`, carrying the immutable RGB request, per-axis output context
+   and existing `GridCellParameters`. Reuse `AnalysisRequest`'s owner/source/ROI
+   snapshot and calibration revision. Validate representable world centers/edges,
+   whole live detector/input/halo memory, units and ROI domain before IO. Nominal
+   output support and ROI membership must be defined separately from area-sample
+   support. The interpolation halo and detector context are separate quantities.
+3. **Share detection and result construction.** Reuse `grid_log_watershed`,
+   `PhysicalGridMetric`, expansion, compensated feature accumulators, contours and
+   the existing `CellJob`. Extract their common orchestration from
+   `ScientificCellKernel` where required. A private nominal geometry/input adapter
+   supplies original-coordinate edges/centers and RGB bytes converted exactly to
+   float64. Preserve current scientific arithmetic and legacy recipes. No derived
+   document, virtual pyramid level or second job/controller grants original-source
+   authority. Store explicit nominal geometry on results and expose its descriptor.
+4. **Retain and replay the complete recipe.** Introduce an additive QCL version
+   for nominal results; keep QCL1-5 encodings unchanged. Bind algorithm identity,
+   original source/ROI/calibration, integer origin/extents, binary64 nominal step,
+   context, resolved units and sampled-input digest. Decode historical labels and
+   verify their domain/geometry without opening the source. Fresh replay uses the
+   same descriptor and current original source. Update request equality, cell
+   status, `input_sha256`, verifier and classifier-origin encoding together so a
+   dropped sampling field cannot make distinct recipes equivalent. Existing
+   length-delimited project/recovery blobs should be reused unless inspection
+   proves an outer schema change necessary.
+5. **Finish all consumers.** Bind the same native request and readonly result
+   descriptor; update generated stubs and strict typing. Adapt direct/batch CLI,
+   batch checkpoint identity, existing direct/batch ImGui controls and managed
+   viewer commands. Save/reopen/replay/export must retain the descriptor. A
+   per-control resampler or a Python-owned preview is insufficient.
+6. **Decisive checks.** On the pinned resampled-cell fixture, read processing pixels
+   from the original native reader and compare RGB, OD, masks, geometry and
+   features at the original tolerances. Require original-document keep/save/reopen,
+   historical inspection and fresh verification. Reject changed source halo,
+   geometry/calibration, descriptor bits, malformed/checksum-valid archives,
+   stale publication and late cancellation. Check offset/context/nondyadic and
+   anisotropic/unknown-calibration cases. Preserve existing three strict legacy
+   xfails. Only after complete local consumer evidence freeze one full own-source
+   platform campaign; biological/general-speed/release gates remain separate.
+
 ## Reproduction
 
 ```text
