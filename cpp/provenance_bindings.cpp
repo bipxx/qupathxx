@@ -25,6 +25,7 @@ void bind_provenance(nb::module_& m) {
         .def_ro("geos_version",&BuildEnvironment::geos_version).def_ro("openslide_version",&BuildEnvironment::openslide_version).def_ro("sqlite_version",&BuildEnvironment::sqlite_version)
         .def_ro("gui",&BuildEnvironment::gui).def_ro("python",&BuildEnvironment::python).def_ro("interchange",&BuildEnvironment::interchange);
     nb::class_<AnalysisProvenance>(m,"AnalysisProvenance").def_ro("object_id",&AnalysisProvenance::object_id).def_ro("object_revision",&AnalysisProvenance::object_revision)
+        .def_ro("source_only",&AnalysisProvenance::source_only)
         .def_ro("document_revision",&AnalysisProvenance::document_revision).def_ro("captured_unix_ms",&AnalysisProvenance::captured_unix_ms).def_ro("nucleus",&AnalysisProvenance::nucleus)
         .def_prop_ro("source",[](const AnalysisProvenance& p){return p.source;}).def_ro("reader",&AnalysisProvenance::reader).def_ro("locator",&AnalysisProvenance::locator)
         .def_ro("effective_pixel_width_um",&AnalysisProvenance::effective_pixel_width_um).def_ro("effective_pixel_height_um",&AnalysisProvenance::effective_pixel_height_um)

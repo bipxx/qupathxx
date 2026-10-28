@@ -85,7 +85,7 @@ def test_admission_calibration_stale_and_owner_guards():
     for field,value in [('snapshot_bytes',1),('work_bytes',1),('max_distance_tests',0)]:
         options=q.SpatialDistanceOptions();setattr(options,field,value)
         with pytest.raises(ValueError):q.SpatialDistanceRequest(doc,[a],[b],options)
-    doc.set_calibration(None,None);options=q.SpatialDistanceOptions();options.units=q.SpatialDistanceUnits.MICROMETRES
+    doc.clear_calibration();options=q.SpatialDistanceOptions();options.units=q.SpatialDistanceUnits.MICROMETRES
     with pytest.raises(ValueError,match='calibration'):q.SpatialDistanceRequest(doc,[a],[b],options)
     request=q.SpatialDistanceRequest(doc,[a,b],[a,b,c]);result=q.measure_spatial_distances(request)
     job=q.SpatialDistanceJob();assert job.result is None and not job.busy
