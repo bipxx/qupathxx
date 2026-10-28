@@ -146,7 +146,8 @@ def archive_windows(wheel, output):
             name = Path(entry.filename)
             if name.parts[0] != 'qupathxx' or entry.is_dir():
                 continue
-            if name.suffix.lower() not in ['.exe', '.dll'] and 'licenses' not in name.parts:
+            if (name.suffix.lower() not in ['.exe', '.dll'] and 'licenses' not in name.parts
+                    and name.parts[1:2] != ('fonts',)):
                 continue
             relative = Path(*name.parts[1:])
             target = stage/relative

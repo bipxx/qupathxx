@@ -19,6 +19,29 @@ producer=importlib.util.module_from_spec(spec)
 exec(compile(SOURCE.read_bytes(),str(SOURCE),'exec',dont_inherit=True),producer.__dict__)
 
 
+@pytest.mark.parametrize('gui',[False,True])
+def test_standalone_archive_keeps_packaged_gui_fonts_and_not_python(tmp_path,gui):
+    import zipfile
+    entries={'qupathxx/qupathxx_app.exe':b'native exe','qupathxx/dependency.dll':b'native dependency',
+        'qupathxx/licenses/imgui/LICENSE.txt':b'license',
+        'qupathxx/__init__.py':b'python','qupathxx/_native.pyd':b'extension'}
+    if gui:
+        entries.update({'qupathxx/fonts/NotoSansCJKsc-Regular.otf':b'pinned cjk bytes',
+                        'qupathxx/fonts/NotoEmoji.ttf':b'pinned emoji bytes'})
+    wheel=tmp_path/'package.whl'
+    with zipfile.ZipFile(wheel,'w') as archive:
+        for name,data in entries.items():archive.writestr(name,data)
+    output=tmp_path/'out';output.mkdir()
+    stage=producer.archive_windows(wheel,output)
+    expected={name.removeprefix('qupathxx/'):data for name,data in entries.items()
+              if not name.endswith(('.py','.pyd'))}
+    assert {p.relative_to(stage).as_posix():p.read_bytes() for p in stage.rglob('*')
+            if p.is_file() and p.name!='README.txt'}==expected
+    with zipfile.ZipFile(output/'qupathxx-windows-x64-candidate.zip') as archive:
+        assert {name:archive.read(name) for name in archive.namelist()
+                if not name.endswith('/') and name!='README.txt'}==expected
+
+
 def test_real_child_failure_and_timeout_keep_later_logs_and_overall_failure(tmp_path,monkeypatch):
     monkeypatch.setattr(producer,'ROOT',tmp_path)
     diagnostics=producer.InstalledDiagnostics(tmp_path/'stages.json')
