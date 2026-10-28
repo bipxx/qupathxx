@@ -279,7 +279,7 @@ for job in run['jobs']:
             records=json.loads(record_path.read_text(encoding='utf8'))
             iw=json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))
             assert records['native_sha256']==iw['native_sha256'] and records['environment']['source_tree_sha256']==iw['source_tree_sha256'] and records['environment']['git_revision']==COMMIT
-            assert records['records']==10000 and records['project_schema']==13 and records['max_encoded_descriptor_bytes']<=131072 and records['total_encoded_descriptor_bytes']<=64*1024*1024
+            assert records['records']==10000 and records['project_schema']==14 and records['max_encoded_descriptor_bytes']<=131072 and records['total_encoded_descriptor_bytes']<=64*1024*1024
             if record_name.startswith('gui-'):
                 assert records['gui']['document_unchanged'] and records['gui']['catalog_complete'] and records['gui']['catalog_max_step']<=1024 and records['gui']['ui_overflow']==0 and records['gui']['gpu_bytes']==65536
             entry[record_name]=records

@@ -27,6 +27,7 @@ def source_paths():
            'tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy',
            'tools/capture_qupath_spatial.py',
            'tests/test_spatial_python.py','tests/test_spatial_cli.py','tests/test_spatial_frontends.py','tests/test_document_job_waits.py','tests/typing/spatial_valid.py','tests/typing/spatial_invalid.py',
+           'tools/benchmark_pixel_stream_records.py',
            'tools/profile_raw_stream_contours.py','tools/check_tma_large_pyramid.py',
            'tests/test_raw_stream_resource_profile.py','tests/fixtures/raw-stream-resources-v1/contract.json',
            'src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',

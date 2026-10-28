@@ -334,6 +334,10 @@
       "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-PixelTrainingJob]",
       "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-StainEstimateJob]",
       "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-TissueJob]"
+    ],
+    "test_pixel_stream_record_benchmark": [
+      "test_pixel_stream_record_benchmark_accepts_current_project_schema[1]",
+      "test_pixel_stream_record_benchmark_accepts_current_project_schema[7]"
     ]
   },
   "training_off_skip": {
