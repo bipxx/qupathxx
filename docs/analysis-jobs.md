@@ -213,3 +213,22 @@ new ownership/live-edit/cancel/retry/shutdown controls and240 separate legacy
 passes/five declared skips at c949826. Contract/stub observer f068594 authenticates
 410 unchanged compiler inputs and exact installed/typing/package evidence.
 This is local Windows evidence; full platform and broad M6 acceptance remain.
+
+The same Python owner rule also covers FileFingerprintJob, CellTableExportJob,
+MeasurementTableExportJob, ThumbnailJob and PixelStreamReadJob. These five do
+not take a live Document, but their future/result state still needs serialized
+collection. Their Python wait polls with the GIL held, releases it only for
+native readiness and reacquires it for collection. All entry points and result
+accessors are owner-only except cancel; destruction uses the same GIL-free
+join holder. Existing signatures, properties and immutable result ownership
+remain unchanged. C++ await_completion only waits; native callers retain their
+single-owner obligations. A completed wait may return before another Python
+thread is scheduled.
+
+[Snapshot waits274](benchmarks/snapshot-waits-274/receipt.json) records48 new
+controls,55 native suites,355 GUI-mode passes/one declared skip and308
+nonrendering passes/48 skips on the same GUI-capable Windows package.176 legacy
+passes overlap the GUI cohort by72 identities, giving459 unique installed passes.
+All539 source paths, wheel/runtime/stubs and1015 auditor controls authenticate locally at
+native048cf25 and observer92bb6c2. Source-matched platform qualification and broad
+M6 acceptance remain open; candidate273 predates this repair.

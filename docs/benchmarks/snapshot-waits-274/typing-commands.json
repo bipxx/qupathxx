@@ -1,0 +1,104 @@
+[
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_pixel_valid.py",
+      "tests/typing/raw_batch_valid.py",
+      "tests/typing/raw_frontend_valid.py",
+      "examples/raw_classifier_workflow.py",
+      "tests/typing/raw_stream_contour_valid.py",
+      "tests/typing/spatial_valid.py",
+      "tests/typing/document_job_waits_valid.py"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "log": "raw-classifier-typing.log"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_pixel_invalid.py"
+    ],
+    "expected": 1,
+    "returncode": 1,
+    "log": "raw-classifier-raw_pixel_invalid.log"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_batch_invalid.py"
+    ],
+    "expected": 1,
+    "returncode": 1,
+    "log": "raw-classifier-raw_batch_invalid.log"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_frontend_invalid.py"
+    ],
+    "expected": 1,
+    "returncode": 1,
+    "log": "raw-classifier-raw_frontend_invalid.log"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_stream_contour_invalid.py"
+    ],
+    "expected": 1,
+    "returncode": 1,
+    "log": "raw-classifier-raw_stream_contour_invalid.log"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/spatial_invalid.py"
+    ],
+    "expected": 1,
+    "returncode": 1,
+    "log": "spatial-typing-negative.log"
+  }
+]

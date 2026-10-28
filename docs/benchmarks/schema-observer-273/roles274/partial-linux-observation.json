@@ -1,0 +1,118 @@
+{
+  "source": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "engineering_accepted": false,
+  "profiles": [
+    {
+      "profile": "Linux-minimal-py3.12",
+      "native_passed": 54,
+      "semantic_contract": {
+        "full": false,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": false
+      },
+      "junit_sha256": "90c002aced432e2fb921b8d0a9236ab886dd93563a55547d84084796a7e0177c"
+    },
+    {
+      "profile": "Linux-sanitize-py3.12",
+      "native_passed": 54,
+      "semantic_contract": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "junit_sha256": "8e8e8aa7b44a46a88ac80ab74f8b39ab4d76d11ae2b08cec5250ce6846d183f1"
+    },
+    {
+      "profile": "Linux-headless-py3.12",
+      "native_passed": 54,
+      "semantic_contract": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "junit_sha256": "cda593b38ff93d02270d007e1d797fd395a4359864d94514865bbc6ed35975b4",
+      "installed_contract": {
+        "passed": 260,
+        "declared_skips": 48,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          },
+          {
+            "module": "test_raw_stream_contour_python",
+            "passed": 7,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_contour_seams",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_stream_contours",
+            "passed": 0,
+            "declared_skips": 6
+          },
+          {
+            "module": "test_raw_stream_contour_cli",
+            "passed": 18,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_stream_contour_batch",
+            "passed": 15,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_file_contours",
+            "passed": 19,
+            "declared_skips": 7
+          },
+          {
+            "module": "test_spatial_python",
+            "passed": 40,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_spatial_cli",
+            "passed": 30,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_spatial_frontends",
+            "passed": 5,
+            "declared_skips": 16
+          },
+          {
+            "module": "test_document_job_waits",
+            "passed": 72,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_pixel_stream_record_benchmark",
+            "passed": 2,
+            "declared_skips": 0
+          }
+        ]
+      },
+      "mandatory_schema14_diagnostic_passed": true
+    }
+  ]
+}

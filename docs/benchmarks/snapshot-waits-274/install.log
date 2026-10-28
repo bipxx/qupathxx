@@ -1,0 +1,5 @@
+Using Python 3.12.8 environment at: C:\Users\HEQ\Projects\qupathxx\build\ci\snapshot-waits-274-env
+Resolved 1 package in 17ms
+Prepared 1 package in 46ms
+Installed 1 package in 49ms
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/snapshot-waits-274/initial-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

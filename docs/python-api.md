@@ -24,7 +24,8 @@ a Project passed in place of a filename and an Image submitted as an edit.
 ## Job threads and waits
 
 The [analysis job ownership guide](analysis-jobs.md#python-wait-and-controller-ownership)
-covers the nine older document-taking controllers. Create and drive a controller
+covers the nine older document-taking controllers and five older fingerprint,
+table-export, thumbnail and saved-pixel-reader controllers. Create and drive a controller
 on one thread; cancel may come from another. Python wait holds the GIL for live
 Document checks and delivery, releasing it only for native readiness. Results are
 rechecked after reacquiring. Destruction releases the GIL while joining work.

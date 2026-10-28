@@ -2,6 +2,31 @@
 
 ## Current execution card (2026-10-28)
 
+**Snapshot-job waits274 are locally verified** at native048cf25 and observer92bb6c2.
+[Receipt274](benchmarks/snapshot-waits-274/receipt.json) binds the five remaining
+older Document-free controllers: fingerprint, cell/measurement table exports,
+thumbnail and saved pixel-stream reading. Retainednativec949826 accepts15 foreign
+idle collection probes; the new guarded holder rejects all mutable foreign calls
+except cancel, waits only for native readiness without the GIL and collects after
+reacquiring it. Final-reference destruction cancels/joins without the GIL.
+
+All55 native suites,48 new controls,355 installed GUI-mode passes/one skip,
+308 nonrendering passes/48 skips and1015 audit controls pass.176 separate legacy
+passes/15 skips overlap that GUI cohort by72 cases:459 unique installed passes.
+The48 new controls are already in the cohort. Nonrendering uses the GUI-capable
+package, not a headless wheel. Seven positive typing files/five negative files
+with28 exact diagnostics pass; stubs are unchanged. All33 package members,
+37 wheel RECORD entries, loaded GEOS/notices,539 source paths and410 unchanged
+compiler inputs authenticate.69 prior and69 new products are retained. One native
+build suffices; later test/contract changes do not rebuild or relabel its source.
+
+Candidate273 below predates274 and cannot qualify this repair. Next: finish its
+original full engine gate, preserve its independently accepted roles, then freeze
+the completed274 source for its own qualification. Broad M6, all M0-M7,
+scientific, general-speed/hardware, support and release gates remain open.
+
+### Earlier candidate273, separate source
+
 **Successor273 is frozen and full qualification is running** at5f1760a on
 feature/schema-observer-qualification-273. [Campaign273](benchmarks/schema-observer-273/receipt.json)
 records engine [40695971669](https://github.com/bipxx/qupathxx/actions/runs/40695971669),
@@ -12,6 +37,14 @@ authenticate;410 canonical compiler Git blobs equal localnativec949826. The fres
 audit checkout has144 CRLF/LF-only byte differences from local compilation inputs;
 these are recorded, not claimed byte-identical. Every hosted role builds its own
 frozen source. Local native products remain labeledc949826.
+
+[Scoped role audits](benchmarks/schema-observer-273/roles274/receipt.json) now
+accept both Mac-native architectures and both portable builders/fresh consumers
+at this exact5f1760a source. Ten archives authenticate. Windows GUI is still
+active in the recorded observation, so the full five-profile engine and combined
+candidate remain unaccepted. The three Linux native profiles and Linux headless
+schema14 diagnostic/exact installed contract pass. A later artifact-query timeout
+is an observation failure, not a terminal job or reason to redispatch.
 
 Next: observe these exact run IDs, authenticate all11 required archives and run
 the complete applicable frozen-source auditors. Do not redispatch or move the
