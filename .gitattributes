@@ -630,3 +630,5 @@ tests/fixtures/qupath-rgb-resampling-0.7.0/** -text -whitespace
 tools/qupath_rgb_resampling.py text eol=lf
 tools/upstream/qupath_rgb_resampling.groovy text eol=lf
 tests/test_qupath_rgb_resampling.py text eol=lf
+
+docs/benchmarks/qupath-rgb-resampling-286/** -text -whitespace

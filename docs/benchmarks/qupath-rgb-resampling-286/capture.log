@@ -1,0 +1,64 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+14:24:16.793 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+14:24:16.796 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+14:24:16.797 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+14:24:16.819 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+14:24:16.830 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+14:24:16.932 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+ERROR: It looks like you've tried to access a method that doesn't exist.
+
+14:24:22.396 [main] [ERROR] qupath.ScriptCommand - No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: [] in reference.groovy at line number 35
+javax.script.ScriptException: No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: [] in reference.groovy at line number 35
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: groovy.lang.MissingMethodException: No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: []
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.callGlobal(GroovyScriptEngineImpl.java:418)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl$3.invokeMethod(GroovyScriptEngineImpl.java:317)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at reference.run(reference.groovy:35)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: [] in reference.groovy at line number 35
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: [] in reference.groovy at line number 35
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: groovy.lang.MissingMethodException: No signature of method: getQuPathVersion for class: org.codehaus.groovy.jsr223.GroovyScriptEngineImpl is applicable for argument types: () values: []
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.callGlobal(GroovyScriptEngineImpl.java:418)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl$3.invokeMethod(GroovyScriptEngineImpl.java:317)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at reference.run(reference.groovy:35)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+14:24:22.402 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

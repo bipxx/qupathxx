@@ -2,7 +2,7 @@
 
 ## Current execution card (2026-10-28)
 
-**Font candidate285 is frozen; complete own-source qualification is queued.**
+**Font candidate285 is frozen; complete own-source qualification is running.**
 The [campaign](benchmarks/gui-font-qualification-285/receipt.json) binds source
 `1f71eb5`, engine [40743832312](https://github.com/bipxx/qupathxx/actions/runs/40743832312),
 Mac-native [40743845473](https://github.com/bipxx/qupathxx/actions/runs/40743845473)
@@ -15,6 +15,23 @@ required archives and execute the prepared complete original-source auditors.
 Do not redispatch or move the frozen ref/checkout. Candidate281 remains the
 qualified feature baseline until combined285 acceptance exists; science,
 physical-monitor DPI, actual new-font Name editing and release remain separate.
+
+**RGB input resampling286 is locally characterized at comparison83cd41df.**
+The [receipt](benchmarks/qupath-rgb-resampling-286/receipt.json) binds36 pinned
+public QuPath RGB reads, two complete byte-identical captures and82 new installed
+checks. Related comparisons pass173 with the three legacy strict expected
+failures unchanged; the full named scientific cohort passes359/seven declared
+GUI skips and1054 audit controls pass. Counts overlap.661 scientific source paths
+authenticate;415 compiler inputs and71 retained products remain unchanged at
+native7231d95. No rebuild, native sampler change or acceptance transfer follows.
+The [production route](qupath-rgb-resampling.md) now requires separate nominal
+spacing, enlargement kernel, edge behavior and byte-rounding controls; the
+earlier single1.5 case cannot define a general bilinear compatibility API.
+Keep default quantitative policies and capture/replay authority explicit.
+Frozen font285 continues independently with its original auditors: newer
+scientific auditors require82 cases that its unchanged source does not contain.
+Broader specimen/tolerance, physical UI, hardware/support/release and M0-M7 gates
+remain open.
 
 **Current qualified feature baseline: candidate281 at `3f15c2b`.**
 The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source

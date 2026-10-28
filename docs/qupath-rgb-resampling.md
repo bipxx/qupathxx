@@ -15,6 +15,10 @@ files byte-for-byte. Runtime logs remain separate. The optional GPL reference
 runtime is neither embedded in the application nor required to verify fixtures.
 No upstream interpolation implementation is copied.
 
+The [local receipt](benchmarks/qupath-rgb-resampling-286/receipt.json) binds
+source83cd41df, retained native7231d95, complete scientific admission and
+unchanged compiler/product evidence. New-source platform acceptance remains open.
+
 ## What the captures establish
 
 The comparison tests six mathematical candidates: nominal or realized spacing,

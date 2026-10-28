@@ -1,0 +1,8 @@
+
+=================================== ERRORS ====================================
+____________ ERROR collecting tests/test_qupath_rgb_resampling.py _____________
+tests/test_qupath_rgb_resampling.py::test_exact_dyadic_reduction_candidates_on_captured_inputs: 'request' is a reserved name and cannot be used in @pytest.mark.parametrize
+=========================== short test summary info ===========================
+ERROR tests/test_qupath_rgb_resampling.py - Failed: tests/test_qupath_rgb_res...
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.83s
