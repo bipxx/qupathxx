@@ -116,8 +116,11 @@ void RawPixelFrontend::poll(const Document& doc) {
         const auto streamed=s.stream_contours.poll(doc);
         if(s.report.stream_contours && !s.report.contours_published && streamed.state!="ready") {s.report.stream_contours.reset();if(s.stage==Stage::Idle) s.fail(streamed.state,streamed.error);}
         if(s.stage==Stage::Idle) return;
+        // A worker can finish between poll() and busy(). Once it is no longer
+        // busy, poll again to collect its future before reading results/status.
+        // This also drains cancelled/stale completions before a subsequent job.
         if(s.stage==Stage::FileContours || s.stage==Stage::FileReplayOpen) {
-            const auto status=s.reader.poll();if(s.reader.busy()) return;
+            auto status=s.reader.poll();if(s.reader.busy()) return;status=s.reader.poll();
             if(s.stage==Stage::FileContours) {auto geometry=s.reader.take_contours();if(!geometry) {s.fail(status.state,status.error);return;}s.file=geometry->file();s.report.historical_contours=std::move(geometry);}
             else {s.file=s.reader.take_file();if(!s.file) {s.fail(status.state,status.error);return;}}
             s.report.link=s.file->link();s.report.historical_model=std::make_shared<const RawPixelClassifier>(s.file->model());
@@ -127,25 +130,26 @@ void RawPixelFrontend::poll(const Document& doc) {
             s.stream_contours.request_replay(request,s.file,s.file_options);s.stage=Stage::StreamContours;
         }
         if(s.stage==Stage::StreamContours) {
-            if(s.stream_contours.busy()) return;s.report.stream_contours=s.stream_contours.result();
-            s.fail(s.report.stream_contours?"contours_ready":streamed.state,streamed.error);return;
+            if(s.stream_contours.busy()) return;
+            const auto status=s.stream_contours.poll(doc);s.report.stream_contours=s.stream_contours.result();
+            s.fail(s.report.stream_contours?"contours_ready":status.state,status.error);return;
         }
         if(s.stage==Stage::ContourPrediction) {
-            const auto status=s.contour_prediction.poll(doc);if(s.contour_prediction.busy()) return;
+            auto status=s.contour_prediction.poll(doc);if(s.contour_prediction.busy()) return;status=s.contour_prediction.poll(doc);
             const auto prediction=s.contour_prediction.result();if(!prediction) {s.fail(status.state,status.error);return;}
             s.contours.request(*s.contour_request,prediction,s.contour_options);s.stage=Stage::Contours;
         }
         if(s.stage==Stage::Contours) {
-            const auto status=s.contours.poll(doc);if(s.contours.busy()) return;s.report.contours=s.contours.result();
+            auto status=s.contours.poll(doc);if(s.contours.busy()) return;status=s.contours.poll(doc);s.report.contours=s.contours.result();
             s.fail(s.report.contours?"contours_ready":status.state,status.error);return;
         }
         if(s.stage==Stage::Checkpoint) {
-            auto status=s.checkpoint.poll(doc);if(s.checkpoint.busy()) return;auto value=s.checkpoint.take(doc);if(!value) {status=s.checkpoint.poll(doc);s.fail(status.state,status.error);return;}
+            auto status=s.checkpoint.poll(doc);if(s.checkpoint.busy()) return;status=s.checkpoint.poll(doc);auto value=s.checkpoint.take(doc);if(!value) {status=s.checkpoint.poll(doc);s.fail(status.state,status.error);return;}
             s.report.checkpoint=value->checkpoint;if(!value->table) {s.fail("partial","");return;}
             s.training.train_table(*s.training_request,value->table,s.settings.forest);s.stage=Stage::Training;
         }
         if(s.stage==Stage::Training) {
-            const auto status=s.training.poll(doc);if(s.training.busy()) return;if(status.state!="ready") {s.fail(status.state,status.error);return;}
+            auto status=s.training.poll(doc);if(s.training.busy()) return;status=s.training.poll(doc);if(status.state!="ready") {s.fail(status.state,status.error);return;}
             auto table=s.training.table();auto model=s.training.model();if(!table || !model) throw std::runtime_error("Raw training completed without a model");
             s.io=std::async(std::launch::async,[table,model,&s] {Impl::Io out;out.archive=archive_raw_pixel_tiled_training(table,model,&s.cancelled);out.model=model;return out;});s.stage=Stage::Archive;
         }
@@ -155,10 +159,10 @@ void RawPixelFrontend::poll(const Document& doc) {
             if(out.model) {s.report.model=std::move(out.model);s.report.prediction.reset();if(s.stage==Stage::LoadModel) {s.training_request.reset();s.report.training.reset();}}
             if(out.archive) s.report.training=std::move(out.archive);s.fail(s.stage==Stage::LoadModel?"loaded":s.stage==Stage::SaveModel?"saved":"trained","");return;
         }
-        if(s.stage==Stage::Prediction) {const auto status=s.prediction.poll(doc);if(s.prediction.busy()) return;s.report.prediction=s.prediction.result();s.fail(s.report.prediction?"predicted":status.state,status.error);return;}
-        if(s.stage==Stage::Save) {auto status=s.save.poll(doc);if(s.save.busy()) return;s.report.link=s.save.take_link(doc);if(!s.report.link) status=s.save.poll(doc);s.fail(s.report.link?(s.report.link->summary().complete?"saved":"partial"):status.state,status.error);return;}
+        if(s.stage==Stage::Prediction) {auto status=s.prediction.poll(doc);if(s.prediction.busy()) return;status=s.prediction.poll(doc);s.report.prediction=s.prediction.result();s.fail(s.report.prediction?"predicted":status.state,status.error);return;}
+        if(s.stage==Stage::Save) {auto status=s.save.poll(doc);if(s.save.busy()) return;status=s.save.poll(doc);s.report.link=s.save.take_link(doc);if(!s.report.link) status=s.save.poll(doc);s.fail(s.report.link?(s.report.link->summary().complete?"saved":"partial"):status.state,status.error);return;}
         if(s.stage==Stage::Open || s.stage==Stage::Read) {
-            auto status=s.reader.poll();if(s.reader.busy()) return;
+            auto status=s.reader.poll();if(s.reader.busy()) return;status=s.reader.poll();
             if(s.stage==Stage::Open) {s.file=s.reader.take_file();if(!s.file) {status=s.reader.poll();s.fail(status.state,status.error);return;}s.report.link=s.file->link();s.report.historical_model=std::make_shared<const RawPixelClassifier>(s.file->model());if(!s.report.link->summary().completed_windows) {s.fail("verified","");return;}s.reader.read(s.file,s.index);s.stage=Stage::Read;return;}
             s.report.historical=s.reader.take_block();if(!s.report.historical) status=s.reader.poll();s.fail(s.report.historical?"read":status.state,status.error);return;
         }
