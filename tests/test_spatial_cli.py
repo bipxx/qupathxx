@@ -21,7 +21,9 @@ def cli():
 
 def run(cli,args,expected=0):
     env=os.environ.copy()
-    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+    if os.name=='nt':
+        system_root=os.environ['SystemRoot']
+        env['PATH']=os.pathsep.join([str(cli.parent),str(Path(system_root)/'System32'),system_root])
     child=subprocess.run([str(cli),*map(str,args)],cwd=cli.parent,env=env,capture_output=True,text=True,encoding='utf-8',timeout=30)
     assert child.returncode==expected,child.stdout+child.stderr
     if expected:
@@ -39,7 +41,7 @@ def scene(tmp_path,calibrated=True):
     c=doc.add_detection(q.Roi.points([q.Point(32,32)]))
     if calibrated:doc.set_calibration(.5,.25)
     project=q.Project();image=project.add_document(doc,'Missing source',str(tmp_path/'missing.ppm'),'ppm')
-    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.active_image=untouched
     source=tmp_path/'source α.qpxproj';project.save(str(source))
     return project,doc,image,(a,b,c),source
 
