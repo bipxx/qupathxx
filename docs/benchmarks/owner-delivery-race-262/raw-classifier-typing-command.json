@@ -1,0 +1,19 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner-delivery-race-262-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "mypy",
+    "--strict",
+    "--no-incremental",
+    "tests/typing/raw_pixel_valid.py",
+    "tests/typing/raw_batch_valid.py",
+    "tests/typing/raw_frontend_valid.py",
+    "examples/raw_classifier_workflow.py",
+    "tests/typing/raw_stream_contour_valid.py"
+  ],
+  "returncode": 0,
+  "seconds": 3.3568531998898834,
+  "gui_opt_in": false,
+  "runtime_source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+}

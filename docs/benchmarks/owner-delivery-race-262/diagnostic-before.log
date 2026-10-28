@@ -1,0 +1,4 @@
+Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1
+QPX_OWNER_DELIVERY_EDGE polled=running worker_busy=0 delivered=0
+viewer session check failed at line 72

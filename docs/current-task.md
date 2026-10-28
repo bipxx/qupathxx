@@ -1,69 +1,57 @@
 # Current implementation task
 
-## Current execution card (2026-10-27)
+## Current execution card (2026-10-28)
 
-**M3-ALIAS1 is locally implemented and verified** at `f9ad28f`, frozen on
-`feature/root-locator-qualification-260`. Its [receipt260](benchmarks/root-locator-fix-260/receipt.json)
-records the repair and pending platform campaign. All **M0-M7 remain Partial**.
-Qualified feature baseline a5b5394/candidate258 remains immutable, with complete
-[engineering acceptance](benchmarks/raw-path-fixture-258/closeout/receipt.json).
-Public-main application baseline remains 61e546e; no promotion/release is implied.
+**The raw frontend owner-delivery race is locally repaired** at `e2282b8`, frozen
+on `feature/owner-delivery-qualification-262`. [Receipt262](benchmarks/owner-delivery-race-262/receipt.json)
+records the controlled reproduction, final package and pending platform campaign.
+All **M0-M7 remain Partial**. Qualified feature baseline a5b5394/candidate258 and
+public-main application baseline61e546e remain unchanged; no promotion or release.
 
-- **Actual repair:** one internal relative-locator helper serves linked images,
-  RGB QSL1 and raw QWL1 stream records. DOS/UNC namespace comparison does not
-  change physical access paths or perform filesystem lookup. Literal/device
-  names and incompatible drives/shares retain absolute fallback. Model/source/
-  identity and no-overwrite guards remain in place; no second cache or ignored
-  input-hash fields were added.
-- **Red/green evidence:** four regressions fail on qualified a5b5394 and pass on
-  f9ad28f: paired existing/missing-image snapshots, mixed RGB/raw links and actual
-  moved-output checkpoint reuse. The unchanged witness259 now produces identical
-  whole-file snapshot hashes and identical relative image locators. Native checks
-  exercise 23 namespace/Unicode/drive/share/literal fallback cases. UNC checks are
-  lexical, with no network-share runtime claim.
-- **Installed validation:** 51 native suites, 880 producer/auditor controls and
-  386 installed desktop/managed/CLI/persistence passes/six declared skips across
-  392 identities pass. Generated stubs match; five positive typing files and four
-  negatives yield exactly 20 intended errors. Package/runtime/notices and both
-  complete SDK trees match. The separate local environment shares test dependencies
-  and has OpenSlide OFF; it is not clean-machine or platform acceptance.
-- **Identity and retention:** 392 compiler inputs, five changed; all 490 raw source
-  paths authenticate in a clean frozen audit checkout. All 64 previous cached
-  products survive, 55 with exact candidate258 hashes. The new 55 registered/
-  packaged products and wheel survive. No accepted candidate258 products were
-  replaced in their retained packet.
-- **Required roles dispatched once on f9ad28f:** observe
-  [engine40448479178](https://github.com/bipxx/qupathxx/actions/runs/40448479178),
-  [Mac40448487351](https://github.com/bipxx/qupathxx/actions/runs/40448487351), and
-  [portable40448495849](https://github.com/bipxx/qupathxx/actions/runs/40448495849).
-  Authenticate terminal archives and run every complete applicable auditor from
-  build/ci/root-locator-qualification-260-audit before platform acceptance. All
-  candidate258 roles were terminal before dispatch. No prior acceptance transfers;
-  quiet compilation/observation timeouts do not authorize retries.
+- **Observed defect:** a worker can finish between owner poll and busy checks.
+  `busy=false` then precedes owner-side future collection, so a preview can be
+  reported without its result. A controlled wait forces exactly that boundary:
+  old code fails the native streamed-preview assertion, repaired code passes the
+  complete viewer suite with the same transition. The original sanitizer assertion
+  is line81; the controlled direct preview is line72. The hosted schedule itself
+  was not instrumented. Final source contains no diagnostic wait or logging.
+- **Actual repair:** once a raw worker is no longer busy, collect its completion
+  with another owner poll before reading result/status. Apply the same discipline
+  across stream/full-grid contours, prediction, training/checkpoint and file
+  operations, including transitions into historical replay. Stale/cancelled
+  completions drain before subsequent requests. No public API, schema, algorithm,
+  source/model guard or overwrite policy changes.
+- **Final local validation:** all 51 native suites, 897 controls and 386 installed
+  passes/six declared skips across 392 unique GUI/managed/CLI/project identities
+  pass. Stubs match; five positive/four negative typing files produce exactly 20
+  intended errors. The installed 33 wheel members, source/fingerprint/runtime/
+  notices, unchanged SDKs and55 retained final products authenticate. One of 392
+  compiler inputs changes; all 490 raw source paths authenticate in a clean frozen
+  checkout. Local Windows shares test dependencies and has OpenSlide OFF;
+  clean-machine and platform acceptance remain separate.
+- **Original260 is terminal:** its engine fails one sanitizer viewer_session
+  suite (49/50); the other four engine profiles pass. Both Mac-native architectures
+  and portable builders/fresh consumers pass complete audits at f9ad28f. All11
+  archives authenticate in the [scoped closeout](benchmarks/root-locator-fix-260/terminal/receipt.json).
+  The first Mac audit hit a retained GitHub TLS timeout; re-observing the same
+  handles/archives passes. Original260 remains globally unaccepted.
+- **Successor262 dispatched once at e2282b8:** observe
+  [engine40646189840](https://github.com/bipxx/qupathxx/actions/runs/40646189840),
+  [Mac40646201004](https://github.com/bipxx/qupathxx/actions/runs/40646201004) and
+  [portable40646221175](https://github.com/bipxx/qupathxx/actions/runs/40646221175).
+  Authenticate original archives and run complete applicable auditors from
+  build/ci/owner-delivery-qualification-262-audit. No earlier acceptance transfers;
+  preserve live jobs and failed observations rather than redispatching.
 
-Four original candidate260 archives now authenticate (three Linux profiles and
-portable Python 3.11 builder). The sanitizer job fails `viewer_session` at line81:
-49/50 native suites pass. Linux headless/minimal pass. The complete engine run
-remains live and unaccepted; preserve the failure before diagnosis. The first
-Linux-only auditor rejects the failed job before artifact admission. Investigate
-the preview result's owner-poll/future-readiness transition; no cause or repair
-is established yet. Do not retry or dispatch a successor while original roles
-remain live. During qualification, the next
-[SPAT1 centroid-distance workflow](spatial-analysis.md) has independent reference
-preparation only: 26 pinned QuPath cases and 17 controls pass. Native delivery,
-frontends, persistence and its own platform acceptance remain pending.
-
-After this workflow's required validation, continue with the prepared SPAT1
-contract and the remaining eligible reader/interchange/automation and UI work
-in the single API queue.
-Independent scientific/model/upstream/biological comparisons, three strict
-scientific xfails, corpus rights/labels/tolerances, representative resource/
-hardware budgets, Unicode glyph coverage, clean-machine support, project license,
-distribution/signing and release decisions remain open. Readers and required
-codecs stay open-source-only.
-
-The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns
-scheduling; [history](project-plan-history.md) preserves earlier execution cards.
+After this qualification, continue with [SPAT1 centroid distances](spatial-analysis.md):
+26 independent QuPath reference cases and17 controls are prepared, with native,
+Python/CLI/UI, persistence and platform delivery still open. The
+[API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
+Remaining reader/interchange/automation/UI work, three strict scientific xfails,
+independent biological/model comparisons, representative performance/resource/
+hardware budgets, Unicode glyphs, clean-machine support, project licensing and
+distribution/signing/release remain open. Readers and required codecs remain
+open-source-only. [History](project-plan-history.md) preserves earlier cards.
 
 
 ## Preserved local baselines
@@ -420,7 +408,7 @@ Exactly one complete profile was dispatched per role:
 The [dispatch record](benchmarks/tma-dearray-202-campaign.json) preserves original
 handles and attempts. Fresh checkout bytes have fingerprint `68af206c...dc36b7a`;
 canonical compiler Git blobs match the local4b0 module's `6eb23870...f0cc69f6`.
-Neither module/source identity is relabeled. Collect all11source/digest-verified
+Neither module/source identity is relabeled. Collect all 11source/digest-verified
 archives and run the three complete frozen-source auditors before acceptance.
 Do not mutate the frozen ref or redispatch on an observation timeout. Sourcead4's
 rejected campaign and public main614 remain separate. All M0-M7 remain Partial.

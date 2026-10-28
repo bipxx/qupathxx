@@ -1,16 +1,29 @@
 # Compilexx lessons applied to qupathxx
 
-Current update (2026-10-27 UTC): B6 engineering qualification is complete at
+Current update (2026-10-28 UTC): B6 engineering qualification is complete at
 candidate258, a5b5394. The [combined receipt](../benchmarks/raw-path-fixture-258/closeout/receipt.json)
 binds all 11 archive sizes/digests and complete engine/Mac-native/portable audits.
 Original257 Windows failures and all repaired-source probes remain preserved.
 M3-ALIAS1 is now locally delivered at `f9ad28f`; [receipt260](../benchmarks/root-locator-fix-260/receipt.json)
 records four red/green regressions, stable whole-file snapshots and actual reuse.
-The original engine/portable runs are in progress and Mac is queued. Complete
-platform audits remain pending; candidate258 acceptance stays source-bound.
-No main promotion, supported release or M0-M7 completion is implied.
+Original260 is terminal: complete Mac-native and portable audits pass; the engine
+fails one sanitizer viewer preview assertion. [Repair262](../benchmarks/owner-delivery-race-262/receipt.json)
+at e2282b8 now locally verifies owner-side completion collection with a controlled
+old-code failure/new-code pass and final native/installed checks. Its original
+three qualification roles are dispatched once; full acceptance remains pending.
+Candidate258 acceptance stays source-bound. No main promotion, supported release
+or M0-M7 completion is implied.
 
 Applied efficiency improvements:
+
+- Distinguish worker readiness from owner delivery. A future can finish between
+  poll and busy checks; another owner poll collects result/error/cancellation
+  before the frontend advances. Apply that rule to every operation in the same
+  adapter instead of fixing only one preview. No new job framework is needed.
+- Force the observed transition in a retained diagnostic before relying on a
+  sporadic failure. The same schedule fails old code and passes repaired code;
+  remove waits/logging from the final package. Preserve the hosted failure and
+  do not describe the controlled schedule as an instrumented hosted trace.
 
 - Diagnose the narrowest observable difference before rebuilding: witness259
   isolated one stored locator cell on retained products. Repair one shared

@@ -1,0 +1,125 @@
+{
+  "schema": "qpx.qualification-campaign/1",
+  "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+  "ref": "feature/owner-delivery-qualification-262",
+  "original_campaign": [
+    {
+      "conclusion": "failure",
+      "databaseId": 40448479178,
+      "headSha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+      "status": "completed",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40448479178"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40448487351,
+      "headSha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+      "status": "completed",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40448487351"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40448495849,
+      "headSha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+      "status": "completed",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40448495849"
+    }
+  ],
+  "roles": {
+    "engine": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-28T06:49:15.186673+00:00",
+      "known_runs_before": [],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T06:49:17Z",
+        "databaseId": 40646189840,
+        "headSha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40646189840"
+      }
+    },
+    "macos": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "gh_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "at_utc": "2026-10-28T06:49:21.317153+00:00",
+      "known_runs_before": [
+        40646189840
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T06:49:24Z",
+        "databaseId": 40646201004,
+        "headSha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40646201004"
+      }
+    },
+    "portable": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-28T06:49:34.178383+00:00",
+      "known_runs_before": [
+        40646189840,
+        40646201004
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T06:49:36Z",
+        "databaseId": 40646221175,
+        "headSha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+        "status": "in_progress",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40646221175"
+      }
+    }
+  },
+  "overall_engineering_accepted": false,
+  "release_ready": false,
+  "scope": "All roles at the repaired source; no transfer of original candidate260 acceptance"
+}

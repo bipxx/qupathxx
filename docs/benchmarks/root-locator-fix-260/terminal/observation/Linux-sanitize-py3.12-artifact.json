@@ -1,0 +1,20 @@
+{
+  "id": 12710040274,
+  "node_id": "MDg6QXJ0aWZhY3QxMjcxMDA0MDI3NA==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 58729,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710040274",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710040274/zip",
+  "expired": false,
+  "digest": "sha256:83ecfeaabdf4656083ab7700d8c76b9102db8805947460abf2e431d6ef73c50a",
+  "created_at": "2026-10-27T04:19:14Z",
+  "updated_at": "2026-10-27T04:19:14Z",
+  "expires_at": "2026-11-10T04:19:14Z",
+  "workflow_run": {
+    "id": 40448479178,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/root-locator-qualification-260",
+    "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+  }
+}

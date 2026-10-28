@@ -2,7 +2,7 @@
   "schema": "qpx.locator-serialization-local/1",
   "source": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
   "fingerprint": "0ad83b6abb0c28d3ae164d8ab462843da6e99ba6bb442bfcf243f6444ae1a8b3",
-  "state": "locally_verified_platform_campaign_has_sanitizer_failure",
+  "state": "locally_verified_platform_engine_failed_macos_portable_accepted",
   "qualified_baseline": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
   "frozen_ref": "feature/root-locator-qualification-260",
   "compiler_inputs": 392,
@@ -439,6 +439,181 @@
       "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
     },
     {
+      "path": "terminal/macos-acceptance.json",
+      "bytes": 370296,
+      "sha256": "73a6ed421f07593711a9d5597c0b1c4d979198804e2c485d46219a41c539a7a2"
+    },
+    {
+      "path": "terminal/macos-audit-command.json",
+      "bytes": 684,
+      "sha256": "fcf5bd4faf09e443a9dad4affe2e2e7c77ef35d06512d499b8063af8365f5325"
+    },
+    {
+      "path": "terminal/macos-audit.log",
+      "bytes": 1602,
+      "sha256": "a3179ef424d94f69bdd12e1d845feefaefccebd41da7f62799503a3a2437f9bf"
+    },
+    {
+      "path": "terminal/macos-retry1-audit-command.json",
+      "bytes": 683,
+      "sha256": "94ee2a0b2e2c2d25a3ababe4102f756f591d608cfd60159fc972f23266300bc2"
+    },
+    {
+      "path": "terminal/macos-retry1-audit.log",
+      "bytes": 161,
+      "sha256": "40dff83e17ee1ebf0050fbf9a60b8bd65646bd6620b4e97236eda0b8703a0f7a"
+    },
+    {
+      "path": "terminal/observation/engine-artifacts.json",
+      "bytes": 4526,
+      "sha256": "050b4659f1b2e926bfa95ad4288d61e11b0bb3535824e8f6ebde3f1ce5816b0c"
+    },
+    {
+      "path": "terminal/observation/engine-run.json",
+      "bytes": 25146,
+      "sha256": "23afa6c355055dab82fc000ed7f03e596242bd1561be6336eddcf704f9a39d17"
+    },
+    {
+      "path": "terminal/observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 816,
+      "sha256": "a09fc34d58c933b38912636c5bdd27e61f8a29c864f34e6e966a5aff2f3c4a96"
+    },
+    {
+      "path": "terminal/observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "3a397e761d4f4a5d31b39cc0e783398f526128f4847fcef1fe208b99153355ac"
+    },
+    {
+      "path": "terminal/observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "9f4654b776a93321f95c1d4e46c91573210ab9216560bc621f591833b977793f"
+    },
+    {
+      "path": "terminal/observation/macos-artifacts.json",
+      "bytes": 1838,
+      "sha256": "64afca6559bc81d4b70801fc38c0e3a29cc6808740aae0a3b44661db8aa74434"
+    },
+    {
+      "path": "terminal/observation/macos-native-arm64-artifact.json",
+      "bytes": 813,
+      "sha256": "bb7a81fb6624f9c097416099d6fdcc7700ccf8f8a0b4807f039ce936cc0c8fce"
+    },
+    {
+      "path": "terminal/observation/macos-native-arm64-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/macos-native-x86_64-artifact.json",
+      "bytes": 814,
+      "sha256": "5be7848bbf27ec50c93169daecdd8f4c2c3bb0bc69df8acf6bacda88bf5cb3b0"
+    },
+    {
+      "path": "terminal/observation/macos-native-x86_64-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/macos-run.json",
+      "bytes": 7026,
+      "sha256": "ea13043346f8b698e6f354a2dbf65b48f765ac0928d015633bfe684fcb8cec20"
+    },
+    {
+      "path": "terminal/observation/manylinux-3.11-artifact.json",
+      "bytes": 809,
+      "sha256": "8bc79c9e6ef4cbdbad1f914bb0c91299ed93b1f87093fc70721061e0d2a9f13e"
+    },
+    {
+      "path": "terminal/observation/manylinux-3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "dc200ad196433b981ba5849ba594b7cae9cb41edb96f86f7d647dd15534bfe47"
+    },
+    {
+      "path": "terminal/observation/manylinux-3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/manylinux-consumer-3.11-artifact.json",
+      "bytes": 815,
+      "sha256": "507124e259e7a22da8e432a52a09fed414b21c431f708672499fcde96a020525"
+    },
+    {
+      "path": "terminal/observation/manylinux-consumer-3.11-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/manylinux-consumer-3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "216e44d21729d5c33abe64bb4e91dda09b874b8443df99849c22074ada27dc7a"
+    },
+    {
+      "path": "terminal/observation/manylinux-consumer-3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/portable-artifacts.json",
+      "bytes": 3621,
+      "sha256": "26540779ed353ffa12ea07ec37c108c5dc9713da313e486079cd8a68c30e6c39"
+    },
+    {
+      "path": "terminal/observation/portable-run.json",
+      "bytes": 16287,
+      "sha256": "b326d225333075922886c65a45cdd399e04dd9e3e3cb264462c9c3a70242688e"
+    },
+    {
+      "path": "terminal/observation/verified.json",
+      "bytes": 2681,
+      "sha256": "aac1f0fefb0d7e24b645d6d49045df7910eb4e4e7af9fb14d63d40ed097d48e5"
+    },
+    {
+      "path": "terminal/observation/Windows-gui-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "abfae641fc0366f31cfc91a2c5e4e1a1113f845ffa34e3013739db3e6530d9af"
+    },
+    {
+      "path": "terminal/observation/Windows-gui-py3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/observation/Windows-headless-py3.11-artifact.json",
+      "bytes": 818,
+      "sha256": "506b91e4d5502497cb263542f850772395d505aabd85a0d18d506e93e07cf2f0"
+    },
+    {
+      "path": "terminal/observation/Windows-headless-py3.11-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/portable-acceptance.json",
+      "bytes": 510269,
+      "sha256": "3ede36d1dff721acba4307d1cf3e37ca9a2e91282bd78f04e5cd433a743be364"
+    },
+    {
+      "path": "terminal/portable-audit-command.json",
+      "bytes": 855,
+      "sha256": "161b6cb5dc46f871e8c4bb97a658093da3b4662a64631462e7bbea66921964e2"
+    },
+    {
+      "path": "terminal/portable-audit.log",
+      "bytes": 126,
+      "sha256": "fbe85de578e4b6d7cdf3c03f0a6bf970bb29f569cea397cd76097924141f2428"
+    },
+    {
+      "path": "terminal/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "b326d225333075922886c65a45cdd399e04dd9e3e3cb264462c9c3a70242688e"
+    },
+    {
+      "path": "terminal/receipt.json",
+      "bytes": 3339,
+      "sha256": "b73f3db94ac81e524dcbef70a2bfd7617aa1b3442a7e1340e558a8553718a8b5"
+    },
+    {
       "path": "typing-admission.json",
       "bytes": 665,
       "sha256": "14dd8aa2b1b7ffde1bcd6837b3d084e47c9967929246c1ff03bf5ba05fac1bfc"
@@ -472,5 +647,6 @@
     "assertion_line": 81,
     "full_engine_run_still_live": true,
     "diagnosis": "Preview result assertion failed. No ASan memory report in native log; owner-poll/future-readiness transition is under investigation, not a proven cause."
-  }
+  },
+  "terminal_closeout": "terminal/receipt.json"
 }

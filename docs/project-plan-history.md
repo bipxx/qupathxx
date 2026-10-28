@@ -5545,3 +5545,79 @@ single scheduling authority; [history](project-plan-history.md) preserves prior 
 
 
 End of archived candidate260 predecessor card.
+
+
+## Candidate262 predecessor execution card
+
+Preserved before recording the local owner-delivery repair at e2282b8.
+
+# Current implementation task
+
+## Current execution card (2026-10-27)
+
+**M3-ALIAS1 is locally implemented and verified** at `f9ad28f`, frozen on
+`feature/root-locator-qualification-260`. Its [receipt260](benchmarks/root-locator-fix-260/receipt.json)
+records the repair and pending platform campaign. All **M0-M7 remain Partial**.
+Qualified feature baseline a5b5394/candidate258 remains immutable, with complete
+[engineering acceptance](benchmarks/raw-path-fixture-258/closeout/receipt.json).
+Public-main application baseline remains 61e546e; no promotion/release is implied.
+
+- **Actual repair:** one internal relative-locator helper serves linked images,
+  RGB QSL1 and raw QWL1 stream records. DOS/UNC namespace comparison does not
+  change physical access paths or perform filesystem lookup. Literal/device
+  names and incompatible drives/shares retain absolute fallback. Model/source/
+  identity and no-overwrite guards remain in place; no second cache or ignored
+  input-hash fields were added.
+- **Red/green evidence:** four regressions fail on qualified a5b5394 and pass on
+  f9ad28f: paired existing/missing-image snapshots, mixed RGB/raw links and actual
+  moved-output checkpoint reuse. The unchanged witness259 now produces identical
+  whole-file snapshot hashes and identical relative image locators. Native checks
+  exercise 23 namespace/Unicode/drive/share/literal fallback cases. UNC checks are
+  lexical, with no network-share runtime claim.
+- **Installed validation:** 51 native suites, 880 producer/auditor controls and
+  386 installed desktop/managed/CLI/persistence passes/six declared skips across
+  392 identities pass. Generated stubs match; five positive typing files and four
+  negatives yield exactly 20 intended errors. Package/runtime/notices and both
+  complete SDK trees match. The separate local environment shares test dependencies
+  and has OpenSlide OFF; it is not clean-machine or platform acceptance.
+- **Identity and retention:** 392 compiler inputs, five changed; all 490 raw source
+  paths authenticate in a clean frozen audit checkout. All 64 previous cached
+  products survive, 55 with exact candidate258 hashes. The new 55 registered/
+  packaged products and wheel survive. No accepted candidate258 products were
+  replaced in their retained packet.
+- **Required roles dispatched once on f9ad28f:** observe
+  [engine40448479178](https://github.com/bipxx/qupathxx/actions/runs/40448479178),
+  [Mac40448487351](https://github.com/bipxx/qupathxx/actions/runs/40448487351), and
+  [portable40448495849](https://github.com/bipxx/qupathxx/actions/runs/40448495849).
+  Authenticate terminal archives and run every complete applicable auditor from
+  build/ci/root-locator-qualification-260-audit before platform acceptance. All
+  candidate258 roles were terminal before dispatch. No prior acceptance transfers;
+  quiet compilation/observation timeouts do not authorize retries.
+
+Four original candidate260 archives now authenticate (three Linux profiles and
+portable Python 3.11 builder). The sanitizer job fails `viewer_session` at line81:
+49/50 native suites pass. Linux headless/minimal pass. The complete engine run
+remains live and unaccepted; preserve the failure before diagnosis. The first
+Linux-only auditor rejects the failed job before artifact admission. Investigate
+the preview result's owner-poll/future-readiness transition; no cause or repair
+is established yet. Do not retry or dispatch a successor while original roles
+remain live. During qualification, the next
+[SPAT1 centroid-distance workflow](spatial-analysis.md) has independent reference
+preparation only: 26 pinned QuPath cases and 17 controls pass. Native delivery,
+frontends, persistence and its own platform acceptance remain pending.
+
+After this workflow's required validation, continue with the prepared SPAT1
+contract and the remaining eligible reader/interchange/automation and UI work
+in the single API queue.
+Independent scientific/model/upstream/biological comparisons, three strict
+scientific xfails, corpus rights/labels/tolerances, representative resource/
+hardware budgets, Unicode glyph coverage, clean-machine support, project license,
+distribution/signing and release decisions remain open. Readers and required
+codecs stay open-source-only.
+
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns
+scheduling; [history](project-plan-history.md) preserves earlier execution cards.
+
+
+
+End of archived candidate262 predecessor card.

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner-delivery-race-262-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner_delivery_race_262_proof.py"
+  ],
+  "returncode": 0,
+  "seconds": 0.8587633001152426,
+  "gui_opt_in": false,
+  "runtime_source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+}

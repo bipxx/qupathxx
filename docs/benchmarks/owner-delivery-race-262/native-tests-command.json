@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\owner-delivery-race-262\\native-tests.xml"
+  ],
+  "returncode": 0,
+  "seconds": 17.870041999965906,
+  "gui_opt_in": false,
+  "runtime_source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+}

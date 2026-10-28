@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40448487351",
+    "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q260-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-qualification-260-audit",
+  "returncode": 1,
+  "seconds": 16.514904800103977
+}

@@ -1,0 +1,20 @@
+{
+  "id": 12717122221,
+  "node_id": "MDg6QXJ0aWZhY3QxMjcxNzEyMjIyMQ==",
+  "name": "macos-native-x86_64",
+  "size_in_bytes": 16192993,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12717122221",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12717122221/zip",
+  "expired": false,
+  "digest": "sha256:722485a1eb7987e2a1ace7da09e1a9376cca66e7b1749143328dd9215942f717",
+  "created_at": "2026-10-27T07:30:59Z",
+  "updated_at": "2026-10-27T07:30:59Z",
+  "expires_at": "2026-11-10T07:30:57Z",
+  "workflow_run": {
+    "id": 40448487351,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/root-locator-qualification-260",
+    "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+  }
+}
