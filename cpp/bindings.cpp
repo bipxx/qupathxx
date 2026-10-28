@@ -136,6 +136,16 @@ NB_MODULE(_native, m) {
         .def_prop_ro("closed", &ImageServer::closed);
     m.def("resample_area", [](const PixelBuffer& pixels,std::int64_t width,std::int64_t height) {return resample_area(pixels,width,height);},
           "pixels"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<RgbNominalRequest>(m,"RgbNominalRequest")
+        .def(nb::init<std::int64_t,std::int64_t,std::int64_t,std::int64_t,double>(),
+             "x_px"_a,"y_px"_a,"width_px"_a,"height_px"_a,"downsample"_a=1.)
+        .def_ro("x_px",&RgbNominalRequest::x_px).def_ro("y_px",&RgbNominalRequest::y_px)
+        .def_ro("width_px",&RgbNominalRequest::width_px).def_ro("height_px",&RgbNominalRequest::height_px)
+        .def_ro("downsample",&RgbNominalRequest::downsample)
+        .def_prop_ro("algorithm",&RgbNominalRequest::algorithm);
+    m.def("read_rgb_nominal_region",[](const ImageServer& server,const RgbNominalRequest& request) {
+        return read_rgb_nominal_region(server,request);
+    },"server"_a,"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("read_resampled_region", [](const ImageServer& server,const RegionRequest& request,std::int64_t width,std::int64_t height) {
         return read_resampled_region(server,request,width,height);
     },"server"_a,"request"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());

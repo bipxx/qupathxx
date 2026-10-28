@@ -1,9 +1,14 @@
 #include "qupathxx/resampling.hpp"
+#include "rgb_nominal.hpp"
 #include <algorithm>
 #include <numeric>
 #include <stdexcept>
 
 namespace qpx {
+RgbNominalRequest::RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step)
+    :x_px(x),y_px(y),width_px(width),height_px(height),downsample(step) {
+    detail::validate_rgb_nominal_request(x,y,width,height,step);
+}
 namespace {
 void checkpoint(const std::atomic<bool>* cancel) {
     if(cancel && cancel->load()) throw std::runtime_error("region resampling cancelled");
@@ -68,5 +73,23 @@ PixelBuffer read_resampled_region(const ImageServer& server,const RegionRequest&
     if(source.width()!=request.width || source.height()!=request.height || source.bytes().size()!=region_byte_count(request.width,request.height))
         throw std::runtime_error("resampling reader returned unexpected dimensions or byte count");
     return resample_area(source,w,h,cancel);
+}
+PixelBuffer read_rgb_nominal_region(const ImageServer& server,const RgbNominalRequest& request,
+    const std::atomic<bool>* cancel) {
+    checkpoint(cancel);
+    if(server.closed()) throw std::runtime_error("image server is closed");
+    const auto& metadata=server.metadata();
+    if(metadata.levels.empty() || metadata.levels.front().downsample!=1 ||
+       metadata.levels.front().width!=metadata.width || metadata.levels.front().height!=metadata.height)
+        throw std::invalid_argument("RGB nominal reads require a unit level-zero source");
+    const auto plan=detail::plan_rgb_nominal(metadata.width,metadata.height,request.x_px,request.y_px,
+        request.width_px,request.height_px,request.downsample,cancel);
+    std::optional<PixelBuffer> window;
+    if(!plan.empty()) {
+        validate_region(metadata,plan.window);
+        window.emplace(server.read_region(plan.window));
+    }
+    checkpoint(cancel);
+    return detail::sample_rgb_nominal(plan,window?&*window:nullptr,cancel);
 }
 }

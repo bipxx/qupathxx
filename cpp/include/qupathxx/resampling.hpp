@@ -2,6 +2,25 @@
 #include "image_server.hpp"
 
 namespace qpx {
+// Immutable source rectangle in level-zero pixels. Downsample is a dimensionless
+// nominal source-pixels/output-pixel ratio; output shape rounds each extent/
+// downsample half-up. Construction validates dimensions, finite positive ratio
+// and buffer admission without reading pixels. This is an explicit RGB policy.
+struct RgbNominalRequest {
+    const std::int64_t x_px,y_px,width_px,height_px;
+    const double downsample;
+    RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step=1);
+    const char* algorithm() const noexcept {return "qpx.rgb-nominal/1";}
+};
+// Read the bounded source window, including interpolation context, at unit
+// level zero. Source pixels must be opaque RGBA8. Returned pixels own their
+// storage; outside-image centers are opaque black. Decode failures and invalid
+// windows propagate without returning partial pixels. Cancellation cannot
+// interrupt the underlying synchronous reader. Default area/scientific policies
+// and archive/replay authority are unchanged by this separate operation.
+PixelBuffer read_rgb_nominal_region(const ImageServer&,const RgbNominalRequest&,
+    const std::atomic<bool>* cancelled=nullptr);
+
 // Exact box-area filtering in source pixel coordinates, including enlargement.
 // RGBA8 straight alpha is accumulated in premultiplied form; transparent output
 // is canonical black. Each buffer <=256 MiB; at most 2^28 overlap visits.

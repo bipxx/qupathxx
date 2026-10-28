@@ -41,17 +41,23 @@ std::int64_t output_size(std::int64_t extent,double step) {
     return static_cast<std::int64_t>(rounded);
 }
 }
-RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_height,
-    std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
-    const std::atomic<bool>* cancel) {
-    checkpoint(cancel);
-    if(image_width<=0 || image_height<=0 || !std::isfinite(step) || step<=0)
-        throw std::invalid_argument("RGB nominal source dimensions and downsample must be positive and finite");
+void validate_rgb_nominal_request(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step) {
+    if(!std::isfinite(step) || step<=0)
+        throw std::invalid_argument("RGB nominal downsample must be positive and finite");
     region_byte_count(width,height);
     if(x>std::numeric_limits<std::int64_t>::max()-width || y>std::numeric_limits<std::int64_t>::max()-height)
         throw std::invalid_argument("RGB nominal request coordinate overflow");
     const auto ow=output_size(width,step),oh=output_size(height,step);
     region_byte_count(ow,oh);
+}
+RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_height,
+    std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
+    const std::atomic<bool>* cancel) {
+    checkpoint(cancel);
+    if(image_width<=0 || image_height<=0)
+        throw std::invalid_argument("RGB nominal source dimensions must be positive");
+    validate_rgb_nominal_request(x,y,width,height,step);
+    const auto ow=output_size(width,step),oh=output_size(height,step);
     // Admission bounds each nominal extent by2^26 and step by twice that extent.
     // Thus fixed coordinates and products remain below2^60, including one extra
     // loop increment. Integer origins stay separate to support large images.

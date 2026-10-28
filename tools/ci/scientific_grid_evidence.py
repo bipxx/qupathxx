@@ -26,6 +26,8 @@ NEGATIVE={
  'scientific-raw-typing-negative.log':('raw_grid_invalid.py',[5,6,7]),
 }
 POSITIVE=['tests/typing/raw_grid_valid.py','tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
+POSITIVE.append('tests/typing/rgb_nominal_valid.py')
+NEGATIVE['rgb-nominal-typing-negative.log']=('rgb_nominal_invalid.py',[4,5,7])
 BASE={
  'resampling':['Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed','Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed','Scientific raster precision admission agrees with exhaustive binary64 sample checks','Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed','Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed','QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
@@ -37,6 +39,7 @@ BASE={
  'viewer_session':['Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed'],
 }
 BASE['resampling'].append('99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed')
+BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed')
 CONDITIONAL=[
  ('raw_image','tiff','TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed'),
  ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),

@@ -2,6 +2,8 @@
 #include "qupathxx/image_server.hpp"
 
 namespace qpx::detail {
+void validate_rgb_nominal_request(std::int64_t x,std::int64_t y,std::int64_t width,
+    std::int64_t height,double nominal_downsample);
 // Private, version1 opaque-RGB sampling contract. Coordinates and extents are
 // integer source pixels; output shape rounds extent/nominal_downsample half-up.
 // A plan is produced only by plan_rgb_nominal, then used unchanged by the kernel.

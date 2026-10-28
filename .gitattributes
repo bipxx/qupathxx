@@ -641,3 +641,6 @@ tests/test_rgb_nominal_reference.py text eol=lf
 
 docs/benchmarks/rgb-nominal-kernel-287/** -text -whitespace
 docs/benchmarks/font-archive-288/** -text -whitespace
+tests/test_rgb_nominal_api.py text eol=lf
+tests/typing/rgb_nominal_valid.py text eol=lf
+tests/typing/rgb_nominal_invalid.py text eol=lf
