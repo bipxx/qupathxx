@@ -237,7 +237,10 @@ def font_gui_guard():
 def font_gui_cases(gui):
     result=[]
     for name in ['test_unicode_labels_render_actual_glyphs_instead_of_question_marks',
-                 'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes']:
+                 'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes',
+                 'test_packaged_fonts_are_independent_of_working_directory',
+                 'test_packaged_fonts_reject_corrupt_assets_and_recover[missing]',
+                 'test_packaged_fonts_reject_corrupt_assets_and_recover[corrupt]']:
         case=ET.Element('testcase',classname='tests.test_gui_scale',name=name)
         if not gui:ET.SubElement(case,'skipped',type='pytest.skip',message='opt-in native DPI scaling')
         result.append(case)

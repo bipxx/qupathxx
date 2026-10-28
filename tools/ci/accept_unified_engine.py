@@ -106,9 +106,12 @@ def unicode_input_native(cases,gui):
 def dynamic_font_gui(cases,gui):
     assert type(gui) is bool
     names={'test_unicode_labels_render_actual_glyphs_instead_of_question_marks',
-           'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes'}
+           'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes',
+           'test_packaged_fonts_are_independent_of_working_directory',
+           'test_packaged_fonts_reject_corrupt_assets_and_recover[missing]',
+           'test_packaged_fonts_reject_corrupt_assets_and_recover[corrupt]'}
     selected=[case for case in cases if case.get('classname')=='tests.test_gui_scale' and case.get('name') in names]
-    assert len(selected)==2 and {case.get('name') for case in selected}==names
+    assert len(selected)==len(names) and {case.get('name') for case in selected}==names
     for case in selected:
         assert not any(case.find(tag) is not None for tag in ['failure','error'])
         skips=case.findall('skipped')

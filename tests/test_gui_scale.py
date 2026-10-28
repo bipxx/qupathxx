@@ -1,6 +1,7 @@
 """UI scaling exercises real font textures, cached overlays and routed input."""
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -49,6 +50,54 @@ def test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes(tmp_p
         frames.append(capture.read_bytes());reports.append(report)
     assert frames[0]==frames[1]
     assert reports[1].overlay_cache_hits>0 and reports[1].overlay_cache_builds>=3
+
+
+def test_packaged_fonts_are_independent_of_working_directory(tmp_path):
+    decoy=tmp_path/'fonts';decoy.mkdir()
+    for name in ['NotoSansCJKsc-Regular.otf','NotoEmoji.ttf']:(decoy/name).write_bytes(b'not a font')
+    code="""import qupathxx as q
+doc=q.Document(q.Image.demo());doc.add_rectangle(q.Rect(1,1,20,20),'A_\u96ea\U0002000b\U0001f52c')
+options=q.GuiOptions();options.width,options.height=640,480;options.docked_workspace=False;options.settle_tiles=True
+report=q.show(doc,frame_limit=8,options=options)
+assert report.tiles_settled and report.canvas_visible
+print('module-relative fonts verified')
+"""
+    result=subprocess.run([sys.executable,'-I','-X','utf8','-c',code],cwd=tmp_path,capture_output=True,text=True,encoding='utf-8',timeout=45)
+    assert result.returncode==0 and 'module-relative fonts verified' in result.stdout,result.stdout+result.stderr
+
+
+@pytest.mark.parametrize('fault',['missing','corrupt'])
+def test_packaged_fonts_reject_corrupt_assets_and_recover(tmp_path,fault):
+    source=Path(q.__file__).parent;package=tmp_path/'isolated'/'qupathxx';package.mkdir(parents=True)
+    for path in source.iterdir():
+        if path.is_file() and (path.suffix in {'.py','.pyd','.dll'} or '.so' in path.name):shutil.copy2(path,package/path.name)
+    shutil.copytree(source/'fonts',package/'fonts')
+    target=package/'fonts'/'NotoSansCJKsc-Regular.otf'
+    if fault=='missing':target.unlink()
+    else:
+        with target.open('r+b') as stream:
+            first=stream.read(1);stream.seek(0);stream.write(bytes([first[0]^64]))
+    code="""import sys,shutil
+from pathlib import Path
+assert 'qupathxx' not in sys.modules
+sys.path.insert(0,sys.argv[1])
+import qupathxx as q
+assert Path(q.__file__).parent==Path(sys.argv[1])/'qupathxx'
+doc=q.Document(q.Image.demo());obj=doc.add_rectangle(q.Rect(1,1,20,20),'Preserved_\u96ea')
+revision=doc.revision;options=q.GuiOptions();options.width,options.height=640,480;options.docked_workspace=False;options.settle_tiles=True
+try:q.show(doc,frame_limit=8,options=options)
+except RuntimeError as error:
+    assert ('Missing GUI font asset' if sys.argv[3]=='missing' else 'GUI font asset checksum mismatch') in str(error),str(error)
+else:raise AssertionError('invalid packaged font was accepted')
+assert doc.revision==revision and doc.annotation(obj).name=='Preserved_\u96ea'
+shutil.copy2(sys.argv[2],Path(q.__file__).parent/'fonts'/'NotoSansCJKsc-Regular.otf')
+assert q.show(doc,frame_limit=8,options=options).tiles_settled
+assert doc.revision==revision and doc.annotation(obj).name=='Preserved_\u96ea'
+print('packaged font rejected and recovered')
+"""
+    result=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(package.parent),str(source/'fonts'/'NotoSansCJKsc-Regular.otf'),fault],
+        cwd=tmp_path,capture_output=True,text=True,encoding='utf-8',timeout=45)
+    assert result.returncode==0 and 'packaged font rejected and recovered' in result.stdout,result.stdout+result.stderr
 
 
 @pytest.mark.parametrize('multiplier', [.75, 1., 1.5, 2.])
