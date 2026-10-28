@@ -285,3 +285,30 @@ stub observer c360ac9,55 native suites and132 installed passes on Windows GUI/GE
 Initial failures, detached-export red/green regression and both inspected captures
 remain preserved. Headless/GEOS-OFF, expanded desktop faults and full own-source
 qualification remain. No biological, general speed or supported-release claim.
+
+
+## Fault and qualification admission269
+
+[Receipt269](benchmarks/spatial-faults-269/receipt.json) extends local Windows
+evidence with actual live cancellation/retry, running/ready/round-trip image
+switches, protected/no-overwrite/byte-limit export failures, removed/stale history,
+no partial table on failure, managed live edit/cancel/retry and confirmed early
+window close. A finite run reaching its cap drains work; an accepted early close
+cancels and joins it. Replay itself requires finite frames and the ordinary dirty-
+close dialog must be acknowledged. The correction preserves immutable history
+and does not change numeric tolerances or distance semantics.
+
+Qualification now admits91 exact installed spatial cases,16 declared GUI-only
+instances, four added native suites and spatial typing through existing auditors.
+The CLI tests select the executable beside the installed package by default,
+with its native build source as the expected producer. QUPATHXX_SPATIAL_CLI and
+QUPATHXX_SPATIAL_CLI_SOURCE retain explicit separate-engine staging. A missing
+packaged CLI fails rather than silently skipping required behavior.
+
+All55 GUI-profile native suites,268 unique GUI-mode installed cases,993 auditor
+controls and exact typing/package checks pass locally. Six affected native suites
+and30 CLI process cases pass a separately identified headless/GEOS-OFF source.
+Nonrendering cohort admission uses a GUI-capable package and is not headless-wheel
+evidence. Close the planned M6 Document-wait audit before a combined source freeze
+and full platform campaign. Broader spatial operations, unsupported planes and
+all independent scientific/performance/hardware/support/release gates remain.

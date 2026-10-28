@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="21" time="3.286" timestamp="2026-10-28T06:47:45.765452-04:00" hostname="HEQPC"><testcase classname="tests.test_spatial_frontends" name="test_spatial_config_rejects_invalid_values[csv_bytes-0]" time="0.001" /><testcase classname="tests.test_spatial_frontends" name="test_spatial_config_rejects_invalid_values[csv_bytes-1073741825]" time="0.001" /><testcase classname="tests.test_spatial_frontends" name="test_spatial_config_rejects_invalid_values[csv_path-bad\x00path]" time="0.000" /><testcase classname="tests.test_spatial_frontends" name="test_spatial_config_rejects_invalid_values[run-True]" time="0.000" /><testcase classname="tests.test_spatial_frontends" name="test_spatial_options_and_queue_without_renderer" time="0.003" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_spatial_run_keep_export_verify_reopen" time="0.780" /><testcase classname="tests.test_spatial_frontends" name="test_managed_spatial_keep_history_verify_export_save" time="0.141" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_active_cancel_and_retry_without_publication" time="0.313" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_image_switch_retires_spatial_authority[running]" time="0.200" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_image_switch_retires_spatial_authority[ready]" time="0.061" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_image_switch_retires_spatial_authority[round-trip]" time="0.056" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_spatial_export_refusal_preserves_inputs[existing]" time="0.102" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_spatial_export_refusal_preserves_inputs[project]" time="0.101" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_spatial_export_refusal_preserves_inputs[linked-image]" time="0.096" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_spatial_export_refusal_preserves_inputs[byte-limit]" time="0.093" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_history_survives_removal_or_failed_fresh_replay[removed]" time="0.061" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_history_survives_removal_or_failed_fresh_replay[changed]" time="0.062" /><testcase classname="tests.test_spatial_frontends" name="test_desktop_failed_analysis_never_exposes_partial_rows" time="0.054" /><testcase classname="tests.test_spatial_frontends" name="test_managed_running_spatial_cancel_or_edit_then_retry[cancel]" time="0.316" /><testcase classname="tests.test_spatial_frontends" name="test_managed_running_spatial_cancel_or_edit_then_retry[edit]" time="0.355" /><testcase classname="tests.test_spatial_frontends" name="test_actual_window_close_cancels_and_joins_spatial_worker" time="0.255"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 11, in &lt;module&gt;&#10;  ValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-frontends-268-env\\Scripts\\python.exe'...line 11, in &lt;module&gt;\nValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input\n').returncode">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/spatial-faults-269/gui-initial-temp/test_actual_window_close_cance0')
+
+    @GUI
+    def test_actual_window_close_cancels_and_joins_spatial_worker(tmp_path):
+        code="""
+    import json,sys
+    import qupathxx as q
+    doc=q.Document(q.Image(64,64,[80]*64*64*3));roi=q.Roi.points([q.Point(32,32)])
+    doc.execute([q.ObjectEdit.create_geometry(roi) for _ in range(20000)])
+    ids=[a.id for a in doc.annotations];project=q.Project();project.add_document(doc,'Close during analysis');project.save(sys.argv[1])
+    o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0
+    spatial=q.GuiSpatialOptions();spatial.open=spatial.run=True;spatial.sources=spatial.targets=ids
+    analysis=spatial.analysis;analysis.max_distance_tests=1&lt;&lt;40;spatial.analysis=analysis;o.spatial=spatial
+    e=q.GuiInput();e.frame=8;e.kind=q.GuiInputKind.CLOSE_WINDOW;o.inputs=[e]
+    report=q.show(project,frame_limit=0,options=o)
+    assert report.replay_complete and report.spatial.state=='cancelled' and not report.spatial.busy
+    assert report.spatial.result is None and doc.spatial_record_count==0
+    print(json.dumps(dict(state=report.spatial.state,distance_tests=report.spatial.analysis.distance_tests)))
+    """
+        child=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(tmp_path/'source.qpx')],capture_output=True,text=True,encoding='utf-8',timeout=30)
+&gt;       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "&lt;string&gt;", line 11, in &lt;module&gt;
+E         ValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-frontends-268-env\\Scripts\\python.exe'...line 11, in &lt;module&gt;\nValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input\n').returncode
+
+tests\test_spatial_frontends.py:193: AssertionError</failure></testcase></testsuite></testsuites>

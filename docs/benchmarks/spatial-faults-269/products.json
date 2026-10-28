@@ -1,0 +1,342 @@
+{
+  "integrated_build_source": "9931536aeb337c94bf6a8f8842a00ae04a6f1f8b",
+  "cached_unchanged_objects_reused": true,
+  "third_party_sources_not_attributed": true,
+  "products": [
+    {
+      "path": "geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "nanobind-static.lib",
+      "bytes": 2876768,
+      "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a"
+    },
+    {
+      "path": "qupathxx_analysis_tests.exe",
+      "bytes": 1434624,
+      "sha256": "892b2160ce18dccf36f422b4ba18c0de9a33de48e79ed289e883f7932cf5e370"
+    },
+    {
+      "path": "qupathxx_app.exe",
+      "bytes": 7858688,
+      "sha256": "49a3d67f6d6e2024c6c861181fa46654bb17b48ef305cba6bdf2699a046506df"
+    },
+    {
+      "path": "qupathxx_batch.exe",
+      "bytes": 5349888,
+      "sha256": "19ad79ef959ce93ccc8c92f6ea086b762f6d149167e673fe66e36d86e7f121d3"
+    },
+    {
+      "path": "qupathxx_cell_calibration_tests.exe",
+      "bytes": 2501632,
+      "sha256": "eb3f18ced0e5d3f30b38e0b03e8ffd5f372f7f09d7b062b5e58188474a338ddb"
+    },
+    {
+      "path": "qupathxx_cell_expansion_tests.exe",
+      "bytes": 60416,
+      "sha256": "44e9e085d4c4ea978e1b551a4149fec7d94d470ea57b4dd876af413f839713b2"
+    },
+    {
+      "path": "qupathxx_cell_record_tests.exe",
+      "bytes": 3752448,
+      "sha256": "97021ce5373f28cf7d7d70ae5a4db1e4d25de7160da39c187e728f02768d0c9f"
+    },
+    {
+      "path": "qupathxx_cell_table_tests.exe",
+      "bytes": 4307968,
+      "sha256": "29a57a8b5c15d8d910f6621d448d0b953716d8dead49242e4b13e87cdcb839db"
+    },
+    {
+      "path": "qupathxx_cell_tests.exe",
+      "bytes": 2699776,
+      "sha256": "fc54e3cb37374bbbc34731800861c477861090541328cfa5d8765c358a52470d"
+    },
+    {
+      "path": "qupathxx_classes_tests.exe",
+      "bytes": 321024,
+      "sha256": "30143c7b10915c67d7050e61559c7fd899b90cf0a06769cd44525834775e34b6"
+    },
+    {
+      "path": "qupathxx_classifier_io_tests.exe",
+      "bytes": 1084416,
+      "sha256": "4244f178ddd2a539928692992de45982669053ba9e238b46c65a1a47710d948f"
+    },
+    {
+      "path": "qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "9e89f7ace84898e34025ddf1ec38b9cc1c0b916c8243383f83c75b022bb2e31f"
+    },
+    {
+      "path": "qupathxx_core.lib",
+      "bytes": 116149356,
+      "sha256": "fea7cedcfdde54ca55d6d51b4ae0b498595b64e7139aa19b9a12be65939fcf84"
+    },
+    {
+      "path": "qupathxx_core_tests.exe",
+      "bytes": 328192,
+      "sha256": "481d3716d3cd4c747de586965a91ba2f03d37e08a7157ce4fcfdbc3037d16db3"
+    },
+    {
+      "path": "qupathxx_decimal_quantity_tests.exe",
+      "bytes": 35840,
+      "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8"
+    },
+    {
+      "path": "qupathxx_document_edits_tests.exe",
+      "bytes": 326144,
+      "sha256": "cb8b59c75654deb0e278e2e2182732f4c0ea9ba23ebdc0dd4a27352da45ae009"
+    },
+    {
+      "path": "qupathxx_file_fingerprint_tests.exe",
+      "bytes": 332800,
+      "sha256": "6e74198904c3eddb97b246a3fe8eb695488f4545bc0e2a0c8589beaf6b6b8841"
+    },
+    {
+      "path": "qupathxx_geometry_edits_tests.exe",
+      "bytes": 330240,
+      "sha256": "79b1fcb9674adaa0817c1bc66761ad8fada03ea3396b009fb8bc15d42c3a4c29"
+    },
+    {
+      "path": "qupathxx_geometry_tests.exe",
+      "bytes": 366592,
+      "sha256": "16954d6aa32e2f2cdd7520afaac0114d369c10adde1752569cadca5a6d89001b"
+    },
+    {
+      "path": "qupathxx_gui.lib",
+      "bytes": 16732326,
+      "sha256": "44d1055ad97045a131e271be9129c2a5207ba3776620a26957ea365fef4f0988"
+    },
+    {
+      "path": "qupathxx_gui_replay_tests.exe",
+      "bytes": 45568,
+      "sha256": "78708a79d14b73626d71b30882d4b29d6cb03dc9cdea5e3cc232e2ff697b8199"
+    },
+    {
+      "path": "qupathxx_interchange_tests.exe",
+      "bytes": 513024,
+      "sha256": "2a11eb08a4d465e0a7f06cfc8eae27ea4c2a42080830c4603a34ae2e8213ce51"
+    },
+    {
+      "path": "qupathxx_log_cell_recipe_tests.exe",
+      "bytes": 2604032,
+      "sha256": "e7fefb84a0ef65a7a7cd3982fb7f4d1e6d26a25db1a40790aa88f4c9471bfbcc"
+    },
+    {
+      "path": "qupathxx_log_watershed_tests.exe",
+      "bytes": 148992,
+      "sha256": "2563ea2a3230710d5799642c34d9815db8900fb7627d578bb71cdc005436e342"
+    },
+    {
+      "path": "qupathxx_masked_gaussian_tests.exe",
+      "bytes": 30720,
+      "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a"
+    },
+    {
+      "path": "qupathxx_measurement_table_tests.exe",
+      "bytes": 2876416,
+      "sha256": "d4e484353f9f5cda1e38ae986a996b18293b951c2a56cf77e0e371829451f7ba"
+    },
+    {
+      "path": "qupathxx_object_classifier_tests.exe",
+      "bytes": 3153408,
+      "sha256": "6e7a18aeb941b01bd114dd4c1420df6f29a288d274c832707ff5bb354fc524b9"
+    },
+    {
+      "path": "qupathxx_object_snapshot_tests.exe",
+      "bytes": 3663872,
+      "sha256": "bdca2ddf1aecdaddd646459a93da180722bea8f065caf9c688afe53da8ffa01f"
+    },
+    {
+      "path": "qupathxx_overlay_tests.exe",
+      "bytes": 22528,
+      "sha256": "0900e219c6ec7f2a52f62c1b2f7db49cd03332c6cf3a5a0a7602c181ccbcd629"
+    },
+    {
+      "path": "qupathxx_pixel_feature_tests.exe",
+      "bytes": 2479104,
+      "sha256": "02b41e3a04aadf79b0e0be8f878f486b2d5593be1a6b0d01d14d3b990f8d9a43"
+    },
+    {
+      "path": "qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5670400,
+      "sha256": "6da163595aefdd510bbaacd85617432ced46f3d726dfd9c3ffb496b78e3a81f1"
+    },
+    {
+      "path": "qupathxx_project_batch_tests.exe",
+      "bytes": 4986368,
+      "sha256": "8fb7c8047619cd872bb11f116f19e86d33e812181e73eb284fda700cf4d5b931"
+    },
+    {
+      "path": "qupathxx_project_tests.exe",
+      "bytes": 4183040,
+      "sha256": "c74aee3919d5bc74a60c8b239d349cde0efc13ecb0e91804f293d1f349a0595a"
+    },
+    {
+      "path": "qupathxx_provenance_tests.exe",
+      "bytes": 2459136,
+      "sha256": "fd89f750c6ede1f565413af9b702881ad68b8abc839f3117eb261e3eee725e80"
+    },
+    {
+      "path": "qupathxx_qptma_project_tests.exe",
+      "bytes": 3546624,
+      "sha256": "56999660959815aeae7f755b2977a07817f224aa04317904ed69e59074292990"
+    },
+    {
+      "path": "qupathxx_qptma_tests.exe",
+      "bytes": 406528,
+      "sha256": "009368750eb846ad4c5a9bfd9cd9c1655d651e55a5874f060dd85601c527d3be"
+    },
+    {
+      "path": "qupathxx_raw_image_tests.exe",
+      "bytes": 4533248,
+      "sha256": "ddafe6ce52ba1cffa0e33eaeb12317a05324383c285dd4cf2f623c07d66c7b43"
+    },
+    {
+      "path": "qupathxx_recovery_tests.exe",
+      "bytes": 3640320,
+      "sha256": "9a4fe25d3d99f13aa78aef8c7e2bc371a1e052c4dc1f66c0ebc993a2cbbf2274"
+    },
+    {
+      "path": "qupathxx_region.exe",
+      "bytes": 778752,
+      "sha256": "c914e2178fc63cca158336db795093c230464f26a74ddbe353ce1f9ef4107018"
+    },
+    {
+      "path": "qupathxx_resampling_tests.exe",
+      "bytes": 3170304,
+      "sha256": "df50d9420e076ed910daefac6bc280450db1725f7c227ea614a23b84766c576b"
+    },
+    {
+      "path": "qupathxx_save_tests.exe",
+      "bytes": 3505152,
+      "sha256": "81d453f1207f283dfe407abc35f0cb75db85f4163f1d4e69b6ae7dc4ca9de6cb"
+    },
+    {
+      "path": "qupathxx_scheduler_tests.exe",
+      "bytes": 216064,
+      "sha256": "ffa9460166013fdd20e2fe4b25c4c349226a2cad80dae177f3deed88efdb35e3"
+    },
+    {
+      "path": "qupathxx_selection_tests.exe",
+      "bytes": 323072,
+      "sha256": "9fc49847016c1aac178c823196e91c455538d1158b3edd92d7a2bfcd6e1a184c"
+    },
+    {
+      "path": "qupathxx_server_tests.exe",
+      "bytes": 296448,
+      "sha256": "65680f9202f8851f496aed38c27c322ab3bf5944af55e697c47c7e6e9db0257f"
+    },
+    {
+      "path": "qupathxx_sha256_tests.exe",
+      "bytes": 25600,
+      "sha256": "af2f95b49c099665a138d03c481bf3bd5f09be7ff91046ec19208fb7a495aade"
+    },
+    {
+      "path": "qupathxx_source_identity_tests.exe",
+      "bytes": 1516544,
+      "sha256": "d2248659621dd5ae1dd030392b951f60e1e4175af15fd0237f73ea753f69e7c4"
+    },
+    {
+      "path": "qupathxx_spatial_analysis_tests.exe",
+      "bytes": 1593344,
+      "sha256": "5c151f0527d47c336f94223ade1ae4074f9830e195cadf873c7fafe7e22cf1d4"
+    },
+    {
+      "path": "qupathxx_spatial_cli_tests.exe",
+      "bytes": 3580416,
+      "sha256": "69efd66d073da6b6a83750265bcb60f9f0539c34a9979a788b38903ea9b9c246"
+    },
+    {
+      "path": "qupathxx_spatial_frontend_tests.exe",
+      "bytes": 3073024,
+      "sha256": "338b3a95c87d64a05d1ef33087916eee8b97915344c28e92021d7246abd86621"
+    },
+    {
+      "path": "qupathxx_spatial_record_tests.exe",
+      "bytes": 3637248,
+      "sha256": "0582cc630c2da71d9e7cbdf3e73cf63d62f28b3496172e796d238d5109733e8a"
+    },
+    {
+      "path": "qupathxx_spatial_tests.exe",
+      "bytes": 363520,
+      "sha256": "57533b03d3bee1b87dbce9871ac3b5eecb6f98454fdfa859a573290dfa23313f"
+    },
+    {
+      "path": "qupathxx_sqlite.lib",
+      "bytes": 3244188,
+      "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29"
+    },
+    {
+      "path": "qupathxx_stains_tests.exe",
+      "bytes": 248320,
+      "sha256": "1950f77b8d6430d3feebd34b766e90286b166779bc4044a00de2bfa2b699307a"
+    },
+    {
+      "path": "qupathxx_stain_estimation_tests.exe",
+      "bytes": 1488896,
+      "sha256": "4f4a9af60e7c35b67870e0aa515f6ae320573c3b74ec4fa1da20c2b66019bcf9"
+    },
+    {
+      "path": "qupathxx_thumbnail_tests.exe",
+      "bytes": 218112,
+      "sha256": "921a69dac81885eb6edea0aa39574f650e2a10e987cc62a9072e720ff57bee9f"
+    },
+    {
+      "path": "qupathxx_tiff_xml.lib",
+      "bytes": 364046,
+      "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5"
+    },
+    {
+      "path": "qupathxx_tissue_contour_tests.exe",
+      "bytes": 2378240,
+      "sha256": "2a195cc89760c93512699188d27f6e6a9ba2f8f2bf324bd53845a03f74041aa8"
+    },
+    {
+      "path": "qupathxx_tissue_record_tests.exe",
+      "bytes": 3564544,
+      "sha256": "db03bdd1fac9cbd6ca249c1ae7730413c9a594d85335654120e5f2f8919e3a20"
+    },
+    {
+      "path": "qupathxx_tissue_tests.exe",
+      "bytes": 2254336,
+      "sha256": "721dd8a3df855896d591048fc459c1cfdc1a3ad1a902a3a4c3c556980cbe1bca"
+    },
+    {
+      "path": "qupathxx_tma_dearray_tests.exe",
+      "bytes": 5228544,
+      "sha256": "7cf8739461e35ebaab687b68c9c63e561d49cb114f04a383ab2524a4f1a1ed5d"
+    },
+    {
+      "path": "qupathxx_tma_tests.exe",
+      "bytes": 4556288,
+      "sha256": "bbc31be5955a03a35659d54a793ab12d70ec771b8d7a5bea8be134a5d4ed6df5"
+    },
+    {
+      "path": "qupathxx_viewer_session_tests.exe",
+      "bytes": 5358080,
+      "sha256": "4a88c49231c667ebcd9f6831aa5cac10bee7d6d1af4f4baf5ac9fe7fa39ebd16"
+    },
+    {
+      "path": "qupathxx_view_tiles_tests.exe",
+      "bytes": 157696,
+      "sha256": "c996fb14552482d0a9d239a6290024314b868ae6acabdfb7b3ea398387dfa29c"
+    },
+    {
+      "path": "_native.cp312-win_amd64.pyd",
+      "bytes": 9956864,
+      "sha256": "122e509f80a186fb624d4c72ab039f03da5e97f5f1557bf48c3449d0d7ee065f"
+    },
+    {
+      "path": "_native.lib",
+      "bytes": 9334,
+      "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d"
+    }
+  ]
+}

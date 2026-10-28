@@ -1,0 +1,10 @@
+{
+  "native_source": "9931536aeb337c94bf6a8f8842a00ae04a6f1f8b",
+  "observer_source": "08ab25a0fd8233db8a6260beda6012f3fd8f9284",
+  "compiler_inputs": 409,
+  "all_compiler_inputs_unchanged_after_native_build": true,
+  "changed_compiler_inputs_since268": [
+    "cpp/gui.cpp"
+  ],
+  "no_native_rebuild_for_contract_edits": true
+}

@@ -2,6 +2,40 @@
 
 ## Current execution card (2026-10-28)
 
+**SPAT1 fault/cohort controls269 are locally verified** at native9931536 and
+contract observer08ab25a. [Receipt269](benchmarks/spatial-faults-269/receipt.json)
+binds55 native suites,21 actual frontend controls,233 installed cohort passes/one
+declared skip and35 separate lifecycle passes (268 unique GUI-mode passes).
+Nonrendering admission on that GUI-capable package passes186 cases/48 declared
+skips; this is not a headless wheel. Headless/GEOS-OFF native76f1e04 separately
+passes six affected suites and30 real CLI cases; installed268/d9bba6b only supplies
+project fixtures and QSD1 decoding. Both native identities remain explicit.
+
+A confirmed early close at frame13 drained a20000-row spatial job on d9bba6b.
+Native9931536 distinguishes finite run completion from accepted early close,
+cancels and joins on the latter, and passes the red/green shutdown control.
+Live cancel/retry, running/ready/round-trip image switch, protected/no-overwrite/
+byte-limit CSV refusal, removed/stale history and managed live edit/cancel/retry
+pass. The initial unbounded replay refusal and unconfirmed-close diagnostic are
+fixture observations, retained separately from the real confirmed-close failure.
+
+The existing auditors now require91 exact installed spatial identities,16 GUI-only
+declarations, four added native suites and spatial typing. All993 controls, eight
+actual native semantic suites, six positive typing files/five negative files with
+28 exact diagnostics pass. Default CLI testing uses the packaged executable and
+its native source; explicit staging overrides remain. All409 compiler inputs,517
+observer source paths,33 installed members,37 RECORD entries and loaded GEOS/
+notices verify. Only gui.cpp changed since268; no rebuild followed contract edits.
+
+**Next:** close the already-planned M6 live-Document wait audit before one combined
+source freeze/platform campaign. Current inspection finds direct blanket GIL
+release in analysis, tissue, cell and stain-estimation Document-taking waits,
+with object-classifier/pixel-stream waits also requiring review. Use the spatial
+wait pattern and existing ownership helpers; retain live-edit/cancel/shutdown
+controls and avoid a second job framework. Candidate262 remains qualified;
+all M0-M7, scientific/performance/hardware/support/release boundaries remain open.
+
+
 **SPAT1 desktop and managed delivery has local Windows verification268** at
 native d9bba6b and stub observer c360ac9. [Receipt268](benchmarks/spatial-frontends-268/receipt.json)
 records all55 native suites,47 spatial installed cases and85 existing viewer/GUI/
@@ -22,10 +56,9 @@ entries, loaded GEOS/notices, stub check and strict typing (one positive file,
 eight intended negative diagnostics) verify.902 tooling controls retain their
 7134855 scope with unchanged helper sources.
 
-**Next:** close headless/GEOS-OFF and expanded desktop cancellation/source-switch
-controls; admit the new workflow into qualification cohorts, then freeze one
-complete candidate for its full platform gate. Current local evidence does not
-qualify other platforms, biology, eligible hardware, overall speed or release.
+Those268 follow-up native/fault/cohort steps have the later269 observations
+above. Neither packet qualifies other platforms, biology, eligible hardware,
+overall speed or release. The active M6-before-freeze sequence is recorded above.
 Candidate262 remains the qualified feature baseline. All M0-M7 remain Partial.
 
 

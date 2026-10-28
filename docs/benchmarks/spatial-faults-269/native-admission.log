@@ -1,0 +1,21 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/8 Test  #1: pixel_workflows ..................   Passed    1.77 sec
+    Start 10: viewer_session
+2/8 Test #10: viewer_session ...................   Passed    1.16 sec
+    Start 14: project_batch
+3/8 Test #14: project_batch ....................   Passed    1.00 sec
+    Start 45: spatial
+4/8 Test #45: spatial ..........................   Passed    0.04 sec
+    Start 46: spatial_frontend
+5/8 Test #46: spatial_frontend .................   Passed    0.06 sec
+    Start 47: spatial_cli
+6/8 Test #47: spatial_cli ......................   Passed    0.40 sec
+    Start 48: spatial_records
+7/8 Test #48: spatial_records ..................   Passed    2.52 sec
+    Start 49: spatial_analysis
+8/8 Test #49: spatial_analysis .................   Passed    0.08 sec
+
+100% tests passed out of 8
+
+Total Test time (real) =   7.04 sec
