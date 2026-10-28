@@ -85,6 +85,7 @@ void lifecycle_and_budget_contracts() {
     ids=d.append_objects(objects,{});
     SpatialDistanceRequest request(d,ids,ids);auto direct=measure_spatial_distances(request);
     SpatialDistanceJob job;check(job.request(request) && job.busy() && !job.request(request));
+    job.wait_work();check(job.busy() && !job.result()); // Readiness alone cannot publish.
     check(job.wait(d).state=="ready" && !job.busy());auto held=job.result();check(held && held->sha256()==direct->sha256());
     const auto finished=job.poll(d);check(finished.completed_rows==ids.size() && finished.distance_tests==held->distance_tests() && job.poll(d).elapsed_ms==finished.elapsed_ms);
     auto wrong=std::async(std::launch::async,[&] {rejects<std::runtime_error>([&] {job.busy();});});wrong.get();

@@ -139,6 +139,7 @@ def test_production_owners_execute_shared_raw_admission(name,required):
 
 
 def test_source_closure_covers_shared_kernels_jobs_frontends_and_consumers():
+    assert {'cpp/spatial_bindings.cpp','tests/test_spatial_python.py','tests/typing/spatial_valid.py','tests/typing/spatial_invalid.py'}<=set(evidence.SOURCES)
     assert {'cpp/spatial_analysis.cpp','cpp/include/qupathxx/spatial_analysis.hpp','cpp/tests/spatial_analysis_tests.cpp',
             'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json',
             'tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy',

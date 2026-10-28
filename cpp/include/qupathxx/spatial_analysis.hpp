@@ -128,6 +128,9 @@ public:
     void cancel();
     SpatialDistanceStats poll(const Document&);
     SpatialDistanceStats wait(const Document&);
+    // Wait for worker readiness without reading a live Document or collecting
+    // its future. Bindings can release the GIL here, then poll with it held.
+    void wait_work();
     std::shared_ptr<const SpatialDistanceResult> result() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

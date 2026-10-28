@@ -1,5 +1,6 @@
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/spatial_analysis.hpp"
 #include "qupathxx/thumbnail.hpp"
 #include "qupathxx/resampling.hpp"
 #include "qupathxx/analysis.hpp"
@@ -19,6 +20,7 @@ namespace nb = nanobind;
 using namespace nb::literals;
 void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
+void bind_spatial(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
 void bind_tma(nb::module_&);
@@ -149,6 +151,11 @@ NB_MODULE(_native, m) {
         .def_ro("entries",&FeatureCacheStats::entries).def_ro("capacity",&FeatureCacheStats::capacity)
         .def_ro("hits",&FeatureCacheStats::hits).def_ro("misses",&FeatureCacheStats::misses);
     nb::class_<Document>(m, "Document").def(nb::init<Image>())
+        .def_prop_ro("spatial_records",&Document::spatial_records).def_prop_ro("spatial_record_count",&Document::spatial_record_count)
+        .def("spatial_record",&Document::spatial_record,"record_id"_a).def("spatial_status",&Document::spatial_status,"record_id"_a)
+        .def("keep_spatial",&Document::keep_spatial,"request"_a,"result"_a,"name"_a="Spatial distances")
+        .def("verify_spatial",&Document::verify_spatial,"record_id"_a,"request"_a,"result"_a)
+        .def("remove_spatial",&Document::remove_spatial,"record_id"_a)
         .def_prop_ro("analysis_records",&Document::analysis_records).def("analysis_record",&Document::analysis_record)
         .def_prop_ro("analysis_record_count",&Document::analysis_record_count)
         .def("latest_analysis",&Document::latest_analysis).def("analysis_status",&Document::analysis_status)
@@ -426,6 +433,7 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_annotations_added",&GuiReport::tissue_annotations_added).def_ro("tissue_contours_published",&GuiReport::tissue_contours_published)
         .def_ro("saved_tissue_id",&GuiReport::saved_tissue_id).def_ro("saved_tissue_status",&GuiReport::saved_tissue_status);
     bind_analysis(m);
+    bind_spatial(m);
     bind_stain_estimation(m);
     bind_tissue(m);
     bind_cells(m);

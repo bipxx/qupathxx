@@ -77,6 +77,7 @@ def main():
                 'RawPixelTiledTrainingJob':['RawPixelTiledTrainingTable','RawPixelClassifier'],
                 'RawPixelPredictionJob':['RawPixelClassification'],
                 'RawPixelWindowPredictionJob':['RawPixelWindowClassification'],
+                'SpatialDistanceJob':['SpatialDistanceResult'],
                 'RawPixelContourJob':['RawPixelContours'],
                 'RawPixelStreamContourJob':['RawPixelStreamContours'],
                 'RawPixelArchive':['RawPixelTrainingTable','RawPixelTiledTrainingTable','RawPixelClassification','RawPixelClassifier'],

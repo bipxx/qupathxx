@@ -252,5 +252,6 @@ SpatialDistanceStats SpatialDistanceJob::poll(const Document& doc) {
     if(!s.future.valid() && !s.result) s.request.reset();return s.stats;
 }
 SpatialDistanceStats SpatialDistanceJob::wait(const Document& doc) {poll(doc);if(impl_->future.valid()) impl_->future.wait();return poll(doc);}
+void SpatialDistanceJob::wait_work() {on_thread(impl_->owner);if(impl_->future.valid()) impl_->future.wait();}
 std::shared_ptr<const SpatialDistanceResult> SpatialDistanceJob::result() const {on_thread(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->result;}
 }
