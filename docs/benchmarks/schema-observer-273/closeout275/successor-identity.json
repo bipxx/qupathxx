@@ -1,0 +1,15 @@
+{
+  "artifact_source": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "auditor_source": "432c36c8dd4340777bc42cdf5040f3ca89567037",
+  "original_checkout_clean": true,
+  "observer_checkout_clean": true,
+  "changed_paths": [
+    "tests/test_engine_successor_audit.py",
+    "tools/ci/accept_unified_engine.py"
+  ],
+  "compiler_inputs_changed": false,
+  "application_rebuilt": false,
+  "ci_redispatched": false,
+  "script_sha256": "e7f53b810f5e67dba8d02e167ee3fa79d2550406ac964c34d9e047251b0feccf",
+  "tests_sha256": "f2a7eb2210ff05f4afce79d6037bcf85cb781815f6b79e388a2b8c21fd71cdcc"
+}

@@ -13,7 +13,11 @@ supported-release requirements remain; every milestone is Partial.
 
 The [current task](current-task.md) owns current source/count/gate status; older
 receipts and observations below retain their original source-specific scope.
-Later feature-branch TMA structural corrections are outside this accepted candidate.
+The latest qualified feature baseline is [candidate273](benchmarks/schema-observer-273/closeout275/receipt.json)
+at5f1760a, with all11 archives and complete engine/Mac-native/portable audits.
+Its engine auditor432c36c is separately identified; the original rejection is
+preserved. Later snapshot-wait274/native048cf25 is locally verified and still
+requires its own full qualification. Public main remains unchanged.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
 `04ccfa4fb7d43e9b566393e08e83690b72248d44`. Source areas below refer to modules

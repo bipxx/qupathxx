@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\schema-observer-qualification-273-audit\tools\ci\accept_unified_engine.py", line 267, in <module>
+    assert len(cases)==count and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases), (job['name'], suffix, count, len(cases), [(t.get('name'),[k for k in ['skipped','failure','error'] if t.find(k) is not None]) for t in cases if any(t.find(k) is not None for k in ['skipped','failure','error'])])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('Linux headless Python 3.12 NumPy 2', 'test_pixel_stream_records', 34, 35, [])

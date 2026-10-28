@@ -2,6 +2,23 @@
 
 ## Current execution card (2026-10-28)
 
+**Candidate273 is fully engineering-qualified at5f1760a.** [Closeout275](benchmarks/schema-observer-273/closeout275/receipt.json)
+binds all11 authenticated archives, complete five-profile engine acceptance, both
+Mac-native architectures and both portable builders/fresh Debian consumers.
+Windows GUI passes55 native/4724 Python; Windows headless54/4225; Linux headless54/4219.
+The three strict scientific xfails remain explicit. Public main is unchanged.
+
+The original frozen engine auditor rejected35 passing stream-record cases against
+a stale34-case gate. Independent original-source collection verifies that one
+drift across all20 legacy cohorts. Clean successor auditor432c36c changes only
+the auditor/tests, requires all13 named schema14 migration identities and unique
+cases, and passes all original full flags with --source-root pointing to the
+unchanged original5f1760a checkout. Two red controls,22 green auditor tests and1023
+integration preflight controls verify. The original rejection, command identities
+and inspected source-specific GUI overview remain preserved. No CI redispatch or
+application rebuild was needed. Candidate273 replaces262 as the qualified feature
+baseline; its acceptance does not transfer to later native048cf25.
+
 **Snapshot-job waits274 are locally verified** at native048cf25 and observer92bb6c2.
 [Receipt274](benchmarks/snapshot-waits-274/receipt.json) binds the five remaining
 older Document-free controllers: fingerprint, cell/measurement table exports,
@@ -20,14 +37,13 @@ with28 exact diagnostics pass; stubs are unchanged. All33 package members,
 compiler inputs authenticate.69 prior and69 new products are retained. One native
 build suffices; later test/contract changes do not rebuild or relabel its source.
 
-Candidate273 below predates274 and cannot qualify this repair. Next: finish its
-original full engine gate, preserve its independently accepted roles, then freeze
-the completed274 source for its own qualification. Broad M6, all M0-M7,
+Candidate273 predates274 and cannot qualify this repair. Next: freeze the
+completed274 source with observer275 for its own full qualification. Broad M6, all M0-M7,
 scientific, general-speed/hardware, support and release gates remain open.
 
 ### Earlier candidate273, separate source
 
-**Successor273 is frozen and full qualification is running** at5f1760a on
+**Original273 dispatch, now closed above:** frozen5f1760a on
 feature/schema-observer-qualification-273. [Campaign273](benchmarks/schema-observer-273/receipt.json)
 records engine [40695971669](https://github.com/bipxx/qupathxx/actions/runs/40695971669),
 Mac-native [40695988673](https://github.com/bipxx/qupathxx/actions/runs/40695988673)
@@ -38,19 +54,18 @@ audit checkout has144 CRLF/LF-only byte differences from local compilation input
 these are recorded, not claimed byte-identical. Every hosted role builds its own
 frozen source. Local native products remain labeledc949826.
 
-[Scoped role audits](benchmarks/schema-observer-273/roles274/receipt.json) now
-accept both Mac-native architectures and both portable builders/fresh consumers
+[Scoped role audits](benchmarks/schema-observer-273/roles274/receipt.json) initially
+accepted both Mac-native architectures and both portable builders/fresh consumers
 at this exact5f1760a source. Ten archives authenticate. Windows GUI is still
 active in the recorded observation, so the full five-profile engine and combined
 candidate remain unaccepted. The three Linux native profiles and Linux headless
 schema14 diagnostic/exact installed contract pass. A later artifact-query timeout
 is an observation failure, not a terminal job or reason to redispatch.
 
-Next: observe these exact run IDs, authenticate all11 required archives and run
-the complete applicable frozen-source auditors. Do not redispatch or move the
-frozen ref. Candidate262 remains the fully engineering-qualified baseline; no
-original271 scoped acceptance transfers. M0-M7, science, representative speed,
-hardware, clean-machine support, license and release gates remain open.
+The combined closeout above now completes these requirements. Keep the original
+ref/source/products immutable and do not redispatch completed roles. M0-M7,
+science, representative speed/hardware, clean-machine support, license and release
+gates remain open.
 
 ### Original271 terminal state and repair272
 

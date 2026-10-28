@@ -1,0 +1,35 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40695971669",
+    "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q273-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\record-cohort-observer-275\\engine-successor-acceptance.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest",
+    "--source-root",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\schema-observer-qualification-273-audit"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\record-cohort-observer-275",
+  "original_source": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "auditor_source": "432c36c8dd4340777bc42cdf5040f3ca89567037",
+  "changed_paths": [
+    "tests/test_engine_successor_audit.py",
+    "tools/ci/accept_unified_engine.py"
+  ]
+}
