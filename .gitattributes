@@ -604,3 +604,6 @@ docs/benchmarks/spatial-cli-267/** -text -whitespace
 docs/benchmarks/spatial-frontends-268/** -text -whitespace
 
 docs/benchmarks/spatial-faults-269/** -text -whitespace
+
+docs/benchmarks/document-waits-270/** -text -whitespace
+docs/benchmarks/spatial-waits-271/** -text -whitespace

@@ -42,7 +42,7 @@ no additional agent delegation is implied by this table.
 | --- | --- | --- | --- |
 | Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
 | Complete / RAW-DELIVERY1 + M3-ALIAS1 | Engineering accepted at frozen e2282b8; [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) joins all11 authenticated archives and complete engine/Mac-native/portable audits | Reuse retained source-bound products. No redispatch for documentation or spatial preparation | Declared engineering scope only; public main unchanged and all independent M0-M7 gates retained |
-| 1 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | SPAT1 fault/cohort controls now have local Windows verification269, with separate headless/GEOS-OFF evidence. Close the already-planned M6 live-Document wait audit, then freeze one combined source for the required platform campaign. Reuse the shared native controller and existing owner-job/table consumers. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
+| 1 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | SPAT1 fault/cohort controls now have local Windows verification269, with separate headless/GEOS-OFF evidence. The nine-controller M6 wait audit now has local270 verification; freeze one combined source for the required platform campaign. Reuse the shared native controller and existing owner-job/table consumers. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
 
@@ -112,7 +112,7 @@ eight explicit skips across412 identities,902 observer controls and exact typing
 diagnostics. The33 package members, loaded GEOS/notices and complete RECORD bind
 the final wheel; only generated stub payloads/RECORD change after native compilation.
 [CLI267](benchmarks/spatial-cli-267/receipt.json) now delivers native measure-to-new-project, historical CSV and fresh verification at9468ae3. Five suites and30 process cases pass each GEOS-ON/OFF profile; bounded ID files cover large cohorts. The installed266 package is only a fixture creator/reader, not a substitute for the new engine.
-[Frontend268](benchmarks/spatial-frontends-268/receipt.json) now verifies shared ImGui/managed controls and the installed Windows workflow at d9bba6b, with stub observer c360ac9:55 native suites and132 installed passes, matching stubs/typing, exact wheel/RECORD/runtime checks and inspected desktop capture. Native stale/cancel/budget/export faults and managed history/save/reopen pass. [Fault/cohort269](benchmarks/spatial-faults-269/receipt.json) adds21 frontend controls,55 native suites and268 unique installed GUI-mode passes, with exact GUI/nonrendering cohort admission, native markers and typing. A separate headless/OFF source passes six affected native suites and30 CLI cases. Close the scoped M6 Document-wait safety audit below before freezing one combined source for full qualification.
+[Frontend268](benchmarks/spatial-frontends-268/receipt.json) now verifies shared ImGui/managed controls and the installed Windows workflow at d9bba6b, with stub observer c360ac9:55 native suites and132 installed passes, matching stubs/typing, exact wheel/RECORD/runtime checks and inspected desktop capture. Native stale/cancel/budget/export faults and managed history/save/reopen pass. [Fault/cohort269](benchmarks/spatial-faults-269/receipt.json) adds21 frontend controls,55 native suites and268 unique installed GUI-mode passes, with exact GUI/nonrendering cohort admission, native markers and typing. A separate headless/OFF source passes six affected native suites and30 CLI cases. [Wait270](benchmarks/document-waits-270/receipt.json) now verifies the scoped nine-controller safety audit below. Freeze one combined source for full qualification.
 Use existing native ownership and atomic paths; no frontend CSV or second model.
 Do not dispatch qualification until that complete workflow stabilizes. Biological,
 representative resource/performance/hardware and full-platform acceptance remain.
@@ -1111,14 +1111,22 @@ to its original contract. Next close the actual remaining large-window/vendor/
 whole-slide and multi-file OME capabilities, preserving explicit limits and
 source identity; these synthetic fixtures do not establish those capabilities.
 
-### Scoped M6 concurrency follow-up
+### Scoped M6 Document-wait delivery / locally verified270
 
-Spatial266 polls the live Document under the GIL, waits only on native worker
-readiness without it, then rechecks after reacquiring. The SPAT1 consumer/fault/cohort delivery is now locally verified through269.
-Inspection confirms blanket release in analysis/tissue/cell/stain-estimation
-Document-taking waits; also review object-classifier/pixel-stream waits and
-existing ownership wrappers. Close this known correctness audit with equivalent
-live-edit/cancel/shutdown controls before freezing one combined qualification
-source. Keep live Document access under the GIL, release only for native readiness
-and recheck after reacquiring; preserve owner and lifetime checks. Reuse existing
-helpers rather than adding a scheduler or host layer.
+[Receipt270](benchmarks/document-waits-270/receipt.json) records native c949826 /
+stub-and-contract observer f068594. Header inspection extended the initially
+named six controllers to pixel training/prediction/contour waits whose arguments
+were positional. All nine now use one shared binding ownership/join helper: live
+Document checks/capture/delivery hold the GIL, only native readiness releases it,
+and applicability is rechecked afterward. Python controller calls are owner-only
+except cancel; destruction can retire on any thread without holding the GIL.
+The native C++ readiness primitive does not inspect or publish Document state.
+
+All55 native suites,72 new controls,240 separate legacy passes/five reader or
+pyramid skips,305 exact GUI cohort passes/one declared skip and1000 auditor
+controls pass. Seven positive typing files and five negative files with28 exact
+diagnostics verify; only one stub payload/RECORD changes after compilation, with
+all410 compiler inputs unchanged. Preserve native/observer identities and avoid
+rebuilding for contract or documentation edits. Next freeze one combined source
+and run every applicable complete platform role once. Full M6 compatibility and
+thread-safety scope, scientific/resource/hardware/support/release gates remain.

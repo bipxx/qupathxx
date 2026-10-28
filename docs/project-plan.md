@@ -12,7 +12,7 @@ workflow reference. Python API design and the ImGui frontend are new work.
 ## Current execution map
 
 Planning update: 2026-10-28 UTC, through engineering-qualified candidate262
-`e2282b8` and locally verified spatial fault/cohort269 at `9931536` (contract observer `08ab25a`).
+`e2282b8` and locally verified Document-wait270 at `c949826` (contract/stub observer `f068594`).
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
@@ -40,6 +40,7 @@ this update is a reconciliation, not a new independent model review.
 | SPAT1 native CLI267 | [Receipt267](benchmarks/spatial-cli-267/receipt.json) at native9468ae3/observer65f2c5d: five affected native suites and30 real CLI process cases pass each Windows GEOS-ON/OFF profile. Measure/save, historical export and fresh verification reuse the installed266/native persistence foundation; bounded ID files avoid argv limits | Later frontend268 supplies locally packaged Windows desktop/managed delivery. Headless/fault/cohort admission and own-source platform/scientific/resource/release gates remain; no qualification transfers from262/266 |
 | SPAT1 frontends268 | [Receipt268](benchmarks/spatial-frontends-268/receipt.json) at d9bba6b / stub observer c360ac9:55 native suites and132 installed passes; shared desktop/managed controller, history/verify/export/save/reopen, exact wheel/runtime/stubs/typing and inspected capture | Headless/GEOS-OFF, expanded desktop fault controls, qualification cohort admission and own-source platform gate remain; no general speed/science/release acceptance |
 | SPAT1 fault/cohort269 | [Receipt269](benchmarks/spatial-faults-269/receipt.json):55 native suites,268 unique installed GUI-mode passes,993 auditor controls and exact native/typing/package admission; separate headless/OFF source passes six suites/30 CLI cases | Close planned M6 live-Document wait audit, then one combined own-source qualification. No science, general-speed, hardware or release acceptance |
+| M6 Document waits270 | [Receipt270](benchmarks/document-waits-270/receipt.json):55 native suites,72 nine-controller controls,545 unique installed GUI-mode passes,1000 auditor controls and matching typing/package/runtime evidence | Freeze combined spatial/wait source for full own-source qualification. Broad M6, science, representative hardware/speed, support and release gates remain |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.

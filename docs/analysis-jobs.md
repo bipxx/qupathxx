@@ -171,3 +171,45 @@ complete source/environment provenance, tissue detection, connected
 components, stain estimation, watershed cell detection, feature publication and
 QuPath runtime workflow comparisons. M6 still requires batch restart/failure
 policies, a bounded shared executor, NumPy ownership exchange and stable stubs.
+
+
+## Python wait and controller ownership
+
+Create and drive each controller on the same Python thread. request/train/predict,
+poll/wait, result/state access and publication reject another thread with an
+owner-thread RuntimeError. cancel remains callable from another Python thread.
+If using a Python executor, create and drive the job inside that executor's
+thread, then return immutable results; do not create it on one thread and wait
+on another. Native work already runs in the background.
+
+This rule applies to AnalysisJob, TissueJob, CellJob, StainEstimateJob,
+ObjectClassifierJob, PixelTrainingJob, PixelPredictionJob, PixelContourJob and
+PixelStreamExportJob. Their Python wait checks the live Document while holding
+the GIL, releases it only while waiting for native readiness, reacquires it and
+rechecks before delivery. Another Python thread may edit a standalone document
+or cancel during that wait. Stale analysis/classifier results are discarded;
+a pixel-file export may still finish as historical data with current=False.
+A committed file remains committed after late cancellation.
+
+```python
+job = q.AnalysisJob()
+job.request(q.AnalysisRequest(doc, object_id, transform))
+status = job.wait(document=doc, selected_id=object_id)
+if status.state == "ready":
+    record_id = job.keep_result(doc, object_id)  # Rechecks before publication.
+```
+
+The three pixel training/prediction/contour waits now also accept document as a
+keyword; positional calls remain valid. Other call signatures remain unchanged.
+Dropping the final Python job reference cancels and joins native work without
+holding the GIL, including when that reference is dropped on another thread.
+The worker retains captured native source/request ownership until joined.
+C++ await_completion is a readiness-only primitive: it does not inspect a
+Document, collect results or publish. Native callers retain their existing
+owner-thread obligations and must poll/check applicability afterward.
+
+[Wait270](benchmarks/document-waits-270/receipt.json) records55 native suites,72
+new ownership/live-edit/cancel/retry/shutdown controls and240 separate legacy
+passes/five declared skips at c949826. Contract/stub observer f068594 authenticates
+410 unchanged compiler inputs and exact installed/typing/package evidence.
+This is local Windows evidence; full platform and broad M6 acceptance remain.

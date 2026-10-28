@@ -1,0 +1,42 @@
+[
+  {
+    "classname": "tests.test_cells",
+    "name": "test_cells_decode_native_pyramid_pixels_and_world_coordinates[1]",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "requires OpenSlide"
+    }
+  },
+  {
+    "classname": "tests.test_cells",
+    "name": "test_cells_decode_native_pyramid_pixels_and_world_coordinates[2]",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "requires OpenSlide"
+    }
+  },
+  {
+    "classname": "tests.test_stain_estimation",
+    "name": "test_auto_level_bounds_read_work_and_uses_real_coarse_pixels",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "native pyramid"
+    }
+  },
+  {
+    "classname": "tests.test_pixel_workflows",
+    "name": "test_real_aperio_sampling_and_tiled_source_prediction_match_direct_context",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "optional reader/training backend"
+    }
+  },
+  {
+    "classname": "tests.test_pixel_prediction_windows",
+    "name": "test_aperio_window_uses_source_context_and_matches_full_target_crop",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "requires identified Aperio fixture"
+    }
+  }
+]

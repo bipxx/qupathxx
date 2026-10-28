@@ -2,6 +2,32 @@
 
 ## Current execution card (2026-10-28)
 
+**M6 Document-wait safety270 is locally verified** at native c949826 and
+contract/stub observer f068594. [Receipt270](benchmarks/document-waits-270/receipt.json)
+records all55 native suites and72 new controls across nine older controllers:
+analysis, tissue, cells, stains, object classification, pixel training/prediction/
+contours and pixel-stream export. Retained9931536 fails27 safe foreign idle probes;
+the new product enforces owner calls, allows cross-thread Python cancel, waits
+without touching Document/GIL state and rechecks under the GIL before delivery.
+Foreign-thread final-reference destruction cancels/joins without holding the GIL.
+
+The existing immutable-capture algorithms and result semantics are unchanged.
+Seven positive typing files/five negative files with28 exact diagnostics,1000
+auditor controls,305 GUI cohort passes/one declared skip and240 separate legacy
+passes/five skips verify. Combined scope is545 distinct GUI-mode passes; the72
+new controls are already in the305 cohort. Nonrendering admission passes258/48
+declared skips on the GUI-capable package, not a headless wheel. All410 compiler
+inputs remain unchanged through observer edits. Only generated _native.pyi and
+RECORD change after compilation; all33 installed members,37 RECORD entries, loaded
+GEOS/notices and531 source paths authenticate.99 prior products remain retained.
+
+**Next:** freeze one combined spatial/wait source and run the complete engine,
+Mac-native and portable qualification roles. Those roles must build and qualify
+their own source; local c949826/f068594 evidence is not relabeled. Candidate262
+remains the qualified baseline. M0-M7, science, general speed, eligible hardware,
+clean-machine support and release gates remain open.
+
+
 **SPAT1 fault/cohort controls269 are locally verified** at native9931536 and
 contract observer08ab25a. [Receipt269](benchmarks/spatial-faults-269/receipt.json)
 binds55 native suites,21 actual frontend controls,233 installed cohort passes/one
@@ -27,12 +53,9 @@ its native source; explicit staging overrides remain. All409 compiler inputs,517
 observer source paths,33 installed members,37 RECORD entries and loaded GEOS/
 notices verify. Only gui.cpp changed since268; no rebuild followed contract edits.
 
-**Next:** close the already-planned M6 live-Document wait audit before one combined
-source freeze/platform campaign. Current inspection finds direct blanket GIL
-release in analysis, tissue, cell and stain-estimation Document-taking waits,
-with object-classifier/pixel-stream waits also requiring review. Use the spatial
-wait pattern and existing ownership helpers; retain live-edit/cancel/shutdown
-controls and avoid a second job framework. Candidate262 remains qualified;
+The later270 observation above closes this scoped nine-controller wait audit
+locally, including the three positional pixel waits found by header inspection.
+Full platform qualification and broad M6 acceptance remain. Candidate262 stays qualified;
 all M0-M7, scientific/performance/hardware/support/release boundaries remain open.
 
 

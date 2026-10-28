@@ -21,6 +21,16 @@ read-only property, the wrong request type submitted to a job and direct
 construction of a native result object. Live endpoint checks additionally reject
 a Project passed in place of a filename and an Image submitted as an edit.
 
+## Job threads and waits
+
+The [analysis job ownership guide](analysis-jobs.md#python-wait-and-controller-ownership)
+covers the nine older document-taking controllers. Create and drive a controller
+on one thread; cancel may come from another. Python wait holds the GIL for live
+Document checks and delivery, releasing it only for native readiness. Results are
+rechecked after reacquiring. Destruction releases the GIL while joining work.
+Use the managed ViewerSession queue when controlling a running viewer. This
+scoped repair does not declare every Python/reader/job interface thread-safe.
+
 ## Delivery map
 
 See [API/workflow delivery paths](api-delivery-plan.md) for existing entry points,
