@@ -37,6 +37,11 @@ void spatial_session_contracts(const std::filesystem::path& root) {
     next=session.verify_spatial(image,record);view=h.until(owner,session,next);check(view.state=="succeeded" && view.verified && !view.committed);session.take(next);
     const auto csv=(root/"spatial.csv").u8string();next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="succeeded" && view.committed && view.path==csv);session.take(next);
     next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="failed" && !view.committed);session.take(next);
+    const auto detached=(root/"spatial-detached.csv").u8string();next=session.export_spatial(image,record,detached);h.step(owner);
+    const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);
+    while(!std::filesystem::exists(detached) && std::chrono::steady_clock::now()<deadline)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    check(std::filesystem::exists(detached));Document replacement=*doc;*doc=replacement;
+    view=h.until(owner,session,next);check(view.state=="detached" && view.committed && view.rows==1);session.take(next);
     const auto before=doc->spatial_record_count();next=session.spatial_distances(image,{a},{b},{},true);session.cancel(next);view=h.until(owner,session,next);check(view.state=="cancelled" && doc->spatial_record_count()==before);session.take(next);
     next=session.spatial_distances(image,{a},{b},{},true,doc->revision());doc->rename_annotation(a,"stale before capture");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
     next=session.spatial_distances(image,{a},{b},{},true);h.step(owner);doc->rename_annotation(b,"stale before delivery");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
