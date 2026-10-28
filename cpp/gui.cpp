@@ -578,13 +578,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
     };
+    bool finite_run_finished=false;
     while (!exit_requested) {
         const bool settling=!within_frames();
         if(settling) {
             // An accepted save-and-replace/discard transition must reconcile
             // its new authority before a finite embedding returns.
             if(restore_after_save || restore_pending) settlement.check(std::chrono::steady_clock::now(),"workspace transition");
-            else {if(!options.settle_tiles) break;settlement.check(std::chrono::steady_clock::now(),"tile uploads");}
+            else {if(!options.settle_tiles) {finite_run_finished=true;break;}settlement.check(std::chrono::steady_clock::now(),"tile uploads");}
         }
         auto frame_start=std::chrono::steady_clock::now();
         detail::GuiFrameSample profile;profile.frame=frames;profile.startup=startup_active;auto profile_mark=frame_start;
@@ -2458,11 +2459,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(frame_wall_times.size()==4096) frame_wall_times.erase(frame_wall_times.begin(),frame_wall_times.begin()+2048);
             frame_wall_times.push_back(wall_ms);
         }
-        if(final_frame) break;
+        if(final_frame) {finite_run_finished=true;break;}
     }
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
-    spatial.finish(*active_document,frame_limit>0);
+    // Drain a completed finite embedding; a confirmed early close cancels even
+    // when a replay frame cap was supplied. Both paths join before retirement.
+    spatial.finish(*active_document,finite_run_finished);
     tma.finish(frame_limit>0);
     raw.finish(active_document,frame_limit>0);
     batch.finish();
