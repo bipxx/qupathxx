@@ -720,5 +720,21 @@
     "test_owning_grid_geometry_matches_exact_reference[one-unknown-axis]",
     "test_owning_grid_geometry_matches_exact_reference[partial-alpha]",
     "test_owning_grid_geometry_matches_exact_reference[transparent-alpha]"
+  ],
+  "test_nominal_cell_frontends": [
+    "test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes",
+    "test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context0]",
+    "test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context1]",
+    "test_nominal_gui_options_own_sampling_and_detector_parameters",
+    "test_nominal_gui_options_reject_invalid_sampling[-1]",
+    "test_nominal_gui_options_reject_invalid_sampling[0]",
+    "test_nominal_gui_options_reject_invalid_sampling[inf]",
+    "test_nominal_gui_options_reject_invalid_sampling[nan]",
+    "test_nominal_managed_admission_precedes_enqueue[context]",
+    "test_nominal_managed_admission_precedes_enqueue[detector]",
+    "test_nominal_managed_admission_precedes_enqueue[factor]",
+    "test_nominal_managed_command_copies_retains_exports_and_saves[False]",
+    "test_nominal_managed_command_copies_retains_exports_and_saves[True]",
+    "test_nominal_managed_queued_cancellation_releases_copied_command"
   ]
 }

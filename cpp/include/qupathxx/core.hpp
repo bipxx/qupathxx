@@ -57,6 +57,7 @@ struct SpatialDistanceRecord;
 struct ObjectClassifierRecord;
 struct CellParameters;
 struct GridCellSampling;
+struct NominalCellRoiSampling;
 struct RawGridSampling;
 struct GridCellParameters;
 struct ProjectBatchOptions;
@@ -789,6 +790,7 @@ struct GuiOptions {
     bool settle_tiles=false;
     std::shared_ptr<const CellParameters> cell_parameters;
     std::shared_ptr<const GridCellSampling> cell_grid;
+    std::shared_ptr<const NominalCellRoiSampling> cell_nominal;
     std::shared_ptr<const GridCellParameters> grid_cell_parameters;
     std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::size_t overlay_cache_budget=64*1024*1024;

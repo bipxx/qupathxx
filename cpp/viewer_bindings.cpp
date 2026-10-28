@@ -64,6 +64,7 @@ void bind_viewer_session(nb::module_& m) {
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)
+        .def("nominal_cells",&ViewerSession::nominal_cells,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=NominalCellRoiSampling{},"parameters"_a=GridCellParameters{},"retain_result"_a=false)
         .def("grid_cells",&ViewerSession::grid_cells,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=GridCellSampling{},"parameters"_a=GridCellParameters{},"retain_result"_a=false)
         .def("cells_with_nucleus_area_limits",&ViewerSession::cells_with_nucleus_area_limits,"image_id"_a,"object_id"_a,"transform"_a,
             "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=CellParameters{},"retain_result"_a=false)
@@ -76,6 +77,7 @@ void bind_viewer_session(nb::module_& m) {
         // Detach optional parameter instances from Python-owned shared_ptr deleters
         // before releasing the GIL. The endpoint argument stays owned here.
         if(options.cell_parameters) options.cell_parameters=std::make_shared<const CellParameters>(*options.cell_parameters);
+        if(options.cell_nominal) options.cell_nominal=std::make_shared<const NominalCellRoiSampling>(*options.cell_nominal);
         if(options.cell_grid) options.cell_grid=std::make_shared<const GridCellSampling>(*options.cell_grid);
         if(options.grid_cell_parameters) options.grid_cell_parameters=std::make_shared<const GridCellParameters>(*options.grid_cell_parameters);
         if(options.stain_estimate_parameters) options.stain_estimate_parameters=std::make_shared<const StainEstimateParameters>(*options.stain_estimate_parameters);

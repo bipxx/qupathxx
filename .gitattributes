@@ -671,3 +671,7 @@ tests/typing/nominal_batches_valid.py text eol=lf
 tests/typing/nominal_batches_invalid.py text eol=lf
 
 docs/benchmarks/nominal-cell-batch-293/** -text -whitespace
+
+tests/test_nominal_cell_frontends.py text eol=lf
+tests/typing/nominal_frontends_valid.py text eol=lf
+tests/typing/nominal_frontends_invalid.py text eol=lf

@@ -38,13 +38,8 @@ inline bool cell_area_controls(std::optional<double>& minimum,std::optional<doub
     }
     return changed;
 }
-inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
+inline bool grid_cell_parameter_controls(GridCellParameters& p) {
     bool changed=false;
-    auto count=[&](const char* label,std::uint32_t& value,int minimum,int maximum) {
-        int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,minimum,maximum));changed=true;}
-    };
-    count("Grid samples X",grid.samples_x,1,1000000);count("Grid samples Y",grid.samples_y,1,1000000);
-    count("Grid context X",grid.context_x,0,4096);count("Grid context Y",grid.context_y,0,4096);
     int units=static_cast<int>(p.units),feature=static_cast<int>(p.feature),policy=static_cast<int>(p.sampling_policy);
     if(ui::Combo("Distance units",&units,"Level-zero pixels\0Micrometres\0")) {p.units=static_cast<GridCellUnits>(units);changed=true;}
     if(ui::Combo("Grid feature",&feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0")) {p.feature=static_cast<TissueFeature>(feature);changed=true;}
@@ -61,7 +56,36 @@ inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
     if(p.max_nucleus_area) changed=ui::InputDouble("Grid nucleus area <=",&*p.max_nucleus_area,0,0,"%.8g") || changed;
     int memory=static_cast<int>(p.work_bytes/(1024*1024));
     if(ui::InputInt("Grid memory (MiB)",&memory)) {p.work_bytes=std::size_t(std::clamp(memory,1,512))*1024*1024;changed=true;}
-    ImGui::TextWrapped("Counts cover the integer enclosure of each ROI. Distances use the selected units; areas use those units squared. Micrometres require both calibration axes.");
+    ImGui::TextWrapped("Distances use the selected units; areas use those units squared. Micrometres require both calibration axes.");
+    return changed;
+}
+inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
+    bool changed=false;
+    auto count=[&](const char* label,std::uint32_t& value,int minimum,int maximum) {
+        int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,minimum,maximum));changed=true;}
+    };
+    count("Grid samples X",grid.samples_x,1,1000000);count("Grid samples Y",grid.samples_y,1,1000000);
+    count("Grid context X",grid.context_x,0,4096);count("Grid context Y",grid.context_y,0,4096);
+    ImGui::TextWrapped("Counts cover the integer enclosure of each ROI.");
+    return grid_cell_parameter_controls(p) || changed;
+}
+inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParameters& p) {
+    bool changed=ui::InputDouble("Nominal downsample",&sampling.downsample,0,0,"%.8g");
+    auto context=[&](const char* label,std::uint32_t& value) {
+        int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,0,4096));changed=true;}
+    };
+    context("Nominal context X",sampling.context_x);context("Nominal context Y",sampling.context_y);
+    ImGui::TextWrapped("Samples the original image at the requested nominal pixel step. Context is measured in output samples; the original ROI is retained.");
+    return grid_cell_parameter_controls(p) || changed;
+}
+inline bool cell_sampling_controls(std::optional<GridCellSampling>& grid,std::optional<NominalCellRoiSampling>& nominal) {
+    bool enabled=bool(grid),changed=ui::Checkbox("Explicit cell grid",&enabled);
+    if(changed) {grid=enabled?std::optional<GridCellSampling>(GridCellSampling{}):std::nullopt;if(enabled) nominal.reset();}
+    enabled=bool(nominal);
+    if(ui::Checkbox("Nominal RGB cell grid",&enabled)) {
+        nominal=enabled?std::optional<NominalCellRoiSampling>(NominalCellRoiSampling{}):std::nullopt;
+        if(enabled) grid.reset();changed=true;
+    }
     return changed;
 }
 // The owner captures once. Workers process an independent project snapshot;
@@ -94,7 +118,7 @@ public:
     std::shared_ptr<const ProjectBatchReport> result() const {return job_.result();}
     template<class Transform>
     void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,const CellParameters& cells,
-        std::optional<double> cell_min_area,std::optional<double> cell_max_area,const std::optional<GridCellSampling>& cell_grid,const GridCellParameters& grid_cells,AnalysisKind roi_kind,RoiSamplingPolicy roi_sampling_policy,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
+        std::optional<double> cell_min_area,std::optional<double> cell_max_area,const std::optional<GridCellSampling>& cell_grid,const std::optional<NominalCellRoiSampling>& cell_nominal,const GridCellParameters& grid_cells,AnalysisKind roi_kind,RoiSamplingPolicy roi_sampling_policy,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
         const auto& io=ImGui::GetIO();
         const bool shortcut=!io.WantTextInput && io.KeyCtrl && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B,false);
         bool start=shortcut && !io.KeyShift && !blocked;
@@ -187,13 +211,12 @@ public:
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else {
                 if(options_.kind==ProjectBatchKind::Cells) {
-                    bool grid=bool(options_.cell_grid);
-                    if(ui::Checkbox("Explicit cell grid",&grid)) {
-                        options_.cell_grid=grid?std::optional<GridCellSampling>(GridCellSampling{}):std::nullopt;
-                        if(grid) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
+                    if(cell_sampling_controls(options_.cell_grid,options_.cell_nominal) && (options_.cell_grid || options_.cell_nominal)) {
+                        options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();
                     }
                 }
-                if(options_.kind==ProjectBatchKind::Cells && options_.cell_grid) grid_cell_controls(*options_.cell_grid,options_.grid_cells);
+                if(options_.kind==ProjectBatchKind::Cells && options_.cell_nominal) nominal_cell_controls(*options_.cell_nominal,options_.grid_cells);
+                else if(options_.kind==ProjectBatchKind::Cells && options_.cell_grid) grid_cell_controls(*options_.cell_grid,options_.grid_cells);
                 else {
                 if(options_.kind==ProjectBatchKind::Tissue) {
                     int sampling=static_cast<int>(options_.tissue.sampling_policy);
@@ -262,16 +285,17 @@ public:
                     run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.roi_sampling_policy=roi_sampling_policy;
                     run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;
                     if(run_options.kind==ProjectBatchKind::Cells) {
-                        run_options.cell_grid=cell_grid;run_options.grid_cells=grid_cells;
-                        run_options.cell_min_nucleus_area_um2=cell_grid?std::nullopt:cell_min_area;run_options.cell_max_nucleus_area_um2=cell_grid?std::nullopt:cell_max_area;
+                        run_options.cell_grid=cell_grid;run_options.cell_nominal=cell_nominal;run_options.grid_cells=grid_cells;
+                        run_options.cell_min_nucleus_area_um2=(cell_grid || cell_nominal)?std::nullopt:cell_min_area;run_options.cell_max_nucleus_area_um2=(cell_grid || cell_nominal)?std::nullopt:cell_max_area;
                     }
                 }
                 if(run_options.kind!=ProjectBatchKind::Raw) {run_options.raw_grid.reset();run_options.raw_grid_work_bytes=256u*1024*1024;}
                 if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
-                if(run_options.kind!=ProjectBatchKind::Cells) {reset_cell_detector(run_options.cells);run_options.cell_grid.reset();}
+                if(run_options.kind!=ProjectBatchKind::Cells) {reset_cell_detector(run_options.cells);run_options.cell_grid.reset();run_options.cell_nominal.reset();}
+                if(run_options.cell_nominal) run_options.cells=CellParameters{};
                 const bool stains=run_options.kind!=ProjectBatchKind::RawPixels && run_options.kind!=ProjectBatchKind::RawPixelContours && run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
-                    (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cell_grid?run_options.grid_cells.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
+                    (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:(run_options.cell_grid || run_options.cell_nominal)?run_options.grid_cells.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);
                 job_.request(request,output_.data());error_.clear();poll();
             } catch(const std::exception& e) {error_=e.what();}

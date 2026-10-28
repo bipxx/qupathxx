@@ -110,6 +110,7 @@ void bind_cells(nb::module_& m) {
         .def("keep_record",qpx::bindings::owner_job_method<&CellJob::keep_record>(),"document"_a,"selected_id"_a).def("verify_record",qpx::bindings::owner_job_method<&CellJob::verify_record>(),"document"_a,"record_id"_a);
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
     options.def_prop_rw("cell_parameters",[](const GuiOptions& o){return o.cell_parameters?*o.cell_parameters:CellParameters{};},[](GuiOptions& o,CellParameters p){p.validate();o.cell_parameters=std::make_shared<const CellParameters>(std::move(p));})
+        .def_prop_rw("cell_nominal",[](const GuiOptions& o){return o.cell_nominal?std::optional<NominalCellRoiSampling>(*o.cell_nominal):std::nullopt;},[](GuiOptions& o,std::optional<NominalCellRoiSampling> p){if(p) p->validate();o.cell_nominal=p?std::make_shared<const NominalCellRoiSampling>(*p):nullptr;})
         .def_prop_rw("cell_grid",[](const GuiOptions& o){return o.cell_grid?std::optional<GridCellSampling>(*o.cell_grid):std::nullopt;},[](GuiOptions& o,std::optional<GridCellSampling> p){if(p) p->validate();o.cell_grid=p?std::make_shared<const GridCellSampling>(*p):nullptr;})
         .def_prop_rw("grid_cell_parameters",[](const GuiOptions& o){return o.grid_cell_parameters?*o.grid_cell_parameters:GridCellParameters{};},[](GuiOptions& o,GridCellParameters p){p.validate();o.grid_cell_parameters=std::make_shared<const GridCellParameters>(std::move(p));})
         .def_rw("cell_min_nucleus_area_um2",&GuiOptions::cell_min_nucleus_area_um2)

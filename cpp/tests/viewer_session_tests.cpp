@@ -174,6 +174,39 @@ void axis_session_contracts(const std::filesystem::path& root) {
     std::cout<<"TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed\n";
 }
 
+void nominal_cell_session_contracts(const std::filesystem::path& root) {
+    Harness h;std::ifstream input(std::filesystem::path(QPX_NOMINAL_VIEWER_FIXTURE)/"source.rgb",std::ios::binary);check(bool(input));
+    const std::vector<std::uint8_t> rgb{std::istreambuf_iterator<char>(input),std::istreambuf_iterator<char>()};check(rgb.size()==256*192*3);
+    auto doc=std::make_shared<Document>(Image(256,192,rgb));doc->set_calibration(.5,.5);
+    const auto object=doc->add_rectangle({0,0,256,192}),image=h.project->add_document(doc,"nominal cells");
+    const StainTransform transform({{.65,.7,.29},{.07,.99,.11}});
+    ViewerSession endpoint((root/"nominal.qpxproj").u8string());detail::ViewerOwner owner(endpoint);
+    NominalCellRoiSampling sampling;sampling.context_x=sampling.context_y=0;
+    GridCellParameters p;p.threshold=.4;p.sigma=1;p.cell_expansion=5;p.min_nucleus_area=16;p.max_nucleus_area=512;p.contours.work_bytes=1024*1024;
+    auto invalid=sampling;invalid.downsample=0;rejects([&]{endpoint.nominal_cells(image,object,transform,invalid,p,true);});
+    check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+    const auto first=endpoint.nominal_cells(image,object,transform,sampling,p,true);sampling.downsample=3;p.min_nucleus_area=10000;
+    auto result=h.until(owner,endpoint,first);
+    check(result.state=="succeeded" && result.committed && result.record_id && result.cells);
+    auto retained=result.cells;check(retained->features().size()==3 && retained->nuclei()->foreground_pixels()==379 && retained->cells()->foreground_pixels()==825);
+    check(retained->nuclei()->nominal_sampling()->source_request().downsample==1.5 && retained->grid_parameters()->min_nucleus_area==16);
+    endpoint.take(first);check(endpoint.stats().retained_bytes==0);
+    sampling.downsample=1.5;p.min_nucleus_area=16;p.units=GridCellUnits::Micrometres;
+    auto ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);doc->set_calibration(.8,.4);
+    result=h.until(owner,endpoint,ticket);check(result.state=="succeeded" && result.committed);
+    check(std::abs(result.cells->resolved_grid_parameters()->step_x-1.2)<1e-14 && std::abs(result.cells->resolved_grid_parameters()->step_y-.6)<1e-14);endpoint.take(ticket);
+    const auto records=doc->cell_record_count();ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);
+    h.step(owner);doc->set_calibration(.5,.5);result=h.until(owner,endpoint,ticket);
+    check(result.state=="stale" && !result.committed && doc->cell_record_count()==records);endpoint.take(ticket);
+    ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);check(endpoint.cancel(ticket));
+    check(endpoint.take(ticket).state=="cancelled" && doc->cell_record_count()==records);
+    auto unknown=std::make_shared<Document>(Image(256,192,rgb));const auto roi=unknown->add_rectangle({0,0,256,192}),other=h.project->add_document(unknown);
+    ticket=endpoint.nominal_cells(other,roi,transform,sampling,p,true);result=h.until(owner,endpoint,ticket);
+    check(result.state=="failed" && !result.committed && result.error.find("calibration")!=std::string::npos);endpoint.take(ticket);
+    owner.finish(h.context);doc->server()->close();check(retained->nuclei()->nominal_sampling()->core_width()==171 && retained->features().size()==3);
+    std::cout<<"Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed\n";
+}
+
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("viewer-test-"+std::to_string(std::random_device{}()));
     try {
@@ -354,6 +387,7 @@ int main() {
             check(retained_raw->statistics().means[0]==26448. && retained_raw->source()->primary);
             controller.finish(test.context);
         }
+        nominal_cell_session_contracts(root);
         spatial_session_contracts(root);
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
