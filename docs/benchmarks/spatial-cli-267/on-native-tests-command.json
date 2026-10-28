@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^(spatial_cli|spatial_records|spatial_analysis|project|qptma_project)$",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-cli-267\\on-native-tests.xml"
+  ],
+  "source": "9468ae3edf2e0d7c12cc442238bc46f411edb7d6",
+  "returncode": 0,
+  "seconds": 2.84463890013285
+}

@@ -1,0 +1,17 @@
+{
+  "qupathxx_batch.exe": {
+    "bytes": 5348864,
+    "sha256": "d195d162782921ec4b99f42c44df4af6922c75fb1fa7fbd1def6f30ee256c0f3",
+    "source": "9468ae3edf2e0d7c12cc442238bc46f411edb7d6"
+  },
+  "geos.dll": {
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "source": null
+  },
+  "geos_c.dll": {
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "source": null
+  }
+}

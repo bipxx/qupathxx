@@ -17,8 +17,9 @@ all13 legacy upgrades, failed-migration rollback,10000-record admission, stale/
 historical and export fault controls. Final902 tooling controls pass;400 compiler
 inputs and503 raw sources authenticate. [Python266](benchmarks/spatial-python-266/receipt.json) now installs the thin
 Python API at9fa565a:53 native suites,404 installed passes/eight skips,902 observer
-controls and exact typing diagnostics pass. CLI/ImGui/managed consumers and
-full own-source qualification remain. Frozen candidate262 retains its separate complete engineering scope.
+controls and exact typing diagnostics pass. [CLI267](benchmarks/spatial-cli-267/receipt.json) now verifies native measure/save,
+historical export and fresh verification in both Windows GEOS profiles. ImGui/
+managed controls, complete packaging and own-source qualification remain. Frozen candidate262 retains its separate complete engineering scope.
 Native oracle coverage stays18 geometry cases ON/16 OFF plus four separate
 upstream storage cases, with four nonzero-plane cases unsupported.
 Neighbourhood counts, signed geometry distances, density maps and tiled feature
@@ -123,7 +124,7 @@ annotation/detection/cell. Absent target/distance columns are empty; zero is a
 matched numeric distance. The default cap is64 MiB; allowed caps are1 byte..1 GiB.
 Cancellation or failed admission/publication leaves an existing destination intact.
 These native C++ APIs now have the installed Python surface below. Application
-CLI/ImGui/managed controls remain the next delivery.
+ImGui/managed controls remain the next delivery; native CLI267 is documented below.
 
 ## Installed Python surface
 
@@ -176,5 +177,63 @@ Installed evidence covers Windows CPython3.12 only with shared test dependencies
 OpenSlide and large-fixture skips are explicit. The native binary stays at9fa565a,
 generated stubs at2a16bd2. All401 compiler inputs stay identical; the final wheel
 updates only the two stub payloads/RECORD, with every other payload unchanged.
-This does not imply CLI/UI delivery, multiplane support, general performance,
+This Python packet alone does not imply CLI/UI delivery, multiplane support, general performance,
 biological validation or supported release readiness.
+
+## Native command line
+
+The current branch's native `qupathxx_batch` supports these commands. CLI267 is
+locally tested after relocation with Windows GEOS ON/OFF; it is not yet part of
+a newly packaged full workflow or inherited platform qualification.
+
+```text
+qupathxx_batch --measure-spatial study.qpxproj measured.qpxproj --image 1 --source 5 --target 9 --units um
+qupathxx_batch --export-spatial measured.qpxproj distances.csv --image 1 --record RECORD_ID
+qupathxx_batch --verify-spatial measured.qpxproj --image 1 --record RECORD_ID
+```
+
+Measure returns the new record_id in one JSONL `qpx.spatial-cli/1` report. It keeps
+one immutable native result in a new project, preserving the input project, other
+images, active image, objects and calibration. Units default to px; um requires
+both calibration axes. Prefer nuclei by default; --body uses bodies and
+--include-self permits the same object identity. Omitting targets creates absent
+distances. --name supplies bounded UTF8 record text. No linked-image pixel decoding
+is needed; project loading may read embedded image payloads.
+
+For large cohorts use --source-ids FILE and/or --target-ids FILE. Each cohort uses
+repeated --source/--target IDs or one file, never both. Files contain positive
+unsigned decimal IDs separated by space/tab/CR/LF; UTF8 without BOM works because
+tokens are ASCII digits. Default/max --ids-bytes is4 MiB per file and the count cap
+is100000 IDs. Duplicate, zero, negative, overflow and malformed tokens refuse;
+source files cannot be empty, target files can. A verified bounded file snapshot
+is parsed once, with version guards retained through publication. This bypasses
+Windows argv limits without inventing a second cohort model.
+
+Analysis options reuse --snapshot-bytes, --work-bytes and --max-distance-tests.
+Parsing buffers are separately bounded by --ids-bytes; these are payload/input
+limits, not OS RSS claims. --save-snapshot-bytes and --project-bytes bound new-
+project publication. --csv-bytes bounds export(default64 MiB, max1 GiB).
+
+Export reads a retained historical result and streams its existing22-column CSV;
+it does not silently reverify changed/deleted objects. Verify explicitly replays
+the captured cohorts and compares a fresh result, modifies no project bytes and
+persists no verified authority. Saved/reopened records still begin unverified.
+JSON includes command/state, image/record IDs, row/cohort counts, units, algorithm,
+input/result hashes and historical status; output paths/CSV bytes appear where
+applicable. Exit0 is success,1 runtime/refusal,2 arguments and130 cancellation.
+
+Outputs always refuse replacement. The input project, ID files, linked/captured
+image files, path aliases and project journal/WAL/SHM sidecars are protected.
+Project opens use the existing source-preserving path without hot-journal repair.
+File versions are rechecked before publishing. CSV's native publication callback
+runs after streaming and before its atomic commit, sharing the same final checks.
+Project and CSV outputs are separate commands, so a partially published pair is
+never reported as one successful operation. Runtime errors and argument errors
+produce the existing structured stderr record. Input files and failed outputs
+remain untouched under the tested guards and quotas.
+
+The Python266 runtime used by the process harness is only a schema14 fixture
+creator/QSD1 reader at9fa565a. Both tested CLI executables run native9468ae3 and
+report it in saved provenance. Observer65f2c5d changes only fixture code; all404
+compiler inputs and both binaries remain unchanged. ImGui/managed delivery and
+full workflow qualification follow; no new wheel or SDK build was needed here.

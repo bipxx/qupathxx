@@ -1,0 +1,11 @@
+{
+  "controls_source": "e0dd1e6497a0f803908d094aafc52e4319d2f16b",
+  "observer_source": "65f2c5dd57dc0b5e41f24acf859040ceef1db046",
+  "changed_paths": [
+    "cpp/tests/spatial_record_tests.cpp",
+    "tests/test_spatial_cli.py"
+  ],
+  "control_and_helper_sources_unchanged": true,
+  "actual_observer_source_proof": "observer-source-proof.json",
+  "scope": "902 control passes retain their original source; native/process results bind the corrected sources separately"
+}

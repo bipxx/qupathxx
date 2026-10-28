@@ -1,0 +1,28 @@
+{
+  "on-native-tests": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0
+  },
+  "on-corrected-process-tests": {
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0
+  },
+  "off-native-tests": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0
+  },
+  "off-corrected-process-tests": {
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0
+  },
+  "native_source": "9468ae3edf2e0d7c12cc442238bc46f411edb7d6",
+  "observer_source": "65f2c5dd57dc0b5e41f24acf859040ceef1db046",
+  "fixture_runtime_source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "fixture_runtime_role": "Installed266 project creator and QSD1 reader only; both staged CLI binaries execute their own current engine",
+  "compiler_inputs": 404,
+  "source_paths": 511
+}

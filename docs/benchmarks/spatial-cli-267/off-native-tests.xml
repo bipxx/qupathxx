@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-28T05:34:23"
+	>
+	<testcase name="qptma_project" classname="qptma_project" time="0.147187" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\qptma-project-test-artifacts\\project-1220090665787500\\imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\qptma-project-test-artifacts\\project-1220090665787500\\exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_cli" classname="spatial_cli" time="0.356429" status="run">
+		<properties/>
+		<system-out>Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="1.83879" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_analysis" classname="spatial_analysis" time="0.101468" status="run">
+		<properties/>
+		<system-out>Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed
+Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed
+Spatial pinned QuPath reference: geometry=16 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=2; fixed tolerances and translated single-plane geometry passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.133032" status="run">
+		<properties/>
+		<system-out>Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+</testsuite>

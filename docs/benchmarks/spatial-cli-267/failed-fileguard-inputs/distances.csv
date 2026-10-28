@@ -1,0 +1,3 @@
+source_id,source_revision,source_kind,source_nucleus,source_x,source_y,target_id,target_revision,target_kind,target_nucleus,target_x,target_y,distance,units,status,algorithm,input_sha256,result_sha256,x_scale,y_scale,prefer_nucleus,exclude_self
+1,1,1,false,32,32,3,3,1,false,32,32,0,um,matched,qpx.centroid-nearest/1,088840def6bcc126bfe293ad58f481fa7fa8cb27210e92b5c79967f9a12df1f6,021bb84a16bbefb683f48c295b525246ba91669cb153141f734165da917619dd,0.5,0.25,true,true
+2,2,2,true,36,37,1,1,1,false,32,32,2.3584952830141508,um,matched,qpx.centroid-nearest/1,088840def6bcc126bfe293ad58f481fa7fa8cb27210e92b5c79967f9a12df1f6,021bb84a16bbefb683f48c295b525246ba91669cb153141f734165da917619dd,0.5,0.25,true,true

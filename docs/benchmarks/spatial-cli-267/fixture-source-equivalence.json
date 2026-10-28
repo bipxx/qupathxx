@@ -1,0 +1,9 @@
+{
+  "native_source": "9468ae3edf2e0d7c12cc442238bc46f411edb7d6",
+  "observer_source": "65f2c5dd57dc0b5e41f24acf859040ceef1db046",
+  "changed_paths": [
+    "tests/test_spatial_cli.py"
+  ],
+  "all_compiler_inputs_unchanged": true,
+  "compiler_inputs": 404
+}

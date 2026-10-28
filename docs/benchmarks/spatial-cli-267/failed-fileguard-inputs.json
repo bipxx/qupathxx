@@ -1,0 +1,18 @@
+{
+  "source": "e0dd1e6",
+  "original_directory": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\e0303e0d28f9bb2e3a6e91db95eb542c-spatial-records",
+  "files": {
+    "distances.csv": {
+      "bytes": 703,
+      "sha256": "fc136bad6d15b03bdec58108fb0d610299b594aee2d6ea0cae527c8fd830781b"
+    },
+    "observed-input.txt": {
+      "bytes": 14,
+      "sha256": "f8fd1168a69398d64b6108eca26054bbf7e721235fadf996524a980fa947bbf1"
+    },
+    "raced.csv": {
+      "bytes": 14,
+      "sha256": "357c7ed4d2aa8d2f61bca02010aa65cf5fc789e1420c5fecc3d00080427bb527"
+    }
+  }
+}

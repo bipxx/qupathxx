@@ -43,11 +43,34 @@ clean-machine and other platforms remain unaccepted for this source. Native
 reference scope stays18/16 geometry plus four storage cases, with four planes
 unsupported. Existing strict scientific failures and all M0-M7 gates remain.
 
-**Next:** deliver spatial CLI and ImGui/managed run/cancel/table/history/export/
-save/reopen consumers through the same native ownership and persistence paths.
-Qualify that complete workflow once at its own frozen source. Older blanket-GIL-
-release wait(Document) bindings need a separate M6 concurrency audit; this slice
-verifies spatial waiting only.
+**SPAT1 native CLI267 is locally verified** at9468ae3 with test observer65f2c5d.
+[Receipt267](benchmarks/spatial-cli-267/receipt.json) records measure-to-new-project,
+historical streamed CSV export and fresh read-only verification. Five affected
+native suites and30 actual CLI process cases pass each Windows GEOS-ON/OFF profile.
+All404 compiler inputs/511 source paths, seven current products per profile and
+unchanged SDKs authenticate. The902 controls retain their e0dd1e6 scope; helper/
+control sources remain unchanged through the fixture successor.
+
+Cohorts accept repeated IDs or bounded whitespace-ID files(max4 MiB/100000 IDs
+per file), avoiding Windows argv limits. Tests cover a5000-target file cohort,
+empty targets, malformed/duplicate/overflow/count refusal, source/sidecar/link
+protection, new-file publication, quotas, historical export and stale verification.
+CSV publication now supports a final native guard after streaming. Failed write/
+version-change, competing-output and cancellation controls preserve outputs.
+
+Original native/fileguard and process-fixture failures stay preserved. Windows
+read guards deny the attempted mutation; the test now accepts write denial or
+POSIX version-change refusal. The Python fixture uses active_image and the real
+Windows environment mapping, with explicit UTF8 observer output. Its changes
+consume none of the404 compiler inputs, so both native binaries are reused.
+Installed266 at9fa565a only creates/reads project fixtures; CLI267 runs its own
+engine and saves its own source in result provenance. No new wheel or platform
+campaign is created for this slice.
+
+**Next:** deliver spatial ImGui/managed run/cancel/table/history/export/save/reopen
+controls through these same native paths, then package and qualify the completed
+workflow once at its own frozen source. Older blanket-GIL-release wait(Document)
+bindings still need the separate M6 concurrency audit.
 [The API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
 Readers and required codecs remain open-source-only. Broader spatial/reader/
 interchange/automation/UI work, three strict scientific xfails, biological/model
