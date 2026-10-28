@@ -1,0 +1,309 @@
+{
+  "schema": "qpx.gui-font-delivery/1",
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "source_proof_observer": "aa2f565",
+  "local_windows_gui_accepted": true,
+  "counts": {
+    "native": {
+      "passed": 55,
+      "skipped": 0
+    },
+    "font-gui": {
+      "passed": 5,
+      "skipped": 0
+    },
+    "gui-final-cohort": {
+      "passed": 395,
+      "skipped": 1
+    },
+    "nonrendering-final-cohort": {
+      "passed": 348,
+      "skipped": 48
+    },
+    "desktop-regression": {
+      "passed": 115,
+      "skipped": 1
+    },
+    "preflight": {
+      "passed": 1053,
+      "skipped": 0
+    }
+  },
+  "cohort_counts_overlap": true,
+  "package_members": 39,
+  "wheel_record_entries": 43,
+  "compiler_inputs": 415,
+  "retained_prior_products": 69,
+  "retained_final_products": 71,
+  "font_assets_and_notices": 6,
+  "typing_positive_files": 7,
+  "typing_negative_files": 5,
+  "expected_typing_errors": 28,
+  "source_paths": 547,
+  "actual_unicode_capture_visually_inspected": true,
+  "failed_attempts": [
+    "build.log: stale FetchContent source override rejected before compilation",
+    "build-source-override.log: obsolete ImGui shared-data fields rejected by compiler"
+  ],
+  "final_build": "build-compatibility.log",
+  "test_dependencies_shared": true,
+  "real_gl_peak_storage_measured": false,
+  "shaping_or_bidi_accepted": false,
+  "physical_monitor_dpi_accepted": false,
+  "own_source_platform_qualified": false,
+  "scientific_accepted": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "actual-unicode-labels.png",
+      "bytes": 14797,
+      "sha256": "139eaf98cdce35c5c86ea8dc6f97e87d33127591af598fe005a0067f3d9d6fc0"
+    },
+    {
+      "path": "build-compatibility.log",
+      "bytes": 24213,
+      "sha256": "5dd8d00d6e4cdb69d4f2f786e4120abc65501060fe4c4b4a3c6a10c013c709b9"
+    },
+    {
+      "path": "build-source-override.log",
+      "bytes": 9670,
+      "sha256": "be724d3ee57c0a84c92e2f4ba94e7451d0ac3184f11db07e63ec00caa3227365"
+    },
+    {
+      "path": "build.log",
+      "bytes": 4206,
+      "sha256": "d92c4895c53e025556a5b09f0ce97529102a0298023612d9621b5454f260fedc"
+    },
+    {
+      "path": "compiler-inputs-compatibility.json",
+      "bytes": 44258,
+      "sha256": "7079c801a7a56eb56492f8550371f522ecff44587fb2fdbd2bcfbb85c74ba7bf"
+    },
+    {
+      "path": "compiler-inputs-initial.json",
+      "bytes": 44258,
+      "sha256": "bdd7deaeb42a3d0ded13b45f71122065cd14c9a4f5bebe165b2b252bd5afbc76"
+    },
+    {
+      "path": "compiler-manifest-observation.json",
+      "bytes": 44258,
+      "sha256": "7079c801a7a56eb56492f8550371f522ecff44587fb2fdbd2bcfbb85c74ba7bf"
+    },
+    {
+      "path": "desktop-regression-command.json",
+      "bytes": 1308,
+      "sha256": "20487e674d31dbbc78d5fc6511ec7157d32adbbe18d2ea991133357debbc072e"
+    },
+    {
+      "path": "desktop-regression.log",
+      "bytes": 219,
+      "sha256": "4eeb34318bc96de8e9b0a0a611b6667f1f235370333fe52cba98b8381f50ff44"
+    },
+    {
+      "path": "desktop-regression.xml",
+      "bytes": 15772,
+      "sha256": "e6c325bbf3a3fed769542ad45184f582ffdc5d07edaa8e4a62a6b3dd3261c6b6"
+    },
+    {
+      "path": "final-products.json",
+      "bytes": 21890,
+      "sha256": "7cae12b793970839ff586c141492f3dbcd973619596d2f34d76334cd6fa4e8d6"
+    },
+    {
+      "path": "font-gui.log",
+      "bytes": 115,
+      "sha256": "24a4c6ac54e47258edc64f6528cc174d623f32fda4ddb4bd8ae1c03a8ecd058d"
+    },
+    {
+      "path": "font-gui.xml",
+      "bytes": 887,
+      "sha256": "0047484629abc1f6b57717275e134ee2d326ccfc8184e428fc929345ef16644a"
+    },
+    {
+      "path": "generated-draw-proof.json",
+      "bytes": 331,
+      "sha256": "bfa0639fa43448d62511a74bf7c325c7083204ae16a31c323ac9c8cb36a0b7de"
+    },
+    {
+      "path": "gui-final-cohort-admission.json",
+      "bytes": 1780,
+      "sha256": "4a5faa745d0e6e615037de482c7e479656cc778e9a0cf5ff696fadf43eaf2fcb"
+    },
+    {
+      "path": "gui-final-cohort-command.json",
+      "bytes": 1231,
+      "sha256": "5abf2fadc23b58b6f6597ee0224e5b402ef4794d5d676be1409de32891b30304"
+    },
+    {
+      "path": "gui-final-cohort.log",
+      "bytes": 530,
+      "sha256": "eea0391a6ddee425b3248706c93ea89539c3925aeb8b528f74906d4f98a7628c"
+    },
+    {
+      "path": "gui-final-cohort.xml",
+      "bytes": 57181,
+      "sha256": "3d78e841d7b7e26a10db7b83d4b8ee246be1565f98bf21e16113aada45cde797"
+    },
+    {
+      "path": "imgui-source-override.json",
+      "bytes": 12215,
+      "sha256": "e782edff1cb7da9b9a314232dbb88f7c9c75e68adb1c449ef7fd51ad473aabd5"
+    },
+    {
+      "path": "install.log",
+      "bytes": 306,
+      "sha256": "efeb8569d8d95e14baa7862cf2bc3afc34d1943152203c3cf1ec99f4adc76a7c"
+    },
+    {
+      "path": "installed-proof.json",
+      "bytes": 10968,
+      "sha256": "5b99f8e5e47225fe448118a19badaf06cfbf0f79c4f895084bada623f954c95d"
+    },
+    {
+      "path": "installed-proof.log",
+      "bytes": 162,
+      "sha256": "1e2017553ae8f930b0efc2b7991679c5cd71f66af006975f8fefbb6c3d17b62f"
+    },
+    {
+      "path": "native.log",
+      "bytes": 5795,
+      "sha256": "0054bb4b20e40d9c06ec7417f9d2efd5772186119b4c332dcc9aafe1594458e8"
+    },
+    {
+      "path": "native.xml",
+      "bytes": 23565,
+      "sha256": "7b75407a05e7e9865a63221f3532906c845d170aa254464b44d28f01495cbe3e"
+    },
+    {
+      "path": "nonrendering-final-cohort-admission.json",
+      "bytes": 1781,
+      "sha256": "88ee5601c95f78d4fe0707e014a038c2a2ead9e09bbe309af920f26b97cb86f4"
+    },
+    {
+      "path": "nonrendering-final-cohort-command.json",
+      "bytes": 1250,
+      "sha256": "7f2873150ae5c6329c3546cbe65df0f1507d8e72c934a0daac80bfba26c343fd"
+    },
+    {
+      "path": "nonrendering-final-cohort.log",
+      "bytes": 530,
+      "sha256": "1e3d28e3da90392c4056e82a26a7082ebd16682d770d208242d72357abe95182"
+    },
+    {
+      "path": "nonrendering-final-cohort.xml",
+      "bytes": 68418,
+      "sha256": "669b0113778a0778b81dc671fec5d353220bb2e0f2c437126b9baa46e8a04e0e"
+    },
+    {
+      "path": "orchestration-exit.json",
+      "bytes": 688,
+      "sha256": "15d21f6afc15d0dad736c1dfca6c696295aca37024e58d6fef427f634dd908bf"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1505,
+      "sha256": "96914a4a916647979d8cea3484b6ca05acdce3047f28dea73b742662585401a8"
+    },
+    {
+      "path": "preflight-exit.json",
+      "bytes": 25,
+      "sha256": "915162e083f2919d02dd0256744cdfa0ded3692822e24f44bf34abe86aeb75ae"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1238,
+      "sha256": "09b6612ced3f49bf8be9871b23cf2e4567293d55893c4c78e23cd4538b0bf0b3"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 169227,
+      "sha256": "0956b2cb308098fa61f04f449c126bc57459500fe1286ba175ce319a669e55aa"
+    },
+    {
+      "path": "prior-products.json",
+      "bytes": 21694,
+      "sha256": "384283953f158d20c1381340c6b6baca433f7136a3da8f3f44ede5db8a8a828f"
+    },
+    {
+      "path": "raw-classifier-raw_batch_invalid.log",
+      "bytes": 683,
+      "sha256": "cf6fdf995c7e68ad1e7d935a9d54dd3ca617855271d5ebdeb0f0836b237b3794"
+    },
+    {
+      "path": "raw-classifier-raw_frontend_invalid.log",
+      "bytes": 1110,
+      "sha256": "9e586d09049e81ed26131f448e0a4a6d537cb4d4b9258a221d95678e72c8ad6e"
+    },
+    {
+      "path": "raw-classifier-raw_pixel_invalid.log",
+      "bytes": 993,
+      "sha256": "353e4190c202b5b72f52717b4c50488a2b0f7dfc266ade52f05eb876d09dfb13"
+    },
+    {
+      "path": "raw-classifier-raw_stream_contour_invalid.log",
+      "bytes": 1569,
+      "sha256": "94ad0ff3a2e81ef675c9389c556ba4d369a7424884290e1f1498ee21364ae32d"
+    },
+    {
+      "path": "raw-classifier-typing.log",
+      "bytes": 44,
+      "sha256": "e2702f9afc4c0f80ff1e8624f77af7a7d2689ca184512114aae5967a76229ba8"
+    },
+    {
+      "path": "source-proof.json",
+      "bytes": 126360,
+      "sha256": "738e7118abea9d8074c03dbff4519d4eebe04b556624976fb5f1676b68d03765"
+    },
+    {
+      "path": "spatial-typing-negative.log",
+      "bytes": 1481,
+      "sha256": "014657be69d8b50bc2d8edfdac12d3077252434d8f924379324a16c9eb141aa4"
+    },
+    {
+      "path": "stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "typing-admission.json",
+      "bytes": 769,
+      "sha256": "99f4aaa861fb8744beddff0cc69972986d550a4975d105665242a9f2882020bd"
+    },
+    {
+      "path": "typing-commands.json",
+      "bytes": 3029,
+      "sha256": "aa54d221aa86c611f9b347af92a017f63e3e2c7f145827b7f99d8d4315de476f"
+    },
+    {
+      "path": "wheel-record-font-proof.json",
+      "bytes": 804,
+      "sha256": "bb2652b00f0476ff3271828feb204547909f5c8c27e0dea74e5cb825885d5168"
+    },
+    {
+      "path": "tools/validate_gui_fonts_283.py",
+      "bytes": 2843,
+      "sha256": "2aa82a33e0db9c0d9fb5cd2ecf84e1e2ad4349e875f9a0ef1ec099513adeb7be"
+    },
+    {
+      "path": "tools/preflight_gui_fonts_283.py",
+      "bytes": 1355,
+      "sha256": "c374b8ed07edfc9aae364d2b28e4b14b8d6a63360eda36a59d42035e3e9ea3f4"
+    },
+    {
+      "path": "tools/retain_gui_fonts_283.py",
+      "bytes": 4686,
+      "sha256": "35e1eacf0300415c5e8666fc29a4f2338165aaeeb83ff131067dbb2dbd4f3390"
+    },
+    {
+      "path": "tools/gui_fonts_283_proof.py",
+      "bytes": 5387,
+      "sha256": "0528d958cd9f102a28bf0d62e5d010d668a68b11e34782869fd6207c4fb474b4"
+    },
+    {
+      "path": "tools/publish_gui_fonts_283.py",
+      "bytes": 8162,
+      "sha256": "060b71f232723ef49008eefd385ae48e1a6d1c3cd8d727709b480367de96649c"
+    }
+  ]
+}

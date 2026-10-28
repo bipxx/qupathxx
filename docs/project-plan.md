@@ -5,8 +5,9 @@ The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt
 engine, Mac-native and portable audits. Its source-specific GUI overview has
 been inspected. This supersedes older campaign observations below; public main
 is unchanged. The later font source `7231d95` is locally built and passes55 native
-suites and five targeted desktop font cases; broader installed/desktop/audit
-regressions are running. It inherits no281 platform acceptance. Three strict
+suites, five targeted font cases,395 installed GUI passes,348 nonrendering
+passes,115 additional desktop passes and1053 audit controls. See the
+[local font receipt](benchmarks/gui-font-delivery-283/receipt.json). Counts overlap. It inherits no281 platform acceptance. Three strict
 scientific expected failures, representative speed/hardware, broader biology,
 clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
 
@@ -21,23 +22,12 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-28 UTC, through engineering-qualified candidate273
-at5f1760a with separately identified engine auditor432c36c. Its [combined closeout](benchmarks/schema-observer-273/closeout275/receipt.json)
-authenticates all11 archives and accepts the full engine/Mac-native/portable roles.
-Candidate262 remains preserved as the prior feature baseline; public main is unchanged.
-Snapshot-controller waits274 now verify locally at native048cf25/observer92bb6c2;
-candidate273 predates that repair and supplies no acceptance for it.
-Candidate276 at9d92322 is terminal and unaccepted: the engine fails a saved-stream
-header mutation case; original Mac-native and portable auditors independently
-accept their roles. [Terminal evidence](benchmarks/snapshot-waits-276/terminal279/receipt.json)
-preserves all11 archives and failures. Unicode278 has [local verification](benchmarks/gui-unicode-input-278/receipt.json)
-at native d0f10ae. [Stream integrity279](benchmarks/stream-header-integrity-279/receipt.json)
-is locally verified at native3bd6591 with identified test-only observers128b313/
-73b2f8e:55 native suites,588 unique installed passes and1039 audit controls.
-Candidate281 now freezes3f15c2b for full own-source qualification in three
-identified roles; [initial campaign](benchmarks/stream-header-qualification-281/receipt.json)
-observes all queued. Authenticate11 archives and execute complete frozen-source
-auditors. No later source inherits273 acceptance.
+Planning update: 2026-10-28 UTC, through engineering-qualified candidate281
+at3f15c2b. Its combined closeout above accepts the complete original engine,
+Mac-native and portable roles and preserves all11 archives. Original276 remains
+terminal/unaccepted, while candidate273 remains a historical qualified source.
+Later font283 has local Windows acceptance and requires its own platform gate.
+Public main is unchanged. Do not repeat completed281 roles for documentation.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 

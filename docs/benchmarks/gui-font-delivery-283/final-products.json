@@ -1,0 +1,428 @@
+[
+  {
+    "path": "Release/geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\geos.dll"
+  },
+  {
+    "path": "Release/geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\geos_c.dll"
+  },
+  {
+    "path": "Release/nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\nanobind-static.lib"
+  },
+  {
+    "path": "Release/qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "d5e8aefb00aea4e3897bf0ed8de017d6e21e8fffd024f7e470caf126ef3d7ff6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_analysis_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_app.exe",
+    "bytes": 7965696,
+    "sha256": "33e7f1265221f2fd1015fe836848d18e406b808b7e91cd858d1de2edd3421fc8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_app.exe"
+  },
+  {
+    "path": "Release/qupathxx_batch.exe",
+    "bytes": 5350400,
+    "sha256": "596927fcb4b6b8ae53627c100674efcb0f5bcdfd02977e377818b23f0d8fb4b7",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_batch.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_calibration_tests.exe",
+    "bytes": 2501632,
+    "sha256": "75d401ce36704fdbb40e8b68e3e36e7ea6e23c7ad209907e55e95bcde5345287",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_cell_calibration_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "9bf265e1c4e7e6d9c64f5bd08ef0c38ca2ddc422f9af9c09c8c9d7031f4e49d1",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_cell_expansion_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "bytes": 3752448,
+    "sha256": "f9881d5a51f4259f4437af306b7bed455dc87e6c3a55c0b123f3649cfb86e8c4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_cell_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_table_tests.exe",
+    "bytes": 4307968,
+    "sha256": "4e11b2c955771dcfe38bbaba5430622f8c943a090f791c1eb128f118cf2140f2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_cell_table_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_tests.exe",
+    "bytes": 2699776,
+    "sha256": "c29009d2c71b88ce3e91db464f259cafd0dba3a4a22d268106883b637b56e93f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_cell_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "df03b716f365406470670cf9440519e563dfba9cfcb6ff6c6bbbf9a7f44048a2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_classes_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "beec13d05b5a8c6f78377139a01eed886de1fbf7b3b4b7ff53f858ff662e31e9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_classifier_io_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "2880402ef538bb312ab4d566df7d31e9fd30edd1986854bea5c15df70ec09d9e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_classifier_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_core.lib",
+    "bytes": 116158304,
+    "sha256": "2c152b0730657f2e225bea0d36da33f998c0c92ebc5eda05f0cd592fbb8b3d1f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_core.lib"
+  },
+  {
+    "path": "Release/qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "99339676091710622744e9722a3db76e838ba958f7dae1e4dd68cf65f213f1f0",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_core_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_decimal_quantity_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "d4d7b9205b476da2a4730ecc3265192a94492ae2b6582968769fcd3d93d1981b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_document_edits_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "0137680b58566055b3fbbf275a72078c58a48f3c25dd075fe1725d644d6466ba",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_file_fingerprint_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "93072f762d956039e778ad3a4739c25335cb949933ad5300590aec727b75a3e6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_geometry_edits_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "45eb38e74e513101f5c4949c1336bc8f9f99f4b66f3a77b7d41ab3c70098fec5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_geometry_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_gui.lib",
+    "bytes": 17731576,
+    "sha256": "f51d102629c6618e0d52b34f3cc2f5b84cbf45758cfa1215b3f8482d05176bfd",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_gui.lib"
+  },
+  {
+    "path": "Release/qupathxx_gui_replay_tests.exe",
+    "bytes": 885760,
+    "sha256": "3ca95c5bcc1e897ba0f98997ade82fe27e5bee426f39d0fc4405c0420c3ae322",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_gui_replay_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "90b9edc58a2c0eb7f408082d86beae1a30358e8e9a850dc006a335c1b25bb5e5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_interchange_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2604032,
+    "sha256": "7b9fc0b8cb5b7ab7c96fd5ae04fb66990ce4541c44cbb3ea39a107750f2a1b30",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_log_cell_recipe_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "08eace6960b4faca0d82a2d2c06abf11b3df7509592b2a3f4fd399ab495a4618",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_log_watershed_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_masked_gaussian_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "82b5b2d06a5d6e20424b361d48b548d0437784f6705df8e855b5796089a56d6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_measurement_table_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_object_classifier_tests.exe",
+    "bytes": 3153408,
+    "sha256": "876340306dfde001d6e4516dd2e76cc8ebfb30f54c25b6896069c57967da48c2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_object_classifier_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_object_snapshot_tests.exe",
+    "bytes": 3663872,
+    "sha256": "bb83fe9a54a1259b650137d64ff27dd7a3a3d9ae42fa4d7b2c87f6180eb381b3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_object_snapshot_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_overlay_tests.exe",
+    "bytes": 23552,
+    "sha256": "404253af9f9fb5721369dc54cef15170daf441f1e0892829d5d8d7ade36adc6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_overlay_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "2dde44369749ceedc3d62edbcbb259dae6c022a21feaa0138a1d9f12c43c343e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_pixel_feature_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5670912,
+    "sha256": "88f5399df92ac338a76f550a770480a97ca07c417b9e2aab4e351fa87080adac",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_pixel_workflow_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "bytes": 4986880,
+    "sha256": "9c6c902b4ee3c1d4719486f91956cb6ad7cd49cb678fa447ccd57e64688a0391",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_project_batch_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_tests.exe",
+    "bytes": 4183040,
+    "sha256": "a49cb56cd1fbcc0495812baed1f4823d13f9cec171fcff8a858bf61c52ce57f4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_provenance_tests.exe",
+    "bytes": 2459136,
+    "sha256": "4024b5596d1a3142da0b341cc981f66f199b05c0e9b31c6da3e5c0f3817ac226",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_provenance_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 3546624,
+    "sha256": "ee61a824e80608eab34295bcd0f6e4e33212e0b12a7c0a7156cbe0150e4c547c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_qptma_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "3dc7b81b82c42b575237bba2fc4fa926e7cfa76f236b7df0682172e9d8485814",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_qptma_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_raw_image_tests.exe",
+    "bytes": 4533760,
+    "sha256": "02b52ac2c5e437e660069445cb54d9daf58360b5e9c41dea3483375ccec2436a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_raw_image_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_recovery_tests.exe",
+    "bytes": 3640320,
+    "sha256": "7060acbb47d9c54fd9cc2b91954eebae3fb530224076d1b73793519951945a36",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_recovery_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_region.exe",
+    "bytes": 778752,
+    "sha256": "c78be5a70611f06c5981d524951b68a460b2d3464d8f1c32214c6a33229a4a5d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_region.exe"
+  },
+  {
+    "path": "Release/qupathxx_resampling_tests.exe",
+    "bytes": 3170304,
+    "sha256": "81152e50ff8e678507aa04fa22d6e6e64c2c7adf6654b9141c2b2e5d55642c41",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_resampling_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_save_tests.exe",
+    "bytes": 3505152,
+    "sha256": "a9696852883ead6b4bdfaca63688dcb3b92e7730a4a90cbba13715d6f9a65d10",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_save_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "8528472ebc5354c4dbe93dc3c20b2f11a72eb94e63d9982ff1e3cac11b968ecd",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_scheduler_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "27b8a742d571ce5c6709dc005ae43aada00e9ce73977137ed0b33561d55ce889",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_selection_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "4238a31c6a1c432982ff3bc5ee448a1d8af6824f2a2605a11f0b57b5e58ab3af",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_server_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "1a365438b844d2a34f1ef6f4659cb8d701c4200d9aec493027101de25727c639",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_sha256_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "e2cb98a550cbb1be6b01513b08e78b59a9668fb3675da3f63bf73900aace253a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_source_identity_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "9d5e6e3ac9dbc01d3f5d9bf5af5a8ea8fa56ddb4521393abe5aead4e738ce795",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_spatial_analysis_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 3580416,
+    "sha256": "3a6025b337fb3607f632ede1331d9c0cd43007390444c888a9be697fca9f3be8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_spatial_cli_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_frontend_tests.exe",
+    "bytes": 3073024,
+    "sha256": "0bb3959c2792ee2b8d82bf281df1a399f1dcfecfc88f0a5a59d3e2f4453664de",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_spatial_frontend_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 3637248,
+    "sha256": "24e5d3cde783e9a4b186296c40aa38b7ca2363961f31feed368db3a51bf87357",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_spatial_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "f3ffc9c6314acd5a0308b8a5b329c046ee450a5ca1ff48c8f4810819a2ab910e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_spatial_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_sqlite.lib"
+  },
+  {
+    "path": "Release/qupathxx_stains_tests.exe",
+    "bytes": 248320,
+    "sha256": "0b1309ef91baf7b6269a7c191a50be390aa73be1f61fa9e6057adc44a848c444",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_stains_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "8b906364a1bcd5200fd48a3e747a2ff2635365ae7a00abd0dc52fbf0d1bf6cfa",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_stain_estimation_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "550b9db9845c9feed2db312a2cdfe3db9aa5dd3520a1913eb8907586227782a3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_thumbnail_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tiff_xml.lib"
+  },
+  {
+    "path": "Release/qupathxx_tissue_contour_tests.exe",
+    "bytes": 2378240,
+    "sha256": "c14a22248e6e406f3af45663cbac1388a2242608e6d8c03078113aff996a4930",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tissue_contour_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 3564544,
+    "sha256": "844ee63333d01c1c9adf5cd113f2225fbdc111f3f89120e0d732658e4a8548d3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tissue_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tissue_tests.exe",
+    "bytes": 2254336,
+    "sha256": "ba6308063c9fa17c19782239ea360038ad81a0fccc4b84b181deff046dba772a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tissue_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tma_dearray_tests.exe",
+    "bytes": 5230080,
+    "sha256": "c75bf799349dc838b307a2714fffcd3bd71b725b6063a4e3971153fd206f98c6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tma_dearray_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tma_tests.exe",
+    "bytes": 4556800,
+    "sha256": "e8e3c17eee16f69a8b2e276ef7fb7d966ee8393bf2ff69617a2a5489e248bd70",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_tma_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 5358592,
+    "sha256": "40eb166c437293dfe9cfd250026e5f22634cafde977dff8e13ef7912cbe5f61e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_viewer_session_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "9b4fc54f327be7962eb7cd5bc0af07c95198ebe7afbcaf973f2298dcdb74b851",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_view_tiles_tests.exe"
+  },
+  {
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "bytes": 10077184,
+    "sha256": "097657ee1d308e5f89d2b087b6e4d1e703f6c5cbc746ba2c8cb1ff269bec5911",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\_native.cp312-win_amd64.pyd"
+  },
+  {
+    "path": "Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\_native.lib"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdC/CompilerIdC.exe",
+    "bytes": 14848,
+    "sha256": "7c78a4f104b843ec0fed1d0ae22cc86a4b269eaa99e90a905b6fefd2cfba72ea",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\CMakeFiles\\4.4.4\\CompilerIdC\\CompilerIdC.exe"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdCXX/CompilerIdCXX.exe",
+    "bytes": 15360,
+    "sha256": "1cd88308be674092e78c327d6cddbc1b59c66d8d1ea5873ef8a6219896dde163",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\CMakeFiles\\4.4.4\\CompilerIdCXX\\CompilerIdCXX.exe"
+  },
+  {
+    "path": "Release/fonts/NotoSansCJKsc-Regular.otf",
+    "bytes": 16437364,
+    "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\fonts\\NotoSansCJKsc-Regular.otf"
+  },
+  {
+    "path": "Release/fonts/NotoEmoji.ttf",
+    "bytes": 1982596,
+    "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\fonts\\NotoEmoji.ttf"
+  }
+]

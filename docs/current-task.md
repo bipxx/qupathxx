@@ -7,21 +7,25 @@ The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt
 engine, Mac-native and portable audits. Its source-specific GUI overview has
 been inspected. This supersedes older campaign observations below; public main
 is unchanged. The later font source `7231d95` is locally built and passes55 native
-suites and five targeted desktop font cases; broader installed/desktop/audit
-regressions are running. It inherits no281 platform acceptance. Three strict
+suites, five targeted font cases,395 installed GUI passes,348 nonrendering
+passes,115 additional desktop passes and1053 audit controls. See the
+[local font receipt](benchmarks/gui-font-delivery-283/receipt.json). Counts overlap. It inherits no281 platform acceptance. Three strict
 scientific expected failures, representative speed/hardware, broader biology,
 clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
 
-**Font delivery283 local validation is in progress.** The pinned ImGui1.93
-core/backends, module-relative OFL CJK/Emoji assets and recoverable atlas cap
-are built in native7231d95. All55 native suites and five actual GUI font tests
-pass, including real glyph rendering, cached pixels across scale changes,
-working-directory independence and missing/corrupt asset repair. The rendered
-Unicode capture has been inspected. Full installed cohorts, broader desktop
-regressions and1053 expected audit controls are running. These local tests share
-test dependencies; no clean-machine, real GPU peak-memory, shaping, bidi or
-own-source platform qualification is claimed. Preserve the initial stale-source
-configure failure and the later native compatibility compile failure separately.
+**Font delivery283 is locally verified at native7231d95.**
+The [receipt](benchmarks/gui-font-delivery-283/receipt.json) binds55 native suites,
+five targeted font cases,395 installed GUI passes/one skip,348 nonrendering
+passes/48 skips,115 broader desktop passes/one skip and1053 audit controls.
+These cohorts overlap. All39 package members,43 wheel records, six new font
+assets/notices,415 compiler inputs,71 retained final products and7/5 typing
+files with28 expected diagnostics verify. Stubs are unchanged. The Unicode
+capture was inspected. Initial configure/compile failures remain preserved.
+The orchestration's mixed path-separator filter omitted preflight inputs before
+execution; the separate corrected observer ran all20 original files successfully.
+This Windows GUI-capable runtime shares test dependencies. Actual GL peak
+storage/RSS, physical-monitor DPI, shaping/bidi, actual editor interaction on
+this new font runtime and own-source platform qualification remain open.
 
 **Font pilot282 identifies the next M2 delivery path.** [Receipt282](benchmarks/gui-font-pilot-282/receipt.json)
 compares retained32-bit1.91.9b with pinned1.93 docking and unmodified OFL CJK/

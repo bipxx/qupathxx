@@ -1,0 +1,5 @@
+{
+  "exit_code": 1,
+  "output": "desktop-regression 0\r\nTraceback (most recent call last):\r\n  File \"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\validate_gui_fonts_283.py\", line 51, in <module>\r\n    if arg.replace('\\\\', '/').startswith('tests/') and arg.endswith('.py')]\r\n  ^^^^^^^^^^^^^^^^\r\nAssertionError: 8\r\n",
+  "note": "The running interpreter compiled the initial forward-slash-only filter. A disk edit during the run corrected that filter for future use; traceback source lines therefore reflect the later file. No preflight command ran in this failed wrapper. Separate preflight_gui_fonts_283.py normalizes both separators and ran all20 files with1053 passes."
+}

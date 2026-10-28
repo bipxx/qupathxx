@@ -5,8 +5,9 @@ The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt
 engine, Mac-native and portable audits. Its source-specific GUI overview has
 been inspected. This supersedes older campaign observations below; public main
 is unchanged. The later font source `7231d95` is locally built and passes55 native
-suites and five targeted desktop font cases; broader installed/desktop/audit
-regressions are running. It inherits no281 platform acceptance. Three strict
+suites, five targeted font cases,395 installed GUI passes,348 nonrendering
+passes,115 additional desktop passes and1053 audit controls. See the
+[local font receipt](benchmarks/gui-font-delivery-283/receipt.json). Counts overlap. It inherits no281 platform acceptance. Three strict
 scientific expected failures, representative speed/hardware, broader biology,
 clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
 
@@ -23,17 +24,10 @@ supported-release requirements remain; every milestone is Partial.
 
 The [current task](current-task.md) owns current source/count/gate status; older
 receipts and observations below retain their original source-specific scope.
-The latest qualified feature baseline is [candidate273](benchmarks/schema-observer-273/closeout275/receipt.json)
-at5f1760a, with all11 archives and complete engine/Mac-native/portable audits.
-Its engine auditor432c36c is separately identified; the original rejection is
-preserved. Later snapshot-wait274/native048cf25 is locally verified and still
-requires its own full qualification. Candidate276 is terminal/unaccepted after
-a header-mutation failure; [terminal evidence](benchmarks/snapshot-waits-276/terminal279/receipt.json)
-accepts Mac-native/portable independently. [Local279](benchmarks/stream-header-integrity-279/receipt.json)
-repairs saved-stream headers at native3bd6591 with identified test-only observers,
-55 native suites/588 unique installed passes/1039 audit controls. [Candidate281](benchmarks/stream-header-qualification-281/receipt.json) now runs
-complete own-source qualification at3f15c2b; its three initial roles are queued. Unicode278 preserves supplementary input, while
-glyph coverage/shaping/DPI remain open. Public main remains unchanged.
+Candidate281 supersedes qualified273 for the declared engineering roles.
+Original276 remains terminal/unaccepted; its failure and independent Mac/portable
+results are preserved. Candidate281 includes the Unicode-input/wait/header repairs.
+Font283 is a later local delivery with the separate acceptance limits above.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
 `04ccfa4fb7d43e9b566393e08e83690b72248d44`. Source areas below refer to modules
