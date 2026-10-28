@@ -1,0 +1,89 @@
+{
+  "conclusion": "",
+  "databaseId": 40706232371,
+  "headSha": "9d923225cb53009506042f6c27df2aff91e123e2",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122879003690,
+      "name": "Windows headless Python 3.11 NumPy 1",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879003690"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122879004094,
+      "name": "Linux headless Python 3.12 NumPy 2",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879004094"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122879004189,
+      "name": "Linux minimal native",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879004189"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122879004278,
+      "name": "Linux ASan UBSan native",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879004278"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122879004327,
+      "name": "Windows GUI Python 3.12 software GL",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879004327"
+    },
+    {
+      "completedAt": "2026-10-28T14:28:15Z",
+      "conclusion": "skipped",
+      "databaseId": 122879005829,
+      "name": "Manylinux build Python ${{ matrix.python }}",
+      "startedAt": "2026-10-28T14:28:15Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879005829"
+    },
+    {
+      "completedAt": "2026-10-28T14:28:15Z",
+      "conclusion": "skipped",
+      "databaseId": 122879007243,
+      "name": "Debian consumer Python ${{ matrix.python }}",
+      "startedAt": "2026-10-28T14:28:16Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879007243"
+    },
+    {
+      "completedAt": "2026-10-28T14:28:15Z",
+      "conclusion": "skipped",
+      "databaseId": 122879068694,
+      "name": "macOS native ${{ matrix.architecture }}",
+      "startedAt": "2026-10-28T14:28:22Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371/job/122879068694"
+    }
+  ],
+  "status": "queued",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371"
+}

@@ -2,6 +2,24 @@
 
 ## Current execution card (2026-10-28)
 
+**Candidate276 is frozen for full own-source qualification** at9d92322 on
+feature/snapshot-waits-qualification-276. [Campaign276](benchmarks/snapshot-waits-276/receipt.json)
+records engine [40706232371](https://github.com/bipxx/qupathxx/actions/runs/40706232371),
+Mac-native [40706246737](https://github.com/bipxx/qupathxx/actions/runs/40706246737)
+and portable [40706261296](https://github.com/bipxx/qupathxx/actions/runs/40706261296).
+Initial observations show all three queued.539 source paths authenticate;410
+compiler Git blobs equal testednative048cf25, with144 newline-only fresh-checkout
+differences recorded. Local binaries keep their048cf25 provenance; every hosted
+role must build and qualify its own9d92322 source.
+
+An initial CLI GET of workflow metadata timed out. Its attempt is preserved;
+authoritative branch/event queries confirmed zero runs before recovery through
+verified workflow ID392658909. One actual run per role is identified with the
+unchanged full semantic inputs. Do not rerun either dispatch script. Next:
+observe these exact IDs, authenticate all11 required archives and execute the
+complete frozen-source auditors. Qualified273 remains the baseline until that
+acceptance exists. All independent M0-M7 and release/scientific/hardware gates stay open.
+
 **Candidate273 is fully engineering-qualified at5f1760a.** [Closeout275](benchmarks/schema-observer-273/closeout275/receipt.json)
 binds all11 authenticated archives, complete five-profile engine acceptance, both
 Mac-native architectures and both portable builders/fresh Debian consumers.
@@ -37,8 +55,8 @@ with28 exact diagnostics pass; stubs are unchanged. All33 package members,
 compiler inputs authenticate.69 prior and69 new products are retained. One native
 build suffices; later test/contract changes do not rebuild or relabel its source.
 
-Candidate273 predates274 and cannot qualify this repair. Next: freeze the
-completed274 source with observer275 for its own full qualification. Broad M6, all M0-M7,
+Candidate273 predates274 and cannot qualify this repair. Candidate276 above now
+runs the completed274 source with observer275 through its own full qualification. Broad M6, all M0-M7,
 scientific, general-speed/hardware, support and release gates remain open.
 
 ### Earlier candidate273, separate source

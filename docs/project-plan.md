@@ -17,6 +17,8 @@ authenticates all11 archives and accepts the full engine/Mac-native/portable rol
 Candidate262 remains preserved as the prior feature baseline; public main is unchanged.
 Snapshot-controller waits274 now verify locally at native048cf25/observer92bb6c2;
 candidate273 predates that repair and supplies no acceptance for it.
+Candidate276 freezes9d92322 for the complete source-matched qualification of274
+and observer275; all three full roles are queued in the initial observation.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
@@ -49,6 +51,7 @@ this update is a reconciliation, not a new independent model review.
 | Observer repair272 / original271 diagnosis | [Repair272](benchmarks/schema-observer-272/receipt.json) at3aca3d9: two red/two green benchmark process controls,10000-record headless/GUI benchmarks,1007 audit controls and exact installed admission307/one GUI skip,260/48 nonrendering skips. All410 compiler inputs unchanged;534 source paths authenticate | Freeze one successor own-source campaign. Original271 and262 acceptance never transfers to changed source; no broad science, speed or release acceptance |
 | Qualified feature candidate273 | [Combined closeout275](benchmarks/schema-observer-273/closeout275/receipt.json) at5f1760a: all11 archives and complete engine/Mac-native/portable audits pass. Engine auditor432c36c corrects stale34to35 record-cohort count and requires all13 named schema14 migrations; original rejection preserved. No CI rerun or application rebuild | Later snapshot waits274 remain outside this qualification. No main promotion, science/general-speed/hardware/support/release acceptance or M0-M7 completion |
 | Snapshot-controller waits274 | [Receipt274](benchmarks/snapshot-waits-274/receipt.json) at native048cf25/observer92bb6c2:55 native suites,48 new controls,459 unique installed passes,1015 auditor controls and exact package/runtime/stub/typing proof. Five older Document-free controllers reuse the guarded wait bridge | Own-source full qualification remains;273 predates274. Broad M6 and independent scientific/speed/hardware/support/release requirements remain open |
+| Candidate276 qualification | [Campaign276](benchmarks/snapshot-waits-276/receipt.json) at9d92322: one identified full engine/Mac-native/portable run each,539 authenticated source paths and410 compiler Git blobs equal testednative048cf25. Initial metadata GET timeout and zero-run recovery observation are preserved | Queued/in progress. Require all11 authenticated archives and complete applicable auditors. Candidate273 stays qualified; no acceptance transfer, main promotion or release |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.
