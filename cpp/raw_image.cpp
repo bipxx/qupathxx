@@ -3,6 +3,7 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "atomic_export.hpp"
+#include "ascii_case.hpp"
 #include "sha256.hpp"
 #include "raw_statistics_internal.hpp"
 #include <algorithm>
@@ -15,7 +16,7 @@
 
 namespace qpx {
 bool is_ome_tiff_path(const std::string& path) {
-    auto name=std::filesystem::u8path(path).filename().u8string();std::transform(name.begin(),name.end(),name.begin(),[](unsigned char c){return char(std::tolower(c));});
+    auto name=std::filesystem::u8path(path).filename().u8string();detail::ascii_lower_in_place(name);
     const auto ext=std::filesystem::u8path(name).extension().u8string();return name.find(".ome.")!=std::string::npos && (ext==".tif" || ext==".tiff" || ext==".tf2" || ext==".tf8" || ext==".btf");
 }
 namespace {

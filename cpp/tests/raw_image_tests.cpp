@@ -14,9 +14,34 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <clocale>
 using namespace qpx;
 void check(bool value) {if(!value) throw std::runtime_error("raw image check failed");}
 template<class F> void rejects(F&& f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing raw rejection");}
+void locale_independent_format_paths() {
+    const std::string original=std::setlocale(LC_CTYPE,nullptr);
+    struct Restore {std::string value;~Restore(){std::setlocale(LC_CTYPE,value.c_str());}} restore{original};
+#ifdef _WIN32
+    const char* locales[]={"C","English_United States.1252","tr-TR"};
+#else
+    const char* locales[]={"C"};
+#endif
+    for(const auto* locale:locales) {
+        check(std::setlocale(LC_CTYPE,locale)!=nullptr);
+        const std::string selected=std::setlocale(LC_CTYPE,nullptr);
+        const std::string prefix=u8"\u539f\u59cb-\u0391\u03a3-";
+        for(const auto* extension:{"TIF","TIFF","TF2","TF8","BTF"}) {
+            const auto name=prefix+"IMAGE.OME."+extension;const auto unchanged=name;
+            check(is_ome_tiff_path(name));check(name==unchanged);
+            check(is_ome_tiff_path("folder.ome/"+name));
+        }
+        check(!is_ome_tiff_path(prefix+"IMAGE.PPM"));
+        check(!is_ome_tiff_path(prefix+"IMAGE.TIFF"));
+        check(!is_ome_tiff_path("folder.ome/"+prefix+"IMAGE.TIF"));
+        check(!is_ome_tiff_path(prefix+"IMAGE.OME.TIF.backup"));
+        check(std::string(std::setlocale(LC_CTYPE,nullptr))==selected);
+    }
+}
 // Independent TIFF strips, including explicit planar channel storage. This
 // exercises physical decode reuse without depending on an encoder or the LRU.
 void multichannel_block_reuse(const std::filesystem::path& path) {
@@ -108,6 +133,7 @@ void multifile_dispatch(const std::filesystem::path& path) {
 int main() {
     namespace fs=std::filesystem;const auto path=fs::current_path()/("raw-test-"+std::to_string(std::random_device{}())+".tif");
     try {
+        locale_independent_format_paths();
         RawPixelBuffer owned(2,2,1,SampleType::UInt16);check(owned.payload_bytes()==12 && std::get<std::vector<std::uint16_t>>(owned.storage()).size()==4);
         rejects([] {RawPixelBuffer invalid(0,2,1,SampleType::UInt8);});rejects([] {RawPixelBuffer invalid(100000,100000,3,SampleType::Float64);});
         TiffView view;view.channels={0,0,0};view.lower={0,0,0};view.upper={65535,65535,65535};check(tiff_view_decode(tiff_view_encode(view)).upper==view.upper);

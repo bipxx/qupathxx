@@ -5,6 +5,7 @@
 #include "qupathxx/raw_image.hpp"
 #include "raw_cli.hpp"
 #include "decimal_quantity.hpp"
+#include "ascii_case.hpp"
 #include <fstream>
 #include <filesystem>
 #include <iostream>
@@ -44,7 +45,9 @@ static int launch(int argc, char** argv) {
             if(!step) throw std::invalid_argument("RGB nominal downsample must be a positive finite decimal");
             nominal_request.emplace(number(argv[3]),number(argv[4]),number(argv[5]),number(argv[6]),*step);
         }
-        auto server = path.size() >= 4 && path.substr(path.size()-4) == ".ppm"
+        auto extension=std::filesystem::u8path(path).extension().u8string();
+        qpx::detail::ascii_lower_in_place(extension);
+        auto server = extension == ".ppm"
             ? qpx::ppm_image_server(path) : qpx::has_tiff() && qpx::is_ome_tiff_path(path)?qpx::open_tiff(path):qpx::open_slide(path);
         std::shared_ptr<const qpx::ThumbnailResult> preview;
         std::optional<qpx::PixelBuffer> explicit_region;

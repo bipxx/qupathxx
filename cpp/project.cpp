@@ -1,6 +1,7 @@
 #include "reader_file_guard.hpp"
 #include "filesystem_access.hpp"
 #include "atomic_export.hpp"
+#include "ascii_case.hpp"
 #include "tma_internal.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "raw_analysis_internal.hpp"
@@ -50,7 +51,7 @@ std::string absolute(const std::string& path) {
 std::string reader_name(const std::string& path,std::string reader) {
     if(reader=="auto") {
         auto ext=fs::u8path(path).extension().u8string();
-        std::transform(ext.begin(),ext.end(),ext.begin(),[](unsigned char c){return static_cast<char>(std::tolower(c));});
+        detail::ascii_lower_in_place(ext);
         const auto ome=is_ome_tiff_path(path);
         reader=ext==".ppm"?"ppm":has_tiff() && ome?"tiff":"openslide";
     }

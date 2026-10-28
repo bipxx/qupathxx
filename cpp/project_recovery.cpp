@@ -1,5 +1,6 @@
 #include "qupathxx/project_recovery.hpp"
 #include "filesystem_access.hpp"
+#include "ascii_case.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cctype>
@@ -66,7 +67,7 @@ bool name_prefix(const fs::path& path,const std::string& prefix) {
 }
 bool recovery_extension(const fs::path& path) {
     auto ext=path.extension().u8string();
-    std::transform(ext.begin(),ext.end(),ext.begin(),[](unsigned char c){return static_cast<char>(std::tolower(c));});
+    detail::ascii_lower_in_place(ext);
     return ext==".qpxrecover";
 }
 fs::path cache_directory() {
