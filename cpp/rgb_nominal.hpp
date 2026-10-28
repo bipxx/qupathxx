@@ -13,11 +13,19 @@ struct RgbNominalPlan {
     std::uint64_t start,stride;
     bool nearest;
     RegionRequest window;
+    std::int64_t sample_x=0,sample_y=0;
     bool empty() const {return window.width==0 || window.height==0;}
 };
 RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_height,
     std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,
     double nominal_downsample,const std::atomic<bool>* cancelled=nullptr);
+// Output-lattice window, not a new integer source crop. Negative sample indices
+// provide up to4096 context samples on each side without shifting the lattice.
+// All sample centers use the original request's fixed-point start/stride.
+RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t image_height,
+    std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double nominal_downsample,
+    std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
+    const std::atomic<bool>* cancelled=nullptr);
 // The window must have exactly plan.window dimensions and opaque RGBA bytes.
 // Pass nullptr only for an empty plan. Output is owned, opaque RGBA, including
 // black outside-image samples. No default quantitative sampling policy changes.

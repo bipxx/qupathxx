@@ -42,6 +42,7 @@ BASE={
 }
 BASE['resampling'].append('99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed')
 BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed')
+BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed')
 CONDITIONAL=[
  ('raw_image','tiff','TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed'),
  ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),
