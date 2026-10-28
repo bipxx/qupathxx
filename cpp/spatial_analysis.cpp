@@ -163,7 +163,7 @@ bool SpatialDistanceJob::request(const SpatialDistanceRequest& request) {
     const auto old_cancel=s.cancelled.exchange(false);const auto old_progress=s.progress.exchange(0),old_tests=s.tests.exchange(0);
     std::future<std::shared_ptr<const SpatialDistanceResult>> next;
     try {next=std::async(std::launch::async,[request,&s] {return SpatialDistanceKernel::run(request,&s.cancelled,&s.progress,&s.tests);});}
-    catch(...) {s.cancelled.store(old_cancel);s.progress.store(old_progress);s.tests.store(old_tests);throw;}
+    catch(...) {if(old_cancel) s.cancelled.store(true);s.progress.store(old_progress);s.tests.store(old_tests);throw;}
     s.future=std::move(next);s.request=request;s.result.reset();s.stale=false;const auto generation=s.stats.generation+1;s.stats={};s.stats.generation=generation;s.stats.state="running";s.stats.total_rows=request.source_count();s.stats.snapshot_bytes=request.snapshot_bytes();s.stats.work_bytes=request.required_work_bytes();s.stats.capture_ms=request.capture_ms();s.started=Clock::now();return true;
 }
 SpatialDistanceStats SpatialDistanceJob::poll(const Document& doc) {

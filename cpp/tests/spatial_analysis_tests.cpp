@@ -144,7 +144,7 @@ void upstream_reference_contracts() {
         SpatialDistanceRequest request(d,{mapping.at(c.at("source").get<std::string>())},targets,options);auto result=measure_spatial_distances(request);const auto& row=result->rows().at(0);
         check(near(row.source_centroid.x,expected.at("source_centroid")[0].get<double>()+32) && near(row.source_centroid.y,expected.at("source_centroid")[1].get<double>()+32));
         if(expected.at("measured").get<bool>()) {
-            check(row.distance);const auto value=expected.at("distance").get<double>();
+            check(bool(row.distance));const auto value=expected.at("distance").get<double>();
             if(name.rfind("default_float_",0)==0 || name.rfind("explicit_double_",0)==0) {check(double(float(*row.distance))==value && *row.distance!=value);++storage;}
             else {check(near(*row.distance,value));++geometry;}
         } else {check(!row.distance && !row.target_id);++geometry;}
