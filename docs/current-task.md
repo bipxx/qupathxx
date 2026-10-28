@@ -2,6 +2,20 @@
 
 ## Current execution card (2026-10-28)
 
+**Font candidate285 is frozen; complete own-source qualification is queued.**
+The [campaign](benchmarks/gui-font-qualification-285/receipt.json) binds source
+`1f71eb5`, engine [40743832312](https://github.com/bipxx/qupathxx/actions/runs/40743832312),
+Mac-native [40743845473](https://github.com/bipxx/qupathxx/actions/runs/40743845473)
+and portable [40743859500](https://github.com/bipxx/qupathxx/actions/runs/40743859500).
+Each full role was dispatched once.547 source paths authenticate;415 canonical
+compiler Git blobs equal tested localnative7231d95, with149 newline-only fresh
+checkout differences. Each hosted role builds its own frozen source; local
+binaries keep7231d95 provenance. Observe these exact runs, authenticate all11
+required archives and execute the prepared complete original-source auditors.
+Do not redispatch or move the frozen ref/checkout. Candidate281 remains the
+qualified feature baseline until combined285 acceptance exists; science,
+physical-monitor DPI, actual new-font Name editing and release remain separate.
+
 **Current qualified feature baseline: candidate281 at `3f15c2b`.**
 The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source
 engine, Mac-native and portable audits. Its source-specific GUI overview has

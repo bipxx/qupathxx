@@ -623,3 +623,5 @@ docs/benchmarks/gui-font-pilot-282/** -text -whitespace
 docs/benchmarks/gui-font-delivery-283/** -text -whitespace
 
 docs/benchmarks/gui-font-gl-284/** -text -whitespace
+
+docs/benchmarks/gui-font-qualification-285/** -text -whitespace
