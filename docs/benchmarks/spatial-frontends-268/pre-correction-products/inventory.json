@@ -1,0 +1,404 @@
+[
+  {
+    "path": "_native.cp312-win_amd64.pyd",
+    "bytes": 9956864,
+    "sha256": "3de9df400b5473ea52db0a92d1baebb0bd5cd0801d546e438f7f10df633aefe0",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "340fec6a7562196b34f3f2b8b2460acb76266248c0261831795d14677d070c13",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_app.exe",
+    "bytes": 7858176,
+    "sha256": "cb3441cce8ef4f92550a45a9ede0ec74e38fdb111d2f9926e79ab91f86720f4e",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_batch.exe",
+    "bytes": 5349888,
+    "sha256": "0b696decaf3e98aff161bbc63fdaca1368401dc5cc0f2d56e68a0b7bf35f401b",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_cell_calibration_tests.exe",
+    "bytes": 2501632,
+    "sha256": "5a443d8cf89355fe5dae78ce015587c6190aa931f9c95cc8e703d89534059715",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "8542d4b117bbad590428a69b4b344c88f59ec4f0f5d0f72476e841c1d1edf05d",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_cell_record_tests.exe",
+    "bytes": 3752448,
+    "sha256": "9fa825894c5dbd5bebfed5a7d891042e7e9b5bf6a804671edb87e4849ffbc0c9",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_cell_table_tests.exe",
+    "bytes": 4307968,
+    "sha256": "41f427d72798f95ebe6866c070f2905ad97f1057cc0ff752f5c982ec6e94d6f3",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_cell_tests.exe",
+    "bytes": 2699776,
+    "sha256": "f579e97bb39892b4a99a199e229f4d556e0c13a67214b89085f25bc1c7d3cc1c",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "c6c0121fd9d42e27092302bac7986b34a09998025bd4bb56829b8b2e894ec348",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "db6f4014235813cd3f7670851ba5c6e80c8bb474521a55dd202557df44bbf99d",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "e84d032a956f44fb5740dd6939eadf9570c838b6fb4f95e1bc30b7e5d8bd2bbe",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_core.lib",
+    "bytes": 116149328,
+    "sha256": "11d3d5ab8356dd22149f3e1328876f738f3e1adb717084ec9032fb649814a036",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "6062aad7e5d1b5364f57217f4341bdd1207c5b559209198115f0910afc811777",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "7c6caabc957f48e0630681736449128d155c6d8d4d93bfa34669f817052120c2",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "3442f522f1c6eb7320a8c6ca78d785ad14ef21a93ed0cfb62e63386a327e11e2",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "5252d17a99e142513cef4185c4ee2af4d7494ef438eeefa9f62ff08528d4c47c",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "c2dc52ac1d605a86a5dcaf198894c33b3f6d78ef2f7bf2fd1c0c7741491b5fa3",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_gui.lib",
+    "bytes": 16732264,
+    "sha256": "71123d93fc6946802875c391ee7f506342206b3559ab13b324d9849588ccd6bd",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_gui_replay_tests.exe",
+    "bytes": 45568,
+    "sha256": "f119d5207040b69ff32f348c4b098040ab3ddd44c7ba33a6f5367487e9f45de9",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "561e40a368781c3da60e5cafb839cb2c1c98930c489441dce14eb856a8dda17e",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2604032,
+    "sha256": "56018e56fe1c69fd04d6e31e01f3346381efc24f730465c41782cd8eba460711",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "ce04e7a172d7c36f45c28b356140695d97f6644c71d73100d6a41b586d0514e4",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "47611f79098f1ffbdb871156d95b0a539fd324865be57234de58706f11caaf50",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_object_classifier_tests.exe",
+    "bytes": 3153408,
+    "sha256": "21c0b556b1d0a4fe39c4f769a465230729b244f247356c77c31a7a3bd17a706f",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_object_snapshot_tests.exe",
+    "bytes": 3663872,
+    "sha256": "304ca81d02f01db0bbe76a14f6543ff62fea6815f13e595540bc2dda7df49a83",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_overlay_tests.exe",
+    "bytes": 22528,
+    "sha256": "72ac67223495f459384fdf570631484ad0f8d40d021ca98d7264d31cf2c70ceb",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "2ab7c0f4fe02a2d563768803a2e96123b86eebf3fa0b51ed57b5be28e16fcfaf",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5670400,
+    "sha256": "6578d6081d45fe4bbb65f6db2a3a9c686ca02f92d3b4a1ef8ecedba134b37d1a",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_project_batch_tests.exe",
+    "bytes": 4986368,
+    "sha256": "8eafba3fd75ec49896efeb4f115c040db6a4c3585049f2b6d992a1f2be4a1f12",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_project_tests.exe",
+    "bytes": 4183040,
+    "sha256": "1e215c96cb5cab1e8f92c0adb10f5346b829681c83bedb9297c69f466eb37472",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_provenance_tests.exe",
+    "bytes": 2459136,
+    "sha256": "b1d96dcde07ac80a2fb5441240b48118ee764536c5a47dcd74585e964b306cd8",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_qptma_project_tests.exe",
+    "bytes": 3546624,
+    "sha256": "21ae3c95d4896d2d3d4b5ebf28fca078f2799230f2f1b5f5e4139b511c64f755",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "202897d19df5f084c10da4d61393cc2cc0bfde7ecb8ecf604752043313f0bedd",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_raw_image_tests.exe",
+    "bytes": 4533248,
+    "sha256": "d70ba011dc8e610681bbcd7405a8689fd2b47a81e0fa23b67b1144ef4630c1e7",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_recovery_tests.exe",
+    "bytes": 3640320,
+    "sha256": "86758c403e2b0c7a392807e7c12efc9b31e40a9d0c01920cde120b69a4473c41",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_region.exe",
+    "bytes": 778752,
+    "sha256": "24483f4878223b1e4d6071472deb02418337e697c37a2ec61c88e0e168a5c6d1",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_resampling_tests.exe",
+    "bytes": 3170304,
+    "sha256": "2b7f3c88bc2fa547885e8928bc2879c978628a811b8c14dc293ba69917d58dae",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_save_tests.exe",
+    "bytes": 3505152,
+    "sha256": "f38c9af19dadfdadad3ae80fc3b8aca2140dd6c6b2ddfd92e3f1257c6129f0c5",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "ef6573b34a5e37737f06dde6ad530ba88b625e05cd8af2d188b77c001fc0d75d",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "d19247c499c9c47e246698b3af3baf2c5d3cfff7f19025956d7801229cf3c88a",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "0a1d8010f64885a35b9c65bdfb957c097471959b91318318d200a5c86980b6fd",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "b7ba84ad310fe80c2628c439cd768b2c717af0e98a901d2824f62a4edfccad04",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "376f830cd1a5d08f45e25019d020a225f8524d2b22c7f9f05e8137ee44d2c486",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "44d1f6741c39a7b517019122c18838364fd221182c3c8771544383629d17d510",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_spatial_cli_tests.exe",
+    "bytes": 3580416,
+    "sha256": "003ef3d1905fe6e53046be7aa77e70b5600c85cc91256f374b8d22db48e368e8",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_spatial_frontend_tests.exe",
+    "bytes": 3073024,
+    "sha256": "4b9b70c00b848b6223539b638a9697e2f35b27ae50058b3dbcd13485267ff3e3",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_spatial_record_tests.exe",
+    "bytes": 3637248,
+    "sha256": "80b42b2f507b7519fe2ee8d2355a56bbd2a838ea80912c93596c7abcf7704d92",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "f698e4813976c07fa8ed811a00e2692c82846d2f7205fedeee57b201c62eac5c",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "764136c506022299fc7abfbd6b3b75ec672bc5d1e1cceea8c14ee9780f7c4e31",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_stains_tests.exe",
+    "bytes": 248320,
+    "sha256": "0bc7877feb2c7b5b2d36f49dc7b9deec358ceb64c7379a3e8a3e780e5a6fed9e",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "9d1d4d4930f80f422090f6ffbc443114e1ccfb5ec8d2d84e56ff9c51bade8cd1",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tissue_contour_tests.exe",
+    "bytes": 2378240,
+    "sha256": "f6f19d724c465c4d1db89e7302e21cb0ad5704496543b69022b2b0ad420cdd34",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tissue_record_tests.exe",
+    "bytes": 3564544,
+    "sha256": "3367642b2a613779a45ebfde96c234c8fc56c0b0d8722a2ba40c6b790665cfc1",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tissue_tests.exe",
+    "bytes": 2254336,
+    "sha256": "8626b54d9ffa70b4bb2c4e6311538c6b62f11c179c956e8d8912439bd82dba30",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tma_dearray_tests.exe",
+    "bytes": 5228544,
+    "sha256": "6b2cfa8e873b07df568c599c59bdb40e1b79ea62853c59801905ee5b76edcbf8",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_tma_tests.exe",
+    "bytes": 4556288,
+    "sha256": "5143dbac1b18c65b716d2ce2a46ce66eb9b3edd0dcfccf296ca397f13774efef",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "7d896c5519bd5367de6de10f30b7627c06588447c4d30cab894d48ae5e9f7322",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  },
+  {
+    "path": "qupathxx_viewer_session_tests.exe",
+    "bytes": 5358080,
+    "sha256": "3a2c66bb1337a34ea228b8a30cfd855d918aa932beb07a52513ec7d2528546da",
+    "source": "7134855 initial build except core.lib/viewer_session_tests.exe from red5113aa0; dependencies unattributed"
+  }
+]

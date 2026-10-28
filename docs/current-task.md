@@ -2,6 +2,33 @@
 
 ## Current execution card (2026-10-28)
 
+**SPAT1 desktop and managed delivery has local Windows verification268** at
+native d9bba6b and stub observer c360ac9. [Receipt268](benchmarks/spatial-frontends-268/receipt.json)
+records all55 native suites,47 spatial installed cases and85 existing viewer/GUI/
+CLI regressions (132 unique installed passes). The actual desktop run/keep/verify/
+export/save/reopen and managed measure/history/verify/export/save flows pass.
+The corrected completed capture was visually inspected: source1, target2,
+distance5, verified/current history and saved CSV.
+
+Both adapters share one native owner controller and immutable virtualized table.
+Native tests cover stale/clone/cancel/refusal, pre-keep result budgets, protected
+atomic export, removed history and shutdown. A same-pointer document replacement
+regression fails at5113aa0 and passes at d9bba6b, preserving a committed export as
+detached. The first installed45-pass/two-failure observation remains preserved;
+optional configuration now accepts None, and the UI test verifies before export.
+All409 compiler inputs remain unchanged through generated stubs; only two stub
+wheel members and RECORD change. All33 installed package members,37 RECORD
+entries, loaded GEOS/notices, stub check and strict typing (one positive file,
+eight intended negative diagnostics) verify.902 tooling controls retain their
+7134855 scope with unchanged helper sources.
+
+**Next:** close headless/GEOS-OFF and expanded desktop cancellation/source-switch
+controls; admit the new workflow into qualification cohorts, then freeze one
+complete candidate for its full platform gate. Current local evidence does not
+qualify other platforms, biology, eligible hardware, overall speed or release.
+Candidate262 remains the qualified feature baseline. All M0-M7 remain Partial.
+
+
 **Candidate262 is engineering qualified** at frozen `e2282b8` on
 `feature/owner-delivery-qualification-262`. The [combined closeout](benchmarks/owner-delivery-race-262/closeout/receipt.json)
 binds all11 archives and complete engine, both Mac-native and portable builder/
@@ -67,10 +94,10 @@ Installed266 at9fa565a only creates/reads project fixtures; CLI267 runs its own
 engine and saves its own source in result provenance. No new wheel or platform
 campaign is created for this slice.
 
-**Next:** deliver spatial ImGui/managed run/cancel/table/history/export/save/reopen
-controls through these same native paths, then package and qualify the completed
-workflow once at its own frozen source. Older blanket-GIL-release wait(Document)
-bindings still need the separate M6 concurrency audit.
+The later frontend268 observation at the top of this card records locally
+packaged Windows desktop/managed delivery. Its headless/UI-fault/cohort/platform
+steps remain next. Older blanket-GIL-release wait(Document) bindings still need
+the separate M6 concurrency audit.
 [The API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
 Readers and required codecs remain open-source-only. Broader spatial/reader/
 interchange/automation/UI work, three strict scientific xfails, biological/model

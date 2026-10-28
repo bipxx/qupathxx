@@ -1,0 +1,11 @@
+{
+  "changed_members": [
+    "qupathxx/__init__.pyi",
+    "qupathxx/_native.pyi",
+    "qupathxx-0.1.0.dist-info/RECORD"
+  ],
+  "all_other_members_byte_identical": true,
+  "native_source": "d9bba6bc5affdaa34133ce82481fd9219e84a672",
+  "observer_source": "c360ac95ab49268ed7eef8b7226ec97e11641d0f",
+  "sha256": "c072a4daa39ef206cf07d172c39139b90fdb48de1f9ffc44ae18031a664a10f9"
+}

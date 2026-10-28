@@ -1,0 +1,5 @@
+{
+  "initial_observer_failure": "Python WindowsPath sort differs from CMake lexical path ordering",
+  "correction": "Sort by as_posix string, then assert exact generated fingerprint",
+  "production_source_changed": false
+}

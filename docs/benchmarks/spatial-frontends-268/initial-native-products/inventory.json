@@ -1,0 +1,35 @@
+{
+  "source": "6c8f32bcdb797bed6ecf1bd8be7019620c49be08",
+  "products": [
+    {
+      "path": "qupathxx_core.lib",
+      "bytes": 116149328,
+      "sha256": "80f3eb81211b56e1e9641281e8e6d5297f432a17cda8503bc7a9a1ef43b11779"
+    },
+    {
+      "path": "qupathxx_gui.lib",
+      "bytes": 16732264,
+      "sha256": "71123d93fc6946802875c391ee7f506342206b3559ab13b324d9849588ccd6bd"
+    },
+    {
+      "path": "qupathxx_spatial_frontend_tests.exe",
+      "bytes": 3073024,
+      "sha256": "a697b28a78f7579248eace2e560299a4b4cdaf18d8875a0b648061cf9dba0f36"
+    },
+    {
+      "path": "qupathxx_viewer_session_tests.exe",
+      "bytes": 5340672,
+      "sha256": "881f572320e226c26ba7f6745f48a66283a1afe59c00ba485217ba07f3f56d96"
+    },
+    {
+      "path": "qupathxx_app.exe",
+      "bytes": 7858176,
+      "sha256": "eb4a1e09956ae4215db165f1442c0727a3962b4b1270a7fe2fbed46cf506ad02"
+    },
+    {
+      "path": "qupathxx_batch.exe",
+      "bytes": 5349888,
+      "sha256": "619785619b085d74181ab46afa526bccd1bd9b3293fed526471e0f83cfbe8306"
+    }
+  ]
+}

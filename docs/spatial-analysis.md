@@ -1,6 +1,6 @@
 # Spatial analysis delivery contract
 
-SPAT1 is the next prepared SCI1-B workflow: measure each selected object's
+SPAT1 is the current SCI1-B spatial workflow: measure each selected object's
 centroid distance to a selected target cohort, inspect the immutable table,
 export it and save/reopen it. The [native geometry/query foundation](benchmarks/spatial-native-263/receipt.json)
 is locally verified at 3af9572. [Capture264](benchmarks/spatial-capture-264/receipt.json)
@@ -124,7 +124,7 @@ annotation/detection/cell. Absent target/distance columns are empty; zero is a
 matched numeric distance. The default cap is64 MiB; allowed caps are1 byte..1 GiB.
 Cancellation or failed admission/publication leaves an existing destination intact.
 These native C++ APIs now have the installed Python surface below. Application
-ImGui/managed controls remain the next delivery; native CLI267 is documented below.
+ImGui/managed controls now have local Windows268 verification below; native CLI267 is documented separately.
 
 ## Installed Python surface
 
@@ -182,9 +182,9 @@ biological validation or supported release readiness.
 
 ## Native command line
 
-The current branch's native `qupathxx_batch` supports these commands. CLI267 is
-locally tested after relocation with Windows GEOS ON/OFF; it is not yet part of
-a newly packaged full workflow or inherited platform qualification.
+The native `qupathxx_batch` supports these commands. CLI267 was locally tested
+after relocation with Windows GEOS ON/OFF. Frontend268 later verifies the CLI
+in its installed Windows package; neither source inherits platform qualification.
 
 ```text
 qupathxx_batch --measure-spatial study.qpxproj measured.qpxproj --image 1 --source 5 --target 9 --units um
@@ -237,3 +237,51 @@ creator/QSD1 reader at9fa565a. Both tested CLI executables run native9468ae3 and
 report it in saved provenance. Observer65f2c5d changes only fixture code; all404
 compiler inputs and both binaries remain unchanged. ImGui/managed delivery and
 full workflow qualification follow; no new wheel or SDK build was needed here.
+
+
+## Desktop and managed viewer (local Windows268)
+
+The toolbar's Spatial button opens the distance table. Select objects and use
+Use selection as sources/targets, choose units/nucleus/self policy, then Run.
+An empty target cohort produces absent distances; zero remains a matched distance.
+Cancel cancels live work. Keep result stores the immutable table in the project.
+Inspect reads retained history; Verify performs fresh replay without rewriting
+historical values. Saved/reopened history begins unverified. Export CSV streams
+the current table to a new file and protects project/source/sidecar paths.
+Starting another analysis/inspection/verification resets the previous export
+report; retain the CSV path or export after verifying for a final saved report.
+
+For scripted desktop setup, assign a GuiSpatialOptions value to GuiOptions.spatial
+(open/run, source/target IDs, native analysis options, record_id, CSV path/byte cap).
+Assign None to clear it. The configuration is copied; read-modify-reassign nested
+options rather than relying on a live mutable configuration pointer.
+GuiReport.spatial contains the immutable result, counts, historical status and
+export outcome. Rows in the desktop are virtualized; Python uses bounded pages.
+
+Managed producers submit to the existing ViewerSession owner queue:
+
+```python
+measure = session.spatial_distances(image_id, sources, targets, keep=True,
+                                    expected_revision=revision)
+# Wait/take from a producer thread while show(session) runs on its UI owner.
+kept = session.wait(measure, 15)
+if kept.state == "succeeded":
+    kept = session.take(measure)
+    inspect = session.inspect_spatial(image_id, kept.record_id)
+    verify = session.verify_spatial(image_id, kept.record_id)
+    export = session.export_spatial(image_id, kept.record_id, "distances.csv")
+```
+
+Consume every terminal ticket with take to release its retained budget. Use
+session.cancel(ticket) from producers; workers never receive a live Document.
+Measurement result admission precedes Keep, so a refused viewer payload leaves
+canonical history unchanged. expected_revision guards capture; identity/revision
+checks guard delivery. Retained immutable results outlive the viewer. A committed
+CSV is still reported committed if cancellation/replacement arrives afterward;
+replacement makes it detached rather than granting it current-document authority.
+
+[Receipt268](benchmarks/spatial-frontends-268/receipt.json) binds native d9bba6b,
+stub observer c360ac9,55 native suites and132 installed passes on Windows GUI/GEOS.
+Initial failures, detached-export red/green regression and both inspected captures
+remain preserved. Headless/GEOS-OFF, expanded desktop faults and full own-source
+qualification remain. No biological, general speed or supported-release claim.

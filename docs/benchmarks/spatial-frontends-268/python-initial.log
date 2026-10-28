@@ -1,0 +1,41 @@
+....FF.........................................                          [100%]
+================================== FAILURES ===================================
+_______________ test_spatial_options_and_queue_without_renderer _______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/spatial-frontends-268/python-initial-temp/test_spatial_options_and_queue0')
+
+    def test_spatial_options_and_queue_without_renderer(tmp_path):
+        options=q.GuiSpatialOptions();options.sources=[1];options.targets=[2];options.run=True;options.validate()
+        options.record_id=1
+        with pytest.raises(ValueError):options.validate()
+>       gui=q.GuiOptions();assert gui.spatial is None;gui.spatial=options;assert gui.spatial.sources==[1];gui.spatial=None;assert gui.spatial is None
+                                                                                                          ^^^^^^^^^^^
+E       TypeError: (): incompatible function arguments. The following argument types are supported:
+E           1. (self, arg: qupathxx._native.GuiSpatialOptions, /) -> None
+E       
+E       Invoked with types: qupathxx._native.GuiOptions, NoneType
+
+tests\test_spatial_frontends.py:27: TypeError
+_____________ test_desktop_spatial_run_keep_export_verify_reopen ______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/spatial-frontends-268/python-initial-temp/test_desktop_spatial_run_keep_0')
+
+    @GUI
+    def test_desktop_spatial_run_keep_export_verify_reopen(tmp_path):
+        project,image,doc,a,b=scene();csv=tmp_path/'distances.csv';o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0;o.replay_timeout_seconds=20
+        spatial=q.GuiSpatialOptions();spatial.open=True;spatial.sources=[a];spatial.targets=[b];spatial.csv_path=str(csv);o.spatial=spatial
+        o.inputs=[*click(4,q.GuiInputTarget.SPATIAL_RUN),ready(8,q.GuiInputWait.SPATIAL_READY),*click(12,q.GuiInputTarget.SPATIAL_KEEP),ready(16,q.GuiInputWait.SPATIAL_KEPT),*click(20,q.GuiInputTarget.SPATIAL_EXPORT),ready(24,q.GuiInputWait.SPATIAL_EXPORTED),*click(28,q.GuiInputTarget.SPATIAL_VERIFY),ready(32,q.GuiInputWait.SPATIAL_VERIFIED)]
+        capture=tmp_path/'spatial.ppm';folder=os.environ.get('QUPATHXX_SPATIAL_FRONTEND_EVIDENCE_DIR')
+        if folder:Path(folder).mkdir(parents=True,exist_ok=True);capture=Path(folder)/'spatial-verified.ppm'
+        report=q.show(project,frame_limit=55,options=o,capture_path=str(capture));result=report.spatial
+        assert report.replay_complete and result and not result.error,(report.replay_complete,result.error if result else None)
+        assert result.state=='verified' and result.record_status=='current' and result.result.row(0).distance==5
+>       assert result.export_committed and result.export_rows==1 and result.export_bytes==csv.stat().st_size
+E       assert (False)
+E        +  where False = <qupathxx._native.GuiSpatialReport object at 0x00000173E2D6CBF0>.export_committed
+
+tests\test_spatial_frontends.py:44: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_spatial_frontends.py::test_spatial_options_and_queue_without_renderer
+FAILED tests/test_spatial_frontends.py::test_desktop_spatial_run_keep_export_verify_reopen
+2 failed, 45 passed in 2.15s
