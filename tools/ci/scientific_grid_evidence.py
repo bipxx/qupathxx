@@ -20,6 +20,13 @@ GUI_CASES={
  'test_grid_gui_detects_renders_and_publishes_with_axis_geometry':('requires geometry desktop','opt-in desktop replay'),
  'test_grid_python_producer_retains_exports_and_saves':('requires managed project desktop','opt-in managed desktop'),
 }
+GUI_CASES.update({
+ 'test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes':('opt-in nominal cell desktop',),
+ 'test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context0]':('opt-in nominal cell desktop',),
+ 'test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context1]':('opt-in nominal cell desktop',),
+ 'test_nominal_managed_command_copies_retains_exports_and_saves[False]':('opt-in nominal cell desktop',),
+ 'test_nominal_managed_command_copies_retains_exports_and_saves[True]':('opt-in nominal cell desktop',),
+})
 NEGATIVE={
  'scientific-grid-typing-negative.log':('scientific_grid_invalid.py',[4,6,7,8,9,10]),
  'scientific-channels-typing-negative.log':('scientific_channels_invalid.py',[4,6,7,8,9]),
