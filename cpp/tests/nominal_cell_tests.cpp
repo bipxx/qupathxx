@@ -93,6 +93,16 @@ void check_nominal_cells() {
     reader->changed=true;verify(input_sha256(request)!=result->nuclei()->input_sha256());
     verify(!doc.verify_cells(run,replay,*detect_cells(replay)) && doc.cell_status(run)=="verification_failed");reader->changed=false;
     verify(doc.verify_cells(run,replay,*detect_cells(replay)) && doc.cell_status(run)=="current");
+    const NominalCellSampling context(sampling.source_request(),3,4);
+    const auto contextual=detect_cells(CellRequest(doc,id,transform,context,p));
+    verify(contextual->features().size()==3 && contextual->nuclei()->samples()==result->nuclei()->samples());
+    for(std::int64_t y=0;y<128;++y) for(std::int64_t x=0;x<171;++x) {
+        const auto i=std::size_t(y*171+x),j=std::size_t((y+4)*context.width()+x+3);
+        verify(contextual->nuclei()->labels()[j]==result->nuclei()->labels()[i]);
+        verify(contextual->cells()->labels()[j]==result->cells()->labels()[i]);
+    }
+    const auto contextual_bytes=CellArchiveCodec::encode(*contextual);
+    verify(CellArchiveCodec::encode(*load(contextual_bytes))==contextual_bytes);
     auto limited=p;limited.work_bytes=request.estimated_work_bytes();CellRequest exact(doc,id,transform,sampling,limited);
     --limited.work_bytes;const auto before=reader->reads;rejects<std::length_error>([&]{CellRequest denied(doc,id,transform,sampling,limited);});verify(reader->reads==before);
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{detect_cells(request,&cancelled);});verify(reader->reads==before);
@@ -111,12 +121,17 @@ void check_nominal_cells() {
         std::cout<<"Nominal cell original-coordinate contours, publication, undo/redo and QCA6 classifier origins passed\n";
     }
     if(has_project()) {
-        auto project=std::make_shared<Project>();const auto image=project->add_document(document);
+        // The instrumented external reader above intentionally has no dense
+        // embedding API. Exercise persistence with a real original dense image.
+        auto dense=std::make_shared<Document>(Image(256,192,original));dense->set_calibration(.5,.5);
+        const auto object=dense->add_rectangle({0,0,256,192});const CellRequest input(*dense,object,transform,sampling,p);
+        const auto detected=detect_cells(input);const auto record=dense->keep_cells(input,detected);const auto saved=CellArchiveCodec::encode(*detected);
+        auto project=std::make_shared<Project>();const auto image=project->add_document(dense);
         const auto path=(std::filesystem::current_path()/(project->identity()+"-nominal-cells.qpxproj")).u8string();project->save(path);
-        const auto reopened=Project::open(path);auto d=reopened->document(image);verify(d->cell_status(run)=="unverified");
-        verify(CellArchiveCodec::encode(*d->cell_record(run)->result)==bytes);
-        const auto fresh=CellRequest::replay(*d,run);verify(d->verify_cells(run,fresh,*detect_cells(fresh)) && d->cell_status(run)=="current");
-        reopened->save(path);verify(CellArchiveCodec::encode(*Project::open(path)->document(image)->cell_record(run)->result)==bytes);
+        const auto reopened=Project::open(path);auto d=reopened->document(image);verify(d->cell_status(record)=="unverified");
+        verify(CellArchiveCodec::encode(*d->cell_record(record)->result)==saved);
+        const auto fresh=CellRequest::replay(*d,record);verify(d->verify_cells(record,fresh,*detect_cells(fresh)) && d->cell_status(record)=="current");
+        reopened->save(path);verify(CellArchiveCodec::encode(*Project::open(path)->document(image)->cell_record(record)->result)==saved);
         std::filesystem::remove(std::filesystem::u8path(path));
         std::cout<<"QCL6 project save/reopen, source-bound replay, verification and second save passed\n";
     }
