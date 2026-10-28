@@ -261,6 +261,12 @@ python -I -m pytest tests/test_qupath_resampled_cell_debug.py -q
 python -I tools/qupath_resampled_cell_debug.py --capture build/new-resampled-debug --runtime-cache build/upstream/qupath --compare-native --report build/new-resampled-processing.json
 ```
 
+The [expanded RGB resampling corpus](qupath-rgb-resampling.md) adds36 public
+reads across four synthetic inputs. It preserves the original1.5 match while
+showing nearest-center enlargement, black odd-sized reduction edges and remaining
+nondyadic one-byte discrepancies. A single matching cell image cannot establish
+a general compatibility sampler. Native quantitative sampling is unchanged.
+
 These comparisons now identify the processing-domain, pixel recipe and geometry
 differences explicitly. Preserve them and the legacy recipe while extending
 typed quantitative and vendor/pyramid/tiled scientific workflows. Broader

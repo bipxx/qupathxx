@@ -55,7 +55,7 @@ CONDITIONAL=[
 ]
 # Bind the committed file inventory, including every reference vector/header and
 # consumer. Fixture bytes remain raw; code permits only checkout CRLF changes.
-FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','raw-scientific-means-v1','raw-scientific-sampling-v1','raw-grid-statistics-v1','raw-grid-archive-v1'))
+FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','qupath-rgb-resampling-0.7.0','raw-scientific-means-v1','raw-scientific-sampling-v1','raw-grid-statistics-v1','raw-grid-archive-v1'))
 EXTRA=('docs/scientific-grid-contract.md','tools/ci/run.py','tools/ci/run_manylinux.py','tools/ci/requirements.txt','tools/ci/scientific_grid_evidence.py','tools/ci/scientific-grid-cases.json','tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py','.github/workflows/ci.yml','tools/generate_stubs.py','tests/test_scientific_grid_evidence.py','tests/test_stub_signature_guard.py','tests/test_public_stubs.py',*POSITIVE,*('tests/typing/'+v[0] for v in NEGATIVE.values()))
 EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
         'tools/qupath_cells_fixture.py','tools/upstream/qupath_cells_reference.groovy',
@@ -63,6 +63,7 @@ EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
 EXTRA+=('tools/qupath_roi_cell_debug.py','tools/fetch_qupath.py',
         'tools/upstream/qupath_cell_debug_probe.groovy')
 EXTRA+=('tools/qupath_resampled_cell_debug.py','tools/ci/run_macos_native.py')
+EXTRA+=('tools/qupath_rgb_resampling.py','tools/upstream/qupath_rgb_resampling.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')
 
