@@ -1,0 +1,94 @@
+[
+  {
+    "label": "clone",
+    "argv": [
+      "git",
+      "clone",
+      "--shared",
+      "--no-checkout",
+      "/mnt/c/Users/HEQ/Projects/qupathxx",
+      "/tmp/qupathxx-imagej300-source"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "autocrlf",
+    "argv": [
+      "git",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "cwd": "/tmp/qupathxx-imagej300-source",
+    "returncode": 0
+  },
+  {
+    "label": "checkout",
+    "argv": [
+      "git",
+      "checkout",
+      "--detach",
+      "647576b458144d5ca1e032eb108f9e62930fba99"
+    ],
+    "cwd": "/tmp/qupathxx-imagej300-source",
+    "returncode": 0
+  },
+  {
+    "label": "configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "/tmp/qupathxx-imagej300-source",
+      "-B",
+      "/tmp/qupathxx-imagej300-build",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all",
+      "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O1 -g1 -DNDEBUG",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "build",
+    "argv": [
+      "cmake",
+      "--build",
+      "/tmp/qupathxx-imagej300-build",
+      "--target",
+      "qupathxx_imagej_gaussian_tests",
+      "--parallel",
+      "2"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "native",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/tmp/qupathxx-imagej300-build",
+      "-R",
+      "^imagej_gaussian$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "10000000",
+      "--test-output-size-failed",
+      "10000000",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/linux/native.xml"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  }
+]

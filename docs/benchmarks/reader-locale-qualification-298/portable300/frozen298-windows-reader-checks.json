@@ -1,0 +1,12 @@
+{
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "cases": [
+    "test_unicode_reader_dispatch_and_nominal_resume[C]",
+    "test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252]",
+    "test_unicode_reader_dispatch_and_nominal_resume[tr-TR]",
+    "test_installed_region_dispatch_accepts_unicode_uppercase_ppm"
+  ],
+  "passed": 4,
+  "python_junit_sha256": "35034f0f0f5bf6b71b6c4ebeeb71ea28789813e43af4fc6118bfee6b10a1f10a",
+  "complete_engine_accepted": false
+}

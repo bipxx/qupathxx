@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-28T20:41:05"
+	>
+	<testcase name="imagej_gaussian" classname="imagej_gaussian" time="0.0588298" status="run">
+		<properties/>
+		<system-out>37 ImageJ1.54p captured float32 Gaussian and LoG arrays exact; private kernel admission/cancellation/overflow/input ownership passed
+</system-out>
+	</testcase>
+</testsuite>

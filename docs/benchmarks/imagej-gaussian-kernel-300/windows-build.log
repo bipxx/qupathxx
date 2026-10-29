@@ -1,0 +1,26 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  imagej_gaussian_tests.cpp
+  imagej_gaussian.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\qupathxx_imagej_gaussian_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\qupathxx_imagej_gaussian_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\qupathxx_imagej_gaussian_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\qupathxx_imagej_gaussian_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\qupathxx_imagej_gaussian_tests.vcxproj]
+  sha256.cpp
+  (compiling source file '../scientific-grid-159/cpp/imagej_gaussian.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\imagej_gaussian.cpp(113,14):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=float,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>
+          ]
+  
+  Generating Code...
+  qupathxx_imagej_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\Release\qupathxx_imagej_gaussian_tests.exe

@@ -1,0 +1,19 @@
+Start testing: Oct 28 20:41 EDT
+----------------------------------------------------------
+24/55 Testing: imagej_gaussian
+24/55 Test: imagej_gaussian
+Command: "/tmp/qupathxx-imagej300-build/qupathxx_imagej_gaussian_tests" "/tmp/qupathxx-imagej300-source/tests/fixtures/qupath-gaussian-1.54p" "/tmp/qupathxx-imagej300-build/imagej-gaussian-test-artifacts"
+Directory: /tmp/qupathxx-imagej300-build
+"imagej_gaussian" start time: Oct 28 20:41 EDT
+Output:
+----------------------------------------------------------
+37 ImageJ1.54p captured float32 Gaussian and LoG arrays exact; private kernel admission/cancellation/overflow/input ownership passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"imagej_gaussian" end time: Oct 28 20:41 EDT
+"imagej_gaussian" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 20:41 EDT

@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q298-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-qualification-298\\portable-run-terminal.json",
+    "--commit",
+    "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-qualification-298\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\reader-locale-qualification-298-audit",
+  "returncode": 0
+}

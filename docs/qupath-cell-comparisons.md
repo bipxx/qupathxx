@@ -303,12 +303,16 @@ fed the captured float32 OD promoted to float64 keeps the four nonpositive
 responses. That input is distinct from production float64 OD, and the probe is
 numerical characterization rather than platform qualification.
 
-The next compatibility step is an explicitly versioned, opt-in Gaussian/input
-policy with its arithmetic, support, edges and large-sigma behavior specified
-together. Validate the stage arrays before detector masks, then carry the policy
-through the existing request/archive/replay and consumers. Preserve existing
-quantitative/default recipes, strict xfails and scientific tolerances. These
-captures establish neither full cell equivalence nor biological accuracy.
+The [private C++ kernel300](benchmarks/imagej-gaussian-kernel-300/receipt.json)
+now reproduces all74 captured blur/LoG arrays on MSVC and GCC ASan/UBSan. Its
+standalone target tests cancellation, admission, overflow and borrowed-input
+ownership. It retains float32 arithmetic, X/Y order, edge tails, finite-kernel
+smoothing and the reduction/reconstruction route. The application still uses
+its existing kernels. Production RGB-to-float32-OD staging, additional held-out
+grids/scales and the versioned opt-in request/archive/replay/consumer policy
+remain. Preserve quantitative/default recipes, strict xfails and scientific
+tolerances; private stage matches do not establish complete cell or biological
+equivalence.
 
 ```text
 python -I tools/qupath_gaussian.py --report build/gaussian-verification.json

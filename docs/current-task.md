@@ -21,14 +21,15 @@ exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
 
-[Gaussian299](benchmarks/gaussian-characterization-299/receipt.json) now adds37
-public ImageJ stage captures and60 checks on each Windows/Linux host. The
-captured blur reproduces all LoG arrays exactly and isolates the clipped-ROI
-difference to Gaussian/input processing.760 scientific cases/13 declared skips
-and1088 distinct controls pass;425 compiler inputs and application products are
-unchanged. This reference-only observer inherits no298 qualification. The next
-compatibility step is a private exact Gaussian/input kernel, then one versioned
-opt-in policy through existing request/archive/replay and consumers.
+[Private Gaussian300](benchmarks/imagej-gaussian-kernel-300/receipt.json) now
+matches all74 blur/LoG arrays from37 captured cases on MSVC and GCC ASan/UBSan.
+Its isolated target leaves71 application products and39 installed members
+unchanged at native28c33573.761 scientific cases/13 declared skips and1095 audit
+controls pass;1059 source paths and429 compiler inputs authenticate. Exact
+RGB-to-float32-OD staging and a versioned opt-in request/archive/replay/consumer
+policy remain. The original [portable298 audit](benchmarks/reader-locale-qualification-298/portable300/receipt.json)
+accepts its frozen builders/fresh consumers; engine/Mac and broader gates remain
+open. Private300 inherits no298 platform acceptance.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal

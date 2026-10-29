@@ -1,0 +1,19 @@
+Start testing: Oct 28 20:40 Eastern Daylight Time
+----------------------------------------------------------
+24/55 Testing: imagej_gaussian
+24/55 Test: imagej_gaussian
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/imagej-gaussian-300-msvc/Release/qupathxx_imagej_gaussian_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-gaussian-1.54p" "C:/Users/HEQ/Projects/qupathxx/build/ci/imagej-gaussian-300-msvc/imagej-gaussian-test-artifacts"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/imagej-gaussian-300-msvc
+"imagej_gaussian" start time: Oct 28 20:40 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+37 ImageJ1.54p captured float32 Gaussian and LoG arrays exact; private kernel admission/cancellation/overflow/input ownership passed
+<end of output>
+Test time =   0.31 sec
+----------------------------------------------------------
+Test Passed.
+"imagej_gaussian" end time: Oct 28 20:40 Eastern Daylight Time
+"imagej_gaussian" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 20:40 Eastern Daylight Time
