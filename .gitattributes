@@ -696,3 +696,10 @@ tools/upstream/qupath_gaussian_probe.groovy text eol=lf
 tests/test_qupath_gaussian.py text eol=lf
 tests/fixtures/qupath-gaussian-1.54p/** -text -whitespace
 docs/benchmarks/gaussian-characterization-299/** -text -whitespace
+
+cpp/imagej_gaussian.cpp text eol=lf
+cpp/imagej_gaussian.hpp text eol=lf
+cpp/tests/imagej_gaussian_tests.cpp text eol=lf
+cpp/tests/imagej_gaussian_reference.hpp text eol=lf
+tools/reference_imagej_gaussian.py text eol=lf
+docs/benchmarks/imagej-gaussian-kernel-300/** -text -whitespace

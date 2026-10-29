@@ -834,6 +834,7 @@
     "test_gaussian_capture_rejects_resealed_semantic_changes[size]",
     "test_laplacian_has_independent_hand_computed_edges[values0-expected0]",
     "test_laplacian_has_independent_hand_computed_edges[values1-expected1]",
-    "test_laplacian_has_independent_hand_computed_edges[values2-expected2]"
+    "test_laplacian_has_independent_hand_computed_edges[values2-expected2]",
+    "test_native_gaussian_reference_metadata_is_reproducible"
   ]
 }

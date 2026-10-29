@@ -17,6 +17,12 @@ NAMES=[case['name'] for case in reference.read(reference.FIXTURE/'cases.json')]
 def report():return reference.verify()
 
 
+def test_native_gaussian_reference_metadata_is_reproducible():
+    spec=importlib.util.spec_from_file_location('native_gaussian_metadata',ROOT/'tools/reference_imagej_gaussian.py')
+    generator=importlib.util.module_from_spec(spec);spec.loader.exec_module(generator)
+    assert generator.generate().encode()==generator.TARGET.read_bytes()
+
+
 @pytest.mark.parametrize('name',NAMES)
 def test_captured_gaussian_blur_reconstructs_exact_log(name,report):
     case=next(c for c in report['cases'] if c['name']==name)
