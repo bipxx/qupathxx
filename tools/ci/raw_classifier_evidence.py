@@ -65,7 +65,7 @@ SOURCES=source_paths()
 
 
 def source_contract(root,commit):
-    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/','tests/fixtures/qupath-gaussian-1.54p/','tests/fixtures/qupath-cell-inputs-0.7.0/'))
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/','tests/fixtures/qupath-gaussian-1.54p/','tests/fixtures/qupath-cell-inputs-0.7.0/','tests/fixtures/qupath-cell-policy-edges-0.7.0/'))
 
 
 def _suite(cases,name,markers):
