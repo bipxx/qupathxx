@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40792323979",
+    "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q298-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-qualification-298\\engine-acceptance.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\reader-locale-qualification-298-audit",
+  "returncode": 1
+}

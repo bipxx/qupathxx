@@ -1,0 +1,316 @@
+........................................................................ [  1%]
+........................................................................ [  2%]
+........................................................................ [  4%]
+........................................................................ [  5%]
+........................................................................ [  6%]
+.......................................................s................ [  8%]
+........................................................................ [  9%]
+........................................................................ [ 10%]
+........................................................................ [ 12%]
+........................................................................ [ 13%]
+......................ssss.............................................. [ 14%]
+........................................................................ [ 16%]
+........................................................................ [ 17%]
+........................................................................ [ 18%]
+........................................................................ [ 20%]
+........Timeout (0:01:00)!
+Thread 0x000005a8 (most recent call first):
+  File "D:\a\qupathxx\qupathxx\tests\test_gui_tiles.py", line 41 in test_rendered_loop_timing_retains_bounded_recent_samples
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\python.py", line 167 in pytest_pyfunc_call
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\python.py", line 1707 in runtest
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 184 in pytest_runtest_call
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 250 in <lambda>
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 361 in from_call
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 249 in call_and_report
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 139 in runtestprotocol
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 118 in pytest_runtest_protocol
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 408 in pytest_runtestloop
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 384 in _main
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 330 in wrap_session
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 377 in pytest_cmdline_main
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\config\__init__.py", line 229 in _main
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\config\__init__.py", line 253 in _console_main
+  File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pytest\__main__.py", line 9 in <module>
+  File "<frozen runpy>", line 88 in _run_code
+  File "<frozen runpy>", line 198 in _run_module_as_main
+......s......................................................... [ 21%]
+......................................s................................. [ 22%]
+........................................................................ [ 24%]
+........................................................................ [ 25%]
+........................................................................ [ 26%]
+........................................................................ [ 28%]
+........................................................................ [ 29%]
+........................................................................ [ 30%]
+........................................................................ [ 32%]
+........................................................................ [ 33%]
+........................................................................ [ 35%]
+........................................................................ [ 36%]
+........................................................................ [ 37%]
+........................................................................ [ 39%]
+........................................................................ [ 40%]
+........................................................................ [ 41%]
+........................................................................ [ 43%]
+........................................................................ [ 44%]
+...............s........................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 48%]
+........................................................................ [ 49%]
+.xxx.................................................................... [ 51%]
+......................................s................................. [ 52%]
+........................................................................ [ 53%]
+........................................................................ [ 55%]
+........................................................................ [ 56%]
+........................................................................ [ 57%]
+........................................................................ [ 59%]
+........................................................................ [ 60%]
+........................................................................ [ 61%]
+........................................................................ [ 63%]
+...............................................s........................ [ 64%]
+........................................................................ [ 65%]
+.........FFF............................................................ [ 67%]
+........................................................................ [ 68%]
+........................................................................ [ 70%]
+........................................................................ [ 71%]
+........................................................................ [ 72%]
+........................................................................ [ 74%]
+........................................................................ [ 75%]
+........................................................................ [ 76%]
+........................................................................ [ 78%]
+........................................................................ [ 79%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+........................................................................ [ 83%]
+........................................................................ [ 84%]
+........................................................................ [ 86%]
+..................s..................................................... [ 87%]
+........................................................................ [ 88%]
+........................................................................ [ 90%]
+........................................................................ [ 91%]
+........................................................................ [ 92%]
+........................................................................ [ 94%]
+........................................................................ [ 95%]
+........................................................................ [ 96%]
+........................................................................ [ 98%]
+........................................................................ [ 99%]
+...................                                                      [100%]
+================================== FAILURES ===================================
+_____________ test_unicode_reader_dispatch_and_nominal_resume[C] ______________
+
+tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_unicode_reader_dispatch_a0')
+ctype = 'C'
+
+    @pytest.mark.parametrize('ctype', ['C', *(
+        ['English_United States.1252', 'tr-TR'] if os.name == 'nt' else []
+    )])
+    def test_unicode_reader_dispatch_and_nominal_resume(tmp_path, ctype):
+        # Each locale has its own process: LC_CTYPE is global native state.
+        program = r'''
+    import locale
+    from pathlib import Path
+    import sys
+    import qupathxx as q
+    from test_nominal_cell_batches import test_nominal_linked_pixel_change_invalidates_resume
+    
+    selected = locale.setlocale(locale.LC_CTYPE, sys.argv[1])
+    root = Path(sys.argv[2])
+    for index, suffix in enumerate(['ppm', 'PPM']):
+        source = root / ('IMAGE-\u539f\u59cb-\u0391\u03a3-' + str(index) + '.' + suffix)
+        source.write_bytes(b'P6\n2 1\n255\n\x01\x02\x03\x04\x05\x06')
+        original = str(source)
+        direct = q.Image.read_ppm(original)
+        project = q.Project()
+        image = project.add_image(original)
+        explicit = project.add_image(original, reader='ppm')
+        assert project.document(image).metadata.width == direct.width == 2
+        assert project.document(explicit).metadata.width == 2
+        saved = root / ('PROJECT-\u539f\u59cb-' + str(index) + '.qpxproj')
+        project.save(str(saved))
+        reopened = q.Project.open(str(saved))
+        assert reopened.document(image).metadata.width == 2
+        assert str(source) == original
+    test_nominal_linked_pixel_change_invalidates_resume(root)
+    assert locale.setlocale(locale.LC_CTYPE) == selected
+    print('UTF-8 auto/explicit readers, uppercase extension, project reopen and changed-source resume passed:', selected)
+    '''
+        env = os.environ.copy()
+        env['PYTHONPATH'] = str(Path(__file__).resolve().parent)
+        result = subprocess.run(
+            [sys.executable, '-X', 'utf8', '-c', program, ctype, str(tmp_path)],
+            env=env, capture_output=True, encoding='utf-8', timeout=120,
+        )
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 6, in <module>
+E         ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+
+tests\test_reader_locale.py:49: AssertionError
+_ test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252] _
+
+tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_unicode_reader_dispatch_a1')
+ctype = 'English_United States.1252'
+
+    @pytest.mark.parametrize('ctype', ['C', *(
+        ['English_United States.1252', 'tr-TR'] if os.name == 'nt' else []
+    )])
+    def test_unicode_reader_dispatch_and_nominal_resume(tmp_path, ctype):
+        # Each locale has its own process: LC_CTYPE is global native state.
+        program = r'''
+    import locale
+    from pathlib import Path
+    import sys
+    import qupathxx as q
+    from test_nominal_cell_batches import test_nominal_linked_pixel_change_invalidates_resume
+    
+    selected = locale.setlocale(locale.LC_CTYPE, sys.argv[1])
+    root = Path(sys.argv[2])
+    for index, suffix in enumerate(['ppm', 'PPM']):
+        source = root / ('IMAGE-\u539f\u59cb-\u0391\u03a3-' + str(index) + '.' + suffix)
+        source.write_bytes(b'P6\n2 1\n255\n\x01\x02\x03\x04\x05\x06')
+        original = str(source)
+        direct = q.Image.read_ppm(original)
+        project = q.Project()
+        image = project.add_image(original)
+        explicit = project.add_image(original, reader='ppm')
+        assert project.document(image).metadata.width == direct.width == 2
+        assert project.document(explicit).metadata.width == 2
+        saved = root / ('PROJECT-\u539f\u59cb-' + str(index) + '.qpxproj')
+        project.save(str(saved))
+        reopened = q.Project.open(str(saved))
+        assert reopened.document(image).metadata.width == 2
+        assert str(source) == original
+    test_nominal_linked_pixel_change_invalidates_resume(root)
+    assert locale.setlocale(locale.LC_CTYPE) == selected
+    print('UTF-8 auto/explicit readers, uppercase extension, project reopen and changed-source resume passed:', selected)
+    '''
+        env = os.environ.copy()
+        env['PYTHONPATH'] = str(Path(__file__).resolve().parent)
+        result = subprocess.run(
+            [sys.executable, '-X', 'utf8', '-c', program, ctype, str(tmp_path)],
+            env=env, capture_output=True, encoding='utf-8', timeout=120,
+        )
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 6, in <module>
+E         ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+
+tests\test_reader_locale.py:49: AssertionError
+___________ test_unicode_reader_dispatch_and_nominal_resume[tr-TR] ____________
+
+tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_unicode_reader_dispatch_a2')
+ctype = 'tr-TR'
+
+    @pytest.mark.parametrize('ctype', ['C', *(
+        ['English_United States.1252', 'tr-TR'] if os.name == 'nt' else []
+    )])
+    def test_unicode_reader_dispatch_and_nominal_resume(tmp_path, ctype):
+        # Each locale has its own process: LC_CTYPE is global native state.
+        program = r'''
+    import locale
+    from pathlib import Path
+    import sys
+    import qupathxx as q
+    from test_nominal_cell_batches import test_nominal_linked_pixel_change_invalidates_resume
+    
+    selected = locale.setlocale(locale.LC_CTYPE, sys.argv[1])
+    root = Path(sys.argv[2])
+    for index, suffix in enumerate(['ppm', 'PPM']):
+        source = root / ('IMAGE-\u539f\u59cb-\u0391\u03a3-' + str(index) + '.' + suffix)
+        source.write_bytes(b'P6\n2 1\n255\n\x01\x02\x03\x04\x05\x06')
+        original = str(source)
+        direct = q.Image.read_ppm(original)
+        project = q.Project()
+        image = project.add_image(original)
+        explicit = project.add_image(original, reader='ppm')
+        assert project.document(image).metadata.width == direct.width == 2
+        assert project.document(explicit).metadata.width == 2
+        saved = root / ('PROJECT-\u539f\u59cb-' + str(index) + '.qpxproj')
+        project.save(str(saved))
+        reopened = q.Project.open(str(saved))
+        assert reopened.document(image).metadata.width == 2
+        assert str(source) == original
+    test_nominal_linked_pixel_change_invalidates_resume(root)
+    assert locale.setlocale(locale.LC_CTYPE) == selected
+    print('UTF-8 auto/explicit readers, uppercase extension, project reopen and changed-source resume passed:', selected)
+    '''
+        env = os.environ.copy()
+        env['PYTHONPATH'] = str(Path(__file__).resolve().parent)
+        result = subprocess.run(
+            [sys.executable, '-X', 'utf8', '-c', program, ctype, str(tmp_path)],
+            env=env, capture_output=True, encoding='utf-8', timeout=120,
+        )
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 6, in <module>
+E         ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+
+tests\test_reader_locale.py:49: AssertionError
+============================== warnings summary ===============================
+tests/test_macos_native_inventory.py::test_changed_archive_layout_modes_and_binaries_fail[duplicate]
+  D:\a\qupathxx\qupathxx\tools\ci\macos_native_inventory.py:57: UserWarning: Overlapped entries: 'native/qupathxx_batch' (possible zip bomb)
+    with archive.open(entry) as content:data=content.read(256*1024*1024+1)
+
+tests/test_multifile_ome_fixture.py: 32 warnings
+tests/test_tma_large_pyramid_generator.py: 2 warnings
+  D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\tifffile\tifffile.py:8928: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shaped
+
+tests/test_multifile_ome_fixture.py: 32 warnings
+tests/test_tma_large_pyramid_generator.py: 2 warnings
+  D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\tifffile\tifffile.py:8931: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shape
+
+tests/test_multifile_ome_fixture.py::test_independent_ome_reader_resolves_base_fileset_from_either_member[primary.ome.tif]
+tests/test_multifile_ome_fixture.py::test_independent_ome_reader_resolves_base_fileset_from_either_member[companions/planes-\u03b2.ome.tif]
+tests/test_tma_large_pyramid_generator.py::test_written_levels_calibration_and_existing_output_refusal
+tests/test_tma_large_pyramid_generator.py::test_written_levels_calibration_and_existing_output_refusal
+  D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_reader_locale.py::test_unicode_reader_dispatch_and_nominal_resume[C] - AssertionError: Traceback (most recent call last):
+    File "<string>", line 6, in <module>
+  ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+  
+assert 1 == 0
+ +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+FAILED tests/test_reader_locale.py::test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252] - AssertionError: Traceback (most recent call last):
+    File "<string>", line 6, in <module>
+  ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+  
+assert 1 == 0
+ +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+FAILED tests/test_reader_locale.py::test_unicode_reader_dispatch_and_nominal_resume[tr-TR] - AssertionError: Traceback (most recent call last):
+    File "<string>", line 6, in <module>
+  ModuleNotFoundError: No module named 'test_nominal_cell_batches'
+  
+assert 1 == 0
+ +  where 1 = CompletedProcess(args=['D:\\a\\qupathxx\\qupathxx\\build\\ci\\job\\software-python\\python.exe', '-X', 'utf8', '-c', "... last):\n  File "<string>", line 6, in <module>\nModuleNotFoundError: No module named \'test_nominal_cell_batches\'\n').returncode
+3 failed, 5330 passed, 11 skipped, 3 xfailed, 73 warnings in 1127.38s (0:18:47)

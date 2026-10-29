@@ -1,0 +1,52 @@
+{
+  "schema": "qpx.qupath-input-stages-local/1",
+  "observer_source": "36400c9f21a712b5962f34e662e9efdd1d605674",
+  "windows_native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "linux_native_source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "source_paths": 1158,
+  "unchanged_compiler_inputs": 429,
+  "unchanged_application_products": 71,
+  "unchanged_windows_package_members": 39,
+  "unchanged_private_products": 8,
+  "captured_cases": 11,
+  "captured_arrays": 77,
+  "normalized_stain_checks_per_host": 33,
+  "repeated_payloads": 92,
+  "tests": {
+    "api.xml": {
+      "passed": 45,
+      "skipped": 0
+    },
+    "reader-isolated.xml": {
+      "passed": 4,
+      "skipped": 0
+    },
+    "reader-pth.xml": {
+      "passed": 4,
+      "skipped": 0
+    },
+    "linux/api.xml": {
+      "passed": 47,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 806,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1096,
+      "skipped": 0
+    }
+  },
+  "counts_overlap": true,
+  "isolated_reader_observer_repaired": true,
+  "application_rebuilt": false,
+  "native_math_changed": false,
+  "stub_regenerated": false,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "own_source_platform_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

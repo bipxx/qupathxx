@@ -322,6 +322,37 @@ python -I -m pytest tests/test_qupath_gaussian.py -q
 A new Windows capture uses `--capture build/new-gaussian-capture` and the existing
 `--runtime-cache build/upstream/qupath`; the output directory must not exist.
 
+### Exact OD and stain input stages
+
+The [input301 receipt](benchmarks/qupath-input-stages-301/receipt.json) binds
+11 public QuPath input captures: a65536-color palette covering every pair of
+byte channels, six white-reference settings, identity/two-/three-vector/signed
+stain bases and the original clipped-ROI and nominal1.5 RGB inputs. Two successful
+captures reproduce92 numeric/model/input/recipe payloads exactly. The original
+plugin debug input arrays are also reproduced exactly.
+
+Existing `StainTransform.optical_densities` and `deconvolve` reproduce all77
+captured arrays on Windows and Linux. Captured normalized vectors add33 exact
+stain checks per host. Reuse these methods for the compatible input route.
+OD-sum requires float32 channel values followed by two float32 additions; summing
+double OD first and casting once changes pixels in10 nontrivial cases. RGB stain
+separation instead mixes double OD and casts the final stain value. These are
+distinct arithmetic paths. Positive zero is explicit when clipping OD: the
+NumPy diagnostic must account for its different tie behavior at negative zero.
+
+The captures cover opaque RGB and the declared models, not every possible stain,
+alpha/edge policy or biological specimen. Combine the reused input path and the
+private Gaussian through an explicit request/recipe policy before claiming a
+compatible production detector; retain existing quantitative/default behavior.
+
+```text
+python -I tools/qupath_cell_inputs.py --native --report build/cell-inputs.json
+python -I -m pytest tests/test_qupath_cell_inputs.py -q
+```
+
+For a new Windows capture, use `--capture build/new-cell-inputs` and the existing
+`--runtime-cache build/upstream/qupath`. The output directory must not exist.
+
 ### Requested resampling: pixels and nominal geometry
 
 The [resampled processing fixture](../tests/fixtures/qupath-cells-resampled-debug-0.7.0/manifest.json)

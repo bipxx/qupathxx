@@ -1,0 +1,97 @@
+{
+  "schema": "qpx.reader-locale-engine-observation/1",
+  "state": "original-engine-audit-rejected",
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "run": 40792323979,
+  "authenticated_engine_archives": 5,
+  "total_collected_archives": 10,
+  "failed_gui_cases": [
+    "test_unicode_reader_dispatch_and_nominal_resume[C]",
+    "test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252]",
+    "test_unicode_reader_dispatch_and_nominal_resume[tr-TR]"
+  ],
+  "original_auditor": true,
+  "engine_accepted": false,
+  "portable_accepted": true,
+  "macos_accepted": false,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "engine-run-terminal.json",
+      "bytes": 25146,
+      "sha256": "9021039d11c274aa6cfc47871dcf38d17b2400206e5ae5005701a0ace58e80d3"
+    },
+    {
+      "path": "engine-complete-audit.log",
+      "bytes": 341,
+      "sha256": "860e911a90531c13c26a4d582c1afed2536d4e35bd4ab2a90f884a50b3107f3e"
+    },
+    {
+      "path": "engine-audit-exit.json",
+      "bytes": 854,
+      "sha256": "73459baa10a12c6be514975472831fb0287681e54c2d84de89d3de05ede8b90d"
+    },
+    {
+      "path": "engine-run.json",
+      "bytes": 25146,
+      "sha256": "9021039d11c274aa6cfc47871dcf38d17b2400206e5ae5005701a0ace58e80d3"
+    },
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 4531,
+      "sha256": "72423ec7437ca233457237a837edfc0b113105344dac6d2b98fb6faf6236f06d"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 4511,
+      "sha256": "250d608e8afee3bfceec0d14e228eab5710f904e5c694c9bb3953c9f6733ca24"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2447,
+      "sha256": "5a595cb9ad5a46c842a9a4b675e86b40627a6111bc635d2ac599c0aac0086cbc"
+    },
+    {
+      "path": "Windows-gui-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "0f3970d9acc47dcbd7915c7fa3fdb1bad16fa2f7e378f27a111d13bbe2636903"
+    },
+    {
+      "path": "python-tests.xml",
+      "bytes": 779597,
+      "sha256": "ea8a16b5048e11e5136b0d992502f57846df0e3b54c3b990204601554efc6519"
+    },
+    {
+      "path": "python-tests.log",
+      "bytes": 22265,
+      "sha256": "9ab5f1f8044a7bb8ddfb4a565a42e3475ea17bb9506f17b100e395ab4f4e6636"
+    },
+    {
+      "path": "native-tests.xml",
+      "bytes": 32341,
+      "sha256": "6d1188afae394e0a4c1c86aeb533d6a87b74a5531a46247d8e857109385800c0"
+    },
+    {
+      "path": "native-tests.log",
+      "bytes": 5769,
+      "sha256": "7f76dc251f37f59c69511296ab994121c12a50a135903578e96d2c3ee290c58f"
+    },
+    {
+      "path": "diagnostic-stages.json",
+      "bytes": 46283,
+      "sha256": "b5c1a0afb26947387f4a75f0472b9f6c7edc5ab10dd8c4aecc1547108529fc5a"
+    },
+    {
+      "path": "failed-job.log",
+      "bytes": 81486,
+      "sha256": "579bed01f63726fbb610e02291792eeb69afbf5c7b34ed68c6c1d90e64e40710"
+    },
+    {
+      "path": "observers/audit_engine298_terminal301.py",
+      "bytes": 1108,
+      "sha256": "c9807ea8b6b80380f95080c9dc3b92995259bb041b26eb9c35df068b4edc2d38"
+    }
+  ]
+}

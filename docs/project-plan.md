@@ -21,15 +21,18 @@ exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
 
-[Private Gaussian300](benchmarks/imagej-gaussian-kernel-300/receipt.json) now
-matches all74 blur/LoG arrays from37 captured cases on MSVC and GCC ASan/UBSan.
-Its isolated target leaves71 application products and39 installed members
-unchanged at native28c33573.761 scientific cases/13 declared skips and1095 audit
-controls pass;1059 source paths and429 compiler inputs authenticate. Exact
-RGB-to-float32-OD staging and a versioned opt-in request/archive/replay/consumer
-policy remain. The original [portable298 audit](benchmarks/reader-locale-qualification-298/portable300/receipt.json)
-accepts its frozen builders/fresh consumers; engine/Mac and broader gates remain
-open. Private300 inherits no298 platform acceptance.
+[Input301](benchmarks/qupath-input-stages-301/receipt.json) verifies existing
+native OD/stain transforms against all77 captured arrays on Windows/Linux,
+including non-default whites, bases and original ROI/resampled inputs.45 new
+checks per host,806 scientific cases/13 declared skips and1096 controls pass.
+429 compiler inputs,71 application and eight private products remain unchanged;
+1158 source paths authenticate. Private Gaussian300 already matches74 arrays.
+The [original298 engine audit](benchmarks/reader-locale-qualification-298/engine301/receipt.json)
+rejects three GUI test-helper imports under isolated Python. The observer repair
+passes normal Windows, actual _pth and Linux; no native repair or acceptance
+transfer follows. Portable accepts; Mac arm64 remains pending with10 archives
+authenticated. Next deliver the explicit processing policy through existing
+requests, archive/replay and all consumers. Broader M0-M7 gates remain open.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
@@ -578,17 +581,20 @@ are locally delivered through SDK, CLI, project batches, ImGui and managed comma
 Candidate295 is terminal/unaccepted overall: all11 archives authenticate,
 original Mac-native and portable auditors accept their roles, and Windows engine
 rejects Unicode auto-selection. Repair297 is locally verified at native28c33573.
-Candidate298 is frozen at9fbc9315; observe its original engine40792323979,
-Mac40792333489 and portable40792343129 runs and collect all11 archives before
-executing their complete original-source auditors. Preserve
+Candidate298 is frozen at9fbc9315. Preserve its complete original portable
+acceptance and engine rejection; collect the remaining archive from Mac40792333489
+and run its original complete auditor when terminal. Combined acceptance still
+requires all11 authenticated archives and every required role. Preserve
 qualified281 and both terminal failed campaigns. Comparison296 retains its
 separate two-host corpus evidence and explicit clipped-ROI differences. Continue
 remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
-Private Gaussian300 reproduces all37 captured stages on MSVC/GCC sanitizers
-while298 qualifies. Next capture exact RGB-to-float32-OD arithmetic and held-out
-grids/scales, then add one versioned opt-in processing policy through the existing
-request, persistence and consumer routes. Existing quantitative/default policies
-remain unchanged.
+Private Gaussian300 reproduces all37 captured stages on MSVC/GCC sanitizers;
+input301 verifies exact existing native OD/stain inputs on Windows/Linux.298's
+original engine auditor rejects isolated test-helper imports; the observer is
+locally repaired without rebuilding application code. Portable accepts; keep
+observing the original Mac handle. Next add one versioned opt-in processing
+policy through existing requests, persistence/replay and all consumers, with
+held-out grids/alpha/edges. Existing quantitative/default policies stay unchanged.
 The current task card records observed status rather than another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse

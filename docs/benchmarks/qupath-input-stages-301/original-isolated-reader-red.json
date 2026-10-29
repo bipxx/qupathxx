@@ -1,0 +1,21 @@
+{
+  "frozen_source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "reproduced": true,
+  "observations": [
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\reader-locale-297-env\\Scripts\\python.exe",
+        "-I",
+        "-X",
+        "utf8",
+        "-c",
+        "\nimport locale\nfrom pathlib import Path\nimport sys\nimport qupathxx as q\nfrom test_nominal_cell_batches import test_nominal_linked_pixel_change_invalidates_resume\n\nselected = locale.setlocale(locale.LC_CTYPE, sys.argv[1])\nroot = Path(sys.argv[2])\nfor index, suffix in enumerate(['ppm', 'PPM']):\n    source = root / ('IMAGE-\\u539f\\u59cb-\\u0391\\u03a3-' + str(index) + '.' + suffix)\n    source.write_bytes(b'P6\\n2 1\\n255\\n\\x01\\x02\\x03\\x04\\x05\\x06')\n    original = str(source)\n    direct = q.Image.read_ppm(original)\n    project = q.Project()\n    image = project.add_image(original)\n    explicit = project.add_image(original, reader='ppm')\n    assert project.document(image).metadata.width == direct.width == 2\n    assert project.document(explicit).metadata.width == 2\n    saved = root / ('PROJECT-\\u539f\\u59cb-' + str(index) + '.qpxproj')\n    project.save(str(saved))\n    reopened = q.Project.open(str(saved))\n    assert reopened.document(image).metadata.width == 2\n    assert str(source) == original\ntest_nominal_linked_pixel_change_invalidates_resume(root)\nassert locale.setlocale(locale.LC_CTYPE) == selected\nprint('UTF-8 auto/explicit readers, uppercase extension, project reopen and changed-source resume passed:', selected)\n",
+        "C",
+        "C:\\Users\\HEQ\\AppData\\Local\\Temp\\reader-isolation301-vx0yr3gb"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 6, in <module>\nModuleNotFoundError: No module named 'test_nominal_cell_batches'\n"
+    }
+  ]
+}
