@@ -160,12 +160,13 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         if(o.cell_nominal) {
             const auto& n=*o.cell_nominal;
             s<<",\"nominal_cells\":{\"sampling_algorithm\":"<<batch_json_quote(n.algorithm())
-                <<",\"detector_algorithm\":\"qpx.nominal-rgb-log-watershed-bodies/1\",\"downsample\":"<<n.downsample
+                <<",\"detector_algorithm\":"<<batch_json_quote(gp.processing==CellProcessingPolicy::ImageJ154p?"qpx.nominal-rgb-imagej154p-log-watershed-bodies/1":"qpx.nominal-rgb-log-watershed-bodies/1")<<",\"downsample\":"<<n.downsample
                 <<",\"context_x\":"<<n.context_x<<",\"context_y\":"<<n.context_y;
         } else {
             const auto& g=*o.cell_grid;
             s<<",\"grid_cells\":{\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y<<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y;
         }
+        if(gp.processing!=CellProcessingPolicy::Quantitative) s<<",\"processing\":\"imagej154p/1\"";
         s<<",\"units\":"<<int(gp.units)<<",\"feature\":"<<int(gp.feature)<<",\"threshold\":"<<gp.threshold<<",\"sigma\":"<<gp.sigma<<",\"log_prominence\":"<<gp.log_prominence
             <<",\"min_peak_radius\":"<<gp.min_peak_radius<<",\"min_seed_distance\":"<<gp.min_seed_distance<<",\"cell_expansion\":"<<gp.cell_expansion
             <<",\"min_nucleus_area\":"<<gp.min_nucleus_area<<",\"max_nucleus_area\":";
@@ -208,6 +209,7 @@ struct ProjectBatchRequest::Data {
     explicit Data(const StainTransform& t):transform(t) {}
 };
 void ProjectBatchOptions::validate() const {
+    if(grid_cells.processing!=CellProcessingPolicy::Quantitative && !cell_nominal) throw std::invalid_argument("ImageJ cell processing requires nominal RGB sampling");
     if(cell_grid && cell_nominal) throw std::invalid_argument("cell area-grid and nominal sampling are mutually exclusive");
     if(cell_nominal) {
         cell_nominal->validate();grid_cells.validate();

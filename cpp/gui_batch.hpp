@@ -71,6 +71,8 @@ inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
 }
 inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParameters& p) {
     bool changed=ui::InputDouble("Nominal downsample",&sampling.downsample,0,0,"%.8g");
+    int processing=static_cast<int>(p.processing);
+    if(ui::Combo("Cell processing",&processing,"Quantitative\0ImageJ 1.54p\0")) {p.processing=static_cast<CellProcessingPolicy>(processing);changed=true;}
     auto context=[&](const char* label,std::uint32_t& value) {
         int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,0,4096));changed=true;}
     };
@@ -78,7 +80,7 @@ inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParam
     ImGui::TextWrapped("Samples the original image at the requested nominal pixel step. Context is measured in output samples; the original ROI is retained.");
     return grid_cell_parameter_controls(p) || changed;
 }
-inline bool cell_sampling_controls(std::optional<GridCellSampling>& grid,std::optional<NominalCellRoiSampling>& nominal) {
+inline bool cell_sampling_controls(std::optional<GridCellSampling>& grid,std::optional<NominalCellRoiSampling>& nominal,GridCellParameters& parameters) {
     bool enabled=bool(grid),changed=ui::Checkbox("Explicit cell grid",&enabled);
     if(changed) {grid=enabled?std::optional<GridCellSampling>(GridCellSampling{}):std::nullopt;if(enabled) nominal.reset();}
     enabled=bool(nominal);
@@ -86,6 +88,7 @@ inline bool cell_sampling_controls(std::optional<GridCellSampling>& grid,std::op
         nominal=enabled?std::optional<NominalCellRoiSampling>(NominalCellRoiSampling{}):std::nullopt;
         if(enabled) grid.reset();changed=true;
     }
+    if(changed && !nominal) parameters.processing=CellProcessingPolicy::Quantitative;
     return changed;
 }
 // The owner captures once. Workers process an independent project snapshot;
@@ -211,7 +214,7 @@ public:
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else {
                 if(options_.kind==ProjectBatchKind::Cells) {
-                    if(cell_sampling_controls(options_.cell_grid,options_.cell_nominal) && (options_.cell_grid || options_.cell_nominal)) {
+                    if(cell_sampling_controls(options_.cell_grid,options_.cell_nominal,options_.grid_cells) && (options_.cell_grid || options_.cell_nominal)) {
                         options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();
                     }
                 }

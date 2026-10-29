@@ -64,11 +64,11 @@ std::string checksum(const std::uint8_t* data,std::size_t size,const Roi& roi,co
     Sha256 hash;const auto geometry=GeometryArchiveCodec::encode(roi);hash.integer(geometry.size());hash.update(geometry.data(),geometry.size());
     for(std::size_t at=0;at<size;) {checkpoint(cancelled);const auto n=std::min<std::size_t>(65536,size-at);hash.update(data+at,n);at+=n;}return hash.finish();
 }
-void parameters(Writer& w,const GridCellParameters& p) {
-    cell_detail::grid_parameters_write(w,p);
+void parameters(Writer& w,const GridCellParameters& p,bool processing) {
+    cell_detail::grid_parameters_write(w,p,processing);
 }
-GridCellParameters parameters(Reader& d) {
-    return cell_detail::grid_parameters_read(d);
+GridCellParameters parameters(Reader& d,bool processing) {
+    return cell_detail::grid_parameters_read(d,processing);
 }
 auto resolved(const ResolvedGridCellParameters& r) {return std::make_tuple(r.step_x,r.step_y,r.sigma_x,r.sigma_y,r.min_nucleus_samples,r.max_nucleus_samples);}
 bool source_support(const CellSamplingGrid& grid,std::size_t i) {return grid.source_support(i);}
@@ -90,14 +90,15 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
     if(!r.nuclei() || !r.cells() || !r.nuclei()->provenance() ||
        (!r.nuclei()->scientific_grid() && !r.nuclei()->nominal_sampling())) throw std::invalid_argument("missing grid cell archive snapshot");
     const auto& n=*r.nuclei();const CellSamplingGrid grid=n.nominal_sampling()?CellSamplingGrid(n.provenance()->source.width,n.provenance()->source.height,*n.nominal_sampling()):CellSamplingGrid(*n.scientific_grid());
-    if(std::string(r.algorithm())!=grid.algorithm()) throw std::invalid_argument("grid cell archive algorithm differs");
+    if(std::string(r.algorithm())!=grid.algorithm(p.processing)) throw std::invalid_argument("grid cell archive algorithm differs");
     const auto provenance=ProvenanceCodec::encode(*n.provenance());
     if(r.domain_bits_.size()!=(n.labels().size()+7)/8 || !hex(n.input_sha256()) || n.input_sha256()!=r.cells()->input_sha256() || r.elapsed_ms()<0)
         throw std::invalid_argument("invalid grid cell archive snapshot");
     const auto encoded_bound=8ULL*n.labels().size()+160ULL*r.features().size()+20ULL*r.markers().size()+r.domain_bits_.size()+provenance.size()+4096;
     if(encoded_bound>limit || archive_work(n.labels().size(),r.features().size(),r.markers().size(),n.provenance()->payload_bytes(),n.roi().payload_bytes(),p.contours.work_bytes,std::size_t(encoded_bound))>work_limit)
         throw std::length_error("grid cell archive exceeds encoded byte limit");
-    Writer w;w.bytes[3]=grid.nominal?6:5;parameters(w,p);cell_grid_write(w,grid);
+    const bool processing=p.processing!=CellProcessingPolicy::Quantitative;
+    Writer w;w.bytes[3]=processing?7:grid.nominal?6:5;parameters(w,p,processing);cell_grid_write(w,grid);
     w.blob(provenance);for(auto v:n.white()) w.real(v);for(const auto& row:n.stains()) for(auto v:row) w.real(v);
     const auto& q=*r.resolved_grid_parameters();for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) w.real(v);w.integer(q.min_nucleus_samples);w.integer(q.max_nucleus_samples);
     for(auto v:{n.samples(),n.threshold_pixels(),std::uint64_t(r.raw_peaks()),std::uint64_t(r.markers().size()),std::uint64_t(r.features().size())}) w.integer(v);
@@ -116,7 +117,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     checkpoint(cancelled);if(!data || size<512 || size>limit) throw std::invalid_argument("invalid grid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("grid cell archive checksum mismatch");
-    Reader d{data+4,size-68};const auto p=parameters(d);const auto grid=cell_grid_read(d,data[3]==6,p.work_bytes);
+    Reader d{data+4,size-68};const auto p=parameters(d,data[3]==7);const auto grid=cell_grid_read(d,data[3]>=6,p.work_bytes);
     if(grid.image_width()!=metadata.width || grid.image_height()!=metadata.height || !roi.is_area()) throw std::invalid_argument("grid cell archive image or ROI mismatch");
     const auto b=roi.bounds();if(b.x<0 || b.y<0 || b.x+b.width>metadata.width || b.y+b.height>metadata.height) throw std::invalid_argument("grid cell archive ROI exceeds image");
     const auto blob=d.blob(4ULL*1024*1024);const auto provenance=ProvenanceCodec::decode(blob.first,blob.second);
@@ -129,7 +130,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     const auto samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
     if(!samples || archive_work(n,std::size_t(count),std::size_t(markers),provenance->payload_bytes(),roi.payload_bytes(),p.contours.work_bytes,size)>work_limit)
         throw std::invalid_argument("grid cell archive exceeds decoded budget");
-    auto result=std::shared_ptr<CellResult>(new CellResult());result->algorithm_=grid.algorithm();result->grid_parameters_=p;result->resolved_grid_parameters_=q;
+    auto result=std::shared_ptr<CellResult>(new CellResult());result->algorithm_=grid.algorithm(p.processing);result->grid_parameters_=p;result->resolved_grid_parameters_=q;
     result->parameters_.algorithm=CellAlgorithm::GridLogWatershedBodies;result->parameters_.max_cells=p.max_cells;result->parameters_.work_bytes=p.work_bytes;result->parameters_.contours=p.contours;
     result->raw_peaks_=std::size_t(raw);result->elapsed_ms_=d.real();if(result->elapsed_ms_<0 || d.left<64) throw std::invalid_argument("invalid grid cell elapsed time or digest");
     const std::string input(reinterpret_cast<const char*>(d.p),64);d.p+=64;d.left-=64;if(!hex(input)) throw std::invalid_argument("invalid grid cell input digest");
@@ -169,7 +170,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     for(const auto& m:result->markers_) if(m.result_label && nuclei[m.pixel_index] && nuclei[m.pixel_index]!=m.result_label) throw std::invalid_argument("grid cell marker label mismatch");
     auto raster=[&](std::vector<std::uint32_t> labels,bool body) {
         auto mask=std::shared_ptr<TissueResult>(new TissueResult());mask->scientific_grid_=grid.area;mask->nominal_sampling_=grid.nominal;if(grid.nominal) mask->downsample_=grid.step_x();mask->roi_=roi;mask->provenance_=provenance;
-        mask->algorithm_=grid.nominal?(body?"qpx.nominal-cell-bodies/1":"qpx.nominal-cell-nuclei/1"):(body?"qpx.grid-cell-bodies/1":"qpx.grid-cell-nuclei/1");mask->input_format_override_=grid.input_format();mask->input_sha256_=input;
+        mask->algorithm_=grid.mask_algorithm(body,p.processing);mask->input_format_override_=grid.input_format();mask->input_sha256_=input;
         mask->object_id_=provenance->object_id;mask->object_revision_=provenance->object_revision;mask->document_revision_=provenance->document_revision;
         mask->white_=white;mask->stains_=stains;mask->image_bounds_={0,0,double(metadata.width),double(metadata.height)};
         mask->parameters_.level=0;mask->parameters_.feature=p.feature;mask->parameters_.threshold=p.threshold;mask->parameters_.max_components=p.max_cells;mask->parameters_.work_bytes=p.work_bytes;mask->parameters_.sampling_policy=p.sampling_policy;

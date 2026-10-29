@@ -101,7 +101,7 @@ def feature_checks(result,masks,rgb,white,calibration,downsample,tolerance):
     return checks
 
 
-def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='reference-roi'):
+def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='reference-roi',processing='quantitative'):
     import numpy as np
     from PIL import Image
     import qupathxx as q
@@ -124,22 +124,25 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     transform=q.StainTransform(contract['vectors'],contract['white'])
     downsample=reference['parameters']['requestedPixelSizeMicrons']/((px+py)/2)
     native=contract['native'];p=q.GridCellParameters();scale=1 if units=='pixels' else px
+    if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
+    elif processing!='quantitative':raise ValueError('unknown cell processing policy')
     p.units=q.GridCellUnits.LEVEL_ZERO_PIXELS if units=='pixels' else q.GridCellUnits.MICROMETRES
     p.threshold=native['threshold'];p.sigma=native['sigma']*scale;p.cell_expansion=native['cell_expansion']*scale
     p.min_nucleus_area=native['min_nucleus_pixels']*scale**2;p.max_nucleus_area=native['max_nucleus_pixels']*scale**2
     bounds=roi if grid_scope=='reference-roi' else [0,0,width,height]
     if grid_scope=='reference-roi':request=q.CellRequest.for_nominal_roi(doc,obj,transform,downsample,context,context,p)
     else:request=q.CellRequest(doc,obj,transform,q.NominalCellSampling(q.RgbNominalRequest(*bounds,downsample),context,context),p)
-    processing,processing_labels=captured_processing_rgb(rgb,case,bounds,downsample)
+    processing_rgb,processing_labels=captured_processing_rgb(rgb,case,bounds,downsample)
     native_rgb=q.read_rgb_nominal_region(doc.server,request.nominal_sampling.source_request).numpy()
-    np.testing.assert_array_equal(native_rgb[:,:,:3],processing);assert np.all(native_rgb[:,:,3]==255)
+    np.testing.assert_array_equal(native_rgb[:,:,:3],processing_rgb);assert np.all(native_rgb[:,:,3]==255)
     result=q.detect_cells(request)
-    if result.algorithm!='qpx.nominal-rgb-log-watershed-bodies/1':raise ValueError('unexpected cell recipe')
+    expected_algorithm='qpx.nominal-rgb-imagej154p-log-watershed-bodies/1' if processing=='imagej154p' else 'qpx.nominal-rgb-log-watershed-bodies/1'
+    if result.algorithm!=expected_algorithm:raise ValueError('unexpected cell recipe')
     masks={name:nominal_core(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
     canvases={name:nominal_canvas(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
     expected={name:np.frombuffer(gzip.decompress((path/(name+'.u32le.gz')).read_bytes()),dtype='<u4').reshape(height,width) for name in masks}
     metrics={name:comparison.metrics(expected[name],canvas,contract['comparison']) for name,canvas in canvases.items()}
-    checks=feature_checks(result,masks,processing,contract['white'],(px,py),downsample,contract['comparison'])
+    checks=feature_checks(result,masks,processing_rgb,contract['white'],(px,py),downsample,contract['comparison'])
     foreground_differences={}
     for name,actual in canvases.items():
         extra=(actual>0)&(expected[name]==0);missing=(expected[name]>0)&(actual==0)
@@ -166,7 +169,7 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
         level_zero_label_sha256={k:hashlib.sha256(v.astype('<u4').tobytes()).hexdigest() for k,v in canvases.items()},input_sha256=result.nuclei.input_sha256)
 
 
-def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='reference-roi'):
+def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='reference-roi',processing='quantitative'):
     import qupathxx as q
     import qupathxx._native as native
     comparison=shared();contract=comparison.verify_capture(folder)
@@ -178,7 +181,7 @@ def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='refe
         capture_manifest_sha256=comparison.sha(Path(folder)/'capture-manifest.json'),units=units,grid_scope=grid_scope,context=context,
         frozen_comparison_tolerances=contract['comparison'],omitted_anisotropic_physical_cases=[c['name'] for c in contract['cases'] if c not in selected],
         segmentation_parity_accepted=False,biological_validation=False,general_speed_claim=False,
-        cases=[compare_case(folder,contract,case,context,units,grid_scope) for case in selected])
+        cases=[compare_case(folder,contract,case,context,units,grid_scope,processing) for case in selected])
 
 
 def main():
@@ -187,8 +190,9 @@ def main():
     parser.add_argument('--context',type=int,default=32)
     parser.add_argument('--units',choices=['pixels','micrometres'],default='pixels')
     parser.add_argument('--grid-scope',choices=['full-image','reference-roi'],default='reference-roi')
+    parser.add_argument('--processing',choices=['quantitative','imagej154p'],default='quantitative')
     parser.add_argument('--report',type=Path,required=True)
-    args=parser.parse_args();report=compare(args.reference,args.context,args.units,args.grid_scope)
+    args=parser.parse_args();report=compare(args.reference,args.context,args.units,args.grid_scope,args.processing)
     args.report.parent.mkdir(parents=True,exist_ok=True)
     args.report.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],cases=len(report['cases']),report=str(args.report))))

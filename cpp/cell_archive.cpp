@@ -83,7 +83,7 @@ std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std
     if(w.bytes.size()>256u*1024u*1024u) throw std::length_error("encoded cell archive exceeds 256 MiB");return w.bytes;
 }
 std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* data,std::size_t size,Roi roi,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {
-    if(data && size>=4 && (!std::memcmp(data,"QCL\5",4) || !std::memcmp(data,"QCL\6",4))) return decode_grid(data,size,std::move(roi),metadata,cancelled);
+    if(data && size>=4 && (!std::memcmp(data,"QCL\5",4) || !std::memcmp(data,"QCL\6",4) || !std::memcmp(data,"QCL\7",4))) return decode_grid(data,size,std::move(roi),metadata,cancelled);
     checkpoint(cancelled);if(!data || size<128 || size>256u*1024u*1024u) throw std::invalid_argument("invalid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("cell archive checksum mismatch");

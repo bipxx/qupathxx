@@ -4,6 +4,7 @@
 namespace qpx {
 enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
 enum class GridCellUnits { LevelZeroPixels, Micrometres };
+enum class CellProcessingPolicy { Quantitative=0, ImageJ154p=1 };
 // Count-based frontend planning: enclose the original ROI bounds in an integer
 // level-zero extent, retain the ROI itself, and resolve the actual axis steps.
 struct GridCellSampling {
@@ -13,6 +14,7 @@ struct GridCellSampling {
 // Distances and areas are in the selected units and their square, respectively;
 // never in sampled-array pixels. Context belongs to the explicit grid.
 struct GridCellParameters {
+    CellProcessingPolicy processing=CellProcessingPolicy::Quantitative;
     GridCellUnits units=GridCellUnits::LevelZeroPixels;
     TissueFeature feature=TissueFeature::OpticalDensitySum;
     double threshold=1,sigma=1,log_prominence=.5,min_peak_radius=0,min_seed_distance=0,cell_expansion=5;

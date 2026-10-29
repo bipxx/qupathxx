@@ -59,7 +59,7 @@ int execute(const std::vector<std::string>& args) {
             "Raw grids: --raw-grid-samples NX,NY [--raw-grid-context CX,CY --raw-grid-work-bytes N] (no level/tile flags)\n"
             "--kind od|stains|tissue|cells|pixels|raw|raw-pixels|raw-contours  --image ID (repeatable)\n"
             "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
-            "Nominal cells: --cell-algorithm nominal --cell-nominal-downsample D --cell-nominal-context CX,CY\n"
+            "Nominal cells: --cell-algorithm nominal --cell-nominal-downsample D --cell-nominal-context CX,CY --cell-processing quantitative|imagej154p\n"
             "               (positive decimal D; shares --grid-* physical detector parameters below)\n"
             "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
             "            --grid-units px|um --grid-feature od|stain1|stain2|stain3\n"
@@ -127,7 +127,7 @@ int execute(const std::vector<std::string>& args) {
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
-        bool raw_contour_flags=false,typed_cell_flags=false;
+        bool raw_contour_flags=false,typed_cell_flags=false,processing_flag=false;
         bool legacy_cell_flags=false,legacy_algorithm=false,requested_raw_level=false,requested_raw_grid=false,raw_grid_flags=false,raw_pixel_flags=false;
         bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path,raw_pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
@@ -196,6 +196,13 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--normalized") normalized=true;
             else if(flag=="--threshold") options.grid_cells.threshold=options.cells.threshold=options.tissue.threshold=real(value());
             else if(flag=="--cell-algorithm") {const auto v=value();if(v=="grid") {if(!options.cell_grid) options.cell_grid=GridCellSampling{};}else if(v=="nominal") {if(!options.cell_nominal) options.cell_nominal=NominalCellRoiSampling{};}else {legacy_algorithm=true;if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else if(v=="log-sampled") options.cells.algorithm=CellAlgorithm::SampledLogWatershedBodies;else throw std::invalid_argument("unknown cell algorithm");}}
+            else if(flag=="--cell-processing") {
+                processing_flag=true;
+                const auto v=value();
+                if(v=="quantitative") options.grid_cells.processing=CellProcessingPolicy::Quantitative;
+                else if(v=="imagej154p") options.grid_cells.processing=CellProcessingPolicy::ImageJ154p;
+                else throw std::invalid_argument("cell processing must be quantitative or imagej154p");
+            }
             else if(flag=="--cell-nominal-downsample" || flag=="--cell-nominal-context") {
                 if(!options.cell_nominal) options.cell_nominal=NominalCellRoiSampling{};auto& n=*options.cell_nominal;
                 if(flag=="--cell-nominal-downsample") {
@@ -251,6 +258,7 @@ int execute(const std::vector<std::string>& args) {
         if(options.raw_grid && (requested_raw_level || requested_level || requested_tile_size)) throw std::invalid_argument("raw grids do not accept natural level or tile flags");
         if(options.cells.algorithm==CellAlgorithm::SampledLogWatershedBodies) {options.cells.min_peak_radius=0;options.cells.min_seed_distance=0;}
         if(typed_cell_flags && !options.cell_nominal && !options.cell_grid) options.cell_grid=GridCellSampling{};
+        if(processing_flag && !options.cell_nominal) throw std::invalid_argument("--cell-processing requires nominal RGB cell sampling");
         if((options.cell_grid || options.cell_nominal) && (legacy_algorithm || legacy_cell_flags || requested_level || requested_tile_size || options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2))
             throw std::invalid_argument("grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags");
         if(!objects.empty()) {if(selection.size()!=1) throw std::invalid_argument("--object requires exactly one --image");selection[0].object_ids=objects;}

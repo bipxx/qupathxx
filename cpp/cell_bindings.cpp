@@ -15,6 +15,7 @@ void bind_cells(nb::module_& m) {
         .value("SAMPLED_LOG_WATERSHED_BODIES",CellAlgorithm::SampledLogWatershedBodies)
         .value("GRID_LOG_WATERSHED_BODIES",CellAlgorithm::GridLogWatershedBodies);
     nb::enum_<GridCellUnits>(m,"GridCellUnits").value("LEVEL_ZERO_PIXELS",GridCellUnits::LevelZeroPixels).value("MICROMETRES",GridCellUnits::Micrometres);
+    nb::enum_<CellProcessingPolicy>(m,"CellProcessingPolicy").value("QUANTITATIVE",CellProcessingPolicy::Quantitative).value("IMAGEJ_154P",CellProcessingPolicy::ImageJ154p);
     nb::class_<NominalCellRoiSampling>(m,"NominalCellRoiSampling").def(nb::init<>())
         .def_rw("downsample",&NominalCellRoiSampling::downsample).def_rw("context_x",&NominalCellRoiSampling::context_x)
         .def_rw("context_y",&NominalCellRoiSampling::context_y).def_prop_ro("algorithm",&NominalCellRoiSampling::algorithm).def("validate",&NominalCellRoiSampling::validate);
@@ -30,6 +31,7 @@ void bind_cells(nb::module_& m) {
         .def_rw("samples_x",&GridCellSampling::samples_x).def_rw("samples_y",&GridCellSampling::samples_y)
         .def_rw("context_x",&GridCellSampling::context_x).def_rw("context_y",&GridCellSampling::context_y).def("validate",&GridCellSampling::validate);
     nb::class_<GridCellParameters>(m,"GridCellParameters").def(nb::init<>())
+        .def_rw("processing",&GridCellParameters::processing)
         .def_rw("units",&GridCellParameters::units).def_rw("feature",&GridCellParameters::feature).def_rw("threshold",&GridCellParameters::threshold)
         .def_rw("sigma",&GridCellParameters::sigma).def_rw("log_prominence",&GridCellParameters::log_prominence)
         .def_rw("min_peak_radius",&GridCellParameters::min_peak_radius).def_rw("min_seed_distance",&GridCellParameters::min_seed_distance)

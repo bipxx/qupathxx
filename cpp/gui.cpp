@@ -280,6 +280,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     GridCellParameters grid_cells=options.grid_cell_parameters?*options.grid_cell_parameters:GridCellParameters{};
     if(cell_nominal) cell_nominal->validate();
     if(cell_grid || cell_nominal) {if(cell_grid) cell_grid->validate();grid_cells.validate();if(options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2) throw std::invalid_argument("grid cells use grid-unit area limits");}
+    if(grid_cells.processing!=CellProcessingPolicy::Quantitative && !cell_nominal) throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     auto cell_min_area=options.cell_min_nucleus_area_um2,cell_max_area=options.cell_max_nucleus_area_um2;
     int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
     bool show_cells=true;std::size_t cell_annotations_added=0;
@@ -1839,7 +1840,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
             ui::SeparatorText("Watershed cells");
             ImGui::PushItemWidth(118);
-            bool cell_changed=detail::cell_sampling_controls(cell_grid,cell_nominal);
+            bool cell_changed=detail::cell_sampling_controls(cell_grid,cell_nominal,grid_cells);
             if(cell_nominal) cell_changed=detail::nominal_cell_controls(*cell_nominal,grid_cells) || cell_changed;
             else if(cell_grid) cell_changed=detail::grid_cell_controls(*cell_grid,grid_cells) || cell_changed;
             else {

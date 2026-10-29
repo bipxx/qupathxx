@@ -12,6 +12,7 @@ struct ScientificRasterSpec {
     std::shared_ptr<const char> ticket;
     std::string input_sha256; // optional expected digest; a mismatch rejects
     bool body=false;
+    const char* algorithm_override=nullptr;
     std::uint64_t threshold_pixels=0,raw_components=0;
     ScientificRasterSpec() {parameters.level=0;}
 };

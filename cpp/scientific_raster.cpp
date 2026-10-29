@@ -184,7 +184,7 @@ std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisR
     result->roi_=source.roi();result->provenance_=source.provenance();result->image_bounds_={0,0,double(grid.image_width()),double(grid.image_height())};
     result->parameters_=p;result->white_=source.transform().white();result->stains_=source.transform().stains();
     result->object_id_=source.object_id();result->object_revision_=source.object_revision();result->document_revision_=source.document_revision();result->nucleus_=source.nucleus();
-    result->algorithm_=spec.body?"qpx.nominal-cell-bodies/1":"qpx.nominal-cell-nuclei/1";result->input_format_override_=grid.input_format();result->input_sha256_=digest;
+    result->algorithm_=spec.algorithm_override?spec.algorithm_override:grid.mask_algorithm(spec.body);result->input_format_override_=grid.input_format();result->input_sha256_=digest;
     result->downsample_=grid.step_x();result->samples_=samples;result->foreground_pixels_=foreground;result->raw_components_=spec.raw_components;
     result->threshold_pixels_=result->cleaned_pixels_=spec.body?foreground:spec.threshold_pixels;result->estimated_work_bytes_=std::size_t(charge);
     result->components_=grid.components(labels,count,cancelled);result->labels_=std::move(labels);

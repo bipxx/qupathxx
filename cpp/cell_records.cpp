@@ -12,7 +12,7 @@ auto parameters(const CellParameters& p) {return std::make_tuple(p.algorithm,p.l
     p.connectivity,p.level,p.tile_size,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
 auto feature(const CellFeature& f) {return std::tie(f.label,f.nucleus_pixels,f.cell_pixels,f.nucleus_rgb,f.cell_rgb,f.nucleus_channels,f.cell_channels,f.cytoplasm_rgb,f.cytoplasm_channels);}
 auto marker(const CellMarker& m) {return std::tie(m.label,m.result_label,m.pixel_index,m.center.x,m.center.y,m.radius);}
-auto grid_parameters(const GridCellParameters& p) {return std::make_tuple(p.units,p.feature,p.threshold,p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,
+auto grid_parameters(const GridCellParameters& p) {return std::make_tuple(p.processing,p.units,p.feature,p.threshold,p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,
     p.min_nucleus_area,p.max_nucleus_area,p.sampling_policy,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
 auto grid(const ScientificGrid& g) {return std::make_tuple(g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context());}
 auto resolved(const ResolvedGridCellParameters& p) {return std::make_tuple(p.step_x,p.step_y,p.sigma_x,p.sigma_y,p.min_nucleus_samples,p.max_nucleus_samples);}

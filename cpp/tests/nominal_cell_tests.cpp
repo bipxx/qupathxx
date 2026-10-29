@@ -159,6 +159,40 @@ void check_nominal_cells() {
     verify(anisotropic.resolved_grid_parameters()->step_x==.75 && anisotropic.resolved_grid_parameters()->step_y==.375);
     doc.clear_calibration();rejects<std::invalid_argument>([&]{CellRequest unknown(doc,id,transform,sampling,physical);});
     const auto unknown=detect_cells(CellRequest(doc,id,transform,sampling,p));verify(!unknown->calibrated_feature(1).cell_sample_area_um2);
+    {
+        auto compatible=p;compatible.processing=CellProcessingPolicy::ImageJ154p;
+        const auto before=reader->reads;
+        rejects<std::invalid_argument>([&]{CellRequest unsupported(doc,id,transform,ScientificGrid(256,192,{0,256,171,0},{0,192,128,0}),compatible);});
+        verify(reader->reads==before);
+        auto invalid=compatible;invalid.processing=static_cast<CellProcessingPolicy>(2);rejects<std::invalid_argument>([&]{invalid.validate();});
+        const auto captured=CellRequest(doc,id,transform,sampling,compatible);const auto detected=detect_cells(captured);
+        verify(std::string(detected->algorithm())=="qpx.nominal-rgb-imagej154p-log-watershed-bodies/1");
+        verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
+        const auto packet=CellArchiveCodec::encode(*detected);verify(packet[3]==7);
+        const auto historical=load(packet);verify(historical->grid_parameters()->processing==CellProcessingPolicy::ImageJ154p && CellArchiveCodec::encode(*historical)==packet);
+        const auto kept=doc.keep_cells(captured,detected);const auto replayed=CellRequest::replay(doc,kept);
+        verify(replayed.grid_parameters()->processing==CellProcessingPolicy::ImageJ154p && doc.verify_cells(kept,replayed,*detect_cells(replayed)));
+        verify(cell_measurements_csv(CellTableRequest(doc,{kept})).find("qpx.cell-table/9")!=std::string::npos);
+        CellTableOptions options;options.include_capture_calibration=true;
+        const auto mixed=cell_measurements_csv(CellTableRequest(doc,{run,kept},options));
+        verify(mixed.find("qpx.cell-table/10")!=std::string::npos && mixed.find("processing_policy")!=std::string::npos && mixed.find("quantitative/1")!=std::string::npos && mixed.find("imagej154p/1")!=std::string::npos);
+        const auto halo_request=CellRequest::for_nominal_roi(doc,id,transform,1.5,3,4,compatible);const auto halo=detect_cells(halo_request);
+        for(std::int64_t y=0;y<128;++y) for(std::int64_t x=0;x<171;++x) {
+            const auto i=std::size_t(y*171+x),j=std::size_t((y+4)*halo_request.nominal_sampling()->width()+x+3);
+            verify(halo->nuclei()->labels()[j]==detected->nuclei()->labels()[i] && halo->cells()->labels()[j]==detected->cells()->labels()[i]);
+        }
+        if(has_geos()) {
+            const auto ids=doc.publish_cell_record(kept);ObjectFeatureOptions f;f.cell_rgb=true;
+            const ObjectFeatureRequest features(doc,ids,f);const auto table=extract_object_features(features);
+            std::vector<std::pair<std::string,std::string>> schema;for(const auto& feature:table->features()) schema.emplace_back(feature.name,feature.unit);
+            const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture(schema));const auto classified=classify_objects(features,model);
+            ObjectClassifierRecord record;record.id=doc.revision()+1;record.name="ImageJ processing cells";record.archive=archive_object_classifier(classified->table(),model,classified);
+            const auto encoded=ObjectClassifierArchiveCodec::encode(record,nullptr);const auto restored=ObjectClassifierArchiveCodec::decode(encoded.data(),encoded.size(),doc.metadata(),nullptr);
+            verify(restored->archive->table()->cell_origin(0)->source->grid_parameters->processing==CellProcessingPolicy::ImageJ154p);
+            verify(ObjectClassifierArchiveCodec::encode(*restored,nullptr)==encoded);
+        }
+        std::cout<<"ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed\n";
+    }
     reader->close();verify(load(bytes)->cells()->labels()==result->cells()->labels());rejects<std::runtime_error>([&]{detect_cells(request);});
     std::cout<<"Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed\n";
     std::cout<<"Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed\n";

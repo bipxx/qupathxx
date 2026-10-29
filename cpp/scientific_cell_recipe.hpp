@@ -27,7 +27,8 @@ inline std::vector<std::uint8_t> grid_log_positive(std::vector<double> score,con
 }
 inline LogResult grid_log_watershed(const std::vector<double>& score,const std::vector<std::uint8_t>& valid,
     const std::vector<std::uint8_t>& domain,std::size_t width,std::size_t height,const PhysicalGridMetric& metric,
-    double sigma,const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase) {
+    double sigma,const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase,
+    const std::vector<std::uint8_t>* supplied_positive=nullptr) {
     p.validate();checkpoint(cancelled);
     const auto n=scientific_cell_pixels(width,height);
     if(score.size()!=n || valid.size()!=n || domain.size()!=n) throw std::invalid_argument("invalid grid LoG buffers");
@@ -36,7 +37,12 @@ inline LogResult grid_log_watershed(const std::vector<double>& score,const std::
         if((i&4095)==0) checkpoint(cancelled);
         if(!std::isfinite(score[i]) || domain[i]>1 || valid[i]>1 || (domain[i] && !valid[i])) throw std::invalid_argument("invalid grid LoG values or domain");
     }
-    auto positive=grid_log_positive(score,valid,width,height,metric,sigma,p.work_bytes,cancelled);
+    if(supplied_positive && supplied_positive->size()!=n) throw std::invalid_argument("invalid supplied grid LoG mask");
+    auto positive=supplied_positive?*supplied_positive:grid_log_positive(score,valid,width,height,metric,sigma,p.work_bytes,cancelled);
+    if(supplied_positive) for(std::size_t i=0;i<n;++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        if(positive[i]>1 || (positive[i] && !valid[i])) throw std::invalid_argument("invalid supplied grid LoG support");
+    }
     auto mask=log_regions_from_positive(score,positive,width,height,p,cancelled);
     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);mask[i]=mask[i] && valid[i];}
     std::vector<std::uint8_t>().swap(positive);

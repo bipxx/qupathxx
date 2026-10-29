@@ -32,7 +32,14 @@ struct CellSamplingGrid {
     GridReadBounds read_bounds(const std::atomic<bool>* cancelled=nullptr) const;
     std::vector<TissueComponent> components(const std::vector<std::uint32_t>&,std::uint32_t,const std::atomic<bool>*) const;
     const char* input_format() const {return nominal?"qpx.nominal-cell-rgb/1":"qpx.grid-opaque-rgb-area/1";}
-    const char* algorithm() const {return nominal?"qpx.nominal-rgb-log-watershed-bodies/1":"qpx.grid-log-watershed-bodies/1";}
+    const char* algorithm(CellProcessingPolicy processing=CellProcessingPolicy::Quantitative) const {
+        if(processing==CellProcessingPolicy::ImageJ154p) return "qpx.nominal-rgb-imagej154p-log-watershed-bodies/1";
+        return nominal?"qpx.nominal-rgb-log-watershed-bodies/1":"qpx.grid-log-watershed-bodies/1";
+    }
+    const char* mask_algorithm(bool body,CellProcessingPolicy processing=CellProcessingPolicy::Quantitative) const {
+        if(processing==CellProcessingPolicy::ImageJ154p) return body?"qpx.nominal-imagej154p-cell-bodies/1":"qpx.nominal-imagej154p-cell-nuclei/1";
+        return nominal?(body?"qpx.nominal-cell-bodies/1":"qpx.nominal-cell-nuclei/1"):(body?"qpx.grid-cell-bodies/1":"qpx.grid-cell-nuclei/1");
+    }
 };
 struct CellRgbInput {
     CellSamplingGrid grid;

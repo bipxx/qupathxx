@@ -5,6 +5,7 @@
 #include "scientific_channel_values.hpp"
 #include "qupathxx/provenance.hpp"
 #include "cell_contours.hpp"
+#include "imagej_gaussian.hpp"
 #include <chrono>
 
 namespace qpx {
@@ -33,6 +34,8 @@ ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid& 
 }
 std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellParameters& p,const ResolvedGridCellParameters& r,
     const Roi& roi,const AnalysisProvenance& source,const ImageMetadata& m,const std::atomic<bool>* cancelled) {
+    if(p.processing==CellProcessingPolicy::ImageJ154p && !grid.nominal)
+        throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     if(m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
        m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1 || m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA)
         throw std::invalid_argument("grid cells require an open matching unit-scale RGBA8 level zero");
@@ -58,6 +61,8 @@ std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellPara
     return std::size_t(bytes);
 }
 void GridCellParameters::validate() const {
+    if(processing!=CellProcessingPolicy::Quantitative && processing!=CellProcessingPolicy::ImageJ154p)
+        throw std::invalid_argument("unknown cell processing policy");
     if(units!=GridCellUnits::LevelZeroPixels && units!=GridCellUnits::Micrometres) throw std::invalid_argument("unknown grid cell units");
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
         throw std::invalid_argument("unknown grid cell feature");
@@ -91,6 +96,8 @@ CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransfo
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellSamplingGrid grid,GridCellParameters p):
     reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
     p.validate();
+    if(p.processing==CellProcessingPolicy::ImageJ154p && !grid.nominal)
+        throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     // Empty *natural* center grids are permitted: the requested scientific grid
     // can still contain eligible centers. Capture retains normal owner checks.
     AnalysisRequest source(doc,id,transform,p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,
@@ -135,7 +142,8 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     if(phase) phase->store(1);
     auto rgb=read_cell_rgb(*request.reader_,grid,cancelled);if(completed) completed->store(1);
     std::vector<double> channels(rgb.values().size());
-    detail::scientific_channel_values(rgb.values(),rgb.valid(),request.transform_,p.feature!=TissueFeature::OpticalDensitySum,channels,cancelled);
+    if(p.processing==CellProcessingPolicy::Quantitative)
+        detail::scientific_channel_values(rgb.values(),rgb.valid(),request.transform_,p.feature!=TissueFeature::OpticalDensitySum,channels,cancelled);
     std::vector<double> score(n);std::vector<std::uint8_t> domain(n);std::uint64_t samples=0;
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);
@@ -143,12 +151,49 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         domain[i]=(rgb.valid()[i] && grid.core_roi_contains(c.source.roi(),c.source.sampling_policy(),i%width,i/width));samples+=domain[i];
     }
     if(!samples) throw std::invalid_argument("grid cell ROI contains no eligible opaque core centers");
+    std::vector<std::uint8_t> imagej_positive;
+    if(p.processing==CellProcessingPolicy::ImageJ154p) {
+        std::size_t left=width,top=height,right=0,bottom=0;
+        for(std::size_t i=0;i<n;++i) {
+            if((i&4095)==0) checkpoint(cancelled);
+            if(rgb.valid()[i]) {const auto x=i%width,y=i/width;left=std::min(left,x);right=std::max(right,x+1);top=std::min(top,y);bottom=std::max(bottom,y+1);}
+        }
+        const auto cw=right-left,ch=bottom-top;
+        PixelBuffer pixels{std::int64_t(cw),std::int64_t(ch)};auto& bytes=pixels.writable_bytes();
+        for(std::size_t y=0;y<ch;++y) {
+            checkpoint(cancelled);
+            for(std::size_t x=0;x<cw;++x) {
+                const auto i=(top+y)*width+left+x,j=y*cw+x;
+                if(!rgb.valid()[i]) throw std::invalid_argument("ImageJ processing requires rectangular opaque source support");
+                for(unsigned c=0;c<3;++c) bytes[4*j+c]=std::uint8_t(rgb.values()[3*i+c]);bytes[4*j+3]=255;
+            }
+        }
+        const auto transformed=p.feature==TissueFeature::OpticalDensitySum?request.transform_.optical_densities(pixels,cancelled):request.transform_.deconvolve(pixels,cancelled);
+        const auto& values=transformed.values();std::vector<float> input(cw*ch);
+        for(std::size_t y=0;y<ch;++y) {
+            checkpoint(cancelled);
+            for(std::size_t x=0;x<cw;++x) {
+                const auto i=(top+y)*width+left+x,j=y*cw+x;
+                for(unsigned c=0;c<3;++c) channels[3*i+c]=values[3*j+c];
+                float value;
+                if(p.feature==TissueFeature::OpticalDensitySum) {value=values[3*j]+values[3*j+1];value+=values[3*j+2];}
+                else value=values[3*j+std::size_t(p.feature)-1];
+                input[j]=value;score[i]=value;
+            }
+        }
+        const auto blur=detail::imagej154p_gaussian(input,cw,ch,r.sigma_x,r.sigma_y,p.work_bytes,cancelled);
+        const auto response=detail::imagej154p_laplacian(blur,cw,ch,p.work_bytes,cancelled);
+        imagej_positive.resize(n);
+        for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) imagej_positive[(top+y)*width+left+x]=response[y*cw+x]>0;}
+    }
     if(phase) phase->store(2);
     const cell_detail::PhysicalGridMetric metric(r.step_x,r.step_y);
     cell_detail::LogParameters log;log.sigma=0;log.threshold=p.threshold;log.prominence=p.log_prominence;log.minimum_radius=p.min_peak_radius;
     log.minimum_spacing=p.min_seed_distance;log.minimum_area=r.min_nucleus_samples;log.maximum_area=r.max_nucleus_samples;
     log.maximum_cells=p.max_cells;log.work_bytes=p.work_bytes;log.eight_connected_background=true;
-    auto detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase);
+    auto detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
+        p.processing==CellProcessingPolicy::ImageJ154p?&imagej_positive:nullptr);
+    std::vector<std::uint8_t>().swap(imagej_positive);
     std::vector<double>().swap(score);
     // Apply the inclusive area limits again after core/ROI clipping.
     std::vector<std::uint64_t> counts(detected.count+1);for(auto label:detected.labels) ++counts[label];
@@ -156,7 +201,7 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     for(std::size_t i=1;i<counts.size();++i) if(counts[i]>=r.min_nucleus_samples && (!r.max_nucleus_samples || counts[i]<=r.max_nucleus_samples)) dense[i]=++count;
     for(auto& label:detected.labels) label=dense[label];
     auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=request.parameters_;result->grid_parameters_=p;result->resolved_grid_parameters_=r;
-    result->ticket_=request.ticket_;result->algorithm_=grid.algorithm();
+    result->ticket_=request.ticket_;result->algorithm_=grid.algorithm(p.processing);
     for(const auto& peak:detected.peaks) {
         if(peak.radius>=p.min_peak_radius) ++result->raw_peaks_;if(!peak.selected) continue;
         const auto x=grid.center_x(std::int64_t(peak.index%width));
@@ -191,8 +236,9 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     ScientificRasterSpec spec;spec.parameters.feature=p.feature;spec.parameters.threshold=p.threshold;spec.parameters.max_components=p.max_cells;
     spec.parameters.work_bytes=p.work_bytes;spec.parameters.sampling_policy=p.sampling_policy;spec.ticket=request.ticket_;
     spec.raw_components=count;spec.threshold_pixels=detected.candidate_pixels;
+    spec.algorithm_override=grid.mask_algorithm(false,p.processing);
     result->nuclei_=ScientificRasterKernel::make(c.source,rgb,std::move(detected.labels),spec,cancelled);
-    spec.body=true;spec.input_sha256=result->nuclei_->input_sha256();result->cells_=ScientificRasterKernel::make(c.source,rgb,std::move(bodies),spec,cancelled);
+    spec.body=true;spec.algorithm_override=grid.mask_algorithm(true,p.processing);spec.input_sha256=result->nuclei_->input_sha256();result->cells_=ScientificRasterKernel::make(c.source,rgb,std::move(bodies),spec,cancelled);
     if(phase) phase->store(6);restore_cell_contours(*result,cancelled);checkpoint(cancelled);
     result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();if(phase) phase->store(7);
     return result;
