@@ -17,6 +17,7 @@ import locale
 from pathlib import Path
 import sys
 import qupathxx as q
+sys.path.insert(0, sys.argv[3])
 from test_nominal_cell_batches import test_nominal_linked_pixel_change_invalidates_resume
 
 selected = locale.setlocale(locale.LC_CTYPE, sys.argv[1])
@@ -41,9 +42,9 @@ assert locale.setlocale(locale.LC_CTYPE) == selected
 print('UTF-8 auto/explicit readers, uppercase extension, project reopen and changed-source resume passed:', selected)
 '''
     env = os.environ.copy()
-    env['PYTHONPATH'] = str(Path(__file__).resolve().parent)
     result = subprocess.run(
-        [sys.executable, '-X', 'utf8', '-c', program, ctype, str(tmp_path)],
+        [sys.executable, '-I', '-X', 'utf8', '-c', program, ctype, str(tmp_path),
+         str(Path(__file__).resolve().parent)],
         env=env, capture_output=True, encoding='utf-8', timeout=120,
     )
     assert result.returncode == 0, result.stdout + result.stderr
