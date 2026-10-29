@@ -684,3 +684,7 @@ tools/compare_qupath_nominal_cells.py text eol=lf
 tests/test_qupath_nominal_cells_reference.py text eol=lf
 
 docs/benchmarks/nominal-cell-comparison-296/** -text -whitespace
+
+cpp/ascii_case.hpp text eol=lf
+tests/test_reader_locale.py text eol=lf
+docs/benchmarks/reader-locale-297/** -text -whitespace

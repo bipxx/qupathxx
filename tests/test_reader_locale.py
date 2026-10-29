@@ -48,3 +48,21 @@ print('UTF-8 auto/explicit readers, uppercase extension, project reopen and chan
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert 'changed-source resume passed:' in result.stdout
+
+
+def test_installed_region_dispatch_accepts_unicode_uppercase_ppm(tmp_path):
+    from qupathxx import _native
+    source = tmp_path / 'IMAGE-\u539f\u59cb.PPM'
+    pixels = bytes([1, 2, 3, 4, 5, 6])
+    source.write_bytes(b'P6\n2 1\n255\n' + pixels)
+    output = tmp_path / 'REGION-\u539f\u59cb.pam'
+    cli = Path(_native.__file__).with_name('qupathxx_region.exe' if os.name == 'nt' else 'qupathxx_region')
+    result = subprocess.run(
+        [str(cli), str(source), '0', '0', '0', '2', '1', str(output)],
+        capture_output=True, encoding='utf-8', timeout=30,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    header, payload = output.read_bytes().split(b'ENDHDR\n', 1)
+    assert b'WIDTH 2\nHEIGHT 1\nDEPTH 4\n' in header
+    assert payload == bytes([1, 2, 3, 255, 4, 5, 6, 255])
+    assert source.read_bytes() == b'P6\n2 1\n255\n' + pixels
