@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\cell-policy302-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_imagej_cell_processing.py",
+    "tests/test_nominal_cell_python.py",
+    "tests/test_nominal_cell_batches.py",
+    "tests/test_qupath_nominal_cells_reference.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-processing-policy-302\\policy.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-processing-policy-302\\policy-temp"
+  ],
+  "returncode": 0
+}

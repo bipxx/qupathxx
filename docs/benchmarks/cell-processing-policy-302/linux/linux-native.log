@@ -1,0 +1,22 @@
+Internal ctest changing into directory: /tmp/qupathxx-policy302-build
+Test project /tmp/qupathxx-policy302-build
+    Start  4: object_classifier
+1/8 Test  #4: object_classifier ................   Passed    0.05 sec
+    Start  8: resampling
+2/8 Test  #8: resampling .......................   Passed    2.85 sec
+    Start 20: cell_tables
+3/8 Test #20: cell_tables ......................   Passed    0.07 sec
+    Start 21: cell_records
+4/8 Test #21: cell_records .....................   Passed    0.45 sec
+    Start 22: cells
+5/8 Test #22: cells ............................   Passed    0.54 sec
+    Start 24: imagej_gaussian
+6/8 Test #24: imagej_gaussian ..................   Passed    0.06 sec
+    Start 28: log_cell_recipe
+7/8 Test #28: log_cell_recipe ..................   Passed    0.21 sec
+    Start 37: stains
+8/8 Test #37: stains ...........................   Passed    0.09 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   4.40 sec

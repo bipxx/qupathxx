@@ -21,18 +21,21 @@ exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
 
-[Input301](benchmarks/qupath-input-stages-301/receipt.json) verifies existing
-native OD/stain transforms against all77 captured arrays on Windows/Linux,
-including non-default whites, bases and original ROI/resampled inputs.45 new
-checks per host,806 scientific cases/13 declared skips and1096 controls pass.
-429 compiler inputs,71 application and eight private products remain unchanged;
-1158 source paths authenticate. Private Gaussian300 already matches74 arrays.
-The [original298 engine audit](benchmarks/reader-locale-qualification-298/engine301/receipt.json)
-rejects three GUI test-helper imports under isolated Python. The observer repair
-passes normal Windows, actual _pth and Linux; no native repair or acceptance
-transfer follows. Portable accepts; Mac arm64 remains pending with10 archives
-authenticated. Next deliver the explicit processing policy through existing
-requests, archive/replay and all consumers. Broader M0-M7 gates remain open.
+[Policy302](benchmarks/cell-processing-policy-302/receipt.json) locally delivers
+the opt-in `CellProcessingPolicy.IMAGEJ_154P` through native nominal requests,
+QCL7/QCA7 history/replay, copied Python parameters, CLI/batch resume, ImGui and
+managed commands. Native2b4786ed and observer28e062dd bind429 compiler inputs,
+1159 source paths,76 retained Windows products and39 installed members.56 native
+suites,114 focused cases,19 desktop/managed cases,826 scientific cases/18 declared
+skips,1097 controls and typing pass; counts overlap. Eight affected GCC ASan/UBSan
+suites pass with nine retained products. All nine pinned synthetic masks match
+with zero context; context32 retains the24-pixel clipped-ROI nucleus difference.
+Defaults and the three legacy scientific xfails stay unchanged. This reuses the
+exact [input301](benchmarks/qupath-input-stages-301/receipt.json) and private
+Gaussian300 stages. Full own-source qualification, held-out/biological/resource/
+hardware/support/license/release gates and all M0-M7 exits remain open. Preserve
+qualified281, original298 engine rejection and portable acceptance; continue
+observing its existing Mac handle without redispatch or acceptance transfer.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
@@ -588,13 +591,13 @@ requires all11 authenticated archives and every required role. Preserve
 qualified281 and both terminal failed campaigns. Comparison296 retains its
 separate two-host corpus evidence and explicit clipped-ROI differences. Continue
 remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
-Private Gaussian300 reproduces all37 captured stages on MSVC/GCC sanitizers;
-input301 verifies exact existing native OD/stain inputs on Windows/Linux.298's
-original engine auditor rejects isolated test-helper imports; the observer is
-locally repaired without rebuilding application code. Portable accepts; keep
-observing the original Mac handle. Next add one versioned opt-in processing
-policy through existing requests, persistence/replay and all consumers, with
-held-out grids/alpha/edges. Existing quantitative/default policies stay unchanged.
+Policy302 now integrates the exact input/Gaussian path through existing
+requests, persistence/replay and all consumers, with local Windows and affected
+GCC sanitizer evidence. Finish held-out grids/alpha/edge characterization and
+freeze one complete successor for own-source qualification. Existing default
+quantitative results and historical recipes remain unchanged.298's original
+engine rejection and portable acceptance stay source-bound; observe its original
+Mac handle without redispatch. Broader scientific and release lanes remain open.
 The current task card records observed status rather than another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse

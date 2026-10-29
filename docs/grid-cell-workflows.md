@@ -1,5 +1,40 @@
 # Explicit-grid cell workflows
 
+For original-source nominal RGB sampling, the additive numerical policy is
+`GridCellParameters.processing`. Its default, `QUANTITATIVE`, preserves existing
+results and archive/recipe encodings. Select `IMAGEJ_154P` explicitly to use
+float32 OD/stain inputs and the captured ImageJ 1.54p Gaussian/LoG arithmetic:
+
+```python
+parameters = q.GridCellParameters()
+parameters.processing = q.CellProcessingPolicy.IMAGEJ_154P
+request = q.CellRequest.for_nominal_roi(
+    doc, roi_id, transform, 1.5, 0, 0, parameters
+)
+result = q.detect_cells(request)
+record_id = doc.keep_cells(request, result)
+```
+
+Distances and areas retain the selected pixel/micrometre units. The policy
+requires nominal RGB sampling; explicit count/area grids reject it. Transparent
+input retains the current sampler's refusal. Processing uses source-supported
+sample centers, with nearest-edge extension at that rectangle. Context inside
+the source is real input: adding context can change the output inside the ROI.
+For the pinned synthetic corpus, zero-context requests match all nine reference
+masks; context 32 retains a 24-pixel nucleus difference in the clipped ROI case.
+These comparisons do not establish biological or complete QuPath equivalence.
+
+CLI nominal requests accept `--cell-processing imagej154p`. Python project
+batches use `options.grid_cells.processing` together with `options.cell_nominal`.
+The nominal ImGui controls offer **Cell processing**, and managed
+`ViewerSession.nominal_cells` copies the same parameters. Opt-in history uses
+QCL7, classifier origins use QCA7, and mixed-policy CSV exports use schema 9/10
+with a `processing_policy` column. Resume keys distinguish the policies. Default
+requests retain the existing QCL6/QCA6 and CSV 7/8 paths.
+
+See the [policy contract](cell-processing-policy-review.md) and
+[local validation receipt](benchmarks/cell-processing-policy-302/receipt.json).
+
 Integrated source `3fc3bcb` passes the complete Windows/Linux engine and portable
 builder/fresh-consumer workflow gates, plus both-architecture Mac native checks.
 See the [qualification receipt](benchmarks/scientific-grid-169-qualification.json).

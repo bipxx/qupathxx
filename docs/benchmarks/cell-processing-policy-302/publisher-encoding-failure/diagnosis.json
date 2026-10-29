@@ -1,0 +1,13 @@
+{
+  "first_failure": "UnicodeDecodeError under default GBK while reading API delivery plan; prior three docs had been written",
+  "resume_failure": "Input301 already replaced in first three docs",
+  "restoration_source": "28e062dd342622c0b7a0cdc4d3624c09fe07c521",
+  "restored_docs": [
+    "current-task.md",
+    "feature-matrix.md",
+    "project-plan.md"
+  ],
+  "notes_prefix_and_single_append_verified": true,
+  "native_products_or_test_results_changed": false,
+  "repair": "Restore docs from verified UTF-8 git blobs, then use explicit UTF-8 reads"
+}

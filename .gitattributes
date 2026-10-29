@@ -709,3 +709,6 @@ tools/upstream/qupath_cell_inputs_probe.groovy text eol=lf
 tests/test_qupath_cell_inputs.py text eol=lf
 tests/fixtures/qupath-cell-inputs-0.7.0/** -text -whitespace
 docs/benchmarks/qupath-input-stages-301/** -text -whitespace
+
+tests/test_imagej_cell_processing.py text eol=lf
+docs/benchmarks/cell-processing-policy-302/** -text -whitespace

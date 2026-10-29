@@ -1,0 +1,428 @@
+[
+  {
+    "path": "Release/geos.dll",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+  },
+  {
+    "path": "Release/geos_c.dll",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+  },
+  {
+    "path": "Release/nanobind-static.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a"
+  },
+  {
+    "path": "Release/qupathxx_analysis_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "081e8288610af15fedc2a507e53221744ddcf4e9fbdda8e451282217f88bda41"
+  },
+  {
+    "path": "Release/qupathxx_app.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_app.exe",
+    "bytes": 8001536,
+    "sha256": "326830d0a8669201cceb78607ddae38648edbe89b8f535195ab766ae61250176"
+  },
+  {
+    "path": "Release/qupathxx_batch.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_batch.exe",
+    "bytes": 5383680,
+    "sha256": "9f19e6324503fa5485832dc1cef2977b195421961e32dfc56a0ba050de75c68f"
+  },
+  {
+    "path": "Release/qupathxx_cell_calibration_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_cell_calibration_tests.exe",
+    "bytes": 2526720,
+    "sha256": "2f7197f3c2ae0f409d951f659dc99e0425309e729dd5648f5257b11691bbba83"
+  },
+  {
+    "path": "Release/qupathxx_cell_expansion_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "19a53b4311da696fa333946f587f80cb30979ec14e8ecf34d254e6e02eaa9d5a"
+  },
+  {
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_cell_record_tests.exe",
+    "bytes": 3782144,
+    "sha256": "3f116d3707d4e143a2b54453e970671c53a7e786ff013e84362fc4d86b9a35e6"
+  },
+  {
+    "path": "Release/qupathxx_cell_table_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_cell_table_tests.exe",
+    "bytes": 4337664,
+    "sha256": "2d57dedb2094eabf5025160039b9f72ce20244c278842c117f4020f59b8648dd"
+  },
+  {
+    "path": "Release/qupathxx_cell_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_cell_tests.exe",
+    "bytes": 3937280,
+    "sha256": "cf6280d09d797a783be3fbf0d29a88cf562430074d1d07fb825d5207c0c0b4c6"
+  },
+  {
+    "path": "Release/qupathxx_classes_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "773039e8ef32249618e6099d385639bf39cc68fab0d07e24d2010aba7ed6d0a2"
+  },
+  {
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "33077fdfa5d8787b951d4bc3a1e0db0a213295beaeb2a771c6f94f6c27036976"
+  },
+  {
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "6a42e7f3e402e9818cfae43d14ca7472f9764e467bd1bc7d2496aba3590f5c87"
+  },
+  {
+    "path": "Release/qupathxx_core.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_core.lib",
+    "bytes": 116747472,
+    "sha256": "92d9b47f4d8717d656ce1f5ce56ae06e1135e06d026197766b2de2e94fa00dfb"
+  },
+  {
+    "path": "Release/qupathxx_core_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "8e33f0e5333cf14114bf785cfdc7aca7f1704e7154856d2a1c7bd56edbc2968c"
+  },
+  {
+    "path": "Release/qupathxx_decimal_quantity_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8"
+  },
+  {
+    "path": "Release/qupathxx_document_edits_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "d5658a31585a53fec86835dbfe695c0c858b59bed3b13870875dc5b4b90700b2"
+  },
+  {
+    "path": "Release/qupathxx_file_fingerprint_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "ba96e0d8a8e86bae94288b6e0454a2ed31e901c6391947eb213ad7135a1d5e84"
+  },
+  {
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "63e39220ada3a60dadbea6ec1c181851913de90d03bb73aae1651869273cc1aa"
+  },
+  {
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "c5f6f0501e253126a3cc4c1d76bbc691c25ceb698de824c577f1acffa10a36a2"
+  },
+  {
+    "path": "Release/qupathxx_gui.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_gui.lib",
+    "bytes": 17766436,
+    "sha256": "299c9a49b0fae2e46686ceb4eeb90c07848be4c42cacc3117387ef70b0dd7b89"
+  },
+  {
+    "path": "Release/qupathxx_gui_replay_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_gui_replay_tests.exe",
+    "bytes": 885760,
+    "sha256": "fa1ec41eee5528538ac41dc2afd2b07beddb103f20de89030c5a5e133967f8bc"
+  },
+  {
+    "path": "Release/qupathxx_interchange_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "10de9cbad8bf54ed19d2698e2530fe42ba1f2bae74817777b2ba1d360e53ce07"
+  },
+  {
+    "path": "Release/qupathxx_log_cell_recipe_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2630656,
+    "sha256": "9d45b7abd6a908dd0c04bcca9c2804987cad8c95789f114c54b147608f0342f4"
+  },
+  {
+    "path": "Release/qupathxx_log_watershed_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "ab040419fa991a61ea651d5434a30703e1db0696a0c4d03b8ffad46707db8ed8"
+  },
+  {
+    "path": "Release/qupathxx_masked_gaussian_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a"
+  },
+  {
+    "path": "Release/qupathxx_measurement_table_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "c049496e6ae938e5fd00af501ad0ae7b27ba51d650e6927e7b40de5c860ba42f"
+  },
+  {
+    "path": "Release/qupathxx_object_classifier_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_object_classifier_tests.exe",
+    "bytes": 3180032,
+    "sha256": "44491517f3d775731cd25b767b4e8e1cd85f1f0e9248f2bcfdc4f672d97e1f4a"
+  },
+  {
+    "path": "Release/qupathxx_object_snapshot_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_object_snapshot_tests.exe",
+    "bytes": 3684352,
+    "sha256": "7adecda02c0074477815613ef1b5d195c2ace082382e082eba511c083e7d566f"
+  },
+  {
+    "path": "Release/qupathxx_overlay_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_overlay_tests.exe",
+    "bytes": 23552,
+    "sha256": "45a181d49d2b59bddc68d9f0a7e19e7fb2a6ef9d1a36fb3f9de847edb06916d7"
+  },
+  {
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "2dcee894744457d7cfe3396eb32cb938c4451f023d00fa7947d6ad80a386da37"
+  },
+  {
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5690368,
+    "sha256": "bae31fabaa9c52a601e89ebab9d1b6904f6be511b59dc558cadb2f7eda854b9e"
+  },
+  {
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_project_batch_tests.exe",
+    "bytes": 5032448,
+    "sha256": "172bcec4b025acc6dd8bba87971b5ed953fd1b549bee9fa1ba326a636b0d3d80"
+  },
+  {
+    "path": "Release/qupathxx_project_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_project_tests.exe",
+    "bytes": 4213248,
+    "sha256": "888bbec0eb7cb1b33f51819dd41e2b34438d81b299791f00bb4b8af19ce83aea"
+  },
+  {
+    "path": "Release/qupathxx_provenance_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_provenance_tests.exe",
+    "bytes": 2478080,
+    "sha256": "b43498c3b8ee720519e5572dce80f24c7013b33932a4c05e49f21272a776d67e"
+  },
+  {
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_qptma_project_tests.exe",
+    "bytes": 3566080,
+    "sha256": "a0752345b01d55f139a706329bcd7e8d075c96e6304c4e1cd974d53625658280"
+  },
+  {
+    "path": "Release/qupathxx_qptma_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "60fa0bf7aea74a00cab68a007b40402d0c125cb8414dce7cb7462af7e9e42bd7"
+  },
+  {
+    "path": "Release/qupathxx_raw_image_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_raw_image_tests.exe",
+    "bytes": 4570112,
+    "sha256": "fcac73701b2c8116a545e85bdeae8bd4b92294a0b7fa965b9f392f7690a9ee1a"
+  },
+  {
+    "path": "Release/qupathxx_recovery_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_recovery_tests.exe",
+    "bytes": 3660288,
+    "sha256": "81dab70fee1b77e8397e8f56f7fbba1973175550172f2046b9f4ac1b30a66018"
+  },
+  {
+    "path": "Release/qupathxx_region.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_region.exe",
+    "bytes": 786432,
+    "sha256": "368b51ad0f09d9b988c45163c7cbf1be46498cfff8498afd16e2f43c09fba16e"
+  },
+  {
+    "path": "Release/qupathxx_resampling_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_resampling_tests.exe",
+    "bytes": 3202560,
+    "sha256": "a7c4b09c67b39cbaaacd390cdcbab337bee909d6876599d86d5b89a886e9b1b1"
+  },
+  {
+    "path": "Release/qupathxx_save_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_save_tests.exe",
+    "bytes": 3525120,
+    "sha256": "7a807220658077366184fe0e308edb6c8f1c680ff19af075bee087a6aa325280"
+  },
+  {
+    "path": "Release/qupathxx_scheduler_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "3f1e156081801d30fd0fb6087ab76deba22a225b13848f5ee0268f50cce6671c"
+  },
+  {
+    "path": "Release/qupathxx_selection_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "eb7b02d425349744136f0249317010b7ac6e60d9189afcb0b21c881e202fc979"
+  },
+  {
+    "path": "Release/qupathxx_server_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "c7740143a49deb8b61a5142f037369244bc421cdf368a7f8a0bfda9d0c654904"
+  },
+  {
+    "path": "Release/qupathxx_sha256_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "de1b506ce554d166ee9a32c46ee0315709ff2782346e59df40a1f5bfb3dff851"
+  },
+  {
+    "path": "Release/qupathxx_source_identity_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "e31ea5b0a06d3f54e0c135aad6592f546256e2cd8d922efd5ae181f1b18f5db6"
+  },
+  {
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "f7c2ada896196a100d19d887fe6007decb5b672dc72e2ee9d26305c77f0e8d1d"
+  },
+  {
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_spatial_cli_tests.exe",
+    "bytes": 3600384,
+    "sha256": "9d1fb6f69fcb3cde9fe700f2ff8fcf4fe8cd1220bb97b293eac4623c6780ff7c"
+  },
+  {
+    "path": "Release/qupathxx_spatial_frontend_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_spatial_frontend_tests.exe",
+    "bytes": 3075072,
+    "sha256": "0a34f4b10732dd900ae23d9ee726e3153eb2e6385f55e1ac6cfb9b85c373c3a9"
+  },
+  {
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_spatial_record_tests.exe",
+    "bytes": 3657216,
+    "sha256": "5664b3b662d9514a2461a7d3daac4cfbd6538f6824a77e99d4ac90ed4cc6fe5c"
+  },
+  {
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "4064b63d66984f998be25530a5420f7c5f9fa227fbd987b0c623fcb5db905b9f"
+  },
+  {
+    "path": "Release/qupathxx_sqlite.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29"
+  },
+  {
+    "path": "Release/qupathxx_stains_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_stains_tests.exe",
+    "bytes": 248832,
+    "sha256": "eec16c2d345b4022ce1d4d1232b52cfe3f02adeb1ef1ca0c0b32c1ac39b845af"
+  },
+  {
+    "path": "Release/qupathxx_stain_estimation_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "1e5c9a86b7c6a28fddd8c9c1de90b6320a52870b7077ef2615ce84c28120064a"
+  },
+  {
+    "path": "Release/qupathxx_thumbnail_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "1485452dac5d1c213ca6351af2f0eda62a19435a1ccb4e03dcd1de2ac98b17f5"
+  },
+  {
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5"
+  },
+  {
+    "path": "Release/qupathxx_tissue_contour_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tissue_contour_tests.exe",
+    "bytes": 2380288,
+    "sha256": "218525f13664d47886fc782889cc526f90168d5a0ed1b7caaf129ee7fae7464d"
+  },
+  {
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tissue_record_tests.exe",
+    "bytes": 3585024,
+    "sha256": "39452d7682ce0a776254a0ffa53b3da54b462d634e5d257c47a3c0eb8231bdad"
+  },
+  {
+    "path": "Release/qupathxx_tissue_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tissue_tests.exe",
+    "bytes": 2254848,
+    "sha256": "f9571ea20f97efc30b806622372e8f59e204f9f084bf0a59852394b4d99ddaf6"
+  },
+  {
+    "path": "Release/qupathxx_tma_dearray_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tma_dearray_tests.exe",
+    "bytes": 5260288,
+    "sha256": "435c2a75edb5d9685a10d1e1c0641cd71aa355f857b77db5bbe1e96a5c18d7c5"
+  },
+  {
+    "path": "Release/qupathxx_tma_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_tma_tests.exe",
+    "bytes": 4589568,
+    "sha256": "57d1aa57cb902f15549952c96e2b71c161e50ad18b5c9f6c14b42dc7bc4d10bb"
+  },
+  {
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_viewer_session_tests.exe",
+    "bytes": 5399552,
+    "sha256": "a19cdb2d638296242dc7928ae10d5ebcb89816bf598f3910b536a219b5f9166a"
+  },
+  {
+    "path": "Release/qupathxx_view_tiles_tests.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "288b43017cb6c483c89519ad3a61cb5f6827229ba6131bfc57d2f685164279f9"
+  },
+  {
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\_native.cp312-win_amd64.pyd",
+    "bytes": 10139648,
+    "sha256": "8746d8b6e834237fb7075307666eb02d6ab210255af80d9c2b9b7743a046105c"
+  },
+  {
+    "path": "Release/_native.lib",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdC/CompilerIdC.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\CMakeFiles\\4.4.4\\CompilerIdC\\CompilerIdC.exe",
+    "bytes": 14848,
+    "sha256": "7c78a4f104b843ec0fed1d0ae22cc86a4b269eaa99e90a905b6fefd2cfba72ea"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdCXX/CompilerIdCXX.exe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\CMakeFiles\\4.4.4\\CompilerIdCXX\\CompilerIdCXX.exe",
+    "bytes": 15360,
+    "sha256": "1cd88308be674092e78c327d6cddbc1b59c66d8d1ea5873ef8a6219896dde163"
+  },
+  {
+    "path": "Release/fonts/NotoSansCJKsc-Regular.otf",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\fonts\\NotoSansCJKsc-Regular.otf",
+    "bytes": 16437364,
+    "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+  },
+  {
+    "path": "Release/fonts/NotoEmoji.ttf",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\reader-locale-297\\final-products\\Release\\fonts\\NotoEmoji.ttf",
+    "bytes": 1982596,
+    "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551"
+  }
+]
