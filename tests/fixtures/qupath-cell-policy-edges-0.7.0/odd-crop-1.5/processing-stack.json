@@ -1,0 +1,11 @@
+{
+  "width": 161,
+  "height": 115,
+  "slices": [
+    "Input image",
+    "Laplacian of Gaussian filtered",
+    "Watershed labels",
+    "Binary",
+    "Labeled ROIs"
+  ]
+}

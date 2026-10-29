@@ -43,7 +43,8 @@ def source_paths():
     paths.update(('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy','tests/test_qupath_gaussian.py','tools/reference_imagej_gaussian.py'))
     paths.update(('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.groovy','tests/test_qupath_cell_inputs.py'))
     paths.add('tests/test_imagej_cell_processing.py')
-    for fixture in ('qupath-gaussian-1.54p','qupath-cell-inputs-0.7.0'):
+    paths.update(('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy','tests/test_cell_policy_edges.py'))
+    for fixture in ('qupath-gaussian-1.54p','qupath-cell-inputs-0.7.0','qupath-cell-policy-edges-0.7.0'):
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'tests/fixtures'/fixture).rglob('*') if p.is_file())
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in suffixes)

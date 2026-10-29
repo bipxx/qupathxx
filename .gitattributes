@@ -712,3 +712,7 @@ docs/benchmarks/qupath-input-stages-301/** -text -whitespace
 
 tests/test_imagej_cell_processing.py text eol=lf
 docs/benchmarks/cell-processing-policy-302/** -text -whitespace
+tools/qupath_cell_policy_edges.py text eol=lf
+tools/upstream/qupath_cell_policy_edges.groovy text eol=lf
+tests/test_cell_policy_edges.py text eol=lf
+tests/fixtures/qupath-cell-policy-edges-0.7.0/** -text -whitespace

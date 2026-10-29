@@ -1,0 +1,77 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+22:00:12.332 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+22:00:12.336 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+22:00:12.336 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+22:00:12.358 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+22:00:12.368 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+22:00:12.465 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+22:00:15.329 [task-runner-1-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.57 seconds)
+22:00:15.329 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:15.329 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.58 seconds
+22:00:15.329 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK slide-edge-1.0 5
+22:00:17.014 [task-runner-2-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.10 seconds)
+22:00:17.019 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:17.019 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.11 seconds
+22:00:17.020 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK slide-edge-1.25 5
+22:00:18.406 [task-runner-3-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.12 seconds)
+22:00:18.407 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:18.407 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.12 seconds
+22:00:18.407 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK slide-edge-1.5 5
+22:00:19.711 [task-runner-4-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.12 seconds)
+22:00:19.712 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:19.712 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.12 seconds
+22:00:19.712 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK slide-edge-2.3 5
+22:00:20.970 [task-runner-5-1] [INFO ] q.lib.plugins.DetectionPluginTools - 4 nuclei detected (processing time: 0.10 seconds)
+22:00:20.971 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 4 nuclei detected (100%)
+22:00:20.971 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.10 seconds
+22:00:20.971 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK odd-crop-1.0 4
+22:00:22.432 [task-runner-6-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.14 seconds)
+22:00:22.433 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:22.434 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.14 seconds
+22:00:22.434 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK odd-crop-1.25 5
+22:00:23.722 [task-runner-7-1] [INFO ] q.lib.plugins.DetectionPluginTools - 5 nuclei detected (processing time: 0.06 seconds)
+22:00:23.723 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 5 nuclei detected (100%)
+22:00:23.723 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.06 seconds
+22:00:23.723 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK odd-crop-1.5 5
+22:00:24.583 [task-runner-8-1] [INFO ] q.lib.plugins.DetectionPluginTools - 4 nuclei detected (processing time: 0.04 seconds)
+22:00:24.586 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 4 nuclei detected (100%)
+22:00:24.586 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.04 seconds
+22:00:24.587 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK odd-crop-2.3 4
+22:00:25.176 [task-runner-9-1] [INFO ] q.lib.plugins.DetectionPluginTools - 4 nuclei detected (processing time: 0.05 seconds)
+22:00:25.177 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 4 nuclei detected (100%)
+22:00:25.178 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.05 seconds
+22:00:25.178 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK odd-hole-1.5 4
+22:00:25.877 [task-runner-10-1] [INFO ] q.lib.plugins.DetectionPluginTools - 0 nuclei detected (processing time: 0.05 seconds)
+22:00:25.885 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 0 nuclei detected (100%)
+22:00:25.885 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.06 seconds
+22:00:25.885 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK sigma-0.0 0
+22:00:26.164 [task-runner-11-1] [INFO ] q.lib.plugins.DetectionPluginTools - 2 nuclei detected (processing time: 0.08 seconds)
+22:00:26.165 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 2 nuclei detected (100%)
+22:00:26.165 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.08 seconds
+22:00:26.166 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK sigma-8.5 2
+22:00:26.767 [task-runner-12-1] [INFO ] q.lib.plugins.DetectionPluginTools - 2 nuclei detected (processing time: 0.06 seconds)
+22:00:26.769 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 2 nuclei detected (100%)
+22:00:26.770 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.06 seconds
+22:00:26.770 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK sigma-8.500001 2
+22:00:27.363 [task-runner-13-1] [INFO ] q.lib.plugins.DetectionPluginTools - 2 nuclei detected (processing time: 0.06 seconds)
+22:00:27.365 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 2 nuclei detected (100%)
+22:00:27.365 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.06 seconds
+22:00:27.365 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK sigma-16.0 2
+22:00:27.875 [main] [INFO ] qupath.ScriptCommand - Script result: [{name=slide-edge-1.0, pixel_size_um=[0.5, 0.5], nuclei=[[0.0, 40.0, 12.0, 9.0], [255.0, 145.0, 14.0, 12.0], [100.0, 0.0, 11.0, 10.0], [180.0, 191.0, 14.0, 11.0], [128.0, 96.0, 10.0, 10.0]], requested_pixel_size_um=0.5}, {name=slide-edge-1.25, pixel_size_um=[0.5, 0.5], nuclei=[[0.0, 40.0, 12.0, 9.0], [255.0, 145.0, 14.0, 12.0], [100.0, 0.0, 11.0, 10.0], [180.0, 191.0, 14.0, 11.0], [128.0, 96.0, 10.0, 10.0]], requested_pixel_size_um=0.625}, {name=slide-edge-1.5, pixel_size_um=[0.5, 0.5], nuclei=[[0.0, 40.0, 12.0, 9.0], [255.0, 145.0, 14.0, 12.0], [100.0, 0.0, 11.0, 10.0], [180.0, 191.0, 14.0, 11.0], [128.0, 96.0, 10.0, 10.0]], requested_pixel_size_um=0.75}, {name=slide-edge-2.3, pixel_size_um=[0.5, 0.5], nuclei=[[0.0, 40.0, 12.0, 9.0], [255.0, 145.0, 14.0, 12.0], [100.0, 0.0, 11.0, 10.0], [180.0, 191.0, 14.0, 11.0], [128.0, 96.0, 10.0, 10.0]], requested_pixel_size_um=1.15}, {name=odd-crop-1.0, pixel_size_um=[0.5, 0.5], nuclei=[[7.0, 50.0, 12.0, 9.0], [244.0, 145.0, 10.0, 10.0], [120.0, 11.0, 12.0, 12.0], [160.0, 175.0, 14.0, 14.0], [100.0, 95.0, 9.0, 9.0]], requested_pixel_size_um=0.5, roi=[7.0, 11.0, 241.0, 173.0]}, {name=odd-crop-1.25, pixel_size_um=[0.5, 0.5], nuclei=[[7.0, 50.0, 12.0, 9.0], [244.0, 145.0, 10.0, 10.0], [120.0, 11.0, 12.0, 12.0], [160.0, 175.0, 14.0, 14.0], [100.0, 95.0, 9.0, 9.0]], requested_pixel_size_um=0.625, roi=[7.0, 11.0, 241.0, 173.0]}, {name=odd-crop-1.5, pixel_size_um=[0.5, 0.5], nuclei=[[7.0, 50.0, 12.0, 9.0], [244.0, 145.0, 10.0, 10.0], [120.0, 11.0, 12.0, 12.0], [160.0, 175.0, 14.0, 14.0], [100.0, 95.0, 9.0, 9.0]], requested_pixel_size_um=0.75, roi=[7.0, 11.0, 241.0, 173.0]}, {name=odd-crop-2.3, pixel_size_um=[0.5, 0.5], nuclei=[[7.0, 50.0, 12.0, 9.0], [244.0, 145.0, 10.0, 10.0], [120.0, 11.0, 12.0, 12.0], [160.0, 175.0, 14.0, 14.0], [100.0, 95.0, 9.0, 9.0]], requested_pixel_size_um=1.15, roi=[7.0, 11.0, 241.0, 173.0]}, {name=odd-hole-1.5, pixel_size_um=[0.5, 0.5], nuclei=[[7.0, 50.0, 12.0, 9.0], [244.0, 145.0, 10.0, 10.0], [120.0, 11.0, 12.0, 12.0], [160.0, 175.0, 14.0, 14.0], [100.0, 95.0, 9.0, 9.0]], roi=[7.0, 11.0, 241.0, 173.0], hole=[90.0, 85.0, 20.0, 20.0], requested_pixel_size_um=0.75}, {name=sigma-0.0, pixel_size_um=[0.5, 0.5], nuclei=[[54.0, 60.0, 23.0, 20.0], [170.0, 118.0, 26.0, 22.0]], native={threshold=0.4, sigma=0.0, min_peak_radius=1.0, min_seed_distance=4.0, cell_expansion=5.0, min_nucleus_pixels=16.0, max_nucleus_pixels=4096.0, connectivity=8.0, level=0.0}}, {name=sigma-8.5, pixel_size_um=[0.5, 0.5], nuclei=[[54.0, 60.0, 23.0, 20.0], [170.0, 118.0, 26.0, 22.0]], native={threshold=0.4, sigma=8.5, min_peak_radius=1.0, min_seed_distance=4.0, cell_expansion=5.0, min_nucleus_pixels=16.0, max_nucleus_pixels=4096.0, connectivity=8.0, level=0.0}}, {name=sigma-8.500001, pixel_size_um=[0.5, 0.5], nuclei=[[54.0, 60.0, 23.0, 20.0], [170.0, 118.0, 26.0, 22.0]], native={threshold=0.4, sigma=8.500001, min_peak_radius=1.0, min_seed_distance=4.0, cell_expansion=5.0, min_nucleus_pixels=16.0, max_nucleus_pixels=4096.0, connectivity=8.0, level=0.0}}, {name=sigma-16.0, pixel_size_um=[0.5, 0.5], nuclei=[[54.0, 60.0, 23.0, 20.0], [170.0, 118.0, 26.0, 22.0]], native={threshold=0.4, sigma=16.0, min_peak_radius=1.0, min_seed_distance=4.0, cell_expansion=5.0, min_nucleus_pixels=16.0, max_nucleus_pixels=4096.0, connectivity=8.0, level=0.0}}]

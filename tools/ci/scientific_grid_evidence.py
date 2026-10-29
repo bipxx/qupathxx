@@ -95,6 +95,8 @@ FIXTURES+=('tests/fixtures/qupath-gaussian-1.54p/',)
 EXTRA+=('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy')
 FIXTURES+=('tests/fixtures/qupath-cell-inputs-0.7.0/',)
 EXTRA+=('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.groovy')
+FIXTURES+=('tests/fixtures/qupath-cell-policy-edges-0.7.0/',)
+EXTRA+=('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')
 
