@@ -728,3 +728,4 @@ docs/benchmarks/postlog-trace-304/** -text -whitespace
 tests/fixtures/rgb-affine-v2/** -text -whitespace
 tools/reference_rgb_affine.py text eol=lf
 docs/benchmarks/original-source-cells-305/** -text -whitespace
+docs/benchmarks/original-source-cell-qualification-306/** -text -whitespace

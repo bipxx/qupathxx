@@ -1,5 +1,16 @@
 # qupathxx project plan
 
+[Frozen original-source306](benchmarks/original-source-cell-qualification-306/receipt.json)
+at701fa672 passes1106 fresh-checkout auditor controls and authenticates1428 source
+paths/434 canonical compiler inputs against local native26cae2af without relabeling
+its binaries. The complete engine40817699577, Mac40817708194 and portable40817717210
+runs were dispatched once with their original auditor commands prepared. Observe
+these handles and collect all11 required archives; no hosted or combined acceptance
+is claimed yet. The two added native suites are explicitly required by both suite
+count and marker checks. All broader science/context/feature-domain, whole-slide
+resources/seams, representative speed/hardware, support/license/release and M0-M7
+requirements remain open. Preserve qualified281 and terminal298 outcomes.
+
 [Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
 delivers independent affine RGB sampling and QuPath070 cell processing through
 native requests, QCL8/QCA8 history/replay/classifier provenance, CSV11/12, Python,
