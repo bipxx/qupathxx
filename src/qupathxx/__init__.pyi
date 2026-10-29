@@ -307,6 +307,7 @@ from ._native import (
     CellFeatureLink as CellFeatureLink,
     CellRecord as CellRecord,
     CellAlgorithm as CellAlgorithm,
+    CellProcessingPolicy as CellProcessingPolicy,
     GridCellUnits as GridCellUnits,
     GridCellSampling as GridCellSampling,
     NominalCellSampling as NominalCellSampling,

@@ -42,6 +42,7 @@ def source_paths():
            'tools/reference_nominal_cells.py',*('tests/fixtures/nominal-cells-v1/'+name for name in ('manifest.json','source.rgb','processed.rgb','nucleus.u32le','body.u32le'))}
     paths.update(('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy','tests/test_qupath_gaussian.py','tools/reference_imagej_gaussian.py'))
     paths.update(('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.groovy','tests/test_qupath_cell_inputs.py'))
+    paths.add('tests/test_imagej_cell_processing.py')
     for fixture in ('qupath-gaussian-1.54p','qupath-cell-inputs-0.7.0'):
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'tests/fixtures'/fixture).rglob('*') if p.is_file())
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:

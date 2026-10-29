@@ -72,6 +72,9 @@ def test_classifier_origin_retains_processing_policy(tmp_path):
     from test_object_classifier_archives import model_for
     doc, obj, transform, p = compatible(); captured = request(doc, obj, transform, p)
     run = doc.keep_cells(captured, q.detect_cells(captured)); ids = doc.publish_cell_record(run)
+    p.processing = q.CellProcessingPolicy.QUANTITATIVE
+    legacy = request(doc, obj, transform, p)
+    old = doc.keep_cells(legacy, q.detect_cells(legacy)); ids += doc.publish_cell_record(old)
     options = q.ObjectFeatureOptions(); options.cell_rgb = True
     features = q.ObjectFeatureRequest(doc, ids, options); table = q.extract_object_features(features)
     job = q.ObjectClassifierJob(); assert job.predict(features, model_for(table.features))
@@ -79,9 +82,12 @@ def test_classifier_origin_retains_processing_policy(tmp_path):
     record = doc.classifier_records[0]
     project = q.Project(); image = project.add_document(doc)
     path = tmp_path / 'classifier.qpxproj'; project.save(str(path))
-    origin = q.Project.open(str(path)).document(image).classifier_record(record.id).archive.table.cell_origin(0).source
-    assert origin.grid_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
-    assert origin.algorithm == 'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1'
+    restored = q.Project.open(str(path)).document(image).classifier_record(record.id).archive.table
+    origins = [restored.cell_origin(index).source for index in range(6)]
+    assert {origin.grid_parameters.processing for origin in origins} == {
+        q.CellProcessingPolicy.IMAGEJ_154P, q.CellProcessingPolicy.QUANTITATIVE}
+    assert {origin.algorithm for origin in origins} == {
+        'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1', 'qpx.nominal-rgb-log-watershed-bodies/1'}
 
 
 @pytest.mark.skipif(not q.has_project, reason='requires project batches')
@@ -123,3 +129,38 @@ def test_gui_options_copy_processing_policy():
     p.processing = q.CellProcessingPolicy.QUANTITATIVE
     options.grid_cell_parameters.processing = q.CellProcessingPolicy.QUANTITATIVE
     assert options.grid_cell_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
+
+
+@pytest.mark.parametrize('flags_,message', [
+    (['--cell-processing', 'unknown'], 'quantitative or imagej154p'),
+    (['--cell-processing', 'imagej154p'], 'requires nominal'),
+    (['--cell-processing', 'quantitative'], 'requires nominal'),
+])
+def test_cli_rejects_invalid_processing_before_open(tmp_path, flags_, message):
+    result = invoke(tmp_path / 'absent.qpxproj', tmp_path / 'out', flags_)
+    assert result.returncode == 2 and message in json.loads(result.stderr)['error']
+    assert not (tmp_path / 'out').exists()
+
+
+@pytest.fixture(scope='module')
+def reference_report():
+    from test_qupath_nominal_cells_reference import comparison
+    return comparison.compare(context=0, processing='imagej154p')
+
+
+@pytest.mark.skipif(not q.has_geos, reason='requires reference ROI geometry')
+@pytest.mark.parametrize('name', [
+    'blank', 'isolated_three', 'touching_pair', 'gap_pair', 'size_filters',
+    'gradient_noise', 'anisotropic_level0', 'roi_cut_hole', 'resampled_reference',
+])
+def test_imagej_policy_reference_masks(reference_report, name):
+    # Case names are checked against the pinned corpus, never inferred from output.
+    case = next(c for c in reference_report['cases'] if c['case_name'] == name)
+    assert case['algorithm'] == 'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1'
+    assert case['independent_processing_rgb_exact']
+    assert all(f['processing_arithmetic_accepted'] for f in case['feature_checks'])
+    for metric in case['level_zero_segmentation'].values():
+        assert metric['foreground_iou'] == metric['foreground_dice'] == 1
+        assert metric['unmatched_reference'] == metric['unmatched_native'] == 0
+        assert not metric['split_reference_labels'] and not metric['merged_native_labels']
+        assert all(m['iou'] == 1 and m['centroid_error_px'] == 0 for m in metric['matches'])

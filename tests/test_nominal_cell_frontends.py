@@ -64,9 +64,12 @@ def test_nominal_managed_queued_cancellation_releases_copied_command(tmp_path):
 @GUI
 @pytest.mark.skipif(not q.has_geos,reason='requires cell publication')
 @pytest.mark.parametrize('context',[(0,0),(3,4)])
-def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_path,context):
+@pytest.mark.parametrize('processing',['quantitative','imagej154p'])
+def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_path,context,processing):
     from test_gui_replay import event
-    doc,obj,_,p=scene();options=q.GuiOptions();options.cell_nominal=sampling(*context);options.grid_cell_parameters=p
+    doc,obj,_,p=scene()
+    if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
+    options=q.GuiOptions();options.cell_nominal=sampling(*context);options.grid_cell_parameters=p
     options.width=1100;options.height=800;options.docked_workspace=False;options.settle_tiles=True
     table=tmp_path/'nominal.csv';options.cell_table_path=str(table)
     options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(8,q.GuiInputKind.DETECT_CELLS_KEY),
@@ -80,16 +83,21 @@ def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_
     assert report.cell_annotations_added==3 and report.cell_preview_ready and report.cell_gpu_bytes>0
     assert report.selected_ids==[obj] and doc.object_count==4 and doc.cell_record_count==1
     pinned(report.cell_result);pinned(doc.cell_records[0].result)
+    assert report.cell_result.grid_parameters.processing==p.processing
     rows=list(csv.DictReader(io.StringIO(table.read_text(encoding='utf-8'))))
     assert len(rows)==3 and all(row['sampling_grid']=='nominal_rgb' for row in rows)
+    if processing=='imagej154p':assert all(row['processing_policy']=='imagej154p/1' for row in rows)
     assert capture.is_file() and capture.stat().st_size>1100*800*3
 
 
 @GUI
 @pytest.mark.skipif(not q.has_project,reason='requires project storage')
-def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
+@pytest.mark.parametrize('processing',['quantitative','imagej154p'])
+def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path,processing):
     from test_gui_batch import options as batch_options
     project,docs,transform,preset,_=cohort()
+    if processing=='imagej154p':
+        p=preset.grid_cells;p.processing=q.CellProcessingPolicy.IMAGEJ_154P;preset.grid_cells=p
     # Existing OD-sum GUI capture uses an identity basis, independently of its visible stain vectors.
     expected=q.ProjectBatchRequest(project,q.StainTransform([[1,0,0],[0,1,0]]),options=preset)
     ui=batch_options(tmp_path/'results',preset);ui.settle_tiles=True
@@ -101,6 +109,7 @@ def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
         for entry,(image,original,_) in zip(result.images,docs):
             run=q.Project.open(entry.path).document(image).cell_records[0].result
             assert run.nominal_sampling.source_request.downsample==1.5 and original.cell_record_count==0
+            assert run.grid_parameters.processing==preset.grid_cells.processing
             assert run.nuclei.stains==[[1,0,0],[0,1,0],[0,0,1]]
             if image==docs[0][0]:pinned(run)
 
@@ -108,15 +117,18 @@ def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
 @GUI
 @pytest.mark.skipif(not q.has_project,reason='requires project storage')
 @pytest.mark.parametrize('retain',[False,True])
-def test_nominal_managed_command_copies_retains_exports_and_saves(tmp_path,retain):
+@pytest.mark.parametrize('processing',['quantitative','imagej154p'])
+def test_nominal_managed_command_copies_retains_exports_and_saves(tmp_path,retain,processing):
     from test_viewer_session import completed,run
-    doc,obj,transform,p=scene();project=q.Project();image=project.add_document(doc,'Managed nominal 原始𠀋')
+    doc,obj,transform,p=scene()
+    if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
+    policy=p.processing;project=q.Project();image=project.add_document(doc,'Managed nominal 原始𠀋')
     source=tmp_path/'source.qpxproj';saved=tmp_path/'saved.qpxproj';table=tmp_path/'cells.csv';project.save(str(source))
     original=source.read_bytes();session=q.ViewerSession(str(source));held={};n=sampling()
     def producer():
         completed(session,session.catalog())
         ticket=session.nominal_cells(image,obj,transform,n,p,retain_result=retain)
-        n.downsample=3;p.min_nucleus_area=10000
+        n.downsample=3;p.min_nucleus_area=10000;p.processing=q.CellProcessingPolicy.QUANTITATIVE
         result=completed(session,ticket);assert result.committed and result.record_id
         assert (result.cells is not None)==retain
         if retain:pinned(result.cells);held['result']=result.cells
@@ -129,6 +141,7 @@ def test_nominal_managed_command_copies_retains_exports_and_saves(tmp_path,retai
     restored=q.Project.open(str(saved)).document(image)
     assert restored.cell_record_count==1 and doc.cell_record_count==0
     pinned(restored.cell_records[0].result)
+    assert restored.cell_records[0].result.grid_parameters.processing==policy
     rows=list(csv.DictReader(io.StringIO(table.read_text(encoding='utf-8'))))
     assert len(rows)==3 and all(row['sampling_grid']=='nominal_rgb' for row in rows)
     del restored,doc;gc.collect()

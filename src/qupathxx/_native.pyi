@@ -4790,6 +4790,11 @@ class GridCellUnits(enum.Enum):
 
     MICROMETRES = 1
 
+class CellProcessingPolicy(enum.Enum):
+    QUANTITATIVE = 0
+
+    IMAGEJ_154P = 1
+
 class NominalCellRoiSampling:
     def __init__(self) -> None: ...
 
@@ -4879,6 +4884,12 @@ class GridCellSampling:
 
 class GridCellParameters:
     def __init__(self) -> None: ...
+
+    @property
+    def processing(self) -> CellProcessingPolicy: ...
+
+    @processing.setter
+    def processing(self, arg: CellProcessingPolicy, /) -> None: ...
 
     @property
     def units(self) -> GridCellUnits: ...

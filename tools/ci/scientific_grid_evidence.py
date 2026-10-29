@@ -20,13 +20,12 @@ GUI_CASES={
  'test_grid_gui_detects_renders_and_publishes_with_axis_geometry':('requires geometry desktop','opt-in desktop replay'),
  'test_grid_python_producer_retains_exports_and_saves':('requires managed project desktop','opt-in managed desktop'),
 }
-GUI_CASES.update({
- 'test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes':('opt-in nominal cell desktop',),
- 'test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context0]':('opt-in nominal cell desktop',),
- 'test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks[context1]':('opt-in nominal cell desktop',),
- 'test_nominal_managed_command_copies_retains_exports_and_saves[False]':('opt-in nominal cell desktop',),
- 'test_nominal_managed_command_copies_retains_exports_and_saves[True]':('opt-in nominal cell desktop',),
-})
+for processing in ('quantitative','imagej154p'):
+    GUI_CASES['test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes['+processing+']']=('opt-in nominal cell desktop',)
+    for context in ('context0','context1'):
+        GUI_CASES['test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks['+processing+'-'+context+']']=('opt-in nominal cell desktop',)
+    for retain in ('False','True'):
+        GUI_CASES['test_nominal_managed_command_copies_retains_exports_and_saves['+processing+'-'+retain+']']=('opt-in nominal cell desktop',)
 NEGATIVE={
  'scientific-grid-typing-negative.log':('scientific_grid_invalid.py',[4,6,7,8,9,10]),
  'scientific-channels-typing-negative.log':('scientific_channels_invalid.py',[4,6,7,8,9]),
@@ -42,7 +41,7 @@ POSITIVE.append('tests/typing/nominal_frontends_valid.py')
 NEGATIVE['rgb-nominal-typing-negative.log']=('rgb_nominal_invalid.py',[4,5,7])
 NEGATIVE['nominal-cells-typing-negative.log']=('nominal_cells_invalid.py',[4,5,6,7,7,7])
 NEGATIVE['nominal-batches-typing-negative.log']=('nominal_batches_invalid.py',[4,5,6,7])
-NEGATIVE['nominal-frontends-typing-negative.log']=('nominal_frontends_invalid.py',[4,5,6])
+NEGATIVE['nominal-frontends-typing-negative.log']=('nominal_frontends_invalid.py',[4,5,6,7,8])
 BASE={
  'imagej_gaussian':['37 ImageJ1.54p captured float32 Gaussian and LoG arrays exact; private kernel admission/cancellation/overflow/input ownership passed'],
  'resampling':['Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed','Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed','Scientific raster precision admission agrees with exhaustive binary64 sample checks','Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed','Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed','QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed'],
@@ -59,6 +58,7 @@ BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, c
 BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed')
 BASE['cells'].append('Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed')
 BASE['cells'].append('Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed')
+BASE['cells'].append('ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed')
 BASE['viewer_session'].append('Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed')
 CONDITIONAL=[
  ('project_batch','project','Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed'),
