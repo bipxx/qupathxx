@@ -1,0 +1,171 @@
+{
+  "qupath_version": "0.7.0",
+  "java_version": "25.0.2",
+  "cases": [
+    {
+      "name": "single",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "row",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "column",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "flat",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "interior-plateau",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "border-plateau",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "fifo-peaks",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "minimum-peak",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "below-minimum",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-0",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-1",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-2",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-3",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-4",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-5",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-6",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-7",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-8",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-9",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-10",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-11",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-12",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-13",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-14",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-15",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-16",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-17",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-18",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-19",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-20",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-21",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-22",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    },
+    {
+      "name": "noise-23",
+      "outside_is_nan": true,
+      "outside_compares_nonzero": true
+    }
+  ]
+}

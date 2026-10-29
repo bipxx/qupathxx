@@ -718,3 +718,8 @@ tests/test_cell_policy_edges.py text eol=lf
 tests/fixtures/qupath-cell-policy-edges-0.7.0/** -text -whitespace
 
 docs/benchmarks/cell-policy-edges-303/** -text -whitespace
+tools/reference_qupath_response.py text eol=lf
+tools/upstream/qupath_response_basins_probe.groovy text eol=lf
+tests/test_qupath_response_reference.py text eol=lf
+cpp/tests/qupath_response_reference.hpp text eol=lf
+tests/fixtures/qupath-response-basins-0.7.0/** -text -whitespace

@@ -52,10 +52,10 @@ inline std::vector<std::uint32_t> log_response_basins(const std::vector<float>& 
     return labels;
 }
 
-inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& score,std::size_t width,std::size_t height,
-                                                 const LogParameters& p,const std::atomic<bool>* cancelled) {
-    std::vector<float> response;const auto positive=log_positive(score,width,height,p.sigma,cancelled,&response);
-    const auto components=log_response_basins(response,width,height,p.maximum_cells,cancelled);const auto n=score.size();
+inline std::vector<std::uint8_t> log_filled_basin_regions(const std::vector<float>& score,
+    const std::vector<std::uint32_t>& components,const std::vector<std::uint8_t>& positive,
+    std::size_t width,std::size_t height,const LogParameters& p,const std::atomic<bool>* cancelled) {
+    const auto n=score.size();
     const auto last=*std::max_element(components.begin(),components.end());
     std::vector<std::uint8_t> mask(n),state(n),seen(std::size_t(last)+1);std::vector<std::uint32_t> queue;queue.reserve(n);
     std::uint64_t box_work=0;
@@ -87,4 +87,10 @@ inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& sco
         bool near=mask[i]!=0;log_neighbors(i,width,height,true,[&](std::size_t j) {near=near || mask[j];});expanded[i]=near;
     }
     log_fill_holes(expanded,width,height,cancelled,p.eight_connected_background);return expanded;
+}
+inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& score,std::size_t width,std::size_t height,
+                                                 const LogParameters& p,const std::atomic<bool>* cancelled) {
+    std::vector<float> response;const auto positive=log_positive(score,width,height,p.sigma,cancelled,&response);
+    const auto components=log_response_basins(response,width,height,p.maximum_cells,cancelled);
+    return log_filled_basin_regions(score,components,positive,width,height,p,cancelled);
 }

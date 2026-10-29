@@ -1,19 +1,16 @@
 #pragma once
 // Included inside qpx::cell_detail by log_watershed.hpp. Internal candidate;
 // existing production recipes never enable sampled_shape.
-inline LogResult log_sampled_nuclei(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
-                                    const std::vector<std::uint8_t>& mask,std::size_t width,std::size_t height,
-                                    const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase) {
-    if(p.minimum_radius!=0 || p.minimum_spacing!=0)
-        throw std::invalid_argument("sampled shape candidate requires explicit zero radius and spacing filters");
-    if(phase) phase->store(3);const auto shaped=sampled_shape_watershed(mask,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
-    if(phase) phase->store(4);const auto n=mask.size();LogResult result;result.labels.resize(n);
+inline LogResult log_label_sampled_nuclei(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
+    const ShapeSplit& shaped,const std::vector<std::uint8_t>& candidates,std::size_t width,std::size_t height,
+    const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase) {
+    if(phase) phase->store(4);const auto n=shaped.mask.size();LogResult result;result.labels.resize(n);
     std::vector<std::uint8_t> state(n);std::vector<std::uint32_t> queue;queue.reserve(n);std::vector<std::uint32_t> dense(1);
     std::uint64_t box_work=0;
     // Four-connected foreground components are traced after clipping. Their
     // holes use the dual, eight-connected background topology.
     for(std::size_t i=0;i<n;++i) {
-        if((i&4095)==0) checkpoint(cancelled);result.candidate_pixels+=mask[i] && domain[i];
+        if((i&4095)==0) checkpoint(cancelled);result.candidate_pixels+=candidates[i] && domain[i];
         if(!shaped.mask[i] || !domain[i] || result.labels[i]) continue;
         const auto id=static_cast<std::uint32_t>(dense.size());dense.push_back(0);queue.clear();queue.push_back(static_cast<std::uint32_t>(i));result.labels[i]=id;
         std::size_t left=i%width,right=left,top=i/width,bottom=top;
@@ -40,4 +37,12 @@ inline LogResult log_sampled_nuclei(const std::vector<float>& score,const std::v
     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);result.labels[i]=dense[result.labels[i]];}
     for(std::size_t i=0;i<shaped.maxima.size();++i) {const auto index=shaped.maxima[i];result.peaks.push_back({index,result.labels[index],shaped.maxima_radii[i],true});}
     return result;
+}
+inline LogResult log_sampled_nuclei(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
+                                    const std::vector<std::uint8_t>& mask,std::size_t width,std::size_t height,
+                                    const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase) {
+    if(p.minimum_radius!=0 || p.minimum_spacing!=0)
+        throw std::invalid_argument("sampled shape candidate requires explicit zero radius and spacing filters");
+    if(phase) phase->store(3);const auto shaped=sampled_shape_watershed(mask,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
+    return log_label_sampled_nuclei(score,domain,shaped,mask,width,height,p,cancelled,phase);
 }

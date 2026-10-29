@@ -59,6 +59,8 @@ BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile 
 BASE['cells'].append('Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed')
 BASE['cells'].append('Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed')
 BASE['cells'].append('ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed')
+BASE['qupath_response']=['33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed',
+    'Private sampled nucleus composition, retained candidate counts and atomic failure checks passed']
 BASE['viewer_session'].append('Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed')
 CONDITIONAL=[
  ('project_batch','project','Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed'),
@@ -97,6 +99,8 @@ FIXTURES+=('tests/fixtures/qupath-cell-inputs-0.7.0/',)
 EXTRA+=('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.groovy')
 FIXTURES+=('tests/fixtures/qupath-cell-policy-edges-0.7.0/',)
 EXTRA+=('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy')
+FIXTURES+=('tests/fixtures/qupath-response-basins-0.7.0/',)
+EXTRA+=('tools/reference_qupath_response.py','tools/upstream/qupath_response_basins_probe.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')
 
