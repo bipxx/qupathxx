@@ -29,7 +29,7 @@ def test_native_requires_explicit_capability_branches(project,geos):
     with pytest.raises(ValueError):evidence.native(native_cases(project,not geos),project,geos)
 
 
-@pytest.mark.parametrize('suite',['cells','project_batch','raw_image','imagej_gaussian'])
+@pytest.mark.parametrize('suite',['cells','project_batch','raw_image','imagej_gaussian','qupath_response'])
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','marker','duplicate_marker'])
 def test_native_incomplete_or_nonpassing_rejects(suite,failure):
     cases=native_cases();case=next(c for c in cases if c.get('name')==suite)

@@ -71,7 +71,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         require(data['commit']==commit and data['architecture']==arch,'native record source/architecture differs')
         xml=ET.parse(folder/'native-tests.xml').getroot()
         cases=list(xml.iter('testcase'))
-        require(len(cases)==data['tests']['passed']==50+len(raw_classifier.CONTRACT['spatial_added_native_suites']),'native suite count differs')
+        require(len(cases)==data['tests']['passed']==50+len(raw_classifier.CONTRACT['spatial_added_native_suites'])+len(scientific.ADDED_NATIVE_SUITES),'native suite count differs')
         require(not any(t.find(k) is not None for t in cases for k in ['failure','error','skipped']),
                 'native test failed or skipped')
         require(sorted(t.get('name') for t in cases)==sorted(data['tests']['names']),'native suite ledger differs')
