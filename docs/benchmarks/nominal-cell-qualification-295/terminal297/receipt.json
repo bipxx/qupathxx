@@ -1,0 +1,68 @@
+{
+  "schema": "qpx.nominal-cell-qualification-terminal/1",
+  "state": "terminal-unaccepted-overall",
+  "source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "engine_run": 40782637825,
+  "macos_run": 40782648204,
+  "portable_run": 40782658569,
+  "authenticated_archives": 11,
+  "complete_original_auditors": true,
+  "engine_accepted": false,
+  "macos_native_accepted": true,
+  "portable_accepted": true,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "macos-run-terminal.json",
+      "bytes": 7026,
+      "sha256": "e024c27b650417c241099589928bada66257917ecc99bfbc0eb593bacc1821e9"
+    },
+    {
+      "path": "macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "6877815f6938e89888f5156b062877c9b5f0d584310f1a922142a347ee98a075"
+    },
+    {
+      "path": "macos-audit-exit.json",
+      "bytes": 716,
+      "sha256": "0adb2f627fa36aacd3a5adc0f307b32476d8d52dc7f39da48908ec0a13cbeaa4"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 439491,
+      "sha256": "e7dfc576db206016d76a7fbce979c70d4b94a996766d8ccbc9429066cca7a2e7"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "e024c27b650417c241099589928bada66257917ecc99bfbc0eb593bacc1821e9"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1838,
+      "sha256": "3c77dab30f514a99d7881d1bc2ff4e5b4a4526495ae569f8b62a03ec470157dd"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2681,
+      "sha256": "1a947b0b943eccb6a4efa3c035ddf477ee14355c836418db658470a81f61b5b5"
+    },
+    {
+      "path": "macos-native-arm64-artifact.json",
+      "bytes": 813,
+      "sha256": "8df361c5b71f754e501ba11ff8c6100cbbe69734c0ebe8384f4718b93aa6449a"
+    },
+    {
+      "path": "macos-native-x86_64-artifact.json",
+      "bytes": 814,
+      "sha256": "535fcfe25fa115f915e2602cd639c2c1982f3912d7fb57835daecf3414fad81d"
+    },
+    {
+      "path": "observers/audit_macos295_terminal297.py",
+      "bytes": 1040,
+      "sha256": "af992454a90eb044f00567e2fad310615bc6fd35518a0a621d376ea98e353f62"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+Start testing: Oct 28 20:06 EDT
+----------------------------------------------------------
+13/54 Testing: raw_image
+13/54 Test: raw_image
+Command: "/tmp/qupathxx-reader297-build/qupathxx_raw_image_tests"
+Directory: /tmp/qupathxx-reader297-build
+"raw_image" start time: Oct 28 20:06 EDT
+Output:
+----------------------------------------------------------
+TIFF multi-file reader disabled; open refused
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"raw_image" end time: Oct 28 20:06 EDT
+"raw_image" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 20:06 EDT

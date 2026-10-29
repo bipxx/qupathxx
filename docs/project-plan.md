@@ -1,24 +1,22 @@
 # qupathxx project plan
 
-**Nominal cell consumers are locally delivered; frozen295 portable passes.**
-The [frontend receipt](benchmarks/nominal-cell-frontends-294/receipt.json) covers
-SDK, CLI/batch, ImGui and managed consumers. The
-[comparison296 receipt](benchmarks/nominal-cell-comparison-296/receipt.json) adds35
-new checks on each Windows/Linux host. Eight of nine synthetic cases have exact
-level-zero nucleus/body masks; all nine body masks match. The clipped ROI keeps
-its four/24 nucleus-pixel differences at context0/32. Processing-grid feature
-arithmetic passes the original tolerances; level-zero means remain a separate
-domain.700 scientific cases/13 declared skips and1087 auditor controls pass.
-896 source paths,424 unchanged compiler inputs and retained product/package bytes
-authenticate; no native rebuild or binary relabel follows this harness change.
-The [original complete portable audit](benchmarks/nominal-cell-qualification-295/portable296/receipt.json)
-accepts frozen a7eb78de builders/fresh consumers. The
-[original engine audit](benchmarks/nominal-cell-qualification-295/engine296/receipt.json)
-rejects a Windows Unicode auto-reader failure; both Windows profiles reproduce
-the same case. Mac-native is still in progress. Preserve frozen295 and its
-original handles/auditors while preparing the locale-independent repair. New observer0c874848 inherits
-no full-source qualification. Broader scientific/biological/resource/hardware/
-support/license/release gates and all M0-M7 exits remain open.
+**Windows Unicode reader selection is repaired locally; candidate295 is terminal/unaccepted.**
+The [repair297 receipt](benchmarks/reader-locale-297/receipt.json) binds native
+28c33573 and observere1dc6457. ASCII-only format folding preserves UTF-8 filename
+bytes and caller locale; automatic/explicit PPM opening, uppercase extension,
+project reopen and nominal batch changed-source resume pass. Windows passes55
+native suites,31 reader/batch checks plus one standalone region check,700
+scientific cases/13 declared skips and1087 auditor controls. Minimal GCC
+ASan/UBSan raw-image coverage is separate.425 compiler inputs,898 source paths,
+71 retained products and39 installed package members authenticate. Test
+dependencies are shared; this is local engineering evidence.
+All11 frozen295 archives now authenticate. Its [terminal receipt](benchmarks/nominal-cell-qualification-295/terminal297/receipt.json)
+records complete original Mac-native/portable acceptance and Windows engine
+rejection. No old-source restart or acceptance transfer follows. Qualify the
+repaired successor; retain qualified281. Nominal comparison296 still has8/9
+exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
+Broader science/biology/resource/hardware/support/license/release gates and
+every M0-M7 exit remain open.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
@@ -564,14 +562,13 @@ workflow parity.
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 is the sole detailed scheduling authority. Original-source nominal cell consumers
 are locally delivered through SDK, CLI, project batches, ImGui and managed commands.
-Candidate295 is frozen at a7eb78de. Reuse its completed original portable audit;
-observe the original engine/Mac-native runs, collect all11 authenticated archives
-and run their complete frozen-source auditors before combined acceptance. Keep
-the earlier qualified281 feature baseline and terminal unaccepted285 evidence.
-Local native bb190eb7 products retain their identity; hosted roles build the
-frozen source themselves. Comparison296 has separate local Windows/Linux evidence
-with unchanged compiler inputs. Then continue remaining SCI1-B workflows, the
-decision lane and REL1 through every M0-M7 criterion.
+Candidate295 is terminal/unaccepted overall: all11 archives authenticate,
+original Mac-native and portable auditors accept their roles, and Windows engine
+rejects Unicode auto-selection. Repair297 is locally verified at native28c33573;
+freeze and qualify its successor using complete own-source auditors. Preserve
+qualified281 and both terminal failed campaigns. Comparison296 retains its
+separate two-host corpus evidence and explicit clipped-ROI differences. Continue
+remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
 The current task card records observed status rather than another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse
