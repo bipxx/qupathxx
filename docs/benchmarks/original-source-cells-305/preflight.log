@@ -1,0 +1,79 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 19%]
+........................................................................ [ 26%]
+........................................................................ [ 32%]
+........................................................................ [ 39%]
+........................................................................ [ 45%]
+........................................................................ [ 52%]
+........................................................................ [ 58%]
+........................................................................ [ 65%]
+........................................................................ [ 72%]
+....................FFFF................................................ [ 78%]
+........................................................................ [ 85%]
+........................................................................ [ 91%]
+........................................................................ [ 98%]
+...................                                                      [100%]
+================================== FAILURES ===================================
+_ test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-missing] _
+
+failure = 'missing', module = 'test_rgb_nominal_api', count = 224
+
+    @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
+    @pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11),('test_raw_materialized_streaming',18),('test_rgb_nominal_api',224)])
+    def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
+        cases=installed(False)
+        selected=[c for c in cases if c.get('classname')=='tests.'+module]
+>       assert len(selected)==count
+E       AssertionError: assert 238 == 224
+E        +  where 238 = len([<Element 'testcase' at 0x000002CE358D58A0>, <Element 'testcase' at 0x000002CE358D5A30>, <Element 'testcase' at 0x0000...e' at 0x000002CE358D5C10>, <Element 'testcase' at 0x000002CE358D5CB0>, <Element 'testcase' at 0x000002CE358D5C60>, ...])
+
+tests\test_scientific_grid_evidence.py:113: AssertionError
+_ test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-duplicate] _
+
+failure = 'duplicate', module = 'test_rgb_nominal_api', count = 224
+
+    @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
+    @pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11),('test_raw_materialized_streaming',18),('test_rgb_nominal_api',224)])
+    def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
+        cases=installed(False)
+        selected=[c for c in cases if c.get('classname')=='tests.'+module]
+>       assert len(selected)==count
+E       AssertionError: assert 238 == 224
+E        +  where 238 = len([<Element 'testcase' at 0x000002CE36AA61B0>, <Element 'testcase' at 0x000002CE36AA6250>, <Element 'testcase' at 0x0000...e' at 0x000002CE36AA6390>, <Element 'testcase' at 0x000002CE36AA6430>, <Element 'testcase' at 0x000002CE36AA64D0>, ...])
+
+tests\test_scientific_grid_evidence.py:113: AssertionError
+_ test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-failure] _
+
+failure = 'failure', module = 'test_rgb_nominal_api', count = 224
+
+    @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
+    @pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11),('test_raw_materialized_streaming',18),('test_rgb_nominal_api',224)])
+    def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
+        cases=installed(False)
+        selected=[c for c in cases if c.get('classname')=='tests.'+module]
+>       assert len(selected)==count
+E       AssertionError: assert 238 == 224
+E        +  where 238 = len([<Element 'testcase' at 0x000002CE3593A390>, <Element 'testcase' at 0x000002CE3593A430>, <Element 'testcase' at 0x0000...e' at 0x000002CE3593A570>, <Element 'testcase' at 0x000002CE3593A610>, <Element 'testcase' at 0x000002CE3593A6B0>, ...])
+
+tests\test_scientific_grid_evidence.py:113: AssertionError
+_ test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-skipped] _
+
+failure = 'skipped', module = 'test_rgb_nominal_api', count = 224
+
+    @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
+    @pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11),('test_raw_materialized_streaming',18),('test_rgb_nominal_api',224)])
+    def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
+        cases=installed(False)
+        selected=[c for c in cases if c.get('classname')=='tests.'+module]
+>       assert len(selected)==count
+E       AssertionError: assert 238 == 224
+E        +  where 238 = len([<Element 'testcase' at 0x000002CE36B3BDD0>, <Element 'testcase' at 0x000002CE36B3BE70>, <Element 'testcase' at 0x0000...e' at 0x000002CE36B3BFB0>, <Element 'testcase' at 0x000002CE36AB4090>, <Element 'testcase' at 0x000002CE36AB4130>, ...])
+
+tests\test_scientific_grid_evidence.py:113: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_scientific_grid_evidence.py::test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-missing]
+FAILED tests/test_scientific_grid_evidence.py::test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-duplicate]
+FAILED tests/test_scientific_grid_evidence.py::test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-failure]
+FAILED tests/test_scientific_grid_evidence.py::test_required_scientific_cohort_is_not_an_optional_science_skip[test_rgb_nominal_api-224-skipped]
+4 failed, 1095 passed in 42.84s

@@ -1,5 +1,18 @@
 # Held-out nominal cell processing gaps
 
+[Original-source305](benchmarks/original-source-cells-305/receipt.json) resolves
+the eight named differences through explicit `AFFINE_INVERSE` sampling and
+`QUPATH_070` processing. All13 held-out and nine prior zero-context original-slide
+nucleus/body workflows match exactly; processing RGB and independent feature
+arithmetic pass fixed comparisons. History/replay/classifiers, CSV, Python,
+CLI/batch, ImGui and managed consumers are locally verified. See the
+[public contract](original-source-cell-integration.md).
+
+The following private-candidate history and gap table describe the unchanged
+older `IMAGEJ_154P` recipe. Its outputs and characterization checks remain intact.
+Broader context/specimen/feature-domain, whole-slide resource/seam, hosted
+qualification, hardware/speed and supported-release gates remain open.
+
 The [private native candidate304](benchmarks/postlog-trace-304/receipt.json) now
 reproduces all 13 captured nucleus/body masks, their basin labels, binary masks
 and applicable refinement stages. Its 78 stage payloads are byte-identical on
@@ -57,7 +70,7 @@ sigma exceeds 1.5. This accounts for the additional named debug stage in the
 large-sigma captures; causation of every final boundary difference remains to
 be isolated. See the pinned [detector source](https://github.com/qupath/qupath/blob/v0.7.0/qupath-core-processing/src/main/java/qupath/imagej/detect/cells/WatershedCellDetection.java).
 
-The shortest implementation order is:
+The delivered305 integration followed this order (retained as design history):
 
 1. Reuse candidate304's verified post-LoG path in one additive original-source
    recipe. Capture the actual request, metric, ROI, source and transform; use the

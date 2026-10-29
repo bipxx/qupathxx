@@ -1,5 +1,22 @@
 # API and workflow delivery paths
 
+[Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
+delivers independent affine RGB sampling and QuPath070 cell processing through
+native requests, QCL8/QCA8 history/replay/classifier provenance, CSV11/12, Python,
+CLI, batch/resume, direct/batch ImGui and managed capture. All13 held-out and nine
+prior zero-context original-slide nucleus/body workflows match exactly; actual
+processing RGB and its independent feature arithmetic pass unchanged comparisons.
+The old quantitative/ImageJ recipes and their explicit limits remain intact.
+Native26cae2af plus observer6d8bb150 bind434 unchanged compiler inputs,1428 source
+paths,79 retained Windows products,25 GCC products and39 installed package members.
+Windows passes57 native suites,943 scientific checks/23 declared skips,1099 final
+auditor controls and24 actual desktop/managed checks; typing/generated stubs pass.
+Six affected GCC ASan/UBSan suites pass, including112 captured affine RGB reads.
+Next qualify one complete combined source through the required hosted profiles.
+Broader context/specimen/feature-domain, whole-slide seams/resources, hardware,
+general speed, support/license/release and all M0-M7 gates remain open. Preserve
+qualified281 and original terminal298 outcomes without acceptance transfer.
+
 **Historical repair297/candidate298 observation; current receipts below supersede campaign status.**
 The [repair297 receipt](benchmarks/reader-locale-297/receipt.json) binds native
 28c33573 and observere1dc6457. ASCII-only format folding preserves UTF-8 filename
@@ -37,11 +54,6 @@ see the [integration route](cell-policy-heldout-gaps.md). Public policies and th
 three legacy scientific xfails remain unchanged. No new platform, biological,
 general-speed, hardware/support/license/release or M0-M7 acceptance follows.
 
-The current local integration checkpoint delivers the private affine sampler's
-112 captured RGB comparisons and tile/context/precision checks on Windows.
-Follow the [explicit request/history/consumer sequence](original-source-cell-integration.md)
-to deliver both sampling and detector choices together; no public opt-in or
-new combined qualification is accepted yet.
 Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
 
 **Frozen298 is terminal and unaccepted overall.** The
@@ -211,16 +223,15 @@ implementations. Copyleft readers remain eligible subject to distribution terms.
 
 ## Dependency lanes and immediate queue
 
-Policy302 remains locally delivered through existing consumers. Private304 now
-matches all13 held-out processing workflows and33 public response vectors across
-the measured native stages. Follow the [integration route](cell-policy-heldout-gaps.md):
-add a versioned affine sampling option and explicit new cell recipe to existing
-original-owner requests; carry their identity through archive/replay/classifiers,
-CSV and batch resume. Reuse the shared feature/contour/result path and thin
-Python/CLI/ImGui/managed adapters. Generate public stubs only when the new API is
-installed. Complete original-source parity, units, context, resource and lifecycle
-checks before one combined own-source qualification. Keep defaults and terminal298
-outcomes intact; all broader research/performance/release lanes remain required.
+Original-source305 locally delivers the complete sampling/detector consumer
+slice. Keep the explicit recipe choices and old numerical defaults. The
+[source-bound receipt](benchmarks/original-source-cells-305/receipt.json) verifies
+22 zero-context original-slide mask workflows, processing-grid feature arithmetic,
+history/replay/classifier provenance, batch resume and all existing consumer paths.
+Freeze the complete observer/stub/reference source once for the required hosted
+qualification. Do not redispatch terminal298 or transfer its acceptance. Continue
+broader context/specimen/feature-domain, whole-slide resource/seam, hardware/speed,
+support/license/release and full M0-M7 work under their existing requirements.
 
 The next RGB cell-analysis slice follows the [original-document implementation
 order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order):

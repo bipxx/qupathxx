@@ -1,0 +1,33 @@
+[
+  {
+    "label": "affine-corrected-build",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_resampling_tests",
+      "--parallel",
+      "4"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "affine-corrected-native",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "-C",
+      "Release",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\original-source-305\\affine-corrected-native.xml"
+    ],
+    "returncode": 0
+  }
+]

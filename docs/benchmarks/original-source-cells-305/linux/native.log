@@ -1,0 +1,18 @@
+Internal ctest changing into directory: /tmp/qupathxx-original305-build
+Test project /tmp/qupathxx-original305-build
+    Start  4: object_classifier
+1/6 Test  #4: object_classifier ................   Passed    0.05 sec
+    Start  8: resampling
+2/6 Test  #8: resampling .......................   Passed    2.98 sec
+    Start 20: cell_tables
+3/6 Test #20: cell_tables ......................   Passed    0.06 sec
+    Start 21: cell_records
+4/6 Test #21: cell_records .....................   Passed    0.42 sec
+    Start 22: cells
+5/6 Test #22: cells ............................   Passed    1.05 sec
+    Start 25: qupath_response
+6/6 Test #25: qupath_response ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   4.58 sec

@@ -1,0 +1,41 @@
+Start testing: Oct 28 23:39 Eastern Daylight Time
+----------------------------------------------------------
+8/56 Testing: resampling
+8/56 Test: resampling
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc/Release/qupathxx_resampling_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc
+"resampling" start time: Oct 28 23:39 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed
+99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed
+99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity cfed30d6ad01ffb35afac23a4606699c6088aaf0f4e73412bab219e534dfb7dc ae921a0b42a6b60b5d9a92fdae331c3e9834a1fd+dirty
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+<end of output>
+Test time =   3.03 sec
+----------------------------------------------------------
+Test Passed.
+"resampling" end time: Oct 28 23:39 Eastern Daylight Time
+"resampling" time elapsed: 00:00:03
+----------------------------------------------------------
+
+End testing: Oct 28 23:39 Eastern Daylight Time

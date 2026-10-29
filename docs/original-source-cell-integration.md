@@ -4,18 +4,21 @@ This work extends the existing C++ engine, nanobind SDK and shared ImGui/managed
 controllers. The private candidate304 detector matches 13 captured processing
 workflows. That evidence does not yet prove original-slide request parity.
 
-The local Windows affine implementation now passes the resampling suite,
-including all 112 captured RGB reads, tile/context assembly and signed/large
-origin admission. The 13 reference-generator checks and 14 installed collection
-checks pass. This is an uncommitted integration checkpoint, with logs and the
-retained executable in `build/original-source-305` of the root workspace. The
-first build's header declaration error and a stale development-environment
-collection failure are retained; the corrected build and installed-environment
-checks pass. Subsequent local edits now carry both choices through public
-requests, QCL8/QCA8, replay/equality, batch identity, CSV11/12, nanobind, CLI,
-shared desktop controls and managed capture. Those integrated edits are awaiting
-their first application build and installed validation; they inherit no acceptance
-from the earlier private sampler. GCC verification remains open.
+The [source-bound receipt](benchmarks/original-source-cells-305/receipt.json)
+verifies the installed original-source integration at native26cae2af and
+observer6d8bb150. All13 held-out and nine earlier zero-context nucleus/body mask
+workflows match exactly. Actual processing RGB and independent arithmetic over
+that processing-grid feature domain pass unchanged comparisons. This does not
+establish universal equivalence to QuPath's level-zero feature measurements.
+
+Both choices travel through requests, QCL8/QCA8, replay/equality/classifier
+provenance, batch/resume identity, CSV11/12, nanobind/stubs, CLI, shared desktop
+controls and managed capture. Windows passes57 native suites,943 scientific
+checks/23 declared skips,1099 final auditor controls and24 actual desktop/managed
+checks. Six affected GCC ASan/UBSan suites pass, including112 captured affine
+RGB reads. The full hosted own-source qualification and broader research,
+context/resource/hardware/support/license/release gates remain open. Earlier
+failed attempts and the final count/newline observer repairs are retained.
 
 ## Contract decisions
 
@@ -65,6 +68,10 @@ older archives retain their old defaults and byte layouts. CSV11/12 append
 
 ## Delivery order and required evidence
 
+Steps1–6 are locally delivered for the named comparison and consumer scope in
+the receipt. Broader step6 context/specimen/feature-domain and resource coverage
+remains required. Step7 is the next integrated qualification gate.
+
 1. Finish the native affine sampler and compare captured pixels, signed/large
    origins, source edges, context and tile assembly. The 13 new golden vectors
    are generated solely from authenticated public PNG bytes; the earlier 99
@@ -75,7 +82,7 @@ older archives retain their old defaults and byte layouts. CSV11/12 append
 3. Add an explicit detector processing choice using candidate304's common native
    pipeline. Avoid retaining diagnostic stage copies for ordinary jobs. Preserve
    common features, contours, source authority and atomic result publication.
-4. Extend canonical history (planned QCL8/QCA8), replay, equality, classifier
+4. Extend canonical history (QCL8/QCA8), replay, equality, classifier
    provenance, batch JSON/resume and CSV. Old archive versions must decode to
    their old defaults and retain their canonical bytes. Unknown values refuse;
    different numerical policies must produce different recipe/input identities.
@@ -98,10 +105,10 @@ older archives retain their old defaults and byte layouts. CSV11/12 append
 | Methods | Reviewed: existing factory/read/job methods remain the entry points |
 | Fields/units | Reviewed: immutable explicit choices; requested versus resolved units above |
 | Compatibility | Reviewed: old defaults, enum values and canonical history preserved |
-| Documentation/examples | In progress: consumer examples follow delivered public signatures |
+| Documentation/examples | Reviewed: invocation above and linked installed workflow guide |
 | Errors | Reviewed: validate choices/precision/units before IO; existing cancellation and atomic publication |
 | Auth/retry/HTTP | Not applicable to this local API change |
-| SDK | In progress: nanobind bindings, generated stubs and consumer checks remain required |
+| SDK | Reviewed locally: installed nanobind, generated stubs, typing and all existing consumers pass |
 
 This is a local native API design adaptation, not a claim of Google API
 conformance. No proto/OpenAPI artifact is introduced. Broader biological,

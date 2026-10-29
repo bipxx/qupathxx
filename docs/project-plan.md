@@ -1,5 +1,22 @@
 # qupathxx project plan
 
+[Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
+delivers independent affine RGB sampling and QuPath070 cell processing through
+native requests, QCL8/QCA8 history/replay/classifier provenance, CSV11/12, Python,
+CLI, batch/resume, direct/batch ImGui and managed capture. All13 held-out and nine
+prior zero-context original-slide nucleus/body workflows match exactly; actual
+processing RGB and its independent feature arithmetic pass unchanged comparisons.
+The old quantitative/ImageJ recipes and their explicit limits remain intact.
+Native26cae2af plus observer6d8bb150 bind434 unchanged compiler inputs,1428 source
+paths,79 retained Windows products,25 GCC products and39 installed package members.
+Windows passes57 native suites,943 scientific checks/23 declared skips,1099 final
+auditor controls and24 actual desktop/managed checks; typing/generated stubs pass.
+Six affected GCC ASan/UBSan suites pass, including112 captured affine RGB reads.
+Next qualify one complete combined source through the required hosted profiles.
+Broader context/specimen/feature-domain, whole-slide seams/resources, hardware,
+general speed, support/license/release and all M0-M7 gates remain open. Preserve
+qualified281 and original terminal298 outcomes without acceptance transfer.
+
 **Historical repair297/candidate298 observation; current receipts below supersede campaign status.**
 The [repair297 receipt](benchmarks/reader-locale-297/receipt.json) binds native
 28c33573 and observere1dc6457. ASCII-only format folding preserves UTF-8 filename
@@ -38,11 +55,6 @@ three legacy scientific xfails remain unchanged. No new platform, biological,
 general-speed, hardware/support/license/release or M0-M7 acceptance follows.
 Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
 
-Original-source integration is in progress locally. The private affine sampler
-passes112 captured RGB reads plus tile/context and signed/large-origin checks
-on Windows. Public request/history/consumer wiring and GCC verification remain
-open; see the [contract and delivery sequence](original-source-cell-integration.md).
-This checkpoint is not a new installed application or qualification candidate.
 
 **Frozen298 is terminal and unaccepted overall.** The
 [terminal303 receipt](benchmarks/reader-locale-qualification-298/terminal303/receipt.json)

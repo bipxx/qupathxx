@@ -153,7 +153,8 @@ CPython3.12 installed/GIL/lifetime/schema tests. CLI and application controls re
 `NominalCellSampling` wraps a readonly `RgbNominalRequest`, per-axis context and
 owned lattice geometry. Pass it to the additive CellRequest constructor for an
 explicit crop, or use `CellRequest.for_nominal_roi(document, object_id, transform,
-downsample, context_x=32, context_y=32, parameters=GridCellParameters())` to resolve
+downsample, context_x=32, context_y=32, parameters=GridCellParameters(),
+sampling=RgbNominalSampling.INTEGER_ORIGIN)` to resolve
 bounds in native code. The ROI itself stays unchanged.
 
 Requests, cell results, mask results and classifier feature sources expose owned
@@ -166,5 +167,8 @@ See the [workflow](qupath-rgb-resampling.md#native-original-document-cell-recipe
 [strict typed example](../tests/typing/nominal_cells_valid.py) and
 [installed checks](../tests/test_nominal_cell_python.py). The new binding supports
 original-slide workflows; it does not turn the separate RGB preview document into
-authority for its original image. CLI/batch options and GUI/managed creation
-commands remain next.
+authority for its original image. CLI/batch and GUI/managed creation commands
+reuse this native path. The explicit `RgbNominalSampling.AFFINE_INVERSE` and
+`CellProcessingPolicy.QUPATH_070` choices are documented in the
+[original-source recipe guide](original-source-cell-integration.md), with
+[installed evidence](benchmarks/original-source-cells-305/receipt.json).
