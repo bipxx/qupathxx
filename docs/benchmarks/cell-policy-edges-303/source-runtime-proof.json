@@ -1,0 +1,51 @@
+{
+  "source": "874b634298c7a306bc0efbe489bf38d64c33e301",
+  "native_source": "2b4786ed0c5c6c5f77f66c7af1ba31afeccddc59",
+  "fingerprint": "9ecd5effb4e53c7e7c8d31af601493489b95e24e8d311674edd16ceca7f0c83a",
+  "compiler_inputs_unchanged": 429,
+  "source_paths": 1310,
+  "unchanged_application_products": 76,
+  "unchanged_private_products": 8,
+  "installed_members": 39,
+  "tests": {
+    "api-final": {
+      "passed": 32,
+      "skipped": 0
+    },
+    "scientific": {
+      "passed": 858,
+      "skipped": 18
+    },
+    "preflight": {
+      "passed": 1098,
+      "skipped": 0
+    }
+  },
+  "new_cases": 13,
+  "exact_new_mask_cases": [
+    "slide-edge-1.0",
+    "slide-edge-1.25",
+    "slide-edge-1.5",
+    "odd-crop-1.0",
+    "odd-crop-1.25"
+  ],
+  "unresolved_new_mask_cases": [
+    "slide-edge-2.3",
+    "odd-crop-1.5",
+    "odd-crop-2.3",
+    "odd-hole-1.5",
+    "sigma-0.0",
+    "sigma-8.5",
+    "sigma-8.500001",
+    "sigma-16.0"
+  ],
+  "exact_affine_diagnostic_reads": 112,
+  "exact_private_log_arrays": 13,
+  "new_probe_products": 3,
+  "application_rebuilt": false,
+  "stubs_regenerated": false,
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

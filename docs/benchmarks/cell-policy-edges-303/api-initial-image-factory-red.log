@@ -1,0 +1,43 @@
+..........................FFF.                                           [100%]
+================================== FAILURES ===================================
+______ test_imagej_policy_refuses_nonopaque_input_without_publishing[0] _______
+
+alpha = 0
+
+    @pytest.mark.parametrize('alpha',[0,127,254])
+    def test_imagej_policy_refuses_nonopaque_input_without_publishing(alpha):
+        pixels=np.full((23,31,4),255,dtype=np.uint8);pixels[11,15,3]=alpha
+>       doc=q.Document(q.Image.from_numpy(pixels));obj=doc.add_rectangle(q.Rect(0,0,31,23))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: expected nonempty HWC uint8 pixels within 256 MiB and int32 dimensions
+
+tests\test_cell_policy_edges.py:67: ValueError
+_____ test_imagej_policy_refuses_nonopaque_input_without_publishing[127] ______
+
+alpha = 127
+
+    @pytest.mark.parametrize('alpha',[0,127,254])
+    def test_imagej_policy_refuses_nonopaque_input_without_publishing(alpha):
+        pixels=np.full((23,31,4),255,dtype=np.uint8);pixels[11,15,3]=alpha
+>       doc=q.Document(q.Image.from_numpy(pixels));obj=doc.add_rectangle(q.Rect(0,0,31,23))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: expected nonempty HWC uint8 pixels within 256 MiB and int32 dimensions
+
+tests\test_cell_policy_edges.py:67: ValueError
+_____ test_imagej_policy_refuses_nonopaque_input_without_publishing[254] ______
+
+alpha = 254
+
+    @pytest.mark.parametrize('alpha',[0,127,254])
+    def test_imagej_policy_refuses_nonopaque_input_without_publishing(alpha):
+        pixels=np.full((23,31,4),255,dtype=np.uint8);pixels[11,15,3]=alpha
+>       doc=q.Document(q.Image.from_numpy(pixels));obj=doc.add_rectangle(q.Rect(0,0,31,23))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: expected nonempty HWC uint8 pixels within 256 MiB and int32 dimensions
+
+tests\test_cell_policy_edges.py:67: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_cell_policy_edges.py::test_imagej_policy_refuses_nonopaque_input_without_publishing[0]
+FAILED tests/test_cell_policy_edges.py::test_imagej_policy_refuses_nonopaque_input_without_publishing[127]
+FAILED tests/test_cell_policy_edges.py::test_imagej_policy_refuses_nonopaque_input_without_publishing[254]
+3 failed, 27 passed in 2.66s

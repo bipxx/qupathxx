@@ -1,0 +1,10 @@
+{
+  "shared_payloads": 146,
+  "all_shared_payloads_byte_exact": true,
+  "excluded": [
+    "driver.log",
+    "manifest.json"
+  ],
+  "first_manifest_sha256": "058e151f7881aefba28dff1dc6e6a5802a46fecedcbfa90e2c3c14600732fc4a",
+  "second_manifest_sha256": "dec2abf41d6706a6e15248cae7787df76e8d77744261dbc1e8a0766d0dff4b12"
+}

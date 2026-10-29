@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(gaussian303 LANGUAGES CXX)
+add_executable(gaussian303 probe.cpp "C:/Users/HEQ/Projects/qupathxx/build/cell-policy-edges-303/kernel-probe/imagej_gaussian.obj")
+target_compile_features(gaussian303 PRIVATE cxx_std_17)
+target_compile_options(gaussian303 PRIVATE /fp:strict)
+target_include_directories(gaussian303 PRIVATE "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp")

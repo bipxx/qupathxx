@@ -1,0 +1,12 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+22:06:53.039 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+22:06:53.095 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+22:06:53.096 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+22:06:53.288 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+22:06:53.439 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+22:06:55.445 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+22:07:07.635 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\cell-policy-edges-303\affine-reference.json

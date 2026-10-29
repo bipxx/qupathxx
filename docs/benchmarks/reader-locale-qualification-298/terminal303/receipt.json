@@ -1,0 +1,179 @@
+{
+  "schema": "qpx.reader-locale-original-campaign-terminal/1",
+  "state": "terminal-unaccepted-overall",
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "authenticated_archives": 11,
+  "complete_original_auditors_executed": [
+    "engine",
+    "macos",
+    "portable"
+  ],
+  "macos_run": 40792333489,
+  "macos_native_suites": {
+    "arm64": 54,
+    "x86_64": 54
+  },
+  "engine_accepted": false,
+  "macos_accepted": true,
+  "portable_accepted": true,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "macos-run-terminal.json",
+      "bytes": 7026,
+      "sha256": "97beed9b8af5347d8b0dc23516498619347ba3680898b4ca5d0cd2cb22767a9d"
+    },
+    {
+      "path": "macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "5214ed615b6d74dc6398150c16ccd3d3887240020b09a67fa710097b6c0adca7"
+    },
+    {
+      "path": "macos-audit-exit.json",
+      "bytes": 813,
+      "sha256": "2fe49c7339ab1404ec0fcc483705680f1abc2b1d0274b7ba5ebd3b7884b87ce0"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 440909,
+      "sha256": "ccf30e99a837cef56d901a2769c46ad0b485fc70cc6f8cc1006f4fc762d5566d"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 3120,
+      "sha256": "2683efd638e540991c07298e2d53fbbc79fceaaa45fa07e3f49e182e343945be"
+    },
+    {
+      "path": "terminal303-notes-proof.json",
+      "bytes": 359,
+      "sha256": "cd6839f5fe6c8030769ca126d13368f5c9e4682a6c77e080bf7626cd98f745c5"
+    },
+    {
+      "path": "terminal303-plan-scope-proof.json",
+      "bytes": 300,
+      "sha256": "3ede69bf8e98d799e78fbcdca11edd866d4febb02f57d07364f47f2032a29665"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2681,
+      "sha256": "e4d1e7a1036088cff2122f0c6db2149b2a4edbb0a1bd499d8c53badfab1d64dc"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "97beed9b8af5347d8b0dc23516498619347ba3680898b4ca5d0cd2cb22767a9d"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1840,
+      "sha256": "2236ae86141106f70265254aa17a3fae6ae709c1b258843ae977e9d407b9e8a9"
+    },
+    {
+      "path": "macos-native-arm64-artifact.json",
+      "bytes": 814,
+      "sha256": "9eaccad5c1c7e428cc7203ade8db0bc763a822bb9d48ac3bfb6258bfe4ecdb46"
+    },
+    {
+      "path": "macos-native-x86_64-artifact.json",
+      "bytes": 815,
+      "sha256": "bfac30da8f9d75c80276386d5353172389adf73a010139d68c32369e3360a847"
+    },
+    {
+      "path": "arm64/native-tests.xml",
+      "bytes": 31651,
+      "sha256": "c82eb1f00bc95cb9dafb917790019d5c856718d54f3beb0dd30c3ba45b6b47e6"
+    },
+    {
+      "path": "arm64/native-tests.log",
+      "bytes": 5583,
+      "sha256": "7aa73dafb74c6839655d0d74794fb5237712cb3021f8a0bfc147cb01a1eb3f87"
+    },
+    {
+      "path": "arm64/result.json",
+      "bytes": 5152,
+      "sha256": "300948b3d11f5830884eee02a2212fdfc9e6bb6c6862f7023e626f030a084a4c"
+    },
+    {
+      "path": "arm64/binary-architecture.log",
+      "bytes": 119,
+      "sha256": "ace2cebdca953c0e043c2b1b7acb18d24e37032627e7740c2a39caa70a73b49f"
+    },
+    {
+      "path": "arm64/macos-native-file-inventory.json",
+      "bytes": 19901,
+      "sha256": "4a7468e909efc8cc777d391defe33dfda6a1b20e0d26b2b2927044478204b18d"
+    },
+    {
+      "path": "arm64/macos-native-relocation.log",
+      "bytes": 5622,
+      "sha256": "c78b5c91194592dcc6f9d1395edc467710dc057878b29ddc67beeb488be7e00a"
+    },
+    {
+      "path": "arm64/macos-relocated-runtime.json",
+      "bytes": 5867,
+      "sha256": "e197c451cf9e0d8f9154ce2f6e0a2e4dfba551eb394603ff8c423ef40cf050f9"
+    },
+    {
+      "path": "x86_64/native-tests.xml",
+      "bytes": 31642,
+      "sha256": "10c47b2bac346f1788bbec8460959b121deb906fd361468ba492d62b82e128de"
+    },
+    {
+      "path": "x86_64/native-tests.log",
+      "bytes": 5583,
+      "sha256": "cf792f4f07250fa8f8332adc4f0809503a0b8bafde3d617f2f6f85763503848d"
+    },
+    {
+      "path": "x86_64/result.json",
+      "bytes": 5043,
+      "sha256": "f3a5c794ae6479446a6093eaf50863b59f1b3fe5ecbe0e14620826a1c23b5e1e"
+    },
+    {
+      "path": "x86_64/binary-architecture.log",
+      "bytes": 120,
+      "sha256": "54ade753244e0ad7770febf1e587ffdc259f1875a14f0cc7b17857be21b50190"
+    },
+    {
+      "path": "x86_64/macos-native-file-inventory.json",
+      "bytes": 19797,
+      "sha256": "1007c4bb53b83d47bf219f33d8df6474dc31fa960237504a904511fb288ca3d9"
+    },
+    {
+      "path": "x86_64/macos-native-relocation.log",
+      "bytes": 5623,
+      "sha256": "dba0307da27b743dc1705403c2b83ba0a869e80f5c66356eea90302f167f3694"
+    },
+    {
+      "path": "x86_64/macos-relocated-runtime.json",
+      "bytes": 5868,
+      "sha256": "52d7d5a795a09c65855a8b7293ae34c05d3a056cc425fdaf72ac34fafe489de8"
+    },
+    {
+      "path": "observers/collect_candidate298.py",
+      "bytes": 4853,
+      "sha256": "920383422359308518fb9f79c7e61fa05e59dd68e1b4745b9b4bd637b44fee43"
+    },
+    {
+      "path": "observers/audit_macos298_terminal303.py",
+      "bytes": 1586,
+      "sha256": "609370659c470e7dc48a60505dae660d8e2f45cffac4b4a53da078f2f8234a26"
+    },
+    {
+      "path": "observers/closeout_298_terminal303.py",
+      "bytes": 7158,
+      "sha256": "96f3037193c640dad0edefe16c94cbd4096998f96d5012c2909f29f0b7ecad29"
+    },
+    {
+      "path": "observers/closeout303-initial-count-observer.py",
+      "bytes": 6787,
+      "sha256": "7a41d89abe038b088dffc036ef226b8b235326449c3147898dad68468e4e970a"
+    },
+    {
+      "path": "observers/resume_terminal303_closeout.py",
+      "bytes": 974,
+      "sha256": "18c8cd5ce2621dee31812898f1be921fc5a73715099c47bc6d43b3f2223190f8"
+    }
+  ]
+}

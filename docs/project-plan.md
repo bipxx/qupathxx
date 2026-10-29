@@ -1,6 +1,6 @@
 # qupathxx project plan
 
-**Windows Unicode reader selection is repaired locally; candidate295 is terminal/unaccepted.**
+**Historical repair297/candidate298 observation; current receipts below supersede campaign status.**
 The [repair297 receipt](benchmarks/reader-locale-297/receipt.json) binds native
 28c33573 and observere1dc6457. ASCII-only format folding preserves UTF-8 filename
 bytes and caller locale; automatic/explicit PPM opening, uppercase extension,
@@ -21,21 +21,31 @@ exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
 
-[Policy302](benchmarks/cell-processing-policy-302/receipt.json) locally delivers
-the opt-in `CellProcessingPolicy.IMAGEJ_154P` through native nominal requests,
-QCL7/QCA7 history/replay, copied Python parameters, CLI/batch resume, ImGui and
-managed commands. Native2b4786ed and observer28e062dd bind429 compiler inputs,
-1159 source paths,76 retained Windows products and39 installed members.56 native
-suites,114 focused cases,19 desktop/managed cases,826 scientific cases/18 declared
-skips,1097 controls and typing pass; counts overlap. Eight affected GCC ASan/UBSan
-suites pass with nine retained products. All nine pinned synthetic masks match
-with zero context; context32 retains the24-pixel clipped-ROI nucleus difference.
-Defaults and the three legacy scientific xfails stay unchanged. This reuses the
-exact [input301](benchmarks/qupath-input-stages-301/receipt.json) and private
-Gaussian300 stages. Full own-source qualification, held-out/biological/resource/
-hardware/support/license/release gates and all M0-M7 exits remain open. Preserve
-qualified281, original298 engine rejection and portable acceptance; continue
-observing its existing Mac handle without redispatch or acceptance transfer.
+[Held-out303](benchmarks/cell-policy-edges-303/receipt.json) captures13 new
+slide-edge, odd-crop/hole, fractional-step and zero/large-sigma workflows.146
+shared payloads repeat exactly. Five new masks match and eight remain unresolved.
+All13 LoG arrays match the retained private kernel; a captured-affine diagnostic
+matches112 RGB reads. Captured processing RGB retains the eight downstream mask
+gaps.32 new checks,858 scientific cases/18 declared skips and1098 audit controls
+pass; counts overlap.1310 source paths authenticate;429 compiler inputs,76
+application products, eight private products and39 installed members remain
+unchanged at native2b4786ed. No application or stub rebuild occurs. Next isolate
+post-LoG differences and specify the additive affine recipe through existing
+requests/consumers; see the [gap route](cell-policy-heldout-gaps.md). The delivered
+[policy302](benchmarks/cell-processing-policy-302/receipt.json), default policies
+and three legacy scientific xfails remain intact. Own-source platform, broader
+science/resources/hardware/support/license/release gates and all M0-M7 exits stay
+open. Preserve qualified281 and original298 outcomes without redispatch or
+acceptance transfer.
+
+**Frozen298 is terminal and unaccepted overall.** The
+[terminal303 receipt](benchmarks/reader-locale-qualification-298/terminal303/receipt.json)
+authenticates all11 original archives at9fbc9315. Complete original Mac-native
+and portable auditors accept their roles; the original engine auditor rejects
+three isolated-Python helper imports. All three original complete auditors have
+executed. The local observer repair changes no old-source outcome. No redispatch,
+main promotion or acceptance transfer follows; qualified281 remains the combined
+feature baseline.
 
 **Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
 The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
@@ -591,13 +601,15 @@ requires all11 authenticated archives and every required role. Preserve
 qualified281 and both terminal failed campaigns. Comparison296 retains its
 separate two-host corpus evidence and explicit clipped-ROI differences. Continue
 remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
-Policy302 now integrates the exact input/Gaussian path through existing
-requests, persistence/replay and all consumers, with local Windows and affected
-GCC sanitizer evidence. Finish held-out grids/alpha/edge characterization and
-freeze one complete successor for own-source qualification. Existing default
-quantitative results and historical recipes remain unchanged.298's original
-engine rejection and portable acceptance stay source-bound; observe its original
-Mac handle without redispatch. Broader scientific and release lanes remain open.
+Policy302 remains locally delivered through all consumers. Held-out303 exposes
+eight additional detector mask gaps while all13 new LoG stages match exactly.
+First isolate shared post-LoG regions/splitting/refinement against captured
+stages; specify and deliver the separately versioned affine-sampling correction
+through existing requests and consumers. Close the named workflow gaps before
+freezing one combined own-source qualification. Preserve defaults, version1
+historical recipes and298's terminal source-bound outcomes: Mac/portable accept
+and engine rejects, with all11 archives authenticated. No redispatch or acceptance
+transfer follows. Broader scientific and release lanes remain open.
 The current task card records observed status rather than another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse

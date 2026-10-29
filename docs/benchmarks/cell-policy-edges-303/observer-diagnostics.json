@@ -1,0 +1,37 @@
+{
+  "observed_failures": [
+    {
+      "stage": "initial capture observer",
+      "failure": "Expected five named debug stages, but large sigma has the additional Refined boundaries stage",
+      "repair": "Validate exact stage names/count from the pinned processing-sigma branch; preserve all captured bytes"
+    },
+    {
+      "stage": "initial exact RGB assertion",
+      "failure": "82 components differ by one byte in odd-origin step1.5 RGB",
+      "repair": "Preserve the failure as an unresolved sampler limitation; report all cases without claiming input or segmentation parity"
+    },
+    {
+      "stage": "initial alpha fixture",
+      "failure": "Image.from_numpy requires RGB; HWC4 fixture refused before reaching sampler",
+      "repair": "Use an openly licensed native TIFF RGBA source to test actual nominal opacity refusal; retain original three failures"
+    },
+    {
+      "stage": "initial diagnostic processing ROI",
+      "failure": "ROI extent exceeded the new diagnostic canvas",
+      "repair": "Clip diagnostic ROI extent while preserving eligible centers; retain initial script and distinguish this new source from original-slide replay authority"
+    },
+    {
+      "stage": "initial raw source proof",
+      "failure": "New raw fixture prefix omitted, causing CRLF normalization of a pinned contract",
+      "repair": "Add only the new raw fixture prefix; do not rewrite any capture bytes"
+    },
+    {
+      "stage": "initial package proof",
+      "failure": "Confused 43 wheel RECORD rows with installed RECORD rows",
+      "repair": "Check wheel43 and installed49 against prior authenticated package; all39 product members remain identical"
+    }
+  ],
+  "native_math_changed": false,
+  "captured_payloads_changed": false,
+  "tolerances_weakened": false
+}

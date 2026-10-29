@@ -1,0 +1,136 @@
+{
+  "schema": "qpx.qupath-cell-policy-edge-verification/1",
+  "cases": [
+    {
+      "name": "slide-edge-1.0",
+      "shape": [
+        192,
+        256
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "slide-edge-1.25",
+      "shape": [
+        154,
+        205
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "slide-edge-1.5",
+      "shape": [
+        128,
+        171
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "slide-edge-2.3",
+      "shape": [
+        83,
+        111
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "odd-crop-1.0",
+      "shape": [
+        173,
+        241
+      ],
+      "cells": 4,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "odd-crop-1.25",
+      "shape": [
+        138,
+        193
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "odd-crop-1.5",
+      "shape": [
+        115,
+        161
+      ],
+      "cells": 5,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "odd-crop-2.3",
+      "shape": [
+        75,
+        105
+      ],
+      "cells": 4,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "odd-hole-1.5",
+      "shape": [
+        115,
+        161
+      ],
+      "cells": 4,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "sigma-0.0",
+      "shape": [
+        192,
+        256
+      ],
+      "cells": 0,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "sigma-8.5",
+      "shape": [
+        192,
+        256
+      ],
+      "cells": 2,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "sigma-8.500001",
+      "shape": [
+        192,
+        256
+      ],
+      "cells": 2,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    },
+    {
+      "name": "sigma-16.0",
+      "shape": [
+        192,
+        256
+      ],
+      "cells": 2,
+      "input_exact": true,
+      "exported_debug_nuclei_exact": true
+    }
+  ],
+  "biological_validation": false
+}

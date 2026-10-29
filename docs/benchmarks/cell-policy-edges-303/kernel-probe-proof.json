@@ -1,0 +1,147 @@
+{
+  "imported_kernel": {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\imagej-gaussian-kernel-300\\windows-products\\imagej_gaussian.obj",
+    "bytes": 104146,
+    "sha256": "7096900a47983cc05c35778e2861eca4179bfbc3f9e924e82e8d65599e9d26d1"
+  },
+  "module_inputs_unchanged": true,
+  "application_rebuilt": false,
+  "commands": [
+    {
+      "label": "configure",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+        "-S",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-probe",
+        "-B",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-probe\\build",
+        "-G",
+        "Visual Studio 17 2022"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "build",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+        "--build",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-probe\\build",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "returncode": 0
+    }
+  ],
+  "products": [
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-products\\gaussian303.exe",
+      "bytes": 47104,
+      "sha256": "053e79bbdfeaaeadca763bdfa6d7d1b928b8a2925cc01401fafd73b318cd882c"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-products\\probe.obj",
+      "bytes": 162085,
+      "sha256": "e17e7892f7f79fb96ac88c5f9532aafa216141c5a6d0e313a6526c365e2cb007"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\kernel-products\\imagej_gaussian.obj",
+      "bytes": 104146,
+      "sha256": "7096900a47983cc05c35778e2861eca4179bfbc3f9e924e82e8d65599e9d26d1"
+    }
+  ],
+  "cases": [
+    {
+      "name": "slide-edge-1.0",
+      "sigma": 1.0,
+      "differing_float32_values": 0,
+      "native_sha256": "8479f7afca8e95d196e2fedd790bf9964fc940911d9dd42881b0a2e0c35a0a1d",
+      "reference_sha256": "8479f7afca8e95d196e2fedd790bf9964fc940911d9dd42881b0a2e0c35a0a1d"
+    },
+    {
+      "name": "slide-edge-1.25",
+      "sigma": 0.8,
+      "differing_float32_values": 0,
+      "native_sha256": "f1265b0ba69d7ef78a95cf783fa6801c8230727a3e1d53cad37ebe8ea715aba3",
+      "reference_sha256": "f1265b0ba69d7ef78a95cf783fa6801c8230727a3e1d53cad37ebe8ea715aba3"
+    },
+    {
+      "name": "slide-edge-1.5",
+      "sigma": 0.6666666666666666,
+      "differing_float32_values": 0,
+      "native_sha256": "5e81bf0b69e14d6905e02a9b6539c25c3b0ef0409af0cdbe567b570ddfaeaea3",
+      "reference_sha256": "5e81bf0b69e14d6905e02a9b6539c25c3b0ef0409af0cdbe567b570ddfaeaea3"
+    },
+    {
+      "name": "slide-edge-2.3",
+      "sigma": 0.4347826086956522,
+      "differing_float32_values": 0,
+      "native_sha256": "f3463d20b9442fd39987df05a81d3a4b2c982f7281da20f9581e712a33debad5",
+      "reference_sha256": "f3463d20b9442fd39987df05a81d3a4b2c982f7281da20f9581e712a33debad5"
+    },
+    {
+      "name": "odd-crop-1.0",
+      "sigma": 1.0,
+      "differing_float32_values": 0,
+      "native_sha256": "42f503e0eaa13ceb9a957499e09479fe3214962e63e252a5f37784f7415c0396",
+      "reference_sha256": "42f503e0eaa13ceb9a957499e09479fe3214962e63e252a5f37784f7415c0396"
+    },
+    {
+      "name": "odd-crop-1.25",
+      "sigma": 0.8,
+      "differing_float32_values": 0,
+      "native_sha256": "eb809d56fba5593431d1b7609039d40538cad779be7ff7e5676a11e72ba0adf6",
+      "reference_sha256": "eb809d56fba5593431d1b7609039d40538cad779be7ff7e5676a11e72ba0adf6"
+    },
+    {
+      "name": "odd-crop-1.5",
+      "sigma": 0.6666666666666666,
+      "differing_float32_values": 0,
+      "native_sha256": "36dff3d398353232f297d55d0142774fed31f13d78ade5621f6e6f7fd0bf53a0",
+      "reference_sha256": "36dff3d398353232f297d55d0142774fed31f13d78ade5621f6e6f7fd0bf53a0"
+    },
+    {
+      "name": "odd-crop-2.3",
+      "sigma": 0.4347826086956522,
+      "differing_float32_values": 0,
+      "native_sha256": "77698f5b5cf3d8baaf961facdd3c5df2e62f714eeb926a4159e716dac0f31af7",
+      "reference_sha256": "77698f5b5cf3d8baaf961facdd3c5df2e62f714eeb926a4159e716dac0f31af7"
+    },
+    {
+      "name": "odd-hole-1.5",
+      "sigma": 0.6666666666666666,
+      "differing_float32_values": 0,
+      "native_sha256": "36dff3d398353232f297d55d0142774fed31f13d78ade5621f6e6f7fd0bf53a0",
+      "reference_sha256": "36dff3d398353232f297d55d0142774fed31f13d78ade5621f6e6f7fd0bf53a0"
+    },
+    {
+      "name": "sigma-0.0",
+      "sigma": 0.0,
+      "differing_float32_values": 0,
+      "native_sha256": "ab963e569a6b5bffc5eaa818941b3dfdf82094c8bcb1c79289846104528a5b3f",
+      "reference_sha256": "ab963e569a6b5bffc5eaa818941b3dfdf82094c8bcb1c79289846104528a5b3f"
+    },
+    {
+      "name": "sigma-8.5",
+      "sigma": 8.5,
+      "differing_float32_values": 0,
+      "native_sha256": "257dbbf950f48d80273c6a9f20fa813bf2a705ca0efaa6c83f214206c3c7f3fe",
+      "reference_sha256": "257dbbf950f48d80273c6a9f20fa813bf2a705ca0efaa6c83f214206c3c7f3fe"
+    },
+    {
+      "name": "sigma-8.500001",
+      "sigma": 8.500001,
+      "differing_float32_values": 0,
+      "native_sha256": "bc6c740f5021dac1af0821c237204bef5c75348b126069c0b93dd027b9589c16",
+      "reference_sha256": "bc6c740f5021dac1af0821c237204bef5c75348b126069c0b93dd027b9589c16"
+    },
+    {
+      "name": "sigma-16.0",
+      "sigma": 16.0,
+      "differing_float32_values": 0,
+      "native_sha256": "e40e9684ca1dc7796805400971819b83e154243de2050c2c6c69b5ee99a56e81",
+      "reference_sha256": "e40e9684ca1dc7796805400971819b83e154243de2050c2c6c69b5ee99a56e81"
+    }
+  ]
+}

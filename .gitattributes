@@ -716,3 +716,5 @@ tools/qupath_cell_policy_edges.py text eol=lf
 tools/upstream/qupath_cell_policy_edges.groovy text eol=lf
 tests/test_cell_policy_edges.py text eol=lf
 tests/fixtures/qupath-cell-policy-edges-0.7.0/** -text -whitespace
+
+docs/benchmarks/cell-policy-edges-303/** -text -whitespace
