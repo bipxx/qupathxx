@@ -90,6 +90,8 @@ EXTRA+=('tools/qupath_roi_cell_debug.py','tools/fetch_qupath.py',
 EXTRA+=('tools/qupath_resampled_cell_debug.py','tools/ci/run_macos_native.py')
 EXTRA+=('tests/test_object_classifier_archives.py','tests/test_object_classifier.py')
 EXTRA+=('tools/qupath_rgb_resampling.py','tools/upstream/qupath_rgb_resampling.groovy')
+FIXTURES+=('tests/fixtures/qupath-gaussian-1.54p/',)
+EXTRA+=('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')
 

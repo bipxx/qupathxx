@@ -690,3 +690,9 @@ tests/test_reader_locale.py text eol=lf
 docs/benchmarks/reader-locale-297/** -text -whitespace
 
 docs/benchmarks/reader-locale-qualification-298/** -text -whitespace
+
+tools/qupath_gaussian.py text eol=lf
+tools/upstream/qupath_gaussian_probe.groovy text eol=lf
+tests/test_qupath_gaussian.py text eol=lf
+tests/fixtures/qupath-gaussian-1.54p/** -text -whitespace
+docs/benchmarks/gaussian-characterization-299/** -text -whitespace

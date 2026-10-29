@@ -273,6 +273,51 @@ python -I tools/qupath_roi_cell_debug.py --report build/roi-debug-verification.j
 python -I tools/qupath_roi_cell_debug.py --capture build/new-roi-debug --runtime-cache build/upstream/qupath --report build/new-roi-debug-verification.json
 ```
 
+### Gaussian stage characterization
+
+The [37-case ImageJ capture](../tests/fixtures/qupath-gaussian-1.54p/manifest.json)
+isolates the remaining smoothing difference without changing a native recipe.
+It uses the pinned QuPath runtime's public ImageJ1.54p FloatProcessor operations.
+Inputs include the original clipped-ROI float32 OD stage, constant/ramp/impulse
+images, single rows/columns and sigma values on both sides of8.5. Two original
+executions reproduce150 payloads exactly; the final generator's numeric/input
+payloads match those executions and additionally record runtime versions.
+
+An independent neighbor-difference Laplacian reconstructs every captured LoG
+array byte-for-byte from its captured blur. The ROI result also exactly matches
+the earlier plugin debug stack. This localizes the observed difference to the
+blur/input stage rather than requiring a new Laplacian threshold.
+
+At sigma1 the captured requested-sigma kernel has nonzero weights through five
+pixels, while the native physical Gaussian stops at three. The native Gaussian
+also normalizes clipped valid support, whereas ImageJ documents nearest-edge
+extension. Its larger-sigma route can downsample before convolution and upsample
+afterward; the separately exported requested-sigma kernel is diagnostic and
+does not describe that entire route. See the pinned
+[ImageJ implementation](https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/GaussianBlur.java).
+
+Float64 diagnostic models with support extended from three to five make all
+four disputed ROI responses positive. They still differ elsewhere and do not
+reproduce ImageJ's complete arithmetic. An unchanged native-header GCC probe
+fed the captured float32 OD promoted to float64 keeps the four nonpositive
+responses. That input is distinct from production float64 OD, and the probe is
+numerical characterization rather than platform qualification.
+
+The next compatibility step is an explicitly versioned, opt-in Gaussian/input
+policy with its arithmetic, support, edges and large-sigma behavior specified
+together. Validate the stage arrays before detector masks, then carry the policy
+through the existing request/archive/replay and consumers. Preserve existing
+quantitative/default recipes, strict xfails and scientific tolerances. These
+captures establish neither full cell equivalence nor biological accuracy.
+
+```text
+python -I tools/qupath_gaussian.py --report build/gaussian-verification.json
+python -I -m pytest tests/test_qupath_gaussian.py -q
+```
+
+A new Windows capture uses `--capture build/new-gaussian-capture` and the existing
+`--runtime-cache build/upstream/qupath`; the output directory must not exist.
+
 ### Requested resampling: pixels and nominal geometry
 
 The [resampled processing fixture](../tests/fixtures/qupath-cells-resampled-debug-0.7.0/manifest.json)

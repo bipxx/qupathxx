@@ -40,6 +40,8 @@ def source_paths():
            'tests/typing/nominal_cells_valid.py','tests/typing/nominal_cells_invalid.py',
            'tests/test_reader_locale.py','tests/test_nominal_cell_batches.py','tests/test_nominal_cell_frontends.py','tools/compare_qupath_nominal_cells.py','tests/test_qupath_nominal_cells_reference.py','tests/typing/nominal_frontends_valid.py','tests/typing/nominal_frontends_invalid.py','tests/typing/nominal_batches_valid.py','tests/typing/nominal_batches_invalid.py',
            'tools/reference_nominal_cells.py',*('tests/fixtures/nominal-cells-v1/'+name for name in ('manifest.json','source.rgb','processed.rgb','nucleus.u32le','body.u32le'))}
+    paths.update(('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy','tests/test_qupath_gaussian.py'))
+    paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'tests/fixtures/qupath-gaussian-1.54p').rglob('*') if p.is_file())
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in suffixes)
     paths.update(CONTRACT['typing_positive']);paths.update('tests/typing/'+name for name in CONTRACT['typing_negative'])
@@ -59,7 +61,7 @@ SOURCES=source_paths()
 
 
 def source_contract(root,commit):
-    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/'))
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/','tests/fixtures/qupath-gaussian-1.54p/'))
 
 
 def _suite(cases,name,markers):
