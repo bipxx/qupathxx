@@ -1,0 +1,59 @@
+[
+  {
+    "label": "unit-configure",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "-G",
+      "Visual Studio 17 2022",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "unit-build",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_qupath_response_tests",
+      "--parallel",
+      "2"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "unit-native",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "-C",
+      "Release",
+      "-R",
+      "^qupath_response$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "10000000",
+      "--test-output-size-failed",
+      "10000000",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\postlog-trace-304\\unit-native.xml"
+    ],
+    "returncode": 0
+  }
+]

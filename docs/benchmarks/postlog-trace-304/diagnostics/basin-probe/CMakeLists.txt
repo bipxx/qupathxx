@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(basins304 LANGUAGES CXX)
+add_executable(basins304 probe.cpp)
+target_compile_features(basins304 PRIVATE cxx_std_17)
+target_compile_options(basins304 PRIVATE /fp:strict)
+target_include_directories(basins304 PRIVATE "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp")

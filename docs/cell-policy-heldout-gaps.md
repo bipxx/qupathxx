@@ -1,5 +1,22 @@
 # Held-out nominal cell processing gaps
 
+The [private native candidate304](benchmarks/postlog-trace-304/receipt.json) now
+reproduces all 13 captured nucleus/body masks, their basin labels, binary masks
+and applicable refinement stages. Its 78 stage payloads are byte-identical on
+Windows and GCC ASan/UBSan. A separate public oracle supplies 33 small response
+cases, with 102 shared payloads repeating exactly. These results use captured
+processing input. Public requests still select the existing recipes, so the
+original-slide sampling, provenance and consumer integration remains to deliver.
+
+The candidate reuses the existing Gaussian/LoG, region filling, sampled shape
+watershed, nucleus labeling and cell expansion. The new response flood preserves
+the captured plateau/border seed rules and initial boundary frontier. Filled
+basin means determine region admission, and the sampled shape/refinement stages
+resolve the former split, sigma-zero and large-sigma differences. Shared helpers
+are factored without changing their callers' counters or recipes. The rebuilt
+application passes 57 native suites, 896 scientific checks/18 declared skips,
+1,099 auditor controls and 19 desktop/managed checks. Public stubs are unchanged.
+
 The [303 receipt](benchmarks/cell-policy-edges-303/receipt.json) characterizes 13
 new public QuPath 0.7.0 workflows on the retained Windows policy302 package.
 Two upstream executions repeat all 146 shared input, numeric, geometry and recipe
@@ -42,20 +59,23 @@ be isolated. See the pinned [detector source](https://github.com/qupath/qupath/b
 
 The shortest implementation order is:
 
-1. Compare captured watershed, binary, refined and final label stages with the
-   existing shared native post-LoG path. Start with sigma zero and the two
-   exact-input step-2.3 split cases. Keep counts, masks and feature tolerances
-   fixed; do not write another Gaussian or transform implementation.
+1. Reuse candidate304's verified post-LoG path in one additive original-source
+   recipe. Capture the actual request, metric, ROI, source and transform; use the
+   existing feature/contour/result publication path. Ordinary requests should
+   retain the necessary scratch and results; full intermediate stage copies
+   belong to explicitly budgeted diagnostics.
 2. Specify and deliver an additive, versioned affine-sampling option in the
    existing nominal request. Preserve the stable version-1 numerical recipe and
    old history. Carry the option through the shared descriptor, archive/replay,
    resume keys and existing Python/CLI/ImGui/managed consumers. Use the 112 exact
    diagnostic comparisons as independent pixel gates, including crop origins.
-3. Deliver any required QuPath post-LoG/refinement behavior with an explicit
-   algorithm identity. Keep the default quantitative and shipped ImageJ
-   numerical-policy contracts intact. Close the eight named mask gaps through
-   the same native detector and all consumers before freezing one combined
-   own-source qualification.
+3. Carry the new sampling and detector identities through the existing
+   archive/replay/classifier provenance, CSV, Python/stubs, CLI, batch checkpoints,
+   direct/batch ImGui and managed commands. Keep the default quantitative and
+   shipped ImageJ numerical-policy contracts intact. Verify the eight named
+   gaps using original-slide requests and the same fixed comparisons, including
+   feature accuracy, owner/stale/cancel behavior and source-edge support. Then
+   freeze one complete combined source for platform qualification.
 
 Broader specimens, stain/features, whole-slide seams/resources, hardware/speed,
 supported packages, licensing and release requirements remain open. The existing

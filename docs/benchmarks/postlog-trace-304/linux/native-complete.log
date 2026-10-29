@@ -1,0 +1,54 @@
+Start testing: Oct 28 23:05 EDT
+----------------------------------------------------------
+25/56 Testing: qupath_response
+25/56 Test: qupath_response
+Command: "/tmp/qupathxx-postlog304-build/qupathxx_qupath_response_tests"
+Directory: /tmp/qupathxx-postlog304-build
+"qupath_response" start time: Oct 28 23:05 EDT
+Output:
+----------------------------------------------------------
+33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"qupath_response" end time: Oct 28 23:05 EDT
+"qupath_response" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/56 Testing: log_watershed
+27/56 Test: log_watershed
+Command: "/tmp/qupathxx-postlog304-build/qupathxx_log_watershed_tests"
+Directory: /tmp/qupathxx-postlog304-build
+"log_watershed" start time: Oct 28 23:05 EDT
+Output:
+----------------------------------------------------------
+Sampled shape 26 frozen masks and maxima passed
+LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"log_watershed" end time: Oct 28 23:05 EDT
+"log_watershed" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/56 Testing: cell_expansion
+28/56 Test: cell_expansion
+Command: "/tmp/qupathxx-postlog304-build/qupathxx_cell_expansion_tests"
+Directory: /tmp/qupathxx-postlog304-build
+"cell_expansion" start time: Oct 28 23:05 EDT
+Output:
+----------------------------------------------------------
+Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+<end of output>
+Test time =   0.54 sec
+----------------------------------------------------------
+Test Passed.
+"cell_expansion" end time: Oct 28 23:05 EDT
+"cell_expansion" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 23:05 EDT

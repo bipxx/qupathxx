@@ -21,22 +21,22 @@ exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
 
-[Held-out303](benchmarks/cell-policy-edges-303/receipt.json) captures13 new
-slide-edge, odd-crop/hole, fractional-step and zero/large-sigma workflows.146
-shared payloads repeat exactly. Five new masks match and eight remain unresolved.
-All13 LoG arrays match the retained private kernel; a captured-affine diagnostic
-matches112 RGB reads. Captured processing RGB retains the eight downstream mask
-gaps.32 new checks,858 scientific cases/18 declared skips and1098 audit controls
-pass; counts overlap.1310 source paths authenticate;429 compiler inputs,76
-application products, eight private products and39 installed members remain
-unchanged at native2b4786ed. No application or stub rebuild occurs. Next isolate
-post-LoG differences and specify the additive affine recipe through existing
-requests/consumers; see the [gap route](cell-policy-heldout-gaps.md). The delivered
-[policy302](benchmarks/cell-processing-policy-302/receipt.json), default policies
-and three legacy scientific xfails remain intact. Own-source platform, broader
-science/resources/hardware/support/license/release gates and all M0-M7 exits stay
-open. Preserve qualified281 and original298 outcomes without redispatch or
-acceptance transfer.
+[Private post-LoG304](benchmarks/postlog-trace-304/receipt.json) supplies a native
+compatibility candidate matching all13 captured nucleus/body workflows and33
+independent public response cases.78 stage payloads match Windows/GCC sanitizer
+bytes;102 oracle payloads repeat exactly. Shared region-fill/label helpers are
+reused, and existing recipes retain their outputs/counters. Sourcee9d71f28 binds
+433 compiler inputs,1421 source paths,79 retained Windows products and39 installed
+members.57 native suites,896 scientific checks/18 declared skips,1099 auditor
+controls,19 desktop/managed checks and typing/stub checks pass; counts overlap.
+Three affected standalone GCC ASan/UBSan suites pass with eight retained products.
+The candidate uses captured processing input and has no public request selector.
+Next deliver the versioned affine sampling and new recipe through original-source
+capture, history/replay, feature/contour publication and all existing consumers;
+see the [integration route](cell-policy-heldout-gaps.md). Public policies and the
+three legacy scientific xfails remain unchanged. No new platform, biological,
+general-speed, hardware/support/license/release or M0-M7 acceptance follows.
+Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
 
 **Frozen298 is terminal and unaccepted overall.** The
 [terminal303 receipt](benchmarks/reader-locale-qualification-298/terminal303/receipt.json)
@@ -601,15 +601,16 @@ requires all11 authenticated archives and every required role. Preserve
 qualified281 and both terminal failed campaigns. Comparison296 retains its
 separate two-host corpus evidence and explicit clipped-ROI differences. Continue
 remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
-Policy302 remains locally delivered through all consumers. Held-out303 exposes
-eight additional detector mask gaps while all13 new LoG stages match exactly.
-First isolate shared post-LoG regions/splitting/refinement against captured
-stages; specify and deliver the separately versioned affine-sampling correction
-through existing requests and consumers. Close the named workflow gaps before
-freezing one combined own-source qualification. Preserve defaults, version1
-historical recipes and298's terminal source-bound outcomes: Mac/portable accept
-and engine rejects, with all11 archives authenticated. No redispatch or acceptance
-transfer follows. Broader scientific and release lanes remain open.
+Policy302 remains locally delivered. Private304 now reproduces the13 captured
+held-out workflows through shared native basin, sampled shape/refinement and body
+stages on Windows/GCC sanitizers. Deliver its additive original-source recipe and
+the separately versioned affine sampler through existing request, archive/replay,
+feature/contour and consumer paths. Preserve legacy policies, explicit units,
+source-supported context and declared budgets; keep diagnostic intermediates out
+of ordinary retained records. Verify all13 original-source workflows and existing
+defaults before one combined own-source qualification.298 remains terminal:
+Mac/portable accept and engine rejects, with all11 archives authenticated. No
+redispatch or acceptance transfer follows. All broader M0-M7 lanes remain open.
 The current task card records observed status rather than another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse

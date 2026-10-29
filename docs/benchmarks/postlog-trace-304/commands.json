@@ -1,0 +1,28 @@
+[
+  {
+    "label": "configure",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\postlog-trace-304\\probe",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\postlog-trace-304\\probe\\build",
+      "-G",
+      "Visual Studio 17 2022"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "build",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\postlog-trace-304\\probe\\build",
+      "--config",
+      "Release",
+      "--parallel",
+      "2"
+    ],
+    "returncode": 0
+  }
+]

@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(postlog304 LANGUAGES CXX)
+add_executable(postlog304 trace.cpp)
+target_compile_features(postlog304 PRIVATE cxx_std_17)
+target_compile_options(postlog304 PRIVATE /fp:strict)
+target_include_directories(postlog304 PRIVATE "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include")

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-28T23:05:23"
+	>
+	<testcase name="qupath_response" classname="qupath_response" time="0.0138245" status="run">
+		<properties/>
+		<system-out>33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+</system-out>
+	</testcase>
+	<testcase name="log_watershed" classname="log_watershed" time="0.201536" status="run">
+		<properties/>
+		<system-out>Sampled shape 26 frozen masks and maxima passed
+LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed
+</system-out>
+	</testcase>
+	<testcase name="cell_expansion" classname="cell_expansion" time="0.537681" status="run">
+		<properties/>
+		<system-out>Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+</system-out>
+	</testcase>
+</testsuite>

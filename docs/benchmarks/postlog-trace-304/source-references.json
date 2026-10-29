@@ -1,0 +1,13 @@
+{
+  "primary_sources": [
+    {
+      "url": "https://github.com/qupath/qupath/blob/v0.7.0/qupath-core-processing/src/main/java/qupath/imagej/processing/MorphologicalReconstruction.java",
+      "sha256": "69b40c616e99d0e3fb22dc6539ea593d6e7ad0df91bf51072194d5c11d8fb612"
+    },
+    {
+      "url": "https://github.com/qupath/qupath/blob/v0.7.0/qupath-core-processing/src/main/java/qupath/imagej/processing/Watershed.java",
+      "sha256": "b1ef083dbfcf0412028771f84838e3d87e1b5fb43bfb604d5fdd97564ace0f9d"
+    }
+  ],
+  "source_copied_into_native_implementation": false
+}

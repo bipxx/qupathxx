@@ -723,3 +723,5 @@ tools/upstream/qupath_response_basins_probe.groovy text eol=lf
 tests/test_qupath_response_reference.py text eol=lf
 cpp/tests/qupath_response_reference.hpp text eol=lf
 tests/fixtures/qupath-response-basins-0.7.0/** -text -whitespace
+
+docs/benchmarks/postlog-trace-304/** -text -whitespace

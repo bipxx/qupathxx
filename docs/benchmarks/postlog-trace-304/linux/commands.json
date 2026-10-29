@@ -1,0 +1,96 @@
+[
+  {
+    "label": "clone",
+    "argv": [
+      "git",
+      "clone",
+      "--shared",
+      "--no-checkout",
+      "/mnt/c/Users/HEQ/Projects/qupathxx",
+      "/tmp/qupathxx-postlog304-source"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "autocrlf",
+    "argv": [
+      "git",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "cwd": "/tmp/qupathxx-postlog304-source",
+    "returncode": 0
+  },
+  {
+    "label": "checkout",
+    "argv": [
+      "git",
+      "checkout",
+      "--detach",
+      "e9d71f28"
+    ],
+    "cwd": "/tmp/qupathxx-postlog304-source",
+    "returncode": 0
+  },
+  {
+    "label": "configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "/tmp/qupathxx-postlog304-source",
+      "-B",
+      "/tmp/qupathxx-postlog304-build",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all",
+      "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O1 -g1 -DNDEBUG",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "build",
+    "argv": [
+      "cmake",
+      "--build",
+      "/tmp/qupathxx-postlog304-build",
+      "--target",
+      "qupathxx_qupath_response_tests",
+      "qupathxx_log_watershed_tests",
+      "qupathxx_cell_expansion_tests",
+      "--parallel",
+      "2"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "native",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/tmp/qupathxx-postlog304-build",
+      "-R",
+      "^(qupath_response|log_watershed|cell_expansion)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "10000000",
+      "--test-output-size-failed",
+      "10000000",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/native.xml"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  }
+]

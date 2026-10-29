@@ -1,0 +1,7 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/probe/CMakeLists.txt
+  trace.cpp
+  postlog304.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\postlog-trace-304\probe\build\Release\postlog304.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/probe/CMakeLists.txt

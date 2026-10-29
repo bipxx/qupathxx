@@ -1,0 +1,8 @@
+{
+  "shared_payloads": 102,
+  "all_shared_payloads_byte_exact": true,
+  "original_captures_preserved": true,
+  "manifest_augmented_with_pinned_upstream": true,
+  "first_manifest_sha256": "d9224a8d2424fc95b4907a7cb252ed7a22cf9000ed9cbee760662f769e3d0bf0",
+  "second_manifest_sha256": "2ae79d5a545178d478054ec6638c10a20224ff69679b279709aea1723c8fbeb4"
+}
