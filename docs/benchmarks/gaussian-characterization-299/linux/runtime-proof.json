@@ -1,0 +1,11 @@
+{
+  "executable": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-comparison296-linux-env/bin/python",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "numpy": "2.5.4",
+  "pillow": "13.0.0",
+  "unchanged_package_members": 42,
+  "native_source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "native_used_for_gaussian": false,
+  "shared_test_dependencies": true,
+  "clean_machine": false
+}

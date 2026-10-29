@@ -1,0 +1,20 @@
+{
+  "id": 12862342559,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg2MjM0MjU1OQ==",
+  "name": "Linux-minimal-py3.12",
+  "size_in_bytes": 56403,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12862342559",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12862342559/zip",
+  "expired": false,
+  "digest": "sha256:bf9519bafd1b04806a8ca1dd61feb1cdd2da06907f667b69ff67ddbc9268d7da",
+  "created_at": "2026-10-29T00:14:38Z",
+  "updated_at": "2026-10-29T00:14:38Z",
+  "expires_at": "2026-11-12T00:14:37Z",
+  "workflow_run": {
+    "id": 40792323979,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/reader-locale-qualification-298",
+    "head_sha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75"
+  }
+}

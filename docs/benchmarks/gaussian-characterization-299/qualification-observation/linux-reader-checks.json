@@ -1,0 +1,11 @@
+{
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "artifact": "Linux-headless-py3.12",
+  "python_junit_sha256": "022b4a29077c3df26568ab24547746d6f7cd53a6ed11a89c829adb693317d626",
+  "cases": [
+    "test_unicode_reader_dispatch_and_nominal_resume[C]",
+    "test_installed_region_dispatch_accepts_unicode_uppercase_ppm"
+  ],
+  "passed": 2,
+  "complete_engine_accepted": false
+}
