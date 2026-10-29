@@ -1,0 +1,12 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+21:05:12.994 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+21:05:12.998 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+21:05:12.998 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+21:05:13.023 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+21:05:13.033 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+21:05:13.136 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+21:05:16.807 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\qupath-input-stages-301\capture3\runtime.json

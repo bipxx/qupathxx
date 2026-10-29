@@ -1,0 +1,265 @@
+[
+  {
+    "name": "white-0",
+    "image": "pairwise",
+    "white": [
+      255,
+      255,
+      255
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "white-1",
+    "image": "pairwise",
+    "white": [
+      240,
+      250,
+      230
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "white-2",
+    "image": "pairwise",
+    "white": [
+      1,
+      1,
+      1
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "white-3",
+    "image": "pairwise",
+    "white": [
+      1.25,
+      127.5,
+      254.5
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "white-4",
+    "image": "pairwise",
+    "white": [
+      31.5,
+      128,
+      200
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "white-5",
+    "image": "pairwise",
+    "white": [
+      255,
+      1,
+      255
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "identity",
+    "image": "pairwise",
+    "white": [
+      255,
+      255,
+      255
+    ],
+    "vectors": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "three-explicit",
+    "image": "pairwise",
+    "white": [
+      240.5,
+      251.25,
+      232.75
+    ],
+    "vectors": [
+      [
+        0.7,
+        0.3,
+        0.2
+      ],
+      [
+        0.1,
+        0.8,
+        0.3
+      ],
+      [
+        0.2,
+        0.15,
+        0.9
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "signed-residual",
+    "image": "pairwise",
+    "white": [
+      255,
+      255,
+      255
+    ],
+    "vectors": [
+      [
+        0.8,
+        0.4,
+        0.2
+      ],
+      [
+        0.2,
+        0.8,
+        0.4
+      ]
+    ],
+    "width": 256,
+    "height": 256
+  },
+  {
+    "name": "roi-default",
+    "image": "roi",
+    "white": [
+      255,
+      255,
+      255
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 192,
+    "height": 128
+  },
+  {
+    "name": "resampled-default",
+    "image": "resampled",
+    "white": [
+      255,
+      255,
+      255
+    ],
+    "vectors": [
+      [
+        0.65,
+        0.7,
+        0.29
+      ],
+      [
+        0.07,
+        0.99,
+        0.11
+      ]
+    ],
+    "width": 171,
+    "height": 128
+  }
+]
