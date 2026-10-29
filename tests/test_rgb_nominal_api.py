@@ -9,6 +9,24 @@ import qupathxx as q
 
 FIXTURE=Path(__file__).resolve().parent/'fixtures/rgb-nominal-v1'
 CASES=[line.split() for line in (FIXTURE/'index.txt').read_text().splitlines()[1:]]
+AFFINE=FIXTURE.parent/'rgb-affine-v2'
+AFFINE_CASES=[line.split() for line in (AFFINE/'index.txt').read_text().splitlines()[1:]]
+
+
+@pytest.mark.parametrize('case',AFFINE_CASES,ids=[v[0] for v in AFFINE_CASES])
+def test_affine_public_read_and_region_cli_match_captured_pixels(case,tmp_path):
+    pixels=(AFFINE/case[1]).read_bytes()
+    image=np.frombuffer(pixels,dtype=np.uint8).reshape(int(case[3]),int(case[2]),3)
+    doc=q.Document(q.Image.from_numpy(image))
+    request=q.RgbNominalRequest(*map(int,case[4:8]),float(case[8]),q.RgbNominalSampling.AFFINE_INVERSE)
+    assert request.algorithm=='qpx.rgb-nominal-affine/1'
+    assert hashlib.sha256(q.read_rgb_nominal_region(doc.server,request).numpy().tobytes()).hexdigest()==case[11]
+    executable=Path(q.__file__).parent/('qupathxx_region.exe' if os.name=='nt' else 'qupathxx_region')
+    source=tmp_path/'affine input.ppm';source.write_bytes(f'P6\n{case[2]} {case[3]}\n255\n'.encode()+pixels)
+    output=tmp_path/'affine.pam'
+    process=subprocess.run([str(executable),'--rgb-nominal',str(source),*case[4:9],str(output),'--sampling','affine-inverse'],capture_output=True,timeout=30)
+    assert process.returncode==0,process.stderr
+    assert hashlib.sha256(output.read_bytes().split(b'ENDHDR\n',1)[1]).hexdigest()==case[11]
 
 
 def source_pixels(case):
@@ -46,7 +64,7 @@ def test_native_region_cli_matches_all_captured_rgba(case,tmp_path):
     assert source.read_bytes()==data
 
 
-@pytest.mark.parametrize('name',['x_px','y_px','width_px','height_px','downsample','algorithm'])
+@pytest.mark.parametrize('name',['x_px','y_px','width_px','height_px','downsample','sampling','algorithm'])
 def test_request_is_immutable_with_explicit_pixel_units(name):
     request=q.RgbNominalRequest(x_px=3,y_px=5,width_px=24,height_px=20,downsample=1.1)
     assert (request.x_px,request.y_px,request.width_px,request.height_px,request.downsample)==(3,5,24,20,1.1)

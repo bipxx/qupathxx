@@ -25,11 +25,11 @@ static int launch(int argc, char** argv) {
     const bool thumbnail=argc>1 && std::string(argv[1])=="--thumbnail";
     const bool nominal=argc>1 && std::string(argv[1])=="--rgb-nominal";
     if ((thumbnail && !(argc==6 || (argc==8 && std::string(argv[6])=="--source-pixels"))) || (resample && argc!=11) ||
-        (nominal && argc!=9) || (!thumbnail && !resample && !nominal && argc!=8)) {
+        (nominal && !(argc==9 || (argc==11 && std::string(argv[9])=="--sampling"))) || (!thumbnail && !resample && !nominal && argc!=8)) {
         std::cerr << "Usage: qupathxx_region IMAGE X Y LEVEL WIDTH HEIGHT OUTPUT.pam\n"
                      "       qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam [--source-pixels PIXELS]\n"
                      "       qupathxx_region --resample IMAGE X Y LEVEL SOURCE_WIDTH SOURCE_HEIGHT WIDTH HEIGHT OUTPUT.pam\n"
-                     "       qupathxx_region --rgb-nominal IMAGE X Y SOURCE_WIDTH SOURCE_HEIGHT DOWNSAMPLE OUTPUT.pam\n"
+                     "       qupathxx_region --rgb-nominal IMAGE X Y SOURCE_WIDTH SOURCE_HEIGHT DOWNSAMPLE OUTPUT.pam [--sampling integer-origin|affine-inverse]\n"
                      "Level-zero X/Y; output WIDTH/HEIGHT at LEVEL. PPM uses dense reader.\n";
         return 2;
     }
@@ -43,7 +43,13 @@ static int launch(int argc, char** argv) {
         if(nominal) {
             const auto step=qpx::detail::positive_decimal_quantity(argv[7]);
             if(!step) throw std::invalid_argument("RGB nominal downsample must be a positive finite decimal");
-            nominal_request.emplace(number(argv[3]),number(argv[4]),number(argv[5]),number(argv[6]),*step);
+            auto sampling=qpx::RgbNominalSampling::IntegerOrigin;
+            if(argc==11) {
+                const std::string value=argv[10];
+                if(value=="affine-inverse") sampling=qpx::RgbNominalSampling::AffineInverse;
+                else if(value!="integer-origin") throw std::invalid_argument("nominal sampling must be integer-origin or affine-inverse");
+            }
+            nominal_request.emplace(number(argv[3]),number(argv[4]),number(argv[5]),number(argv[6]),*step,sampling);
         }
         auto extension=std::filesystem::u8path(path).extension().u8string();
         qpx::detail::ascii_lower_in_place(extension);

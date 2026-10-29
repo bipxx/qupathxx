@@ -1877,7 +1877,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(detect_cells_clicked && !cell_job.busy()) {try {
                 cell_parameters.feature=static_cast<TissueFeature>(cell_feature);cell_parameters.connectivity=cell_connectivity?8:4;
-                cell_job.request(cell_nominal?CellRequest::for_nominal_roi(document,selected,make_transform(grid_cells.feature!=TissueFeature::OpticalDensitySum),cell_nominal->downsample,cell_nominal->context_x,cell_nominal->context_y,grid_cells):cell_grid?CellRequest::for_grid_roi(document,selected,make_transform(grid_cells.feature!=TissueFeature::OpticalDensitySum),*cell_grid,grid_cells):
+                cell_job.request(cell_nominal?CellRequest::for_nominal_roi(document,selected,make_transform(grid_cells.feature!=TissueFeature::OpticalDensitySum),cell_nominal->downsample,cell_nominal->context_x,cell_nominal->context_y,grid_cells,cell_nominal->sampling):cell_grid?CellRequest::for_grid_roi(document,selected,make_transform(grid_cells.feature!=TissueFeature::OpticalDensitySum),*cell_grid,grid_cells):
                     CellRequest::with_nucleus_area_limits(document,selected,make_transform(cell_feature!=0),cell_min_area,cell_max_area,cell_parameters));cell_annotations_added=0;error.clear();
             } catch(const std::exception& e) {error=e.what();}}
             if(cell_job.busy()) {ui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}

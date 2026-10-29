@@ -36,6 +36,12 @@ capture, history/replay, feature/contour publication and all existing consumers;
 see the [integration route](cell-policy-heldout-gaps.md). Public policies and the
 three legacy scientific xfails remain unchanged. No new platform, biological,
 general-speed, hardware/support/license/release or M0-M7 acceptance follows.
+
+The current local integration checkpoint delivers the private affine sampler's
+112 captured RGB comparisons and tile/context/precision checks on Windows.
+Follow the [explicit request/history/consumer sequence](original-source-cell-integration.md)
+to deliver both sampling and detector choices together; no public opt-in or
+new combined qualification is accepted yet.
 Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
 
 **Frozen298 is terminal and unaccepted overall.** The

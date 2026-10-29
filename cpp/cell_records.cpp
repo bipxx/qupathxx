@@ -17,7 +17,7 @@ auto grid_parameters(const GridCellParameters& p) {return std::make_tuple(p.proc
 auto grid(const ScientificGrid& g) {return std::make_tuple(g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context());}
 auto resolved(const ResolvedGridCellParameters& p) {return std::make_tuple(p.step_x,p.step_y,p.sigma_x,p.sigma_y,p.min_nucleus_samples,p.max_nucleus_samples);}
 auto nominal(const NominalCellSampling& n) {
-    const auto& r=n.source_request();return std::make_tuple(r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,n.context_x(),n.context_y());
+    const auto& r=n.source_request();return std::make_tuple(r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,n.context_x(),n.context_y(),r.sampling);
 }
 bool same_sampling(const TissueResult& a,const TissueResult& b) {
     if(a.nominal_sampling() || b.nominal_sampling()) return a.nominal_sampling() && b.nominal_sampling() && nominal(*a.nominal_sampling())==nominal(*b.nominal_sampling());

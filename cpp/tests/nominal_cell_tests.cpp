@@ -164,7 +164,7 @@ void check_nominal_cells() {
         const auto before=reader->reads;
         rejects<std::invalid_argument>([&]{CellRequest unsupported(doc,id,transform,ScientificGrid(256,192,{0,256,171,0},{0,192,128,0}),compatible);});
         verify(reader->reads==before);
-        auto invalid=compatible;invalid.processing=static_cast<CellProcessingPolicy>(2);rejects<std::invalid_argument>([&]{invalid.validate();});
+        auto invalid=compatible;invalid.processing=static_cast<CellProcessingPolicy>(3);rejects<std::invalid_argument>([&]{invalid.validate();});
         const auto captured=CellRequest(doc,id,transform,sampling,compatible);const auto detected=detect_cells(captured);
         verify(std::string(detected->algorithm())=="qpx.nominal-rgb-imagej154p-log-watershed-bodies/1");
         verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
@@ -193,6 +193,50 @@ void check_nominal_cells() {
         }
         std::cout<<"ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed\n";
     }
+    for(auto policy:{CellProcessingPolicy::Quantitative,CellProcessingPolicy::ImageJ154p,CellProcessingPolicy::QuPath070})
+    for(auto coordinates:{RgbNominalSampling::IntegerOrigin,RgbNominalSampling::AffineInverse}) {
+        auto source=std::make_shared<Reader>(original);Document fresh(source);fresh.set_calibration(.5,.5);
+        const auto object=fresh.add_rectangle({0,0,256,192});auto parameters=p;parameters.processing=policy;
+        const auto captured=CellRequest::for_nominal_roi(fresh,object,transform,1.5,0,0,parameters,coordinates);
+        verify(source->reads==0 && captured.nominal_sampling()->source_request().sampling==coordinates);
+        const auto detected=detect_cells(captured);
+        verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
+        const auto packet=CellArchiveCodec::encode(*detected);
+        const bool extended=coordinates==RgbNominalSampling::AffineInverse || policy==CellProcessingPolicy::QuPath070;
+        verify(packet[3]==(extended?8:policy==CellProcessingPolicy::ImageJ154p?7:6));
+        const auto restored=CellArchiveCodec::decode(packet.data(),packet.size(),captured.roi(),fresh.metadata());
+        verify(restored->grid_parameters()->processing==policy && restored->nuclei()->nominal_sampling()->source_request().sampling==coordinates);
+        verify(CellArchiveCodec::encode(*restored)==packet);
+        const auto kept=fresh.keep_cells(captured,detected);const auto replay=CellRequest::replay(fresh,kept);
+        verify(replay.nominal_sampling()->source_request().sampling==coordinates && replay.grid_parameters()->processing==policy);
+        verify(fresh.verify_cells(kept,replay,*detect_cells(replay)));
+        if(coordinates==RgbNominalSampling::AffineInverse) {
+            const auto csv=cell_measurements_csv(CellTableRequest(fresh,{kept}));
+            verify(csv.find("qpx.cell-table/11")!=std::string::npos && csv.find("sampling_algorithm")!=std::string::npos && csv.find("qpx.rgb-nominal-affine/1")!=std::string::npos);
+            Counter fields;cell_detail::grid_parameters_write(fields,parameters,true);
+            auto corrupt=packet;corrupt[4+fields.bytes+72]=2;sign(corrupt,captured.roi());
+            rejects<std::invalid_argument>([&]{CellArchiveCodec::decode(corrupt.data(),corrupt.size(),captured.roi(),fresh.metadata());});
+        }
+        if(has_geos()) {
+            const auto ids=fresh.publish_cell_record(kept);ObjectFeatureOptions f;f.cell_rgb=true;
+            const ObjectFeatureRequest features(fresh,ids,f);const auto table=extract_object_features(features);
+            std::vector<std::pair<std::string,std::string>> schema;for(const auto& feature:table->features()) schema.emplace_back(feature.name,feature.unit);
+            const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture(schema));const auto classified=classify_objects(features,model);
+            ObjectClassifierRecord record;record.id=fresh.revision()+1;record.name="Versioned cell choices";record.archive=archive_object_classifier(classified->table(),model,classified);
+            const auto encoded=ObjectClassifierArchiveCodec::encode(record,nullptr);const auto decoded=ObjectClassifierArchiveCodec::decode(encoded.data(),encoded.size(),fresh.metadata(),nullptr);
+            verify(decoded->archive->table()->cell_origin(0)->source->nominal_sampling->source_request().sampling==coordinates);
+            verify(decoded->archive->table()->cell_origin(0)->source->grid_parameters->processing==policy);
+            verify(ObjectClassifierArchiveCodec::encode(*decoded,nullptr)==encoded);
+        }
+        if(policy==CellProcessingPolicy::QuPath070) {
+            const auto before=source->reads;fresh.set_calibration(.5,.75);parameters.units=GridCellUnits::Micrometres;
+            rejects<std::invalid_argument>([&]{CellRequest::for_nominal_roi(fresh,object,transform,1.5,0,0,parameters,coordinates);});
+            verify(source->reads==before);fresh.set_calibration(.5,.5);parameters.units=GridCellUnits::LevelZeroPixels;parameters.min_seed_distance=1;
+            rejects<std::invalid_argument>([&]{CellRequest::for_nominal_roi(fresh,object,transform,1.5,0,0,parameters,coordinates);});
+            verify(source->reads==before);
+        }
+    }
+    std::cout<<"Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed\n";
     reader->close();verify(load(bytes)->cells()->labels()==result->cells()->labels());rejects<std::runtime_error>([&]{detect_cells(request);});
     std::cout<<"Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed\n";
     std::cout<<"Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed\n";

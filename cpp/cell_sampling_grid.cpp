@@ -44,7 +44,7 @@ GridReadBounds CellSamplingGrid::read_bounds(const std::atomic<bool>* c) const {
     if(!nominal) return area->clipped_read_bounds();
     const auto& r=nominal->source_request();
     const auto plan=detail::plan_rgb_nominal_window(image_width_,image_height_,r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,
-        -std::int64_t(nominal->context_x()),-std::int64_t(nominal->context_y()),width(),height(),c);
+        -std::int64_t(nominal->context_x()),-std::int64_t(nominal->context_y()),width(),height(),c,r.sampling);
     return {plan.window.x,plan.window.y,plan.window.width,plan.window.height};
 }
 std::vector<TissueComponent> CellSamplingGrid::components(const std::vector<std::uint32_t>& labels,std::uint32_t count,const std::atomic<bool>* c) const {
@@ -76,7 +76,7 @@ CellRgbInput read_cell_rgb(const ImageServer& server,const CellSamplingGrid& gri
         throw std::invalid_argument("nominal cell reader metadata changed");
     const auto& n=*grid.nominal;const auto& r=n.source_request();
     const auto plan=detail::plan_rgb_nominal_window(m.width,m.height,r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,
-        -std::int64_t(n.context_x()),-std::int64_t(n.context_y()),grid.width(),grid.height(),c);
+        -std::int64_t(n.context_x()),-std::int64_t(n.context_y()),grid.width(),grid.height(),c,r.sampling);
     std::optional<PixelBuffer> window;if(!plan.empty()) window.emplace(server.read_region(plan.window));
     checkpoint(c);const auto pixels=detail::sample_rgb_nominal(plan,window?&*window:nullptr,c);
     Sha256 decoded;for(auto v:{plan.window.x,plan.window.y,plan.window.width,plan.window.height}) decoded.integer(v);

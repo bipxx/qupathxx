@@ -46,8 +46,27 @@ std::int64_t output_size(std::int64_t extent,double step) {
         throw std::invalid_argument("RGB nominal output dimensions exceed buffer limits");
     return static_cast<std::int64_t>(rounded);
 }
+std::pair<std::int64_t,std::uint64_t> affine_start(std::int64_t origin,double step) {
+    constexpr std::int64_t exact_integer_limit=std::int64_t(1)<<53;
+    if(origin < -exact_integer_limit || origin > exact_integer_limit)
+        throw std::invalid_argument("RGB affine origin exceeds exact binary64 integer range");
+    // Match the diagonal scale/translate inverse, including its binary64
+    // rounding. Do not simplify translation/scale back to the integer origin
+    // or fuse the final multiply/add. Keep the whole center separate from its
+    // 32-bit fraction: negative and large origins need no signed 32.32 cast.
+    const double scale=1./step;
+    const double translation=-static_cast<double>(origin)*scale;
+    const double inverse_scale=1./scale;
+    const double inverse_translation=-translation/scale;
+    const double half=inverse_scale*.5;
+    const double center=half+inverse_translation;
+    if(!std::isfinite(center) || center < -double(exact_integer_limit) || center > double(exact_integer_limit))
+        throw std::invalid_argument("RGB affine center exceeds exact binary64 integer range");
+    const auto whole=std::floor(center);
+    return {static_cast<std::int64_t>(whole),static_cast<std::uint64_t>(std::ldexp(center-whole,32))};
 }
-void validate_rgb_nominal_request(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step) {
+}
+void validate_rgb_nominal_request(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,RgbNominalSampling sampling) {
     if(!std::isfinite(step) || step<=0)
         throw std::invalid_argument("RGB nominal downsample must be positive and finite");
     region_byte_count(width,height);
@@ -55,22 +74,24 @@ void validate_rgb_nominal_request(std::int64_t x,std::int64_t y,std::int64_t wid
         throw std::invalid_argument("RGB nominal request coordinate overflow");
     const auto ow=output_size(width,step),oh=output_size(height,step);
     region_byte_count(ow,oh);
+    if(sampling==RgbNominalSampling::AffineInverse) {affine_start(x,step);affine_start(y,step);}
+    else if(sampling!=RgbNominalSampling::IntegerOrigin) throw std::invalid_argument("Unknown RGB nominal sampling policy");
 }
 RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_height,
     std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
-    const std::atomic<bool>* cancel) {
-    checkpoint(cancel);validate_rgb_nominal_request(x,y,width,height,step);
+    const std::atomic<bool>* cancel,RgbNominalCoordinates coordinates) {
+    checkpoint(cancel);validate_rgb_nominal_request(x,y,width,height,step,coordinates);
     return plan_rgb_nominal_window(image_width,image_height,x,y,width,height,step,
-        0,0,output_size(width,step),output_size(height,step),cancel);
+        0,0,output_size(width,step),output_size(height,step),cancel,coordinates);
 }
 RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t image_height,
     std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
     std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
-    const std::atomic<bool>* cancel) {
+    const std::atomic<bool>* cancel,RgbNominalCoordinates coordinates) {
     checkpoint(cancel);
     if(image_width<=0 || image_height<=0)
         throw std::invalid_argument("RGB nominal source dimensions must be positive");
-    validate_rgb_nominal_request(x,y,width,height,step);
+    validate_rgb_nominal_request(x,y,width,height,step,coordinates);
     const auto ow=output_size(width,step),oh=output_size(height,step);
     region_byte_count(samples_width,samples_height);
     if(sample_x < -4096 || sample_y < -4096 || sample_x>ow+4096-samples_width || sample_y>oh+4096-samples_height)
@@ -78,18 +99,24 @@ RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t ima
     // Admission bounds each nominal extent by2^26 and step by twice that extent.
     // Split whole/fractional index products also admit signed context without
     // multiplying a large step by4096 in a single fixed-point integer.
-    const auto start=static_cast<std::uint64_t>(std::floor(std::ldexp(step,31)));
+    auto start=static_cast<std::uint64_t>(std::floor(std::ldexp(step,31)));
+    auto start_y=start;
     const auto stride=static_cast<std::uint64_t>(std::floor(std::ldexp(step,32)));
     if(!stride) throw std::invalid_argument("RGB nominal downsample is below fixed-point resolution");
+    if(coordinates==RgbNominalCoordinates::AffineInverse) {
+        const auto ax=affine_start(x,step),ay=affine_start(y,step);
+        x=ax.first;start=ax.second;y=ay.first;start_y=ay.second;
+    }else if(coordinates!=RgbNominalCoordinates::IntegerOrigin)
+        throw std::invalid_argument("Unknown RGB nominal coordinate policy");
     const auto wx=window_axis(x,image_width,sample_x,samples_width,start,stride,step<1,cancel);
-    const auto wy=window_axis(y,image_height,sample_y,samples_height,start,stride,step<1,cancel);
+    const auto wy=window_axis(y,image_height,sample_y,samples_height,start_y,stride,step<1,cancel);
     RegionRequest window{0,0,0,0,0};
     if(wx.second && wy.second) {
         region_byte_count(wx.second,wy.second);
         window={wx.first,wy.first,0,wx.second,wy.second};
     }
     checkpoint(cancel);
-    return {image_width,image_height,x,y,samples_width,samples_height,start,stride,step<1,window,sample_x,sample_y};
+    return {image_width,image_height,x,y,samples_width,samples_height,start,stride,step<1,window,sample_x,sample_y,start_y};
 }
 PixelBuffer sample_rgb_nominal(const RgbNominalPlan& plan,const PixelBuffer* source,const std::atomic<bool>* cancel) {
     checkpoint(cancel);
@@ -109,7 +136,7 @@ PixelBuffer sample_rgb_nominal(const RgbNominalPlan& plan,const PixelBuffer* sou
     auto& bytes=output.writable_bytes();
     for(std::int64_t y=0;y<plan.output_height;++y) {
         checkpoint(cancel);
-        const auto py=point(plan.y,plan.image_height,plan.start,plan.stride,plan.sample_y+y,plan.nearest);
+        const auto py=point(plan.y,plan.image_height,plan.start_y,plan.stride,plan.sample_y+y,plan.nearest);
         for(std::int64_t x=0;x<plan.output_width;++x) {
             const auto i=static_cast<std::size_t>((y*plan.output_width+x)*4);
             if((i&16383)==0) checkpoint(cancel);

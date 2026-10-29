@@ -2,6 +2,7 @@
 #include "image_server.hpp"
 
 namespace qpx {
+enum class RgbNominalSampling { IntegerOrigin=0, AffineInverse=1 };
 // Immutable source rectangle in level-zero pixels. Downsample is a dimensionless
 // nominal source-pixels/output-pixel ratio; output shape rounds each extent/
 // downsample half-up. Construction validates dimensions, finite positive ratio
@@ -9,8 +10,10 @@ namespace qpx {
 struct RgbNominalRequest {
     const std::int64_t x_px,y_px,width_px,height_px;
     const double downsample;
-    RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step=1);
-    const char* algorithm() const noexcept {return "qpx.rgb-nominal/1";}
+    const RgbNominalSampling sampling;
+    RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step=1,
+        RgbNominalSampling sampling=RgbNominalSampling::IntegerOrigin);
+    const char* algorithm() const noexcept {return sampling==RgbNominalSampling::AffineInverse?"qpx.rgb-nominal-affine/1":"qpx.rgb-nominal/1";}
 };
 // Read the bounded source window, including interpolation context, at unit
 // level zero. Source pixels must be opaque RGBA8. Returned pixels own their

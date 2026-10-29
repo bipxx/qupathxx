@@ -186,11 +186,13 @@ def verify(folder=FIXTURE):
     return dict(schema='qpx.qupath-cell-policy-edge-verification/1',cases=checks,biological_validation=False)
 
 
-def compare(folder=FIXTURE):
+def compare(folder=FIXTURE,processing_policy='imagej154p',sampling='integer-origin'):
     import numpy as np
     from PIL import Image
     import qupathxx as q
     import qupathxx._native as native
+    if processing_policy not in ('imagej154p','qupath070') or sampling not in ('integer-origin','affine-inverse'):
+        raise ValueError('unknown cell processing or sampling policy')
     verified=verify(folder);comparison=load('edge_native_metrics',ROOT/'tools/compare_qupath_cells.py')
     nominal=load('edge_native_features',ROOT/'tools/compare_qupath_nominal_cells.py');reports=[]
     for case in contract()['cases']:
@@ -201,11 +203,14 @@ def compare(folder=FIXTURE):
         def ring(b):
             a,b_,c,d=b;return [q.Point(a,b_),q.Point(a+c,b_),q.Point(a+c,b_+d),q.Point(a,b_+d)]
         obj=doc.add_roi(q.Roi.polygon(ring(bounds),[ring(case['hole'])])) if 'hole' in case else doc.add_rectangle(q.Rect(*bounds))
-        recipe=case.get('native',contract()['native']);p=q.GridCellParameters();p.processing=q.CellProcessingPolicy.IMAGEJ_154P
+        recipe=case.get('native',contract()['native']);p=q.GridCellParameters()
+        p.processing=q.CellProcessingPolicy.QUPATH_070 if processing_policy=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P
         p.threshold=recipe['threshold'];p.sigma=recipe['sigma'];p.cell_expansion=recipe['cell_expansion']
         p.min_nucleus_area=recipe['min_nucleus_pixels'];p.max_nucleus_area=recipe['max_nucleus_pixels']
         transform=q.StainTransform(contract()['vectors'],contract()['white'])
-        step=read(path/'processed-input.json')['downsample'];request=q.CellRequest.for_nominal_roi(doc,obj,transform,step,0,0,p)
+        step=read(path/'processed-input.json')['downsample']
+        coordinates=q.RgbNominalSampling.AFFINE_INVERSE if sampling=='affine-inverse' else q.RgbNominalSampling.INTEGER_ORIGIN
+        request=q.CellRequest.for_nominal_roi(doc,obj,transform,step,0,0,p,coordinates)
         rgb=q.read_rgb_nominal_region(doc.server,request.nominal_sampling.source_request).numpy()
         if rgb.shape!=(*processing.shape[:2],4) or not np.all(rgb[:,:,3]==255):raise ValueError('native RGB shape/opacity differs')
         different=rgb[:,:,:3]!=processing;coordinates=np.argwhere(different)
@@ -221,6 +226,7 @@ def compare(folder=FIXTURE):
                             shape=list(shape),sigma=recipe['sigma'],downsample=step,
                             metrics=metrics,features=checks,input_sha256=result.nuclei.input_sha256))
     return dict(schema='qpx.qupath-cell-policy-edge-comparison/1',state='characterized-partial',
+        processing_policy=processing_policy,sampling=sampling,
         native_source=q.build_environment().git_revision,native_sha256=sha(native.__file__),
         reference_manifest_sha256=sha(Path(folder)/'manifest.json'),cases=reports,
         biological_validation=False,general_speed_claim=False,segmentation_parity_accepted=False)

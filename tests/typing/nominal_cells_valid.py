@@ -3,9 +3,10 @@ import qupathxx as q
 
 def workflow(doc: q.Document, obj: int, transform: q.StainTransform) -> q.CellResult:
     parameters = q.GridCellParameters()
+    parameters.processing = q.CellProcessingPolicy.QUPATH_070
     sampling = q.NominalCellSampling(q.RgbNominalRequest(0, 0, 256, 192, 1.5), 0, 0)
     direct = q.CellRequest(doc, obj, transform, sampling, parameters)
-    request = q.CellRequest.for_nominal_roi(doc, obj, transform, 1.5, 0, 0, parameters)
+    request = q.CellRequest.for_nominal_roi(doc, obj, transform, 1.5, 0, 0, parameters, q.RgbNominalSampling.AFFINE_INVERSE)
     assert direct.nominal_sampling is not None
     result = q.detect_cells(request)
     descriptor: q.NominalCellSampling | None = result.nominal_sampling

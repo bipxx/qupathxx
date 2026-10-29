@@ -37,6 +37,9 @@ int main() {
     p.eight_connected_background=true;p.work_bytes=65536+128*9;
     for(double sigma:{0.,2.5}) {
         const auto result=qupath070_nuclei(input,response,domain,3,3,sigma,p);
+        const auto ordinary=qupath070_nuclei(input,response,domain,3,3,sigma,p,nullptr,false);
+        check(ordinary.basins.empty() && ordinary.regions.empty() && ordinary.binary.empty() && ordinary.refinement.empty());
+        check(ordinary.nuclei.labels==result.nuclei.labels && ordinary.nuclei.count==result.nuclei.count && ordinary.nuclei.candidate_pixels==result.nuclei.candidate_pixels);
         check(result.nuclei.count==1 && result.nuclei.labels[4]==1 && result.nuclei.candidate_pixels==1);
         check(std::count(result.nuclei.labels.begin(),result.nuclei.labels.end(),1)==1);
     }

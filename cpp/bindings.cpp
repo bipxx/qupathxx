@@ -136,12 +136,15 @@ NB_MODULE(_native, m) {
         .def_prop_ro("closed", &ImageServer::closed);
     m.def("resample_area", [](const PixelBuffer& pixels,std::int64_t width,std::int64_t height) {return resample_area(pixels,width,height);},
           "pixels"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::enum_<RgbNominalSampling>(m,"RgbNominalSampling")
+        .value("INTEGER_ORIGIN",RgbNominalSampling::IntegerOrigin).value("AFFINE_INVERSE",RgbNominalSampling::AffineInverse);
     nb::class_<RgbNominalRequest>(m,"RgbNominalRequest")
-        .def(nb::init<std::int64_t,std::int64_t,std::int64_t,std::int64_t,double>(),
-             "x_px"_a,"y_px"_a,"width_px"_a,"height_px"_a,"downsample"_a=1.)
+        .def(nb::init<std::int64_t,std::int64_t,std::int64_t,std::int64_t,double,RgbNominalSampling>(),
+             "x_px"_a,"y_px"_a,"width_px"_a,"height_px"_a,"downsample"_a=1.,"sampling"_a=RgbNominalSampling::IntegerOrigin)
         .def_ro("x_px",&RgbNominalRequest::x_px).def_ro("y_px",&RgbNominalRequest::y_px)
         .def_ro("width_px",&RgbNominalRequest::width_px).def_ro("height_px",&RgbNominalRequest::height_px)
         .def_ro("downsample",&RgbNominalRequest::downsample)
+        .def_ro("sampling",&RgbNominalRequest::sampling)
         .def_prop_ro("algorithm",&RgbNominalRequest::algorithm);
     m.def("read_rgb_nominal_region",[](const ImageServer& server,const RgbNominalRequest& request) {
         return read_rgb_nominal_region(server,request);

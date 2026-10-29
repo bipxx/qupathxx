@@ -5,9 +5,9 @@
 #include <stdexcept>
 
 namespace qpx {
-RgbNominalRequest::RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step)
-    :x_px(x),y_px(y),width_px(width),height_px(height),downsample(step) {
-    detail::validate_rgb_nominal_request(x,y,width,height,step);
+RgbNominalRequest::RgbNominalRequest(std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,RgbNominalSampling policy)
+    :x_px(x),y_px(y),width_px(width),height_px(height),downsample(step),sampling(policy) {
+    detail::validate_rgb_nominal_request(x,y,width,height,step,sampling);
 }
 namespace {
 void checkpoint(const std::atomic<bool>* cancel) {
@@ -83,7 +83,7 @@ PixelBuffer read_rgb_nominal_region(const ImageServer& server,const RgbNominalRe
        metadata.levels.front().width!=metadata.width || metadata.levels.front().height!=metadata.height)
         throw std::invalid_argument("RGB nominal reads require a unit level-zero source");
     const auto plan=detail::plan_rgb_nominal(metadata.width,metadata.height,request.x_px,request.y_px,
-        request.width_px,request.height_px,request.downsample,cancel);
+        request.width_px,request.height_px,request.downsample,cancel,request.sampling);
     std::optional<PixelBuffer> window;
     if(!plan.empty()) {
         validate_region(metadata,plan.window);

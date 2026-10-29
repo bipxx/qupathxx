@@ -8,11 +8,14 @@ namespace qpx {
 struct NominalCellRoiSampling {
     double downsample=1.5;
     std::uint32_t context_x=32,context_y=32;
+    RgbNominalSampling sampling=RgbNominalSampling::IntegerOrigin;
     void validate() const {
+        if(sampling!=RgbNominalSampling::IntegerOrigin && sampling!=RgbNominalSampling::AffineInverse)
+            throw std::invalid_argument("unknown nominal RGB sampling policy");
         if(!std::isfinite(downsample) || downsample<=0 || context_x>4096 || context_y>4096)
             throw std::invalid_argument("nominal cell ROI sampling requires a finite positive downsample and0..4096 context samples");
     }
-    const char* algorithm() const {return "qpx.rgb-nominal/1";}
+    const char* algorithm() const {return sampling==RgbNominalSampling::AffineInverse?"qpx.rgb-nominal-affine/1":"qpx.rgb-nominal/1";}
 };
 // Immutable original-source rectangle, nominal lattice and detector context.
 // Context is in output samples; the reader's interpolation halo is separate.

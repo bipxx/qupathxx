@@ -38,6 +38,12 @@ three legacy scientific xfails remain unchanged. No new platform, biological,
 general-speed, hardware/support/license/release or M0-M7 acceptance follows.
 Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
 
+Original-source integration is in progress locally. The private affine sampler
+passes112 captured RGB reads plus tile/context and signed/large-origin checks
+on Windows. Public request/history/consumer wiring and GCC verification remain
+open; see the [contract and delivery sequence](original-source-cell-integration.md).
+This checkpoint is not a new installed application or qualification candidate.
+
 **Frozen298 is terminal and unaccepted overall.** The
 [terminal303 receipt](benchmarks/reader-locale-qualification-298/terminal303/receipt.json)
 authenticates all11 original archives at9fbc9315. Complete original Mac-native

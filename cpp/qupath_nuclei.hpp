@@ -11,11 +11,11 @@ struct QuPathNucleusStages {
 };
 // Private, sampled-grid compatibility candidate. Input/LoG arrays are borrowed
 // float32 planes; units of sigma and area parameters are processing samples.
-// No shipped request or archived recipe selects this function yet.
+// Stage retention is explicit; ordinary requests keep only the final nuclei.
 inline QuPathNucleusStages qupath070_nuclei(const std::vector<float>& score,
     const std::vector<float>& response,const std::vector<std::uint8_t>& domain,
     std::size_t width,std::size_t height,double sigma,const LogParameters& p,
-    const std::atomic<bool>* cancelled=nullptr) {
+    const std::atomic<bool>* cancelled=nullptr,bool retain_stages=true) {
     checkpoint(cancelled);p.validate();
     if(!width || !height || width>(1ULL<<26)/height || score.size()!=width*height ||
        response.size()!=score.size() || domain.size()!=score.size() ||
@@ -34,13 +34,14 @@ inline QuPathNucleusStages qupath070_nuclei(const std::vector<float>& score,
         if((i&4095)==0) checkpoint(cancelled);positive[i]=response[i]>0;
     }
     output.regions=log_filled_basin_regions(score,output.basins,positive,width,height,p,cancelled);
+    if(!retain_stages) std::vector<std::uint32_t>().swap(output.basins);
     auto shaped=sampled_shape_watershed(output.regions,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);shaped.mask[i]=shaped.mask[i] && domain[i];}
-    output.binary=shaped.mask;
+    if(retain_stages || sigma>1.5) output.binary=shaped.mask;
     if(sigma>1.5) {
         const auto blurred=detail::imagej154p_gaussian(score,width,height,1,1,p.work_bytes,cancelled);
         const auto response1=detail::imagej154p_laplacian(blurred,width,height,p.work_bytes,cancelled);
-        output.refinement.resize(n);
+        if(retain_stages) output.refinement.resize(n);
         for(std::size_t y=0;y<height;++y) {
             checkpoint(cancelled);
             for(std::size_t x=0;x<width;++x) {
@@ -50,12 +51,14 @@ inline QuPathNucleusStages qupath070_nuclei(const std::vector<float>& score,
                     const auto yy=std::clamp<std::int64_t>(std::int64_t(y)+dy,0,std::int64_t(height)-1);
                     eroded=eroded && output.binary[std::size_t(yy)*width+std::size_t(xx)];
                 }
-                output.refinement[i]=output.binary[i] && response1[i]>0;
-                shaped.mask[i]=eroded || output.refinement[i];
+                const bool refined=output.binary[i] && response1[i]>0;
+                if(retain_stages) output.refinement[i]=refined;
+                shaped.mask[i]=eroded || refined;
             }
         }
     }
     output.nuclei=log_label_sampled_nuclei(score,domain,shaped,output.regions,width,height,p,cancelled,nullptr);
+    if(!retain_stages) {std::vector<std::uint8_t>().swap(output.regions);std::vector<std::uint8_t>().swap(output.binary);}
     checkpoint(cancelled);return output;
 }
 }

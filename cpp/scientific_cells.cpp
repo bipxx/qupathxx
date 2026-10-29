@@ -6,6 +6,7 @@
 #include "qupathxx/provenance.hpp"
 #include "cell_contours.hpp"
 #include "imagej_gaussian.hpp"
+#include "qupath_nuclei.hpp"
 #include <chrono>
 
 namespace qpx {
@@ -20,6 +21,9 @@ ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid& 
             detail::calibrated_cell_product({sy,*source.effective_pixel_height_um}));
     }();
     const auto sigmas=metric.sigma_pixels(p.sigma);const auto n=std::uint64_t(grid.width())*grid.height();
+    if(p.processing==CellProcessingPolicy::QuPath070 &&
+       (!grid.nominal || metric.x_um()!=metric.y_um() || sigmas.first>4096 || p.cell_expansion/metric.x_um()>1000000 || p.min_peak_radius!=0 || p.min_seed_distance!=0))
+        throw std::invalid_argument("QuPath070 processing requires nominal isotropic sampling, sigma <=4096 samples and zero radius/spacing filters");
     // Match inclusive calibrated area admission: binary search the actual
     // multi-factor product, without first rounding one combined sample area.
     auto area=[&](std::uint64_t count) {
@@ -34,7 +38,7 @@ ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid& 
 }
 std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellParameters& p,const ResolvedGridCellParameters& r,
     const Roi& roi,const AnalysisProvenance& source,const ImageMetadata& m,const std::atomic<bool>* cancelled) {
-    if(p.processing==CellProcessingPolicy::ImageJ154p && !grid.nominal)
+    if(p.processing!=CellProcessingPolicy::Quantitative && !grid.nominal)
         throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     if(m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
        m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1 || m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA)
@@ -61,7 +65,7 @@ std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellPara
     return std::size_t(bytes);
 }
 void GridCellParameters::validate() const {
-    if(processing!=CellProcessingPolicy::Quantitative && processing!=CellProcessingPolicy::ImageJ154p)
+    if(processing!=CellProcessingPolicy::Quantitative && processing!=CellProcessingPolicy::ImageJ154p && processing!=CellProcessingPolicy::QuPath070)
         throw std::invalid_argument("unknown cell processing policy");
     if(units!=GridCellUnits::LevelZeroPixels && units!=GridCellUnits::Micrometres) throw std::invalid_argument("unknown grid cell units");
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
@@ -85,9 +89,9 @@ CellRequest CellRequest::for_grid_roi(const Document& document,std::uint64_t id,
     return CellRequest(document,id,transform,std::move(grid),std::move(p));
 }
 CellRequest CellRequest::for_nominal_roi(const Document& document,std::uint64_t id,const StainTransform& transform,double downsample,
-    std::uint32_t context_x,std::uint32_t context_y,GridCellParameters p) {
+    std::uint32_t context_x,std::uint32_t context_y,GridCellParameters p,RgbNominalSampling sampling) {
     p.validate();const auto b=detail::roi_source_bounds(document.metadata(),document.annotation(id).geometry);
-    return CellRequest(document,id,transform,NominalCellSampling(RgbNominalRequest(b.x,b.y,b.width,b.height,downsample),context_x,context_y),std::move(p));
+    return CellRequest(document,id,transform,NominalCellSampling(RgbNominalRequest(b.x,b.y,b.width,b.height,downsample,sampling),context_x,context_y),std::move(p));
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,GridCellParameters p):
     CellRequest(doc,id,transform,CellSamplingGrid(std::move(grid)),std::move(p)) {}
@@ -96,7 +100,7 @@ CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransfo
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellSamplingGrid grid,GridCellParameters p):
     reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
     p.validate();
-    if(p.processing==CellProcessingPolicy::ImageJ154p && !grid.nominal)
+    if(p.processing!=CellProcessingPolicy::Quantitative && !grid.nominal)
         throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     // Empty *natural* center grids are permitted: the requested scientific grid
     // can still contain eligible centers. Capture retains normal owner checks.
@@ -151,8 +155,12 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         domain[i]=(rgb.valid()[i] && grid.core_roi_contains(c.source.roi(),c.source.sampling_policy(),i%width,i/width));samples+=domain[i];
     }
     if(!samples) throw std::invalid_argument("grid cell ROI contains no eligible opaque core centers");
+    cell_detail::LogParameters log;log.sigma=0;log.threshold=p.threshold;log.prominence=p.log_prominence;log.minimum_radius=p.min_peak_radius;
+    log.minimum_spacing=p.min_seed_distance;log.minimum_area=r.min_nucleus_samples;log.maximum_area=r.max_nucleus_samples;
+    log.maximum_cells=p.max_cells;log.work_bytes=p.work_bytes;log.eight_connected_background=true;
+    cell_detail::LogResult detected;
     std::vector<std::uint8_t> imagej_positive;
-    if(p.processing==CellProcessingPolicy::ImageJ154p) {
+    if(p.processing!=CellProcessingPolicy::Quantitative) {
         std::size_t left=width,top=height,right=0,bottom=0;
         for(std::size_t i=0;i<n;++i) {
             if((i&4095)==0) checkpoint(cancelled);
@@ -183,15 +191,23 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         }
         const auto blur=detail::imagej154p_gaussian(input,cw,ch,r.sigma_x,r.sigma_y,p.work_bytes,cancelled);
         const auto response=detail::imagej154p_laplacian(blur,cw,ch,p.work_bytes,cancelled);
-        imagej_positive.resize(n);
-        for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) imagej_positive[(top+y)*width+left+x]=response[y*cw+x]>0;}
+        if(p.processing==CellProcessingPolicy::QuPath070) {
+            std::vector<std::uint8_t> cropped_domain(cw*ch);
+            for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) cropped_domain[y*cw+x]=domain[(top+y)*width+left+x];}
+            auto stages=cell_detail::qupath070_nuclei(input,response,cropped_domain,cw,ch,r.sigma_x,log,cancelled,false);
+            detected=std::move(stages.nuclei);
+            std::vector<std::uint32_t> labels(n);
+            for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) labels[(top+y)*width+left+x]=detected.labels[y*cw+x];}
+            detected.labels=std::move(labels);
+            for(auto& peak:detected.peaks) {peak.index=std::uint32_t((top+peak.index/cw)*width+left+peak.index%cw);peak.radius*=r.step_x;}
+        } else {
+            imagej_positive.resize(n);
+            for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) imagej_positive[(top+y)*width+left+x]=response[y*cw+x]>0;}
+        }
     }
     if(phase) phase->store(2);
     const cell_detail::PhysicalGridMetric metric(r.step_x,r.step_y);
-    cell_detail::LogParameters log;log.sigma=0;log.threshold=p.threshold;log.prominence=p.log_prominence;log.minimum_radius=p.min_peak_radius;
-    log.minimum_spacing=p.min_seed_distance;log.minimum_area=r.min_nucleus_samples;log.maximum_area=r.max_nucleus_samples;
-    log.maximum_cells=p.max_cells;log.work_bytes=p.work_bytes;log.eight_connected_background=true;
-    auto detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
+    if(p.processing!=CellProcessingPolicy::QuPath070) detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
         p.processing==CellProcessingPolicy::ImageJ154p?&imagej_positive:nullptr);
     std::vector<std::uint8_t>().swap(imagej_positive);
     std::vector<double>().swap(score);
@@ -209,7 +225,9 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         result->markers_.push_back({std::uint32_t(result->markers_.size()+1),dense[peak.label],peak.index,{x,y},peak.radius});
     }
     if(phase) phase->store(5);
-    auto bodies=cell_detail::expand_grid_cells(detected.labels,domain,width,height,metric,p.cell_expansion,p.work_bytes,cancelled).labels;
+    auto bodies=p.processing==CellProcessingPolicy::QuPath070?
+        cell_detail::expand_cells_watershed(detected.labels,domain,width,height,p.cell_expansion/r.step_x,p.work_bytes,cancelled).labels:
+        cell_detail::expand_grid_cells(detected.labels,domain,width,height,metric,p.cell_expansion,p.work_bytes,cancelled).labels;
     struct Sums {ColorVector nr{},br{},nc{},bc{},cr{},cc{},nrerr{},brerr{},ncerr{},bcerr{},crerr{},ccerr{};};
     std::vector<Sums> sums(count);result->features_.resize(count);
     auto add=[](double value,double& sum,double& error){const auto adjusted=value-error,next=sum+adjusted;error=(next-sum)-adjusted;sum=next;};

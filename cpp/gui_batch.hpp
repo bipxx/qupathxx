@@ -71,8 +71,10 @@ inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
 }
 inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParameters& p) {
     bool changed=ui::InputDouble("Nominal downsample",&sampling.downsample,0,0,"%.8g");
+    int coordinates=static_cast<int>(sampling.sampling);
+    if(ui::Combo("RGB sampling",&coordinates,"Integer origin\0Affine inverse\0")) {sampling.sampling=static_cast<RgbNominalSampling>(coordinates);changed=true;}
     int processing=static_cast<int>(p.processing);
-    if(ui::Combo("Cell processing",&processing,"Quantitative\0ImageJ 1.54p\0")) {p.processing=static_cast<CellProcessingPolicy>(processing);changed=true;}
+    if(ui::Combo("Cell processing",&processing,"Quantitative\0ImageJ 1.54p\0QuPath 0.7.0\0")) {p.processing=static_cast<CellProcessingPolicy>(processing);changed=true;}
     auto context=[&](const char* label,std::uint32_t& value) {
         int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,0,4096));changed=true;}
     };

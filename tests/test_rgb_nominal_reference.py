@@ -12,6 +12,17 @@ reference = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(reference)
 
 
+def test_affine_vectors_derive_only_from_captured_public_pixels(tmp_path):
+    spec = importlib.util.spec_from_file_location('qpx_affine_reference', ROOT / 'tools/reference_rgb_affine.py')
+    affine = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(affine)
+    destination = tmp_path / 'affine'
+    manifest = affine.generate(destination)
+    assert manifest['cases'] == 13 and manifest['interpolation_performed'] is False
+    assert {p.relative_to(destination).as_posix(): p.read_bytes() for p in destination.rglob('*') if p.is_file()} == {
+        p.relative_to(affine.FIXTURE).as_posix(): p.read_bytes() for p in affine.FIXTURE.rglob('*') if p.is_file()}
+
+
 def test_golden_vectors_are_byte_reproducible_without_interpolation(tmp_path):
     generated = tmp_path / 'vectors'
     manifest = reference.generate(generated)

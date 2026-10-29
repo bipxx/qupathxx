@@ -20,7 +20,7 @@ GUI_CASES={
  'test_grid_gui_detects_renders_and_publishes_with_axis_geometry':('requires geometry desktop','opt-in desktop replay'),
  'test_grid_python_producer_retains_exports_and_saves':('requires managed project desktop','opt-in managed desktop'),
 }
-for processing in ('quantitative','imagej154p'):
+for processing in ('quantitative','imagej154p','qupath070-affine'):
     GUI_CASES['test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes['+processing+']']=('opt-in nominal cell desktop',)
     for context in ('context0','context1'):
         GUI_CASES['test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks['+processing+'-'+context+']']=('opt-in nominal cell desktop',)
@@ -56,9 +56,11 @@ BASE={
 BASE['resampling'].append('99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed')
 BASE['resampling'].append('99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed')
 BASE['resampling'].append('99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed')
+BASE['resampling'].append('112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed')
 BASE['cells'].append('Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed')
 BASE['cells'].append('Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed')
 BASE['cells'].append('ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed')
+BASE['cells'].append('Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed')
 BASE['qupath_response']=['33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed',
     'Private sampled nucleus composition, retained candidate counts and atomic failure checks passed']
 BASE['viewer_session'].append('Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed')
@@ -100,6 +102,7 @@ EXTRA+=('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.g
 FIXTURES+=('tests/fixtures/qupath-cell-policy-edges-0.7.0/',)
 EXTRA+=('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy')
 FIXTURES+=('tests/fixtures/qupath-response-basins-0.7.0/',)
+FIXTURES+=('tests/fixtures/rgb-affine-v2/',)
 EXTRA+=('tools/reference_qupath_response.py','tools/upstream/qupath_response_basins_probe.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')

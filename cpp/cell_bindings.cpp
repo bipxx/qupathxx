@@ -15,9 +15,10 @@ void bind_cells(nb::module_& m) {
         .value("SAMPLED_LOG_WATERSHED_BODIES",CellAlgorithm::SampledLogWatershedBodies)
         .value("GRID_LOG_WATERSHED_BODIES",CellAlgorithm::GridLogWatershedBodies);
     nb::enum_<GridCellUnits>(m,"GridCellUnits").value("LEVEL_ZERO_PIXELS",GridCellUnits::LevelZeroPixels).value("MICROMETRES",GridCellUnits::Micrometres);
-    nb::enum_<CellProcessingPolicy>(m,"CellProcessingPolicy").value("QUANTITATIVE",CellProcessingPolicy::Quantitative).value("IMAGEJ_154P",CellProcessingPolicy::ImageJ154p);
+    nb::enum_<CellProcessingPolicy>(m,"CellProcessingPolicy").value("QUANTITATIVE",CellProcessingPolicy::Quantitative).value("IMAGEJ_154P",CellProcessingPolicy::ImageJ154p).value("QUPATH_070",CellProcessingPolicy::QuPath070);
     nb::class_<NominalCellRoiSampling>(m,"NominalCellRoiSampling").def(nb::init<>())
         .def_rw("downsample",&NominalCellRoiSampling::downsample).def_rw("context_x",&NominalCellRoiSampling::context_x)
+        .def_rw("sampling",&NominalCellRoiSampling::sampling)
         .def_rw("context_y",&NominalCellRoiSampling::context_y).def_prop_ro("algorithm",&NominalCellRoiSampling::algorithm).def("validate",&NominalCellRoiSampling::validate);
     nb::class_<NominalCellSampling>(m,"NominalCellSampling")
         .def(nb::init<RgbNominalRequest,std::uint32_t,std::uint32_t>(),"request"_a,"context_x"_a=32,"context_y"_a=32)
@@ -54,7 +55,7 @@ void bind_cells(nb::module_& m) {
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,ScientificGrid,GridCellParameters>(),"document"_a,"object_id"_a,"transform"_a,"grid"_a,"parameters"_a=GridCellParameters{})
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,NominalCellSampling,GridCellParameters>(),"document"_a,"object_id"_a,"transform"_a,"sampling"_a,"parameters"_a=GridCellParameters{})
         .def_static("for_nominal_roi",&CellRequest::for_nominal_roi,"document"_a,"object_id"_a,"transform"_a,"downsample"_a,
-            "context_x"_a=32,"context_y"_a=32,"parameters"_a=GridCellParameters{})
+            "context_x"_a=32,"context_y"_a=32,"parameters"_a=GridCellParameters{},"sampling"_a=RgbNominalSampling::IntegerOrigin)
         .def_static("for_grid_roi",&CellRequest::for_grid_roi,"document"_a,"object_id"_a,"transform"_a,"sampling"_a=GridCellSampling{},"parameters"_a=GridCellParameters{})
         .def_prop_ro("scientific_grid",[](const CellRequest& r){return r.scientific_grid()?std::optional<ScientificGrid>(*r.scientific_grid()):std::nullopt;})
         .def_prop_ro("nominal_sampling",[](const CellRequest& r){return r.nominal_sampling()?std::optional<NominalCellSampling>(*r.nominal_sampling()):std::nullopt;})

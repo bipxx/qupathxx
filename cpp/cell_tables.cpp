@@ -1,4 +1,5 @@
 #include "qupathxx/cell_tables.hpp"
+#include "cell_policy_names.hpp"
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include "object_snapshot.hpp"
@@ -42,7 +43,7 @@ struct CellTableRequest::Data {
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
     struct Block {std::shared_ptr<const Document::ObjectBlock> value;std::size_t image=0;};
     std::vector<Entry> entries;std::vector<Image> images;std::vector<Block> blocks;CellTableOptions options;
-    std::string identity;bool project=false,detector_parameters=false,grid_parameters=false,nominal_parameters=false,processing_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
+    std::string identity;bool project=false,detector_parameters=false,grid_parameters=false,nominal_parameters=false,processing_parameters=false,sampling_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
         if(options.published_objects) {append_objects(doc,id,std::move(name),record_ids);return;}
@@ -121,7 +122,9 @@ struct CellTableRequest::Data {
         for(const auto& entry:entries) {
             const bool grid=entry.record->result->grid_parameters()!=nullptr;grid_parameters=grid_parameters || grid;
             nominal_parameters=nominal_parameters || bool(entry.record->result->nuclei()->nominal_sampling());
-            processing_parameters=processing_parameters || (grid && entry.record->result->grid_parameters()->processing!=CellProcessingPolicy::Quantitative);
+            const auto* nominal=entry.record->result->nuclei()->nominal_sampling();
+            sampling_parameters=sampling_parameters || (nominal && nominal->source_request().sampling!=RgbNominalSampling::IntegerOrigin);
+            processing_parameters=processing_parameters || sampling_parameters || (grid && entry.record->result->grid_parameters()->processing!=CellProcessingPolicy::Quantitative);
             detector_parameters=detector_parameters || grid || entry.record->result->parameters().algorithm!=CellAlgorithm::DistanceWatershed;
         }
         charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
@@ -162,7 +165,7 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        const auto version=std::to_string(request.data_->processing_parameters?(request.data_->options.include_capture_calibration?10:9):request.data_->nominal_parameters?(request.data_->options.include_capture_calibration?8:7):request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
+        const auto version=std::to_string(request.data_->sampling_parameters?(request.data_->options.include_capture_calibration?12:11):request.data_->processing_parameters?(request.data_->options.include_capture_calibration?10:9):request.data_->nominal_parameters?(request.data_->options.include_capture_calibration?8:7):request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
             (request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
         if(request.data_->options.published_objects) return std::string(request.data_->project?"qpx.project-cell-object-table/":"qpx.cell-object-table/")+version;
         return std::string(request.data_->project?"qpx.project-cell-table/":"qpx.cell-table/")+version;
@@ -210,9 +213,9 @@ struct CellTableWriter {
     }
     static void grid(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->grid_parameters) return;
-        if(!result) {for(std::size_t i=0;i<grid_columns().size()+std::size_t(request.data_->processing_parameters);++i) row.separator();return;}
+        if(!result) {for(std::size_t i=0;i<grid_columns().size()+std::size_t(request.data_->processing_parameters)+std::size_t(request.data_->sampling_parameters);++i) row.separator();return;}
         const auto& n=*result->nuclei();row.string(n.nominal_sampling()?"nominal_rgb":result->grid_parameters()?"explicit":"natural");row.real(n.downsample_x());row.real(n.downsample_y());
-        if(!result->grid_parameters()) {for(std::size_t i=3;i<grid_columns().size()+std::size_t(request.data_->processing_parameters);++i) row.separator();return;}
+        if(!result->grid_parameters()) {for(std::size_t i=3;i<grid_columns().size()+std::size_t(request.data_->processing_parameters)+std::size_t(request.data_->sampling_parameters);++i) row.separator();return;}
         const auto& p=*result->grid_parameters();const auto& q=*result->resolved_grid_parameters();
         auto signed_integer=[&](std::int64_t value){row.separator();row.text+=std::to_string(value);};
         if(const auto* nominal=n.nominal_sampling()) {
@@ -228,7 +231,8 @@ struct CellTableWriter {
         row.string(p.sampling_policy==RoiSamplingPolicy::GeometryCoverage?"geometry_coverage":"polygon_winding");
         const auto& provenance=n.provenance();optional(row,provenance?provenance->effective_pixel_width_um:std::optional<double>{});optional(row,provenance?provenance->effective_pixel_height_um:std::optional<double>{});
         row.string(n.input_format());
-        if(request.data_->processing_parameters) row.string(p.processing==CellProcessingPolicy::ImageJ154p?"imagej154p/1":"quantitative/1");
+        if(request.data_->processing_parameters) row.string(cell_detail::processing_name(p.processing));
+        if(request.data_->sampling_parameters) row.string(n.nominal_sampling()?n.nominal_sampling()->source_request().algorithm():n.input_format());
     }
     static void feature(Row& row,const CellResult& result,std::uint32_t label,bool calibrated) {
         const auto& f=result.features().at(label-1);const auto& a=result.nuclei()->components().at(label-1);const auto& b=result.cells()->components().at(label-1);
@@ -275,7 +279,7 @@ struct CellTableWriter {
             columns+=",object_id,object_revision,object_name,object_parent_id,object_class,object_class_color,object_status_at_capture,object_min_x_px,object_min_y_px,object_width_px,object_height_px,object_area_px2,object_length_px,object_nucleus_area_px2,object_nucleus_length_px,export_pixel_width_um,export_pixel_height_um,object_area_um2,object_length_um,object_nucleus_area_um2,object_nucleus_length_um\r\n";
         }
         if(request.data_->detector_parameters) {columns.resize(columns.size()-2);columns+=",detector_mode,log_peak_prominence,context_padding_sample_px\r\n";}
-        if(request.data_->grid_parameters) {columns.resize(columns.size()-2);for(const auto* name:grid_columns()) {columns+=',';columns+=name;}if(request.data_->processing_parameters) columns+=",processing_policy";columns+="\r\n";}
+        if(request.data_->grid_parameters) {columns.resize(columns.size()-2);for(const auto* name:grid_columns()) {columns+=',';columns+=name;}if(request.data_->processing_parameters) columns+=",processing_policy";if(request.data_->sampling_parameters) columns+=",sampling_algorithm";columns+="\r\n";}
         sink(columns);std::uint64_t done=0;
         if(request.data_->options.published_objects) {
             const auto missing=std::numeric_limits<std::size_t>::max();std::size_t cached=missing;Row saved_prefix;

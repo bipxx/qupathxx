@@ -9,6 +9,7 @@
 #include "qupathxx/stain_estimation.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "batch_checkpoint.hpp"
+#include "cell_policy_names.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
 #include "sha256.hpp"
@@ -160,13 +161,13 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         if(o.cell_nominal) {
             const auto& n=*o.cell_nominal;
             s<<",\"nominal_cells\":{\"sampling_algorithm\":"<<batch_json_quote(n.algorithm())
-                <<",\"detector_algorithm\":"<<batch_json_quote(gp.processing==CellProcessingPolicy::ImageJ154p?"qpx.nominal-rgb-imagej154p-log-watershed-bodies/1":"qpx.nominal-rgb-log-watershed-bodies/1")<<",\"downsample\":"<<n.downsample
+                <<",\"detector_algorithm\":"<<batch_json_quote(cell_detail::nominal_algorithm(n.sampling,gp.processing))<<",\"downsample\":"<<n.downsample
                 <<",\"context_x\":"<<n.context_x<<",\"context_y\":"<<n.context_y;
         } else {
             const auto& g=*o.cell_grid;
             s<<",\"grid_cells\":{\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y<<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y;
         }
-        if(gp.processing!=CellProcessingPolicy::Quantitative) s<<",\"processing\":\"imagej154p/1\"";
+        if(gp.processing!=CellProcessingPolicy::Quantitative) s<<",\"processing\":"<<batch_json_quote(cell_detail::processing_name(gp.processing));
         s<<",\"units\":"<<int(gp.units)<<",\"feature\":"<<int(gp.feature)<<",\"threshold\":"<<gp.threshold<<",\"sigma\":"<<gp.sigma<<",\"log_prominence\":"<<gp.log_prominence
             <<",\"min_peak_radius\":"<<gp.min_peak_radius<<",\"min_seed_distance\":"<<gp.min_seed_distance<<",\"cell_expansion\":"<<gp.cell_expansion
             <<",\"min_nucleus_area\":"<<gp.min_nucleus_area<<",\"max_nucleus_area\":";
@@ -417,7 +418,7 @@ struct ProjectBatchKernel {
                             }
                             else if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size,o.roi_sampling_policy);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
                             else if(o.kind==ProjectBatchKind::Tissue) {TissueRequest r(*doc,id,d.transform,o.tissue,o.nucleus);if(compute) {auto value=detect_tissue(r,c);digest=value->input_sha256();record=doc->keep_tissue(r,value);bytes=doc->tissue_record(record)->payload_bytes();}else digest=input_sha256(r,c);}
-                            else {auto r=o.cell_nominal?CellRequest::for_nominal_roi(*doc,id,d.transform,o.cell_nominal->downsample,o.cell_nominal->context_x,o.cell_nominal->context_y,o.grid_cells):o.cell_grid?CellRequest::for_grid_roi(*doc,id,d.transform,*o.cell_grid,o.grid_cells):CellRequest::with_nucleus_area_limits(*doc,id,d.transform,o.cell_min_nucleus_area_um2,o.cell_max_nucleus_area_um2,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
+                            else {auto r=o.cell_nominal?CellRequest::for_nominal_roi(*doc,id,d.transform,o.cell_nominal->downsample,o.cell_nominal->context_x,o.cell_nominal->context_y,o.grid_cells,o.cell_nominal->sampling):o.cell_grid?CellRequest::for_grid_roi(*doc,id,d.transform,*o.cell_grid,o.grid_cells):CellRequest::with_nucleus_area_limits(*doc,id,d.transform,o.cell_min_nucleus_area_um2,o.cell_max_nucleus_area_um2,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
                             pixels.integer(id);pixels.update(digest.data(),digest.size());
                             if(compute) {if(o.kind==ProjectBatchKind::RawPixelContours) {if(progress) progress->objects.fetch_add(1);continue;}if(bytes>o.result_budget-generated) throw std::length_error("batch image exceeds result budget");generated+=bytes;records.push_back(record);if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("batch results exceed materialization budget");if(progress) progress->objects.fetch_add(1);}
                         }check();return pixels.finish();

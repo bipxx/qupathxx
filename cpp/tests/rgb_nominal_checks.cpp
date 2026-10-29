@@ -84,6 +84,8 @@ void check_rgb_nominal_sampling() {
         const auto output=sample_rgb_nominal(plan,window?&*window:nullptr);
         Sha256 hash;hash.update(output.bytes().data(),output.bytes().size());
         if(hash.finish()!=expected) throw std::runtime_error("RGB nominal captured pixels differ: "+name);
+        const auto affine=render(plan_rgb_nominal(sw,sh,x,y,w,h,step,nullptr,RgbNominalCoordinates::AffineInverse),input,sw);
+        expect(affine.bytes()==output.bytes());
         auto server=dense_image_server(Image(static_cast<int>(sw),static_cast<int>(sh),input));
         const RgbNominalRequest request{x,y,w,h,step};
         expect(std::string(request.algorithm())=="qpx.rgb-nominal/1");
@@ -111,6 +113,47 @@ void check_rgb_nominal_sampling() {
         ++count;
     }
     expect(count==99);
+    std::ifstream affine_index(std::filesystem::path(QPX_RGB_AFFINE_FIXTURE)/"index.txt");
+    affine_index.imbue(std::locale::classic());expect(bool(affine_index));
+    std::getline(affine_index,line);expect(line=="qpx.rgb-affine-golden/1");
+    unsigned affine_count=0;
+    while(std::getline(affine_index,line)) {
+        std::istringstream record(line);record.imbue(std::locale::classic());
+        std::string name,file,expected;std::int64_t sw,sh,x,y,w,h,ow,oh;double step;
+        expect(bool(record>>name>>file>>sw>>sh>>x>>y>>w>>h>>step>>ow>>oh>>expected));
+        std::string extra;expect(!(record>>extra));
+        std::ifstream stream(std::filesystem::path(QPX_RGB_AFFINE_FIXTURE)/file,std::ios::binary);expect(bool(stream));
+        const std::vector<unsigned char> input{std::istreambuf_iterator<char>(stream),std::istreambuf_iterator<char>()};
+        expect(input.size()==std::size_t(sw*sh*3));
+        const auto mode=RgbNominalCoordinates::AffineInverse;
+        const auto plan=plan_rgb_nominal(sw,sh,x,y,w,h,step,nullptr,mode);
+        expect(plan.output_width==ow && plan.output_height==oh);
+        const auto output=render(plan,input,sw);Sha256 hash;hash.update(output.bytes().data(),output.bytes().size());
+        if(hash.finish()!=expected) throw std::runtime_error("RGB affine captured pixels differ: "+name);
+        PixelBuffer assembled(ow,oh);
+        for(std::int64_t ty=0;ty<oh;ty+=17) for(std::int64_t tx=0;tx<ow;tx+=17) {
+            const auto tw=std::min(std::int64_t(17),ow-tx),th=std::min(std::int64_t(17),oh-ty);
+            const auto part=render(plan_rgb_nominal_window(sw,sh,x,y,w,h,step,tx,ty,tw,th,nullptr,mode),input,sw);
+            for(std::int64_t row=0;row<th;++row)
+                std::copy_n(part.bytes().data()+row*tw*4,std::size_t(tw*4),assembled.writable_bytes().data()+((ty+row)*ow+tx)*4);
+        }
+        expect(assembled.bytes()==output.bytes());
+        const auto context=render(plan_rgb_nominal_window(sw,sh,x,y,w,h,step,-3,-5,ow+6,oh+10,nullptr,mode),input,sw);
+        for(std::int64_t row=0;row<oh;++row)
+            expect(std::equal(output.bytes().begin()+row*ow*4,output.bytes().begin()+(row+1)*ow*4,
+                context.bytes().begin()+((row+5)*(ow+6)+3)*4));
+        ++affine_count;
+    }
+    expect(affine_count==13);
+    const auto mode=RgbNominalCoordinates::AffineInverse;
+    const auto negative_affine=plan_rgb_nominal(8,8,-50,-50,2,2,1,nullptr,mode);
+    expect(negative_affine.empty());
+    const auto large_affine=plan_rgb_nominal(3000000000000LL,3000000000000LL,2000000000000LL,2000000000000LL,2,2,1,nullptr,mode);
+    expect(large_affine.window.x==2000000000000LL && large_affine.window.y==2000000000000LL);
+    refuses<std::invalid_argument>([&] {plan_rgb_nominal(8,8,(std::int64_t(1)<<53)+1,0,2,2,1,nullptr,mode);});
+    refuses<std::invalid_argument>([&] {plan_rgb_nominal(8,8,-(std::int64_t(1)<<53)-1,0,2,2,1,nullptr,mode);});
+    refuses<std::invalid_argument>([] {plan_rgb_nominal(8,8,0,0,2,2,1,nullptr,RgbNominalCoordinates(2));});
+    std::cout<<"112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed\n";
     const auto halo=plan_rgb_nominal(31,29,3,5,24,20,1.1);
     expect(halo.window.x+halo.window.width>27);
     const auto huge=plan_rgb_nominal(3000000000000LL,3000000000000LL,2000000000000LL,2000000000000LL,2,2,1);

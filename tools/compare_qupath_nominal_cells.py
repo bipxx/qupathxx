@@ -101,11 +101,12 @@ def feature_checks(result,masks,rgb,white,calibration,downsample,tolerance):
     return checks
 
 
-def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='reference-roi',processing='quantitative'):
+def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='reference-roi',processing='quantitative',sampling='integer-origin'):
     import numpy as np
     from PIL import Image
     import qupathxx as q
     if units not in ('pixels','micrometres'):raise ValueError('unknown comparison units')
+    if sampling not in ('integer-origin','affine-inverse'):raise ValueError('unknown sampling policy')
     if grid_scope not in ('full-image','reference-roi'):raise ValueError('unknown comparison grid scope')
     px,py=case['pixel_size_um']
     if units=='micrometres' and px!=py:raise ValueError('equivalent physical recipe requires isotropic calibration')
@@ -125,18 +126,21 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     downsample=reference['parameters']['requestedPixelSizeMicrons']/((px+py)/2)
     native=contract['native'];p=q.GridCellParameters();scale=1 if units=='pixels' else px
     if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
+    elif processing=='qupath070':p.processing=q.CellProcessingPolicy.QUPATH_070
     elif processing!='quantitative':raise ValueError('unknown cell processing policy')
     p.units=q.GridCellUnits.LEVEL_ZERO_PIXELS if units=='pixels' else q.GridCellUnits.MICROMETRES
     p.threshold=native['threshold'];p.sigma=native['sigma']*scale;p.cell_expansion=native['cell_expansion']*scale
     p.min_nucleus_area=native['min_nucleus_pixels']*scale**2;p.max_nucleus_area=native['max_nucleus_pixels']*scale**2
     bounds=roi if grid_scope=='reference-roi' else [0,0,width,height]
-    if grid_scope=='reference-roi':request=q.CellRequest.for_nominal_roi(doc,obj,transform,downsample,context,context,p)
-    else:request=q.CellRequest(doc,obj,transform,q.NominalCellSampling(q.RgbNominalRequest(*bounds,downsample),context,context),p)
+    coordinates=q.RgbNominalSampling.AFFINE_INVERSE if sampling=='affine-inverse' else q.RgbNominalSampling.INTEGER_ORIGIN
+    if grid_scope=='reference-roi':request=q.CellRequest.for_nominal_roi(doc,obj,transform,downsample,context,context,p,coordinates)
+    else:request=q.CellRequest(doc,obj,transform,q.NominalCellSampling(q.RgbNominalRequest(*bounds,downsample,coordinates),context,context),p)
     processing_rgb,processing_labels=captured_processing_rgb(rgb,case,bounds,downsample)
     native_rgb=q.read_rgb_nominal_region(doc.server,request.nominal_sampling.source_request).numpy()
     np.testing.assert_array_equal(native_rgb[:,:,:3],processing_rgb);assert np.all(native_rgb[:,:,3]==255)
     result=q.detect_cells(request)
-    expected_algorithm='qpx.nominal-rgb-imagej154p-log-watershed-bodies/1' if processing=='imagej154p' else 'qpx.nominal-rgb-log-watershed-bodies/1'
+    expected_algorithm={'quantitative':'qpx.nominal-rgb-log-watershed-bodies/1','imagej154p':'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1','qupath070':'qpx.nominal-rgb-qupath070-cell-bodies/1'}[processing]
+    if sampling=='affine-inverse':expected_algorithm=expected_algorithm.replace('nominal-rgb','nominal-affine-rgb')
     if result.algorithm!=expected_algorithm:raise ValueError('unexpected cell recipe')
     masks={name:nominal_core(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
     canvases={name:nominal_canvas(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
@@ -169,11 +173,12 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
         level_zero_label_sha256={k:hashlib.sha256(v.astype('<u4').tobytes()).hexdigest() for k,v in canvases.items()},input_sha256=result.nuclei.input_sha256)
 
 
-def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='reference-roi',processing='quantitative'):
+def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='reference-roi',processing='quantitative',sampling='integer-origin'):
     import qupathxx as q
     import qupathxx._native as native
     comparison=shared();contract=comparison.verify_capture(folder)
     if units not in ('pixels','micrometres'):raise ValueError('unknown comparison units')
+    if sampling not in ('integer-origin','affine-inverse'):raise ValueError('unknown sampling policy')
     selected=[case for case in contract['cases'] if units=='pixels' or case['pixel_size_um'][0]==case['pixel_size_um'][1]]
     return dict(schema='qpx.qupath-nominal-cells-comparison/1',state='characterized-partial',
         build_git_revision=q.build_environment().git_revision,source_tree_sha256=q.build_environment().source_tree_sha256,native_sha256=comparison.sha(native.__file__),
@@ -181,7 +186,7 @@ def compare(folder=FIXTURES/'capture',context=32,units='pixels',grid_scope='refe
         capture_manifest_sha256=comparison.sha(Path(folder)/'capture-manifest.json'),units=units,grid_scope=grid_scope,context=context,
         frozen_comparison_tolerances=contract['comparison'],omitted_anisotropic_physical_cases=[c['name'] for c in contract['cases'] if c not in selected],
         segmentation_parity_accepted=False,biological_validation=False,general_speed_claim=False,
-        cases=[compare_case(folder,contract,case,context,units,grid_scope,processing) for case in selected])
+        cases=[compare_case(folder,contract,case,context,units,grid_scope,processing,sampling) for case in selected])
 
 
 def main():
@@ -190,9 +195,10 @@ def main():
     parser.add_argument('--context',type=int,default=32)
     parser.add_argument('--units',choices=['pixels','micrometres'],default='pixels')
     parser.add_argument('--grid-scope',choices=['full-image','reference-roi'],default='reference-roi')
-    parser.add_argument('--processing',choices=['quantitative','imagej154p'],default='quantitative')
+    parser.add_argument('--processing',choices=['quantitative','imagej154p','qupath070'],default='quantitative')
+    parser.add_argument('--sampling',choices=['integer-origin','affine-inverse'],default='integer-origin')
     parser.add_argument('--report',type=Path,required=True)
-    args=parser.parse_args();report=compare(args.reference,args.context,args.units,args.grid_scope,args.processing)
+    args=parser.parse_args();report=compare(args.reference,args.context,args.units,args.grid_scope,args.processing,args.sampling)
     args.report.parent.mkdir(parents=True,exist_ok=True)
     args.report.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],cases=len(report['cases']),report=str(args.report))))

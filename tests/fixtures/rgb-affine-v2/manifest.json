@@ -1,0 +1,25 @@
+{
+  "schema": "qpx.rgb-affine-golden-manifest/1",
+  "cases": 13,
+  "interpolation_performed": false,
+  "source_manifest_sha256": "058e151f7881aefba28dff1dc6e6a5802a46fecedcbfa90e2c3c14600732fc4a",
+  "generator_sha256": "53227a8c49f190ce2684982c4002b9daed30e14e44a47c81ad33f5f7dea04b25",
+  "files": {
+    "index.txt": {
+      "bytes": 2464,
+      "sha256": "4b2a925d57cde90ba7a00b289d77bf2e01cff18d28826b5b671ceba8fef92aef"
+    },
+    "sources/062987cd5bdfd6445a7b6f8a31fe1a63223bf9bf0efd1cb9b4778b5b70721528.rgb": {
+      "bytes": 147456,
+      "sha256": "062987cd5bdfd6445a7b6f8a31fe1a63223bf9bf0efd1cb9b4778b5b70721528"
+    },
+    "sources/471773fb0e5f20a64c6959f2227c69c9dd45daf3ccf411e00db33e7de61c5800.rgb": {
+      "bytes": 147456,
+      "sha256": "471773fb0e5f20a64c6959f2227c69c9dd45daf3ccf411e00db33e7de61c5800"
+    },
+    "sources/96634081b3c45d9270a48193aece71131e2aa389fd4f0a7b30ce90b282d0843f.rgb": {
+      "bytes": 147456,
+      "sha256": "96634081b3c45d9270a48193aece71131e2aa389fd4f0a7b30ce90b282d0843f"
+    }
+  }
+}
