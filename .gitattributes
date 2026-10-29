@@ -688,3 +688,5 @@ docs/benchmarks/nominal-cell-comparison-296/** -text -whitespace
 cpp/ascii_case.hpp text eol=lf
 tests/test_reader_locale.py text eol=lf
 docs/benchmarks/reader-locale-297/** -text -whitespace
+
+docs/benchmarks/reader-locale-qualification-298/** -text -whitespace

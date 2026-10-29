@@ -12,8 +12,11 @@ ASan/UBSan raw-image coverage is separate.425 compiler inputs,898 source paths,
 dependencies are shared; this is local engineering evidence.
 All11 frozen295 archives now authenticate. Its [terminal receipt](benchmarks/nominal-cell-qualification-295/terminal297/receipt.json)
 records complete original Mac-native/portable acceptance and Windows engine
-rejection. No old-source restart or acceptance transfer follows. Qualify the
-repaired successor; retain qualified281. Nominal comparison296 still has8/9
+rejection. No old-source restart or acceptance transfer follows. Frozen
+[candidate298](benchmarks/reader-locale-qualification-298/receipt.json) at9fbc9315
+passes1087 fresh-checkout controls and has one engine/Mac/portable run dispatched.
+Observe its original handles/auditors; no acceptance yet. Retain qualified281.
+Nominal comparison296 still has8/9
 exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
@@ -564,8 +567,10 @@ is the sole detailed scheduling authority. Original-source nominal cell consumer
 are locally delivered through SDK, CLI, project batches, ImGui and managed commands.
 Candidate295 is terminal/unaccepted overall: all11 archives authenticate,
 original Mac-native and portable auditors accept their roles, and Windows engine
-rejects Unicode auto-selection. Repair297 is locally verified at native28c33573;
-freeze and qualify its successor using complete own-source auditors. Preserve
+rejects Unicode auto-selection. Repair297 is locally verified at native28c33573.
+Candidate298 is frozen at9fbc9315; observe its original engine40792323979,
+Mac40792333489 and portable40792343129 runs and collect all11 archives before
+executing their complete original-source auditors. Preserve
 qualified281 and both terminal failed campaigns. Comparison296 retains its
 separate two-host corpus evidence and explicit clipped-ROI differences. Continue
 remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.

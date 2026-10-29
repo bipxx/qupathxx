@@ -12,8 +12,11 @@ ASan/UBSan raw-image coverage is separate.425 compiler inputs,898 source paths,
 dependencies are shared; this is local engineering evidence.
 All11 frozen295 archives now authenticate. Its [terminal receipt](benchmarks/nominal-cell-qualification-295/terminal297/receipt.json)
 records complete original Mac-native/portable acceptance and Windows engine
-rejection. No old-source restart or acceptance transfer follows. Qualify the
-repaired successor; retain qualified281. Nominal comparison296 still has8/9
+rejection. No old-source restart or acceptance transfer follows. Frozen
+[candidate298](benchmarks/reader-locale-qualification-298/receipt.json) at9fbc9315
+passes1087 fresh-checkout controls and has one engine/Mac/portable run dispatched.
+Observe its original handles/auditors; no acceptance yet. Retain qualified281.
+Nominal comparison296 still has8/9
 exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
 Broader science/biology/resource/hardware/support/license/release gates and
 every M0-M7 exit remain open.
@@ -193,8 +196,10 @@ pass locally. Candidate295 is terminal/unaccepted overall at a7eb78de. All11
 archives authenticate and every original complete auditor has executed:
 Mac-native/portable accept their roles; engine rejects the Windows Unicode
 auto-reader failure. Repair297 replaces locale-sensitive format folding with
-ASCII-only folding and passes local Windows/GCC checks. Freeze and qualify its
-successor; retain qualified281 and all original failed evidence. Broader
+ASCII-only folding and passes local Windows/GCC checks. Candidate298 at9fbc9315
+passes fresh-checkout controls and has original engine/Mac/portable runs live or
+queued; observe their exact handles with complete frozen-source auditors. Retain
+qualified281 and all original failed evidence. Broader
 scientific/resource/hardware/support/release decisions remain separate.
 Observer296 locally extends the independent nominal corpus on Windows/Linux
 and retains the ROI/feature-domain differences.
