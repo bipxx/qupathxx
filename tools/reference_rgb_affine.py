@@ -45,7 +45,7 @@ def generate(destination):
         generator_sha256=edges.sha(__file__),
         files={p.relative_to(destination).as_posix(): dict(bytes=p.stat().st_size, sha256=edges.sha(p))
                for p in sorted(destination.rglob('*')) if p.is_file()})
-    (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
+    (destination / 'manifest.json').write_bytes((json.dumps(manifest, indent=2)+'\n').encode('utf-8'))
     return manifest
 
 

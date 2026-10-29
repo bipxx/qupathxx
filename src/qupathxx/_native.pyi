@@ -438,8 +438,13 @@ class ImageServer:
 
 def resample_area(pixels: PixelBuffer, width: int, height: int) -> PixelBuffer: ...
 
+class RgbNominalSampling(enum.Enum):
+    INTEGER_ORIGIN = 0
+
+    AFFINE_INVERSE = 1
+
 class RgbNominalRequest:
-    def __init__(self, x_px: int, y_px: int, width_px: int, height_px: int, downsample: float = ...) -> None: ...
+    def __init__(self, x_px: int, y_px: int, width_px: int, height_px: int, downsample: float = ..., sampling: RgbNominalSampling = RgbNominalSampling.INTEGER_ORIGIN) -> None: ...
 
     @property
     def x_px(self) -> int: ...
@@ -455,6 +460,9 @@ class RgbNominalRequest:
 
     @property
     def downsample(self) -> float: ...
+
+    @property
+    def sampling(self) -> RgbNominalSampling: ...
 
     @property
     def algorithm(self) -> str: ...
@@ -4795,6 +4803,8 @@ class CellProcessingPolicy(enum.Enum):
 
     IMAGEJ_154P = 1
 
+    QUPATH_070 = 2
+
 class NominalCellRoiSampling:
     def __init__(self) -> None: ...
 
@@ -4809,6 +4819,12 @@ class NominalCellRoiSampling:
 
     @context_x.setter
     def context_x(self, arg: int, /) -> None: ...
+
+    @property
+    def sampling(self) -> RgbNominalSampling: ...
+
+    @sampling.setter
+    def sampling(self, arg: RgbNominalSampling, /) -> None: ...
 
     @property
     def context_y(self) -> int: ...
@@ -5119,7 +5135,7 @@ class CellRequest:
     def __init__(self, document: Document, object_id: int, transform: StainTransform, sampling: NominalCellSampling, parameters: GridCellParameters = ...) -> None: ...
 
     @staticmethod
-    def for_nominal_roi(document: Document, object_id: int, transform: StainTransform, downsample: float, context_x: int = ..., context_y: int = ..., parameters: GridCellParameters = ...) -> CellRequest: ...
+    def for_nominal_roi(document: Document, object_id: int, transform: StainTransform, downsample: float, context_x: int = ..., context_y: int = ..., parameters: GridCellParameters = ..., sampling: RgbNominalSampling = RgbNominalSampling.INTEGER_ORIGIN) -> CellRequest: ...
 
     @staticmethod
     def for_grid_roi(document: Document, object_id: int, transform: StainTransform, sampling: GridCellSampling = ..., parameters: GridCellParameters = ...) -> CellRequest: ...

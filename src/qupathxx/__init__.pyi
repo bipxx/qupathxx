@@ -403,6 +403,7 @@ from ._native import (
     scientific_channel_work_bytes as scientific_channel_work_bytes,
     scientific_optical_densities as scientific_optical_densities,
     scientific_deconvolve as scientific_deconvolve,
+    RgbNominalSampling as RgbNominalSampling,
     RgbNominalRequest as RgbNominalRequest,
     read_rgb_nominal_region as read_rgb_nominal_region,
     resample_area as resample_area,
