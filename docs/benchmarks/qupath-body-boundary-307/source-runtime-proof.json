@@ -1,0 +1,46 @@
+{
+  "native_source": "7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b",
+  "observer_source": "321b8bece45fec8a5e1bafed0fcd3e756904af72",
+  "fingerprint": "7b0d3d223520fd6eedd09bf5fcbf66d1e97418c24ba3cd3436232b5ab440da9c",
+  "compiler_inputs": 434,
+  "source_paths": 1449,
+  "windows_products": 79,
+  "linux_products": 27,
+  "installed_members": 59,
+  "tests": {
+    "native": {
+      "passed": 57,
+      "skipped": 0
+    },
+    "scientific": {
+      "passed": 972,
+      "skipped": 28
+    },
+    "preflight": {
+      "passed": 1113,
+      "skipped": 0
+    },
+    "frontends": {
+      "passed": 29,
+      "skipped": 0
+    },
+    "real-source": {
+      "passed": 22,
+      "skipped": 0
+    },
+    "linux-fresh/native": {
+      "passed": 7,
+      "skipped": 0
+    }
+  },
+  "original_slide_exact_heldout_workflows": 13,
+  "original_slide_exact_prior_workflows": 9,
+  "affine_captured_rgb_reads": 112,
+  "public_recipe_delivered": true,
+  "public_api_changed": true,
+  "stubs_regenerated": true,
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

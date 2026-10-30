@@ -1,0 +1,151 @@
+Start testing: Oct 30 14:37 EDT
+----------------------------------------------------------
+4/56 Testing: object_classifier
+4/56 Test: object_classifier
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_object_classifier_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"object_classifier" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+object classifier checks passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"object_classifier" end time: Oct 30 14:37 EDT
+"object_classifier" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/56 Testing: resampling
+8/56 Test: resampling
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_resampling_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"resampling" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed
+99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed
+99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 13c6198d92f4b6c3033fc174bb9c784d0b93abcde391211aa1e03cc6350b6012 7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+<end of output>
+Test time =   2.81 sec
+----------------------------------------------------------
+Test Passed.
+"resampling" end time: Oct 30 14:37 EDT
+"resampling" time elapsed: 00:00:02
+----------------------------------------------------------
+
+20/56 Testing: cell_tables
+20/56 Test: cell_tables
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_cell_table_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"cell_tables" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed
+Grid cell CSV units, mixed natural records and captured calibration passed; classifier publication requires GEOS
+Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"cell_tables" end time: Oct 30 14:37 EDT
+"cell_tables" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/56 Testing: cell_records
+21/56 Test: cell_records
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_cell_record_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"cell_records" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 analytic ellipse and winding-policy geometry persistence passed; GEOS polygon case unavailable
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+<end of output>
+Test time =   0.48 sec
+----------------------------------------------------------
+Test Passed.
+"cell_records" end time: Oct 30 14:37 EDT
+"cell_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/56 Testing: cells
+22/56 Test: cells
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_cell_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"cells" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed
+Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed
+Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed
+Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+<end of output>
+Test time =   1.34 sec
+----------------------------------------------------------
+Test Passed.
+"cells" end time: Oct 30 14:37 EDT
+"cells" time elapsed: 00:00:01
+----------------------------------------------------------
+
+25/56 Testing: qupath_response
+25/56 Test: qupath_response
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_qupath_response_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"qupath_response" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"qupath_response" end time: Oct 30 14:37 EDT
+"qupath_response" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/56 Testing: cell_expansion
+28/56 Test: cell_expansion
+Command: "/tmp/qupathxx-boundary307-build/qupathxx_cell_expansion_tests"
+Directory: /tmp/qupathxx-boundary307-build
+"cell_expansion" start time: Oct 30 14:37 EDT
+Output:
+----------------------------------------------------------
+Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+506 public real-slide body masks exact with boundary frontier; both queues preserve eight V1 differences, unit radius, budget and cancellation passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+<end of output>
+Test time =   0.65 sec
+----------------------------------------------------------
+Test Passed.
+"cell_expansion" end time: Oct 30 14:37 EDT
+"cell_expansion" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 30 14:37 EDT

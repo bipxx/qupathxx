@@ -1,0 +1,4 @@
+tests\typing\rgb_nominal_invalid.py:4: error: Property "width_px" defined in "RgbNominalRequest" is read-only  [misc]
+tests\typing\rgb_nominal_invalid.py:5: error: Argument "downsample" to "RgbNominalRequest" has incompatible type "str"; expected "float"  [arg-type]
+tests\typing\rgb_nominal_invalid.py:7: error: Argument 2 to "read_rgb_nominal_region" has incompatible type "RegionRequest"; expected "RgbNominalRequest"  [arg-type]
+Found 3 errors in 1 file (checked 1 source file)

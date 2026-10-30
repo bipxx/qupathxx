@@ -1,0 +1,6 @@
+[{"mode": "log", "cells": 394, "metrics": {"nucleus": 0.6734648354099615, "body": 0.749660730142242}}, {"mode": "log-bodies", "cells": 394, "metrics": {"nucleus": 0.6734648354099615, "body": 0.7722461493539674}}, {"mode": "nominal-qupath070", "cells": 506, "metrics": {"nucleus": 1.0, "body": 0.9998423893770441}}]
+Traceback (most recent call last):
+  File "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/run_real_ndpi307_linux.py", line 41, in <module>
+    assert metric['foreground_iou']==metric['foreground_dice']==1
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

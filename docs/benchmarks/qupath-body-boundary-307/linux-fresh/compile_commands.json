@@ -1,0 +1,1118 @@
+[
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/core.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/core.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/core.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/core.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tma.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tma.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tma_tables.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_tables.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_tables.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tma_tables.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/document_edits.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/document_edits.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/document_edits.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/document_edits.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/selection.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/selection.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/selection.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/selection.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/geometry.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/geometry.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/geometry.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/geometry.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/spatial_index.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_index.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_index.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/spatial_index.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/image_server.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/image_server.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/image_server.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/image_server.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/openslide_server.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/openslide_server.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/openslide_server.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/openslide_server.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tile_scheduler.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tile_scheduler.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tile_scheduler.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tile_scheduler.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/view_tiles.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/view_tiles.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/view_tiles.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/view_tiles.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/display.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/display.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/display.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/display.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/project.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/project.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/project_recovery.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/project_recovery.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/project_recovery.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/project_recovery.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/project_save.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/project_save.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/project_save.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/project_save.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/interchange.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/interchange.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/interchange.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/interchange.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/stains.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/stains.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/stains.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/stains.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/analysis.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/analysis.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/analysis.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/analysis.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/sha256.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/sha256.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/sha256.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/sha256.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/analysis_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/analysis_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/analysis_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/analysis_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tissue.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tissue.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tissue.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tissue.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tissue_contours.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tissue_contours.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tissue_contours.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tissue_contours.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tissue_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tissue_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tissue_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tissue_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tissue_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tissue_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tissue_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tissue_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/cells.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cells.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cells.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/cells.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/thumbnail.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/thumbnail.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/thumbnail.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/thumbnail.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/resampling.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/resampling.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/resampling.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/resampling.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -ffp-contract=off -o CMakeFiles/qupathxx_core.dir/cpp/rgb_nominal.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/rgb_nominal.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/rgb_nominal.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/rgb_nominal.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/spatial_analysis.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_analysis.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_analysis.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/spatial_analysis.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/spatial_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/spatial_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/spatial_export.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_export.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_export.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/spatial_export.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/spatial_frontend.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_frontend.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_frontend.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/spatial_frontend.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_sampling.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_sampling.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_sampling.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_sampling.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_raw_sampling.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_raw_sampling.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_raw_sampling.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_raw_sampling.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_channels.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_channels.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_channels.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_channels.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_raster.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_raster.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_raster.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_raster.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_cells.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_cells.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -ffp-contract=off -o CMakeFiles/qupathxx_core.dir/cpp/imagej_gaussian.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/imagej_gaussian.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/cell_sampling_grid.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cell_sampling_grid.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cell_sampling_grid.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/cell_sampling_grid.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/scientific_cell_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/scientific_cell_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/scientific_cell_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/scientific_cell_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tma_case_export.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_case_export.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_case_export.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tma_case_export.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/qptma.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/qptma.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/qptma.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/qptma.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tma_dearray.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_dearray.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_dearray.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tma_dearray.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_image.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_image.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_image.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_image.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/tiff_server.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tiff_server.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tiff_server.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/tiff_server.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_analysis.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_analysis.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_analysis.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_analysis.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_analysis_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_analysis_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_analysis_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_analysis_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_tables.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_tables.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_tables.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_tables.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/classifier.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/classifier.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/classifier.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/classifier.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/object_classifier.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/object_classifier.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/object_classifier.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/object_classifier.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_features.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_features.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_features.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_features.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_features.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_features.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_features.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_features.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_classifier.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_classifier.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_classifier.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_classifier.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_workflows.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_workflows.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_workflows.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_workflows.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_classifier.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_classifier.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_training.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_training.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_training.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_training.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_prediction.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_prediction.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_prediction.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_prediction.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_stream.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_stream.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_file.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream_file.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream_file.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_file.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_export_job.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream_export_job.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream_export_job.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_export_job.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_read_job.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream_read_job.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream_read_job.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_read_job.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_contour_job.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_contour_job.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_contour_job.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_contour_job.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_classifier_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_classifier_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_classifier_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_classifier_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/document_classifications.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/document_classifications.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/document_classifications.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/document_classifications.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/geometry_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/geometry_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/geometry_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/geometry_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/object_classifier_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/object_classifier_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/object_classifier_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/object_classifier_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/object_classifier_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/object_classifier_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/object_classifier_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/object_classifier_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/classifier_io.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/classifier_io.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/classifier_io.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/classifier_io.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_contour_job.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_contour_job.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_contour_job.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_contour_job.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_window_workflows.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_window_workflows.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_window_workflows.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_window_workflows.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_training.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_tiled_training.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_tiled_training.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_training.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_tiled_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_tiled_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_training_checkpoint.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_training_checkpoint.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_training_checkpoint.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_training_checkpoint.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_file_jobs.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_file_jobs.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_stream_boundaries.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_stream_boundaries.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_stream_boundaries.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_stream_boundaries.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_contours.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_contours.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_contours.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_contours.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_file.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_stream_file.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/workspace_preferences.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/workspace_preferences.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/workspace_preferences.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/workspace_preferences.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/cell_records.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cell_records.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cell_records.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/cell_records.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/cell_archive.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cell_archive.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cell_archive.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/cell_archive.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/cell_tables.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cell_tables.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cell_tables.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/cell_tables.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/measurement_tables.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/measurement_tables.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/measurement_tables.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/measurement_tables.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -DQPX_BUILD_CONFIGURATION=\\\"RelWithDebInfo\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/provenance.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/provenance.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/provenance_codec.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/provenance_codec.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/provenance_codec.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/provenance_codec.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/file_fingerprint.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/file_fingerprint.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/file_fingerprint.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/file_fingerprint.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/source_identity.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/source_identity.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/source_identity.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/source_identity.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/stain_estimation.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/stain_estimation.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/stain_estimation.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/stain_estimation.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/input_digest.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/input_digest.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/input_digest.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/input_digest.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/batch_checkpoint.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/batch_checkpoint.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/project_batch.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/project_batch.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/viewer_session.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/viewer_session.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -fPIC -Wall -Wextra -Wpedantic -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_frontend.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_frontend.cpp",
+  "output": "CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_region.dir/cpp/region_main.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/region_main.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/region_main.cpp",
+  "output": "CMakeFiles/qupathxx_region.dir/cpp/region_main.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_region.dir/cpp/raw_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_cli.cpp",
+  "output": "CMakeFiles/qupathxx_region.dir/cpp/raw_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/batch_main.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/batch_main.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/batch_main.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/batch_main.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/spatial_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/spatial_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/raw_pixel_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/raw_pixel_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/raw_pixel_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/raw_pixel_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/pixel_stream_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/pixel_stream_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/pixel_stream_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/pixel_stream_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/cell_table_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/cell_table_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/cell_table_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/cell_table_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/tma_case_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_case_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_case_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/tma_case_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/qptma_project_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/qptma_project_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/qptma_project_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/qptma_project_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_batch.dir/cpp/tma_dearray_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_dearray_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_dearray_cli.cpp",
+  "output": "CMakeFiles/qupathxx_batch.dir/cpp/tma_dearray_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/pixel_workflow_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/pixel_workflow_tests.cpp",
+  "output": "CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_pixel_feature_tests.dir/cpp/tests/pixel_feature_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/pixel_feature_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/pixel_feature_tests.cpp",
+  "output": "CMakeFiles/qupathxx_pixel_feature_tests.dir/cpp/tests/pixel_feature_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_classifier_tests.dir/cpp/tests/classifier_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/classifier_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/classifier_tests.cpp",
+  "output": "CMakeFiles/qupathxx_classifier_tests.dir/cpp/tests/classifier_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_classifier_io_tests.dir/cpp/tests/classifier_io_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/classifier_io_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/classifier_io_tests.cpp",
+  "output": "CMakeFiles/qupathxx_classifier_io_tests.dir/cpp/tests/classifier_io_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_object_classifier_tests.dir/cpp/tests/object_classifier_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/object_classifier_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/object_classifier_tests.cpp",
+  "output": "CMakeFiles/qupathxx_object_classifier_tests.dir/cpp/tests/object_classifier_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/tests/qptma_project_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/qptma_project_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/qptma_project_tests.cpp",
+  "output": "CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/tests/qptma_project_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/qptma_project_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/qptma_project_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/qptma_project_cli.cpp",
+  "output": "CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/qptma_project_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_qptma_tests.dir/cpp/tests/qptma_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/qptma_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/qptma_tests.cpp",
+  "output": "CMakeFiles/qupathxx_qptma_tests.dir/cpp/tests/qptma_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/resampling_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/resampling_tests.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/rgb_nominal_checks.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/rgb_nominal_checks.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/rgb_nominal_checks.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/rgb_nominal_checks.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_grid_geometry_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_grid_geometry_tests.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_sampling_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_sampling_tests.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/raw_scientific_numeric_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/raw_scientific_numeric_tests.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_RGB_AFFINE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-affine-v2\\\" -DQPX_RGB_NOMINAL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/rgb-nominal-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_raw_sampling_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_raw_sampling_tests.cpp",
+  "output": "CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_thumbnail_tests.dir/cpp/tests/thumbnail_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/thumbnail_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/thumbnail_tests.cpp",
+  "output": "CMakeFiles/qupathxx_thumbnail_tests.dir/cpp/tests/thumbnail_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_VIEWER_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/viewer_session_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/viewer_session_tests.cpp",
+  "output": "CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tma_tests.dir/cpp/tests/tma_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tma_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tma_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tma_tests.dir/cpp/tests/tma_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tests/tma_dearray_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tma_dearray_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tma_dearray_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tests/tma_dearray_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tma_dearray_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tma_dearray_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tma_dearray_cli.cpp",
+  "output": "CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tma_dearray_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/raw_image_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/raw_image_tests.cpp",
+  "output": "CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_BATCH_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/project_batch_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/project_batch_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/project_batch_tests.cpp",
+  "output": "CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/project_batch_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_BATCH_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/grid_cell_frontend_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/grid_cell_frontend_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/grid_cell_frontend_tests.cpp",
+  "output": "CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/grid_cell_frontend_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_BATCH_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/raw_pixel_batch_checks.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/raw_pixel_batch_checks.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/raw_pixel_batch_checks.cpp",
+  "output": "CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/raw_pixel_batch_checks.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_BATCH_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/nominal_cell_batch_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/nominal_cell_batch_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/nominal_cell_batch_tests.cpp",
+  "output": "CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/nominal_cell_batch_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_stain_estimation_tests.dir/cpp/tests/stain_estimation_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/stain_estimation_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/stain_estimation_tests.cpp",
+  "output": "CMakeFiles/qupathxx_stain_estimation_tests.dir/cpp/tests/stain_estimation_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_source_identity_tests.dir/cpp/tests/source_identity_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/source_identity_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/source_identity_tests.cpp",
+  "output": "CMakeFiles/qupathxx_source_identity_tests.dir/cpp/tests/source_identity_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_file_fingerprint_tests.dir/cpp/tests/file_fingerprint_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/file_fingerprint_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/file_fingerprint_tests.cpp",
+  "output": "CMakeFiles/qupathxx_file_fingerprint_tests.dir/cpp/tests/file_fingerprint_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_provenance_tests.dir/cpp/tests/provenance_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/provenance_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/provenance_tests.cpp",
+  "output": "CMakeFiles/qupathxx_provenance_tests.dir/cpp/tests/provenance_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_measurement_table_tests.dir/cpp/tests/measurement_table_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/measurement_table_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/measurement_table_tests.cpp",
+  "output": "CMakeFiles/qupathxx_measurement_table_tests.dir/cpp/tests/measurement_table_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/cell_table_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/cell_table_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/cell_table_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/cell_table_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/grid_cell_consumers_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/grid_cell_consumers_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/grid_cell_consumers_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/grid_cell_consumers_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/cell_record_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/cell_record_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/cell_record_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/cell_record_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/scientific_cell_archive_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_archive_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_archive_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/scientific_cell_archive_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_CELL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/cell_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/cell_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_CELL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_NOMINAL_CELL_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/nominal-cells-v1\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/nominal_cell_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/nominal_cell_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/nominal_cell_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/nominal_cell_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_calibration_tests.dir/cpp/tests/cell_calibration_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/cell_calibration_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/cell_calibration_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_calibration_tests.dir/cpp/tests/cell_calibration_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_masked_gaussian_tests.dir/cpp/tests/masked_gaussian_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/masked_gaussian_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/masked_gaussian_tests.cpp",
+  "output": "CMakeFiles/qupathxx_masked_gaussian_tests.dir/cpp/tests/masked_gaussian_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -ffp-contract=off -o CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/tests/imagej_gaussian_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/imagej_gaussian_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/imagej_gaussian_tests.cpp",
+  "output": "CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/tests/imagej_gaussian_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -ffp-contract=off -ffp-contract=off -o CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/imagej_gaussian.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "output": "CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/imagej_gaussian.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -ffp-contract=off -o CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/sha256.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/sha256.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/sha256.cpp",
+  "output": "CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/sha256.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -ffp-contract=off -o CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/tests/qupath_response_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/qupath_response_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/qupath_response_tests.cpp",
+  "output": "CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/tests/qupath_response_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -ffp-contract=off -ffp-contract=off -o CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/imagej_gaussian.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/imagej_gaussian.cpp",
+  "output": "CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/imagej_gaussian.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQUPATHXX_SHAPE_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/imagej-shape-1.54p/native\\\" -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_log_watershed_tests.dir/cpp/tests/log_watershed_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/log_watershed_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/log_watershed_tests.cpp",
+  "output": "CMakeFiles/qupathxx_log_watershed_tests.dir/cpp/tests/log_watershed_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQPX_BODY_BOUNDARY_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/qupath-body-boundary-v2\\\" -I/tmp/qupathxx-boundary307-build/generated -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_cell_expansion_tests.dir/cpp/tests/cell_expansion_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/cell_expansion_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/cell_expansion_tests.cpp",
+  "output": "CMakeFiles/qupathxx_cell_expansion_tests.dir/cpp/tests/cell_expansion_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/log_cell_recipe_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/log_cell_recipe_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/log_cell_recipe_tests.cpp",
+  "output": "CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/log_cell_recipe_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/scientific_cell_numeric_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_numeric_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_cell_numeric_tests.cpp",
+  "output": "CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/scientific_cell_numeric_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++   -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_decimal_quantity_tests.dir/cpp/tests/decimal_quantity_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/decimal_quantity_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/decimal_quantity_tests.cpp",
+  "output": "CMakeFiles/qupathxx_decimal_quantity_tests.dir/cpp/tests/decimal_quantity_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_object_snapshot_tests.dir/cpp/tests/object_snapshot_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/object_snapshot_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/object_snapshot_tests.cpp",
+  "output": "CMakeFiles/qupathxx_object_snapshot_tests.dir/cpp/tests/object_snapshot_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tissue_record_tests.dir/cpp/tests/tissue_record_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tissue_record_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tissue_record_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tissue_record_tests.dir/cpp/tests/tissue_record_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/tissue_contour_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tissue_contour_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tissue_contour_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/tissue_contour_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/scientific_raster_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_raster_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_raster_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/scientific_raster_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_gui_replay_tests.dir/cpp/tests/gui_replay_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/gui_replay_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/gui_replay_tests.cpp",
+  "output": "CMakeFiles/qupathxx_gui_replay_tests.dir/cpp/tests/gui_replay_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_tissue_tests.dir/cpp/tests/tissue_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tissue_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tissue_tests.cpp",
+  "output": "CMakeFiles/qupathxx_tissue_tests.dir/cpp/tests/tissue_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_sha256_tests.dir/cpp/tests/sha256_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/sha256_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/sha256_tests.cpp",
+  "output": "CMakeFiles/qupathxx_sha256_tests.dir/cpp/tests/sha256_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_analysis_tests.dir/cpp/tests/analysis_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/analysis_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/analysis_tests.cpp",
+  "output": "CMakeFiles/qupathxx_analysis_tests.dir/cpp/tests/analysis_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/stains_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/stains_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/stains_tests.cpp",
+  "output": "CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/stains_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/scientific_channel_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/scientific_channel_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/scientific_channel_tests.cpp",
+  "output": "CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/scientific_channel_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_core_tests.dir/cpp/tests/core_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/core_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/core_tests.cpp",
+  "output": "CMakeFiles/qupathxx_core_tests.dir/cpp/tests/core_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_server_tests.dir/cpp/tests/image_server_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/image_server_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/image_server_tests.cpp",
+  "output": "CMakeFiles/qupathxx_server_tests.dir/cpp/tests/image_server_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_scheduler_tests.dir/cpp/tests/tile_scheduler_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/tile_scheduler_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/tile_scheduler_tests.cpp",
+  "output": "CMakeFiles/qupathxx_scheduler_tests.dir/cpp/tests/tile_scheduler_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_view_tiles_tests.dir/cpp/tests/view_tiles_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/view_tiles_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/view_tiles_tests.cpp",
+  "output": "CMakeFiles/qupathxx_view_tiles_tests.dir/cpp/tests/view_tiles_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_document_edits_tests.dir/cpp/tests/document_edits_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/document_edits_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/document_edits_tests.cpp",
+  "output": "CMakeFiles/qupathxx_document_edits_tests.dir/cpp/tests/document_edits_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_geometry_tests.dir/cpp/tests/geometry_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/geometry_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/geometry_tests.cpp",
+  "output": "CMakeFiles/qupathxx_geometry_tests.dir/cpp/tests/geometry_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_geometry_edits_tests.dir/cpp/tests/geometry_edits_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/geometry_edits_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/geometry_edits_tests.cpp",
+  "output": "CMakeFiles/qupathxx_geometry_edits_tests.dir/cpp/tests/geometry_edits_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_tests.dir/cpp/tests/spatial_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/spatial_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/spatial_tests.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_tests.dir/cpp/tests/spatial_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_frontend_tests.dir/cpp/tests/spatial_frontend_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/spatial_frontend_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/spatial_frontend_tests.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_frontend_tests.dir/cpp/tests/spatial_frontend_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_cli_tests.dir/cpp/tests/spatial_cli_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/spatial_cli_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/spatial_cli_tests.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_cli_tests.dir/cpp/tests/spatial_cli_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_cli_tests.dir/cpp/spatial_cli.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/spatial_cli.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/spatial_cli.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_cli_tests.dir/cpp/spatial_cli.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_record_tests.dir/cpp/tests/spatial_record_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/spatial_record_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/spatial_record_tests.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_record_tests.dir/cpp/tests/spatial_record_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_spatial_analysis_tests.dir/cpp/tests/spatial_analysis_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/spatial_analysis_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/spatial_analysis_tests.cpp",
+  "output": "CMakeFiles/qupathxx_spatial_analysis_tests.dir/cpp/tests/spatial_analysis_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_classes_tests.dir/cpp/tests/classes_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/classes_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/classes_tests.cpp",
+  "output": "CMakeFiles/qupathxx_classes_tests.dir/cpp/tests/classes_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_selection_tests.dir/cpp/tests/selection_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/selection_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/selection_tests.cpp",
+  "output": "CMakeFiles/qupathxx_selection_tests.dir/cpp/tests/selection_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++ -DQUPATHXX_V1_FIXTURE=\\\"/tmp/qupathxx-boundary307-source/tests/fixtures/project-v1.qpxproj\\\" -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_project_tests.dir/cpp/tests/project_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/project_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/project_tests.cpp",
+  "output": "CMakeFiles/qupathxx_project_tests.dir/cpp/tests/project_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_interchange_tests.dir/cpp/tests/interchange_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/interchange_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/interchange_tests.cpp",
+  "output": "CMakeFiles/qupathxx_interchange_tests.dir/cpp/tests/interchange_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_recovery_tests.dir/cpp/tests/recovery_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/recovery_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/recovery_tests.cpp",
+  "output": "CMakeFiles/qupathxx_recovery_tests.dir/cpp/tests/recovery_tests.cpp.o"
+},
+{
+  "directory": "/tmp/qupathxx-boundary307-build",
+  "command": "/usr/bin/c++  -I/tmp/qupathxx-boundary307-source/cpp/include -fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all -O1 -g1 -DNDEBUG -o CMakeFiles/qupathxx_save_tests.dir/cpp/tests/save_tests.cpp.o -c /tmp/qupathxx-boundary307-source/cpp/tests/save_tests.cpp",
+  "file": "/tmp/qupathxx-boundary307-source/cpp/tests/save_tests.cpp",
+  "output": "CMakeFiles/qupathxx_save_tests.dir/cpp/tests/save_tests.cpp.o"
+}
+]

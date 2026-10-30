@@ -1,0 +1,137 @@
+[
+  {
+    "path": "products/qupathxx_resampling_tests",
+    "bytes": 56664112,
+    "sha256": "e1b5f89672a26caab17b29d3f86ed037dd17c9137d54c08275ead70d5ecd9bd9"
+  },
+  {
+    "path": "products/qupathxx_cell_tests",
+    "bytes": 59005032,
+    "sha256": "9319660c169535af524905f78caba31712fc56399dcb245358bc144c2fb52f54"
+  },
+  {
+    "path": "products/qupathxx_cell_record_tests",
+    "bytes": 57177488,
+    "sha256": "2bcdc8dad5e2ef7fd8502d66030326b1255fa8b21386fa283655ae93b57b2b4a"
+  },
+  {
+    "path": "products/qupathxx_cell_table_tests",
+    "bytes": 55921952,
+    "sha256": "137fe91ce1f1024d922c4c4c60ae8cd1a386217051fc13fc3793ee4bd38ad6bf"
+  },
+  {
+    "path": "products/qupathxx_object_classifier_tests",
+    "bytes": 52831936,
+    "sha256": "795090ef44cb75346827bb7c97e39b2cac88ae772d3498b7a197a72fe19ce1f0"
+  },
+  {
+    "path": "products/qupathxx_qupath_response_tests",
+    "bytes": 1265056,
+    "sha256": "f379121c0613491015e3542b99bb1c9f1e24d4d514a0043f0367fb84e6de4504"
+  },
+  {
+    "path": "products/qupathxx_cell_expansion_tests",
+    "bytes": 592048,
+    "sha256": "1fe1d0d22ec343f3e33a520074f7d5e37412e16d4a6a08b91dd3c183271c8487"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o",
+    "bytes": 1227056,
+    "sha256": "5e4b638cfd069946cd9c3dd4dd6558c8aed5a5d745343ec3132ae784026da05b"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o",
+    "bytes": 301080,
+    "sha256": "c41d10708652efeb8849c565fac321fdec40b48a5363a6afd2b047a46b1ff09f"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/rgb_nominal_checks.cpp.o",
+    "bytes": 808440,
+    "sha256": "ae1a6a7de741665d9f3a27aa5358539ebd6f5e9b740d0763accc292e488eca73"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o",
+    "bytes": 321352,
+    "sha256": "81fc5e4a6f5aafb45bb46ff39b5dc17a3453ab6abf1cac6eb15c1555f4672742"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o",
+    "bytes": 5600544,
+    "sha256": "0116c3a464875a77bc5ee1a08129d82633b840814fc4d418d6ed79437de5a2ea"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o",
+    "bytes": 340568,
+    "sha256": "fcceb1f73d71c5bd2fc9ff2917514f7da07e17b631f49f422519e36e3fef8bc0"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o",
+    "bytes": 1320208,
+    "sha256": "3f220437ea6d25bc2ecb81d76c337723d28d7073ee2f5a4e2b94240ae9ba731b"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/nominal_cell_tests.cpp.o",
+    "bytes": 2457376,
+    "sha256": "a9b94e9aac0094c895e816b6be599120318e0766e4b5e50969c82c676e970df7"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o",
+    "bytes": 3205648,
+    "sha256": "86aaa672e19c5dd8f087bd7bdc16985a8a9099a13d2ab559ff4af06ef0ab126b"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/cell_record_tests.cpp.o",
+    "bytes": 2750664,
+    "sha256": "ea50e4f7d08627d3f06118b89c5a8e2b84536aade669c17425c206213ada1aec"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/scientific_cell_archive_tests.cpp.o",
+    "bytes": 3283208,
+    "sha256": "c59e35a530d312edc5cd8456a5b6cbfb9480f78923c3fac6e6727041b4608cc7"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/cell_table_tests.cpp.o",
+    "bytes": 2653336,
+    "sha256": "a10d6b50e159b4b7267e774d4c4ec6d5a454dbe6695089d654bdbeeea87a03df"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/grid_cell_consumers_tests.cpp.o",
+    "bytes": 2175408,
+    "sha256": "c4de4557723a51b888737b9a1fa511c338c243cec02d0df326d3aeef04ed0ea9"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_object_classifier_tests.dir/cpp/tests/object_classifier_tests.cpp.o",
+    "bytes": 5388560,
+    "sha256": "b836b3a5ea3dec97536f995588d358a0f7b48b25c8b05538100adc762bad7848"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/imagej_gaussian.cpp.o",
+    "bytes": 179304,
+    "sha256": "eb5510f0e89e95d2d5d235b23f956938dda0cee1bc6161d167d5a28793f7e094"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_qupath_response_tests.dir/cpp/tests/qupath_response_tests.cpp.o",
+    "bytes": 1551904,
+    "sha256": "ce9f891e9fe4068036a45732e54a6372f03963c7f92673f3b71626bf9e00081d"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_cell_expansion_tests.dir/cpp/tests/cell_expansion_tests.cpp.o",
+    "bytes": 786016,
+    "sha256": "491bb9b97e720f32899af4a24842339594c52ec667b299f4a0936bdc41ca30b5"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_core.dir/cpp/rgb_nominal.cpp.o",
+    "bytes": 77544,
+    "sha256": "4eefac1f5ce42788411268078f7f1514b4cc96435d87972000ad3e42c4327830"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o",
+    "bytes": 3978112,
+    "sha256": "c5341601b0c38cb11b1bda0ac267b07925637df8cc29e98b48303a94896c925b"
+  },
+  {
+    "path": "products/CMakeFiles/qupathxx_core.dir/cpp/imagej_gaussian.cpp.o",
+    "bytes": 179288,
+    "sha256": "8fb107ced343fe7aac30994761accf0400c4b60b340ff02e49280ca9c72898fc"
+  }
+]

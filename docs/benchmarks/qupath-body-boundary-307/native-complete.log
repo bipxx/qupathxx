@@ -1,0 +1,1075 @@
+Start testing: Oct 30 14:43 Eastern Daylight Time
+----------------------------------------------------------
+1/57 Testing: pixel_workflows
+1/57 Test: pixel_workflows
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_pixel_workflow_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"pixel_workflows" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw training work admission: live=268356034 historical=268430517; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw replay refusal [historical]: type=class std::invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [historical]: expected invalid_argument caught
+Raw replay refusal [foreign]: type=class std::invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [foreign]: expected invalid_argument caught
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed
+Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed
+Raw tiled training: actual backend full/tiled matrix, portable model bytes and prediction votes passed
+Raw tiled training: real TIFF fractional sampling, optional backend prediction and late-file refusal passed
+Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed
+Raw prediction stream: real TIFF fractional full/stream votes, optional trained model and pending late-file refusal passed
+Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed
+Raw streamed geometry: 16 independent edge/area/perimeter/part/hole layouts, both-axis crop phase, ROI/image clipping, strict limits/cancel/precision/count refusal and 2000000 samples under 192 KiB passed
+Raw boundary face lookup: independent cells across 16 layouts, query order/duplicate/half-open/global crop, incomplete/invalid/cancel/work refusal and sparse 2000000-cell network passed
+Raw stream boundaries: independent class seams/holes/corners/global phase, strict block/cancel/quota refusal and 2000000 samples with 7 peak runs passed
+Raw historical contour workflow: verified one-pass geometry, typed authority separation, fresh replay/apply/undo, late file refusal and partial-prefix rejection passed
+Raw streamed contour workflow: real TIFF cropped direct/job parity, atomic apply/undo/redo and late-file refusal passed
+Raw streamed contour workflow: completed producer commitments, rational full/cropped geometry, direct/job progress, pre-IO/retained/edit/ID quotas, cancel/failure/stale/copy/thread, exact capture and atomic apply/undo/redo passed
+Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed
+Raw stream file: actual trained TIFF model survives save/reopen and hash-only resume with exact prediction commitments passed
+Raw stream file: real TIFF close/reopen hash-only prefix resume, full-result equivalence and changed-file/input-output refusal passed
+Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed
+Raw tiled archive: actual backend sampled/trained QTT1 round trips and recorded-parameter historical model replay passed
+Raw tiled archive: real TIFF sampling/training retention, mixed project/snapshot/recovery readback, fresh replay and historical/stale-file refusal passed
+Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed
+Raw training checkpoint: actual backend uninterrupted/resumed table and model bytes passed
+Raw training checkpoint: actual backend uninterrupted/resumed table and model bytes passed
+Raw training checkpoint: real TIFF project close/reopen, fresh replay, optional trained model, calibration/file and source-alias refusal passed
+Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed
+Raw file jobs: real TIFF owner checkpoint retention/project readback, optional trained prediction export, verified historical blocks and late-source refusal passed
+Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed
+Raw stream links: real TIFF optional trained export retention, mixed raw/RGB/project records, missing-file metadata reopen, save-as/snapshot/recovery and verified relocation passed
+Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+<end of output>
+Test time =   2.09 sec
+----------------------------------------------------------
+Test Passed.
+"pixel_workflows" end time: Oct 30 14:43 Eastern Daylight Time
+"pixel_workflows" time elapsed: 00:00:02
+----------------------------------------------------------
+
+2/57 Testing: pixel_features
+2/57 Test: pixel_features
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_pixel_feature_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"pixel_features" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed
+Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed
+Raw lattice windows: 13 Fraction wide means, 20 large irreducible uint64 samples, huge dense lattice, bounded chunk mutation, admission/cancel and 9072 exact tiled feature slots passed
+Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"pixel_features" end time: Oct 30 14:43 Eastern Daylight Time
+"pixel_features" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/57 Testing: classifier_io
+3/57 Test: classifier_io
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classifier_io_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"classifier_io" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+classifier IO checks passed
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"classifier_io" end time: Oct 30 14:43 Eastern Daylight Time
+"classifier_io" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/57 Testing: object_classifier
+4/57 Test: object_classifier
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_object_classifier_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"object_classifier" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+object classifier checks passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"object_classifier" end time: Oct 30 14:43 Eastern Daylight Time
+"object_classifier" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/57 Testing: classifier
+5/57 Test: classifier
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classifier_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"classifier" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+classifier checks passed; training=1
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"classifier" end time: Oct 30 14:43 Eastern Daylight Time
+"classifier" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/57 Testing: qptma_project
+6/57 Test: qptma_project
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qptma_project_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-tma-0.7.0" "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-project-test-artifacts"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"qptma_project" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1425852931548100\\imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1425852931548100\\exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+<end of output>
+Test time =   0.17 sec
+----------------------------------------------------------
+Test Passed.
+"qptma_project" end time: Oct 30 14:43 Eastern Daylight Time
+"qptma_project" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/57 Testing: qptma
+7/57 Test: qptma
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qptma_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-tma-0.7.0" "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"qptma" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed
+NATIVE_QPTMA_LITERAL_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts\qptma-1425853107076900\native-literal-text.qptma
+NATIVE_QPTMA_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts\qptma-1425853107076900\native-export.qptma
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"qptma" end time: Oct 30 14:43 Eastern Daylight Time
+"qptma" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/57 Testing: resampling
+8/57 Test: resampling
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_resampling_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"resampling" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed
+99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed
+99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 7b0d3d223520fd6eedd09bf5fcbf66d1e97418c24ba3cd3436232b5ab440da9c 7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+<end of output>
+Test time =   3.09 sec
+----------------------------------------------------------
+Test Passed.
+"resampling" end time: Oct 30 14:43 Eastern Daylight Time
+"resampling" time elapsed: 00:00:03
+----------------------------------------------------------
+
+9/57 Testing: thumbnail
+9/57 Test: thumbnail
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_thumbnail_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"thumbnail" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Thumbnail planning, area/alpha oracle, budgets, cancellation and ownership passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"thumbnail" end time: Oct 30 14:43 Eastern Daylight Time
+"thumbnail" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/57 Testing: viewer_session
+10/57 Test: viewer_session
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_viewer_session_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"viewer_session" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1
+Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1
+Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed
+Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+<end of output>
+Test time =   1.24 sec
+----------------------------------------------------------
+Test Passed.
+"viewer_session" end time: Oct 30 14:43 Eastern Daylight Time
+"viewer_session" time elapsed: 00:00:01
+----------------------------------------------------------
+
+11/57 Testing: tma
+11/57 Test: tma
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tma_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tma" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV read-transfer bytes: 0
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+<end of output>
+Test time =   0.24 sec
+----------------------------------------------------------
+Test Passed.
+"tma" end time: Oct 30 14:43 Eastern Daylight Time
+"tma" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/57 Testing: tma_dearray
+12/57 Test: tma_dearray
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tma_dearray_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/tma-dearray-v1" "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/tma-dearray-test-artifacts"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tma_dearray" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_PHYSICAL anisotropic units, captured document overrides, unknown/invalid/overflow refusal, pixel recipe preservation and physical identities passed
+TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed
+TMA_DEARRAY_PHYSICAL_OWNER owner calibration capture, unknown refusal and stale calibration delivery passed
+{"schema":"qpx.tma-dearray-preview/1","state":"saved","image_id":1,"rows":3,"columns":4,"candidates":11,"input_sha256":"0b9bd24f83954a30cce4aaf63e34600b57821c7bb31cccf793a22915e9533b0a","recipe_sha256":"a40dfa50cad0ecf912d8402ef97f8771346441cf44d2bf8e72f85f37041d7344","core_size":{"units":"px","width":32,"height":32,"width_pixels":32,"height_pixels":32},"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\tma-dearray-test-artifacts\\1425857978631200\\detected.qptma"}
+{"schema":"qpx.tma-dearray-preview/1","state":"saved","image_id":1,"rows":3,"columns":4,"candidates":11,"input_sha256":"0b9bd24f83954a30cce4aaf63e34600b57821c7bb31cccf793a22915e9533b0a","recipe_sha256":"88b4c83a657ab2e67b695a78a8a91af470a846f4b0119fa1b71229112bf139e2","core_size":{"units":"um","width":16,"height":8,"width_pixels":32,"height_pixels":32,"pixel_width_um":0.5,"pixel_height_um":0.25},"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\tma-dearray-test-artifacts\\1425857978631200\\physical.qptma"}
+{"schema":"qpx.batch-error/1","error":"TMA document physical calibration is unknown; both axes are required"}
+TMA_DEARRAY_PHYSICAL_CLI explicit units, persisted anisotropic calibration and unknown-calibration refusal passed
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"TMA source and detection exceed working payload budget"}
+{"schema":"qpx.batch-error/1","error":"export cancelled"}
+TMA_DEARRAY_OWNER copied parameters, immutable retention, atomic apply/history, stale revision, cancellation and budgets passed
+TMA_DEARRAY_CLI explicit image/options, read-only project, atomic new-file preview, source guards, cancellation and limits passed
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"tma_dearray" end time: Oct 30 14:43 Eastern Daylight Time
+"tma_dearray" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/57 Testing: raw_image
+13/57 Test: raw_image
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_raw_image_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"raw_image" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed
+TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed
+TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed
+Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed
+Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"raw_image" end time: Oct 30 14:43 Eastern Daylight Time
+"raw_image" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/57 Testing: project_batch
+14/57 Test: project_batch
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_project_batch_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"project_batch" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed
+Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed
+Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+<end of output>
+Test time =   1.25 sec
+----------------------------------------------------------
+Test Passed.
+"project_batch" end time: Oct 30 14:43 Eastern Daylight Time
+"project_batch" time elapsed: 00:00:01
+----------------------------------------------------------
+
+15/57 Testing: stain_estimation
+15/57 Test: stain_estimation
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stain_estimation_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stain_estimation" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native stain estimation, models, budgets, cancellation and stale jobs passed
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"stain_estimation" end time: Oct 30 14:43 Eastern Daylight Time
+"stain_estimation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/57 Testing: source_identity
+16/57 Test: source_identity
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_source_identity_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"source_identity" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"source_identity" end time: Oct 30 14:43 Eastern Daylight Time
+"source_identity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/57 Testing: file_fingerprint
+17/57 Test: file_fingerprint
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_file_fingerprint_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"file_fingerprint" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Namespace-stable locators, missing-source lexical comparison and incompatible/literal root fallback passed
+Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"file_fingerprint" end time: Oct 30 14:43 Eastern Daylight Time
+"file_fingerprint" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/57 Testing: provenance
+18/57 Test: provenance
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_provenance_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"provenance" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Capture-time source/environment provenance, native codec and kernels passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"provenance" end time: Oct 30 14:43 Eastern Daylight Time
+"provenance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/57 Testing: measurement_tables
+19/57 Test: measurement_tables
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_measurement_table_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"measurement_tables" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Measurement tables, snapshots, locale, bounds, cancellation and atomic jobs passed
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"measurement_tables" end time: Oct 30 14:43 Eastern Daylight Time
+"measurement_tables" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/57 Testing: cell_tables
+20/57 Test: cell_tables
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_table_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"cell_tables" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed
+QCA5 mixed grid/natural classifier sources and CSV project save/reopen passed
+Grid cell CSV schema 5/6, mixed/manual rows, captured units, QCA5 provenance and upsampled source limits passed
+Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"cell_tables" end time: Oct 30 14:43 Eastern Daylight Time
+"cell_tables" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/57 Testing: cell_records
+21/57 Test: cell_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"cell_records" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 SQLite save, reopen, provenance attachment, replay and second save passed
+QCL5 analytic ellipse, polygon hole and winding-policy geometry persistence passed
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+<end of output>
+Test time =   0.83 sec
+----------------------------------------------------------
+Test Passed.
+"cell_records" end time: Oct 30 14:43 Eastern Daylight Time
+"cell_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/57 Testing: overlay_surface
+22/57 Test: overlay_surface
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_overlay_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"overlay_surface" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Physical canvas bounds, DPI alignment and exact budget endpoints passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"overlay_surface" end time: Oct 30 14:43 Eastern Daylight Time
+"overlay_surface" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/57 Testing: cells
+23/57 Test: cells
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"cells" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+Nominal cell original-coordinate contours, publication, undo/redo and QCA6 classifier origins passed
+QCL6 project save/reopen, source-bound replay, verification and second save passed
+ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed
+Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed
+Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed
+Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+<end of output>
+Test time =   0.45 sec
+----------------------------------------------------------
+Test Passed.
+"cells" end time: Oct 30 14:43 Eastern Daylight Time
+"cells" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/57 Testing: cell_calibration
+24/57 Test: cell_calibration
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_calibration_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"cell_calibration" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Captured anisotropic areas/centroids, legacy unknown, detached lifetime and numerical ranges passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"cell_calibration" end time: Oct 30 14:43 Eastern Daylight Time
+"cell_calibration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/57 Testing: imagej_gaussian
+25/57 Test: imagej_gaussian
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_imagej_gaussian_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-gaussian-1.54p" "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/imagej-gaussian-test-artifacts"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"imagej_gaussian" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+37 ImageJ1.54p captured float32 Gaussian and LoG arrays exact; private kernel admission/cancellation/overflow/input ownership passed
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"imagej_gaussian" end time: Oct 30 14:43 Eastern Daylight Time
+"imagej_gaussian" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/57 Testing: qupath_response
+26/57 Test: qupath_response
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qupath_response_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"qupath_response" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"qupath_response" end time: Oct 30 14:43 Eastern Daylight Time
+"qupath_response" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/57 Testing: masked_gaussian
+27/57 Test: masked_gaussian
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_masked_gaussian_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"masked_gaussian" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Direct 2D Gaussian, empty/holey domains, block edges and cancellation passed
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"masked_gaussian" end time: Oct 30 14:43 Eastern Daylight Time
+"masked_gaussian" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/57 Testing: log_watershed
+28/57 Test: log_watershed
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_log_watershed_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"log_watershed" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Sampled shape 26 frozen masks and maxima passed
+LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"log_watershed" end time: Oct 30 14:43 Eastern Daylight Time
+"log_watershed" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/57 Testing: cell_expansion
+29/57 Test: cell_expansion
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_expansion_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"cell_expansion" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+506 public real-slide body masks exact with boundary frontier; both queues preserve eight V1 differences, unit radius, budget and cancellation passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"cell_expansion" end time: Oct 30 14:43 Eastern Daylight Time
+"cell_expansion" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/57 Testing: log_cell_recipe
+30/57 Test: log_cell_recipe
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_log_cell_recipe_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"log_cell_recipe" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"log_cell_recipe" end time: Oct 30 14:43 Eastern Daylight Time
+"log_cell_recipe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/57 Testing: decimal_quantities
+31/57 Test: decimal_quantities
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_decimal_quantity_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"decimal_quantities" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+installed comma C locale exercised: 1
+decimal quantities: strict syntax, range, concurrency and locale checks passed
+signed decimal fields: grammar, representable subnormals and locale independence passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"decimal_quantities" end time: Oct 30 14:43 Eastern Daylight Time
+"decimal_quantities" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/57 Testing: object_snapshots
+32/57 Test: object_snapshots
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_object_snapshot_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"object_snapshots" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Object snapshot boundaries, copy, undo, empty blocks and recovery isolation passed
+<end of output>
+Test time =   0.23 sec
+----------------------------------------------------------
+Test Passed.
+"object_snapshots" end time: Oct 30 14:43 Eastern Daylight Time
+"object_snapshots" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/57 Testing: tissue_records
+33/57 Test: tissue_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tissue_records" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Tissue archive codec, authority, snapshot isolation and limits passed
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"tissue_records" end time: Oct 30 14:43 Eastern Daylight Time
+"tissue_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/57 Testing: tissue_contours
+34/57 Test: tissue_contours
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_contour_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tissue_contours" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS explicit-grid edges, ROI holes and anisotropic areas passed
+tissue contour topology, publication and lifecycle passed
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"tissue_contours" end time: Oct 30 14:43 Eastern Daylight Time
+"tissue_contours" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/57 Testing: gui_replay
+35/57 Test: gui_replay
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_gui_replay_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"gui_replay" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+GUI Unicode scalar input and native undo/redo passed
+GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed
+gui replay passed
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"gui_replay" end time: Oct 30 14:43 Eastern Daylight Time
+"gui_replay" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/57 Testing: tissue
+36/57 Test: tissue
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tissue" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+tissue passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"tissue" end time: Oct 30 14:43 Eastern Daylight Time
+"tissue" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/57 Testing: sha256
+37/57 Test: sha256
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_sha256_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"sha256" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+SHA-256 passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"sha256" end time: Oct 30 14:43 Eastern Daylight Time
+"sha256" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/57 Testing: analysis
+38/57 Test: analysis
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_analysis_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"analysis" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+analysis passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"analysis" end time: Oct 30 14:43 Eastern Daylight Time
+"analysis" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/57 Testing: stains
+39/57 Test: stains
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stains_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stains" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native scientific float64 OD/stains, validity, captured basis and admission passed
+Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes
+stains passed
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"stains" end time: Oct 30 14:43 Eastern Daylight Time
+"stains" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/57 Testing: core
+40/57 Test: core
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_core_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"core" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"core" end time: Oct 30 14:43 Eastern Daylight Time
+"core" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/57 Testing: image_server
+41/57 Test: image_server
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_server_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"image_server" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"image_server" end time: Oct 30 14:43 Eastern Daylight Time
+"image_server" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/57 Testing: tile_scheduler
+42/57 Test: tile_scheduler
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_scheduler_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"tile_scheduler" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"tile_scheduler" end time: Oct 30 14:43 Eastern Daylight Time
+"tile_scheduler" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/57 Testing: view_tiles
+43/57 Test: view_tiles
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_view_tiles_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"view_tiles" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Tile selection, DPI, bounds and huge-image request cap passed
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"view_tiles" end time: Oct 30 14:43 Eastern Daylight Time
+"view_tiles" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/57 Testing: document_edits
+44/57 Test: document_edits
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_document_edits_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"document_edits" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Atomic edits, subtree restore, calibration and bounded undo passed
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"document_edits" end time: Oct 30 14:43 Eastern Daylight Time
+"document_edits" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/57 Testing: geometry
+45/57 Test: geometry
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_geometry_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"geometry" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+ROI centroids: analytic bodies, area/length/point weights, numeric limits and shared snapshots passed; GEOS=1
+Analytic shapes, topology, ownership and shape undo passed; GEOS 3.15.0-CAPI-1.21.0
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"geometry" end time: Oct 30 14:43 Eastern Daylight Time
+"geometry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/57 Testing: geometry_edits
+46/57 Test: geometry_edits
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_geometry_edits_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"geometry_edits" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Vertex edits, holes, area overlay and journal passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"geometry_edits" end time: Oct 30 14:43 Eastern Daylight Time
+"geometry_edits" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/57 Testing: spatial
+47/57 Test: spatial
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed
+Spatial queries, delta updates, picking and undo passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"spatial" end time: Oct 30 14:43 Eastern Daylight Time
+"spatial" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/57 Testing: spatial_frontend
+48/57 Test: spatial_frontend
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_frontend_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_frontend" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_frontend" end time: Oct 30 14:43 Eastern Daylight Time
+"spatial_frontend" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/57 Testing: spatial_cli
+49/57 Test: spatial_cli
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_cli_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_cli" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_cli" end time: Oct 30 14:43 Eastern Daylight Time
+"spatial_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/57 Testing: spatial_records
+50/57 Test: spatial_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_records" start time: Oct 30 14:43 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+<end of output>
+Test time =   2.52 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_records" end time: Oct 30 14:44 Eastern Daylight Time
+"spatial_records" time elapsed: 00:00:02
+----------------------------------------------------------
+
+51/57 Testing: spatial_analysis
+51/57 Test: spatial_analysis
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_analysis_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_analysis" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed
+Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed
+Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_analysis" end time: Oct 30 14:44 Eastern Daylight Time
+"spatial_analysis" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/57 Testing: classes
+52/57 Test: classes
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classes_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"classes" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Class registry, counts, atomic edits and history passed
+<end of output>
+Test time =   0.22 sec
+----------------------------------------------------------
+Test Passed.
+"classes" end time: Oct 30 14:44 Eastern Daylight Time
+"classes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/57 Testing: selection
+53/57 Test: selection
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_selection_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"selection" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Selection, classification and atomic delete passed
+<end of output>
+Test time =   0.23 sec
+----------------------------------------------------------
+Test Passed.
+"selection" end time: Oct 30 14:44 Eastern Daylight Time
+"selection" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/57 Testing: project
+54/57 Test: project
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_project_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"project" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+<end of output>
+Test time =   0.18 sec
+----------------------------------------------------------
+Test Passed.
+"project" end time: Oct 30 14:44 Eastern Daylight Time
+"project" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/57 Testing: interchange
+55/57 Test: interchange
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_interchange_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"interchange" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native interchange atomicity and exact rectangle round trip passed
+<end of output>
+Test time =   0.29 sec
+----------------------------------------------------------
+Test Passed.
+"interchange" end time: Oct 30 14:44 Eastern Daylight Time
+"interchange" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/57 Testing: recovery
+56/57 Test: recovery
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_recovery_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"recovery" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native physical path adaptation preserves logical names and UNC/drive policy passed
+Native async snapshot isolation, primary preservation and restoration passed
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Passed.
+"recovery" end time: Oct 30 14:44 Eastern Daylight Time
+"recovery" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/57 Testing: project_save
+57/57 Test: project_save
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_save_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"project_save" start time: Oct 30 14:44 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Native background save isolation, baseline reconciliation and optional-build checks passed
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"project_save" end time: Oct 30 14:44 Eastern Daylight Time
+"project_save" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 30 14:44 Eastern Daylight Time

@@ -731,3 +731,5 @@ docs/benchmarks/original-source-cells-305/** -text -whitespace
 docs/benchmarks/original-source-cell-qualification-306/** -text -whitespace
 tests/fixtures/qupath-body-boundary-v2/** -text -whitespace
 tools/reference_qupath_body_boundary.py text eol=lf
+
+docs/benchmarks/qupath-body-boundary-307/** -text -whitespace

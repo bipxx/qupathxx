@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "wsl.exe",
+    "--",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/real-ndpi307-linux-env/bin/python",
+    "-I",
+    "-X",
+    "utf8",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/run_real_ndpi307_linux.py"
+  ],
+  "returncode": 1
+}

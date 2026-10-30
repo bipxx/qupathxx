@@ -8,13 +8,21 @@ engine40817699577, Mac40817708194 and portable40817717210. The initial
 [dispatch receipt](benchmarks/original-source-cell-qualification-306/receipt.json)
 is preserved. Mac Python/GUI/OpenSlide remains unvalidated.
 
-Real-slide307 found eight V1 body-boundary pixel differences in a506-cell
-public CMU-1 crop with exact nuclei. The explicit QuPath070V2 correction at
-7d38d7b9 preserves V1 replay; native captured-vector checks pass. Installed
-OpenSlide application and broader consumer validation are in progress.
-Qualification306 does not cover V2. Broader science/context/feature-domain,
-whole-slide resources/seams, representative speed/hardware, support/license/
-release and every M0-M7 requirement remain open. Preserve prior terminal evidence.
+[Body-boundary307](benchmarks/qupath-body-boundary-307/receipt.json) locally
+adds explicit QuPath070V2 processing through native/Python requests, saved recipes,
+CLI, batch resume and ImGui/managed workflows. The installed OpenSlide product
+matches all506 nucleus/body masks in the pinned real CMU-1 crop; V1 retains its
+eight border differences. The13 held-out and nine prior workflows stay exact.
+Windows57 native suites,972 scientific checks/28 declared headless GUI skips,
+29 actual desktop/managed checks,22 real-reference checks,1113 auditor controls,
+strict typing/generated stubs and seven GCC ASan/UBSan suites pass.
+Native7d38d7b9 and observer321b8bec bind434 compiler inputs,1449 source paths,
+79 retained Windows products plus the OpenSlide runtime,27 GCC products and59
+installed package members. Installation recovered from an SDK path quoting
+failure without recompiling or relabeling native products. Qualification306
+covers701fa672 only; V2 still needs its own hosted qualification. Broader biology,
+context/feature-domain, whole-slide seams/resources, representative speed/hardware,
+support/license/release and every M0-M7 exit remain open.
 
 [Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
 delivers independent affine RGB sampling and QuPath070 cell processing through

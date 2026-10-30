@@ -1,0 +1,5 @@
+{
+  "state": "launch-refused-no-installed-environment",
+  "exception": "FileNotFoundError",
+  "product_tests_started": false
+}
