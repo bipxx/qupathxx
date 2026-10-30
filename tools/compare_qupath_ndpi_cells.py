@@ -81,14 +81,21 @@ def verify_capture(folder):
 def local_labels(mask,roi):
     import numpy as np
     x,y,width,height=roi
-    if mask.level!=0 or mask.downsample!=1:
-        raise ValueError('NDPI comparison requires the natural level-zero grid')
-    grid=mask.level_bounds
-    left,top=max(x,int(grid.x)),max(y,int(grid.y))
-    right,bottom=min(x+width,int(grid.x)+mask.width),min(y+height,int(grid.y)+mask.height)
+    nominal=getattr(mask,'nominal_sampling',None)
+    if nominal is not None:
+        request=nominal.source_request
+        if request.downsample!=1:
+            raise ValueError('NDPI reference canvas requires unit nominal sampling')
+        gx,gy=request.x_px-nominal.context_x,request.y_px-nominal.context_y
+    else:
+        if mask.level!=0 or mask.downsample!=1:
+            raise ValueError('NDPI comparison requires the natural level-zero grid')
+        grid=mask.level_bounds;gx,gy=int(grid.x),int(grid.y)
+    left,top=max(x,gx),max(y,gy)
+    right,bottom=min(x+width,gx+mask.width),min(y+height,gy+mask.height)
     output=np.zeros((height,width),dtype=np.uint32)
     if right>left and bottom>top:
-        output[top-y:bottom-y,left-x:right-x]=mask.labels_numpy()[top-int(grid.y):bottom-int(grid.y),left-int(grid.x):right-int(grid.x)]
+        output[top-y:bottom-y,left-x:right-x]=mask.labels_numpy()[top-gy:bottom-gy,left-gx:right-gx]
     return output
 
 
@@ -116,11 +123,13 @@ def reference_labels(folder,contract,reference):
     return output
 
 
-def compare(folder,image,include_sampled=False,context_padding=None):
+def compare(folder,image,include_sampled=False,context_padding=None,include_nominal=False,nominal_revision=1):
     import numpy as np
     from PIL import Image
     import qupathxx as q
     from qupathxx import _native
+    if nominal_revision not in (1,2) or (nominal_revision!=1 and not include_nominal):
+        raise ValueError('nominal revision requires an enabled nominal recipe and revision1 or2')
     contract,reference=verify_capture(folder)
     identify_image(image,contract)
     metrics=module('qpx_real_ndpi_metrics',ROOT/'tools/label_comparison.py')
@@ -149,15 +158,28 @@ def compare(folder,image,include_sampled=False,context_padding=None):
         modes=[('log',q.CellAlgorithm.LOG_WATERSHED),('log-bodies',q.CellAlgorithm.LOG_WATERSHED_BODIES)]
         if include_sampled:
             modes.append(('log-sampled',q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES))
+        if include_nominal:modes.append(('nominal-qupath070',None))
         for mode,algorithm in modes:
             previous=None;results=[]
-            for tile in contract['tile_sizes']:
-                p=q.CellParameters()
-                for key,value in contract['native'].items():setattr(p,key,value)
-                p.algorithm=algorithm;p.tile_size=tile
-                if mode=='log-sampled':p.min_peak_radius=p.min_seed_distance=0
-                if context_padding is not None:p.context_padding=context_padding
-                request=q.CellRequest(doc,target,transform,p);result=q.detect_cells(request)
+            # Nominal grids have no tile-size control. Run that recipe once;
+            # repeated identical requests would not establish tile invariance.
+            for tile in ([None] if mode=='nominal-qupath070' else contract['tile_sizes']):
+                padding=contract['native']['context_padding'] if context_padding is None else context_padding
+                if mode=='nominal-qupath070':
+                    p=q.GridCellParameters();native=contract['native']
+                    p.processing=q.CellProcessingPolicy.QUPATH_070;p.units=q.GridCellUnits.LEVEL_ZERO_PIXELS
+                    if nominal_revision==2:p.processing=q.CellProcessingPolicy.QUPATH_070_V2
+                    p.threshold=native['threshold'];p.sigma=native['sigma'];p.cell_expansion=native['cell_expansion']
+                    p.min_nucleus_area=native['min_nucleus_pixels'];p.max_nucleus_area=native['max_nucleus_pixels']
+                    request=q.CellRequest.for_nominal_roi(doc,target,transform,1,padding,padding,p,q.RgbNominalSampling.AFFINE_INVERSE)
+                else:
+                    p=q.CellParameters()
+                    for key,value in contract['native'].items():setattr(p,key,value)
+                    p.algorithm=algorithm;p.tile_size=tile
+                    if mode=='log-sampled':p.min_peak_radius=p.min_seed_distance=0
+                    if context_padding is not None:p.context_padding=context_padding
+                    request=q.CellRequest(doc,target,transform,p)
+                result=q.detect_cells(request)
                 masks={name:local_labels(getattr(result,attribute),roi) for name,attribute in [('nucleus','nuclei'),('body','cells')]}
                 identity={name:hashlib.sha256(mask.astype('<u4',copy=False).tobytes()).hexdigest() for name,mask in masks.items()}
                 if previous is not None and previous!=identity:
@@ -174,7 +196,12 @@ def compare(folder,image,include_sampled=False,context_padding=None):
                     labels_sha256=identity,input_sha256=result.nuclei.input_sha256,
                     estimated_work_bytes=request.estimated_work_bytes,retained_bytes=result.retained_bytes,
                     segmentation={name:metrics.metrics(refs[name],mask,contract['comparison']) for name,mask in masks.items()}))
-            report['runs'].append(dict(mode=mode,context_padding=p.context_padding,tile_invariant=True,independent_rgb_features_passed=True,results=results))
+                if mode=='nominal-qupath070':
+                    results[-1]['requested_grid_recipe']=dict(sampling_algorithm=request.nominal_sampling.source_request.algorithm,
+                        processing='qupath070/'+str(nominal_revision),units='level_zero_pixels',downsample=1,context_x=padding,context_y=padding,
+                        threshold=p.threshold,sigma=p.sigma,cell_expansion=p.cell_expansion,min_nucleus_area=p.min_nucleus_area,
+                        max_nucleus_area=p.max_nucleus_area,min_peak_radius=p.min_peak_radius,min_seed_distance=p.min_seed_distance)
+            report['runs'].append(dict(mode=mode,context_padding=padding,tile_invariant=None if mode=='nominal-qupath070' else True,independent_rgb_features_passed=True,results=results))
         report['reference_count']=reference['count']
         report['reference_collisions']=reference['collisions']
     finally:
@@ -190,13 +217,16 @@ def main():
     parser.add_argument('--runtime-cache',type=Path,default=ROOT/'build/upstream/qupath')
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--include-sampled',action='store_true',help='Also characterize the explicit production sampled recipe')
+    parser.add_argument('--include-nominal',action='store_true',help='Also characterize original-slide affine sampling and QuPath070 processing at unit downsample')
+    parser.add_argument('--nominal-revision',type=int,choices=[1,2],default=1,help='Explicit nominal recipe revision; requires --include-nominal for revision2')
     parser.add_argument('--context-padding',type=int,help='Explicit contextual pixels for every compared recipe')
     args=parser.parse_args()
     if args.context_padding is not None and not 0<=args.context_padding<=4096:parser.error('context padding must be in 0..4096')
+    if args.nominal_revision!=1 and not args.include_nominal:parser.error('nominal revision2 requires --include-nominal')
     if bool(args.capture)==bool(args.reference):parser.error('choose a new capture or an existing reference')
     folder=args.capture or args.reference
     if args.capture:capture(folder,args.image,args.runtime_cache)
-    report=compare(folder,args.image,args.include_sampled,args.context_padding)
+    report=compare(folder,args.image,args.include_sampled,args.context_padding,args.include_nominal,args.nominal_revision)
     args.report.parent.mkdir(parents=True,exist_ok=True)
     args.report.write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode())
     print(json.dumps(dict(state=report['state'],source_pixels_equal=report['source_pixels_equal'],report=str(args.report))))

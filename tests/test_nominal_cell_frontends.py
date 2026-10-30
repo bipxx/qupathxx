@@ -22,6 +22,8 @@ def configure_policy(processing,p,n):
     if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
     elif processing=='qupath070-affine':
         p.processing=q.CellProcessingPolicy.QUPATH_070;n.sampling=q.RgbNominalSampling.AFFINE_INVERSE
+    elif processing=='qupath070-v2-affine':
+        p.processing=q.CellProcessingPolicy.QUPATH_070_V2;n.sampling=q.RgbNominalSampling.AFFINE_INVERSE
 
 
 def pinned(result):
@@ -70,7 +72,7 @@ def test_nominal_managed_queued_cancellation_releases_copied_command(tmp_path):
 @GUI
 @pytest.mark.skipif(not q.has_geos,reason='requires cell publication')
 @pytest.mark.parametrize('context',[(0,0),(3,4)])
-@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine'])
+@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine','qupath070-v2-affine'])
 def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_path,context,processing):
     from test_gui_replay import event
     doc,obj,_,p=scene()
@@ -95,12 +97,13 @@ def test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks(tmp_
     assert len(rows)==3 and all(row['sampling_grid']=='nominal_rgb' for row in rows)
     if processing=='imagej154p':assert all(row['processing_policy']=='imagej154p/1' for row in rows)
     if processing=='qupath070-affine':assert all(row['processing_policy']=='qupath070/1' and row['sampling_algorithm']=='qpx.rgb-nominal-affine/1' for row in rows)
+    if processing=='qupath070-v2-affine':assert all(row['processing_policy']=='qupath070/2' and row['sampling_algorithm']=='qpx.rgb-nominal-affine/1' for row in rows)
     assert capture.is_file() and capture.stat().st_size>1100*800*3
 
 
 @GUI
 @pytest.mark.skipif(not q.has_project,reason='requires project storage')
-@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine'])
+@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine','qupath070-v2-affine'])
 def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path,processing):
     from test_gui_batch import options as batch_options
     project,docs,transform,preset,_=cohort()
@@ -125,7 +128,7 @@ def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path,pr
 @GUI
 @pytest.mark.skipif(not q.has_project,reason='requires project storage')
 @pytest.mark.parametrize('retain',[False,True])
-@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine'])
+@pytest.mark.parametrize('processing',['quantitative','imagej154p','qupath070-affine','qupath070-v2-affine'])
 def test_nominal_managed_command_copies_retains_exports_and_saves(tmp_path,retain,processing):
     from test_viewer_session import completed,run
     doc,obj,transform,p=scene()

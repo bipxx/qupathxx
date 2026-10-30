@@ -127,6 +127,7 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     native=contract['native'];p=q.GridCellParameters();scale=1 if units=='pixels' else px
     if processing=='imagej154p':p.processing=q.CellProcessingPolicy.IMAGEJ_154P
     elif processing=='qupath070':p.processing=q.CellProcessingPolicy.QUPATH_070
+    elif processing=='qupath070-v2':p.processing=q.CellProcessingPolicy.QUPATH_070_V2
     elif processing!='quantitative':raise ValueError('unknown cell processing policy')
     p.units=q.GridCellUnits.LEVEL_ZERO_PIXELS if units=='pixels' else q.GridCellUnits.MICROMETRES
     p.threshold=native['threshold'];p.sigma=native['sigma']*scale;p.cell_expansion=native['cell_expansion']*scale
@@ -139,7 +140,7 @@ def compare_case(folder,contract,case,context=32,units='pixels',grid_scope='refe
     native_rgb=q.read_rgb_nominal_region(doc.server,request.nominal_sampling.source_request).numpy()
     np.testing.assert_array_equal(native_rgb[:,:,:3],processing_rgb);assert np.all(native_rgb[:,:,3]==255)
     result=q.detect_cells(request)
-    expected_algorithm={'quantitative':'qpx.nominal-rgb-log-watershed-bodies/1','imagej154p':'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1','qupath070':'qpx.nominal-rgb-qupath070-cell-bodies/1'}[processing]
+    expected_algorithm={'quantitative':'qpx.nominal-rgb-log-watershed-bodies/1','imagej154p':'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1','qupath070':'qpx.nominal-rgb-qupath070-cell-bodies/1','qupath070-v2':'qpx.nominal-rgb-qupath070-cell-bodies/2'}[processing]
     if sampling=='affine-inverse':expected_algorithm=expected_algorithm.replace('nominal-rgb','nominal-affine-rgb')
     if result.algorithm!=expected_algorithm:raise ValueError('unexpected cell recipe')
     masks={name:nominal_core(getattr(result,attr),width,height,bounds,downsample) for name,attr in [('nucleus','nuclei'),('body','cells')]}
@@ -195,7 +196,7 @@ def main():
     parser.add_argument('--context',type=int,default=32)
     parser.add_argument('--units',choices=['pixels','micrometres'],default='pixels')
     parser.add_argument('--grid-scope',choices=['full-image','reference-roi'],default='reference-roi')
-    parser.add_argument('--processing',choices=['quantitative','imagej154p','qupath070'],default='quantitative')
+    parser.add_argument('--processing',choices=['quantitative','imagej154p','qupath070','qupath070-v2'],default='quantitative')
     parser.add_argument('--sampling',choices=['integer-origin','affine-inverse'],default='integer-origin')
     parser.add_argument('--report',type=Path,required=True)
     args=parser.parse_args();report=compare(args.reference,args.context,args.units,args.grid_scope,args.processing,args.sampling)

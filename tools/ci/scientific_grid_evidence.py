@@ -20,7 +20,7 @@ GUI_CASES={
  'test_grid_gui_detects_renders_and_publishes_with_axis_geometry':('requires geometry desktop','opt-in desktop replay'),
  'test_grid_python_producer_retains_exports_and_saves':('requires managed project desktop','opt-in managed desktop'),
 }
-for processing in ('quantitative','imagej154p','qupath070-affine'):
+for processing in ('quantitative','imagej154p','qupath070-affine','qupath070-v2-affine'):
     GUI_CASES['test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes['+processing+']']=('opt-in nominal cell desktop',)
     for context in ('context0','context1'):
         GUI_CASES['test_nominal_desktop_detect_archive_publish_export_matches_pinned_masks['+processing+'-'+context+']']=('opt-in nominal cell desktop',)
@@ -66,6 +66,7 @@ BASE['cells'].append('ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10
 BASE['cells'].append('Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed')
 BASE['qupath_response']=['33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed',
     'Private sampled nucleus composition, retained candidate counts and atomic failure checks passed']
+BASE['cell_expansion']=['506 public real-slide body masks exact with boundary frontier; both queues preserve eight V1 differences, unit radius, budget and cancellation passed']
 BASE['viewer_session'].append('Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed')
 CONDITIONAL=[
  ('project_batch','project','Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed'),
@@ -106,6 +107,8 @@ FIXTURES+=('tests/fixtures/qupath-cell-policy-edges-0.7.0/',)
 EXTRA+=('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy')
 FIXTURES+=('tests/fixtures/qupath-response-basins-0.7.0/',)
 FIXTURES+=('tests/fixtures/rgb-affine-v2/',)
+FIXTURES+=('tests/fixtures/qupath-body-boundary-v2/','tests/fixtures/qupath-ndpi-cells-0.7.0/',)
+EXTRA+=('tests/test_qupath_body_boundary_revision.py','tools/reference_qupath_body_boundary.py','tools/compare_qupath_ndpi_cells.py','tools/upstream/qupath_ndpi_cells.groovy')
 EXTRA+=('tools/reference_qupath_response.py','tools/upstream/qupath_response_basins_probe.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')

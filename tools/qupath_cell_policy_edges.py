@@ -191,7 +191,7 @@ def compare(folder=FIXTURE,processing_policy='imagej154p',sampling='integer-orig
     from PIL import Image
     import qupathxx as q
     import qupathxx._native as native
-    if processing_policy not in ('imagej154p','qupath070') or sampling not in ('integer-origin','affine-inverse'):
+    if processing_policy not in ('imagej154p','qupath070','qupath070-v2') or sampling not in ('integer-origin','affine-inverse'):
         raise ValueError('unknown cell processing or sampling policy')
     verified=verify(folder);comparison=load('edge_native_metrics',ROOT/'tools/compare_qupath_cells.py')
     nominal=load('edge_native_features',ROOT/'tools/compare_qupath_nominal_cells.py');reports=[]
@@ -205,6 +205,7 @@ def compare(folder=FIXTURE,processing_policy='imagej154p',sampling='integer-orig
         obj=doc.add_roi(q.Roi.polygon(ring(bounds),[ring(case['hole'])])) if 'hole' in case else doc.add_rectangle(q.Rect(*bounds))
         recipe=case.get('native',contract()['native']);p=q.GridCellParameters()
         p.processing=q.CellProcessingPolicy.QUPATH_070 if processing_policy=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P
+        if processing_policy=='qupath070-v2':p.processing=q.CellProcessingPolicy.QUPATH_070_V2
         p.threshold=recipe['threshold'];p.sigma=recipe['sigma'];p.cell_expansion=recipe['cell_expansion']
         p.min_nucleus_area=recipe['min_nucleus_pixels'];p.max_nucleus_area=recipe['max_nucleus_pixels']
         transform=q.StainTransform(contract()['vectors'],contract()['white'])

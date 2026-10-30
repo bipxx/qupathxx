@@ -896,3 +896,32 @@ admission policy. This is not a change to numerical sampling or recipe identity.
 The strategy deliberately trades bounded repeated IO/hashing for lower captured
 memory. It does not promise a speedup, constant memory, decoder/process RSS,
 whole-slide coverage or removal of existing geometry/traversal limits.
+
+
+### QuPath 0.7 body-boundary revision
+
+`CellProcessingPolicy::QuPath070V2` (Python `QUPATH_070_V2`, CLI
+`--cell-processing qupath070-v2`) opts into the captured QuPath initial
+watershed frontier at the outer processing-grid boundary. The 256 by 256
+public CMU-1 NDPI reference crop has 506 nuclei; the V1 body mask differs
+at eight boundary pixels. V2 admits those boundary pixels into the initial
+frontier using the captured FloatProcessor outside-boundary semantics.
+The nucleus kernel and its `/1` identity remain unchanged. The body and
+cell-recipe identities use `/2`; the processing key is `qupath070/2`.
+
+The enum appends value 3 after the existing values 0 through 2. Quantitative
+remains the default and `QUPATH_070` retains its original frontier and `/1`
+identities. Saved recipes select their captured revision during replay.
+QCL8 and QCA8 retain their existing layout, with their processing enum domain
+extended to 3; older readers reject this unknown enum value. No existing
+value or record is reinterpreted. This follows the additive compatibility
+rule used for the other processing and sampling choices.
+
+The native fixture is decoded from the existing public capture without
+running expansion or changing label identities. Native tests require V2
+exactness and the eight retained V1 differences for both frontier queues.
+Installed real-source tests separately require exact input RGB, all 506
+nucleus/body masks and the declared feature arithmetic. These are engineering
+checks for this crop and recipe, not biological validation or a speed claim.
+The existing isotropic-grid, opaque-input, calibration, memory, cancellation
+and source-ownership admission rules still apply.

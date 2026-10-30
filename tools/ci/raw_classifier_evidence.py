@@ -46,7 +46,8 @@ def source_paths():
     paths.update(('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_edges.groovy','tests/test_cell_policy_edges.py'))
     paths.update(('tools/reference_qupath_response.py','tools/upstream/qupath_response_basins_probe.groovy','tests/test_qupath_response_reference.py'))
     paths.update(('tools/reference_rgb_affine.py','tests/test_rgb_nominal_reference.py','tools/reference_rgb_nominal.py','tools/qupath_rgb_resampling.py','tools/upstream/qupath_rgb_resampling.groovy'))
-    for fixture in ('qupath-gaussian-1.54p','qupath-cell-inputs-0.7.0','qupath-cell-policy-edges-0.7.0','qupath-response-basins-0.7.0','rgb-affine-v2','rgb-nominal-v1','qupath-rgb-resampling-0.7.0','qupath-rgb-resampling-holdout-0.7.0'):
+    paths.update(('tools/reference_qupath_body_boundary.py','tools/compare_qupath_ndpi_cells.py','tools/upstream/qupath_ndpi_cells.groovy','tests/test_qupath_ndpi_cells_reference.py','tests/test_qupath_body_boundary_revision.py'))
+    for fixture in ('qupath-gaussian-1.54p','qupath-cell-inputs-0.7.0','qupath-cell-policy-edges-0.7.0','qupath-response-basins-0.7.0','rgb-affine-v2','rgb-nominal-v1','qupath-rgb-resampling-0.7.0','qupath-rgb-resampling-holdout-0.7.0','qupath-body-boundary-v2','qupath-ndpi-cells-0.7.0'):
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'tests/fixtures'/fixture).rglob('*') if p.is_file())
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
         paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in suffixes)
@@ -67,7 +68,7 @@ SOURCES=source_paths()
 
 
 def source_contract(root,commit):
-    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/','tests/fixtures/qupath-gaussian-1.54p/','tests/fixtures/qupath-cell-inputs-0.7.0/','tests/fixtures/qupath-cell-policy-edges-0.7.0/','tests/fixtures/qupath-response-basins-0.7.0/','tests/fixtures/rgb-affine-v2/','tests/fixtures/rgb-nominal-v1/','tests/fixtures/qupath-rgb-resampling-0.7.0/','tests/fixtures/qupath-rgb-resampling-holdout-0.7.0/'))
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/','tests/fixtures/nominal-cells-v1/','tests/fixtures/qupath-gaussian-1.54p/','tests/fixtures/qupath-cell-inputs-0.7.0/','tests/fixtures/qupath-cell-policy-edges-0.7.0/','tests/fixtures/qupath-response-basins-0.7.0/','tests/fixtures/rgb-affine-v2/','tests/fixtures/rgb-nominal-v1/','tests/fixtures/qupath-rgb-resampling-0.7.0/','tests/fixtures/qupath-rgb-resampling-holdout-0.7.0/','tests/fixtures/qupath-body-boundary-v2/','tests/fixtures/qupath-ndpi-cells-0.7.0/'))
 
 
 def _suite(cases,name,markers):

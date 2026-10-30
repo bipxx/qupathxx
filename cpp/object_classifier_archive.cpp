@@ -110,7 +110,7 @@ void grid_source_validate(const ObjectCellFeatureSource& s,const ImageMetadata& 
 }
 bool extended_source(const ObjectCellFeatureSource& s) {
     return (s.nominal_sampling && s.nominal_sampling->source_request().sampling!=RgbNominalSampling::IntegerOrigin) ||
-        (s.grid_parameters && s.grid_parameters->processing==CellProcessingPolicy::QuPath070);
+        (s.grid_parameters && cell_detail::qupath_processing(s.grid_parameters->processing));
 }
 void grid_source_write(Writer& w,const ObjectCellFeatureSource& s,const std::atomic<bool>* cancelled,bool sampling=false) {
     if(!s.provenance) throw std::invalid_argument("classifier grid source has no provenance");grid_source_validate(s,s.provenance->source,cancelled);

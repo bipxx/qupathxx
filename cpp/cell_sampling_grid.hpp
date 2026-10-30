@@ -38,7 +38,8 @@ struct CellSamplingGrid {
         return nominal?cell_detail::nominal_algorithm(nominal->source_request().sampling,processing):"qpx.grid-log-watershed-bodies/1";
     }
     const char* mask_algorithm(bool body,CellProcessingPolicy processing=CellProcessingPolicy::Quantitative) const {
-        if(processing==CellProcessingPolicy::QuPath070) return affine()?
+        if(body && processing==CellProcessingPolicy::QuPath070V2) return affine()?"qpx.nominal-affine-qupath070-cell-bodies/2":"qpx.nominal-qupath070-cell-bodies/2";
+        if(cell_detail::qupath_processing(processing)) return affine()?
             (body?"qpx.nominal-affine-qupath070-cell-bodies/1":"qpx.nominal-affine-qupath070-cell-nuclei/1"):
             (body?"qpx.nominal-qupath070-cell-bodies/1":"qpx.nominal-qupath070-cell-nuclei/1");
         if(affine()) return processing==CellProcessingPolicy::ImageJ154p?

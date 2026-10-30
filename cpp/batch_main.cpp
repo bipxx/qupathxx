@@ -59,7 +59,7 @@ int execute(const std::vector<std::string>& args) {
             "Raw grids: --raw-grid-samples NX,NY [--raw-grid-context CX,CY --raw-grid-work-bytes N] (no level/tile flags)\n"
             "--kind od|stains|tissue|cells|pixels|raw|raw-pixels|raw-contours  --image ID (repeatable)\n"
             "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
-            "Nominal cells: --cell-algorithm nominal --cell-nominal-downsample D --cell-nominal-context CX,CY --cell-processing quantitative|imagej154p|qupath070 --cell-nominal-sampling integer-origin|affine-inverse\n"
+            "Nominal cells: --cell-algorithm nominal --cell-nominal-downsample D --cell-nominal-context CX,CY --cell-processing quantitative|imagej154p|qupath070|qupath070-v2 --cell-nominal-sampling integer-origin|affine-inverse\n"
             "               (positive decimal D; shares --grid-* physical detector parameters below)\n"
             "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
             "            --grid-units px|um --grid-feature od|stain1|stain2|stain3\n"
@@ -202,7 +202,8 @@ int execute(const std::vector<std::string>& args) {
                 if(v=="quantitative") options.grid_cells.processing=CellProcessingPolicy::Quantitative;
                 else if(v=="imagej154p") options.grid_cells.processing=CellProcessingPolicy::ImageJ154p;
                 else if(v=="qupath070") options.grid_cells.processing=CellProcessingPolicy::QuPath070;
-                else throw std::invalid_argument("cell processing must be quantitative or imagej154p (also accepts qupath070)");
+                else if(v=="qupath070-v2") options.grid_cells.processing=CellProcessingPolicy::QuPath070V2;
+                else throw std::invalid_argument("cell processing must be quantitative or imagej154p (also accepts qupath070 and qupath070-v2)");
             }
             else if(flag=="--cell-nominal-sampling") {
                 const auto v=value();

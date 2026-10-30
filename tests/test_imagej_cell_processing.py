@@ -20,7 +20,7 @@ def compatible():
 @pytest.mark.skipif(not q.has_project, reason='requires project storage')
 def test_affine_qupath_history_csv_and_saved_replay_keep_both_choices(tmp_path):
     doc,obj,transform,p=scene();records=[]
-    for processing in (q.CellProcessingPolicy.QUANTITATIVE,q.CellProcessingPolicy.IMAGEJ_154P,q.CellProcessingPolicy.QUPATH_070):
+    for processing in (q.CellProcessingPolicy.QUANTITATIVE,q.CellProcessingPolicy.IMAGEJ_154P,q.CellProcessingPolicy.QUPATH_070,q.CellProcessingPolicy.QUPATH_070_V2):
         p.processing=processing
         for sampling in (q.RgbNominalSampling.INTEGER_ORIGIN,q.RgbNominalSampling.AFFINE_INVERSE):
             captured=q.CellRequest.for_nominal_roi(doc,obj,transform,1.5,0,0,p,sampling)
@@ -28,9 +28,9 @@ def test_affine_qupath_history_csv_and_saved_replay_keep_both_choices(tmp_path):
     for calibration,version in ((False,11),(True,12)):
         options=q.CellTableOptions();options.include_capture_calibration=calibration
         rows=list(csv.DictReader(io.StringIO(q.cell_measurements_csv(q.CellTableRequest(doc,[r[0] for r in records],options)))))
-        assert len(rows)==18 and all(None not in row for row in rows)
+        assert len(rows)==24 and all(None not in row for row in rows)
         assert {row['table_schema'] for row in rows}=={'qpx.cell-table/'+str(version)}
-        assert {row['processing_policy'] for row in rows}=={'quantitative/1','imagej154p/1','qupath070/1'}
+        assert {row['processing_policy'] for row in rows}=={'quantitative/1','imagej154p/1','qupath070/1','qupath070/2'}
         assert {row['sampling_algorithm'] for row in rows}=={'qpx.rgb-nominal/1','qpx.rgb-nominal-affine/1'}
     project=q.Project();image=project.add_document(doc);path=tmp_path/'choices.qpxproj';project.save(str(path))
     restored=q.Project.open(str(path)).document(image)
@@ -41,36 +41,43 @@ def test_affine_qupath_history_csv_and_saved_replay_keep_both_choices(tmp_path):
 
 
 @pytest.mark.skipif(not q.has_project, reason='requires project batches')
-def test_affine_qupath_batch_resume_keeps_distinct_copied_recipes(tmp_path):
-    project,_,transform,options,_=cohort();old=q.ProjectBatchRequest(project,transform,options=options)
+@pytest.mark.parametrize('revision',[1,2])
+def test_affine_qupath_batch_resume_keeps_distinct_copied_recipes(tmp_path,revision):
+    project,_,transform,options,_=cohort()
+    if revision==2:
+        previous=options.grid_cells;previous.processing=q.CellProcessingPolicy.QUPATH_070;options.grid_cells=previous
+        previous_sampling=options.cell_nominal;previous_sampling.sampling=q.RgbNominalSampling.AFFINE_INVERSE;options.cell_nominal=previous_sampling
+    old=q.ProjectBatchRequest(project,transform,options=options)
     n=options.cell_nominal;n.sampling=q.RgbNominalSampling.AFFINE_INVERSE;options.cell_nominal=n
-    p=options.grid_cells;p.processing=q.CellProcessingPolicy.QUPATH_070;options.grid_cells=p
+    policy=q.CellProcessingPolicy.QUPATH_070 if revision==1 else q.CellProcessingPolicy.QUPATH_070_V2
+    p=options.grid_cells;p.processing=policy;options.grid_cells=p
     new=q.ProjectBatchRequest(project,transform,options=options)
     n.sampling=q.RgbNominalSampling.INTEGER_ORIGIN;p.processing=q.CellProcessingPolicy.QUANTITATIVE
     assert old.parameters_sha256!=new.parameters_sha256
     recipe=json.loads(new.parameters_json)['nominal_cells']
-    assert recipe['sampling_algorithm']=='qpx.rgb-nominal-affine/1' and recipe['processing']=='qupath070/1'
-    assert recipe['detector_algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/1'
+    assert recipe['sampling_algorithm']=='qpx.rgb-nominal-affine/1' and recipe['processing']=='qupath070/'+str(revision)
+    assert recipe['detector_algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/'+str(revision)
     a=execute(old,tmp_path);b=execute(new,tmp_path);c=execute(new,tmp_path)
     assert a.saved==b.saved==c.reused==2 and b.reused==c.saved==0
     assert {entry.path for entry in a.images}.isdisjoint(entry.path for entry in b.images)
     for entry in c.images:
         saved=q.Project.open(entry.path).document(entry.image_id).cell_records[0].result
-        assert saved.grid_parameters.processing==q.CellProcessingPolicy.QUPATH_070
+        assert saved.grid_parameters.processing==policy
         assert saved.nominal_sampling.source_request.sampling==q.RgbNominalSampling.AFFINE_INVERSE
 
 
 @pytest.mark.skipif(not q.has_project, reason='requires project batches')
 @pytest.mark.parametrize('before',[True,False])
-def test_affine_qupath_cli_delivers_canonical_saved_recipe(tmp_path,before):
+@pytest.mark.parametrize('revision',[1,2])
+def test_affine_qupath_cli_delivers_canonical_saved_recipe(tmp_path,before,revision):
     project,_,_,_,_=cohort();source=tmp_path/'source.qpxproj';project.save(str(source))
-    policy=['--cell-processing','qupath070','--cell-nominal-sampling','affine-inverse']
+    policy=['--cell-processing','qupath070' if revision==1 else 'qupath070-v2','--cell-nominal-sampling','affine-inverse']
     result=invoke(source,tmp_path/'out',policy+flags() if before else flags()+policy)
     assert result.returncode==0,result.stderr
     report=json.loads(result.stdout.splitlines()[-1])
     for entry in report['images']:
         saved=q.Project.open(entry['path']).document(entry['image_id']).cell_records[0].result
-        assert saved.grid_parameters.processing==q.CellProcessingPolicy.QUPATH_070
+        assert saved.grid_parameters.processing==(q.CellProcessingPolicy.QUPATH_070 if revision==1 else q.CellProcessingPolicy.QUPATH_070_V2)
         assert saved.nominal_sampling.source_request.sampling==q.RgbNominalSampling.AFFINE_INVERSE
 
 
@@ -205,10 +212,12 @@ def reference_report():
     return comparison.compare(context=0, processing='imagej154p')
 
 
-@pytest.fixture(scope='module')
-def affine_reference_report():
+@pytest.fixture(scope='module',params=[1,2])
+def affine_reference_report(request):
     from test_qupath_nominal_cells_reference import comparison
-    return comparison.compare(context=0,processing='qupath070',sampling='affine-inverse')
+    report=comparison.compare(context=0,processing='qupath070' if request.param==1 else 'qupath070-v2',sampling='affine-inverse')
+    report['requested_revision']=request.param
+    return report
 
 
 @pytest.mark.skipif(not q.has_geos, reason='requires reference ROI geometry')
@@ -218,7 +227,7 @@ def affine_reference_report():
 ])
 def test_affine_qupath_recipe_preserves_original_nine_public_workflows(affine_reference_report,name):
     case=next(c for c in affine_reference_report['cases'] if c['case_name']==name)
-    assert case['algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/1'
+    assert case['algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/'+str(affine_reference_report['requested_revision'])
     assert case['independent_processing_rgb_exact']
     assert all(f['processing_arithmetic_accepted'] for f in case['feature_checks'])
     for metric in case['level_zero_segmentation'].values():

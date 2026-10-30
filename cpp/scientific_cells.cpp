@@ -21,7 +21,7 @@ ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid& 
             detail::calibrated_cell_product({sy,*source.effective_pixel_height_um}));
     }();
     const auto sigmas=metric.sigma_pixels(p.sigma);const auto n=std::uint64_t(grid.width())*grid.height();
-    if(p.processing==CellProcessingPolicy::QuPath070 &&
+    if(cell_detail::qupath_processing(p.processing) &&
        (!grid.nominal || metric.x_um()!=metric.y_um() || sigmas.first>4096 || p.cell_expansion/metric.x_um()>1000000 || p.min_peak_radius!=0 || p.min_seed_distance!=0))
         throw std::invalid_argument("QuPath070 processing requires nominal isotropic sampling, sigma <=4096 samples and zero radius/spacing filters");
     // Match inclusive calibrated area admission: binary search the actual
@@ -65,7 +65,7 @@ std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellPara
     return std::size_t(bytes);
 }
 void GridCellParameters::validate() const {
-    if(processing!=CellProcessingPolicy::Quantitative && processing!=CellProcessingPolicy::ImageJ154p && processing!=CellProcessingPolicy::QuPath070)
+    if(processing!=CellProcessingPolicy::Quantitative && processing!=CellProcessingPolicy::ImageJ154p && !cell_detail::qupath_processing(processing))
         throw std::invalid_argument("unknown cell processing policy");
     if(units!=GridCellUnits::LevelZeroPixels && units!=GridCellUnits::Micrometres) throw std::invalid_argument("unknown grid cell units");
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
@@ -191,7 +191,7 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         }
         const auto blur=detail::imagej154p_gaussian(input,cw,ch,r.sigma_x,r.sigma_y,p.work_bytes,cancelled);
         const auto response=detail::imagej154p_laplacian(blur,cw,ch,p.work_bytes,cancelled);
-        if(p.processing==CellProcessingPolicy::QuPath070) {
+        if(cell_detail::qupath_processing(p.processing)) {
             std::vector<std::uint8_t> cropped_domain(cw*ch);
             for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) cropped_domain[y*cw+x]=domain[(top+y)*width+left+x];}
             auto stages=cell_detail::qupath070_nuclei(input,response,cropped_domain,cw,ch,r.sigma_x,log,cancelled,false);
@@ -207,7 +207,7 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     }
     if(phase) phase->store(2);
     const cell_detail::PhysicalGridMetric metric(r.step_x,r.step_y);
-    if(p.processing!=CellProcessingPolicy::QuPath070) detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
+    if(!cell_detail::qupath_processing(p.processing)) detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
         p.processing==CellProcessingPolicy::ImageJ154p?&imagej_positive:nullptr);
     std::vector<std::uint8_t>().swap(imagej_positive);
     std::vector<double>().swap(score);
@@ -225,8 +225,8 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         result->markers_.push_back({std::uint32_t(result->markers_.size()+1),dense[peak.label],peak.index,{x,y},peak.radius});
     }
     if(phase) phase->store(5);
-    auto bodies=p.processing==CellProcessingPolicy::QuPath070?
-        cell_detail::expand_cells_watershed(detected.labels,domain,width,height,p.cell_expansion/r.step_x,p.work_bytes,cancelled).labels:
+    auto bodies=cell_detail::qupath_processing(p.processing)?
+        cell_detail::expand_cells_watershed(detected.labels,domain,width,height,p.cell_expansion/r.step_x,p.work_bytes,cancelled,true,p.processing==CellProcessingPolicy::QuPath070V2).labels:
         cell_detail::expand_grid_cells(detected.labels,domain,width,height,metric,p.cell_expansion,p.work_bytes,cancelled).labels;
     struct Sums {ColorVector nr{},br{},nc{},bc{},cr{},cc{},nrerr{},brerr{},ncerr{},bcerr{},crerr{},ccerr{};};
     std::vector<Sums> sums(count);result->features_.resize(count);

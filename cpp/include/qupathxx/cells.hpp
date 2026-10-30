@@ -4,7 +4,7 @@
 namespace qpx {
 enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
 enum class GridCellUnits { LevelZeroPixels, Micrometres };
-enum class CellProcessingPolicy { Quantitative=0, ImageJ154p=1, QuPath070=2 };
+enum class CellProcessingPolicy { Quantitative=0, ImageJ154p=1, QuPath070=2, QuPath070V2=3 };
 // Count-based frontend planning: enclose the original ROI bounds in an integer
 // level-zero extent, retain the ROI itself, and resolve the actual axis steps.
 struct GridCellSampling {

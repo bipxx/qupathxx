@@ -7,6 +7,7 @@
 #include "../object_classifier_archive.hpp"
 #include "../geometry_archive.hpp"
 #include "../grid_cell_descriptor.hpp"
+#include "../cell_policy_names.hpp"
 #include "../sha256.hpp"
 #include "../provenance_codec.hpp"
 #include "qupathxx/provenance.hpp"
@@ -164,7 +165,7 @@ void check_nominal_cells() {
         const auto before=reader->reads;
         rejects<std::invalid_argument>([&]{CellRequest unsupported(doc,id,transform,ScientificGrid(256,192,{0,256,171,0},{0,192,128,0}),compatible);});
         verify(reader->reads==before);
-        auto invalid=compatible;invalid.processing=static_cast<CellProcessingPolicy>(3);rejects<std::invalid_argument>([&]{invalid.validate();});
+        auto invalid=compatible;invalid.processing=static_cast<CellProcessingPolicy>(4);rejects<std::invalid_argument>([&]{invalid.validate();});
         const auto captured=CellRequest(doc,id,transform,sampling,compatible);const auto detected=detect_cells(captured);
         verify(std::string(detected->algorithm())=="qpx.nominal-rgb-imagej154p-log-watershed-bodies/1");
         verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
@@ -193,7 +194,7 @@ void check_nominal_cells() {
         }
         std::cout<<"ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed\n";
     }
-    for(auto policy:{CellProcessingPolicy::Quantitative,CellProcessingPolicy::ImageJ154p,CellProcessingPolicy::QuPath070})
+    for(auto policy:{CellProcessingPolicy::Quantitative,CellProcessingPolicy::ImageJ154p,CellProcessingPolicy::QuPath070,CellProcessingPolicy::QuPath070V2})
     for(auto coordinates:{RgbNominalSampling::IntegerOrigin,RgbNominalSampling::AffineInverse}) {
         auto source=std::make_shared<Reader>(original);Document fresh(source);fresh.set_calibration(.5,.5);
         const auto object=fresh.add_rectangle({0,0,256,192});auto parameters=p;parameters.processing=policy;
@@ -202,7 +203,7 @@ void check_nominal_cells() {
         const auto detected=detect_cells(captured);
         verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
         const auto packet=CellArchiveCodec::encode(*detected);
-        const bool extended=coordinates==RgbNominalSampling::AffineInverse || policy==CellProcessingPolicy::QuPath070;
+        const bool extended=coordinates==RgbNominalSampling::AffineInverse || cell_detail::qupath_processing(policy);
         verify(packet[3]==(extended?8:policy==CellProcessingPolicy::ImageJ154p?7:6));
         const auto restored=CellArchiveCodec::decode(packet.data(),packet.size(),captured.roi(),fresh.metadata());
         verify(restored->grid_parameters()->processing==policy && restored->nuclei()->nominal_sampling()->source_request().sampling==coordinates);
@@ -228,7 +229,7 @@ void check_nominal_cells() {
             verify(decoded->archive->table()->cell_origin(0)->source->grid_parameters->processing==policy);
             verify(ObjectClassifierArchiveCodec::encode(*decoded,nullptr)==encoded);
         }
-        if(policy==CellProcessingPolicy::QuPath070) {
+        if(cell_detail::qupath_processing(policy)) {
             const auto before=source->reads;fresh.set_calibration(.5,.75);parameters.units=GridCellUnits::Micrometres;
             rejects<std::invalid_argument>([&]{CellRequest::for_nominal_roi(fresh,object,transform,1.5,0,0,parameters,coordinates);});
             verify(source->reads==before);fresh.set_calibration(.5,.5);parameters.units=GridCellUnits::LevelZeroPixels;parameters.min_seed_distance=1;

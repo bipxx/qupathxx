@@ -98,7 +98,7 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
     if(encoded_bound>limit || archive_work(n.labels().size(),r.features().size(),r.markers().size(),n.provenance()->payload_bytes(),n.roi().payload_bytes(),p.contours.work_bytes,std::size_t(encoded_bound))>work_limit)
         throw std::length_error("grid cell archive exceeds encoded byte limit");
     const bool processing=p.processing!=CellProcessingPolicy::Quantitative;
-    const bool extended=grid.affine() || p.processing==CellProcessingPolicy::QuPath070;
+    const bool extended=grid.affine() || cell_detail::qupath_processing(p.processing);
     Writer w;w.bytes[3]=extended?8:processing?7:grid.nominal?6:5;parameters(w,p,processing || extended);cell_grid_write(w,grid,extended);
     w.blob(provenance);for(auto v:n.white()) w.real(v);for(const auto& row:n.stains()) for(auto v:row) w.real(v);
     const auto& q=*r.resolved_grid_parameters();for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) w.real(v);w.integer(q.min_nucleus_samples);w.integer(q.max_nucleus_samples);

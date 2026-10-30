@@ -4,6 +4,7 @@
 #include <cstring>
 #include <fstream>
 #include <iomanip>
+#include <filesystem>
 #include <iostream>
 
 namespace {
@@ -99,6 +100,28 @@ void contracts() {
     for(std::size_t i=0;i<labels.size();++i) if(labels[i]) require(dense.labels[i]==labels[i]);
 }
 }
+void boundary_reference() {
+    using namespace qpx::cell_detail;
+    auto load=[](const char* name) {
+        std::ifstream input(std::filesystem::path(QPX_BODY_BOUNDARY_FIXTURE)/name,std::ios::binary);require(bool(input));
+        std::vector<std::uint32_t> values(256*256);for(auto& value:values) value=read(input);
+        require(input.peek()==std::char_traits<char>::eof());return values;
+    };
+    const auto nuclei=load("nucleus.u32le"),expected=load("body.u32le");
+    const std::vector<std::uint8_t> domain(nuclei.size(),1);
+    for(bool small:{false,true}) {
+        const auto old=expand_cells_watershed(nuclei,domain,256,256,5,128*1024*1024,nullptr,small);
+        std::size_t differences=0;for(std::size_t i=0;i<nuclei.size();++i) differences+=old.labels[i]!=expected[i];
+        require(differences==8);
+        const auto corrected=expand_cells_watershed(nuclei,domain,256,256,5,128*1024*1024,nullptr,small,true);
+        require(corrected.labels==expected && corrected.queued_pixels<=nuclei.size());
+        require(expand_cells_watershed(nuclei,domain,256,256,1,128*1024*1024,nullptr,small,true).labels==nuclei);
+    }
+    std::atomic<bool> cancelled{true};
+    rejects<std::runtime_error>([&]{expand_cells_watershed(nuclei,domain,256,256,5,128*1024*1024,&cancelled,true,true);});
+    rejects<std::length_error>([&]{expand_cells_watershed(nuclei,domain,256,256,5,body_expansion_work_bytes(256,256)-1,nullptr,true,true);});
+    std::cout<<"506 public real-slide body masks exact with boundary frontier; both queues preserve eight V1 differences, unit radius, budget and cancellation passed\n";
+}
 int main(int argc,char** argv) {
     try {
         if(argc==2 && std::string(argv[1])=="--environment") {
@@ -109,6 +132,6 @@ int main(int argc,char** argv) {
         if(argc==4 && std::string(argv[1])=="--heap") {probe(argv[2],argv[3],false);return 0;}
         if(argc==4 && std::string(argv[1])=="--timed") {probe(argv[2],argv[3],true,true);return 0;}
         if(argc==5 && std::string(argv[1])=="--timed" && std::string(argv[2])=="--heap") {probe(argv[3],argv[4],false,true);return 0;}
-        require(argc==1);contracts();queue_equivalence();std::cout<<"Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed\n";
+        require(argc==1);contracts();queue_equivalence();boundary_reference();std::cout<<"Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

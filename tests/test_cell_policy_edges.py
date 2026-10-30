@@ -22,9 +22,9 @@ def capture():return tool.verify()
 def report():return tool.compare()
 
 
-@pytest.fixture(scope='module')
-def original_source_report():
-    return tool.compare(processing_policy='qupath070',sampling='affine-inverse')
+@pytest.fixture(scope='module',params=['qupath070','qupath070-v2'])
+def original_source_report(request):
+    return tool.compare(processing_policy=request.param,sampling='affine-inverse')
 
 
 @pytest.mark.skipif(not q.has_geos,reason='requires held-out ROI geometry')
@@ -81,24 +81,24 @@ def test_unresolved_detector_gaps_remain_explicit_characterization(report,name):
 
 
 @pytest.mark.parametrize('alpha',[0,127,254])
-@pytest.mark.parametrize('processing',['imagej154p','qupath070'])
+@pytest.mark.parametrize('processing',['imagej154p','qupath070','qupath070-v2'])
 @pytest.mark.skipif(not q.has_tiff,reason='requires native TIFF alpha source')
 def test_imagej_policy_refuses_nonopaque_input_without_publishing(tmp_path,alpha,processing):
     import tifffile
     pixels=np.full((23,31,4),255,dtype=np.uint8);pixels[11,15,3]=alpha
     path=tmp_path/'alpha.tif';tifffile.imwrite(path,pixels,photometric='rgb',extrasamples='unassalpha',metadata=None)
     doc=q.Document(q.open_tiff(str(path)));obj=doc.add_rectangle(q.Rect(0,0,31,23))
-    p=q.GridCellParameters();p.processing=q.CellProcessingPolicy.QUPATH_070 if processing=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P
+    p=q.GridCellParameters();p.processing=q.CellProcessingPolicy.QUPATH_070_V2 if processing=='qupath070-v2' else q.CellProcessingPolicy.QUPATH_070 if processing=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P
     transform=q.StainTransform([[.65,.7,.29],[.07,.99,.11]])
     request=q.CellRequest.for_nominal_roi(doc,obj,transform,1,0,0,p)
     with pytest.raises(ValueError,match='opaque'):q.detect_cells(request)
     assert doc.cell_record_count==0
 
 
-@pytest.mark.parametrize('processing',['imagej154p','qupath070'])
+@pytest.mark.parametrize('processing',['imagej154p','qupath070','qupath070-v2'])
 def test_imagej_policy_budget_and_missing_calibration_refuse_before_publication(processing):
     from test_nominal_cell_python import scene
-    doc,obj,transform,p=scene();p.processing=q.CellProcessingPolicy.QUPATH_070 if processing=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P;p.work_bytes=1
+    doc,obj,transform,p=scene();p.processing=q.CellProcessingPolicy.QUPATH_070_V2 if processing=='qupath070-v2' else q.CellProcessingPolicy.QUPATH_070 if processing=='qupath070' else q.CellProcessingPolicy.IMAGEJ_154P;p.work_bytes=1
     with pytest.raises((ValueError,MemoryError)):q.CellRequest.for_nominal_roi(doc,obj,transform,1.5,0,0,p)
     p.work_bytes=256*1024*1024;p.units=q.GridCellUnits.MICROMETRES;doc.clear_calibration()
     with pytest.raises(ValueError,match='calibration'):q.CellRequest.for_nominal_roi(doc,obj,transform,1.5,0,0,p)

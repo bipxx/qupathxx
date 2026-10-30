@@ -68,7 +68,7 @@ template<class Function> inline void expansion_neighbors(std::size_t i,std::size
 }
 inline BodyExpansion expand_cells_watershed(const std::vector<std::uint32_t>& nuclei,
     const std::vector<std::uint8_t>& domain,std::size_t width,std::size_t height,double radius,
-    std::size_t work_bytes=128u*1024*1024,const std::atomic<bool>* cancelled=nullptr,bool prefer_small_frontier=true) {
+    std::size_t work_bytes=128u*1024*1024,const std::atomic<bool>* cancelled=nullptr,bool prefer_small_frontier=true,bool qupath_initial_boundary=false) {
     const auto charge=body_expansion_work_bytes(width,height);
     const auto n=width*height;
     if(nuclei.size()!=n || domain.size()!=n || !std::isfinite(radius) || radius<0 || radius>1000000)
@@ -120,7 +120,10 @@ inline BodyExpansion expand_cells_watershed(const std::vector<std::uint32_t>& nu
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);
         if(visited[i]) continue;
-        bool adjacent=false;
+        // The public floating-label watershed admits the image boundary to its
+        // initial queue: outside-label getPixelValue is NaN, whose !=0 is true.
+        // Retain the original frontier for old recipes and saved replay.
+        bool adjacent=qupath_initial_boundary && (i%width==0 || i/width==0 || i%width==width-1 || i/width==height-1);
         expansion_neighbors(i,width,height,[&](std::size_t j){adjacent=adjacent || nuclei[j]!=0;});
         if(adjacent) enqueue(i);
     }

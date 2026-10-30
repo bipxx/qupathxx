@@ -15,7 +15,7 @@ void bind_cells(nb::module_& m) {
         .value("SAMPLED_LOG_WATERSHED_BODIES",CellAlgorithm::SampledLogWatershedBodies)
         .value("GRID_LOG_WATERSHED_BODIES",CellAlgorithm::GridLogWatershedBodies);
     nb::enum_<GridCellUnits>(m,"GridCellUnits").value("LEVEL_ZERO_PIXELS",GridCellUnits::LevelZeroPixels).value("MICROMETRES",GridCellUnits::Micrometres);
-    nb::enum_<CellProcessingPolicy>(m,"CellProcessingPolicy").value("QUANTITATIVE",CellProcessingPolicy::Quantitative).value("IMAGEJ_154P",CellProcessingPolicy::ImageJ154p).value("QUPATH_070",CellProcessingPolicy::QuPath070);
+    nb::enum_<CellProcessingPolicy>(m,"CellProcessingPolicy").value("QUANTITATIVE",CellProcessingPolicy::Quantitative).value("IMAGEJ_154P",CellProcessingPolicy::ImageJ154p).value("QUPATH_070",CellProcessingPolicy::QuPath070).value("QUPATH_070_V2",CellProcessingPolicy::QuPath070V2);
     nb::class_<NominalCellRoiSampling>(m,"NominalCellRoiSampling").def(nb::init<>())
         .def_rw("downsample",&NominalCellRoiSampling::downsample).def_rw("context_x",&NominalCellRoiSampling::context_x)
         .def_rw("sampling",&NominalCellRoiSampling::sampling)

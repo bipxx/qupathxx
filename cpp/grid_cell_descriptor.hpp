@@ -19,6 +19,6 @@ template<class Reader> GridCellParameters grid_parameters_read(Reader& d,bool pr
     if(d.integer(1)) p.max_nucleus_area=d.real();p.max_cells=std::size_t(d.integer(1000000));p.work_bytes=std::size_t(d.integer(512ULL*1024*1024));
     p.contours.clip_to_roi=d.integer(1)!=0;p.contours.max_components=std::size_t(d.integer(1000000));p.contours.max_edges=std::size_t(d.integer(10000000));
     p.contours.max_vertices=std::size_t(d.integer(10000000));p.contours.work_bytes=std::size_t(d.integer(512ULL*1024*1024));
-    if(processing) p.processing=CellProcessingPolicy(d.integer(extended?2:1));p.validate();return p;
+    if(processing) p.processing=CellProcessingPolicy(d.integer(extended?3:1));p.validate();return p;
 }
 }
