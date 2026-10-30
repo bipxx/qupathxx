@@ -1,0 +1,110 @@
+{
+  "schema": "qpx.original-source-cell-qualification-terminal/1",
+  "state": "declared-engineering-scopes-accepted",
+  "source": "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+  "authenticated_archives": 11,
+  "original_complete_auditors_passed": 3,
+  "run_ids": {
+    "engine": 40817699577,
+    "macos": 40817708194,
+    "portable": 40817717210
+  },
+  "macos_python_gui_openslide_accepted": false,
+  "v2_source_accepted": false,
+  "performance_accepted": false,
+  "biological_validation": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": [
+    {
+      "path": "authenticated-archives.json",
+      "bytes": 2681,
+      "sha256": "9028a6e3265ebd5395b772b087c033206143e88dbe35ff2ae3940fef4607d2db"
+    },
+    {
+      "path": "compilexx-append-proof.json",
+      "bytes": 266,
+      "sha256": "b47beb3169eed8c485d2c155e1be3ff9b588c858205ff8f593c4211905a0535c"
+    },
+    {
+      "path": "engine-acceptance.json",
+      "bytes": 1252667,
+      "sha256": "780c7b0f0401ea599d015e3b72b030be55728421c65497c326cff61cbfa8033c"
+    },
+    {
+      "path": "engine-audit-exit.json",
+      "bytes": 933,
+      "sha256": "51a15ea3d968fe8d58d0cc86ddf32313a4df572937ecaceff1c6b49bde463bc7"
+    },
+    {
+      "path": "engine-audit-started.json",
+      "bytes": 967,
+      "sha256": "6c7d6aff92014d05042ddf06068a2b462b3a3c0a6d9d27303c182bf4a7d25443"
+    },
+    {
+      "path": "engine-complete-audit.log",
+      "bytes": 488,
+      "sha256": "27685d1a7f865a00048976b8a3e18933b537ccb612f573c7023df83743cfee10"
+    },
+    {
+      "path": "engine-run-terminal.json",
+      "bytes": 24404,
+      "sha256": "60f01b6cf8e2e0ee86ce087fad8783d879495556d16ce7c4a7ccc96f4c269dc5"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 763359,
+      "sha256": "b8b619bbbac3f5548a1c5b190020a3aa2ce20e43301b377072887ba5b8fbbfc8"
+    },
+    {
+      "path": "macos-audit-exit.json",
+      "bytes": 802,
+      "sha256": "9bb23b8c6669654dbb9d5ff0b771a80228019cf2d2489253362733e66f057bf2"
+    },
+    {
+      "path": "macos-audit-started.json",
+      "bytes": 836,
+      "sha256": "3b5bd559f1bc757682dd99bb551a49ca5c2d8290921e8a53bcfbcd9ecc2308f4"
+    },
+    {
+      "path": "macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "c479d54ebb471d98a95cc7c5c7d79efe9d153e4f258d7b52d8719f38ad97518b"
+    },
+    {
+      "path": "macos-run-terminal.json",
+      "bytes": 6821,
+      "sha256": "b525ac50bc2a048a5bb76fa8ee6c1336ba3e4267907f257fbd11225b5064bb9b"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 917554,
+      "sha256": "2cc0008dd65e70bca6f6f8f6636ecc0c052ce480d244d9e8f0b78facd2b7c9d6"
+    },
+    {
+      "path": "portable-audit-exit.json",
+      "bytes": 987,
+      "sha256": "cc5bfe2f33c2f649b0d7478c2b2633be8763a3c84827bc9be25122556b20ea18"
+    },
+    {
+      "path": "portable-audit-started.json",
+      "bytes": 1021,
+      "sha256": "153031fc0f406b92ebd5357e47eb5120a3407a9113df123f0add82f3b0113803"
+    },
+    {
+      "path": "portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "6dfdd69aef9c19065c9cc704495b4a9c4173ccc69a0e5087022041439d7dba11"
+    },
+    {
+      "path": "portable-run-terminal.json",
+      "bytes": 15798,
+      "sha256": "91e1d2f9b52243fa0e4a2765eb076bff5f8fa2f3fc4ff2def28ac026be34a597"
+    },
+    {
+      "path": "plan-preservation-proof.json",
+      "bytes": 157,
+      "sha256": "435b1b1b57aca18cd6b2f199d2e97dc5bfd2d68decb741e3e2fef14e1e76fd5e"
+    }
+  ]
+}

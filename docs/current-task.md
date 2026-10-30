@@ -1,15 +1,20 @@
 # Current implementation task
 
-[Frozen original-source306](benchmarks/original-source-cell-qualification-306/receipt.json)
-at701fa672 passes1106 fresh-checkout auditor controls and authenticates1428 source
-paths/434 canonical compiler inputs against local native26cae2af without relabeling
-its binaries. The complete engine40817699577, Mac40817708194 and portable40817717210
-runs were dispatched once with their original auditor commands prepared. Observe
-these handles and collect all11 required archives; no hosted or combined acceptance
-is claimed yet. The two added native suites are explicitly required by both suite
-count and marker checks. All broader science/context/feature-domain, whole-slide
-resources/seams, representative speed/hardware, support/license/release and M0-M7
-requirements remain open. Preserve qualified281 and terminal298 outcomes.
+[Frozen original-source306](benchmarks/original-source-cell-qualification-306/terminal307/receipt.json)
+at701fa672 is accepted for the declared Windows/Linux engineering, both Mac
+native architectures, and manylinux builder/fresh-consumer scopes. All11
+archives authenticated and each complete original auditor exited0 once on
+engine40817699577, Mac40817708194 and portable40817717210. The initial
+[dispatch receipt](benchmarks/original-source-cell-qualification-306/receipt.json)
+is preserved. Mac Python/GUI/OpenSlide remains unvalidated.
+
+Real-slide307 found eight V1 body-boundary pixel differences in a506-cell
+public CMU-1 crop with exact nuclei. The explicit QuPath070V2 correction at
+7d38d7b9 preserves V1 replay; native captured-vector checks pass. Installed
+OpenSlide application and broader consumer validation are in progress.
+Qualification306 does not cover V2. Broader science/context/feature-domain,
+whole-slide resources/seams, representative speed/hardware, support/license/
+release and every M0-M7 requirement remain open. Preserve prior terminal evidence.
 
 [Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
 delivers independent affine RGB sampling and QuPath070 cell processing through
