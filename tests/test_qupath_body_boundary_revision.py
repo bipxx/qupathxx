@@ -41,10 +41,11 @@ def test_body_boundary_vectors_decode_public_capture_without_expansion(tmp_path)
 
 
 @pytest.mark.skipif(not os.environ.get('QUPATHXX_HAMAMATSU_FIXTURE'),reason='opt-in pinned Hamamatsu NDPI fixture')
-def test_real_slide_nominal_revision_preserves_v1_and_corrects_v2_boundary_masks():
+def test_real_slide_nominal_revision_preserves_v1_and_corrects_v2_boundary_masks(tmp_path):
     image=Path(os.environ['QUPATHXX_HAMAMATSU_FIXTURE'])
     for revision in (1,2):
         report=comparison.compare(CAPTURE,image,context_padding=0,include_nominal=True,nominal_revision=revision)
+        (tmp_path/('nominal-v'+str(revision)+'.json')).write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode())
         assert report['source_pixels_equal'] and report['source_pixel_disagreements']==0
         run,=[r for r in report['runs'] if r['mode']=='nominal-qupath070']
         assert run['tile_invariant'] is None and run['independent_rgb_features_passed'] and len(run['results'])==1

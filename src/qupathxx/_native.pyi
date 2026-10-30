@@ -4805,6 +4805,8 @@ class CellProcessingPolicy(enum.Enum):
 
     QUPATH_070 = 2
 
+    QUPATH_070_V2 = 3
+
 class NominalCellRoiSampling:
     def __init__(self) -> None: ...
 
