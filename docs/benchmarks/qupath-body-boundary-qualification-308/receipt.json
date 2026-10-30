@@ -1,0 +1,144 @@
+{
+  "schema": "qpx.qupath-body-boundary-qualification/1",
+  "state": "dispatched-observing-not-accepted",
+  "source": "ae7a41481a5932123562c8fbc241de48eaf0b3d5",
+  "ref": "feature/qupath-body-boundary-qualification-308",
+  "local_native_source": "7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b",
+  "source_paths": 1449,
+  "canonical_compiler_blobs_equal": 434,
+  "preflight_controls": 1113,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "run_ids": {
+    "engine": 41110186379,
+    "macos": 41110197405,
+    "portable": 41110209770
+  },
+  "initial_status": {
+    "engine": "in_progress",
+    "macos": "in_progress",
+    "portable": "in_progress"
+  },
+  "authenticated_archives": 0,
+  "complete_original_auditors_prepared": true,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "campaign.json",
+      "bytes": 3436,
+      "sha256": "809b44fee7e64a41547301c154401c16226fa9218eab0770af905ee68b3b87be"
+    },
+    {
+      "path": "compilexx-append-proof.json",
+      "bytes": 266,
+      "sha256": "97bb67812a7cd9ecf1bce5ff2ce12240303fb7f3eae45225000c6dc7024211bf"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 3077,
+      "sha256": "6d91ba405825872b4fa544c8d15c197423854049ab41b71fc29013aa82f3bc91"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 357487,
+      "sha256": "fcf61aee2cc02724b9fecf9f211c9d01a28333230bc23860de6da99f6e229bd0"
+    },
+    {
+      "path": "initial-no-runs.json",
+      "bytes": 69,
+      "sha256": "0fbe7efe2403a52e93f5bb27ecc5c799aa1cc639a7e5691c8322a0664bd58a87"
+    },
+    {
+      "path": "local-native-equivalence.json",
+      "bytes": 7050,
+      "sha256": "1123ca2c4b5866abc1b91ba0c17630331a7a28c7b97d88ef23c1579c0461d571"
+    },
+    {
+      "path": "preflight-admission.json",
+      "bytes": 376,
+      "sha256": "ce1b4e0cd20902f6c10a556a421363a4566a926c750e36f2b514596031b759fe"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1523,
+      "sha256": "c397d269c98af1d7751598c742fcd336359243aae59216b1ed82e9f56ee891aa"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1319,
+      "sha256": "899fdfc13516462b1554946cec26f7bd00de5d28f7e59308f504e77f423462ae"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 179041,
+      "sha256": "f96acc5cbfc6c9db325dce10c9394bb382ba0c936354dea0908e2847ea89b682"
+    },
+    {
+      "path": "raw_classifier_evidence-source-proof.json",
+      "bytes": 310607,
+      "sha256": "0071763592501dd2541e49e875030a4da5a4acd8dfa39978dde099bf0f1bda58"
+    },
+    {
+      "path": "scientific_grid_evidence-source-proof.json",
+      "bytes": 330563,
+      "sha256": "f176eb288bd710741f45a65ab1c8e40df4b5cfc3a2ef85adb4e66b5d9f5ff95e"
+    },
+    {
+      "path": "workflow.json",
+      "bytes": 130,
+      "sha256": "540b853b4a07d754fc7f068dfc4414cb04a16415f1d4b659392d1cbbda7793d8"
+    },
+    {
+      "path": "initial-observation/engine-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial-observation/engine-run.json",
+      "bytes": 3144,
+      "sha256": "97c2efd98fbf6270a2300cb97faafce970ca1f39a5534c7154d8fa0d82b7d59a"
+    },
+    {
+      "path": "initial-observation/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial-observation/macos-run.json",
+      "bytes": 2021,
+      "sha256": "58219c70d02214b59a6d65430e8c73086c3ff1d3d4d1c084f8e4d04e14c17368"
+    },
+    {
+      "path": "initial-observation/portable-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial-observation/portable-run.json",
+      "bytes": 1658,
+      "sha256": "0bbddf838523037aeedabc87d4a36274d78f238afdc2548e2dbb1385bf9f9ca6"
+    },
+    {
+      "path": "initial-observation/verified.json",
+      "bytes": 100,
+      "sha256": "f60185304df3226bf7b342ff8452e0067ed9d04c43de8e4c00e82f8945a5c3ab"
+    },
+    {
+      "path": "observers/prepare_boundary308.py",
+      "bytes": 3699,
+      "sha256": "6e15b82918e57ed122899679940fee895e754102be2bb40d60a8f16663480846"
+    },
+    {
+      "path": "observers/dispatch_boundary308.py",
+      "bytes": 5351,
+      "sha256": "6ac48d41cc55a3489e626677c26c84266c13d651b992c0159b4f5703de6ea0da"
+    },
+    {
+      "path": "observers/collect_candidate308.py",
+      "bytes": 4860,
+      "sha256": "2f14f938abcf8957492c457af29b6878af1410c61a7ab45d8728f499979181a5"
+    }
+  ]
+}

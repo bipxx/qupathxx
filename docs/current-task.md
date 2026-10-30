@@ -1,5 +1,15 @@
 # Current implementation task
 
+[Qualification308](benchmarks/qupath-body-boundary-qualification-308/receipt.json)
+freezes complete V2 sourceae7a4148 after1113 fresh-checkout auditor controls.
+Its1449 source paths and434 canonical compiler inputs match local native7d38d7b9
+without binary relabeling. Engine41110186379, Mac41110197405 and portable41110209770
+were dispatched once; the initial observation is in progress with zero archives.
+Observe these handles, authenticate all11 required archives and use the frozen
+complete original auditors. No V2 hosted acceptance is claimed yet. Broader
+science/context/feature-domain, whole-slide seams/resources, speed/hardware,
+support/license/release and all M0-M7 exits remain open.
+
 [Frozen original-source306](benchmarks/original-source-cell-qualification-306/terminal307/receipt.json)
 at701fa672 is accepted for the declared Windows/Linux engineering, both Mac
 native architectures, and manylinux builder/fresh-consumer scopes. All11
