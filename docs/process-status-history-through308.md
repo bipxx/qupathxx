@@ -1800,4 +1800,3 @@ Candidate281 supersedes qualified273 for the declared engineering roles.
 Original276 remains terminal/unaccepted; its failure and independent Mac/portable
 results are preserved. Candidate281 includes the Unicode-input/wait/header repairs.
 Font283 is a later local delivery with the separate acceptance limits above.
-
