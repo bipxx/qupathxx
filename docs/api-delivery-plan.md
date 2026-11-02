@@ -1,236 +1,43 @@
 # API and workflow delivery paths
 
-[Qualification308](benchmarks/qupath-body-boundary-qualification-308/receipt.json)
-freezes complete V2 sourceae7a4148 after1113 fresh-checkout auditor controls.
-Its1449 source paths and434 canonical compiler inputs match local native7d38d7b9
-without binary relabeling. Engine41110186379, Mac41110197405 and portable41110209770
-were dispatched once; the initial observation is in progress with zero archives.
-Observe these handles, authenticate all11 required archives and use the frozen
-complete original auditors. No V2 hosted acceptance is claimed yet. Broader
-science/context/feature-domain, whole-slide seams/resources, speed/hardware,
-support/license/release and all M0-M7 exits remain open.
+Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
-[Frozen original-source306](benchmarks/original-source-cell-qualification-306/terminal307/receipt.json)
-at701fa672 is accepted for the declared Windows/Linux engineering, both Mac
-native architectures, and manylinux builder/fresh-consumer scopes. All11
-archives authenticated and each complete original auditor exited0 once on
-engine40817699577, Mac40817708194 and portable40817717210. The initial
-[dispatch receipt](benchmarks/original-source-cell-qualification-306/receipt.json)
-is preserved. Mac Python/GUI/OpenSlide remains unvalidated.
+## Validation and build policy
 
-[Body-boundary307](benchmarks/qupath-body-boundary-307/receipt.json) locally
-adds explicit QuPath070V2 processing through native/Python requests, saved recipes,
-CLI, batch resume and ImGui/managed workflows. The installed OpenSlide product
-matches all506 nucleus/body masks in the pinned real CMU-1 crop; V1 retains its
-eight border differences. The13 held-out and nine prior workflows stay exact.
-Windows57 native suites,972 scientific checks/28 declared headless GUI skips,
-29 actual desktop/managed checks,22 real-reference checks,1113 auditor controls,
-strict typing/generated stubs and seven GCC ASan/UBSan suites pass.
-Native7d38d7b9 and observer321b8bec bind434 compiler inputs,1449 source paths,
-79 retained Windows products plus the OpenSlide runtime,27 GCC products and59
-installed package members. Installation recovered from an SDK path quoting
-failure without recompiling or relabeling native products. Qualification306
-covers701fa672 only; V2 still needs its own hosted qualification. Broader biology,
-context/feature-domain, whole-slide seams/resources, representative speed/hardware,
-support/license/release and every M0-M7 exit remain open.
+Select checks from the changed behavior and dependency path. This section is
+the single active validation policy and supersedes historical instructions to
+run a complete qualification after every workflow or numbered packet.
 
-[Original-source305](benchmarks/original-source-cells-305/receipt.json) locally
-delivers independent affine RGB sampling and QuPath070 cell processing through
-native requests, QCL8/QCA8 history/replay/classifier provenance, CSV11/12, Python,
-CLI, batch/resume, direct/batch ImGui and managed capture. All13 held-out and nine
-prior zero-context original-slide nucleus/body workflows match exactly; actual
-processing RGB and its independent feature arithmetic pass unchanged comparisons.
-The old quantitative/ImageJ recipes and their explicit limits remain intact.
-Native26cae2af plus observer6d8bb150 bind434 unchanged compiler inputs,1428 source
-paths,79 retained Windows products,25 GCC products and39 installed package members.
-Windows passes57 native suites,943 scientific checks/23 declared skips,1099 final
-auditor controls and24 actual desktop/managed checks; typing/generated stubs pass.
-Six affected GCC ASan/UBSan suites pass, including112 captured affine RGB reads.
-Next qualify one complete combined source through the required hosted profiles.
-Broader context/specimen/feature-domain, whole-slide seams/resources, hardware,
-general speed, support/license/release and all M0-M7 gates remain open. Preserve
-qualified281 and original terminal298 outcomes without acceptance transfer.
+| Change | Required check | Reuse / stop rule |
+| --- | --- | --- |
+| Documentation or status | Review changed links, consistency and diff | No native build, wheel, numerical suite, auditor campaign or platform dispatch |
+| Native algorithm, reader, persistence or concurrency | Affected native regressions and independent expected results; include data-integrity, seam or cancellation cases where affected | Use existing build caches. Add sanitizers and other hosts when the changed code presents those risks; unchanged unrelated workflows retain their recorded baseline scope |
+| Python API or bindings | Affected installed workflow, array ownership where relevant, typing and generated-stub consistency | One combined build/install after the native API settles; generate stubs once. No build for each intermediate substep |
+| UI, CLI or batch consumer | Exercise the changed installed user flow, including save/reopen or resume if affected | Reuse the shared native result and installed product. Do not rerun the same numerical comparison separately for each frontend |
+| Packaging, stubs or notices | Verify changed package members, RECORD, runtime loading and applicable clean-install smoke test | Repackage retained products when compiler inputs/configuration are unchanged; record the existing native identity. Do not rebuild to fix an install path or documentation |
+| Release checkpoint or demonstrated cross-platform risk | One frozen campaign for the claimed platforms and affected dependencies | Full matrix only for an agreed release checkpoint or a concrete risk requiring it. A workflow's local completion alone does not trigger another full campaign |
 
-**Historical repair297/candidate298 observation; current receipts below supersede campaign status.**
-The [repair297 receipt](benchmarks/reader-locale-297/receipt.json) binds native
-28c33573 and observere1dc6457. ASCII-only format folding preserves UTF-8 filename
-bytes and caller locale; automatic/explicit PPM opening, uppercase extension,
-project reopen and nominal batch changed-source resume pass. Windows passes55
-native suites,31 reader/batch checks plus one standalone region check,700
-scientific cases/13 declared skips and1087 auditor controls. Minimal GCC
-ASan/UBSan raw-image coverage is separate.425 compiler inputs,898 source paths,
-71 retained products and39 installed package members authenticate. Test
-dependencies are shared; this is local engineering evidence.
-All11 frozen295 archives now authenticate. Its [terminal receipt](benchmarks/nominal-cell-qualification-295/terminal297/receipt.json)
-records complete original Mac-native/portable acceptance and Windows engine
-rejection. No old-source restart or acceptance transfer follows. Frozen
-[candidate298](benchmarks/reader-locale-qualification-298/receipt.json) at9fbc9315
-passes1087 fresh-checkout controls and has one engine/Mac/portable run dispatched.
-Observe its original handles/auditors; no acceptance yet. Retain qualified281.
-Nominal comparison296 still has8/9
-exact synthetic nucleus/body cases and the explicit clipped-ROI differences.
-Broader science/biology/resource/hardware/support/license/release gates and
-every M0-M7 exit remain open.
+Before running a check, name the changed input or unresolved risk it covers.
+If an existing result covers the same inputs, configuration and assertions,
+link it and proceed. Evidence reuse retains its tested source and scope; it
+does not declare changed code qualified. Widen checks when dependencies, ABI,
+compiler/runtime, fixtures or failures justify it, and record the reason.
 
-[Private post-LoG304](benchmarks/postlog-trace-304/receipt.json) supplies a native
-compatibility candidate matching all13 captured nucleus/body workflows and33
-independent public response cases.78 stage payloads match Windows/GCC sanitizer
-bytes;102 oracle payloads repeat exactly. Shared region-fill/label helpers are
-reused, and existing recipes retain their outputs/counters. Sourcee9d71f28 binds
-433 compiler inputs,1421 source paths,79 retained Windows products and39 installed
-members.57 native suites,896 scientific checks/18 declared skips,1099 auditor
-controls,19 desktop/managed checks and typing/stub checks pass; counts overlap.
-Three affected standalone GCC ASan/UBSan suites pass with eight retained products.
-The candidate uses captured processing input and has no public request selector.
-Next deliver the versioned affine sampling and new recipe through original-source
-capture, history/replay, feature/contour publication and all existing consumers;
-see the [integration route](cell-policy-heldout-gaps.md). Public policies and the
-three legacy scientific xfails remain unchanged. No new platform, biological,
-general-speed, hardware/support/license/release or M0-M7 acceptance follows.
+Use one concise evidence summary per delivered workflow. Record source,
+configuration, commands and results once; link existing logs and receipts.
+Avoid another receipt/publication cycle for every numerical substep or status
+edit. Keep failures and existing historical records. Do not delete tests or
+weaken numerical thresholds to reduce execution cost.
 
-Preserve qualified281 and terminal298 outcomes without redispatch or transfer.
+Keep one short current-task file. Workflow coverage belongs in feature-matrix;
+requirements belong in project-plan; this file owns scheduling and validation.
+Historical records are references, never instructions to replay old campaigns.
 
-**Frozen298 is terminal and unaccepted overall.** The
-[terminal303 receipt](benchmarks/reader-locale-qualification-298/terminal303/receipt.json)
-authenticates all11 original archives at9fbc9315. Complete original Mac-native
-and portable auditors accept their roles; the original engine auditor rejects
-three isolated-Python helper imports. All three original complete auditors have
-executed. The local observer repair changes no old-source outcome. No redispatch,
-main promotion or acceptance transfer follows; qualified281 remains the combined
-feature baseline.
-
-**Native original-source nominal cells291 pass at37a7df51; frontend delivery is next.**
-The [receipt](benchmarks/nominal-cells-291/receipt.json) binds an immutable nominal
-sampling descriptor and original-document CellRequest, shared physical detector,
-original-coordinate contours, QCL6 historical storage/project replay and QCA6
-classifier origins. The pinned source reproduces processing RGB, three cells,
-379 nucleus pixels and825 body pixels; RGB/OD features pass the original1e-6
-checks. Added3x4 context preserves core labels. All55 Windows native suites and
-six affected GCC13.3 ASan/UBSan suites pass. Installed regressions pass597/eight
-declared scientific GUI skips and390/36 consumer passes/skips;1071 unique audit
-controls pass across20 files. Counts overlap.423 compiler inputs,883 source paths,
-71 Windows/seven repaired GCC products,39 package members and43 RECORD rows
-authenticate. Public stubs are unchanged. Both earlier failed native runs remain
-preserved: an external-reader embedding fixture, then a real source-pyramid versus
-nominal-step provenance bug. The repaired project reopens and verifies against
-its original source. Python nominal bindings and CLI/batch/ImGui/managed consumers
-remain open; this package verifies native delivery and existing public interfaces.
-OpenSlide is OFF and test dependencies are shared. Broader science, full source-
-bound platform/resource/hardware/support/release gates and all M0-M7 exits stay open.
-
-**Font285 is terminal and unaccepted overall.** Its [terminal291 receipt](benchmarks/gui-font-qualification-285/terminal291/receipt.json)
-authenticates all11 archives. The complete original Mac auditor accepts54 native
-suites per architecture at frozen1f71eb5; portable independently passes. Engine
-remains failed. No redispatch, old-source rebuild or acceptance transfer occurred;
-candidate281 remains the qualified feature baseline.
-
-**Original-slide nominal cell integration is in progress; context290 passes locally.**
-The [receipt](benchmarks/rgb-nominal-context-290/receipt.json) binds native65c03e4e:
-one affected minimal native suite passes each MSVC/GCC13.3 ASan+UBSan profile.
-All99 captured outputs stitch exactly at three tile sizes and keep unchanged cores
-with added context; six source translations check negative context independently.
-Each toolchain also passes99 real CLI hashes.136 scientific auditor controls use
-the explicitly identified prior installed SDK289 runtime.418 canonical compiler
-inputs,872 source paths, six new retained native products and71 unchanged SDK289
-GUI products authenticate. Context windows keep the original nominal sampling
-phase. No new Python/GUI package or original-document cell/archive/replay recipe
-is delivered by this private primitive. The [implementation order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order)
-now names original-owner capture, shared kernels/result geometry, additive archive
-and replay, then existing consumers. Both observer failures and available original
-logs are preserved; no completed tests/builds were repeated for their recovery.
-Full source-bound platform/science/hardware/release gates and all M0-M7 exits stay open.
-
-**RGB nominal SDK289 is locally verified at native11f70cd1.**
-The [receipt](benchmarks/rgb-nominal-sdk-289/receipt.json) binds an immutable
-level-zero pixel request, native ImageServer adapter, thin GIL-releasing Python
-binding and installed region CLI. All99 captured reads match through each public
-Python/CLI route;55 Windows native suites and224 API cases pass. GCC13.3
-ASan/UBSan passes the public native oracle and99 CLI processes. A separate owned
-ImGui preview passes three cases, including rendered pixels and nominal per-axis
-calibration. The final scientific cohort passes597/eight declared GUI skips,
-1071 audit controls pass, and both scientific8/5 and raw7/5 typing groups verify.
-Counts overlap.418 compiler inputs,872 current source paths,71 retained Windows
-products, three GCC products,39 package members and43 wheel records authenticate.
-Only two generated stubs and RECORD change in the final wheel; native source and
-fingerprint stay11f70cd1/fa8fdd1c. Initial ZIP verifier failure and independent
-fresh-reader recovery are preserved. Standalone delivery passes99 CLI hashes and
-two layout/font smokes from the final wheel. This local GUI profile has OpenSlide
-OFF and shared test dependencies; it is not clean-machine/platform acceptance.
-Original-document detector/batch capture, archive/replay policy opt-in and a
-corresponding application control remain open. The preview is a new image source,
-not replay authority for the original slide. Default scientific sampling and
-three strict legacy xfails are unchanged. Candidate281 remains qualified;
-candidate285 engine remains unaccepted and its existing Mac arm64 job is pending.
-All M0-M7, general speed, broader biology, hardware/support and release gates
-remain partial/open.
-
-**Private RGB nominal kernel287 passes99 pinned reads on Windows and GCC sanitizers.**
-The [receipt](benchmarks/rgb-nominal-kernel-287/receipt.json) binds native23edd7ed,
-36 original and63 held-out public QuPath reads. All72 held-out payloads repeat
-exactly.32.32 coordinates, eight-bit interpolation fractions and one final
-rounding reproduce every captured pixel. Crop interpolation uses global source
-context; a cropped-input model fails eight held-out cases. The private planner
-includes that halo, bounds buffers before IO and preserves large integer origins.
-The native resampling suite passes each Windows minimal/GCC13.3 ASan+UBSan
-profile, including opacity, admission, cancellation and malformed-window checks.
-12 reference checks,371 scientific fixture passes/seven declared GUI skips and
-1057 controls pass separately on the retained7231d95 Python runtime.418 canonical
-compiler inputs,752 source paths and four new retained products authenticate;
-all71 GUI products remain unchanged. SDK/readers/CLI/UI consumers and complete
-own-source qualification remain open. Default quantitative sampling is unchanged.
-
-**RGB input resampling286 is locally characterized at comparison83cd41df.**
-The [receipt](benchmarks/qupath-rgb-resampling-286/receipt.json) binds36 pinned
-public QuPath RGB reads, two complete byte-identical captures and82 new installed
-checks. Related comparisons pass173 with the three legacy strict expected
-failures unchanged; the full named scientific cohort passes359/seven declared
-GUI skips and1054 audit controls pass. Counts overlap.661 scientific source paths
-authenticate;415 compiler inputs and71 retained products remain unchanged at
-native7231d95. No rebuild, native sampler change or acceptance transfer follows.
-The [production route](qupath-rgb-resampling.md) now requires separate nominal
-spacing, enlargement kernel, edge behavior and byte-rounding controls; the
-earlier single1.5 case cannot define a general bilinear compatibility API.
-Keep default quantitative policies and capture/replay authority explicit.
-Frozen font285 continues independently with its original auditors: newer
-scientific auditors require82 cases that its unchanged source does not contain.
-Broader specimen/tolerance, physical UI, hardware/support/release and M0-M7 gates
-remain open.
-
-**Historical pre-terminal291 observation: candidate285 engine unaccepted; portable passed; Mac was pending.**
-The [archive repair288](benchmarks/font-archive-288/receipt.json) retains all nine
-currently available authenticated archives, the original engine rejection and
-complete original-source portable acceptance at frozen1f71eb5. Windows GUI passes
-55 native/4866 Python checks with14 declared skips including three legacy xfails;
-its standalone layout/slide stages fail because archive_windows omitted fonts.
-Observer01c3b9aa copies packaged font resources. The original CI archive fails
-locally with missing fonts; a resource-only repack of the same CI wheel/native
-bytes passes layout, reload and slide startup with clean PATH. Two unit cases
-and1059 controls pass. No native rebuild, CI redispatch, binary relabeling or
-combined acceptance follows. Observe the existing Mac run40743845473; preserve
-the frozen ref/checkout. Candidate281 remains the qualified feature baseline.
-
-**Current qualified feature baseline: candidate281 at `3f15c2b`.**
-The [closeout283](benchmarks/stream-header-qualification-281/closeout283/receipt.json) authenticates all11 archives and successful complete original-source
-engine, Mac-native and portable audits. Its source-specific GUI overview has
-been inspected. This supersedes older campaign observations below; public main
-is unchanged. The later font source `7231d95` is locally built and passes55 native
-suites, five targeted font cases,395 installed GUI passes,348 nonrendering
-passes,115 additional desktop passes and1053 audit controls. See the
-[local font receipt](benchmarks/gui-font-delivery-283/receipt.json). Counts overlap. It inherits no281 platform acceptance. Three strict
-scientific expected failures, representative speed/hardware, broader biology,
-clean-machine support, licensing/release decisions and all M0-M7 exits remain open.
-Real-GL [probe284](benchmarks/gui-font-gl-284/receipt.json) now verifies25 exact
-texture readbacks and cleanup across six sessions of retained font source7231d95.
-Peak queried live atlas storage is31.5MiB during quota growth; this is one-system
-texture storage evidence. Physical DPI, new-runtime Name editing and source-bound
-platform acceptance remain open.
-
-
-This is the forward execution companion to [the full M0–M7 plan](project-plan.md).
-Planning update: 2026-10-28 UTC. “API” here means a project entry point or workflow, not a credential. No service
-API keys are required for the current native application. Names below are
-existing entry points; proposed behavior is identified as remaining work. The
-canonical signatures remain the public headers and generated Python stubs.
+Qualification308 has already run. Finish authentication and the original complete
+audits on its existing artifacts when work resumes; do not rebuild or redispatch.
+Future full campaigns follow the checkpoint/risk rule above. Unsupported hosts,
+deferred features and unclaimed speed advantages do not block a narrower declared
+release, while the full long-term backlog remains recorded.
 
 ## Problems this revision addresses
 
@@ -238,7 +45,7 @@ canonical signatures remain the public headers and generated Python stubs.
 | --- | --- | --- |
 | Historical packet log obscures the next action and contradicts current status | The previous active plan mixed thousands of lines of earlier packets with a strict M0→M7 order; inventory still named old main `82e159f` after public main reached `f2e8c2f` | Keep packet history in a separate file; one active queue and an updated workflow inventory |
 | Horizontal implementation produces repeated “candidate complete” reports without finishing a researcher task | Earlier TMA stages progressed through reference, codec and project commands before desktop import/export was delivered | Accept complete vertical workflows; substeps remain visible but do not substitute for UI/Python/CLI/persistence completion |
-| Repeated full qualifications and wheel rebuilds consume time before interfaces stabilize | Sources 152–154 used successive Mac candidates plus engine/portable qualifications; stubs required additional packaging passes | Local affected tests first; one installed integration pass; freeze a completed candidate and run the required full matrix once unless code changes/failures require another run |
+| Repeated full qualifications and wheel rebuilds consume time before interfaces stabilize | Sources 152–154 used successive Mac candidates plus engine/portable qualifications; stubs required additional packaging passes | Local affected tests first; one installed integration pass when needed; full matrix at a release checkpoint or for a demonstrated platform risk. Reuse completed checks within their original scope |
 | Passing suite counts can conceal missing behavior | QPTMA project native test initially followed a disabled compile-flag branch in a project-enabled build | Require runtime capability and semantic markers, exact relevant cases and fault outcomes; counts are supplementary |
 | Repeated hand-written artifact checks create inconsistent rules and fragile suite counts | Separate engine/Mac/portable scripts embed suite counts and domain-specific imports; QPTMA/resampling each add source/cohort helpers | Share small evidence primitives incrementally and retain domain-specific contracts; test omission, disabled capability and mixed-source rejection |
 | Scientific and release decisions remain open while engineering packets accumulate | M0 tolerances/rights/hardware and project-license choice persist in the plan; legacy scientific xfails remain | Maintain a decision/evidence lane with named prerequisites and unblock the next research workflow early |
@@ -296,7 +103,7 @@ GUI creation controls are locally delivered294. SDK289 preview remains an
 independent new-source workflow.
 
 
-This is the single ordered implementation queue. The [current task](current-task.md)
+This is the single ordered implementation queue. Apply the validation policy above; historical gate instructions do not schedule fresh campaigns. The [current task](current-task.md)
 records observed state; the [efficiency review](reviews/compilexx-efficiency-review.md)
 records evidence and rationale. Earlier TMA/annotation/raw-grid deliveries are
 accepted baselines, not new tasks to repeat. All M0-M7 remain Partial, with
@@ -307,16 +114,16 @@ no additional agent delegation is implied by this table.
 | --- | --- | --- | --- |
 | Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
 | Complete / RAW-DELIVERY1 + M3-ALIAS1 | Engineering accepted at frozen e2282b8; [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) joins all11 authenticated archives and complete engine/Mac-native/portable audits | Reuse retained source-bound products. No redispatch for documentation or spatial preparation | Declared engineering scope only; public main unchanged and all independent M0-M7 gates retained |
-| 1 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | SPAT1 fault/cohort controls now have local Windows verification269, with separate headless/GEOS-OFF evidence. The nine-controller M6 wait audit has local270 verification; the five older Document-free controllers now have local274 verification at native048cf25/observer92bb6c2, with48 controls and459 unique installed passes. Original271 is terminal/unaccepted for schema-observer drift; repair272 passes local process, full benchmark and exact installed admission checks. Candidate273 now has complete engineering qualification at5f1760a, with all11 archives and identified successor engine auditor432c36c. Candidate276 is terminal/unaccepted after a Windows GUI header-mutation failure; all11 archives authenticate and original Mac-native/portable auditors independently accept their roles. Stream-integrity279 is locally verified at native3bd6591 with observers128b313/73b2f8e. Candidate281 at3f15c2b now passes all complete original engine/Mac-native/portable auditors with11 authenticated archives; see closeout283 above. Preserve those completed runs and their source-bound acceptance. No redispatch or acceptance transfer. No273 acceptance transfers. Reuse the shared native controller and existing owner-job/table consumers. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
+| 1 / SCI1-B: remaining research workflows | Open; root owns integration. Delivered slices and source-specific evidence are recorded in the current task and inventory | Finish the existing 308 artifact/auditor closeout once, then implement the next missing research behavior through the shared native request and existing consumers. Reuse completed mechanisms and run affected checks under the validation policy | Independent masks/features/split-merge comparisons with predeclared tolerances, applicable data-integrity/resource checks and complete user-flow delivery. Keep strict scientific failures visible. A new workflow does not automatically require a full platform campaign |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | Locally verified / FILE-HEADER1: reject changed saved-stream headers | [Receipt279](benchmarks/stream-header-integrity-279/receipt.json): original276 failure,22 raw-header red/green controls and QPS later-block red/green controls;55 native suites/588 unique installed passes | Reuse cached validated QWS bytes with fixed64KiB comparison scratch, the existing QPS hash and ReaderFileGuard. Recheck at read/delivery boundaries because external files can change. No new wire format, service or whole-file hash per block | All22 raw-header controls,41 QPS file cases, original failure and native/installed cancellation/resource/history cohorts pass; exact manifests require new identities. Candidate281 qualifies this repair in its complete engineering roles; preserve276 failure |
 | Locally verified / UI-UTF1: preserve supplementary Unicode input | Old native048cf25 loses supplementary input; native d0f10ae repairs data preservation locally. Original276 is terminal and predates the repair | Local native d0f10ae now passes actual editor save/reopen/Undo/Redo,12 active native input cases and installed cohorts; [receipt278](benchmarks/gui-unicode-input-278/receipt.json). Keep pinned ImGui and existing widgets; use one32-bit ImWchar definition consistently in GUI/backend/test translation units. Reuse the existing native gui_replay suite, Document rename/history and actual editor/project save path. No new public replay API or font dependency is needed for this correctness repair | UTF8/UTF16/scalar input and undo/redo preserve exact bytes; actual Name editor saves/reopens supplementary characters; reject missing/disabled native coverage in GUI acceptance. Installed package/stubs/cohorts and own-source platform gates remain. Glyph coverage, shaping and font-atlas/DPI delivery remain independent M2 work |
 | Alongside / UI-FONT2: deliver international glyphs without eager atlases | [Pilot282](benchmarks/gui-font-pilot-282/receipt.json) verifies21 sampled glyphs and unchanged Latin raster/advance with pinned1.93 docking + unmodified OFL CJK/monochrome Emoji; application delivery283 now has the pinned dynamic fonts and local Windows acceptance above | Follow the [font pipeline](gui-font-pipeline.md): one backend/core upgrade, hash-checked recoverable quota patch, module-relative immutable packaged fonts, on-demand glyphs, existing GuiScale and atlas/baked-font cache invalidation. No manual sample whitelist, whole-project name scan per frame or new text replay API | Local283 verifies cache/immediate pixels and missing/corrupt resources; real-GL284 verifies texture updates/readback/growth/cleanup on one system. Next: actual editor/save/reopen when the Windows helper is available, physical monitor/DPI delivery and one complete own-source platform qualification. CPU protocol bytes are not GPU/RSS measurements; shaping, bidi, broader coverage and platform gates stay open |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
 
-Completed mechanisms stay out of the active implementation queue:
+Completed mechanisms stay out of the active implementation queue. The observations below are historical references, not pending work:
 
-Current qualification observation: original271 Mac-native passes its complete
+Historical qualification observation: original271 Mac-native passes its complete
 native audit. Portable fails the schema13 descriptor benchmark and skips fresh
 consumers; Windows/Linux headless show the same assertion. Engine observation
 is now terminal with the same GUI/non-GUI descriptor assertion. [Observer272](benchmarks/schema-observer-272/receipt.json) repairs
@@ -377,6 +184,9 @@ differences while extending typed sampling and the relevant mask, feature and
 split/merge requirements without weakening acceptance criteria.
 
 ## Prepared next workflow: SPAT1 centroid distances
+
+Historical design reference: SPAT1 has been delivered. Do not reimplement it or
+launch qualification from this section; use the current task and active queue.
 
 Candidate262 now has complete declared engineering acceptance. [SPAT1](spatial-analysis.md)
 has26 independent QuPath cases and17 validator controls. Foundation263 provides
@@ -461,7 +271,7 @@ full parity or release acceptance.
 | QPTMA wire: `QptmaData`, `load_qptma`, `parse_qptma`, `qptma_text`, `save_qptma` | Keep the bounded native literal-TSV codec; Python passes owning values. Use actual pinned QuPath captures and native-output imports as the oracle | Finish file/UI lifecycle, byte/slot limits and malformed text cases across supported hosts. Preserve fractional importer behavior and expose upstream exporter quantization; never interpret the source hint as a file to open |
 | QPTMA project/UI: `qptma_grid_edits`, `import_qptma`, `qptma_from_grid`, batch `--import-qptma`/`--export-qptma` | Use one atomic edit and new-project publication; CLI requires explicit image. Reuse the existing preview UI around these functions and preserve current project/view/image state | Final wheel + project save/restart, no source overwrite, stale/cancel preview, loss acknowledgement, owner-thread import and GUI replay. Do not create a second UI grid model |
 | TMA management/case pooling: `TmaGridOptions`, `Document.create_tma_grid`, `TmaGrid`, `tma_case_summary_csv`, cohort APIs | Reuse the [locally verified row/column commands](tma-axis-editing.md), immutable snapshots and weighted raw-row pooling; keep present/missing/vacant semantics distinct | Axis platform acceptance and biological/upstream coverage remain. Axis cohorts are [registered](benchmarks/tma-axis-auditor-controls.json); source191 is qualified, but the [later completed campaign](benchmarks/tma-axis-196-audit-rejection.json) was rejected by strict engine/portable audits because of a stale QPTMA control manifest. Integration repairs it and independently checks actual pytest collection. Preserve the original failed audit and complete the next integrated workflow instead of dispatching another axis-only packet |
-| Automatic TMA: `TmaDearrayOptions`, `detect_tma_grid`, `ViewerSession.detect_tma_grid`, `--detect-tma` | Reuse the [locally verified native/Python/ImGui/managed/CLI path](tma-dearraying.md): one bounded detector returns an immutable proposal, the current controller reviews it, and the same QPTMA edits apply atomically. Keep request capture, revision/cancel guards and source/output protection | Named evidence cohorts and 373 controls are registered; explicit per-axis physical conversion and a calibrated natural-level TIFF integration pass locally. Freeze this completed engineering slice for one required platform campaign, and preregister representative real-slide/biological and large-slide fixtures. Preserve the fixed synthetic tolerance and upstream skew discrepancy |
+| Automatic TMA: `TmaDearrayOptions`, `detect_tma_grid`, `ViewerSession.detect_tma_grid`, `--detect-tma` | Reuse the [locally verified native/Python/ImGui/managed/CLI path](tma-dearraying.md): one bounded detector returns an immutable proposal, the current controller reviews it, and the same QPTMA edits apply atomically. Keep request capture, revision/cancel guards and source/output protection | Named evidence cohorts and 373 controls are registered; explicit per-axis physical conversion and a calibrated natural-level TIFF integration pass locally. Reuse its existing engineering evidence. Preregister representative real-slide/biological and large-slide fixtures; use a platform campaign only at the applicable release checkpoint or for a demonstrated platform risk. Preserve the fixed synthetic tolerance and upstream skew discrepancy |
 | ROI/shape/OD measurements: `AnalysisRequest`, `AnalysisJob`, `analyze`, `RoiMeasurements` | Reuse immutable ROI/calibration capture, native kernels, revision caches and retained analysis records. Add a feature descriptor only for an identified missing quantity | Independent feature tolerances, edge/hole/alpha sampling and calibrated behavior; publish/replay/export must retain exact input/recipe identity. No per-frame recomputation |
 | Stains: `StainTransform`, `optical_density`, `StainEstimateRequest`, `StainEstimateJob` | Reuse supplied-vector kernels and bounded estimation reservoir; add registry/persistence UI around existing stable model hashes | Additional stain/estimation reference workflows and accepted biological tolerances; freeze white reference/vector normalization before running comparisons |
 | Tissue detection: `TissueRequest`, `TissueParameters`, `TissueJob`, `detect_tissue`, `trace_tissue` | Reuse threshold/morphology/components/contours and record publication. Add physical filters or smoothing only with an explicit sampling definition | Halo/edge connectivity, arbitrary grid recipe, physical filters and independent QuPath/biological masks; identical captured inputs across UI/Python/CLI and cancellation/stale tests |
@@ -479,6 +289,10 @@ full parity or release acceptance.
 | Packaging/distribution: CMake optional targets, wheel builders, runtime manifest and fresh consumers | Extend already accepted archive/wheel qualification to the selected supported platform matrix; reuse dependency/notice inventories and native host probes | Installers/uninstall, publisher signing, older-OS/ABI limits, Mac Python/GUI/OpenSlide, clean machines and sample workflow walkthrough. A Mac native builder result does not qualify a Mac Python package |
 
 ## SCI1-A: typed raw classifier delivery checkpoints
+
+Historical implementation checkpoints follow. Their dated next-step/campaign
+instructions are superseded by the current task and validation policy. Keep
+their source-specific evidence and unresolved scientific requirements.
 
 This is the integration route, not a completed public API. Current
 `cpp/include/qupathxx/pixel_features.hpp` accepts `PixelBuffer`, exposes
@@ -1206,7 +1020,8 @@ preflight it before execution to prevent overwriting earlier evidence.
 Advance after the packet's decisive checks pass; do not repeat healthy tests to
 recreate logs or rebuild wheels for each numeric substep. Prepare the next
 consumer contract while its producer is implemented, then perform one installed
-vertical-workflow pass at T4 and one frozen integrated campaign at T5. Reopen a
+vertical-workflow pass when the consumer changes. Defer integrated platform
+campaigns to release checkpoints or demonstrated cross-platform risks. Reopen a
 passed check only for changed inputs, failure or a specific unresolved concern.
 
 Bounded whole-grid admission does not complete large-slide execution. Preserve
@@ -1222,7 +1037,7 @@ separate workflow gate; do not rebuild delivered T4 consumers from older notes.
 | A3 / A2 stable schema | For raw data reuse the implemented `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and controllers; retain RGB entry points separately. Extend phase-preserving windows/stream execution and qualify the actual native forest training backend. Reuse native snapshots and model identity. Keep any needed raw-specific type local until the consumer trace proves where it belongs | Train/predict on the same captured source; compare streamed and full-context outputs at seams/edges. Cover mixed channel/grid/model mismatch, deterministic predictions, changed sources and cancel-before-publication without document mutation |
 | A4 / A3 identity | Reuse locally verified archives, retention, replay and bounded apply; add stream/checkpoint support through the existing authorities. Include feature recipe/version, source dtype/channel/grid/calibration, missing-data policy and model/schema identity; reuse source guards and atomic writers | Save/reopen/replay and interrupted/resumed prediction match the declared result; tampered/mismatched recipes reject. Old RGB archives retain their original semantics. Hash-only resume avoids unnecessary feature-plane materialization |
 | A5 / A3-A4 contracts stable | Bind the native request/result with nanobind and reuse immutable owning NumPy views. Add the workflow to existing CLI, batch, managed viewer and ImGui train/predict/apply actions. Generate stubs once from the final installed module | One example trains, predicts, saves/reopens and resumes through Python and headless paths; actual desktop preview/apply is undoable and rejects stale results. Verify dtype/strides/lifetime, typing and cancellation; frontend code owns no independent feature algorithm |
-| A6 / complete A1-A5 outcome | Preflight producer → manifest → positive fixture → auditor closure and clean-checkout input availability. Then freeze once and run the required integrated platform profile. Attach biological/model comparisons only to eligible labeled references | Exact named native/installed/desktop/persistence cohorts and all inherited gates pass with source/configuration pins. Engineering verification, scientific acceptance and release support remain separate states |
+| A6 / complete A1-A5 outcome | Preflight producer → manifest → positive fixture → auditor closure and clean-checkout input availability. At the next release checkpoint or demonstrated platform risk, freeze once and run the applicable integrated platform profile. Attach biological/model comparisons only to eligible labeled references | Exact named native/installed/desktop/persistence cohorts and all inherited gates pass with source/configuration pins. Engineering verification, scientific acceptance and release support remain separate states |
 
 A1-A6 are checkpoints within one train/predict workflow; do not dispatch six
 qualification campaigns. Stitched contour extraction remains a separate next
@@ -1330,8 +1145,9 @@ remaining gates. Link existing raw evidence instead of copying huge JSON into
 multiple status files. Source identity must distinguish code, fixture, harness,
 compiled engine and documentation when they differ.
 
-A normal gate is a locally completed workflow, then one frozen full-matrix
-qualification. Mode-aware concurrency keys now let engine/Mac/portable runs
+A normal development gate is the affected local workflow check. A frozen
+full-matrix qualification is reserved for a release checkpoint or demonstrated
+cross-platform risk, as defined by the validation policy above. Mode-aware concurrency keys now let engine/Mac/portable runs
 share one frozen ref without cancelling one another; all three source169 modes
 passed their full required audits. Portable qualification must enable extended
 readers, as recorded by the corrected accepted run and retained under-scoped
@@ -1362,6 +1178,10 @@ the next blocking dependency. Do not claim full completion until the complete
 requirement-to-evidence audit passes.
 
 ## Complete qualification campaign inputs
+
+Use these commands only when a full campaign is justified under the validation
+policy. They are not the next step for every delivered workflow. Existing308
+runs need collection and audit, not another dispatch.
 
 Use the frozen ref for every gate. Generate checked CLI input maps before
 sending a workflow request; the helper performs no network action:
