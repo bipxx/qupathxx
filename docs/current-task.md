@@ -13,9 +13,15 @@ Current: **R5-SOURCEAXES1 — retained planes when replacing image sources** (re
   type/layout. apply_source_review() installs its candidate after source guards
   without comparing retained object planes. Reuse SOURCE1/RELINK1 and the new
   native plane model; candidate readers/metadata must not be opened twice.
-- Next action: reproduce same-XY reduced Z/time/channel replacement with an
-  object on the removed plane using the installed695158a8 product. Then close
-  the actual missing guard through shared native relink/review adoption.
+- State: six baseline cases on695158a8 reproduce the missing Z/time/channel
+  guard through both relink and review/apply. All six fail because no ValueError
+  is raised. Raw results stay under root build/source-plane-replacement-r5.
+- Next action: a private publication guard is implemented in project.cpp;
+  finish test/consumer review, then one cached build. It scans current planes
+  without copying annotations, reads candidate raw metadata once only when
+  needed, and preserves the existing matching-live-source no-op path. Run new
+  and older affected contracts staged before installation. Bindings/schema/
+  kernels are unchanged; reuse existing stubs and typing results.
 - Checks: reduction refusal preserves old reader/path/baseline and objects;
   compatible replacement and matching-byte move/no-op still work. Include a
   plane edit after review/before apply and appropriate stale/failure behavior.

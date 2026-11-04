@@ -83,6 +83,20 @@ void compatible(const ImageMetadata& expected,const ImageMetadata& actual) {
             throw std::invalid_argument("relinked image pyramid does not match project");
     }
 }
+// Source reviews bind file facts, not a frozen object set. Check current planes
+// once at publication so an edit/undo after review cannot strand annotations.
+void compatible_object_planes(const Document& document,const ImageServer& candidate) {
+    std::int32_t channel=-1;std::uint32_t z=0,t=0;bool nondefault=false;
+    for(const auto& [id,object]:document.objects()) {
+        nondefault|=object.plane!=ObjectPlane{};
+        channel=std::max(channel,object.plane.c);z=std::max(z,object.plane.z);t=std::max(t,object.plane.t);
+    }
+    // Ordinary single-plane projects keep the existing lazy/cached reader path.
+    if(!nondefault)return;
+    const auto raw=candidate.raw_metadata();
+    if(!raw || z>=raw->z_planes || t>=raw->timepoints || (channel>=0 && std::uint32_t(channel)>=raw->channels))
+        throw std::invalid_argument("replacement source does not contain every retained object plane");
+}
 class LinkedServer final : public ImageServer {
     ImageMetadata metadata_;
     std::string path_,reader_;
@@ -354,6 +368,7 @@ void Project::relink(std::uint64_t id,const std::string& path) {
     // reader metadata. Existing external server references retain their source.
     // Publish the same verified reader. A lazy replacement would open the path
     // again, duplicate decoding and admit a different file before the first read.
+    compatible_object_planes(*old.document,*server);
     const auto view=server->tiff_view();const auto budgets=server->tiff_options();
     auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,view,budgets,std::move(server));
     advance(revision_);
@@ -407,6 +422,7 @@ void Project::apply_source_review(const std::shared_ptr<ProjectSourceReview>& re
     if(review->requires_acceptance() && !accept_changed)throw std::invalid_argument("source or dependency facts changed; explicit accept_changed is required");
     auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association);
     if(r.comparison=="matching_bytes" && old.info.source_path==r.path && old.document->server()==r.candidate) {r.consumed=true;return;}
+    if(old.document->server()!=r.candidate)compatible_object_planes(*old.document,*r.candidate);
     advance(revision_);
     // A matching-byte relink retains the historical baseline. Replacement starts
     // a new baseline; old analysis provenance and previously returned facts stay immutable.
