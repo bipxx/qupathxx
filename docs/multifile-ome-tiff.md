@@ -1,13 +1,11 @@
 # Multi-file OME-TIFF implementation slice
 
-Status: native multi-file opening and the synthetic installed workflow are
-locally verified in the [workflow receipt](benchmarks/multifile-ome-local.json).
-The [frozen platform campaign](benchmarks/multifile-ome-210-qualification.json)
-is engineering accepted in its declared synthetic scope. Companion fault/cancellation
-and decoder/work-budget controls now have local evidence; their expanded
-platform campaign is pending. This slice
-is part of M1/M6 and does not replace broader vendor, scientific, resource or
-supported-release requirements.
+Status: the embedded-metadata fileset has existing engineering qualification,
+including inherited gates in the [308 closeout](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md).
+[R2-META1](benchmarks/binaryonly-ome-r2/README.md) adds locally installed BinaryOnly
+XML/TIFF master support, project/CLI/desktop replay and complete dependency
+observations. Broader vendor, scientific, resource and supported-host acceptance
+remain separate; earlier source-specific receipts retain their original scope.
 
 The [OME specification](https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html#multi-file-ome-tiff)
 maps logical planes to file UUIDs and physical IFDs through `TiffData`. A
@@ -55,9 +53,10 @@ alongside the corrected, scoped checks.
    authority. Resolve explicit OME references relative to their containing file;
    verify UUIDs, mapping completeness, unique logical slots, IFD bounds and
    consistent sample/axis/pyramid geometry before publishing a reader. Support
-   opening either fixture member. Keep missing-filename UUID search and partial
-   metadata/BinaryOnly support explicit in the capability map until implemented;
-   do not accidentally scan the working directory.
+   opening either fixture member. BinaryOnly headers may name a full XML or TIFF master;
+   UUIDs must agree and pixel references resolve relative to that master. XML
+   dependencies share the existing file guards and aggregate limits. Keep
+   missing-filename UUID discovery unsupported; do not scan the working directory.
 3. Reuse the native directory/block reader with a file identity in each IFD and
    cache key. Offsets and block numbers can collide between files. Share a
    single declared decoder/cache budget across the fileset, retain RAII and

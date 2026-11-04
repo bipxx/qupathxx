@@ -737,3 +737,5 @@ docs/benchmarks/qupath-body-boundary-307/** -text -whitespace
 docs/benchmarks/qupath-body-boundary-qualification-308/** -text -whitespace
 
 docs/benchmarks/ome-calibration-units-r2/** -text -whitespace
+
+docs/benchmarks/binaryonly-ome-r2/** -text -whitespace

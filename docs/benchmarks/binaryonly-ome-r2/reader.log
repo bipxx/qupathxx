@@ -1,0 +1,89 @@
+........................................FF.............................. [ 31%]
+........................................................................ [ 62%]
+........................................................................ [ 94%]
+....ss.......                                                            [100%]
+================================== FAILURES ===================================
+_______ test_cli_batch_resume_tracks_master_metadata_change[False-xml] ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/reader-temp/test_cli_batch_resume_tracks_m0')
+master = 'xml', grid = False
+
+    @pytest.mark.skipif(not q.has_project,reason='project storage')
+    @pytest.mark.parametrize('master',['xml','tiff'])
+    @pytest.mark.parametrize('grid',[False,True])
+    def test_cli_batch_resume_tracks_master_metadata_change(tmp_path,master,grid):
+        import json
+        import os
+        import subprocess
+        from qupathxx import _native
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+        project=q.Project();image=project.add_tiff_image(str(directory/fixture.planes.FILES[1]))
+        project.document(image).add_rectangle(q.Rect(0,0,19,17),'BinaryOnly batch ROI')
+        path=tmp_path/'input.qpxproj';project.save(str(path))
+        cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+        command=[str(cli),str(path),str(tmp_path/'output'),'--kind','raw','--raw-channels','2','--raw-z','1','--raw-time','1']
+        if grid:command+=['--raw-grid-samples','19,17','--raw-grid-context','0,0']
+        for state in ('saved','reused','saved'):
+            if state=='saved' and (tmp_path/'output').exists():
+                metadata_path=directory/manifest['metadata_file'];metadata=root(metadata_path)
+                metadata.find('.//'+fixture.tag('Pixels')).set('PhysicalSizeX','.375');write(metadata_path,metadata)
+            done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=60)
+            assert done.returncode==0,done.stderr
+            report=next(json.loads(line) for line in done.stdout.splitlines() if json.loads(line)['schema']=='qpx.batch-image/1')
+>           assert report['state']==state
+E           AssertionError: assert 'reused' == 'saved'
+E             
+E             - saved
+E             + reused
+
+tests\test_binaryonly_ome.py:174: AssertionError
+_______ test_cli_batch_resume_tracks_master_metadata_change[False-tiff] _______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/reader-temp/test_cli_batch_resume_tracks_m1')
+master = 'tiff', grid = False
+
+    @pytest.mark.skipif(not q.has_project,reason='project storage')
+    @pytest.mark.parametrize('master',['xml','tiff'])
+    @pytest.mark.parametrize('grid',[False,True])
+    def test_cli_batch_resume_tracks_master_metadata_change(tmp_path,master,grid):
+        import json
+        import os
+        import subprocess
+        from qupathxx import _native
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+        project=q.Project();image=project.add_tiff_image(str(directory/fixture.planes.FILES[1]))
+        project.document(image).add_rectangle(q.Rect(0,0,19,17),'BinaryOnly batch ROI')
+        path=tmp_path/'input.qpxproj';project.save(str(path))
+        cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+        command=[str(cli),str(path),str(tmp_path/'output'),'--kind','raw','--raw-channels','2','--raw-z','1','--raw-time','1']
+        if grid:command+=['--raw-grid-samples','19,17','--raw-grid-context','0,0']
+        for state in ('saved','reused','saved'):
+            if state=='saved' and (tmp_path/'output').exists():
+                metadata_path=directory/manifest['metadata_file'];metadata=root(metadata_path)
+                metadata.find('.//'+fixture.tag('Pixels')).set('PhysicalSizeX','.375');write(metadata_path,metadata)
+            done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=60)
+            assert done.returncode==0,done.stderr
+            report=next(json.loads(line) for line in done.stdout.splitlines() if json.loads(line)['schema']=='qpx.batch-image/1')
+>           assert report['state']==state
+E           AssertionError: assert 'reused' == 'saved'
+E             
+E             - saved
+E             + reused
+
+tests\test_binaryonly_ome.py:174: AssertionError
+============================== warnings summary ===============================
+tests/test_binaryonly_ome.py: 48 warnings
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:8928: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shaped
+
+tests/test_binaryonly_ome.py: 48 warnings
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:8931: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_binaryonly_ome.py::test_cli_batch_resume_tracks_master_metadata_change[False-xml]
+FAILED tests/test_binaryonly_ome.py::test_cli_batch_resume_tracks_master_metadata_change[False-tiff]
+2 failed, 225 passed, 2 skipped, 96 warnings in 8.96s

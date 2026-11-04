@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="9" time="0.775" timestamp="2026-11-04T10:15:55.355478-05:00" hostname="HEQPC"><testcase classname="tests.test_binaryonly_ome" name="test_independent_fixture_has_exact_samples_and_explicit_metadata[xml]" time="0.227" /><testcase classname="tests.test_binaryonly_ome" name="test_independent_fixture_has_exact_samples_and_explicit_metadata[tiff]" time="0.036" /><testcase classname="tests.test_binaryonly_ome" name="test_independent_fixture_has_exact_samples_and_explicit_metadata[tiff-default]" time="0.036" /><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-xml]" time="0.031"><failure message="IndexError: OME series index is outside the file">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_0')
+master = 'xml', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError</failure></testcase><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff]" time="0.028"><failure message="ValueError: OME companion series metadata differs">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_1')
+master = 'tiff', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OME companion series metadata differs
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: ValueError</failure></testcase><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff-default]" time="0.035"><failure message="ValueError: OME companion series metadata differs">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_2')
+master = 'tiff-default', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OME companion series metadata differs
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: ValueError</failure></testcase><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-xml]" time="0.030"><failure message="IndexError: OME series index is outside the file">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_3')
+master = 'xml', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError</failure></testcase><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff]" time="0.034"><failure message="IndexError: OME series index is outside the file">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_4')
+master = 'tiff', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError</failure></testcase><testcase classname="tests.test_binaryonly_ome" name="test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff-default]" time="0.029"><failure message="IndexError: OME series index is outside the file">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_5')
+master = 'tiff-default', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+&gt;       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError</failure></testcase></testsuite></testsuites>

@@ -53,7 +53,10 @@ reader. Existing OpenSlide format support remains available separately.
 Multi-file opening uses the same APIs and retains companion observations.
 See the [slice contract and limits](multifile-ome-tiff.md) and
 [engineering qualification](benchmarks/multifile-ome-210-qualification.json). Unresolved UUID-only
-references and partial/BinaryOnly metadata reject explicitly.
+references and incomplete mappings reject explicitly. Explicit BinaryOnly
+headers now resolve a full XML metadata companion or master TIFF through the
+[guarded dataset path](benchmarks/binaryonly-ome-r2/README.md). XML dependencies
+are part of source provenance and change rejection, including cached reads.
 Ordinary `.tif` auto-selection retains OpenSlide; `.ome.tif`/`.ome.tiff` selects
 the quantitative reader when enabled. Choose `reader="tiff"` explicitly for
 other TIFFs. Unsupported or incomplete OME mappings fail explicitly.
