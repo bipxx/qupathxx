@@ -7,7 +7,7 @@ import java.nio.file.Path
 import java.security.MessageDigest
 import qupath.lib.io.GsonTools
 import qupath.lib.io.PathIO
-import qupath.lib.projects.ProjectIO
+import qupath.lib.images.servers.ImageServerBuilder
 import com.google.gson.JsonParser
 import com.google.gson.JsonObject
 
@@ -41,21 +41,23 @@ def files=[:]
     def path=source.getParent().resolve(name)
     files[name]=Files.isRegularFile(path)?hash(path):null
 }
-def project=ProjectIO.loadProject(source.toFile(),BufferedImage.class)
 def temporary=Files.createTempDirectory(source.getParent(),'.qupathxx-exchange-')
 def gson=GsonTools.getInstance(true)
 def entries=[]
-for(def entry:project.getImageList()) {
-    def dataPath=entry.getEntryPath().resolve('data.qpdata')
+for(def image:manifest.getAsJsonArray('images')) {
+    def id=image.getAsJsonObject().get('entryID').getAsString()
+    if(!(id==~ /[1-9][0-9]*/)) throw new IllegalArgumentException('Invalid project entry ID')
+    def dataPath=source.getParent().resolve('data').resolve(id).resolve('data.qpdata')
     if(!Files.isRegularFile(dataPath)) continue
     def before=hash(dataPath)
     // No fallback to backups/empty objects when the actual data file is corrupt.
-    def data=PathIO.readImageData(dataPath,entry.getServerBuilder())
+    def builder=gson.fromJson(image.getAsJsonObject().get('serverBuilder'),ImageServerBuilder.ServerBuilder.class)
+    def data=PathIO.readImageData(dataPath,builder)
     try {
         def hierarchy=JsonParser.parseString(gson.toJson(data.getHierarchy()))
         def collection=new JsonObject();collection.addProperty('type','FeatureCollection')
         collection.add('features',hierarchy.getAsJsonObject('root').getAsJsonObject('properties').getAsJsonArray('childObjects'))
-        def file=entry.getID()+'.geojson'
+        def file=id+'.geojson'
         Files.writeString(temporary.resolve(file),gson.toJson(collection)+'\n',StandardCharsets.UTF_8)
         def metadata=data.getServerMetadata()
         def calibration=metadata.getPixelCalibration()
@@ -67,7 +69,7 @@ for(def entry:project.getImageList()) {
         if(metadata.getSizeZ()>1 || metadata.getSizeT()>1)
             issues.add('Source Z/time calibration is retained; saved ImageData calibration overrides are not applied')
         if(hash(dataPath)!=before) throw new IllegalStateException('Image data changed during export')
-        entries.add([entry_id:entry.getID(),qpdata_sha256:before,file:file,sha256:hash(temporary.resolve(file)),
+        entries.add([entry_id:id,qpdata_sha256:before,file:file,sha256:hash(temporary.resolve(file)),
                      pixel_width_um:finite(calibration.getPixelWidthMicrons()),pixel_height_um:finite(calibration.getPixelHeightMicrons()),issues:issues])
     } finally {data.close()}
 }
@@ -77,6 +79,7 @@ files.each { name,before ->
     if((Files.isRegularFile(path)?hash(path):null)!=before) throw new IllegalStateException('Project metadata changed during export')
 }
 def index=[schema:'qpx.qupath-project-exchange/1',qupath_version:'0.7.0',project_sha256:sourceHash,files:files,images:entries]
-Files.writeString(temporary.resolve('index.json'),gson.toJson(index)+'\n',StandardCharsets.UTF_8)
+def indexGson=gson.newBuilder().serializeNulls().create()
+Files.writeString(temporary.resolve('index.json'),indexGson.toJson(index)+'\n',StandardCharsets.UTF_8)
 Files.move(temporary,output)
 println('Exported '+entries.size()+' image hierarchies to '+output)

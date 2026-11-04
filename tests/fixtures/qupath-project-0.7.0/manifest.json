@@ -30,7 +30,7 @@
   },
   "probes": {
     "tools/upstream/qupath_project_reference.groovy": "17f163240a41ab325d8813c611f7082653dd40936f4b5a9b2e9646e771364be1",
-    "tools/upstream/export_qupath_project.groovy": "84c52c4c033b298241c3f1affb4f0795cc1504a8bf19619d874ab945229b9d1e"
+    "tools/upstream/export_qupath_project.groovy": "66fcef007fb0ef203e31dbe5ab536917e8cab4dd9bcd19e70b57ec278f063f7b"
   },
   "scope": "Two actual QuPath project entries and saved hierarchies; source paths are relocated explicitly by tests. Java binary decoding is not established by this fixture."
 }

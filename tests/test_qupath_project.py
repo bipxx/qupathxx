@@ -116,6 +116,24 @@ def test_invalid_or_stale_foreign_data_is_refused(tmp_path,failure):
     assert not list(tmp_path.glob('*.qpxproj'))
 
 
+def test_optional_metadata_absence_and_unknown_calibration_survive_reopen(tmp_path):
+    path=corpus(tmp_path);index_path=path.parent/'qupathxx-exchange/index.json'
+    index=json.loads(index_path.read_bytes())
+    for name in ('classifiers/classes.json','data/metadata.json'):
+        (path.parent/name).unlink();index['files'][name]=None
+    for image in index['images']:
+        image['pixel_width_um']=None;image['pixel_height_um']=None
+    write(index_path,index)
+    preview=q.preview_qupath_project(str(path));assert preview.issues==[]
+    output=tmp_path/'unknown-calibration.qpxproj';preview.import_new(str(output))
+    restored=q.Project.open(str(output))
+    for image in preview.images:
+        doc=restored.document(image.native_id)
+        assert doc.pixel_width_um is None and doc.pixel_height_um is None
+        assert doc.object_count==2 and all(a.class_name=='Tumor' for a in doc.annotations)
+        assert doc.annotations[1].parent_id==doc.annotations[0].id
+
+
 def test_explicit_source_overrides_and_existing_destination_preservation(tmp_path):
     path=corpus(tmp_path);sources=path.parent.parent/'sources'
     preview=q.preview_qupath_project(str(path),source_overrides={'1':str(sources/'slide α.ome.tif'),'2':str(sources/'gray.ome.tif')})
@@ -133,7 +151,10 @@ def test_imgui_review_and_import_preserve_workspace_until_apply(tmp_path,apply):
     saved=tmp_path/'original.qpxproj';project.save(str(saved));before=saved.read_bytes()
     options=q.GuiOptions();options.project_open_path=str(path);options.settle_tiles=True
     inputs=[event(5,q.GuiInputKind.OPEN_PROJECT_KEY)]
-    if apply:inputs.append(event(60,q.GuiInputKind.OPEN_PROJECT_KEY))
+    if apply:
+        inputs += [event(60,q.GuiInputKind.OPEN_PROJECT_KEY),
+                   event(80,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT,q.GuiInputWait.TARGET_READY),
+                   event(81,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT)]
     options.inputs=inputs;capture=tmp_path/'project-import.ppm'
     report=q.show(project,frame_limit=120,capture_path=str(capture),options=options)
     assert report.replay_complete and saved.read_bytes()==before
