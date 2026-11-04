@@ -354,6 +354,7 @@ from ._native import (
     ShapeMeasurements as ShapeMeasurements,
     FeatureCacheStats as FeatureCacheStats,
     Annotation as Annotation,
+    ObjectPlane as ObjectPlane,
     ObjectProperties as ObjectProperties,
     ObjectEdit as ObjectEdit,
     ObjectKind as ObjectKind,

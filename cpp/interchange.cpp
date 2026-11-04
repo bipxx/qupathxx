@@ -195,7 +195,7 @@ struct Reader {
         for(const auto& item:value.items()) {
             if((item.key()!="c" && item.key()!="z" && item.key()!="t") || !item.value().is_number_integer())throw std::invalid_argument("invalid image plane component");
             // Compare in JSON before narrowing, including unsigned foreign input.
-            if(item.value()<(item.key()=="c"?-1:0) || item.value()>65535)throw std::out_of_range("image plane index exceeds limits");
+            if(item.value()<(item.key()=="c"?-1:0) || item.value()>65535)throw std::invalid_argument("image plane index exceeds limits");
             if(item.key()=="c")result.c=item.value().get<std::int32_t>();
             else if(item.key()=="z")result.z=item.value().get<std::uint32_t>();
             else result.t=item.value().get<std::uint32_t>();

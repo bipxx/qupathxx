@@ -19,15 +19,14 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   Independent multi-plane, invalid-axis, hierarchy, raw-mask, snapshot/restart and
   desktop workflow cases are prepared. The original invalid saved-plane fixture
   remains a refusal; a clearly derived valid source/metadata case is separate.
-- Next action: source corrections are batched and ready for a cached correction
-  build: explicit/parent creation planes, tissue/RGB/raw/streamed publication,
-  lazy unchanged-plane edits, mixed-plane 2D distance refusal, loss-aware QPTMA
-  and visible-only automatic import selection. A changed-input staged recheck
-  passed three repaired probe cases and confirmed the actual streamed-plane bug
-  in4265ff15. The derived saved import explicitly acknowledges its existing
-  saved-calibration override loss. Probe the correction before packaging, then
-  generate stubs from the exact product and install once; do not reinstall the
-  first candidate or repeat unchanged migration-observer controls.
+- Next action: all three desktop flows pass on source774abdc4, including real
+  ImGui plane import/view/measurement and managed hidden-plane merge. The parser
+  exception correction is ready as one private interchange.cpp change; bindings,
+  storage, kernels and generated stubs are unchanged. Build it using the same
+  cache, run the one failed compatibility assertion on the staged new product
+  before a second install, and rerun the affected native interchange suite.
+  Preserve all prior passing results at their tested source/dependency scope;
+  no repeated stub generation, typing campaign or full model/desktop cohort.
 - Checks/reuse: one actual import/view/select/analyze/save/reopen/export workflow;
   exact plane pixels/coordinates/calibration, absent/out-of-range refusal, stale
   plane/result rejection and legacy default-plane replay. Reuse existing native
@@ -37,23 +36,24 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   with unsupported cases explicit. Other R5 versions/settings, remaining R4,
   science/resource/release and R6-R16 requirements stay in the queue.
 
-Latest attempt review (2026-11-04, PLANE1 first staged candidate):
-Outcome/evidence: build4265ff15 succeeded; staged probe41 passes/nine failures/
-one desktop skip. Raw results are retained under root build/object-planes-r5;
-this is an incomplete workflow, not engineering acceptance. Migration observer
-controls passed60 cases before the build; their unchanged tool-only scope stands.
-Waste/cost: **retain** the first build/probe failures. **Merge** the source fixes
-identified during publication review into one correction before packaging.
-The791.53s build began before all object-producing consumers were reviewed;
-review those consumers before freezing future cross-cutting object APIs.
-**Remove** the false assertion that an explicitly selected raw request becomes
-stale merely because the display changed; retain object/source-change rejection.
-**Reuse** the cache and dedicated interpreter; no candidate installation or stub
-pass was spent on this incomplete product. Earlier truncated/guessed-path reads
-were unproductive; use discovered paths and bounded UTF-8 reads.
-Plan change/next action: apply the batched correction above; keep PLANE1 open
-through the final native/Python/desktop/save/reopen/export workflow. Preserve
-prior native EDITSTATE1 evidence at its original source/product scope.
+Latest attempt review (2026-11-04, PLANE1 broader installed checks):
+Outcome/evidence: corrected source774abdc4 passes50 staged headless cases, nine
+native suites and stub/typing checks. Installed model.xml retains921 passes,
+one failure and24 declared skips. The failure is an external-input exception
+compatibility regression, not a reason to weaken the existing ValueError test.
+Waste/cost: **retain** both builds/probes and this failure. The second build took
+724.83s. **Merge** any actual desktop correction with the parser fix before the
+next build; **reuse** passing numerical/ownership/persistence and typing results
+where their dependency inputs are unchanged. First packaging already installed
+this candidate once, so a correction will require another install. Run broader
+contract regressions on the staged product before installation in future shared
+API work; a new-feature-only probe did not cover this older rejection contract.
+**Remove** repeated healthy cohorts and repeat stub generation: this private
+exception fix changes no binding signatures. Preserve the first review's lesson
+to inspect all object-producing consumers before freezing a shared object API.
+Plan change/next action: finish pending desktop checks, localize the correction,
+then verify the changed exception on the corrected product and close this slice
+only with its actual frontend/persistence evidence and updated next action.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
