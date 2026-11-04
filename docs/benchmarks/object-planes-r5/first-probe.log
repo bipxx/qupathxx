@@ -1,0 +1,201 @@
+staged source 4265ff1563f59e962af844c9e22103782f9ca1e1 native sha256 51022d68a79603df3b954656155edfb6d5dc7e33daee01fd9ec5aa560e506ba8
+F............F..sFFFF...FF.....................F...                      [100%]
+================================== FAILURES ===================================
+______ test_import_view_mask_analysis_restart_and_export_use_exact_plane ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_import_view_mask_analysis0')
+
+    def test_import_view_mask_analysis_restart_and_export_use_exact_plane(tmp_path):
+        doc,values,_=scene(tmp_path);obj=imported(doc)
+        selection=q.ObjectSelection(doc)
+        assert not doc.object_visible(obj) and doc.pick(q.Point(2,3))==[]
+        with pytest.raises((ValueError,IndexError)):selection.replace([obj])
+        display(doc,1,1);selection.select_all();assert selection.ids==[obj]
+        assert doc.pick(q.Point(2,3))==[obj] and plane_tuple(doc.annotation(obj).plane)==(-1,1,1)
+        capture=q.RawAnalysisRequest(doc,request(1,1,c=2,z=1,t=1),obj,tile_size=16)
+        result=q.analyze_raw(capture);record=doc.keep_raw_analysis(capture,result)
+        np.testing.assert_allclose(result.statistics.means,values[1,1,:,2:8,1:6].mean(axis=(1,2)),rtol=1e-12)
+        assert result.statistics.valid_pixels==30 and doc.area_um2(obj)==pytest.approx(3.75)
+        project=q.Project();image=project.add_document(doc);path=tmp_path/'planes.qpxproj';project.save(str(path))
+        with sqlite3.connect(path) as db:
+            assert db.execute('PRAGMA user_version').fetchone()[0]==18
+            assert db.execute('SELECT c,z,t FROM object_planes').fetchall()==[(-1,1,1)]
+        restored=q.Project.open(str(path)).document(image)
+        assert plane_tuple(restored.annotation(obj).plane)==(-1,1,1) and restored.object_visible(obj)
+        replay=q.RawAnalysisRequest.replay(restored,record);again=q.analyze_raw(replay)
+        assert again.input_sha256==result.input_sha256
+        exported=q.export_geojson(restored).text;geometry=json.loads(exported)['features'][0]['geometry']
+        assert geometry['plane']=={'c':-1,'z':1,'t':1}
+        rows=list(csv.DictReader(io.StringIO(q.measurements_csv(restored))))
+        assert (rows[0]['plane_c'],rows[0]['plane_z'],rows[0]['plane_t'])==('-1','1','1')
+        copy=q.Document(q.open_tiff(str(tmp_path/'channels.ome.tif')));other=q.import_geojson(copy,exported).imported_ids[0]
+        assert plane_tuple(copy.annotation(other).plane)==(-1,1,1) and not copy.object_visible(other)
+>       display(doc,0,0);assert selection.ids==[] and not capture.matches(doc)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert ([] == []
+E         
+E         Use -v to get more diff and not True)
+E        +  where True = <nanobind.nb_bound_method object at 0x000002048B38E640>(<qupathxx._native.Document object at 0x00000204B1C83F60>)
+E        +    where <nanobind.nb_bound_method object at 0x000002048B38E640> = <qupathxx._native.RawAnalysisRequest object at 0x000002048B11B390>.matches
+
+tests\test_object_planes.py:59: AssertionError
+_ test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_original _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_saved_data_plane_uses_a_v0')
+
+    def test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_original(tmp_path):
+        path=corpus(tmp_path,'plane');source=path.parent.parent/'source.ome.tif'
+        # The original pinned fixture has only Z0 and must remain a refusal. This
+        # explicitly derived source has two real Z planes with independent values.
+        values=np.stack([np.full((48,64,3),11,dtype='uint8'),np.full((48,64,3),79,dtype='uint8')])
+        tifffile.imwrite(source,values,ome=True,photometric='rgb',metadata={'axes':'ZYXS','PhysicalSizeX':.25,'PhysicalSizeY':.5})
+        manifest=json.loads(path.read_text(encoding='utf-8'));manifest['images'][0]['serverBuilder']['metadata']['sizeZ']=2;path.write_text(json.dumps(manifest),encoding='utf-8')
+        data=path.parent/'data/3/data.qpdata';raw=data.read_bytes();assert raw.count(b'"sizeZ":1')==1
+        # Same-length metadata scalar patch declares the derived source truthfully;
+        # all original ROI bytes remain unchanged. This is not a new upstream capture.
+        data.write_bytes(raw.replace(b'"sizeZ":1',b'"sizeZ":2'))
+>       preview=q.preview_qupath_project(str(path));destination=tmp_path/'native.qpxproj';preview.import_new(str(destination))
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: QuPath import has reported losses; review before allow_losses=True
+
+tests\test_object_planes.py:127: ValueError
+_ test_explicit_default_creation_and_parent_inheritance_override_display_plane _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_explicit_default_creation0')
+
+    def test_explicit_default_creation_and_parent_inheritance_override_display_plane(tmp_path):
+        doc,_,_=scene(tmp_path);parent=doc.add_rectangle(q.Rect(0,0,20,15));doc.set_object_plane(parent,q.ObjectPlane(1,1,1))
+        display(doc,2,0)
+>       child=doc.add_detection(q.Roi.rectangle(q.Rect(1,2,5,6)),parent_id=parent)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: parent plane must contain its child plane
+
+tests\test_object_planes.py:178: ValueError
+________ test_unchanged_plane_metadata_edit_does_not_open_missing_link ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_unchanged_plane_metadata_0')
+
+    def test_unchanged_plane_metadata_edit_does_not_open_missing_link(tmp_path):
+        doc,_,source=scene(tmp_path);obj=imported(doc);project=q.Project();image=project.add_document(doc)
+        path=tmp_path/'missing.qpxproj';project.save(str(path));doc.server.close();source.rename(source.with_suffix('.missing'))
+>       restored=q.Project.open(str(path)).document(image);restored.rename_annotation(obj,'Still editable')
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: file fingerprint input is missing or not a regular file
+
+tests\test_object_planes.py:187: RuntimeError
+_ test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[False] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_raw_contour_publication_u0')
+streamed = False
+
+    @pytest.mark.skipif(not q.has_classifier_training or not q.has_geos,reason='actual forest backend and GEOS')
+    @pytest.mark.parametrize('streamed',[False,True])
+    def test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed(tmp_path,streamed):
+        from test_raw_pixel_python import trained
+        doc,_,_=scene(tmp_path)
+        ids=[doc.add_detection(q.Roi.rectangle(q.Rect(0,0,10,16)),class_name='A'),doc.add_detection(q.Roi.rectangle(q.Rect(14,0,10,16)),class_name='B')]
+        for obj in ids:doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
+        grid=q.ScientificGrid(24,16,q.ScientificGridAxis(0,24,24),q.ScientificGridAxis(0,16,16))
+        selection=q.ScientificRawOptions();selection.z=1;selection.t=1;selection.channels=2
+        features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+        options=q.RawPixelTrainingOptions();options.max_samples=32;options.max_samples_per_class=16;options.work_bytes=16*1024**2
+        capture=q.RawPixelTrainingRequest(doc,ids,grid,selection,features,options);model=trained(q.sample_raw_pixel_training(capture))
+        if streamed:
+            stream=q.RawPixelStreamOptions();stream.tile_width=stream.tile_height=8;stream.work_bytes=16*1024**2
+            request=q.RawPixelTiledPredictionRequest(doc,model,q.ScientificRawLattice(grid),stream)
+            contour=q.RawPixelStreamContourOptions();contour.work_bytes=32*1024**2;contour.boundary_work_bytes=2*1024**2
+            result=q.trace_raw_pixel_stream(request,contour);published=q.publish_raw_pixel_stream_contours(doc,request,result)
+        else:
+            request=q.RawPixelPredictionRequest(doc,model,grid);result=q.trace_raw_pixel_prediction(request,q.predict_raw_pixel_region(request))
+            published=q.publish_raw_pixel_contours(doc,request,result)
+        assert published and plane_tuple(doc.active_plane)==(-1,0,0)
+>       assert all(plane_tuple(doc.annotation(obj).plane)==(-1,1,1) and not doc.object_visible(obj) for obj in published)
+E       assert False
+E        +  where False = all(<generator object test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed.<locals>.<genexpr> at 0x000002048B87E2F0>)
+
+tests\test_object_planes.py:212: AssertionError
+_ test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[True] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_raw_contour_publication_u1')
+streamed = True
+
+    @pytest.mark.skipif(not q.has_classifier_training or not q.has_geos,reason='actual forest backend and GEOS')
+    @pytest.mark.parametrize('streamed',[False,True])
+    def test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed(tmp_path,streamed):
+        from test_raw_pixel_python import trained
+        doc,_,_=scene(tmp_path)
+        ids=[doc.add_detection(q.Roi.rectangle(q.Rect(0,0,10,16)),class_name='A'),doc.add_detection(q.Roi.rectangle(q.Rect(14,0,10,16)),class_name='B')]
+        for obj in ids:doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
+        grid=q.ScientificGrid(24,16,q.ScientificGridAxis(0,24,24),q.ScientificGridAxis(0,16,16))
+        selection=q.ScientificRawOptions();selection.z=1;selection.t=1;selection.channels=2
+        features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+        options=q.RawPixelTrainingOptions();options.max_samples=32;options.max_samples_per_class=16;options.work_bytes=16*1024**2
+        capture=q.RawPixelTrainingRequest(doc,ids,grid,selection,features,options);model=trained(q.sample_raw_pixel_training(capture))
+        if streamed:
+            stream=q.RawPixelStreamOptions();stream.tile_width=stream.tile_height=8;stream.work_bytes=16*1024**2
+            request=q.RawPixelTiledPredictionRequest(doc,model,q.ScientificRawLattice(grid),stream)
+            contour=q.RawPixelStreamContourOptions();contour.work_bytes=32*1024**2;contour.boundary_work_bytes=2*1024**2
+>           result=q.trace_raw_pixel_stream(request,contour);published=q.publish_raw_pixel_stream_contours(doc,request,result)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: raw streamed contour producer/boundary/geometry work budget exceeded
+
+tests\test_object_planes.py:207: ValueError
+_____________ test_2d_spatial_measurements_refuse_mixed_z_or_time _____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_2d_spatial_measurements_r0')
+
+    def test_2d_spatial_measurements_refuse_mixed_z_or_time(tmp_path):
+        doc,_,_=scene(tmp_path);first=doc.add_rectangle(q.Rect(1,2,5,6));second=doc.add_rectangle(q.Rect(8,2,5,6))
+        doc.set_object_plane(second,q.ObjectPlane(-1,1,0))
+>       with pytest.raises(ValueError,match='one Z/time plane'):q.SpatialDistanceRequest(doc,[first],[second])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests\test_object_planes.py:247: Failed
+_ test_axisless_qptma_import_preserves_default_plane_and_export_refuses_plane_loss _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_axisless_qptma_import_pre0')
+
+    def test_axisless_qptma_import_preserves_default_plane_and_export_refuses_plane_loss(tmp_path):
+        doc,_,_=scene(tmp_path);options=q.TmaGridOptions();options.rows=options.columns=1;options.origin=q.Point(8,8);options.width=options.height=4
+        doc.create_tma_grid(options);data=q.qptma_from_grid(doc.tma_grid()).data;doc.clear_tma_grid(True)
+        display(doc,1,1);obj=q.import_qptma(doc,data)[0]
+>       assert plane_tuple(doc.annotation(obj).plane)==(-1,0,0) and not doc.object_visible(obj)
+E       assert ((-1, 1, 1) == (-1, 0, 0)
+E         
+E         At index 1 diff: 1 != 0
+E         Use -v to get more diff)
+
+tests\test_object_planes.py:256: AssertionError
+_____ test_batch_captures_axes_and_context_and_reuses_without_statistics ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-temp/test_batch_captures_axes_and_c0')
+
+    def test_batch_captures_axes_and_context_and_reuses_without_statistics(tmp_path):
+        project,image,values=scene(tmp_path);doc=project.document(image)
+        obj=doc.add_rectangle(q.Rect(1,2,5,6),'Original')
+        view=doc.server.tiff_view;view.z=2;view.t=1;doc.set_tiff_view(view)
+        options=q.ProjectBatchOptions();options.kind=q.ProjectBatchKind.RAW;options.roi_tile_size=16
+        options.raw.channels=2
+        request=q.ProjectBatchRequest(project,transform(),options=options)
+        doc.rename_annotation(obj,'After capture');view.z=0;view.t=0;doc.set_tiff_view(view)
+        report=q.run_project_batch(request,str(tmp_path/'batch'))
+>       assert report.state=='succeeded',report.error
+E       AssertionError: raw analysis selection does not match the object plane
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests\test_raw_batch.py:30: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_object_planes.py::test_import_view_mask_analysis_restart_and_export_use_exact_plane
+FAILED tests/test_object_planes.py::test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_original
+FAILED tests/test_object_planes.py::test_explicit_default_creation_and_parent_inheritance_override_display_plane
+FAILED tests/test_object_planes.py::test_unchanged_plane_metadata_edit_does_not_open_missing_link
+FAILED tests/test_object_planes.py::test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[False]
+FAILED tests/test_object_planes.py::test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[True]
+FAILED tests/test_object_planes.py::test_2d_spatial_measurements_refuse_mixed_z_or_time
+FAILED tests/test_object_planes.py::test_axisless_qptma_import_preserves_default_plane_and_export_refuses_plane_loss
+FAILED tests/test_raw_batch.py::test_batch_captures_axes_and_context_and_reuses_without_statistics
+9 failed, 41 passed, 1 skipped in 3.24s

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-edit-state-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys,hashlib;from pathlib import Path;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\final-probe-stage');import qupathxx as q;from qupathxx import _native;assert q.build_environment().git_revision=='774abdc46e31799fb0518370dc587a7a59492c99';print('staged source',q.build_environment().git_revision,'native sha256',hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),flush=True);import pytest;sys.exit(pytest.main(['tests/test_object_planes.py', 'tests/test_raw_analysis.py', 'tests/test_raw_batch.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\final-probe.xml', '--basetemp=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\final-probe-temp']))"
+  ],
+  "returncode": 0,
+  "source": "774abdc46e31799fb0518370dc587a7a59492c99",
+  "product_installed": false
+}

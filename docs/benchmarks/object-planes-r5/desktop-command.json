@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_object_planes.py",
+    "tests/test_gui_raw_records.py",
+    "-k",
+    "desktop_plane or managed_merge_keeps_hidden or desktop_raw_batch",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-planes-r5\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-planes-r5\\desktop-temp"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 4.28218590002507
+}

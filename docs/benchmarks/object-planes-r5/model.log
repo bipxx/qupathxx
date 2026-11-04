@@ -1,0 +1,51 @@
+.....................................................sssssss............ [  7%]
+...........s............................................................ [ 15%]
+............................................................ssss........ [ 22%]
+..............................s....................................s.... [ 30%]
+................ss..............F..............................sss...... [ 38%]
+..........sss...............ss.......................................... [ 45%]
+........................................................................ [ 53%]
+........................................................................ [ 60%]
+........................................................................ [ 68%]
+........................................................................ [ 76%]
+........................................................................ [ 83%]
+........................................................................ [ 91%]
+........................................................................ [ 98%]
+..........                                                               [100%]
+================================== FAILURES ===================================
+_ test_invalid_geometry_and_json_preserve_existing_document[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2],"plane":{"z":4294967296}}}] _
+
+broken = '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2],"plane":{"z":4294967296}}}'
+
+    @geo
+    @pytest.mark.parametrize("broken", [
+        '{"type":"Feature","type":"Feature"}',
+        '{"type":"Feature","geometry":{"type":"Point","coordinates":[1e400,0]}}',
+        '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2,3]}}',
+        '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2],"plane":{"z":1}}}',
+        '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2],"plane":{"z":4294967296}}}',
+        '{"type":"Feature","geometry":{"type":"GeometryCollection","coordinates":[]}}',
+        '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[0,0],[1,0],[1,1],[0,1]]]}}',
+    ])
+    def test_invalid_geometry_and_json_preserve_existing_document(broken):
+        doc = document()
+        obj = doc.add_rectangle(q.Rect(10, 10, 10, 10))
+        doc.rename_annotation(obj, "Undo")
+        assert doc.undo()
+        revision, history, redo = doc.revision, doc.history_bytes, doc.redo_label
+        with pytest.raises(ValueError):
+>           q.import_geojson(doc, broken, assume_pixels=True)
+E           IndexError: image plane index exceeds limits
+
+tests\test_interchange.py:126: IndexError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_interchange.py::test_invalid_geometry_and_json_preserve_existing_document[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2],"plane":{"z":4294967296}}}]
+1 failed, 921 passed, 24 skipped, 2 warnings in 76.67s (0:01:16)

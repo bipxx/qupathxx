@@ -307,9 +307,10 @@ frontend store is introduced. See the [field contract](object-properties.md#obje
 and [native/Python/UI evidence](benchmarks/object-edit-state-r5/README.md).
 
 
-## Object planes (schema18; validation pending)
+## Object planes (schema18; locally verified)
 
-The sparse `object_planes(image_id, object_id, c, z, t)` table stores non-default
+[Local workflow evidence](benchmarks/object-planes-r5/README.md) records the
+declared scope and retained failures. The sparse `object_planes(image_id, object_id, c, z, t)` table stores non-default
 object planes. Absent rows retain the legacy channel -1/Z0/time0 interpretation;
 schemas 1–17 remain readable and migrate transactionally on save. Constraints,
 loader checks and object foreign keys reject malformed/orphaned rows. Object

@@ -73,14 +73,14 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. Continue with R5-PLANE1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. Continue with R5-SOURCEAXES1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
 Current states: R0 is engineering accepted, R1 inventory reconciliation is complete
-(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is locally verified for manifest/assisted import and R5-QPDATA1 for pinned native data-file version3, R5-RELINK1 for verified-reader handoff, and R2-R12
+(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is locally verified for manifest/assisted import and R5-QPDATA1 for pinned native data-file version3, R5-RELINK1 for verified-reader handoff, R5-PLANE1 for declared object planes, and R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -131,20 +131,21 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 migration | [Manifest/assisted import](benchmarks/qupath-project-r5/README.md), [pinned native saved data](benchmarks/qupath-saved-data-r5/README.md), [verified-reader handoff](benchmarks/project-relink-r5/README.md) | Pinned format versions and explicit losses; do not rebuild the imports or reopen the same reader twice |
 | R5 source identity | [Persisted reviewed verification](benchmarks/source-verification-r5/README.md) | Primary hash/companion metadata only; historical association is not past-decoder proof |
 | R5 object facts/state | [Metadata/measurements](benchmarks/object-properties-r5/README.md), [locks/color/reported probability](benchmarks/object-edit-state-r5/README.md) | Historical values, interactive lock hints and foreign-extension limits; sparse history preserves the existing compact budget |
+| R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits and changed-source-axis adoption still tracked |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#version-2-cross-session-collection) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Next bounded task: **R5-PLANE1, source/view-aware object planes**. Both GeoJSON and
-saved-data import currently refuse non-default channel/Z/T planes. Trace actual
-TiffView/reader axes, project view switching, object selection/spatial queries and
-analysis request capture before defining a native plane type and storage version.
-Use a valid multi-plane TIFF/OME fixture with independent plane pixel expectations;
-check source axis bounds rather than simply removing the current refusal. Finish
-one declared import -> matching view/selection -> analysis -> save/reopen/export
-workflow. Filtering and stale-result/plane eligibility belong to the shared native
-authority. Keep source-series identity, calibration, default-plane replay and
-unsupported readers explicit. Plane labels alone do not establish plane-aware
-editing or scientific sampling. Batch settled API/storage/UI changes before one
-cached integration build; pull actual R2/R3 prerequisites into this same outcome.
+Next bounded task: **R5-SOURCEAXES1, retained-plane compatibility on source
+replacement**. Project source compatibility currently compares display metadata;
+reviewed source adoption installs its candidate without checking retained object
+planes against changed raw Z/time/channel counts. Reproduce a replacement with unchanged XY dimensions and fewer raw planes
+first on the existing installed product. Then extend the existing
+relink/review-adoption authority, validating current retained planes before
+publication. Reuse candidate metadata and verified-reader handoff; preserve the
+old source/path/baseline on refusal and the matching-byte move/no-op behavior.
+Include a plane edit between review and apply, because source identity alone
+does not describe the current objects. Keep missing-source reopen lazy. Inspect
+existing guards first; do not add another source-review model or storage layer.
+Run affected older contracts on the staged product before final installation.
 
 ## Execution order for finishing the remaining work
 
@@ -155,7 +156,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-PLANE1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-SOURCEAXES1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -169,7 +170,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. RELINK1 verified-reader handoff is locally verified. SOURCE1 persisted review/apply/save is locally verified. Recovery reconciliation confirms existing kill/hot-journal/marked-cleanup coverage. PROP1 metadata/measurement retention is locally verified. EDITSTATE1 lock/color/probability retention is locally verified. Next PLANE1 source/view-aware object planes; then uncovered source races, geometry losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
+| R5 | Reuse the completed R5 workflows below, including PLANE1. Next SOURCEAXES1 checks retained object planes when relink/review candidates change raw axes; then uncovered source races, geometry losses and unsupported saved-data versions/builders/settings | Reuse SQLite snapshots, source guards, native plane validation and verified-reader handoff. Preserve prior state on refusal. Assess additional formats from actual pinned fixtures; assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |

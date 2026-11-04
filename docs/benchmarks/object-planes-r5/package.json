@@ -1,0 +1,25 @@
+{
+  "initial_wheel_sha256": "84446adb9f27d34122cb13f44a11226c5179a686e7df734545ad235b52b89dda",
+  "final_wheel_sha256": "f271279f86f386f30006fe53731ed8440b2a25a87fda9672bb912c2d58eec3d2",
+  "native_sha256": "f1716d2a68e8eb2c2f7b5e3a7d0fe3149ff897297d601bbfab297cbcf3a5d9e4",
+  "stub_generation_from_new_wheel": true,
+  "stub_generation_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py"
+  ],
+  "install_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-planes-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "native_rebuild_for_stubs": false,
+  "final_product_installs": 1
+}
