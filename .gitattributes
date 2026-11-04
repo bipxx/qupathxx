@@ -763,3 +763,5 @@ tools/upstream/qupath_saved_data_reference.groovy -text -whitespace
 docs/benchmarks/qupath-saved-data-r5/** -text -whitespace
 
 docs/benchmarks/project-relink-r5/** -text -whitespace
+
+docs/benchmarks/source-verification-r5/** -text -whitespace

@@ -73,7 +73,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1/RELINK1 to SOURCE1 closeout while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1/RELINK1 to recovery-gap reconciliation after SOURCE1 local closeout while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -177,26 +177,23 @@ identity. The verified reader is retained with its source observation; the secon
 open and duplicate compatibility check are removed. Save/reopen remains lazy.
 One cached build/install, unchanged public signatures/stubs and no platform replay.
 
-Current bounded task: **R5-SOURCE1, finish evidence and documentation closeout**.
-The implementation is present; do not restart its API/schema design or rebuild
-without a changed compiler input. The final corrected desktop decline case now
-passes (`desktop-ui-final.log`: one pass); the two apply/save cases passed in
-`desktop-ui.xml`. Final-product identity/stub checks and the scoped evidence
-record remain open. Retain separate native/product/observer source identities.
-The following paragraph defines its outcome, not a new implementation task.
-Finish the open workflow: fingerprint an image on the existing worker, retain the
-association with its project entry, save/reopen, explicitly compare a current
-fingerprint and review changed/missing/moved source outcomes before replacement.
-Inspect ReaderSource, FileFingerprint/SourceFileAssociation, existing JSON codecs,
-project schema/migration and UI job publication before changing the API/storage.
-Use immutable native facts and existing workers; ordinary project opening must
-remain lazy and avoid full-slide hashing. Separate structural relink compatibility,
-metadata association, primary-file byte evidence and compound-source coverage.
-Never relabel a historical association as proof of already-decoded pixels.
-Define lossless backwards migration, stale/cancel/failure preservation and explicit
-replacement behavior before batching implementation into one settled build/install.
-Keep this under R5; no new provenance framework, generic scheduler or hash at every
-frontend. Record command elapsed time in existing wrappers while commands run.
+Completed bounded workflow: **R5-SOURCE1**. [Scoped evidence](benchmarks/source-verification-r5/README.md)
+records persisted review/apply/save/reopen, explicit replacement, stale/file-change
+refusal and schema15 migration. Native ca009219 and observer7b6f871e retain separate
+identities; all446 compiler inputs,62 installed members/RECORD and stubs verify.
+Original a66c8af5 has687 model passes/ten skips; final product has18 targeted
+passes/three desktop skips, a passing native project suite, and three distinct
+corrected desktop outcomes. Four unchanged-core native suites and typing retain
+their original scope. Three native build attempts, two candidate installations;
+failed compiler/native/desktop attempts remain preserved. Primary-only compound
+coverage does not establish all companion bytes or historical decoder inputs.
+
+Next bounded task: **R5 recovery-gap reconciliation**. Existing killed-writer,
+hot-journal, released-lock and abandoned-autosave tests already cover concrete
+faults. Compare their assertions/receipts with the active recovery claims; correct
+stale blanket gaps and select only a demonstrated missing boundary. Do not rerun
+healthy tests to refresh evidence. Hardware power loss and network durability
+remain separate support claims, not an automatic next campaign.
 
 ## Execution order for finishing the remaining work
 
@@ -207,7 +204,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is SOURCE1 closeout, R5 recovery-gap reconciliation,
+Default remaining order is R5 recovery-gap reconciliation,
 then only demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
@@ -222,7 +219,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. RELINK1 verified-reader handoff is locally verified. SOURCE1 implementation awaits scoped closeout. Next reconcile existing crash/hot-journal/cleanup coverage before selecting a missing recovery fault; then complete uncovered source races, geometry/property losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
+| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. RELINK1 verified-reader handoff is locally verified. SOURCE1 persisted review/apply/save is locally verified. Next reconcile existing crash/hot-journal/cleanup coverage before selecting a missing recovery fault; then complete uncovered source races, geometry/property losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -256,7 +253,7 @@ on one named input. Implemented code awaiting evidence is not a new feature task
 
 | Order / existing family | Next action and easiest path | Minimum remaining checks / handoff |
 | --- | --- | --- |
-| 1 / R5-SOURCE1, awaiting closeout | Reuse the corrected installed GUI product and original unchanged-core results. Finish final-product identity/stub checks, reconcile evidence and document the public review/save contract and schema15. Preserve failed attempts | Check only final identity/stubs and affected final-product behavior still uncovered. Preserve the 687-pass model result in its original source scope; the three desktop outcomes now pass across the retained corrected runs. Publish one scoped record. Explicitly retain primary-only compound coverage and historical-association limits; no whole-project completion claim |
+| 1 / R5-SOURCE1, locally verified | Completed: use the [scoped record](benchmarks/source-verification-r5/README.md) and immutable historical-baseline contract | Reuse original and corrected results within their declared source scope. Primary-only compound coverage remains explicit; do not reopen this workflow without a changed input or concrete gap |
 | 2 / R5 recovery, ready to reconcile | Read `test_project_save.py`, `test_project_recovery.py`, `test_recovery_work_cleanup.py` and their existing receipts. They already cover killed writers, hot-journal recovery, released locks and native autosave debris. Correct stale blanket process-kill/cleanup gaps in active documentation; select only an actual uncovered boundary | Produce a short covered/missing decision in the current card using existing results. If coverage is sufficient, advance without another test run. If a fault is missing, add that one deterministic fault case through current SQLite/publication authorities; prove the previous committed project/checkpoint survives. Process death does not establish hardware power-loss durability |
 | 3 / R4/R5 editing and exchange | Reconcile remaining hierarchy/class edits and property/non-default-plane losses against actual pinned QuPath fixtures. Choose one concrete mismatch; reuse native commands and existing loss-aware import/export | One edit or exchange workflow preserves supported IDs/geometry/class/calibration through undo and save/reopen, and reports unsupported fields/planes. Extend thin Python/UI consumers only where the selected contract changes |
 | 4 / R6-R10 analysis | Take the first ready slice from the ordered rows above: shared context/halo first, then tissue/features, classifiers, spatial metrics and TMA. Specify expected arrays/geometry and recipe before changing code | Verify the shared native result independently, then one affected installed workflow. Reuse consumers and fixtures. If biological labels/tolerances are unavailable, keep that acceptance open and take a ready engineering slice; do not invent an accuracy threshold |

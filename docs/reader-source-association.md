@@ -200,7 +200,7 @@ network filesystem or cross-platform latency claim. Exact native binary SHA-256:
 `8bcef293323426e0ba37c5f315adb9609e66db904aaa450afba27377de14c327`.
 
 
-## Project verification and reviewed replacement (implementation in progress)
+## Project verification and reviewed replacement
 
 The SOURCE1 API adds a private native `ProjectSourceReview` candidate. It does not
 change the live project until apply. `Project.review_source_verification(image_id,
@@ -227,5 +227,38 @@ ordinals remain intact; new behavior is opt-in through saved verification state.
 Resources/ownership, methods, fields, compatibility, SDK exposure and errors are
 reviewed in the native header/binder and workflow tests. HTTP/auth/retry policies
 are not applicable to this in-process API. Current validation and completion status
-remain in [current task](current-task.md); this section is not a completed delivery
-claim until the installed workflow and migration checks pass.
+are recorded in [SOURCE1 local evidence](benchmarks/source-verification-r5/README.md).
+Broader compound byte coverage, recovery and release support remain open.
+
+```python
+job = q.FileFingerprintJob()
+assert job.request(candidate_path)
+assert job.wait().state == "succeeded"
+review = project.review_source_verification(image_id, job.result)
+# Show review.path, comparison and coverage before offering acceptance.
+if not review.requires_acceptance:
+    project.apply_source_review(review)
+# After the user explicitly accepts a changed source:
+# project.apply_source_review(review, accept_changed=True)
+project.save("study.qpxproj")
+```
+
+Comparisons are `unverified` (no historical baseline), `matching_bytes`,
+`changed_bytes`, `changed_dependencies` and `changed_observed_source` (a changed
+known live observation without a saved baseline). The last three require explicit
+acceptance. `coverage` is the reader scope, or `compound_primary_only` for a
+compound graph. Missing/unreadable candidates fail review without project mutation;
+there is no fabricated checksum for a missing source.
+
+The review owns its private compatible native candidate or a stable reused live
+reader. Apply rejects a consumed token, another workspace, changed entry path,
+reader generation or baseline; it rechecks guarded source/dependency versions
+before mutation. File guards cover that operation, not the entire slide lifetime.
+A matching current-reader recheck consumes the token without dirtying the project
+or changing its generation. Source changes after a review require a fresh review.
+
+In ImGui, use the existing checksum worker, then source review (Ctrl+Alt+F).
+A changed-source checkbox authorizes Apply; Ctrl+S persists the result. Rejecting
+or closing review leaves source/baseline unchanged; ordinary viewer camera changes
+may independently dirty the project. Python bindings delegate to native authority;
+no second checksum or replacement policy lives in a frontend.

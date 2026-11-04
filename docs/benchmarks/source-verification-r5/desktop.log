@@ -1,0 +1,54 @@
+F.F                                                                      [100%]
+================================== FAILURES ===================================
+____________ test_desktop_hash_review_apply_and_save[False-False] _____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/desktop-temp/test_desktop_hash_review_apply0')
+changed = False, accept = False
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source verification desktop')
+    @pytest.mark.parametrize('changed,accept',[(False,False),(True,False),(True,True)])
+    def test_desktop_hash_review_apply_and_save(tmp_path,changed,accept):
+        from test_gui_replay import event
+        p,image,doc,obj,source,path=scene(tmp_path)
+        if changed:retain(p,image,source);p.save(str(path))
+        candidate=ppm(tmp_path/'candidate.ppm',96) if changed else source
+        options=q.GuiOptions();options.file_fingerprint_path=str(candidate);options.settle_tiles=True
+        inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY)]
+        if accept:
+            inputs.extend([event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT)])
+        if not changed or accept:
+            inputs.extend([event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)])
+        options.inputs=inputs
+>       report=q.show(p,frame_limit=50,capture_path=str(tmp_path/'source-review.ppm'),options=options)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: GUI replay timed out waiting for event at logical frame 12
+
+tests\test_project_source.py:189: RuntimeError
+_____________ test_desktop_hash_review_apply_and_save[True-True] ______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/desktop-temp/test_desktop_hash_review_apply2')
+changed = True, accept = True
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source verification desktop')
+    @pytest.mark.parametrize('changed,accept',[(False,False),(True,False),(True,True)])
+    def test_desktop_hash_review_apply_and_save(tmp_path,changed,accept):
+        from test_gui_replay import event
+        p,image,doc,obj,source,path=scene(tmp_path)
+        if changed:retain(p,image,source);p.save(str(path))
+        candidate=ppm(tmp_path/'candidate.ppm',96) if changed else source
+        options=q.GuiOptions();options.file_fingerprint_path=str(candidate);options.settle_tiles=True
+        inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY)]
+        if accept:
+            inputs.extend([event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT)])
+        if not changed or accept:
+            inputs.extend([event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)])
+        options.inputs=inputs
+>       report=q.show(p,frame_limit=50,capture_path=str(tmp_path/'source-review.ppm'),options=options)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: GUI replay timed out waiting for event at logical frame 8
+
+tests\test_project_source.py:189: RuntimeError
+=========================== short test summary info ===========================
+FAILED tests/test_project_source.py::test_desktop_hash_review_apply_and_save[False-False]
+FAILED tests/test_project_source.py::test_desktop_hash_review_apply_and_save[True-True]
+2 failed, 1 passed in 11.42s

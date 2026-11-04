@@ -1,12 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 14 stores canonical object state,
+source descriptors. SQLite schema version 15 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
-and [spatial distance tables](spatial-analysis.md). Schemas 1–13
+[spatial distance tables](spatial-analysis.md) and optional
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–14
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -75,7 +76,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 14. Schemas 1–13 migrate
+The application ID is `0x51505858` and new `user_version` is 15. Schemas 1–14 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -89,7 +90,13 @@ filesystem and operating system assumptions of SQLite. Current failure tests
 install a trigger that aborts object insertion after earlier tables have been
 rewritten inside the transaction. They verify rollback, the previous project,
 generation/dirty state and SQLite `quick_check`. This is actual mid-save failure
-coverage; a process-kill/power-loss fault campaign remains a delivery gate.
+coverage. Existing `test_project_save.py` also kills a real native writer after
+its hot journal appears, verifies writable native recovery, and checks that a
+read-only refusal preserves the journal for a later writable recovery.
+`test_project_recovery.py` and `test_recovery_work_cleanup.py` cover abnormal exit,
+released locks and abandoned native-autosave work. These establish their tested
+process-death boundaries, not hardware power-loss durability. Reconcile these
+results before selecting another fault; there is no automatic repeat campaign.
 The format is a local SQLite database. External journal-mode/schema manipulation
 and network-filesystem durability are not part of the validated support matrix.
 
@@ -243,3 +250,17 @@ The Hamamatsu NDPI validation packet exercises this path with real nine-level
 pixels, anisotropic calibration and a saved/replayed LoG run. The new default attachment behavior passes local native and Python/full
 Windows headless checks; source-specific hosted qualification is in progress.
 Older source receipts do not cover it. No database schema or existing archive encoding changes.
+
+## Saved source verification (schema15)
+
+`source_verifications(image_id,payload)` stores optional associations for external
+images. The bounded2MiB QSV1 payload has a versioned binary header, source graph,
+file fingerprint/status and SHA-256 trailer; canonical decoding rejects malformed,
+orphan or embedded-image rows. Ordinary open restores immutable facts without
+source I/O. Missing source files remain recoverable project entries.
+
+Schemas1–14 remain readable and are upgraded on save within the same transaction
+as project rows. Failure rolls back the schema/data and preserves the prior
+committed project. Async snapshots retain the association. Clearing verification
+is an explicit project mutation. See the [review API](reader-source-association.md#project-verification-and-reviewed-replacement)
+and [scoped evidence](benchmarks/source-verification-r5/README.md).
