@@ -4,7 +4,7 @@ Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-qu
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R4-CLIP1 is locally verified in its recorded scope.
 
-Current: **R5-ROOT1 — saved-data root metadata/measurements** (contract settled; implementation in progress).
+Current: **R5-ROOT1 — saved-data root metadata/measurements** (affected engineering checks passed; evidence and plan handoff pending).
 
 - Outcome: retain the pinned QuPath root metadata/measurements as image-level
   historical facts through native import, Python/ImGui access and saved reopen,
@@ -45,24 +45,25 @@ Current: **R5-ROOT1 — saved-data root metadata/measurements** (contract settle
   additional saved-data versions/records, remaining R4/R5 gaps and R6-R16 stay in
   the existing queue; completing ROOT1 will not close all interchange or M4.
 
-Latest closeout (2026-11-04, ROOT1 staged storage/environment):
-Outcome/evidence: ce786260 passes222 staged cases/eleven skips, including both
-image/ROI worker-final-release regressions; six affected native suites pass.
-Six failures remain in staged-collect-fixed.xml. One actual writer bug passes
-an encoded temporary vector to SQLITE_STATIC, freeing it before statement done
-and corrupting imported root facts. The same mistake exists for ROI facts. Five
-child-process failures load the old installed environment despite the parent's
-sys.path injection, yielding mixed schema18/schema19 behavior.
-Waste/decision: **retain** failures and passed checks in their real scopes.
-**Remove** dangling temporary BLOB bindings at both callers and reject rvalues in
-the private borrowed-buffer API; keep zero-copy lifetime-safe writes. **Merge**
-the fix at the shared statement boundary. **Remove** mixed child imports via a
-dedicated staging-only environment whose site .pth points to the unpacked product;
-this is not a product install and also reaches isolated child interpreters.
-Plan change/next action: fix the two buffer lifetimes, rebuild only affected cached
-products, and rerun storage/import/snapshot contracts on that source. Pure document
-edit/classification checks retain ce786260 scope. Retry the child workflows using
-the same staged package throughout. No rebuild is needed for environment repair.
+Latest closeout (2026-11-04, ROOT1 final storage/observer):
+Outcome/evidence: store405ba1ad builds in34.24s; three affected storage suites
+pass.216 staged storage/consumer cases pass with eleven declared skips. Root
+import/reopen, immutable history, migration/refusal/corruption and both image/ROI
+native-only worker releases pass. The dedicated probe environment fixes isolated
+child imports. Two remaining benchmark observers hard-code report schema18 even
+though the producer correctly reports19 (staged-store.xml).
+Waste/decision: **retain** earlier deadlock, temporary-BLOB corruption, selection
+and environment failures. **Reuse** the same native product,216 healthy cases,
+unchanged pure document/classification checks from ce786260 and native suites in
+their actual scopes. **Remove** the last duplicated report-version assertion by
+using the independent shared expected version. No build/install/stub run needed.
+Plan change/next action: both corrected report cases now pass. The combined
+cohort accounts for all239 selected cases (228 passes/eleven declared skips),
+retaining only the ten unchanged pure model cases from ce786260. Final stubs were generated once and one repackaged native product installed.
+Positive typing, three exact negative diagnostics, five packaged-stub contracts
+and the actual desktop inspector/save/reopen flow pass. The capture visibly
+separates root12.5, child historical3.5 and live ROI120px2/15um2. Finalize identity/
+evidence and the plan handoff; no further numerical/platform campaign is needed.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

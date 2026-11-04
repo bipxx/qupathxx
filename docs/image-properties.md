@@ -19,7 +19,8 @@ if facts is not None:
 doc.set_image_properties()  # Explicitly clear; one undoable edit.
 ```
 
-The value is immutable and owning. Python map getters return independent copies;
+The value is immutable and owning. Native shared construction keeps image and
+ROI facts independent of Python wrapper lifetime during save-worker cleanup. Python map getters return independent copies;
 use set_image_properties to change document state. Passing None or empty maps
 means no image facts. Equal values are a no-op. Nonempty set/clear operations
 use one **Set image properties** history entry; history admission/refusal and
