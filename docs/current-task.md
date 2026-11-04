@@ -17,7 +17,7 @@ Current: **R5-PROP1 — imported object metadata and measurements**.
 - Implementation status: immutable ObjectProperties, atomic property commands,
   history/snapshot charges, schema16 table/codec, GeoJSON/CSV and selected-object
   inspection are being wired together. Saved-data decoding retains the pinned
-  metadata and measurement representations. No native build/install has run yet.
+  metadata and measurement representations. The native implementation is built and its installed workflow checks are in closeout.
 - Contract: bounded string metadata and binary64 measurements (canonical NaN,
   signed zero and infinities preserved); imported facts remain historical after
   edits. Unknown fields/locks/planes retain explicit refusal/loss. Ordinary edits
@@ -37,6 +37,14 @@ Current: **R5-PROP1 — imported object metadata and measurements**.
   because core/header/test inputs are unchanged; verify final installed identity,
   model workflow, stubs/typing and desktop. Check STL caster includes beside new
   container arguments before expensive builds. No new reference/platform run.
+- Latest attempt review: corrected0effd30d built in457.69s, one product install;
+  stubs/typing and both desktop flows pass. Model724 passes/twelve declared skips;
+  two descriptor-benchmark cases fail on a stale schema14 assertion. All new
+  property cases pass. Reuse product/native/model results; remove the benchmark's
+  duplicated version literal by reading the existing schema declaration, then
+  rerun only those two cases. The first observer retry also matched the batch
+  schema constant; anchor the exact name and preflight its single match before
+  another run. Both failures are retained. No native input/build/install changes.
 - Checks: independent exact fixture properties; lossless supported roundtrip,
   undo/redo, project migration/rollback and retained snapshot ownership. Preserve
   unsupported locks/planes/custom payload refusal or explicit loss reports.
