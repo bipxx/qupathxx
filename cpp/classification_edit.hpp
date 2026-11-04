@@ -4,7 +4,7 @@ namespace qpx::detail {
 // Reversible field transaction. Geometry and image/reader ownership never
 // enter this history record. Each row alternates its string with the live one.
 struct ClassificationEdit {
-    struct Row {std::uint64_t id;std::string alternate;};
+    struct Row {std::uint64_t id;std::string alternate;std::shared_ptr<const ObjectProperties> properties;};
     std::vector<Row> rows;
     std::vector<std::string> count_keys,class_keys;
     std::vector<std::size_t> expected_counts;

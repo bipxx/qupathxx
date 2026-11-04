@@ -147,15 +147,20 @@ def test_restarted_project_and_native_geojson_keep_hierarchy_calibration_and_nuc
 
 
 @NATIVE
-def test_actual_unsupported_properties_require_permission_and_count_all_losses():
+def test_actual_editing_properties_are_retained_and_unknown_fields_still_require_permission():
     doc = document()
+    report = q.load_geojson(doc, str(FIXTURE / 'losses.geojson'), assume_pixels=True)
+    assert report.issues == []
+    obj = doc.annotation(report.imported_ids[0])
+    assert obj.locked and obj.color_rgb == 0x0c2238 and obj.properties.measurements == {'Fixture measurement':12.5}
+    assert doc.undo() and doc.object_count == 0 and not doc.classes
+    data = read('losses.geojson');data['features'][0]['properties']['unsupported'] = True
     revision = doc.revision
     with pytest.raises(ValueError, match='Unsupported properties'):
-        q.load_geojson(doc, str(FIXTURE / 'losses.geojson'), assume_pixels=True)
+        q.import_geojson(doc, json.dumps(data), assume_pixels=True)
     assert doc.revision == revision and doc.object_count == 0 and not doc.classes
-    report = q.load_geojson(doc, str(FIXTURE / 'losses.geojson'), assume_pixels=True, allow_losses=True)
-    assert [(i.code, i.count) for i in report.issues] == [('properties_dropped', 3)]
-    assert doc.annotation(report.imported_ids[0]).name == 'Unsupported properties'
+    report = q.import_geojson(doc, json.dumps(data), assume_pixels=True, allow_losses=True)
+    assert [(i.code, i.count) for i in report.issues] == [('properties_dropped', 1)]
     assert doc.undo() and doc.object_count == 0 and not doc.classes
 
 

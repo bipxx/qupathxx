@@ -1,3 +1,4 @@
+#include "qupathxx/object_properties.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/project_source.hpp"
@@ -54,7 +55,7 @@ void verified_relink_handoff() {
 void object_property_roundtrip() {
     Project project;auto doc=std::make_shared<Document>(Image::demo());auto image=project.add_document(doc);auto object=doc->add_rectangle({1,2,10,12});
     auto properties=std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{{"note","native"}},std::map<std::string,double>{{"Area",3.5},{"zero",-0.0}});
-    doc->set_object_properties(object,properties);const auto path=(std::filesystem::temp_directory_path()/(project.identity()+".qpxproj")).u8string();project.save(path);
+    doc->set_object_properties(object,properties);doc->set_object_edit_state(object,true,0x123456,.875);properties=doc->annotation(object).properties;const auto path=(std::filesystem::temp_directory_path()/(project.identity()+".qpxproj")).u8string();project.save(path);
     auto restored=Project::open(path)->document(image);check(restored->annotation(object).properties->equals(*properties));
     doc->set_object_properties(object,nullptr);check(doc->undo() && doc->annotation(object).properties==properties && restored->annotation(object).properties->metadata().at("note")=="native");
     std::filesystem::remove(std::filesystem::u8path(path));

@@ -96,6 +96,7 @@ CONDITIONAL=[
 # consumer. Fixture bytes remain raw; code permits only checkout CRLF changes.
 FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','qupath-rgb-resampling-0.7.0','qupath-rgb-resampling-holdout-0.7.0','rgb-nominal-v1','nominal-cells-v1','raw-scientific-means-v1','raw-scientific-sampling-v1','raw-grid-statistics-v1','raw-grid-archive-v1'))
 EXTRA=('docs/scientific-grid-contract.md','tools/ci/run.py','tools/ci/run_manylinux.py','tools/ci/requirements.txt','tools/ci/scientific_grid_evidence.py','tools/ci/scientific-grid-cases.json','tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py','.github/workflows/ci.yml','tools/generate_stubs.py','tests/test_scientific_grid_evidence.py','tests/test_stub_signature_guard.py','tests/test_public_stubs.py',*POSITIVE,*('tests/typing/'+v[0] for v in NEGATIVE.values()))
+EXTRA+=('tests/test_object_edit_state.py','tests/typing/object_edit_state_valid.py','tests/typing/object_edit_state_invalid.py')
 EXTRA+=('tests/test_object_properties.py','tests/typing/object_properties_valid.py','tests/typing/object_properties_invalid.py')
 EXTRA+=('tests/test_project_source.py','tests/typing/project_source_valid.py','tests/typing/project_source_invalid.py')
 EXTRA+=('tests/test_project_relink.py',)

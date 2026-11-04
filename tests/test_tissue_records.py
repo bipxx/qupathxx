@@ -106,7 +106,7 @@ def test_full_mask_parameters_and_components_roundtrip(tmp_path, feature, connec
     assert restored.tissue_status(record) == "current" and restored.revision == revision and not restored_project.dirty
     assert restored.tissue_record(record).result.parameters.max_hole_pixels == parameters.max_hole_pixels
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 16
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 17
         assert db.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 
 
@@ -306,7 +306,7 @@ def test_schema3_read_and_transactional_migration(tmp_path):
         db.execute("DROP TRIGGER fail_tissue")
     restored.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 16
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 17
     assert q.Project.open(str(path)).document(image).tissue_record_count == 0
 
 

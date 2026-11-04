@@ -11,6 +11,10 @@ int main() {
         const ObjectProperties facts({{"note","native"}},{{"Area",3.5},{"negative zero",-0.0},{"missing",std::numeric_limits<double>::quiet_NaN()},{"infinity",std::numeric_limits<double>::infinity()}});
         auto bytes=detail::encode_object_properties(facts);const auto decoded=detail::decode_object_properties(bytes.data(),bytes.size());
         check(facts.equals(*decoded) && std::isnan(decoded->measurements().at("missing")) && std::signbit(decoded->measurements().at("negative zero")));
+        const auto edited=facts.with_edit_state(true,0x123456,.875);const auto state=detail::encode_object_properties(*edited);
+        check(state[3]==2 && detail::decode_object_properties(state.data(),state.size())->equals(*edited));
+        bool refused_state=false;try {detail::decode_object_properties(state.data(),state.size(),false);}catch(const std::invalid_argument&){refused_state=true;}check(refused_state);
+        std::cout<<"Object editing state: shared facts, exact version2 codec and version1 compatibility refusal passed\n";
         bytes.back()^=1;bool bad_checksum=false;try {detail::decode_object_properties(bytes.data(),bytes.size());}catch(const std::invalid_argument&){bad_checksum=true;}check(bad_checksum);
         Document source(Image::demo());
         auto parent=source.add_rectangle({0,0,100,100},"Parent");

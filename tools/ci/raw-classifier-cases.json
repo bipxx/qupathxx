@@ -498,8 +498,8 @@
       "Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed"
     ],
     "spatial_records": [
-      "Spatial projects: schema16 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed",
-      "Spatial migrations: all15 legacy schemas open without modification and transactionally upgrade with retained distance rows passed"
+      "Spatial projects: schema17 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed",
+      "Spatial migrations: all16 legacy schemas open without modification and transactionally upgrade with retained distance rows passed"
     ],
     "spatial_cli": [
       "Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed"

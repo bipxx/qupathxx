@@ -330,12 +330,12 @@ class Decoder {
         if(!attributes.empty())properties["metadata"]=std::move(attributes);
         if(!measured.empty())properties["measurements"]=measured;
         if(label)properties["name"]=text(label);
-        if(color)issue("object_color_dropped","Saved per-object colors are not represented");
+        if(color) {if(stream.name(color)!="java.lang.Integer")invalid("invalid saved object color");properties["color"]=std::int32_t(number(field(color,"value"),'I'));}
         const auto locked=d.object();if(stream.name(locked)!="java.lang.Boolean")invalid("invalid ROI lock flag");
-        if(number(field(locked,"value"),'Z'))issue("object_lock_dropped","Saved ROI lock is not represented");
+        const auto lock_value=number(field(locked,"value"),'Z');if(lock_value>1)invalid("invalid ROI lock value");if(lock_value)properties["isLocked"]=true;
         const auto cls=classification(d.object());if(!cls.is_null())properties["classification"]=cls;
         auto roi=geometry(d.object());const auto probability=floating(d.integer(8));
-        if(!std::isnan(probability))issue("class_probability_dropped","Saved class probability is not represented");
+        if(!std::isnan(probability))properties["qupathxx"]={{"classProbability",measurement_json(probability)}};
         if(!children.empty())properties["childObjects"]=std::move(children);
         Json out={{"type","Feature"},{"id",uuid},{"geometry",std::move(roi)},{"properties",std::move(properties)}};
         if(cell) {const auto nucleus=d.object();if(nucleus)out["nucleusGeometry"]=geometry(nucleus);}

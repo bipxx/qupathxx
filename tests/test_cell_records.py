@@ -91,7 +91,7 @@ def test_roundtrip_retains_every_numeric_field_and_rechecks(tmp_path, feature, e
     with pytest.raises(ValueError, match="current request"):
         restored.keep_cells(replay, old)
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 16
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 17
 
 
 @project_only
@@ -177,7 +177,7 @@ def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
         db.execute("DROP TRIGGER fail_cells")
     loaded.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 16
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 17
 
 
 def rewrite_checksum(data, roi):

@@ -106,7 +106,7 @@ def test_project_and_recovery_keep_exact_cohorts_without_live_authority(tmp_path
     project = q.Project(); image = project.add_document(doc, 'Cohort')
     path = tmp_path/'classifier.qpxproj'; project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 16
+        assert db.execute('PRAGMA user_version').fetchone()[0] == 17
         assert db.execute('SELECT count(*) FROM classifier_records').fetchone()[0] == 1
     loaded_project = q.Project.open(str(path)); loaded = loaded_project.document(image)
     record = loaded.classifier_record(original.id)

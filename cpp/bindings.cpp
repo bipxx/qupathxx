@@ -29,6 +29,7 @@ void bind_tma(nb::module_&);
 void bind_raw_images(nb::module_&);
 void bind_raw_analysis(nb::module_&);
 void bind_arrays(nb::module_&);
+void bind_object_properties(nb::module_&);
 void bind_thumbnails(nb::module_&);
 void bind_scientific_grid(nb::module_&);
 void bind_scientific_raw(nb::module_&);
@@ -96,24 +97,17 @@ NB_MODULE(_native, m) {
     nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
         .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
     nb::class_<ObjectClass>(m,"ObjectClass").def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color);
-    nb::class_<ObjectProperties>(m,"ObjectProperties")
-        .def(nb::init<std::map<std::string,std::string>,std::map<std::string,double>>(),"metadata"_a=std::map<std::string,std::string>{},"measurements"_a=std::map<std::string,double>{})
-        .def_prop_ro("metadata",[](const ObjectProperties& p){return p.metadata();})
-        .def_prop_ro("measurements",[](const ObjectProperties& p){return p.measurements();})
-        .def_prop_ro("payload_bytes",&ObjectProperties::payload_bytes);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
         .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
         .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
         .def_ro("kind",&Annotation::kind).def_prop_ro("is_detection",&Annotation::is_detection)
         .def_prop_ro("nucleus",[](const Annotation& a){return a.nucleus;}).def_prop_ro("bounds",&Annotation::bounds)
-        .def_prop_ro("properties",[](const Annotation& a){return a.properties;})
         .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
     nb::class_<ObjectEdit>(m,"ObjectEdit")
         .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
         .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
         .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
         .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
-        .def_static("properties",&ObjectEdit::properties,"id"_a,"properties"_a=nb::none())
         .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
@@ -187,7 +181,6 @@ NB_MODULE(_native, m) {
         .def_prop_ro("server", &Document::server)
         .def_prop_ro("metadata", [](const Document& d) { return d.metadata(); })
         .def_prop_ro("annotations", [](const Document& d) { return d.annotations(); })
-        .def("set_object_properties",&Document::set_object_properties,"id"_a,"properties"_a=nb::none())
         .def("add_rectangle", &Document::add_rectangle, "roi"_a, "name"_a = "Annotation")
         .def("add_roi",&Document::add_roi,"roi"_a,"name"_a="Annotation").def("update_roi",&Document::update_roi)
         .def("add_detection",&Document::add_detection,"roi"_a,"name"_a="Detection","parent_id"_a=0,"class_name"_a="")
@@ -375,7 +368,7 @@ NB_MODULE(_native, m) {
         .value("QPTMA_DISCARD_PREVIEW",GuiInputTarget::DiscardQptmaPreview).value("QPTMA_ACKNOWLEDGE_LOSSES",GuiInputTarget::AcknowledgeQptmaLosses)
         .value("TMA_INSERT_ROW_BEFORE",GuiInputTarget::TmaInsertRowBefore).value("TMA_INSERT_ROW_AFTER",GuiInputTarget::TmaInsertRowAfter)
         .value("TMA_INSERT_COLUMN_BEFORE",GuiInputTarget::TmaInsertColumnBefore).value("TMA_INSERT_COLUMN_AFTER",GuiInputTarget::TmaInsertColumnAfter)
-        .value("TMA_REMOVE_ROW",GuiInputTarget::TmaRemoveRow).value("TMA_REMOVE_COLUMN",GuiInputTarget::TmaRemoveColumn).value("TMA_DETECT_GRID",GuiInputTarget::TmaDetectGrid).value("RAW_PIXEL_TRAIN",GuiInputTarget::RawPixelTrain).value("RAW_PIXEL_PREDICT",GuiInputTarget::RawPixelPredict).value("RAW_PIXEL_CANCEL",GuiInputTarget::RawPixelCancel).value("RAW_PIXEL_KEEP_TRAINING",GuiInputTarget::RawPixelKeepTraining).value("RAW_PIXEL_SAVE_MODEL",GuiInputTarget::RawPixelSaveModel).value("RAW_PIXEL_LOAD_MODEL",GuiInputTarget::RawPixelLoadModel).value("RAW_PIXEL_EXPORT",GuiInputTarget::RawPixelExport).value("RAW_PIXEL_OPEN_FILE",GuiInputTarget::RawPixelOpenFile).value("RAW_PIXEL_KEEP_LINK",GuiInputTarget::RawPixelKeepLink).value("RAW_PIXEL_OPEN_RECORD",GuiInputTarget::RawPixelOpenRecord).value("RAW_PIXEL_REMOVE_RECORD",GuiInputTarget::RawPixelRemoveRecord).value("RAW_PIXEL_TOGGLE_OVERLAY",GuiInputTarget::RawPixelToggleOverlay).value("RAW_PIXEL_HIDE",GuiInputTarget::RawPixelHide).value("RAW_PIXEL_TRAINING_TAB",GuiInputTarget::RawPixelTrainingTab).value("RAW_PIXEL_FILES_TAB",GuiInputTarget::RawPixelFilesTab).value("RAW_PIXEL_RECORDS_TAB",GuiInputTarget::RawPixelRecordsTab).value("RAW_PIXEL_TRACE",GuiInputTarget::RawPixelTrace).value("RAW_PIXEL_APPLY",GuiInputTarget::RawPixelApply).value("RAW_PIXEL_CONTOURS_TAB",GuiInputTarget::RawPixelContoursTab).value("RAW_PIXEL_TRACE_FILE",GuiInputTarget::RawPixelTraceFile).value("RAW_PIXEL_REPLAY_FILE",GuiInputTarget::RawPixelReplayFile).value("RAW_PIXEL_APPLY_FILE",GuiInputTarget::RawPixelApplyFile).value("SPATIAL_OPEN",GuiInputTarget::SpatialOpen).value("SPATIAL_SOURCES",GuiInputTarget::SpatialSources).value("SPATIAL_TARGETS",GuiInputTarget::SpatialTargets).value("SPATIAL_RUN",GuiInputTarget::SpatialRun).value("SPATIAL_CANCEL",GuiInputTarget::SpatialCancel).value("SPATIAL_KEEP",GuiInputTarget::SpatialKeep).value("SPATIAL_INSPECT",GuiInputTarget::SpatialInspect).value("SPATIAL_VERIFY",GuiInputTarget::SpatialVerify).value("SPATIAL_EXPORT",GuiInputTarget::SpatialExport).value("SPATIAL_REMOVE",GuiInputTarget::SpatialRemove).value("SPATIAL_PATH",GuiInputTarget::SpatialPath).value("SPATIAL_RECORD_ID",GuiInputTarget::SpatialRecordId).value("APPLY_SOURCE_VERIFICATION",GuiInputTarget::ApplySourceVerification).value("ACCEPT_SOURCE_REPLACEMENT",GuiInputTarget::AcceptSourceReplacement);
+        .value("TMA_REMOVE_ROW",GuiInputTarget::TmaRemoveRow).value("TMA_REMOVE_COLUMN",GuiInputTarget::TmaRemoveColumn).value("TMA_DETECT_GRID",GuiInputTarget::TmaDetectGrid).value("RAW_PIXEL_TRAIN",GuiInputTarget::RawPixelTrain).value("RAW_PIXEL_PREDICT",GuiInputTarget::RawPixelPredict).value("RAW_PIXEL_CANCEL",GuiInputTarget::RawPixelCancel).value("RAW_PIXEL_KEEP_TRAINING",GuiInputTarget::RawPixelKeepTraining).value("RAW_PIXEL_SAVE_MODEL",GuiInputTarget::RawPixelSaveModel).value("RAW_PIXEL_LOAD_MODEL",GuiInputTarget::RawPixelLoadModel).value("RAW_PIXEL_EXPORT",GuiInputTarget::RawPixelExport).value("RAW_PIXEL_OPEN_FILE",GuiInputTarget::RawPixelOpenFile).value("RAW_PIXEL_KEEP_LINK",GuiInputTarget::RawPixelKeepLink).value("RAW_PIXEL_OPEN_RECORD",GuiInputTarget::RawPixelOpenRecord).value("RAW_PIXEL_REMOVE_RECORD",GuiInputTarget::RawPixelRemoveRecord).value("RAW_PIXEL_TOGGLE_OVERLAY",GuiInputTarget::RawPixelToggleOverlay).value("RAW_PIXEL_HIDE",GuiInputTarget::RawPixelHide).value("RAW_PIXEL_TRAINING_TAB",GuiInputTarget::RawPixelTrainingTab).value("RAW_PIXEL_FILES_TAB",GuiInputTarget::RawPixelFilesTab).value("RAW_PIXEL_RECORDS_TAB",GuiInputTarget::RawPixelRecordsTab).value("RAW_PIXEL_TRACE",GuiInputTarget::RawPixelTrace).value("RAW_PIXEL_APPLY",GuiInputTarget::RawPixelApply).value("RAW_PIXEL_CONTOURS_TAB",GuiInputTarget::RawPixelContoursTab).value("RAW_PIXEL_TRACE_FILE",GuiInputTarget::RawPixelTraceFile).value("RAW_PIXEL_REPLAY_FILE",GuiInputTarget::RawPixelReplayFile).value("RAW_PIXEL_APPLY_FILE",GuiInputTarget::RawPixelApplyFile).value("SPATIAL_OPEN",GuiInputTarget::SpatialOpen).value("SPATIAL_SOURCES",GuiInputTarget::SpatialSources).value("SPATIAL_TARGETS",GuiInputTarget::SpatialTargets).value("SPATIAL_RUN",GuiInputTarget::SpatialRun).value("SPATIAL_CANCEL",GuiInputTarget::SpatialCancel).value("SPATIAL_KEEP",GuiInputTarget::SpatialKeep).value("SPATIAL_INSPECT",GuiInputTarget::SpatialInspect).value("SPATIAL_VERIFY",GuiInputTarget::SpatialVerify).value("SPATIAL_EXPORT",GuiInputTarget::SpatialExport).value("SPATIAL_REMOVE",GuiInputTarget::SpatialRemove).value("SPATIAL_PATH",GuiInputTarget::SpatialPath).value("SPATIAL_RECORD_ID",GuiInputTarget::SpatialRecordId).value("APPLY_SOURCE_VERIFICATION",GuiInputTarget::ApplySourceVerification).value("ACCEPT_SOURCE_REPLACEMENT",GuiInputTarget::AcceptSourceReplacement).value("TOGGLE_OBJECT_LOCK",GuiInputTarget::ToggleObjectLock).value("APPLY_OBJECT_EDIT_STATE",GuiInputTarget::ApplyObjectEditState).value("CLEAR_OBJECT_PROPERTIES",GuiInputTarget::ClearObjectProperties);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("TIFF_READY",GuiInputWait::TiffReady).value("TIFF_VIEW_APPLIED",GuiInputWait::TiffViewApplied).value("RAW_TASK_FINISHED",GuiInputWait::RawTaskFinished).value("RAW_NUMPY_SAVED",GuiInputWait::RawNumpySaved).value("RAW_ANALYSIS_KEPT",GuiInputWait::RawAnalysisKept).value("RAW_ANALYSIS_VERIFIED",GuiInputWait::RawAnalysisVerified).value("RAW_MEASUREMENTS_SAVED",GuiInputWait::RawMeasurementsSaved).value("RAW_PIXEL_FINISHED",GuiInputWait::RawPixelFinished).value("RAW_PIXEL_TRAINED",GuiInputWait::RawPixelTrained).value("RAW_PIXEL_PREDICTED",GuiInputWait::RawPixelPredicted).value("RAW_PIXEL_PREVIEW_READY",GuiInputWait::RawPixelPreviewReady).value("RAW_PIXEL_KEPT",GuiInputWait::RawPixelKept).value("RAW_PIXEL_FILE_SAVED",GuiInputWait::RawPixelFileSaved).value("RAW_PIXEL_FILE_READ",GuiInputWait::RawPixelFileRead).value("RAW_PIXEL_MODEL_SAVED",GuiInputWait::RawPixelModelSaved).value("RAW_PIXEL_MODEL_LOADED",GuiInputWait::RawPixelModelLoaded).value("RAW_PIXEL_CONTOURS_READY",GuiInputWait::RawPixelContoursReady).value("RAW_PIXEL_CONTOURS_PUBLISHED",GuiInputWait::RawPixelContoursPublished).value("TMA_GRID_READY",GuiInputWait::TmaGridReady).value("TMA_METADATA_SAVED",GuiInputWait::TmaMetadataSaved).value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
@@ -465,6 +458,7 @@ NB_MODULE(_native, m) {
     bind_cell_tables(m);
     bind_measurement_tables(m);
     bind_provenance(m);
+    bind_object_properties(m);
     bind_file_fingerprint(m);
     bind_tma(m);
     bind_raw_images(m);

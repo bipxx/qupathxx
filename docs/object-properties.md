@@ -52,3 +52,49 @@ not applicable; no HTTP/proto API lint configuration is present for this SDK.
 Generated stubs/typing and the installed inspect/save/export workflows pass
 within the linked Windows scope. C++ source compatibility is additive; clients
 must rebuild for the extended Annotation layout. The wheel does not ship headers. This contract is not a release, biological-validation or performance claim.
+
+## Object editing state (EDITSTATE1 in progress)
+
+ObjectProperties adds optional color_rgb (24-bit RGB), a locked flag and optional
+class_probability; existing constructor arguments/defaults remain valid. Annotation
+exposes the same read-only state. with_edit_state replaces those typed fields while
+sharing immutable metadata/measurement maps. Document.set_object_edit_state uses
+the existing atomic property command; clear is explicit and undoable. A default
+state request for a plain object is a no-op. C++ users include object_properties.hpp
+when inspecting the owner; core.hpp forward-declares it to reduce rebuild coupling.
+Bindings live in their own module with explicit map/optional/shared-pointer casters.
+
+Locks are interactive ROI-editing hints, matching the pinned
+[QuPath ROI object](https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core/src/main/java/qupath/lib/objects/PathROIObject.java)
+and [move tool](https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-gui-fx/src/main/java/qupath/lib/gui/viewer/tools/handlers/MoveToolEventHandler.java).
+ImGui blocks vertex/hole/inspector/Boolean/merge geometry changes while locked;
+selection, properties, naming, classification and explicit deletion remain usable.
+Native scripted geometry commands still operate. Lock/unlock, display-state Apply
+and explicit Clear/Unlock controls use the same native history authority.
+
+Reported class probability is historical source state, not calibrated/recomputed
+confidence. NaN means unknown (None); other binary64 values, including infinities
+and signed zero, remain representable. Explicit reclassification clears the old
+probability and a named classification clears the color override. Taxonomy rename
+retains state; undo/redo restores it exactly, including the optimized classification
+transaction and saved immutable snapshot blocks.
+
+Schema17 retains the schema16 object_properties table. QOP1 remains canonical for
+metadata/measurements without editing state; QOP2 adds bounded typed flags/color/
+probability. Schemas1–16 load without upgrading until save. Schema16 rejects QOP2;
+save migration is transactional with rollback. Editing state does not require new
+per-frontend properties or a second persistence model.
+
+GeoJSON uses standard color/isLocked properties. Reported probability is retained
+in properties.qupathxx.classProbability, with an informational extension notice:
+foreign readers may omit it. Both flat and nested native exchange preserve it.
+CSV adds editing-state columns only when needed, and limits the selected metadata/
+measurement union to4096 columns before materializing rows. This closes that export
+admission gap; whole-slide/process budgets remain R12. Per-object color overrides
+class color when unselected; selection highlighting and missing-TMA styling retain
+their existing precedence. The existing render revision invalidates overlay caches.
+
+API review applies AIP-180 compatibility and AIP-203 field behavior to this local
+SDK: resources/ownership, fields, commands, codec migration and errors are reviewed;
+Python/stub/typing and changed installed UI checks are pending. HTTP/auth/retry
+semantics remain inapplicable. The original PROP1 evidence retains its own scope.

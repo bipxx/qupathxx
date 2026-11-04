@@ -1,3 +1,4 @@
+#include "object_edit_state.hpp"
 #include "tma_internal.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
@@ -31,6 +32,14 @@ ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::u
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
 ObjectEdit ObjectEdit::properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
     ObjectEdit out{ObjectEditKind::Properties,{id,"",{},0,"",0}};out.value.properties=std::move(properties);return out;
+}
+bool Annotation::locked() const {return properties && properties->locked();}
+std::optional<std::uint32_t> Annotation::color_rgb() const {return properties?properties->color_rgb():std::nullopt;}
+std::optional<double> Annotation::class_probability() const {return properties?properties->class_probability():std::nullopt;}
+void Document::set_object_edit_state(std::uint64_t id,bool locked,std::optional<std::uint32_t> color,std::optional<double> probability) {
+    const auto& value=find(id);if(!value.properties && !locked && !color && (!probability || std::isnan(*probability)))return;
+    auto properties=value.properties?value.properties->with_edit_state(locked,color,probability):std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{},std::map<std::string,double>{},locked,color,probability);
+    set_object_properties(id,std::move(properties));
 }
 void Document::set_object_properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
     execute({ObjectEdit::properties(id,std::move(properties))},"Set object properties");
@@ -287,7 +296,7 @@ void Document::rename_class(const std::string& old_name,std::string new_name) {
 }
 void Document::classify_objects(const std::vector<std::uint64_t>& ids,std::string classification) {
     text(classification); Staging staged(*this);
-    for(auto id:ids) { auto value=find(id); value.class_name=classification; staged.write(id,std::move(value)); }
+    for(auto id:ids) { auto value=find(id); value.class_name=classification;value.properties=detail::reclassified_properties(value.properties,!classification.empty()); staged.write(id,std::move(value)); }
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Classify objects");
 }
 std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
@@ -431,6 +440,7 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
             auto value=edit.value;
             if(!value.tma_core) value.tma_core=previous->tma_core;
             if(!value.properties) value.properties=previous->properties;
+            if(value.class_name!=previous->class_name)value.properties=detail::reclassified_properties(value.properties,!value.class_name.empty());
             if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
             staged.write(value.id,std::move(value));
         } else if(edit.kind==ObjectEditKind::Properties) {
@@ -549,7 +559,7 @@ std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,
     for(auto id:ids) {
         const auto& a=find(id);
         if(!selected.insert(id).second) throw std::invalid_argument("annotation merge IDs must be distinct");
-        if(a.properties && (!a.properties->metadata().empty() || !a.properties->measurements().empty()))
+        if(a.properties && (!a.properties->metadata().empty() || !a.properties->measurements().empty() || a.locked() || a.color_rgb() || a.class_probability()))
             throw std::invalid_argument("merge cannot combine historical object properties; clear them explicitly before merging");
         if(a.kind!=ObjectKind::Annotation || a.tma_core || (!a.geometry.is_area() && a.geometry.kind()!=RoiKind::Points))
             throw std::invalid_argument("annotation merge requires area or point annotations, excluding TMA cores");
@@ -590,7 +600,8 @@ void Document::rename_annotation(std::uint64_t id,std::string name) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,std::move(name),a.parent_id,a.class_name,a.kind,a.nucleus)},"Rename annotation");
 }
 void Document::classify_annotation(std::uint64_t id,std::string classification) {
-    auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,a.parent_id,std::move(classification),a.kind,a.nucleus)},"Classify annotation");
+    auto value=find(id);value.class_name=std::move(classification);value.properties=detail::reclassified_properties(value.properties,!value.class_name.empty());
+    Staging staged(*this);staged.write(id,std::move(value));save_edit(staged,{pixel_width_um_,pixel_height_um_},"Classify annotation");
 }
 void Document::reparent_annotation(std::uint64_t id,std::uint64_t parent) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,parent,a.class_name,a.kind,a.nucleus)},"Reparent annotation");

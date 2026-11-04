@@ -102,7 +102,7 @@ def test_schema6_roundtrip_preserves_links_status_and_snapshot_after_removal(tmp
     path=tmp_path/"links.qpxproj"
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0]== 16
+        assert db.execute("PRAGMA user_version").fetchone()[0]== 17
         assert db.execute("SELECT count(*) FROM cell_feature_links").fetchone()[0]==len(ids)
     loaded=q.Project.open(str(path)).document(image)
     assert loaded.children(obj)==ids
@@ -161,7 +161,7 @@ def test_schema5_upgrade_is_transactional(tmp_path):
         assert db.execute("SELECT count(*) FROM sqlite_schema WHERE name='cell_feature_links'").fetchone()[0]==0
         db.execute("DROP TRIGGER fail_links")
     loaded.save(str(path))
-    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]== 16
+    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]== 17
 
 
 @pytest.mark.skipif(not q.has_interchange,reason="GeoJSON")

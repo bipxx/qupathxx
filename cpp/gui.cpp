@@ -1,3 +1,4 @@
+#include "qupathxx/object_properties.hpp"
 #include "qupathxx/qupath_project.hpp"
 #include "qupathxx/project_source.hpp"
 #include "ascii_case.hpp"
@@ -434,6 +435,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& draft_class=text_buffers->draft_class;
     auto& class_name=text_buffers->class_name;
     std::string class_key;
+    bool draft_use_object_color=false,draft_use_class_probability=false;float draft_object_color[3]={};double draft_class_probability=0;
+    std::array<Rect,3> object_state_bounds{};
     float class_color[3]={65/255.f,225/255.f,190/255.f};
     Rect draft_roi;
     Roi draft_geometry;
@@ -444,7 +447,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::AcceptSourceReplacement)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::ClearObjectProperties)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -935,6 +938,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target>=GuiInputTarget::ToggleObjectLock && event.target<=GuiInputTarget::ClearObjectProperties) {
+                const auto& bounds=object_state_bounds[std::size_t(event.target)-std::size_t(GuiInputTarget::ToggleObjectLock)];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
+            }
             if(event.target==GuiInputTarget::ApplySourceVerification || event.target==GuiInputTarget::AcceptSourceReplacement) {
                 const auto& bounds=source_review_bounds[event.target==GuiInputTarget::ApplySourceVerification?0:1];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
             }
@@ -1602,6 +1608,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B))) {
                     try {
                         auto ids=selection->ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
+                        if(document.annotation(selected).locked())throw std::invalid_argument("Unlock the ROI before editing its geometry");
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
                     } catch(const std::exception& e) { error=e.what(); }
                 }
@@ -1617,6 +1624,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::TextDisabled("Merge replaces inputs; children remain at root");
             if(ui::Button("Merge annotations (M)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_M))) {
                 try {
+                    for(auto id:selection->ids())if(document.annotation(id).locked())throw std::invalid_argument("Unlock ROIs before merging");
                     const auto id=document.merge_annotations(selection->ids(),discard_merge_points);
                     selection->replace({id},id);selected=id;discard_merge_points=false;error.clear();
                 } catch(const std::exception& e) {error=e.what();}
@@ -1627,19 +1635,42 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if (editor_id!=selected || editor_revision!=document.revision()) {
                 auto a=document.annotation(selected); draft_geometry=a.geometry; draft_roi=a.geometry.bounds(); draft_parent=a.parent_id;
                 std::memcpy(draft_name,a.name.c_str(),a.name.size()+1); std::memcpy(draft_class,a.class_name.c_str(),a.class_name.size()+1);
+                draft_use_object_color=a.color_rgb().has_value();const auto rgb=a.color_rgb().value_or(0x41e1be);
+                draft_object_color[0]=((rgb>>16)&255)/255.f;draft_object_color[1]=((rgb>>8)&255)/255.f;draft_object_color[2]=(rgb&255)/255.f;
+                draft_use_class_probability=a.class_probability().has_value();draft_class_probability=a.class_probability().value_or(0);
                 editor_id=selected; editor_revision=document.revision();
             }
             const auto object=document.annotation(selected);
+            auto mark_state=[&](GuiInputTarget target,std::size_t index) {const auto at=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();object_state_bounds[index]={at.x,at.y,size.x,size.y};mark_target(target);};
+            bool locked=object.locked();
+            if(ui::Checkbox("Lock ROI geometry",&locked)) {try {document.set_object_edit_state(selected,locked,object.color_rgb(),object.class_probability());editor_revision=document.revision();error.clear();}catch(const std::exception& e){error=e.what();}}
+            mark_state(GuiInputTarget::ToggleObjectLock,0);
+            ui::Checkbox("Use object color override",&draft_use_object_color);
+            ImGui::BeginDisabled(!draft_use_object_color);ui::ColorEdit3("Object RGB",draft_object_color);ImGui::EndDisabled();
+            ui::Checkbox("Retain reported class probability",&draft_use_class_probability);
+            ImGui::BeginDisabled(!draft_use_class_probability);ui::InputDouble("Reported probability",&draft_class_probability,0,0,"%.17g");ImGui::EndDisabled();
+            if(ui::Button("Apply object display state")) {try {
+                const auto byte=[](float v){return std::uint32_t(std::clamp(v,0.f,1.f)*255+.5f);};
+                const auto rgb=(byte(draft_object_color[0])<<16)|(byte(draft_object_color[1])<<8)|byte(draft_object_color[2]);
+                document.set_object_edit_state(selected,document.annotation(selected).locked(),draft_use_object_color?std::optional<std::uint32_t>(rgb):std::nullopt,draft_use_class_probability?std::optional<double>(draft_class_probability):std::nullopt);error.clear();
+            }catch(const std::exception& e){error=e.what();}}
+            mark_state(GuiInputTarget::ApplyObjectEditState,1);
+            ImGui::BeginDisabled(!object.properties);
+            if(ui::Button("Clear properties and unlock (Undo)")) {try {document.set_object_properties(selected,nullptr);error.clear();}catch(const std::exception& e){error=e.what();}}
+            mark_state(GuiInputTarget::ClearObjectProperties,2);ImGui::EndDisabled();
+            ImGui::TextWrapped("ROI locks protect interactive geometry edits. Reported probabilities are retained values, not recomputed confidence.");
             if(tool==6) ImGui::TextWrapped("Drag a vertex; I near an edge inserts; Delete removes the active vertex. Escape cancels a drag.");
             if(tool==7) ImGui::TextWrapped("Click an interior ring, then Enter to add a hole. Escape cancels.");
             ImGui::Text("Kind: %s",object.kind==ObjectKind::Cell?"Cell":(object.kind==ObjectKind::Detection?"Detection":"Annotation"));
             if(object.kind==ObjectKind::Annotation && has_geos() &&
                 (object.geometry.kind()==RoiKind::Rectangle || object.geometry.kind()==RoiKind::Ellipse)) {
                 if(object.geometry.kind()==RoiKind::Ellipse) ImGui::TextWrapped("Polygon conversion uses 512 edges.");
+                ImGui::BeginDisabled(document.annotation(selected).locked());
                 if(ui::Button("Convert to polygon")) {
                     try { document.update_roi(selected,object.geometry.as_polygon()); error.clear(); }
                     catch(const std::exception& e) { error=e.what(); }
                 }
+                ImGui::EndDisabled();
             }
             if(object.kind==ObjectKind::Cell) ui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
             if(object.properties)ImGui::SetNextItemOpen(true,ImGuiCond_Once);
@@ -1656,7 +1687,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     std::memcpy(draft_class,name.c_str(),name.size()+1);
                 ui::EndCombo();
             }
-            ImGui::BeginDisabled(object.is_detection());
+            ImGui::BeginDisabled(object.is_detection() || document.annotation(selected).locked());
             ui::InputDouble("X",&draft_roi.x); ui::InputDouble("Y",&draft_roi.y);
             ImGui::BeginDisabled(draft_geometry.kind()!=RoiKind::Rectangle && draft_geometry.kind()!=RoiKind::Ellipse);
             ui::InputDouble("Width",&draft_roi.width); ui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled(); ImGui::EndDisabled();
@@ -1666,6 +1697,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     auto bounds=draft_geometry.bounds();
                     auto geometry=draft_geometry.kind()==RoiKind::Rectangle?Roi::rectangle(draft_roi):
                         (draft_geometry.kind()==RoiKind::Ellipse?Roi::ellipse(draft_roi):draft_geometry.translated(draft_roi.x-bounds.x,draft_roi.y-bounds.y));
+                    if(document.annotation(selected).locked() && !geometry.equals(object.geometry))throw std::invalid_argument("Unlock the ROI before editing its geometry");
                     document.execute({ObjectEdit::replace_geometry(selected,geometry,draft_name,draft_parent,draft_class,object.kind,object.nucleus)},"Edit annotation"); error.clear();
                 }
                 catch(const std::exception& e) { error=e.what(); }
@@ -2166,7 +2198,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Right)) {
             viewport.origin.x += io.MouseDelta.x; viewport.origin.y += io.MouseDelta.y;
         }
-        if(tool==6 && selected && document.annotation(selected).kind==ObjectKind::Annotation) {
+        if(tool==6 && selected && !document.annotation(selected).locked() && document.annotation(selected).kind==ObjectKind::Annotation) {
             const auto& object=document.objects().at(selected);
             if(vertex_id!=selected || vertex_revision!=object.revision) {
                 if(vertex_dragging) { vertex_dragging=false; error="Vertex edit cancelled: object changed"; }
@@ -2182,8 +2214,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if ((tool==1 || tool==2) && p.x >= 0 && p.y >= 0 && p.x < image.width && p.y < image.height) { anchor = p; drawing = true; }
             else if(((tool>=3 && tool<=5) || tool==7) && p.x>=0 && p.y>=0 && p.x<image.width && p.y<image.height) {
                 if(tool==7 && draft_points.empty()) {
-                    if(!selected || document.annotation(selected).kind!=ObjectKind::Annotation || !document.annotation(selected).geometry.is_area())
-                        error="Select an area annotation before drawing a hole";
+                    if(!selected || document.annotation(selected).locked() || document.annotation(selected).kind!=ObjectKind::Annotation || !document.annotation(selected).geometry.is_area())
+                        error="Select an unlocked area annotation before drawing a hole";
                     else { hole_id=selected; hole_revision=document.annotation(selected).revision; draft_points.push_back(p); }
                 } else if(draft_points.empty() || draft_points.back().x!=p.x || draft_points.back().y!=p.y) draft_points.push_back(p);
             }
@@ -2350,6 +2382,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     auto rgb=found->second.color; color=IM_COL32((rgb>>16)&255,(rgb>>8)&255,rgb&255,255);
                 }
             }
+            if(!is_selected)if(const auto rgb=a.color_rgb())color=IM_COL32((*rgb>>16)&255,(*rgb>>8)&255,*rgb&255,255);
             if(!is_selected && a.tma_core && a.tma_core->missing()) color=IM_COL32(145,145,145,230);
             draw_shape(draw,a.geometry,viewport,offset,color);
             if(a.nucleus) draw_shape(draw,*a.nucleus,viewport,offset,IM_COL32(195,145,255,255));

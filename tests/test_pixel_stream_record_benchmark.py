@@ -22,12 +22,12 @@ def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,r
     child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
     assert child.returncode==0,child.stdout+child.stderr
     result=json.loads(output.read_text(encoding='utf-8'))
-    assert result['project_schema']==16 and result['records']==records
+    assert result['project_schema']==17 and result['records']==records
     assert result['environment']['git_revision']==q.build_environment().git_revision
     assert result['content_sha256']==summary.sha256
     assert result['max_encoded_descriptor_bytes']<4096 and result['total_encoded_descriptor_bytes']<records*4096
     with sqlite3.connect(project) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==16
+        assert db.execute('PRAGMA user_version').fetchone()[0]==17
         assert db.execute('SELECT count(*) FROM pixel_stream_records').fetchone()[0]==records
     reopened=q.Project.open(str(project))
     assert sum(reopened.document(image.id).pixel_stream_record_count for image in reopened.images)==records

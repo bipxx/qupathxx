@@ -1,3 +1,4 @@
+#include "qupathxx/object_properties.hpp"
 #include "qupathxx/interchange.hpp"
 #include "atomic_export.hpp"
 #include "qupath_precision.hpp"
@@ -63,9 +64,10 @@ bool has_interchange() {
 std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t>& ids,bool intensity) {
     auto objects=selected(doc,ids); std::ostringstream out; out.imbue(std::locale::classic()); out<<std::setprecision(17);
     std::set<std::string> metadata_names,measurement_names;
-    for(auto id:objects)if(const auto& p=doc.objects().at(id).properties;p) {for(const auto& [k,v]:p->metadata())metadata_names.insert(k);for(const auto& [k,v]:p->measurements())measurement_names.insert(k);}
+    for(auto id:objects)if(const auto& p=doc.objects().at(id).properties;p) {for(const auto& [k,v]:p->metadata())metadata_names.insert(k);for(const auto& [k,v]:p->measurements())measurement_names.insert(k);if(metadata_names.size()+measurement_names.size()>4096)throw std::length_error("CSV property columns exceed 4096");}
+    bool editing_state=false;for(auto id:objects) {const auto& a=doc.objects().at(id);editing_state|=a.locked() || a.color_rgb().has_value() || a.class_probability().has_value();}
     out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb";
-    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}out<<"\r\n";
+    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}if(editing_state)out<<",roi_locked,object_color_rgb,class_probability";out<<"\r\n";
     const bool calibrated=doc.pixel_width_um().has_value() && doc.pixel_height_um().has_value();
     for(auto id:objects) {
         const auto& a=doc.objects().at(id); auto b=a.geometry.bounds();
@@ -78,6 +80,7 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
         if(intensity && a.nucleus) out<<doc.nucleus_mean_intensity(id);
         for(const auto& k:metadata_names) {out<<',';if(a.properties) {auto it=a.properties->metadata().find(k);if(it!=a.properties->metadata().end())csv_text(out,it->second);}}
         for(const auto& k:measurement_names) {out<<',';if(a.properties) {auto it=a.properties->measurements().find(k);if(it!=a.properties->measurements().end()) {const auto v=it->second;if(std::isnan(v))out<<"NaN";else if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}}
+        if(editing_state) {out<<','<<(a.locked()?"true":"false")<<',';if(a.color_rgb())out<<*a.color_rgb();out<<',';if(a.class_probability()) {const auto v=*a.class_probability();if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}
         out<<"\r\n"; bounded(out);
     }
     return out.str();
@@ -261,8 +264,8 @@ struct Reader {
             auto rgb=c.contains("color")?color(c["color"]):(existing==document.classes().end()?ObjectClass{}.color:existing->second.color);
             definition(classification,rgb);
         }
-        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="metadata" && p.key()!="measurements" && p.key()!="childObjects" && p.key()!="children")
-            notices.add("properties_dropped","Unsupported properties (locks or custom fields) will be dropped",true);
+        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="metadata" && p.key()!="measurements" && p.key()!="isLocked" && p.key()!="color" && p.key()!="childObjects" && p.key()!="children")
+            notices.add("properties_dropped","Unsupported properties (custom fields) will be dropped",true);
         std::string source=value.contains("id")?identifier(value["id"]):"";
         auto local=static_cast<std::uint64_t>(objects.size()+1);
         if(!source.empty() && !identifiers.emplace(source,local).second) throw std::invalid_argument("duplicate feature ID");
@@ -285,16 +288,20 @@ struct Reader {
                 if(!measurements.emplace(text(item["name"]),measurement(item["value"])).second)throw std::invalid_argument("duplicate measurement name");
             }} else throw std::invalid_argument("measurements must be a map or legacy array");
         }
-        if(!metadata.empty() || !measurements.empty())objects.back().properties=std::make_shared<const ObjectProperties>(std::move(metadata),std::move(measurements));
+        bool locked=false;std::optional<std::uint32_t> object_color;std::optional<double> probability;
+        if(properties.contains("isLocked")) {if(!properties["isLocked"].is_boolean())throw std::invalid_argument("isLocked must be boolean");locked=properties["isLocked"].get<bool>();}
+        if(properties.contains("color") && !properties["color"].is_null())object_color=color(properties["color"]);
         if(properties.contains("qupathxx")) {
             const auto& q=properties["qupathxx"];
             if(!q.is_object()) throw std::invalid_argument("invalid object extension");
-            for(const auto& member:q.items()) if(member.key()!="parentId") notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
+            for(const auto& member:q.items()) if(member.key()!="parentId" && member.key()!="classProbability") notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
+            if(q.contains("classProbability") && !q["classProbability"].is_null())probability=measurement(q["classProbability"]);
             if(q.contains("parentId") && !q["parentId"].is_null()) {
                 if(parent) throw std::invalid_argument("nested and explicit parent both specified");
                 auto id=identifier(q["parentId"]); if(id!="0") parents.emplace_back(objects.size()-1,std::move(id));
             }
         }
+        if(!metadata.empty() || !measurements.empty() || locked || object_color || probability)objects.back().properties=std::make_shared<const ObjectProperties>(std::move(metadata),std::move(measurements),locked,object_color,probability);
         if(properties.contains("childObjects") && properties.contains("children")) throw std::invalid_argument("both children aliases specified");
         auto children=properties.find("childObjects"); if(children==properties.end()) children=properties.find("children");
         if(children!=properties.end()) { if(!children->is_array()) throw std::invalid_argument("children must be an array"); for(const auto& child:*children) feature(child,local,depth+1); }
@@ -334,6 +341,8 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
     auto feature_for=[&](std::uint64_t id) {
         const auto& a=doc.objects().at(id); Json properties={{"name",a.name},{"objectType",object_kind(a.kind)}};
         if(!a.class_name.empty()) { auto c=doc.object_class(a.class_name).color; properties["classification"]={{"name",a.class_name},{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}}; }
+        if(a.locked())properties["isLocked"]=true;
+        if(const auto rgb=a.color_rgb())properties["color"]=Json::array({(*rgb>>16)&255,(*rgb>>8)&255,*rgb&255});
         if(a.properties) {
             if(!a.properties->metadata().empty())properties["metadata"]=a.properties->metadata();
             if(!a.properties->measurements().empty()) {auto values=Json::object();for(const auto& [name,v]:a.properties->measurements()) {
@@ -344,6 +353,8 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
         auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }
         if(!nested) properties["qupathxx"]={{"parentId",std::to_string(parent)}};
+        if(const auto probability=a.class_probability()) {properties["qupathxx"]["classProbability"]=std::isinf(*probability)?Json(*probability>0?"Infinity":"-Infinity"):Json(*probability);
+            notices.add("class_probability_extension","Class probability is retained in the native extension; foreign readers may omit it");}
         Json feature={{"type","Feature"},{"id",std::to_string(id)},{"geometry",geometry(a.geometry,notices)},{"properties",std::move(properties)}};
         if(a.nucleus) feature["nucleusGeometry"]=geometry(*a.nucleus,notices);
         return feature;

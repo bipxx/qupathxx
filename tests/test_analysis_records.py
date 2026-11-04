@@ -189,7 +189,7 @@ def test_v2_migration_rollback_and_success(tmp_path):
         db.execute("DROP TRIGGER fail_migration")
     restored.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 16
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 17
         assert db.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 
 

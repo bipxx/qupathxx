@@ -1,3 +1,4 @@
+#include "object_edit_state.hpp"
 #include "classification_edit.hpp"
 #include "object_snapshot.hpp"
 #include <algorithm>
@@ -33,8 +34,8 @@ void Document::apply_classifications(const std::vector<std::pair<std::uint64_t,s
     std::uint64_t previous=0;bool first=true;
     for(const auto& [id,name]:*assignments) {
         text(name);if(!first && previous==id) throw std::invalid_argument("duplicate classification object ID");first=false;previous=id;
-        const auto& object=find(id);if(object.class_name==name) continue;
-        edit->rows.push_back({id,name});charge(std::max(object.class_name.capacity(),edit->rows.back().alternate.capacity()));
+        const auto& object=find(id);const auto properties=detail::reclassified_properties(object.properties,!name.empty());if(object.class_name==name && properties==object.properties) continue;
+        edit->rows.push_back({id,name,properties});if(properties!=object.properties)charge((properties?properties->payload_bytes():0)+(object.properties?object.properties->payload_bytes():0));charge(std::max(object.class_name.capacity(),edit->rows.back().alternate.capacity()));
         if(!object.class_name.empty()) --delta[object.class_name];
         if(!name.empty()) ++delta[name];
         if(!name.empty() && !classes_.count(name)) edit->classes.emplace(name,ObjectClass{name});
@@ -78,10 +79,10 @@ void Document::toggle_classifications(detail::ClassificationEdit& edit) {
         for(auto row=first;row<last;++row) {
             const auto id=edit.rows[row].id;while(at<block->values.size() && block->values[at].id<id) ++at;
             if(at==block->values.size() || block->values[at].id!=id || block->values[at].class_name!=objects[row]->class_name) throw std::logic_error("classification snapshot block differs from live object");
-            auto& object=block->values[at];block->bytes-=object.class_name.size();
-            object.class_name=edit.rows[row].alternate;object.revision=next;
-            if(object.class_name.size()>std::numeric_limits<std::size_t>::max()-block->bytes) throw std::overflow_error("classification snapshot payload exhausted");
-            block->bytes+=object.class_name.size();++at;
+            auto& object=block->values[at];block->bytes-=object_payload(object);
+            object.class_name=edit.rows[row].alternate;object.properties=edit.rows[row].properties;object.revision=next;
+            if(object_payload(object)>std::numeric_limits<std::size_t>::max()-block->bytes) throw std::overflow_error("classification snapshot payload exhausted");
+            block->bytes+=object_payload(object);++at;
         }
         if(found->second->bytes>object_bytes) throw std::logic_error("classification snapshot byte count is invalid");
         object_bytes-=found->second->bytes;
@@ -91,7 +92,7 @@ void Document::toggle_classifications(detail::ClassificationEdit& edit) {
 #endif
     // Commit uses only string swaps, integral writes and map-node transfers.
     // Geometry, hierarchy, reader callbacks and allocations stay out of it.
-    for(std::size_t i=0;i<objects.size();++i) {objects[i]->class_name.swap(edit.rows[i].alternate);objects[i]->revision=next;}
+    for(std::size_t i=0;i<objects.size();++i) {objects[i]->class_name.swap(edit.rows[i].alternate);objects[i]->properties.swap(edit.rows[i].properties);objects[i]->revision=next;}
     swap_nodes(class_counts_,edit.counts,edit.count_keys);swap_nodes(classes_,edit.classes,edit.class_keys);
     for(std::size_t i=0;i<edit.count_keys.size();++i) edit.expected_counts[i]=class_count(edit.count_keys[i]);
     for(std::size_t i=0;i<edit.class_keys.size();++i) edit.expected_classes[i]=bool(classes_.count(edit.class_keys[i]));

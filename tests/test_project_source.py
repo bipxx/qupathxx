@@ -129,7 +129,7 @@ def test_schema14_migration_and_rollback_preserve_old_database(tmp_path):
         assert db.execute("SELECT count(*) FROM sqlite_schema WHERE name='source_verifications'").fetchone()[0]==0
         db.execute('DROP TRIGGER fail_migration')
     restored.save(str(path));assert q.Project.open(str(path)).source_verification(image) is not None
-    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==16
+    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==17
 
 
 def test_reverification_of_unchanged_live_source_keeps_clean_state(tmp_path):

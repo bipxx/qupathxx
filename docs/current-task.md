@@ -13,10 +13,17 @@ Current: **R5-EDITSTATE1 — retain imported object editing state**.
   ObjectProperties, object commands and overlay/UI authorities. Reuse pinned
   synthetic QuPath0.7.0 output. Check upstream lock/edit rules before enforcement;
   do not assume an ROI lock prohibits every scripted/classification action.
-- Next action: settle typed fields, absence/default semantics and backwards codec/
-  storage behavior. Define actual lock/color effects in the existing UI/commands
-  and a usable explicit edit/unlock/clear path. Batch this related public API before
-  one build; keep non-default planes in their separate display/source contract.
+- Contract/implementation: ObjectProperties typed locked/color/probability fields
+  share immutable maps. Schema17/QOP2 retains QOP1 and migrates16 transactionally.
+  QuPath locks are interactive hints, not a script restriction. Reclassification
+  clears stale probability/override with exact ordinary and optimized undo.
+  Per-object overlay override, actual lock/apply/clear controls and versioned
+  GeoJSON/CSV paths are implemented; new named controls/tests are prepared.
+- Next action: the58 tool-only observer controls pass; freeze settled compiler inputs for one
+  cached build. New container casters are explicit; property bindings are isolated
+  and core.hpp forward-declares the owner. Source-level review caught and fixed
+  a disabled-scope imbalance before compiling. Reuse the existing pinned fixtures;
+  two old-product checks fail for the missing editing-state API, as expected.
 - Reuse/checks: immutable property owners, atomic history and snapshot/storage
   authorities from PROP1. Check actual imported fields and remaining loss reports;
   native editing/undo behavior, save/reopen/export, typing/stubs and changed UI.

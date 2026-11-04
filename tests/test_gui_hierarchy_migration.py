@@ -61,10 +61,12 @@ def test_actual_upstream_hierarchy_import_history_project_restart_and_export(tmp
 
 def test_upstream_unsupported_properties_require_desktop_loss_opt_in(tmp_path):
     doc = document()
-    q.show(doc, frame_limit=20, options=options(FIXTURE / 'losses.geojson'))
+    data=json.loads((FIXTURE/'losses.geojson').read_bytes());data['features'][0]['properties']['unsupported']=True
+    source=tmp_path/'unsupported.geojson';source.write_text(json.dumps(data),encoding='utf-8')
+    q.show(doc, frame_limit=20, options=options(source))
     assert doc.object_count == 0 and not doc.classes
     capture = tmp_path / 'hierarchy-losses.ppm'
-    report = q.show(doc, frame_limit=24, capture_path=str(capture), options=options(FIXTURE / 'losses.geojson', True))
+    report = q.show(doc, frame_limit=24, capture_path=str(capture), options=options(source, True))
     assert report.ui_overflow_items == 0 and capture.is_file()
     assert doc.object_count == 1 and doc.annotations[0].name == 'Unsupported properties'
     assert doc.undo() and doc.object_count == 0

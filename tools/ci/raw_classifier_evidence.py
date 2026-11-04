@@ -44,6 +44,7 @@ def source_paths():
     paths.update(('tools/reference_jpeg_tiff.py', 'cmake/TiffJpeg.cmake', 'third_party/tiff-jpeg-NOTICE.txt', 'tests/test_tiff_jpeg.py'))
     paths.update(('tests/typing/annotation_merge_valid.py','tests/typing/annotation_merge_invalid.py'))
     paths.update(('tests/test_annotation_merge.py', 'tools/upstream/qupath_annotation_merge.groovy', 'tests/fixtures/qupath-annotation-merge-0.7.0/input.json', 'tests/fixtures/qupath-annotation-merge-0.7.0/reference.json', 'tests/fixtures/qupath-annotation-merge-0.7.0/manifest.json'))
+    paths.update(('tests/test_object_edit_state.py','tests/typing/object_edit_state_valid.py','tests/typing/object_edit_state_invalid.py'))
     paths.update(('tests/test_object_properties.py','tests/typing/object_properties_valid.py','tests/typing/object_properties_invalid.py'))
     paths.update(('tests/test_project_source.py','tests/typing/project_source_valid.py','tests/typing/project_source_invalid.py'))
     paths.add('tests/test_project_relink.py')

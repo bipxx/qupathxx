@@ -709,8 +709,9 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<14) create_spatial(db);
         if(version<15) create_source_verifications(db);
         if(version<16) create_object_properties(db);
+        if(version<17)db.exec("PRAGMA user_version=17");
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);}
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);db.exec("PRAGMA user_version=17");}
     db.exec("DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
@@ -949,7 +950,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         if(version>=16) {
             Statement rows(db,"SELECT object_id,payload FROM object_properties WHERE image_id=?");rows.string(1,key);
             while(rows.row()) {stopped();const auto n=sqlite3_column_bytes(rows.stmt,1);const auto id=number(rows.string(0));
-                if(!id || rows.type(1)!=SQLITE_BLOB || n<0 || n>2*1024*1024 || !property_values.emplace(id,detail::decode_object_properties(sqlite3_column_blob(rows.stmt,1),std::size_t(n))).second)throw std::invalid_argument("invalid project object properties");}
+                if(!id || rows.type(1)!=SQLITE_BLOB || n<0 || n>2*1024*1024 || !property_values.emplace(id,detail::decode_object_properties(sqlite3_column_blob(rows.stmt,1),std::size_t(n),version>=17)).second)throw std::invalid_argument("invalid project object properties");}
         }
         std::vector<Annotation> annotations;
         objects.string(1,key);
