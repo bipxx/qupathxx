@@ -141,6 +141,48 @@ unless their actual inputs change. Other vendor capabilities, unsupported
 partial representations and ICC remain separately tracked. Owner-only research,
 hardware, support and project-license decisions remain open.
 
+## Execution order for finishing the remaining work
+
+The R0-R16 table above remains the only backlog. The slices below refine those
+same rows; they are not additional milestones. Execute left to right within a
+row, selecting one missing outcome at a time. Before coding, inspect the named
+implementation and existing evidence: if a slice is already satisfied, link that
+evidence and advance without reimplementing it. A newly discovered gap returns
+to its existing R row, with its dependency and next action.
+
+Default order is R2-UNIT2, one bounded R2 vendor/representation gap, R4/R5,
+R6/R7, R8-R10, R11, R3 completion, R12 and R13. Prepare R1 decisions and release
+notices alongside the task that needs them. Move R3 earlier for an actual viewer
+blocker, or R12 earlier for a measured resource failure. This order is scheduling,
+not an instruction to finish every possible reader before doing analysis.
+R14-R16 follow the applicable stable contracts and remain part of the full target.
+
+| Existing row | Ordered remaining slices and easiest route | Stop condition / dependency handling |
+| --- | --- | --- |
+| R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
+| R2 | UNIT2 non-SI quantities in the shared TIFF parser; then compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
+| R4 | Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
+| R5 | Source replacement/fingerprint and relink races; uncovered write/recovery/lock cleanup; remaining nested geometry/property losses; distinct direct QuPath project/data migration contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Preserve prior data on failure and report losses explicitly. QuPath-assisted exchange is the first usable route; direct formats remain a separate required-gap assessment |
+| R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
+| R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
+| R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
+| R9 | Neighborhoods and density; signed distances; tiled aggregation | Extend the existing spatial index and measurement tables one metric at a time, with physical units and independent geometry expectations. Reuse the consumer routes; scaling belongs to R12 |
+| R10 | Vendor-slide/skew/missing-core dearraying; assignment and biological comparisons; per-case pooling on the accepted core set | Reuse QPTMA proposals, edits and batches. Labels block the associated accuracy claim, not codec/editor engineering. No separate TMA qualification campaign |
+| R11 | One versioned open/ROI/analysis/export/save workflow; source/model replacement and partial failures; interrupted/resumed and abandoned work; Python ownership, viewer backpressure and shutdown | Define stage inputs, dependencies and error policy before adding grammar. Keep native jobs/commands as authority. Verify orchestration failures here and numerical results at their existing kernel tests |
+| R3 | Explicit ICC/fluorescence policy and channel behavior; monitor/DPI/resize behavior; uncovered international text and dense navigation | Reuse tile/display/font infrastructure and keep raw measurements unchanged. Test actual affected displays/hosts; route frame, GPU and process budgets to R12 |
+| R12 | First full-versus-tiled correctness/seams; then long-batch process/GPU bounds; then cold/warm decode and end-to-end latency; optimize only the measured bottleneck | Freeze workload, hardware, accuracy/settings and metric before timing. Reuse one representative workload across checks. A faster component alone cannot establish overall superiority |
+| R13 | Prepare license/notices and package inventory; settle support cells; document the accepted sample workflow/limits; package/install/uninstall and clean-machine walkthrough; one frozen release checkpoint | Close applicable M0-M6 exits for each claimed workflow and host. Review the requirement-to-evidence map once. Release/promotion and project-license decisions remain with the owner |
+| R14 | Add one declared Linux/macOS package/GUI/Python/reader support cell at a time through the existing portable targets | Validate the new host surface and affected native risk. Mac native acceptance does not substitute for Python/GUI/OpenSlide runtime evidence |
+| R15 | First versioned external mask/model adapter; then required OMERO/ImageJ exchange and C++/Python extension contracts | Reuse stable R5/R6/R8/R11 lifecycle, shape, calibration and atomic publication rules. Implement a named adapter outcome before generalizing a plugin framework |
+| R16 | Extend the proven local workflow to the next named pipeline; add portable/distributed execution only for an included workload | Keep checkpoint ownership, retries, idempotence and partial failures explicit. Reuse R11 jobs and R12 limits before introducing worker coordination |
+
+For each selected slice, the current-task card records the user outcome, existing
+entry point, prerequisite, decisive checks and stop condition before work starts.
+On completion, mark only the state supported by evidence: engineering verification,
+scientific acceptance and release support remain separate. Close an R family only
+when its remaining inventory entries are accepted or explicitly deferred with a
+scope decision. Close M0-M7 against project-plan criteria, not task counts.
+
 ## Task closeout and waste review
 
 After every task, including one stopped by a failure or dependency, root performs
@@ -158,7 +200,11 @@ not another build, campaign, independent-model review or report artifact.
    cause now; schedule a larger fix once under the affected existing task.
 4. Update the task's actual state, next action, dependencies and selected checks;
    carry the resulting change into the next task before starting it. Correct
-   stale ordering or duplicate gates immediately. If no waste is found, record
+   stale ordering or duplicate gates immediately. Check whether a pending build,
+   fixture capture, frontend check or report can be removed, merged or reused;
+   keep a repeated check only when its changed input or unresolved risk is named.
+   If a task expands, stop at its complete user outcome and return the additional
+   gap to the same R row. If no waste is found, record
    that briefly and continue; do not manufacture a process change.
 
 Keep only the latest closeout in current-task.md using this compact form:
@@ -201,7 +247,7 @@ Snapshot274/native048cf25 remains locally verified; [candidate276](benchmarks/sn
 Use MFO1's [A-E checkpoints](multifile-ome-tiff.md#delivery-checkpoints) as
 historical implementation detail. Its original campaign is terminal and
 accepted; do not redispatch it for later classifier work. B5 consumers are locally
-verified; execute the B6 sequence below in the integration checkout. Never edit frozen sources or relabel compiled products. Rebuild only when consumed
+verified in the historical snapshot; B6 is a historical checklist, not pending work. Never edit frozen sources or relabel compiled products. Rebuild only when consumed
 compiler inputs/configuration or the required product evidence changes.
 
 Resolve fixture rights/labels, scientific decisions and hardware eligibility
