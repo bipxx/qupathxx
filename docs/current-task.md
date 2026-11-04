@@ -1,39 +1,39 @@
 # Current implementation task
 
-Implementation follows the [R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-and its [ordered remaining slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
-R0 is complete; R1 inventory reconciliation is complete with owner decisions open.
-R2-SI1 and [R2-META1](benchmarks/binaryonly-ome-r2/README.md) have local installed
-evidence. All M0-M7 remain Partial.
+Use the [R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+and its [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
+R0 is engineering accepted; R1 inventory is reconciled with owner decisions open.
+R2-SI1, R2-META1 and [R2-UNIT2](benchmarks/ome-nonsi-r2/README.md) have local
+installed evidence. All M0-M7 remain Partial.
 
-Next task: **R2-UNIT2, remaining convertible non-SI OME length units**.
+Next: **R2-CODEC1, JPEG-compressed quantitative TIFF**.
 
-- Outcome/entry point: normalize eligible physical length units through the
-  existing shared TIFF quantity parser for primary and companion metadata.
-- Prerequisite: confirm symbols/factors against the pinned OME reference;
-  no biological, hardware or release decision is needed for this engineering task.
-- Checks: independent conversions, affected installed reader/companion cases,
-  unchanged samples and existing SI/legacy arithmetic; retain nonphysical
-  pixel/reference-frame and positive-finite/overflow behavior. Select native
-  targets from the actual change, with one cached build/install after code settles.
-- Stop: close this conversion gap with scoped evidence and unchanged public
-  signatures; then select one demonstrated eligible vendor/representation gap
-  under R2. No full platform campaign is triggered by this task.
+- Outcome/entry: add the missing codec route through cmake/TiffReader.cmake and
+  the existing native TIFF reader, preserving raw/display separation.
+- Prerequisite: pin an openly licensed decoder/dependency/notices route and
+  independent scalar/RGB fixtures. Inspect static symbol/runtime coexistence
+  with OpenCV/OpenSlide before choosing integration; no new reader model.
+- Checks: reproduce current refusal, then compare affected decoded samples,
+  mapping/edge behavior, invalid inputs and packaged runtime/notices. Use one
+  settled cached build/install; extend host checks only for a concrete link risk.
+- Stop: finish the declared JPEG slice and its affected consumers, review waste,
+  then move to R4/R5 unless the capability inspection finds a blocking reader gap.
+  Other codec/photometric forms remain recorded separately.
 
-Latest task closeout (2026-11-04, completion-plan update):
-Outcome/evidence: the delivery plan now orders the remaining R1-R16 slices,
-records easiest shared implementation routes and stopping/dependency rules.
-Waste/cost: documentation only; no builds, test campaigns or fixture recaptures.
-Removed a stale instruction to execute a completed B6 qualification. Plan
-change/next action: finish UNIT2, then select a bounded reader gap; avoid an
-unbounded reader campaign before annotation/persistence and analysis work.
-After every task, including a failure or blocked attempt, perform the
-[waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update the
-next action/checks before starting it. Preserve raw failures and existing evidence.
+Latest closeout (2026-11-04, R2-UNIT2):
+Outcome/evidence: [ten conversions and pinned reference](benchmarks/ome-nonsi-r2/README.md),
+380 targeted passes including114 unit cases, six declared desktop skips and two
+native suites. Installed/source hashes agree; API/stubs unchanged.
+Waste/cost: one six-target cached build/install; reused shared parser, fixtures
+and admission. Initial probe used an unavailable Groovy JSON module; bundled
+Gson succeeded, with both attempts retained. No passing tests were rerun.
+Plan change/next action: reuse that serializer for later captures, and address
+the explicitly disabled JPEG route as one slice before editing/persistence.
 
-[Qualification308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)
-retains its own frozen-source scope. New code does not inherit that acceptance.
-Biological labels/tolerances, eligible hardware, project license and exact release
-support remain owner decisions affecting only their dependent claims. Only
-openly licensed readers and required codecs are eligible. Requirements remain in
-[project-plan](project-plan.md); coverage remains in [feature-matrix](feature-matrix.md).
+Apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
+after each task, including failures, and update next action/dependencies/checks
+before starting it. No local task completion triggers a full qualification.
+[308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md) retains
+its frozen-source scope; changed code does not inherit it. Biology/tolerances,
+hardware, project license and exact release support remain owner decisions.
+Only openly licensed readers and required codecs are eligible.

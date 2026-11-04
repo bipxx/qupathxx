@@ -73,14 +73,14 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1 and R2-META1 are locally verified; continue with bounded R2-UNIT2 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1 and R2-UNIT2 are locally verified; continue with bounded R2-CODEC1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
 Current states: R0 is engineering accepted, R1 inventory reconciliation is complete
-(with research/release decisions still open), R2-SI1 and R2-META1 are locally verified, R2-UNIT2 is next, and R2-R12
+(with research/release decisions still open), R2-SI1, R2-META1 and R2-UNIT2 are locally verified, R2-CODEC1 is next, and R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -95,7 +95,7 @@ second backlog or a campaign for each substep.
 | ID / milestone | Remaining outcome and easiest implementation path | Dependency | Completion check and reuse rule |
 | --- | --- | --- | --- |
 | R0 / existing qualification | Completed: [308 closeout](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md) accepts all three original complete audits and11 authenticated archives at frozen ae7a4148 | No remaining R0 dependency | Preserve its declared engineering scope and original source. Reuse this baseline; zero rebuilds/redispatches were needed. Mac Python/GUI/OpenSlide, broader science/resources/speed and release remain open |
-| R1 / M0 scope and fixtures | Inventory task complete: all23 Partial rows now separate implemented mechanisms and missing work against the308 baseline. Retain Windows-first engineering direction; exact release support, project license, eligible labeled specimens/tolerances and hardware claims remain owner decisions | Existing corpus/receipts are reused; unresolved decisions block only their affected claims | Pinned CC0/vendor files and synthetic fixtures are available engineering references. They do not supply independent biological ground truth. R2-SI1 and R2-META1 are locally verified; R2-UNIT2 can proceed without those release/biology decisions; no extra qualification or repeated corpus capture is needed |
+| R1 / M0 scope and fixtures | Inventory task complete: all23 Partial rows now separate implemented mechanisms and missing work against the308 baseline. Retain Windows-first engineering direction; exact release support, project license, eligible labeled specimens/tolerances and hardware claims remain owner decisions | Existing corpus/receipts are reused; unresolved decisions block only their affected claims | Pinned CC0/vendor files and synthetic fixtures are available engineering references. They do not supply independent biological ground truth. R2-SI1, R2-META1 and R2-UNIT2 are locally verified; R2-CODEC1 can proceed without those release/biology decisions; no extra qualification or repeated corpus capture is needed |
 | R2 / M1 readers and quantitative input | Extend the shared ImageServer/OpenSlide/TIFF adapters only for missing eligible vendor, partial-OME, axis, calibration and damage cases; connect dense/typed sampling to the existing scientific grids | R1 identifies intended formats; independent adapter work need not wait for biological labels | Compare actual pixels/metadata, finite/alpha support, level-zero mapping, pending-close and bounded reads for the selected formats. All readers and required codecs must be openly licensed. Reuse existing decoders, fixtures and request validation; no separate reader model per frontend |
 | R3 / M2 viewer and display | Finish dense-scene navigation, physical DPI/monitor behavior, international glyph delivery, fluorescence/channel presentation and explicit ICC/color policy using the current tile scheduler, font pipeline and display transforms | R1 defines supported display/host scope; R2 supplies missing inputs | Exercise the changed editor/navigation/channel flows on the relevant display configuration, including overlay alignment, resize/close and resource lifetime. Keep display transforms independent of measurements. Reuse the installed product where native inputs are unchanged; record unsupported shaping/color cases explicitly |
 | R4 / M3 annotations and hierarchy | Close remaining QuPath editing comparisons through existing ROI commands, hierarchy, class and undo/redo authorities; add only demonstrated missing edit behavior | R1 geometry fixtures; current commands already provide the implementation base | Complete an overlapping/nested ROI edit, compound undo/redo and class operation with stable IDs and calibrated geometry. Compare the relevant independent/upstream fixtures; avoid rebuilding already accepted tools or creating a second UI object model |
@@ -131,15 +131,22 @@ and TIFF masters through the existing reader and guarded source graph. The
 and six desktop cases. Failed initial test assumptions and corrected semantic
 batch checks remain preserved; no native batch policy was weakened.
 
-Next bounded task: **R2-UNIT2, remaining convertible non-SI OME length units**.
-Confirm symbols and factors against the pinned OME unit reference before coding,
-then extend the existing quantity parser and independent conversion tests.
-Retain the exact supported legacy/SI arithmetic, positive-finite admission and
-nonphysical pixel/reference-frame behavior. Use the selected package/runtime
-and affected test targets; reuse the metadata-master tests and provenance path
-unless their actual inputs change. Other vendor capabilities, unsupported
-partial representations and ICC remain separately tracked. Owner-only research,
-hardware, support and project-license decisions remain open.
+Completed bounded implementation: **R2-UNIT2** normalizes the ten remaining
+convertible non-SI length units through the same parser. [Local evidence](benchmarks/ome-nonsi-r2/README.md)
+records the pinned OME6.5.1 factors,380 targeted passes including114 unit cases,
+six declared desktop skips, two native suites and installed/source identity.
+
+Next bounded task: **R2-CODEC1, JPEG-compressed quantitative TIFF**. Current
+cmake/TiffReader.cmake disables jpeg/old-jpeg, and quantitative-tiff.md records
+the resulting gap. First pin an eligible codec and its complete notices/dependency
+route, then generate independent scalar/RGB TIFF fixtures and reproduce refusal.
+Use libtiff's codec path rather than another reader/model; preserve raw versus
+display semantics and explicit unsupported photometric cases. Check symbol and
+runtime coexistence with the existing OpenCV/OpenSlide bundles before selecting
+the integration. Target changed decode/packaging cases; widen platform checks
+only for an identified link/runtime risk. Other codecs/vendor/partial forms and
+ICC remain separately tracked. Owner-only biology/hardware/release/license
+decisions stay open. Do not turn this slice into an all-codec campaign.
 
 ## Execution order for finishing the remaining work
 
@@ -150,7 +157,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default order is R2-UNIT2, one bounded R2 vendor/representation gap, R4/R5,
+Default remaining order is R2-CODEC1, R4/R5,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Prepare R1 decisions and release
 notices alongside the task that needs them. Move R3 earlier for an actual viewer
 blocker, or R12 earlier for a measured resource failure. This order is scheduling,
@@ -160,7 +167,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | Existing row | Ordered remaining slices and easiest route | Stop condition / dependency handling |
 | --- | --- | --- |
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
-| R2 | UNIT2 non-SI quantities in the shared TIFF parser; then compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
+| R2 | UNIT2 is locally verified. Next CODEC1 JPEG through the existing TIFF codec path; then compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
 | R5 | Source replacement/fingerprint and relink races; uncovered write/recovery/lock cleanup; remaining nested geometry/property losses; distinct direct QuPath project/data migration contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Preserve prior data on failure and report losses explicitly. QuPath-assisted exchange is the first usable route; direct formats remain a separate required-gap assessment |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |

@@ -70,7 +70,9 @@ The [R2-SI1 conversion](benchmarks/ome-calibration-units-r2/README.md) recognize
 the OME2016-06 SI prefix range (yotta through yocto) for metres and seconds,
 plus minutes, hours and days. Results are micrometres and seconds. The existing
 `um` alias, canonical micro symbol and angstrom conversion remain supported;
-other non-SI length units are not added by this change. Units are case-sensitive.
+[R2-UNIT2](benchmarks/ome-nonsi-r2/README.md) additionally normalizes `in`,
+`thou`, `li`, `ft`, `yd`, `mi`, `ua`, `ly`, `pc` and `pt` using pinned OME
+conversion factors (including its approximate parsec). Units are case-sensitive.
 `pixel` and `reference frame` do not establish physical calibration. Positive
 finite normalized values, including representable subnormals, are retained;
 overflow and conversion to zero remain absent. Companion metadata is compared

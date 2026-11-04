@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\ome-nonsi-r2-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_binaryonly_ome.py",
+    "tests/test_ome_calibration_units.py",
+    "tests/test_tiff_reader.py",
+    "tests/test_multifile_tiff_reader.py",
+    "tests/test_multifile_ome_fixture.py",
+    "tests/test_source_companions.py",
+    "tests/test_multifile_tiff_failures.py",
+    "tests/test_multifile_ome_evidence.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ome-nonsi-r2\\reader.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ome-nonsi-r2\\reader-temp"
+  ],
+  "returncode": 0
+}

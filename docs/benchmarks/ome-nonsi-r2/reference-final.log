@@ -1,0 +1,64 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+10:52:24.412 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+10:52:24.416 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+10:52:24.417 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+10:52:24.447 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+10:52:24.458 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+10:52:24.570 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+10:52:26.239 [main] [INFO ] qupath.ScriptCommand - Script result: [
+  {
+    "name": "INCH",
+    "symbol": "in",
+    "micrometres": 25400.0
+  },
+  {
+    "name": "THOU",
+    "symbol": "thou",
+    "micrometres": 25.4
+  },
+  {
+    "name": "LINE",
+    "symbol": "li",
+    "micrometres": 2116.6666666666665
+  },
+  {
+    "name": "FOOT",
+    "symbol": "ft",
+    "micrometres": 304800.0
+  },
+  {
+    "name": "YARD",
+    "symbol": "yd",
+    "micrometres": 914399.9999999999
+  },
+  {
+    "name": "MILE",
+    "symbol": "mi",
+    "micrometres": 1.609344E9
+  },
+  {
+    "name": "ASTRONOMICALUNIT",
+    "symbol": "ua",
+    "micrometres": 1.495978707E17
+  },
+  {
+    "name": "LIGHTYEAR",
+    "symbol": "ly",
+    "micrometres": 9.460730472580801E21
+  },
+  {
+    "name": "PARSEC",
+    "symbol": "pc",
+    "micrometres": 3.0856776000000003E22
+  },
+  {
+    "name": "POINT",
+    "symbol": "pt",
+    "micrometres": 352.77777777777777
+  }
+]
+
