@@ -45,24 +45,24 @@ Current: **R5-ROOT1 — saved-data root metadata/measurements** (contract settle
   additional saved-data versions/records, remaining R4/R5 gaps and R6-R16 stay in
   the existing queue; completing ROOT1 will not close all interchange or M4.
 
-Latest closeout (2026-11-04, ROOT1 ownership failure):
-Outcome/evidence: native69dc9cd7 builds in670.91s and six affected native suites
-pass. The isolated final-release test times out after reaching blocked writer
-cleanup (build/root-facts-r5/ownership-before.xml). With history disabled, the
-worker owns the last shared control that retains a Python wrapper; wait holds
-the GIL while nanobind's py_deleter requests it. Source caster inspection confirms
-the path. The bounded child is terminated; the build and test handles are terminal.
-Waste/decision: **retain** the failed candidate/logs/test bytes; **remove**
-Python-owned lifetime from the common ObjectProperties construction path rather
-than adding separate image/ROI models or callbacks. **Merge** the fix at the
-shared factory and preserve Python value identity/constructor arguments. This
-case should have been checked during constructor/caster tracing before freezing;
-add a final-release precondition to future async owning-value changes.
-Plan change/next action: make ObjectProperties shared_from_this-aware and construct
-Python values with a native shared factory. Test image and ROI final release,
-retain the before failure, then rebuild affected products once. The header/type
-changes justify rerunning affected native and staged contracts. Generate stubs
-and install only after those pass; no general wait/controller rewrite is needed.
+Latest closeout (2026-11-04, ROOT1 staged storage/environment):
+Outcome/evidence: ce786260 passes222 staged cases/eleven skips, including both
+image/ROI worker-final-release regressions; six affected native suites pass.
+Six failures remain in staged-collect-fixed.xml. One actual writer bug passes
+an encoded temporary vector to SQLITE_STATIC, freeing it before statement done
+and corrupting imported root facts. The same mistake exists for ROI facts. Five
+child-process failures load the old installed environment despite the parent's
+sys.path injection, yielding mixed schema18/schema19 behavior.
+Waste/decision: **retain** failures and passed checks in their real scopes.
+**Remove** dangling temporary BLOB bindings at both callers and reject rvalues in
+the private borrowed-buffer API; keep zero-copy lifetime-safe writes. **Merge**
+the fix at the shared statement boundary. **Remove** mixed child imports via a
+dedicated staging-only environment whose site .pth points to the unpacked product;
+this is not a product install and also reaches isolated child interpreters.
+Plan change/next action: fix the two buffer lifetimes, rebuild only affected cached
+products, and rerun storage/import/snapshot contracts on that source. Pure document
+edit/classification checks retain ce786260 scope. Retry the child workflows using
+the same staged package throughout. No rebuild is needed for environment repair.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

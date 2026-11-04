@@ -530,6 +530,8 @@ struct Statement {
     void real(int i,double v) { check(sqlite3_bind_double(stmt,i,v)); }
     void optional(int i,std::optional<double> v) { if(v) real(i,*v); else check(sqlite3_bind_null(stmt,i)); }
     void blob(int i,const std::vector<std::uint8_t>& v) { check(sqlite3_bind_blob64(stmt,i,v.data(),v.size(),SQLITE_STATIC)); }
+    // Borrowed bytes must remain alive through done()/reset; reject temporaries.
+    void blob(int,const std::vector<std::uint8_t>&&)=delete;
     bool row() { auto code=sqlite3_step(stmt); if(code==SQLITE_ROW) return true; if(code==SQLITE_DONE) return false; throw std::runtime_error(sqlite3_errmsg(owner.db)); }
     void done() { if(row()) throw std::runtime_error("unexpected SQLite row"); check(sqlite3_reset(stmt)); check(sqlite3_clear_bindings(stmt)); }
     int type(int i) const { return sqlite3_column_type(stmt,i); }
@@ -775,7 +777,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
-        if(doc.image_properties_) {image_properties_row.string(1,key);image_properties_row.blob(2,detail::encode_object_properties(*doc.image_properties_));image_properties_row.done();}
+        if(doc.image_properties_) {const auto bytes=detail::encode_object_properties(*doc.image_properties_);image_properties_row.string(1,key);image_properties_row.blob(2,bytes);image_properties_row.done();}
         if(const auto found=source_verifications_.find(id);found!=source_verifications_.end()) {
             if(e.info.embedded)throw std::invalid_argument("embedded image has source verification");
             const auto bytes=detail::encode_source_verification(*found->second);verification.string(1,key);verification.blob(2,bytes);verification.done();
@@ -800,7 +802,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
             if(a.plane!=ObjectPlane{}) {plane_row.string(1,key);plane_row.string(2,std::to_string(a.id));plane_row.integer(3,a.plane.c);plane_row.integer(4,a.plane.z);plane_row.integer(5,a.plane.t);plane_row.done();}
-            if(a.properties) {properties_row.string(1,key);properties_row.string(2,std::to_string(a.id));properties_row.blob(3,detail::encode_object_properties(*a.properties));properties_row.done();}
+            if(a.properties) {const auto bytes=detail::encode_object_properties(*a.properties);properties_row.string(1,key);properties_row.string(2,std::to_string(a.id));properties_row.blob(3,bytes);properties_row.done();}
             if(a.tma_core) {const auto& t=*a.tma_core;tma_core.string(1,key);tma_core.string(2,std::to_string(a.id));tma_core.integer(3,static_cast<std::int64_t>(t.row()));tma_core.integer(4,static_cast<std::int64_t>(t.column()));tma_core.integer(5,t.missing()?1:0);tma_core.string(6,t.case_id());tma_core.done();}
             if(a.cell_feature_link) {cell_link.string(1,key);cell_link.string(2,std::to_string(a.id));cell_link.string(3,std::to_string(a.cell_feature_link->record_id));cell_link.integer(4,a.cell_feature_link->label);cell_link.done();}
         };
