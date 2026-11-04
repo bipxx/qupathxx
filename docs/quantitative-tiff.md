@@ -63,6 +63,16 @@ seconds when supported units and positive finite values are present. Missing,
 unknown or invalid calibration remains absent. Raw sample arrays are never
 scaled by calibration or display settings.
 
+The [R2-SI1 conversion](benchmarks/ome-calibration-units-r2/README.md) recognizes
+the OME2016-06 SI prefix range (yotta through yocto) for metres and seconds,
+plus minutes, hours and days. Results are micrometres and seconds. The existing
+`um` alias, canonical micro symbol and angstrom conversion remain supported;
+other non-SI length units are not added by this change. Units are case-sensitive.
+`pixel` and `reference frame` do not establish physical calibration. Positive
+finite normalized values, including representable subnormals, are retained;
+overflow and conversion to zero remain absent. Companion metadata is compared
+using the same normalized quantities. Raw sample values are unchanged.
+
 ## Display views and persistence
 
 `server.metadata` describes the RGBA8 preview; `server.raw_metadata` describes

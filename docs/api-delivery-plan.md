@@ -73,14 +73,14 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-continue with the bounded R2-SI1 calibration task while owner decisions remain open. Follow dependencies below;
+R2-SI1 is locally verified; continue with bounded R2-META1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
 Current states: R0 is engineering accepted, R1 inventory reconciliation is complete
-(with research/release decisions still open), R2-SI1 is next, and R2-R12
+(with research/release decisions still open), R2-SI1 is locally verified, R2-META1 is next, and R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -95,7 +95,7 @@ second backlog or a campaign for each substep.
 | ID / milestone | Remaining outcome and easiest implementation path | Dependency | Completion check and reuse rule |
 | --- | --- | --- | --- |
 | R0 / existing qualification | Completed: [308 closeout](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md) accepts all three original complete audits and11 authenticated archives at frozen ae7a4148 | No remaining R0 dependency | Preserve its declared engineering scope and original source. Reuse this baseline; zero rebuilds/redispatches were needed. Mac Python/GUI/OpenSlide, broader science/resources/speed and release remain open |
-| R1 / M0 scope and fixtures | Inventory task complete: all23 Partial rows now separate implemented mechanisms and missing work against the308 baseline. Retain Windows-first engineering direction; exact release support, project license, eligible labeled specimens/tolerances and hardware claims remain owner decisions | Existing corpus/receipts are reused; unresolved decisions block only their affected claims | Pinned CC0/vendor files and synthetic fixtures are available engineering references. They do not supply independent biological ground truth. R2-SI1 can proceed without those release/biology decisions; no extra qualification or repeated corpus capture is needed |
+| R1 / M0 scope and fixtures | Inventory task complete: all23 Partial rows now separate implemented mechanisms and missing work against the308 baseline. Retain Windows-first engineering direction; exact release support, project license, eligible labeled specimens/tolerances and hardware claims remain owner decisions | Existing corpus/receipts are reused; unresolved decisions block only their affected claims | Pinned CC0/vendor files and synthetic fixtures are available engineering references. They do not supply independent biological ground truth. R2-SI1 is locally verified and R2-META1 can proceed without those release/biology decisions; no extra qualification or repeated corpus capture is needed |
 | R2 / M1 readers and quantitative input | Extend the shared ImageServer/OpenSlide/TIFF adapters only for missing eligible vendor, partial-OME, axis, calibration and damage cases; connect dense/typed sampling to the existing scientific grids | R1 identifies intended formats; independent adapter work need not wait for biological labels | Compare actual pixels/metadata, finite/alpha support, level-zero mapping, pending-close and bounded reads for the selected formats. All readers and required codecs must be openly licensed. Reuse existing decoders, fixtures and request validation; no separate reader model per frontend |
 | R3 / M2 viewer and display | Finish dense-scene navigation, physical DPI/monitor behavior, international glyph delivery, fluorescence/channel presentation and explicit ICC/color policy using the current tile scheduler, font pipeline and display transforms | R1 defines supported display/host scope; R2 supplies missing inputs | Exercise the changed editor/navigation/channel flows on the relevant display configuration, including overlay alignment, resize/close and resource lifetime. Keep display transforms independent of measurements. Reuse the installed product where native inputs are unchanged; record unsupported shaping/color cases explicitly |
 | R4 / M3 annotations and hierarchy | Close remaining QuPath editing comparisons through existing ROI commands, hierarchy, class and undo/redo authorities; add only demonstrated missing edit behavior | R1 geometry fixtures; current commands already provide the implementation base | Complete an overlapping/nested ROI edit, compound undo/redo and class operation with stable IDs and calibrated geometry. Compare the relevant independent/upstream fixtures; avoid rebuilding already accepted tools or creating a second UI object model |
@@ -119,16 +119,23 @@ The detailed routes and historical packets below supply implementation context,
 not another task order. Deferred parity rows remain part of the long-term target;
 they are not silently removed when the first defined release ships.
 
-Next bounded implementation: **R2-SI1, OME length/time calibration units**.
-The existing private quantity function drops standard SI-prefixed metadata and
-day intervals despite valid stored pixels. Extend its shared conversion once
-for main and companion metadata; preserve current conversions, default units,
-unknown/pixel/reference-frame refusal, positive-finite admission and raw pixels.
-Declare expected values from the [OME unit system](https://docs.openmicroscopy.org/ome-model/6.3.1/developers/ome-units.html)
-before testing. Run targeted TIFF metadata/companion and native raw-image checks;
-perform one incremental build/install after the change settles. Public API and
-stubs need no changes; no full platform campaign is triggered by this task.
-Non-SI additions, partial/BinaryOnly OME and ICC remain separately tracked gaps.
+Completed bounded implementation: **R2-SI1** adds SI length/time and day
+normalization in the shared TIFF parser. [Local evidence](benchmarks/ome-calibration-units-r2/README.md)
+records83 new unit checks,183 reader checks, one native raw-image suite and
+unchanged stubs/samples; two unrelated desktop opt-ins remain declared skips.
+
+Next bounded task: **R2-META1, explicit BinaryOnly metadata companions**.
+Start from a minimal independent fixture and the OME metadata-file/UUID contract,
+then extend the current bounded XML parser and reader dataset once. Require
+explicit filenames, relative-path/UUID agreement, complete metadata source
+observations, unchanged sample reads and changed/missing/oversized metadata
+rejection before returning pixels or publishing results. Do not bypass current
+file guards, IO budgets, project reopening or ownership by loading untracked XML.
+Use targeted main/companion/source-identity and project checks. Select package/
+runtime targets plus only affected test executables for the local build; reserve
+ALL_BUILD/full matrices for a justified broad check or release checkpoint.
+Other non-SI conversions, further vendor capabilities and ICC remain separate
+gaps; owner-only biology/hardware/license/release decisions stay explicit.
 
 ## Task closeout and waste review
 

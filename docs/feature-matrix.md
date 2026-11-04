@@ -11,8 +11,9 @@ Task closeout updates the affected row only when its evidence changes.
 
 R1 reconciliation (2026-11-04): all23 Partial rows below distinguish delivered
 mechanisms from actual remaining work. [Qualification308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)
-is the current declared engineering baseline; later feature-branch changes are
-documentation only. Historical failure/pending labels below its history headings
+is the declared engineering baseline. The later R2-SI1 reader calibration
+change has [local installed evidence](benchmarks/ome-calibration-units-r2/README.md);
+its new code does not inherit308 platform acceptance. Historical failure/pending labels below its history headings
 retain their original dates and do not schedule new campaigns.
 
 Fixture basis: the pinned [fixture manifest](../tests/fixtures/manifest.json)
@@ -31,7 +32,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | --- | --- | --- | --- | --- |
 | Dense image regions | qupath-core | io | Partial | Existing region, padding, lifetime and exact-grid implementations are engineering verified in the308 baseline. R2: extend only missing reader/scientific-grid cases; arbitrary large-window sampling still needs R12 resource evidence. |
 | OpenSlide regions | qupath-extension-openslide | io | Partial | Existing Aperio/Hamamatsu read, CLI, lifetime and replay gates are covered by308. R2: broader eligible vendor/metadata/damage cases; R12: representative whole-slide budgets. Reuse pinned SDKs and cached fixtures. |
-| Metadata and calibration | qupath-core, qupath-extension-openslide | core/io | Partial | Existing typed axes and per-axis calibration are implemented. R2-SI1: the shared OME quantity parser recognizes only a subset of standard length/time units, dropping otherwise valid calibration; add the supported SI range and day with unchanged raw samples. ICC and partial/BinaryOnly metadata remain separate R2/R3 gaps. |
+| Metadata and calibration | qupath-core, qupath-extension-openslide | core/io | Partial | Existing typed axes and per-axis calibration are implemented. R2-SI1 is locally verified: the shared OME quantity parser now normalizes the standard SI range and day with unchanged raw samples and companion checks. ICC and partial/BinaryOnly metadata remain separate R2/R3 gaps. |
 | Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Current tiled viewer, overview, controls, font assets and managed owners are delivered. R3: physical monitor/DPI delivery, dense-scene behavior and uncovered international text/shaping cases; R12: actual frame/GPU/process budgets. Historical placeholder observations do not mean the delivered font pipeline must be rebuilt. |
 | Background tile reads and cache | qupath-core, qupath-gui-fx | jobs/io | Partial | Native scheduling, generation rejection and budgets are delivered. R12: representative concurrent/vendor workloads and total process memory beyond cache charges; retain source-close/cancel behavior. |
 | Image display and channels | qupath-gui-fx | render/gui | Partial | RGB/gray/LUT/window/gamma and TIFF channel/Z/time views are delivered. R3: advanced fluorescence, explicit ICC/color handling and calibrated display edge cases. Keep display transforms out of quantitative measurements. |

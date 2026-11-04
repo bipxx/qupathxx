@@ -12,8 +12,8 @@ all three prepared complete original auditors exited0 on 2026-11-04.
 
 The [archive identities](authenticated-archives.json), original terminal run
 records and complete audit logs are retained here. The [initial receipt](../receipt.json)
-remains a historical dispatch observation. Current feature-branch changes since
-this candidate are documentation only; native products retain their actual
+remains a historical dispatch observation. At the R0 closeout, feature-branch changes since
+this candidate were documentation only; native products retain their actual
 build identities. No compilation, test rerun or workflow redispatch was used
 to obtain this closeout.
 
