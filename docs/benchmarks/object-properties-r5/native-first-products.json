@@ -1,0 +1,31 @@
+{
+  "source": "3095e6f8ef3c3b5f4843c007e326f7ba210547d2",
+  "unchanged_tested_executables_retained_before_final_relink": true,
+  "products": [
+    {
+      "path": "native-first-products/qupathxx_qupath_project_tests.exe",
+      "cache_path": "Release/qupathxx_qupath_project_tests.exe",
+      "sha256": "11cf7d96110ae1802e029ca4d955b047751dc5ff5601d55e79954678b7e1e157"
+    },
+    {
+      "path": "native-first-products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "dd07c89634004adb7f7b78a2477efe0dce3c8775a5fc605a7a18aa1f4c76922e"
+    },
+    {
+      "path": "native-first-products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "218f2dfe5b1746ef68a72c5de12aec72de7aed6cdd4a145488f4204eac98ee9c"
+    },
+    {
+      "path": "native-first-products/qupathxx_spatial_record_tests.exe",
+      "cache_path": "Release/qupathxx_spatial_record_tests.exe",
+      "sha256": "784320161a7c43c2134be33b312c9e2a3bf10f6178fc4016127ff92d0754d395"
+    },
+    {
+      "path": "native-first-products/qupathxx_file_fingerprint_tests.exe",
+      "cache_path": "Release/qupathxx_file_fingerprint_tests.exe",
+      "sha256": "0a173aea5e14b27f1bd8d075d7162a1dc7304609e2e6d64fe5473dc75d439035"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 # Imported object metadata and measurements
 
-R5-PROP1 implementation is in progress; completion stays in [current task](current-task.md).
+R5-PROP1 is [locally verified](benchmarks/object-properties-r5/README.md); wider
+property/plane support stays in the [queue](api-delivery-plan.md).
 `ObjectProperties(metadata={}, measurements={})` owns bounded UTF-8 string metadata
 and named binary64 measurements. `Annotation.properties` returns an immutable native
 owner or None; returned Python dictionaries are detached copies. Shared owners stay
@@ -48,5 +49,6 @@ local additive API. Existing signatures/defaults and enum ordinals stay intact.
 Resources/ownership, command methods, field limits, errors and SDK exports are
 reviewed in the header, binder and named workflows. HTTP/auth/retry semantics are
 not applicable; no HTTP/proto API lint configuration is present for this SDK.
-Generated stubs/typing and actual installed workflow checks are pending the settled
-build. This contract is not a release, biological-validation or performance claim.
+Generated stubs/typing and the installed inspect/save/export workflows pass
+within the linked Windows scope. C++ source compatibility is additive; clients
+must rebuild for the extended Annotation layout. The wheel does not ship headers. This contract is not a release, biological-validation or performance claim.

@@ -1,0 +1,26 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_____ test_owned_properties_survive_edits_and_explicit_clear_is_undoable ______
+
+    def test_owned_properties_survive_edits_and_explicit_clear_is_undoable():
+        doc,obj=document();metadata={'note':'α 🚀','quoted':'a,"b"\nline'};measurements={'Area':3.5,'zero':-0.0,'missing':math.nan,'positive':math.inf,'negative':-math.inf}
+>       props=q.ObjectProperties(metadata,measurements);metadata['note']='mutated';measurements['Area']=99
+              ^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'qupathxx' has no attribute 'ObjectProperties'
+
+tests\test_object_properties.py:23: AttributeError
+______ test_geojson_and_csv_preserve_metadata_and_measurement_semantics _______
+
+    @pytest.mark.skipif(not q.has_interchange,reason='GeoJSON')
+    def test_geojson_and_csv_preserve_metadata_and_measurement_semantics():
+        doc=q.Document(q.Image.demo())
+        data=feature(rectangle(),metadata={'note':'α, "quoted"\nline'},measurements={'Area':3.5,'negative zero':-0.0,'missing':'NaN','plus':'Infinity','minus':'-Infinity'})
+>       report=q.import_geojson(doc,json.dumps(data),assume_pixels=True);assert report.issues==[]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: Unsupported properties (measurements, metadata, locks or custom fields) will be dropped; enable allow_losses to proceed
+
+tests\test_object_properties.py:55: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_object_properties.py::test_owned_properties_survive_edits_and_explicit_clear_is_undoable
+FAILED tests/test_object_properties.py::test_geojson_and_csv_preserve_metadata_and_measurement_semantics
+2 failed in 0.75s

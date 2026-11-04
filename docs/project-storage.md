@@ -292,5 +292,5 @@ snapshots. `object_properties(image_id,object_id,payload)` references the canoni
 object identity. Its bounded checksummed QOP1 codec preserves signed zero and
 special values; orphan/malformed/noncanonical data rejects before publication.
 Schemas1–15 migrate within the existing save transaction. No input-source reads
-or second Python object model are introduced. Current implementation/validation
-status remains in [current task](current-task.md).
+or second Python object model are introduced. See the [local workflow evidence](benchmarks/object-properties-r5/README.md);
+remaining editing-state/plane and release work stays in the queue.

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_pixel_stream_record_benchmark.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-properties-r5\\model-final.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-properties-r5\\model-final-temp"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 1.476026999996975
+}

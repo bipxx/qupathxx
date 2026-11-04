@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-verification-r5-ui-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_object_properties.py::test_owned_properties_survive_edits_and_explicit_clear_is_undoable",
+    "tests/test_object_properties.py::test_geojson_and_csv_preserve_metadata_and_measurement_semantics",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-properties-r5\\before.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-properties-r5\\before-temp"
+  ],
+  "returncode": 1
+}

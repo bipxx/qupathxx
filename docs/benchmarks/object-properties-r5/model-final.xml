@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.798" timestamp="2026-11-04T14:51:46.648196-05:00" hostname="HEQPC"><testcase classname="tests.test_pixel_stream_record_benchmark" name="test_pixel_stream_record_benchmark_accepts_current_project_schema[1]" time="0.301"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py&quot;, line 67, in &lt;module&gt;&#10;      if __name__=='__main__':main()&#10;                              ^^^^^^&#10;    File &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py&quot;, line 38, in main&#10;      assert len(declarations)==1, 'missing/ambiguous project schema declaration'&#10;             ^^^^^^^^^^^^^^^^^^^^&#10;  AssertionError: missing/ambiguous project schema declaration&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe',...schema declaration\'\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError: missing/ambiguous project schema declaration\n').returncode">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-properties-r5/model-final-temp/test_pixel_stream_record_bench0')
+records = 1
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+&gt;       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 67, in &lt;module&gt;
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 38, in main
+E             assert len(declarations)==1, 'missing/ambiguous project schema declaration'
+E                    ^^^^^^^^^^^^^^^^^^^^
+E         AssertionError: missing/ambiguous project schema declaration
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe',...schema declaration\'\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError: missing/ambiguous project schema declaration\n').returncode
+
+tests\test_pixel_stream_record_benchmark.py:23: AssertionError</failure></testcase><testcase classname="tests.test_pixel_stream_record_benchmark" name="test_pixel_stream_record_benchmark_accepts_current_project_schema[7]" time="0.288"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py&quot;, line 67, in &lt;module&gt;&#10;      if __name__=='__main__':main()&#10;                              ^^^^^^&#10;    File &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py&quot;, line 38, in main&#10;      assert len(declarations)==1, 'missing/ambiguous project schema declaration'&#10;             ^^^^^^^^^^^^^^^^^^^^&#10;  AssertionError: missing/ambiguous project schema declaration&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe',...schema declaration\'\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError: missing/ambiguous project schema declaration\n').returncode">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-properties-r5/model-final-temp/test_pixel_stream_record_bench1')
+records = 7
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+&gt;       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 67, in &lt;module&gt;
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 38, in main
+E             assert len(declarations)==1, 'missing/ambiguous project schema declaration'
+E                    ^^^^^^^^^^^^^^^^^^^^
+E         AssertionError: missing/ambiguous project schema declaration
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe',...schema declaration\'\n           ^^^^^^^^^^^^^^^^^^^^\nAssertionError: missing/ambiguous project schema declaration\n').returncode
+
+tests\test_pixel_stream_record_benchmark.py:23: AssertionError</failure></testcase></testsuite></testsuites>
