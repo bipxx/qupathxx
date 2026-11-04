@@ -50,16 +50,17 @@ def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path
 
 
 @pytest.mark.parametrize('route',['relink','review'])
-def test_compatible_reduction_keeps_reader_handoff_planes_and_saved_replay(tmp_path,route):
-    project,image,values=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(-1,1,0))
+@pytest.mark.parametrize('axis',['z','t','c'])
+def test_compatible_reduction_keeps_reader_handoff_planes_and_saved_replay(tmp_path,route,axis):
+    project,image,values=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(0 if axis=='c' else -1,1,0))
     old=doc.server;old_request=request(1,1,z=2)
     expected=old.read_raw(old_request).numpy(copy=True)
     if route=='review':retain(project,image,tmp_path/'source.ome.tif')
-    path=replacement(tmp_path,'z',2)
+    path=replacement(tmp_path,axis,2 if axis=='z' else 1)
     if route=='relink':project.relink(image,str(path))
     else:
         reviewed=project.review_source_verification(image,fingerprint(path));project.apply_source_review(reviewed,accept_changed=True);assert reviewed.consumed
-    assert doc.server.raw_metadata.z_planes==2 and doc.server.tiff_read_stats.decoded_blocks==0
+    raw=doc.server.raw_metadata;assert {'z':raw.z_planes,'t':raw.timepoints,'c':raw.channels}[axis]==(2 if axis=='z' else 1) and doc.server.tiff_read_stats.decoded_blocks==0
     assert (doc.annotation(obj).plane.z,doc.annotation(obj).plane.t)==(1,0)
     np.testing.assert_array_equal(old.read_raw(old_request).numpy(),expected)
     capture=q.RawAnalysisRequest(doc,request(1,1,z=1),obj,tile_size=16);result=q.analyze_raw(capture)
