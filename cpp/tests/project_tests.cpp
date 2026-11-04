@@ -1,4 +1,6 @@
 #include "qupathxx/project.hpp"
+#include "qupathxx/source_identity.hpp"
+#include <fstream>
 #include "qupathxx/cells.hpp"
 #include <cstdlib>
 #include "qupathxx/object_classifier_archive.hpp"
@@ -8,6 +10,24 @@
 #include <stdexcept>
 using namespace qpx;
 void check(bool value) { if(!value) throw std::runtime_error("project check failed"); }
+void verified_relink_handoff() {
+    Project project;const auto root=std::filesystem::temp_directory_path()/project.identity();
+    std::filesystem::create_directory(root);
+    auto ppm=[&](const char* name,int value) {const auto path=root/name;std::ofstream file(path,std::ios::binary);file<<"P6\n2 2\n255\n";for(int i=0;i<12;++i)file.put(char(value));return path;};
+    const auto original=ppm("original.ppm",16),candidate=ppm("candidate.ppm",96);
+    const auto image=project.add_image(original.u8string(),"ppm");const auto doc=project.document(image);
+    const auto roi=doc->add_rectangle({0,0,2,2});doc->set_calibration(.25,.5);
+    const auto old=doc->server();const auto generation=old->reader_source()->generation;
+    project.relink(image,candidate.u8string());const auto linked=doc->server();const auto source=linked->reader_source();
+    check(source->primary && source->scope=="single_file" && source->generation!=generation);
+    std::filesystem::remove(candidate);
+    check(doc->mean_intensity(roi)==96 && linked->reader_source()->generation==source->generation);
+    check(doc->pixel_width_um()==.25 && doc->pixel_height_um()==.5);
+    Document old_doc(old);const auto old_roi=old_doc.add_rectangle({0,0,2,2});check(old_doc.mean_intensity(old_roi)==16);
+    linked->close();check(old_doc.mean_intensity(old_roi)==16);
+    std::filesystem::remove_all(root);
+    std::cout<<"Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed\n";
+}
 int main() {
     try {
         Project p;
@@ -15,6 +35,7 @@ int main() {
             bool rejected=false; try { p.save("disabled.qpxproj"); } catch(const std::runtime_error&) { rejected=true; }
             check(rejected); return 0;
         }
+        verified_relink_handoff();
         if(const auto fixture=std::getenv("QUPATHXX_HAMAMATSU_FIXTURE");fixture && has_openslide()) {
             auto slide=std::make_shared<Document>(open_slide(fixture));
             const auto roi=slide->add_rectangle({11264,17664,256,256});

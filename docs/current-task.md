@@ -5,7 +5,7 @@ and [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-rema
 R0 is accepted; R1 inventory is reconciled with owner decisions open. Recent R2,
 R4-MERGE1 and R5-QPPROJ1/QPDATA1 have scoped local evidence. All M0-M7 remain Partial.
 
-Next: **R5-RELINK1, retain the verified source reader**.
+Current: **R5-RELINK1, retain the verified source reader**, implementation in progress.
 
 - Outcome: relink publishes the exact verified reader through the existing
   LinkedServer instead of reopening the source lazily after verification.
@@ -13,6 +13,10 @@ Next: **R5-RELINK1, retain the verified source reader**.
   metadata, then discards that server. LinkedServer::open_locked opens the path a
   second time on first access. This duplicates I/O and permits a different source
   version between verification and first use.
+- Current evidence: prior installed product fails three new handoff cases and
+  passes rejection preservation. The patch transfers the candidate and uses the
+  existing source-publication helper for both initial open and relink; one cached
+  build/install and affected checks remain before closeout.
 - Reuse/dependency: existing reader guards/source observations, LinkedServer
   generation, metadata/calibration and TIFF view/options. Keep save snapshots lazy
   and old external reader references valid. No owner or biological decision needed.

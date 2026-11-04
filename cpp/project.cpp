@@ -89,19 +89,30 @@ class LinkedServer final : public ImageServer {
     mutable std::shared_ptr<const ReaderSource> source_;
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
+    void retain_verified(std::shared_ptr<ImageServer> candidate) const {
+        compatible(metadata_,candidate->metadata());
+        const auto actual=candidate->reader_source();
+        if(actual) {
+            auto next=std::make_shared<ReaderSource>(*actual);
+            next->generation=std::atomic_load(&source_)->generation;next->validate();
+            std::shared_ptr<const ReaderSource> published=std::move(next);
+            std::atomic_store(&source_,std::move(published));
+        }
+        server_=std::move(candidate);
+    }
 public:
     std::string reader_id() const override {return reader_;}
     std::string source_locator() const override {return path_;}
     std::shared_ptr<const ReaderSource> reader_source() const override {return std::atomic_load(&source_);}
-    LinkedServer(ImageMetadata m,std::string path,std::string reader,std::shared_ptr<const TiffView> view={},std::shared_ptr<const TiffOpenOptions> budgets={}) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)),tiff_view_(std::move(view)),tiff_options_(std::move(budgets)) {
+    LinkedServer(ImageMetadata m,std::string path,std::string reader,std::shared_ptr<const TiffView> view={},std::shared_ptr<const TiffOpenOptions> budgets={},std::shared_ptr<ImageServer> verified={}) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)),tiff_view_(std::move(view)),tiff_options_(std::move(budgets)) {
         validate_metadata(metadata_);if(tiff_view_ && !tiff_options_) {TiffOpenOptions options;options.view=*tiff_view_;tiff_options_=std::make_shared<const TiffOpenOptions>(options);}if((reader_=="tiff")!=bool(tiff_view_)) throw std::invalid_argument("TIFF project link requires its captured view");
         auto identity=reader_;if(tiff_view_) {identity=tiff_view_encode(*tiff_view_);identity.resize(identity.size()-64);identity="tiff:"+identity;}source_=make_reader_source(identity,path_,"unopened");
+        if(verified)retain_verified(std::move(verified));
     }
     const ImageMetadata& metadata() const override { return metadata_; }
     void open_locked(const std::atomic<bool>* cancelled=nullptr) const {
         if(closed_) throw std::runtime_error("image server is closed");
-        if(!server_) { auto candidate=read_image(path_,reader_,tiff_view_,cancelled,tiff_options_); compatible(metadata_,candidate->metadata());const auto actual=candidate->reader_source();
-            if(actual) {auto next=std::make_shared<ReaderSource>(*actual);next->generation=std::atomic_load(&source_)->generation;next->validate();std::shared_ptr<const ReaderSource> published=std::move(next);std::atomic_store(&source_,std::move(published));}server_=std::move(candidate); }
+        if(!server_)retain_verified(read_image(path_,reader_,tiff_view_,cancelled,tiff_options_));
     }
     PixelBuffer read_region(const RegionRequest& request) const override {
         std::lock_guard<std::mutex> lock(mutex_);open_locked();
@@ -331,10 +342,13 @@ void Project::rename_image(std::uint64_t id,std::string name) {
 }
 void Project::relink(std::uint64_t id,const std::string& path) {
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
-    auto source=absolute(path); auto server=read_image(source,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options()); compatible(old.document->metadata(),server->metadata());
+    auto source=absolute(path); auto server=read_image(source,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options());
     // Keep recorded source metadata and manual calibration separate from new
     // reader metadata. Existing external server references retain their source.
-    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,server->tiff_view(),server->tiff_options());
+    // Publish the same verified reader. A lazy replacement would open the path
+    // again, duplicate decoding and admit a different file before the first read.
+    const auto view=server->tiff_view();const auto budgets=server->tiff_options();
+    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,view,budgets,std::move(server));
     advance(revision_);
     entries_.at(id).info.source_path.swap(source); entries_.at(id).document->server_=std::move(linked); ++revision_;
 }
