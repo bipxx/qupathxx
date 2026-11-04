@@ -1,42 +1,47 @@
 # Current implementation task
 
-Use the [R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-and [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
+Use the [single R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+and [ordered remaining slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
 R0 is accepted; R1 inventory is reconciled with owner decisions open. The four
 recent R2 slices and [R4-MERGE1](benchmarks/annotation-merge-r4/README.md) have
-local installed evidence. All M0-M7 and the wider R2/R4/R5 scope remain Partial.
+local installed evidence. All M0-M7 remain Partial.
 
-Next: **R5-QPPROJ1, direct QuPath project-manifest import**.
+Current: **R5-QPPROJ1 closeout**, implemented with local results, not yet closed.
 
-- Outcome/entry: reuse image adapters, loss-aware GeoJSON/QuPath-assisted exchange
-  and native snapshots for a reviewed project preview/import and save/reopen flow.
-- Prerequisite: capture pinned qpproj/qpdata examples; identify builder, URI/path,
-  metadata, plane and annotation payload contracts. Inspect the delivered assisted
-  route before adding code. No biological/support/license decision is needed.
-- Checks: independent manifest expectations; explicit missing/unsupported/loss
-  reports before publication; failed import preserves existing state; Python/UI
-  imports preserve supported source paths, IDs, hierarchy/classes and calibration.
-  One settled build/install and affected import/reopen consumers only.
-- Stop: complete one imported-project workflow with an honest capability/loss
-  report. Direct qpdata decoding and broader property/plane cases remain separate
-  R5 contracts; manifest-only support must not be called complete migration.
+- Outcome: reviewed QuPath0.7.0 manifest plus hash-bound, QuPath-assisted
+  annotation import through native/Python/ImGui, followed by native save/reopen.
+  Native source is ee7555e8; final observer/exporter/stub edits remain pending.
+- Reuse: pinned project/qpdata/exchange fixtures, existing source guards and
+  transactional snapshots, retained build and installed environment under
+  `build/qupath-project-r5` and `build/ci/qupath-project-r5-env` at the root checkout.
+- Remaining actions: inspect final exporter controls and successful UI capture;
+  cover only a missing optional-metadata/unknown-calibration assertion if needed;
+  verify source/package/fixture identities; integrate pending changes and publish
+  one scoped evidence summary and contract update. Preserve original failures.
+- Checks: reuse model/native/typing/stub results for unchanged inputs and the
+  corrected desktop apply case. Run only a newly added or affected case. Native
+  rebuild only for changed compiler inputs/configuration; no platform campaign.
+- Stop: supported assisted import is reviewable, loss-aware and evidence-linked.
+  Direct Java .qpdata decoding, additional builders/properties/planes stay open
+  under R5. Full migration, scientific acceptance and overall speed remain open.
 
-Latest closeout (2026-11-04, R4-MERGE1):
-Outcome/evidence: [ten pinned captures and24 distinct merge passes](benchmarks/annotation-merge-r4/README.md),
-74 selected model passes/15 declared skips, four desktop passes and three native
-suites; typing/stubs/62 installed members/RECORD verify. Mixed point loss requires
-explicit admission. Native acbdc388 and observer64acd130 retain separate identities.
-Waste/cost: one seven-target native build; shared-header changes caused a broad
-core/binding rebuild (elapsed unknown). Generated stubs were repackaged from the
-same native bytes, followed by one final install. Cached UI checks avoid repeated
-selection scans. Reused successful XML when correcting the marker proof; no
-native suite, reader campaign or platform campaign was repeated.
-Plan change/next action: finish generated signatures before installing; retain
-source/evidence identity and cache_path; move to QPPROJ1 using existing migration
-authorities. Preserve the old Boolean command and failed baseline cases.
+Next after closeout: inspect remaining R4/R5 inventory and select one uncovered
+source-replacement/relink race or edit/persistence behavior. Name the actual gap,
+existing authority, decisive check and stop condition before coding. Then follow
+R6/R7, R8-R10, R11, R3, R12 and R13; pull required R2 inputs forward and retain
+R14-R16 parity work. Blocked decisions affect only their dependent claims.
 
-Apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review) after
-each task, including failures, then update dependencies/checks before starting
-the next one. Source308 acceptance retains its own platform scope. Biology,
-hardware, project license and exact release support remain owner decisions.
-Only openly licensed readers and required codecs are eligible.
+Latest task closeout (2026-11-04, remaining-work plan update):
+Outcome/evidence: reconciled the queue with implemented QPPROJ1 and pending
+closeout; preserved full R0-R16 scope and explicit milestone exits.
+Waste/cost: removed stale fixture-capture/implementation instructions from the
+active next task; reused retained results and exporter controls. This planning
+change needs diff/link/consistency review only; no build or test campaign.
+Plan change/next action: finish QPPROJ1 closeout before opening another slice;
+after each task or failed attempt, record remove/merge/reuse/defer/retain decisions
+and update the next behavior, dependencies, reusable product and selected checks.
+
+Apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
+before the next task or retry. Keep this card short; technical lessons belong
+in the existing compilexx notes. Only openly licensed readers/codecs are eligible.
+Biology, hardware, project license and exact release support remain owner decisions.

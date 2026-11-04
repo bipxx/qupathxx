@@ -73,14 +73,14 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue with bounded R5-QPPROJ1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; finish the pending R5-QPPROJ1 closeout while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
 Current states: R0 is engineering accepted, R1 inventory reconciliation is complete
-(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is next, and R2-R12
+(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is implemented with local results and pending evidence closeout, and R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -151,20 +151,20 @@ managed/typing/persistence flows. The new bool makes mixed-dimensional point los
 explicit; old Boolean behavior and enum ordinals remain intact. One seven-target
 native build, one final install and stub-only repackaging were used.
 
-Next bounded task: **R5-QPPROJ1, direct QuPath project-manifest import**.
-Capture actual pinned qpproj/qpdata fixtures and inventory the image builder,
-URI/path, metadata, per-object plane and annotation payload contracts first.
-Reuse existing image adapters, loss-aware GeoJSON/QuPath-assisted exchange and
-transactional native snapshots. Define a preview/report/apply path that admits
-supported image references and preserves annotations through supported exchange;
-report missing sources and unsupported builders/payloads explicitly before
-publication. An image-manifest-only route must not silently drop objects or claim
-full migration. Direct qpdata decoding remains a separate required R5 format
-contract; first inspect the existing assisted route instead of rebuilding it.
-Finish one imported project through Python/UI and save/reopen with source paths,
-IDs/classes/calibration and explicit losses, then update the remaining format
-work. New reference captures need no biological/release decision. Use affected
-fixture, import atomicity and consumer checks; no geometry/reader campaign replay.
+Current bounded task: **R5-QPPROJ1 evidence and contract closeout**.
+Native preview/import, Python bindings, ImGui review/apply and pinned QuPath0.7.0
+project/data/exchange fixtures are implemented at native source ee7555e8.
+Local model, native, typing/stub and desktop results exist; final exporter and
+observer edits are pending integration. This is not yet a closed delivery.
+Inspect retained exporter controls and the final UI capture, cover only any
+remaining optional-metadata/unknown-calibration assertion, then reconcile native,
+observer, installed-package and fixture identities in one scoped evidence record.
+Reuse passing results for unchanged inputs. Preserve the failed initial build
+and initial desktop test, alongside their corrections. Documentation, exporter,
+test and stub-only corrections do not require a native rebuild.
+Close only the supported manifest plus assisted annotation import/save/reopen
+workflow. Direct Java .qpdata decoding, additional builders, properties and planes
+remain distinct R5 gaps; the assisted exporter does not close those contracts.
 
 ## Execution order for finishing the remaining work
 
@@ -175,8 +175,10 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-QPPROJ1 and remaining R4/R5,
-R6/R7, R8-R10, R11, R3 completion, R12 and R13. Prepare R1 decisions and release
+Default remaining order is R5-QPPROJ1 closeout, remaining R4/R5,
+R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
+reader/axis/damage slice forward when its consumer needs it; reconcile remaining
+R2 inventory before closing M1. Prepare R1 decisions and release
 notices alongside the task that needs them. Move R3 earlier for an actual viewer
 blocker, or R12 earlier for a measured resource failure. This order is scheduling,
 not an instruction to finish every possible reader before doing analysis.
@@ -187,7 +189,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | Next QPPROJ1 direct project-manifest import with explicit payload losses and the existing annotation exchange route; then source replacement/fingerprint and relink races; uncovered write/recovery/lock cleanup; remaining nested geometry/property losses; distinct direct QuPath project/data migration contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Preserve prior data on failure and report losses explicitly. QuPath-assisted exchange is the first usable route; direct formats remain a separate required-gap assessment |
+| R5 | Close QPPROJ1 evidence and supported assisted-import contract; then uncovered source replacement/fingerprint and relink races; write/recovery/lock cleanup; nested geometry/property losses; direct .qpdata decoding and unsupported builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Assess direct decoding from pinned format evidence before implementation; assisted exchange remains usable while this gap is open |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -203,6 +205,11 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 
 For each selected slice, the current-task card records the user outcome, existing
 entry point, prerequisite, decisive checks and stop condition before work starts.
+Include affected API/consumer paths, the tested source or reusable product, and
+what remains after that stop condition. Root owns implementation and closeout;
+the repository owner owns the explicit research, license and release choices.
+If a dependency blocks a slice, record it and take the first ready slice in this
+order. Do not create speculative infrastructure to bypass a decision.
 On completion, mark only the state supported by evidence: engineering verification,
 scientific acceptance and release support remain separate. Close an R family only
 when its remaining inventory entries are accepted or explicitly deferred with a
@@ -235,6 +242,23 @@ not another build, campaign, independent-model review or report artifact.
 Keep only the latest closeout in current-task.md using this compact form:
 
 > Outcome/evidence: ...  Waste/cost: ...  Plan change/next action: ...
+
+The plan change must be actionable: identify the next missing behavior, its
+dependency, the existing implementation/product to reuse, and the minimum checks
+still necessary. Record each material repeated operation as **remove**, **merge**,
+**reuse**, **defer**, or **retain**, with its reason. Carry a deferred fix into its
+existing R row only if it is needed by a named workflow. Do not start the next
+implementation task with a stale current-task card.
+For a failed attempt, update the card before retrying: state the cause, changed
+input and affected check; reuse independent passing results. Resume or inspect
+an unfinished tool session before starting a replacement operation.
+
+Use observed cost when available; unknown time stays unknown. A short review
+with no material waste is sufficient. This loop adds no mandatory benchmark,
+second reviewer, tracking system or full validation pass. Once the agreed outcome
+and affected checks pass, close the slice and advance. At release closure,
+reconcile remaining R rows against M0-M7 once, including explicit deferrals and
+owner decisions; task counts alone never establish project completion.
 
 Long-lived technical lessons may be appended to the existing compilexx notes;
 raw failures/evidence stay at their original paths. Do not copy this closeout
