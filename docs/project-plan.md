@@ -4,7 +4,7 @@ Current status is maintained only in the [current task](current-task.md). Follow
 
 ## Current execution map
 
-Use the [delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for ordering and the current task for pending work. Historical campaign tables and superseded instructions have moved to history. All M0-M7 remain Partial; the requirements below are unchanged.
+Use the [delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for ordering and the current task for pending work. Historical campaign tables and superseded instructions have moved to history. All M0-M7 remain Partial; the requirements below are unchanged. Each bounded task ends with the [waste review and plan handoff](api-delivery-plan.md#completion-gates-and-task-handoff) before the next task or retry. The delivery plan owns that procedure; do not duplicate task lists here.
 
 ## Scope and release boundaries
 

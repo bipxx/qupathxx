@@ -73,7 +73,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1/RELINK1 to R5-PLANE1 after SOURCE1/PROP1/EDITSTATE1 closeout and recovery reconciliation while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. Continue with R5-PLANE1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -195,26 +195,36 @@ scientific acceptance and release support remain separate. Close an R family onl
 when its remaining inventory entries are accepted or explicitly deferred with a
 scope decision. Close M0-M7 against project-plan criteria, not task counts.
 
-### Concrete next actions and completion gates
+### Completion gates and task handoff
 
-These refine the existing queue; update these entries in place rather than adding
-another task list. A task may be ready to implement, awaiting closeout, or blocked
-on one named input. Implemented code awaiting evidence is not a new feature task.
+The ordered slices above are the execution sequence; do not maintain a second
+ordered task table. For every selected slice, update current-task.md in place:
 
-| Order / existing family | Next action and easiest path | Minimum remaining checks / handoff |
+| Point | Required decision / action | Exit |
 | --- | --- | --- |
-| 1 / R5-PLANE1 | Trace TiffView/axes, object/view filtering and analysis capture; implement the settled plane contract through existing import/object/storage authorities | One declared plane-aware import/view/select/analyze/save/reopen/export workflow has exact pixel/plane checks. Preserve unsupported/out-of-range refusal and legacy default-plane replay |
-| 2 / remaining R4/R5 | Choose the next demonstrated edit/hierarchy, source race or unsupported representation after PLANE1; reuse completed object facts, imports and recovery above | Complete one actual workflow with stable IDs, geometry/calibration, history and explicit losses. Do not restart completed property or fault mechanisms |
-| 3 / R6-R10 analysis | Take the first ready slice from the ordered rows above: shared context/halo first, then tissue/features, classifiers, spatial metrics and TMA. Specify expected arrays/geometry and recipe before changing code | Verify the shared native result independently, then one affected installed workflow. Reuse consumers and fixtures. If biological labels/tolerances are unavailable, keep that acceptance open and take a ready engineering slice; do not invent an accuracy threshold |
-| 4 / R11 and R3 | Complete one versioned end-to-end script with restart/error policy, then remaining display/channel/DPI/text behavior; bring a blocking viewer defect forward | Save/reopen and interruption preserve results and ownership. Numerical checks remain at their shared authority. Validate actual affected UI/display behavior rather than repeating the analysis suite |
-| 5 / R12-R13 | Measure the declared whole-slide workload, fix measured bottlenecks, and close each chosen support/package cell. Prepare notices and sample workflows during preceding work | Freeze accuracy/settings/hardware before speed comparisons. One release checkpoint covers the claimed hosts and packages. Research acceptance, project license, support scope and release authorization remain explicit owner decisions |
-| 6 / R14-R16 | Finish included additional hosts, named integrations and broader automation after their shared contracts are stable | Each newly claimed workflow/host gets its affected integration checks. Keep explicit deferrals in the existing rows; broader parity is not silently removed from scope |
+| Start | Name one missing user outcome, its existing native authority, actual prerequisites and affected Python/UI/CLI/storage paths. Link applicable evidence rather than recapturing it | A bounded outcome, minimum checks and stop condition are recorded before implementation |
+| Implement | Finish the shared behavior and affected consumers together. Settle API, casters and persistence before a combined cached build/install | The declared workflow is usable; additional gaps return to their existing R family |
+| Verify | Run only checks covering changed inputs or a named unresolved risk. Reuse a healthy product for frontend checks; keep numerical expectations at the shared authority | Affected checks pass, or a specific failure/blocker and its evidence are recorded |
+| Review waste | Inspect actual duplicate work, build/install retries, waits, unnecessary outputs and scope expansion. Choose remove, merge, reuse, defer or retain with a reason | Small causes are corrected; larger necessary fixes have one home in the existing queue |
+| Update and continue | Record outcome/state, reusable source/product scope, next action, dependency and remaining checks. Apply the waste decision to the next task before starting it | Advance to the first ready slice; a failed/stopped attempt uses the same handoff before retry |
 
-Do not turn reconciliation into a separate audit campaign. Inspect enough existing
-code/evidence to choose the next missing outcome, record that choice and proceed.
+If a build fails, diagnose the retained failure before starting another build;
+name what changed and reuse independent passing checks. If work expands beyond
+the declared outcome, finish that outcome and schedule the new gap under its
+existing family. Repeated environment or integration failures call for fixing
+the cause, not another identical attempt. No fixed task duration, artificial
+saving target or extra benchmark is needed.
+
 An issue belongs to one family: sampling/halo in R6, orchestration in R11,
 resource measurements in R12 and release support in R13. Consumers link the same
-fix instead of opening duplicate implementation tasks.
+fix instead of opening duplicate implementation tasks. Reconciliation is part
+of selecting a missing outcome, not a separate audit campaign.
+
+Project completion requires closing the applicable workflow inventory and M0-M7
+exit criteria, with remaining R14-R16 parity either delivered or explicitly
+deferred by the owner. Engineering verification, scientific acceptance and
+supported release are separate states. A local pass or a faster component does
+not establish biological acceptance, release readiness or overall speed.
 
 ## Task closeout and waste review
 

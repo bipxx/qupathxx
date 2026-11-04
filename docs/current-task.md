@@ -26,23 +26,21 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   with unsupported cases explicit. Other R5 versions/settings, remaining R4,
   science/resource/release and R6-R16 requirements stay in the queue.
 
-Latest closeout (2026-11-04, EDITSTATE1):
-Outcome/evidence: [editing state](benchmarks/object-edit-state-r5/README.md) has27 new
-model passes/four desktop cases,764 selected passes/sixteen skips, seven native
-suites and seven desktop flows. Stubs/typing pass. Source585d6ba2/observer9e72413b
-bind451 compiler inputs and62 installed members/RECORD. One final install.
-Waste/cost: **reuse** public API/UI compilation after a real compact-history budget
-regression; **remove** unconditional property pointers from class-only rows; use
-sparse owner changes. Old64KiB/1000-object case now passes. First build681.98s,
-private correction56.56s. **Retain** wrong-interpreter and staged regression logs;
-use a dedicated interpreter with asserted source for probes. Facts share maps,
-bindings are localized and consumers explicitly include the property definition.
-No repeated healthy runtime cohort or full platform campaign was needed.
-**Remove** duplicated completed-workflow counts from the active plan; keep only
-reuse links, dependencies and the next steps there.
-Plan change/next action: source/view-aware planes are the next actual import gap.
-The CSV column union is now bounded at4096 before row materialization; wider R12
-export memory/latency remains open. No general performance claim follows.
+Latest closeout (2026-11-04, remaining-work plan update):
+Outcome/evidence: consolidated the execution sequence in the
+[delivery plan](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
+and made start/implement/verify/waste-review/update handoffs explicit. No native
+code or product changed. Review of changed links and diff is the applicable check.
+The latest native delivery remains [EDITSTATE1](benchmarks/object-edit-state-r5/README.md);
+its source/product and validation scope remain unchanged.
+Waste/cost: **remove** the duplicate next-actions table; **reuse** existing workflow
+evidence and the installed product within its original scope; **retain** affected
+correctness checks. No build, install or platform campaign is needed for this edit.
+No new cost measurement was made.
+Plan change/next action: continue R5-PLANE1 with the card above. After that outcome,
+choose the first demonstrated remaining R4/R5 gap, then follow the ordered slices.
+Update this card and the affected queue entry after each task or failed/stopped
+attempt, applying the waste decision before the next task or retry.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
