@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-plane-replacement-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='eb53f2bc50d6f76c47d954cb84ca439d65472923';import pytest;raise SystemExit(pytest.main(['tests/test_object_clipboard.py::test_selection_scope_is_explicit_and_descendants_are_optional','-q','--junitxml='+'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\baseline.xml']))"
+  ],
+  "returncode": 1
+}

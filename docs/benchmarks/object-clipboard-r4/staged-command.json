@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='dd33c2b1890e6e90b221b4b62b18db9e9eebc92f';print('native source',q.build_environment().git_revision,flush=True);import pytest;sys.exit(pytest.main(['tests/test_object_clipboard.py', 'tests/test_interchange.py', 'tests/test_object_properties.py', 'tests/test_object_edit_state.py', 'tests/test_object_planes.py', 'tests/test_document_edits.py', 'tests/test_geometry_edits.py', 'tests/test_classification_edits.py', 'tests/test_selection.py', 'tests/test_annotation_merge.py', 'tests/test_project.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\staged.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\staged-temp']))"
+  ],
+  "returncode": 1,
+  "source": "dd33c2b1890e6e90b221b4b62b18db9e9eebc92f",
+  "product_installed": false,
+  "elapsed_seconds": 4.364425999810919
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='dd33c2b1890e6e90b221b4b62b18db9e9eebc92f';print('native source',q.build_environment().git_revision,flush=True);import pytest;sys.exit(pytest.main(['tests/test_object_clipboard.py::test_clipboard_snapshot_graph_properties_ids_and_compound_history', 'tests/test_object_clipboard.py::test_selection_scope_is_explicit_and_descendants_are_optional', 'tests/test_object_clipboard.py::test_preserved_or_explicit_plane_is_native_and_atomic', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\staged-retry.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-clipboard-r4\\\\staged-retry-temp']))"
+  ],
+  "returncode": 0,
+  "source": "dd33c2b1890e6e90b221b4b62b18db9e9eebc92f",
+  "product_installed": false,
+  "elapsed_seconds": 0.9739695000462234
+}

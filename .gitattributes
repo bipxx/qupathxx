@@ -773,3 +773,5 @@ docs/benchmarks/object-edit-state-r5/** -text -whitespace
 docs/benchmarks/object-planes-r5/** -text -whitespace
 
 docs/benchmarks/source-plane-replacement-r5/** -text -whitespace
+
+docs/benchmarks/object-clipboard-r4/** -text -whitespace
