@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rootfacts_r5_store_backend.py"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 34.23704699985683
+}

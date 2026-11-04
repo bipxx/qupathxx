@@ -2,68 +2,62 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. R4-CLIP1 is locally verified in its recorded scope.
+All M0-M7 remain Partial. R5-ROOT1 is locally verified in its recorded scope.
 
-Current: **R5-ROOT1 — saved-data root metadata/measurements** (affected engineering checks passed; evidence and plan handoff pending).
+Current: **R5-SETTINGS1 — saved image analysis defaults** (ready for contract
+preparation; no implementation or verification claimed).
 
-- Outcome: retain the pinned QuPath root metadata/measurements as image-level
-  historical facts through native import, Python/ImGui access and saved reopen,
-  rather than requiring loss permission and dropping them. Do not create a fake
-  ROI or present historical values as newly computed image measurements.
-- Evidence/entry: cpp/qupath_saved_data.cpp explicitly emits
-  root_properties_dropped when root attributes/measurements are nonempty;
-  QuPathProjectPreview owns nonmutating preview and atomic import. Reuse existing
-  ObjectProperties facts/limits, decoder primitives, storage transactions and
-  object-properties inspector/table patterns. The workflow inventory records
-  this gap separately from already delivered object-level facts.
-- Investigation: a new synthetic pinned v0.7.0 capture independently records
-  root metadata, finite/NaN/infinite/signed-zero measurements and distinct child
-  facts. Cached PathObject/PathRootObject sources match the existing pinned
-  hashes; root serialization has no ROI. No reader/runtime download is needed.
-- Contract: Document.image_properties exposes immutable ObjectProperties maps;
-  ROI lock/color/probability flags are invalid at image level. Empty facts become
-  None. Set/clear is one ordinary history transaction, does not change object IDs,
-  selection, ROI properties, calibration or live computed measurement values.
-  Schema19 adds one sparse checksummed image_properties row per image; legacy
-  1-18 projects default empty and migrate in the existing save transaction.
-  Save snapshots share owning immutable facts and charge their bounded payload.
-- Next action: extend existing staging/history, preview decoder, snapshot/store,
-  thin binding and historical inspector together. Settle consumers/tests before
-  one combined cached build. Broader ImageData settings retain explicit losses.
-- Checks: captured root values and independent native fixtures; object facts
-  unchanged; mutation/refusal/history where applicable; save/reopen and legacy
-  project load; import preview/source preservation and loss reports; thin Python
-  access/types and one actual inspector flow. Select the affected older contracts
-  after tracing producers/consumers; no speculative full qualification.
-- Build/reuse: reuse current installed CLIP1 product for baseline behavior and
-  the existing cache. Settle interfaces/schema/casters/consumers before one
-  combined build, run new and older affected contracts staged before install,
-  and generate stubs once if public APIs change. Do not repeat clipboard or
-  source-axis checks unless their inputs or a concrete concern change.
-- Stop: supported root facts are retained and reviewable across that workflow,
-  with unsupported values explicit and refusals atomic. Image analysis settings,
-  additional saved-data versions/records, remaining R4/R5 gaps and R6-R16 stay in
-  the existing queue; completing ROOT1 will not close all interchange or M4.
+- Outcome: retain recognized pinned ImageData image-type/stain defaults through
+  native import, Python/ImGui inspection/use and saved reopen. Keep defaults
+  distinct from historical image/ROI facts and explicit analysis requests; do not
+  silently change recipes or historical results when loading settings.
+- Evidence/entry: cpp/qupath_saved_data.cpp still reports image_settings_dropped
+  for ImageData$ImageType and ColorDeconvolutionStains. Existing losses fixture
+  contains brightfield H&E settings. Reuse StainTransform, normalized basis/white
+  handling, stain_model_sha256, requests/retained recipe identity, QuPath preview/
+  review, immutable document state, storage snapshots and current GUI controls.
+- Next action: inspect the pinned serialized fields and fixture expectations;
+  identify exact retained names/vectors/white/type semantics and current losses.
+  Trace default consumption in analysis/cells/classifiers and UI before choosing
+  a small typed state/API. Decide unsupported combinations, unset/explicit
+  precedence, migration and undo before changing headers/casters/consumers.
+- Checks: captured defaults and independent normalized-vector/identity values;
+  import review/source preservation; save/reopen/legacy load and mutation/refusal;
+  explicit recipes/results unchanged; owning snapshots and worker final release;
+  thin Python/types and one actual apply/inspect flow. Do not repeat the existing
+  stain numerical campaign unless its inputs or algorithm really change.
+- Build/reuse: reuse installed root-facts-r5-env for baseline and the existing
+  cache. Trace constructor/caster/worker ownership and borrowed-buffer lifetime
+  before freezing. Settle interfaces/store/consumers for a combined build; use a
+  dedicated staging-only environment so isolated children load the same product.
+  Preflight selected pytest names, run affected contracts before final install,
+  and generate stubs once if APIs change. Retain unchanged evidence in real scope.
+- Stop: one pinned recognized settings workflow is retained and usable across
+  that route, with unsupported values explicit and publication atomic. Broader
+  ImageData/project properties, versions/builders/records, remaining R4/R5 gaps
+  and R6-R16 stay in the queue. SETTINGS1 will not close all interchange or M4.
 
-Latest closeout (2026-11-04, ROOT1 final storage/observer):
-Outcome/evidence: store405ba1ad builds in34.24s; three affected storage suites
-pass.216 staged storage/consumer cases pass with eleven declared skips. Root
-import/reopen, immutable history, migration/refusal/corruption and both image/ROI
-native-only worker releases pass. The dedicated probe environment fixes isolated
-child imports. Two remaining benchmark observers hard-code report schema18 even
-though the producer correctly reports19 (staged-store.xml).
-Waste/decision: **retain** earlier deadlock, temporary-BLOB corruption, selection
-and environment failures. **Reuse** the same native product,216 healthy cases,
-unchanged pure document/classification checks from ce786260 and native suites in
-their actual scopes. **Remove** the last duplicated report-version assertion by
-using the independent shared expected version. No build/install/stub run needed.
-Plan change/next action: both corrected report cases now pass. The combined
-cohort accounts for all239 selected cases (228 passes/eleven declared skips),
-retaining only the ten unchanged pure model cases from ce786260. Final stubs were generated once and one repackaged native product installed.
-Positive typing, three exact negative diagnostics, five packaged-stub contracts
-and the actual desktop inspector/save/reopen flow pass. The capture visibly
-separates root12.5, child historical3.5 and live ROI120px2/15um2. Finalize identity/
-evidence and the plan handoff; no further numerical/platform campaign is needed.
+Latest closeout (2026-11-04, R5-ROOT1):
+Outcome/evidence: [historical image facts](benchmarks/root-facts-r5/README.md)
+closes declared root metadata/measurements through native/Python/ImGui/history/
+schema19 snapshots/reopen. Shared ObjectProperties construction is native-owned;
+image/ROI final worker release passes. Encoded borrowed BLOBs live through SQL
+execution; private rvalue binding is rejected. Final native405ba1ad, unchanged
+kernel scopece786260, observer49afda8b: 228 distinct staged passes/eleven skips
+(15 new headless passes), six native suite roles, actual desktop, five stub checks
+and positive/three-diagnostic negative typing.453 compiler inputs,62 installed
+members/RECORD and the existing496-file pinned runtime match. Capture inspected.
+Waste/decision: **retain** all failures/candidates; **reuse** ten unchanged pure
+model cases and kernel results in their original scope. **Merge** fixes at common
+fact construction and borrowed-buffer authorities. Three builds670.91/88.97/34.24s,
+one final install and one stub generation; the latter builds address real bugs.
+**Remove** private-helper test selection, old child imports and duplicated schema
+report expectations. Use real public pytest nodes and a scoped staging .pth,
+which also reaches -I children. Preflight async final release and argument/buffer
+ownership before freezing the next API. No full platform/science/speed campaign.
+Plan change/next action: ROOT1 is locally verified; reuse its facts/codec/store/
+ownership mechanisms. Proceed to actual saved type/stain-default losses above.
+Other properties and owner research/license/support/release decisions remain open.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

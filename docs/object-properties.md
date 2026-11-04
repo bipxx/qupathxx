@@ -11,6 +11,12 @@ Names are nonempty; NUL/invalid UTF-8 reject. NaNs are canonicalized, signed zer
 and infinities retained. These facts are historical values, never recomputed or
 promoted to verified results by changing geometry/calibration.
 
+Python construction uses native shared ownership. The
+[image-facts workflow](benchmarks/root-facts-r5/README.md) verifies that final
+image/ROI fact release on save workers needs no Python cleanup, including disabled
+history and a failed writer followed by retry. It also fixes borrowed encoded-BLOB
+lifetimes for both image and ROI storage. Wider controller lifecycle remains R11.
+
 ```python
 props = q.ObjectProperties({"note": "imported"}, {"Synthetic": 3.5})
 document.set_object_properties(object_id, props)

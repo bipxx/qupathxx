@@ -1,0 +1,47 @@
+{
+  "typing": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-facts-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/image_properties_valid.py"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 3.0560749999713153
+  },
+  "typing-negative": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-facts-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/image_properties_invalid.py"
+    ],
+    "returncode": 1,
+    "elapsed_seconds": 2.6028223000466824
+  },
+  "public-stubs": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-facts-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_public_stubs.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\public-stubs.xml",
+      "--basetemp",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\public-stubs-temp"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 0.7725021000951529
+  }
+}

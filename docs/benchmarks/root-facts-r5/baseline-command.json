@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-clipboard-r4-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='dd33c2b1890e6e90b221b4b62b18db9e9eebc92f';import pytest;raise SystemExit(pytest.main(['tests/test_image_properties.py::test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen','-q','--junitxml='+'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\baseline.xml']))"
+  ],
+  "returncode": 1
+}

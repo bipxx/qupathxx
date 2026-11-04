@@ -1,0 +1,319 @@
+native source ce786260a48fd42935f2fdc5f86ffe5eb060b867
+.F...........s..........................s..........................ssss. [ 30%]
+...............s....................ss................Fss............... [ 60%]
+.F..............................................F.....................FF [ 90%]
+.......................                                                  [100%]
+================================== FAILURES ===================================
+____ test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_captured_root_facts_impor0')
+
+    @pytest.mark.skipif(not q.has_project or not q.has_interchange or not q.has_tiff,reason='saved-data import')
+    def test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen(tmp_path):
+        path=foreign(tmp_path);before={p:p.read_bytes() for p in path.parent.rglob('*') if p.is_file()}
+        preview=q.preview_qupath_project(str(path))
+        assert not any(issue.code=='root_properties_dropped' for issue in preview.issues)
+        assert preview.issues==[] and preview.images[0].objects==1
+        output=tmp_path/'root-import.qpxproj';preview.import_new(str(output))
+>       doc=q.Project.open(str(output)).document(preview.images[0].native_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: unsupported object properties encoding
+
+tests\test_image_properties.py:65: ValueError
+_______ test_fresh_process_and_document_lifetime_after_project_removal ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_fresh_process_and_documen0')
+
+    def test_fresh_process_and_document_lifetime_after_project_removal(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image.demo()))
+        doc = project.document(image)
+        obj = doc.add_rectangle(q.Rect(1, 1, 2, 2), "Restart")
+        path = tmp_path / "restart.qpxproj"
+        project.save(str(path))
+        code = "import qupathxx as q,sys; p=q.Project.open(sys.argv[1]); assert p.document(1).annotation(1).name=='Restart'; assert not p.dirty"
+>       subprocess.run([sys.executable, "-I", "-c", code, str(path)], check=True)
+
+tests\test_project.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input = None, capture_output = False, timeout = None, check = True
+popenargs = (['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I', '-c', "import qupa...ojects\\qupathxx\\build\\root-facts-r5\\staged-collect-fixed-temp\\test_fresh_process_and_documen0\\restart.qpxproj'],)
+kwargs = {}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout is given, and the process takes too long, a TimeoutExpired
+        exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I', '-c', "import qupathxx as q,sys; p=q.Project.open(sys.argv[1]); assert p.document(1).annotation(1).name=='Restart'; assert not p.dirty", 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\staged-collect-fixed-temp\\test_fresh_process_and_documen0\\restart.qpxproj']' returned non-zero exit status 1.
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:571: CalledProcessError
+---------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ValueError: not a supported qupathxx project schema (expected version 1 through 15)
+_______ test_exact_views_dirty_tracking_snapshot_isolation_and_restart ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_exact_views_dirty_trackin0')
+
+    def test_exact_views_dirty_tracking_snapshot_isolation_and_restart(tmp_path):
+        project = q.Project()
+        doc = q.Document(q.Image.demo())
+        image = project.add_document(doc)
+        second = project.add_document(q.Document(q.Image.demo()))
+        path = tmp_path / "views.qpxproj"
+        project.save(str(path))
+        assert project.view(image) is None
+        revision = doc.revision
+        expected = view()
+        project.set_view(image, expected)
+        assert project.dirty and doc.revision == revision
+        expected.zoom = 100
+        assert project.view(image).zoom == 8.75
+        snapshot = project.view(image)
+        snapshot.zoom = 200
+        assert project.view(image).zoom == 8.75
+        project.save(str(path))
+        project.set_view(image, view())
+        assert not project.dirty
+        loaded = q.Project.open(str(path))
+        assert values(loaded.view(image)) == values(view()) and loaded.view(second) is None and not loaded.dirty
+        code = "import qupathxx as q,sys; p=q.Project.open(sys.argv[1]); v=p.view(1); assert v.zoom==8.75 and v.center.x==-10 and v.display.gamma==2.4 and not p.dirty"
+>       subprocess.run([sys.executable, "-I", "-c", code, str(path)], check=True)
+
+tests\test_project_views.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input = None, capture_output = False, timeout = None, check = True
+popenargs = (['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I', '-c', 'import qupa...Projects\\qupathxx\\build\\root-facts-r5\\staged-collect-fixed-temp\\test_exact_views_dirty_trackin0\\views.qpxproj'],)
+kwargs = {}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout is given, and the process takes too long, a TimeoutExpired
+        exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I', '-c', 'import qupathxx as q,sys; p=q.Project.open(sys.argv[1]); v=p.view(1); assert v.zoom==8.75 and v.center.x==-10 and v.display.gamma==2.4 and not p.dirty', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\staged-collect-fixed-temp\\test_exact_views_dirty_trackin0\\views.qpxproj']' returned non-zero exit status 1.
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:571: CalledProcessError
+---------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ValueError: not a supported qupathxx project schema (expected version 1 through 15)
+________ test_project_recovery_async_save_and_retained_removed_cohort _________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_project_recovery_async_sa0')
+
+    @project_only
+    def test_project_recovery_async_save_and_retained_removed_cohort(tmp_path):
+        # wait() holds the caller's GIL. Native worker destruction must not need it.
+        import subprocess
+        import sys
+        tests=Path(__file__).resolve().parent
+        code="import sys;from pathlib import Path;sys.path.insert(0,"+repr(str(tests))+");from test_pixel_archives import _project_recovery_async_save_and_retained_removed_cohort as check;check(Path(sys.argv[1]))"
+        completed=subprocess.run([sys.executable,"-I","-c",code,str(tmp_path)],capture_output=True,text=True,timeout=30)
+>       assert completed.returncode==0,completed.stdout+completed.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\test_pixel_archives.py", line 137, in _project_recovery_async_save_and_retained_removed_cohort
+E             with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==CURRENT_SCHEMA_VERSION and db.execute("SELECT count(*) FROM pixel_classifier_records").fetchone()[0]==2
+E                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I...^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests\test_pixel_archives.py:273: AssertionError
+____ test_pixel_stream_record_benchmark_accepts_current_project_schema[1] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_pixel_stream_record_bench0')
+records = 1
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+>       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 67, in <module>
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 39, in main
+E             assert version==int(declarations[0]) and count==args.records and total<args.records*4096 and maximum<4096
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I... ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests\test_pixel_stream_record_benchmark.py:24: AssertionError
+____ test_pixel_stream_record_benchmark_accepts_current_project_schema[7] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/staged-collect-fixed-temp/test_pixel_stream_record_bench1')
+records = 7
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+>       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 67, in <module>
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 39, in main
+E             assert version==int(declarations[0]) and count==args.records and total<args.records*4096 and maximum<4096
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I... ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+tests\test_pixel_stream_record_benchmark.py:24: AssertionError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_image_properties.py::test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen
+FAILED tests/test_project.py::test_fresh_process_and_document_lifetime_after_project_removal
+FAILED tests/test_project_views.py::test_exact_views_dirty_tracking_snapshot_isolation_and_restart
+FAILED tests/test_pixel_archives.py::test_project_recovery_async_save_and_retained_removed_cohort
+FAILED tests/test_pixel_stream_record_benchmark.py::test_pixel_stream_record_benchmark_accepts_current_project_schema[1]
+FAILED tests/test_pixel_stream_record_benchmark.py::test_pixel_stream_record_benchmark_accepts_current_project_schema[7]
+6 failed, 222 passed, 11 skipped, 2 warnings in 14.96s

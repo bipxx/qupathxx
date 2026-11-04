@@ -777,3 +777,5 @@ docs/benchmarks/source-plane-replacement-r5/** -text -whitespace
 docs/benchmarks/object-clipboard-r4/** -text -whitespace
 
 tests/fixtures/qupath-root-facts-0.7.0/** -text -whitespace
+
+docs/benchmarks/root-facts-r5/** -text -whitespace

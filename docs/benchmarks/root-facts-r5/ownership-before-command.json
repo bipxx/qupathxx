@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='69dc9cd7f7805bc6103cfedafa2ee72692629cd1';assert q.has_project and q.has_interchange and q.has_tiff;print('native source',q.build_environment().git_revision,flush=True);import pytest;sys.exit(pytest.main(['tests/test_image_properties.py::test_async_image_facts_final_release_needs_no_python_on_save_worker', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\ownership-before.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\ownership-before-temp']))"
+  ],
+  "returncode": 1,
+  "source": "69dc9cd7f7805bc6103cfedafa2ee72692629cd1",
+  "product_installed": false,
+  "elapsed_seconds": 16.099010000005364,
+  "observer_file_sha256": "d044a080375b6b984999bffc15d24f1657c5abf0d7615ee3f6391cce720ee46b",
+  "observer_file": "ownership-before-test.py"
+}

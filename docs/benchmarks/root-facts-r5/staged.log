@@ -1,0 +1,6 @@
+native source ce786260a48fd42935f2fdc5f86ffe5eb060b867
+ERROR: not found: C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\test_pixel_archives.py::_project_recovery_async_save_and_retained_removed_cohort
+(no match in any of [<Module test_pixel_archives.py>])
+
+
+no tests ran in 1.45s

@@ -1,0 +1,15 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+18:02:06.633 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+18:02:06.636 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+18:02:06.636 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+18:02:06.655 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+18:02:06.662 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+18:02:06.813 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+18:02:11.613 [main] [INFO ] q.l.i.s.b.BioFormatsServerOptions - Setting max Bio-Formats readers to 20
+18:02:12.472 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\root-facts-r5\capture\project\project.qpproj::1
+18:02:12.480 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+18:02:12.483 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.01 seconds

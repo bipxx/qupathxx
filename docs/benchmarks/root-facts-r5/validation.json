@@ -1,0 +1,70 @@
+{
+  "native_source": "405ba1adba476fb736790ca486c3526db2c210dd",
+  "native_kernel_source": "ce786260a48fd42935f2fdc5f86ffe5eb060b867",
+  "observer_source": "49afda8b8ab0ad1ee32dc55c0c70075c184fb717",
+  "compiler_inputs": 453,
+  "source_fingerprint": "252b818ca31d1cc9c591f18d367982ea618bac02ecda7b8a9b103a1b3759a27b",
+  "native_sha256": "bf9555a762d9ed9622372adcd29eded121a9662f82473806d8838a67daf15d0f",
+  "wheel_sha256": "4307234c4a648506b4d63d83a8a407761c69e8e3cbe30dfe2082f99c21a24f13",
+  "installed_members": 62,
+  "record_verified": true,
+  "project_schema": 19,
+  "staged_passes": 228,
+  "staged_skips": 11,
+  "reused_pure_model_cases": 10,
+  "new_headless_passes": 15,
+  "native_suites": 6,
+  "native_writer_suites_on_final_source": 3,
+  "desktop_passes": 1,
+  "packaged_stub_passes": 5,
+  "typing_negative_diagnostics": 3,
+  "native_builds": 3,
+  "build_seconds": [
+    670.9076977998484,
+    88.96689389995299,
+    34.23704699985683
+  ],
+  "product_installations": 1,
+  "stub_generations": 1,
+  "baseline_feature_loss_failures": 1,
+  "ownership_deadlock_failures": 1,
+  "collection_failures": 1,
+  "staged_initial_failures": 6,
+  "staged_observer_failures": 2,
+  "failed_inputs_and_results_retained": true,
+  "pinned_runtime_files": 496,
+  "full_platform_campaign": false,
+  "scope": "Local Windows saved-data root metadata/measurements with immutable image-level facts, native shared image/ROI ownership, borrowed SQLite BLOB lifetime repair, schema19 snapshots/migration/rollback/integrity, thin Python/types and actual ImGui inspector/save/reopen. Native kernel suites retain ce786260 input scope; final writer suites run405ba1ad. No broader ImageData settings, scientific, platform-release or overall speed claim.",
+  "products": [
+    {
+      "path": "products/qupathxx_document_edits_tests.exe",
+      "native_source": "ce786260a48fd42935f2fdc5f86ffe5eb060b867",
+      "sha256": "5ee138a3a658cc1a5989c4017aad1218bfbf0f3f47f9b68a8bcef1b8af72dc70"
+    },
+    {
+      "path": "products/qupathxx_object_classifier_tests.exe",
+      "native_source": "ce786260a48fd42935f2fdc5f86ffe5eb060b867",
+      "sha256": "becd5325871fac1d2e7e179c640ac2eb6fb1ed72dd1dbecfc6cb8e73071a7953"
+    },
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "native_source": "ce786260a48fd42935f2fdc5f86ffe5eb060b867",
+      "sha256": "f17303cd3e5b56a829678f707be18f0a7cae457bcdc30cefbd9d963d39f799c0"
+    },
+    {
+      "path": "products/qupathxx_qupath_project_tests.exe",
+      "native_source": "405ba1adba476fb736790ca486c3526db2c210dd",
+      "sha256": "73017f4d5afa2111080d152aad36a347bc9515f30731abca39e6fc64270eef28"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "native_source": "405ba1adba476fb736790ca486c3526db2c210dd",
+      "sha256": "98b2e5075638fdeb1deaf7cfb016504b158d272e9b0f45545c19a0e3474beb1a"
+    },
+    {
+      "path": "products/qupathxx_save_tests.exe",
+      "native_source": "405ba1adba476fb736790ca486c3526db2c210dd",
+      "sha256": "0a62c5d95ddd315f54885f657079b749f6c7b1c3c16be25c74a9b692ae315c7a"
+    }
+  ]
+}
