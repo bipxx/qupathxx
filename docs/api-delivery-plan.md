@@ -64,62 +64,88 @@ implementations. Copyleft readers remain eligible subject to distribution terms.
 
 ## Dependency lanes and immediate queue
 
-Original-source305 locally delivers the complete sampling/detector consumer
-slice. Keep the explicit recipe choices and old numerical defaults. The
-[source-bound receipt](benchmarks/original-source-cells-305/receipt.json) verifies
-22 zero-context original-slide mask workflows, processing-grid feature arithmetic,
-history/replay/classifier provenance, batch resume and all existing consumer paths.
-Freeze the complete observer/stub/reference source once for the required hosted
-qualification. Do not redispatch terminal298 or transfer its acceptance. Continue
-broader context/specimen/feature-domain, whole-slide resource/seam, hardware/speed,
-support/license/release and full M0-M7 work under their existing requirements.
+This is the single remaining-work queue. Root owns implementation, integration
+and task closeout. The repository owner decides the supported release matrix,
+project license and publication; research decisions need an identified corpus,
+metric and tolerance. Root prepares concrete proposals and continues work that
+does not depend on an unanswered decision. Do not infer a narrower final scope
+from the work already delivered.
 
-The next RGB cell-analysis slice follows the [original-document implementation
-order](qupath-rgb-resampling.md#original-document-cell-recipe-implementation-order):
-phase-preserving context input, original-owner capture, shared detector/result
-geometry, versioned persistence/replay, then all existing consumers. Context290
-delivers the input primitive and native291 locally verifies original-owner capture,
-shared detection, QCL6 project replay and QCA6 origins. SDK292 now exposes the
-immutable descriptor/request/result and classifier metadata through nanobind,
-with a shared native `for_nominal_roi` factory, stubs, strict typing and CSV7/8.
-Batch/CLI293 now carries copied downsample/context options through the shared
-batch engine, per-image ROI factory and checkpoint identity. Its single-target
-CLI selects one image/object through the same engine. Desktop/managed294 now
-uses that factory in existing direct/batch controls and queued nominal_cells
-commands. Pinned masks, publication/CSV, batch resume and managed save/export
-pass locally. Candidate295 is terminal/unaccepted overall at a7eb78de. All11
-archives authenticate and every original complete auditor has executed:
-Mac-native/portable accept their roles; engine rejects the Windows Unicode
-auto-reader failure. Repair297 replaces locale-sensitive format folding with
-ASCII-only folding and passes local Windows/GCC checks. Candidate298 at9fbc9315
-passes its original complete portable audit; engine rejects three isolated
-test-helper imports. Observer301 repairs that bootstrap locally without a native
-change. Keep observing the original Mac handle and its complete auditor. Retain
-qualified281 and all original failed evidence. Broader
-scientific/resource/hardware/support/release decisions remain separate.
-Observer296 locally extends the independent nominal corpus on Windows/Linux
-and retains the ROI/feature-domain differences.
-GUI creation controls are locally delivered294. SDK289 preview remains an
-independent new-source workflow.
+Start with R0 when implementation resumes, then R1. Follow dependencies below;
+within a ready task, finish one complete user workflow before the next. Existing
+implementations are the starting point: inspect their evidence and implement
+only the missing behavior. Use the detailed API routes below for entry points.
+All M0-M7 remain Partial until their actual exit criteria are proved.
 
+Initial states: R0 is pending audit, R1 is pending reconciliation, R2-R12
+contain partially implemented workflows, R13 is pending release closure and
+R14-R16 retain later parity work. R1 replaces these broad states with actual
+remaining gaps using existing evidence; no row implies starting from scratch.
 
-This is the single ordered implementation queue. Apply the validation policy above; historical gate instructions do not schedule fresh campaigns. The [current task](current-task.md)
-records observed state; the [efficiency review](reviews/compilexx-efficiency-review.md)
-records evidence and rationale. Earlier TMA/annotation/raw-grid deliveries are
-accepted baselines, not new tasks to repeat. All M0-M7 remain Partial, with
-[open-source-only reader scope](reader-license-policy.md). Root owns integration;
-no additional agent delegation is implied by this table.
+Each row is a work family. Before execution, select one bounded missing user
+outcome under that ID, its actual dependencies and decisive checks (for example,
+R6 context/halo replay). Perform the waste review after that task, including a
+failed or stopped attempt, rather than waiting for an entire family to finish.
+Keep its next action in the existing row/current card instead of creating a
+second backlog or a campaign for each substep.
 
-| Order / ID | State and owner | Easiest implementation path | Required exit evidence |
+| ID / milestone | Remaining outcome and easiest implementation path | Dependency | Completion check and reuse rule |
 | --- | --- | --- | --- |
-| Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
-| Complete / RAW-DELIVERY1 + M3-ALIAS1 | Engineering accepted at frozen e2282b8; [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) joins all11 authenticated archives and complete engine/Mac-native/portable audits | Reuse retained source-bound products. No redispatch for documentation or spatial preparation | Declared engineering scope only; public main unchanged and all independent M0-M7 gates retained |
-| 1 / SCI1-B: remaining research workflows | Open; root owns integration. Delivered slices and source-specific evidence are recorded in the current task and inventory | Finish the existing 308 artifact/auditor closeout once, then implement the next missing research behavior through the shared native request and existing consumers. Reuse completed mechanisms and run affected checks under the validation policy | Independent masks/features/split-merge comparisons with predeclared tolerances, applicable data-integrity/resource checks and complete user-flow delivery. Keep strict scientific failures visible. A new workflow does not automatically require a full platform campaign |
-| Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
-| Locally verified / FILE-HEADER1: reject changed saved-stream headers | [Receipt279](benchmarks/stream-header-integrity-279/receipt.json): original276 failure,22 raw-header red/green controls and QPS later-block red/green controls;55 native suites/588 unique installed passes | Reuse cached validated QWS bytes with fixed64KiB comparison scratch, the existing QPS hash and ReaderFileGuard. Recheck at read/delivery boundaries because external files can change. No new wire format, service or whole-file hash per block | All22 raw-header controls,41 QPS file cases, original failure and native/installed cancellation/resource/history cohorts pass; exact manifests require new identities. Candidate281 qualifies this repair in its complete engineering roles; preserve276 failure |
-| Locally verified / UI-UTF1: preserve supplementary Unicode input | Old native048cf25 loses supplementary input; native d0f10ae repairs data preservation locally. Original276 is terminal and predates the repair | Local native d0f10ae now passes actual editor save/reopen/Undo/Redo,12 active native input cases and installed cohorts; [receipt278](benchmarks/gui-unicode-input-278/receipt.json). Keep pinned ImGui and existing widgets; use one32-bit ImWchar definition consistently in GUI/backend/test translation units. Reuse the existing native gui_replay suite, Document rename/history and actual editor/project save path. No new public replay API or font dependency is needed for this correctness repair | UTF8/UTF16/scalar input and undo/redo preserve exact bytes; actual Name editor saves/reopens supplementary characters; reject missing/disabled native coverage in GUI acceptance. Installed package/stubs/cohorts and own-source platform gates remain. Glyph coverage, shaping and font-atlas/DPI delivery remain independent M2 work |
-| Alongside / UI-FONT2: deliver international glyphs without eager atlases | [Pilot282](benchmarks/gui-font-pilot-282/receipt.json) verifies21 sampled glyphs and unchanged Latin raster/advance with pinned1.93 docking + unmodified OFL CJK/monochrome Emoji; application delivery283 now has the pinned dynamic fonts and local Windows acceptance above | Follow the [font pipeline](gui-font-pipeline.md): one backend/core upgrade, hash-checked recoverable quota patch, module-relative immutable packaged fonts, on-demand glyphs, existing GuiScale and atlas/baked-font cache invalidation. No manual sample whitelist, whole-project name scan per frame or new text replay API | Local283 verifies cache/immediate pixels and missing/corrupt resources; real-GL284 verifies texture updates/readback/growth/cleanup on one system. Next: actual editor/save/reopen when the Windows helper is available, physical monitor/DPI delivery and one complete own-source platform qualification. CPU protocol bytes are not GPU/RSS measurements; shaping, bidi, broader coverage and platform gates stay open |
-| After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
+| R0 / existing qualification | Close candidate308 using its existing engine41110186379, Mac41110197405 and portable41110209770 handles, prepared collectors and original frozen-source auditors | First resumed implementation task | Inspect current run/artifact availability, authenticate the11 required archives and run each original complete auditor once. Record acceptance or the exact failing/missing evidence. Reuse downloaded archives and completed audits; no new build or redispatch. If artifacts expired, record that fact and decide the smallest required recovery rather than automatically launching a matrix |
+| R1 / M0 scope and fixtures | Reconcile every inventory row against existing receipts; name the first supported research workflows and release/platform cells, remaining feature gaps, public specimen rights/labels, calibration semantics, metrics and benchmark conditions | R0 for the new qualified baseline; corpus inventory and proposals can proceed independently | One concise task/inventory update identifies what is implemented, what needs code and what needs independent evidence. Owner decisions remain explicit; do not fabricate biological labels, tolerances, hardware approval or a project license. Reuse pinned public/synthetic fixtures and prior decisions |
+| R2 / M1 readers and quantitative input | Extend the shared ImageServer/OpenSlide/TIFF adapters only for missing eligible vendor, partial-OME, axis, calibration and damage cases; connect dense/typed sampling to the existing scientific grids | R1 identifies intended formats; independent adapter work need not wait for biological labels | Compare actual pixels/metadata, finite/alpha support, level-zero mapping, pending-close and bounded reads for the selected formats. All readers and required codecs must be openly licensed. Reuse existing decoders, fixtures and request validation; no separate reader model per frontend |
+| R3 / M2 viewer and display | Finish dense-scene navigation, physical DPI/monitor behavior, international glyph delivery, fluorescence/channel presentation and explicit ICC/color policy using the current tile scheduler, font pipeline and display transforms | R1 defines supported display/host scope; R2 supplies missing inputs | Exercise the changed editor/navigation/channel flows on the relevant display configuration, including overlay alignment, resize/close and resource lifetime. Keep display transforms independent of measurements. Reuse the installed product where native inputs are unchanged; record unsupported shaping/color cases explicitly |
+| R4 / M3 annotations and hierarchy | Close remaining QuPath editing comparisons through existing ROI commands, hierarchy, class and undo/redo authorities; add only demonstrated missing edit behavior | R1 geometry fixtures; current commands already provide the implementation base | Complete an overlapping/nested ROI edit, compound undo/redo and class operation with stable IDs and calibrated geometry. Compare the relevant independent/upstream fixtures; avoid rebuilding already accepted tools or creating a second UI object model |
+| R5 / M4 projects and interchange | Finish source-fingerprint/replacement races, applicable orphan/obsolete-lock cleanup, recovery faults and broader nested geometry/property exchange using current SQLite snapshots, file guards and loss-aware GeoJSON routes | R1 capability contract; R4 where hierarchy semantics change | Save/restart/relink/missing-source, failed-write preservation and deterministic export retain IDs, calibration and results. Extend only uncovered fault/round-trip cases. Keep direct .qpproj/.qpdata migration as distinct format contracts under the broader parity scope; reuse QuPath-assisted exchange first |
+| R6 / M5 cell sampling and scientific parity | Extend the delivered nominal/grid V2 request through missing context/halo, vendor/pyramid, feature-domain, split/merge and representative specimen cases; fix the common sampling/kernel authority when an actual discrepancy appears | R1 declares each comparison; R2 supplies relevant reader behavior | Capture exact inputs and recipe before comparison; compare nuclei/bodies, counts, split/merge and compartment features at predeclared tolerances. Preserve V1 replay, intentional recipe differences and strict unresolved failures. The existing506-cell crop and22 earlier workflows are reusable baselines, not universal biological acceptance |
+| R7 / M5 stains, tissue and region measurements | Add missing stain-estimation/model-registry flows, physical tissue filters, smoothing/median or arbitrary-grid semantics and feature definitions through existing analysis requests, jobs, retained records and tables | R1 numerical/stain contract; R2 inputs; R6 only for shared sampling changes | Independent tiny-array/geometry checks plus the applicable real/upstream mask and feature comparison; save/replay/export preserve source, units and recipe identity. Reuse supplied-vector kernels, reservoirs, morphology and table schemas; add parameters/features only for an identified workflow gap |
+| R8 / M5 classifiers | Finish quantitative feature schema/versioning, unmatched-grid semantics, streamed/full seam behavior and representative model comparisons through the current native forest, raw/RGB requests, streams and model archives | R1 model/corpus contract; R2 inputs; R7 where features are shared | Train/predict/save/reopen/apply through the shared model path; compare independent expected features/predictions and whole-image versus streamed boundaries. Test changed source/model and atomic cancellation. Preserve existing accepted stream/contour mechanisms; do not redeliver them as new work |
+| R9 / M5 spatial workflows | Add neighborhoods, density, signed distances and tiled aggregation beside the delivered centroid-distance/index/table path | R4 geometry authority and R1 metric definitions | Match an independent small geometry oracle, then demonstrate the added workflow with retained table/export and correct physical units. Reuse the spatial index and existing native/Python/CLI/ImGui consumers; dense-scene scaling belongs in R12 |
+| R10 / M5 tissue microarrays | Complete representative biological/vendor-slide dearraying, skew, missing-core and case-pooling comparisons through current proposal, QPTMA edit and analysis-batch APIs | R1 labeled/rights-cleared TMA references; R2/R7 only where inputs/detection change | Independent core/row/column/assignment and per-case measurements satisfy the declared comparison, including undo/reopen and absent/missing distinctions. Reuse the delivered codecs, axis edits, detector and all consumer paths; do not start another TMA-only full campaign |
+| R11 / M6 scripting and batch completion | Define one versioned multi-stage workflow using current requests/commands; finish applicable source/model replacement, partial-failure, abandoned-work cleanup, viewer backpressure/shutdown and Python API/array-lifetime gaps | R5 persistence plus the analysis APIs used by the chosen workflow | One script and shared headless/UI path run open -> ROI -> analysis -> export -> save/reopen; interruption/resume, per-image errors and interpreter/owner shutdown preserve results. Existing numerical kernels are checked at their authority, not repeated per consumer. Add workflow dependencies/error policy before promising general pipeline replay |
+| R12 / M1-M6 whole-slide resources and performance | Exercise representative large slides and dense objects across decode, tiled analysis, cache/GPU residency, long batches and UI latency; optimize only the measured bottleneck | R1 fixes workload/hardware/cache conditions; affected R2-R11 paths must exist | Independent full-versus-tiled seam results, no duplicated/lost detections, bounded process/GPU peaks, cancellation/stale publication and stable long-run memory. Report cold/warm/end-to-end timings separately. Require matched QuPath accuracy/settings before any speed claim; extend existing harnesses rather than starting microbenchmarks for every task |
+| R13 / M7 supported release | Finish dependency/license/notices inventory, support matrix, sample workflows, known limits, installers/archive/uninstall and standalone/Python clean-machine walkthroughs | R1 owner decisions and applicable M0-M6 exits; inventory/preparation can proceed earlier | Every claimed host/package cell can install, open, annotate, analyze, save/reopen and export. One frozen release checkpoint runs the applicable platform campaign and final requirement-to-evidence audit. Mac-native alone cannot prove Mac Python/GUI/OpenSlide. Signing, main promotion or public release still needs the owner's existing or explicit authorization |
+| R14 / later parity: additional supported hosts | Complete Linux/macOS GUI/Python/reader packaging and host-specific behavior for any support cells deferred from the first defined release | R13 support decision; stable portable engine and packaging | The same published user workflow passes on each newly claimed cell, including actual runtime/notices and clean-install evidence. Reuse qualified native components within their source/configuration scope; validate the new host surface instead of rerunning unrelated biology |
+| R15 / later parity: integrations and extension APIs | Add versioned Cellpose/StarDist results, OMERO/ImageJ exchange and C++/Python extension interfaces after the native publication/lifecycle contract is stable | R5/R6/R8/R11 applicable data, mask and lifecycle contracts | A concrete adapter/plugin validates model/input/version, calibration/shape, failure/cancel/resource behavior and atomic publication. Broader QuPath project migration remains tracked by R5. Java binary plugins and Groovy execution remain outside the initial release; do not silently turn them into a new prerequisite |
+| R16 / later parity: broader automation and workers | Extend the proven R11 workflow grammar to additional pipelines and, if included in the chosen parity/support scope, portable/distributed workers | R11 local replay/error contract and R12 resource behavior | Reproducible data references, checkpoint ownership, retry/idempotence and partial-failure rules are demonstrated by an actual multi-stage workload. Reuse existing batch/job authority; introduce distribution only for an identified user workload |
+
+R1-R12 may expose a missing implementation or decision; update that task's
+specific next action rather than adding an overlapping queue. Root records
+scientific/release decisions with their owner and continues independent work.
+The detailed routes and historical packets below supply implementation context,
+not another task order. Deferred parity rows remain part of the long-term target;
+they are not silently removed when the first defined release ships.
+
+## Task closeout and waste review
+
+After every task, including one stopped by a failure or dependency, root performs
+a short self-review before choosing the next task. This is part of task closeout,
+not another build, campaign, independent-model review or report artifact.
+
+1. Record the outcome and existing evidence link. Distinguish completed code,
+   scoped validation, a failed attempt and a real decision/dependency blocker.
+2. Review actual work for duplicate builds/checks/decoding, waits/retries,
+   repeated fixtures/reports, reimplemented shared code, scope growth and unused
+   outputs. Use existing logs for counts/time if useful; record unknown cost as
+   unknown rather than inventing a saving or running a measurement campaign.
+3. For each material waste item choose remove, merge, reuse or defer, or retain
+   it with the concrete correctness/release risk it covers. Fix a small local
+   cause now; schedule a larger fix once under the affected existing task.
+4. Update the task's actual state, next action, dependencies and selected checks;
+   carry the resulting change into the next task before starting it. Correct
+   stale ordering or duplicate gates immediately. If no waste is found, record
+   that briefly and continue; do not manufacture a process change.
+
+Keep only the latest closeout in current-task.md using this compact form:
+
+> Outcome/evidence: ...  Waste/cost: ...  Plan change/next action: ...
+
+Long-lived technical lessons may be appended to the existing compilexx notes;
+raw failures/evidence stay at their original paths. Do not copy this closeout
+into the project plan, workflow inventory and several new receipts. A task is
+closed only when its outcome, appropriate checks and waste-driven plan update
+are recorded. Reopen passed checks only for changed inputs, a failure or a
+specific unresolved risk under the validation policy.
 
 Completed mechanisms stay out of the active implementation queue. The observations below are historical references, not pending work:
 
@@ -802,7 +828,7 @@ its healthy evidence until a consumed input changes.
 | T4.2 / locally verified raw classification across project images at `c2c0fa0`; [guide](project-raw-pixel-batches.md) | Reuse the extension of existing `ProjectBatchKind`, `ProjectBatchOptions`, `ProjectBatchRequest` and kernel with an additive raw-classifier kind and typed model/lattice policy. Reuse selection snapshots, directory lock, owned bundle publication, checkpoint seal and Stop/Continue/resume reports. Add typed QWL1 extraction alongside RGB checkpoint records | A mixed project records success and incompatible-image failure correctly; Stop/Continue, exact reuse, changed inputs/model/policy and moved output are covered. Verify every reused stream, retain raw links in output projects and reopen them. Original project bytes and existing RGB/raw-measurement behavior remain intact |
 | T4.3 / locally verified installed Windows at `0dc916c` | Reuse the delivered shared `RawPixelFrontend`, ImGui panel and managed-viewer ticket commands over existing owner jobs. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
 | T4.4 / desktop and managed bounded apply locally verified at `0dc916c` | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
-| T4.5 / named Windows integration locally verified at `0dc916c`; T5 remains open | Freeze frontend contracts, regenerate stubs if public APIs changed, package once and run a named TIFF train/predict/save/reopen/resume cohort through Python, native CLI, batch and desktop. Reuse the pinned SDK and maintained producer/auditor profiles | Record exact installed origin, ABI, capabilities, source fingerprint, executed case names and packaged notices. Include backend-positive behavior and OFF refusal, legacy RGB/persistence regressions, typing, array lifetime and shutdown. Claim only profiles actually exercised; then admit one T5 integrated engineering campaign |
+| T4.5 / named Windows integration locally verified at `0dc916c`; T5 remains open | Freeze frontend contracts, regenerate stubs if public APIs changed, package once and run a named TIFF train/predict/save/reopen/resume cohort through Python, native CLI, batch and desktop. Reuse the pinned SDK and maintained producer/auditor profiles | Record exact installed origin, ABI, capabilities, source fingerprint, executed case names and packaged notices. Include backend-positive behavior and OFF refusal, legacy RGB/persistence regressions, typing, array lifetime and shutdown. Claim only profiles actually exercised; then schedule a T5 campaign only at a release checkpoint or for a demonstrated platform risk |
 
 #### T4.3-T4.5 installed acceptance and next qualification
 
@@ -1118,7 +1144,7 @@ do not schedule its existing controls/parser/model as unfinished implementation.
    framework just for this panel; reuse its current async conventions.
 7. Replay the complete workflow, errors, stale target, close/cancel and undo/redo.
    Save/reopen the multi-image project, compare exported bytes/values and inspect
-   a completed desktop capture. Then freeze and qualify one integrated source.
+   a completed desktop capture. Apply the change-based validation policy; a full campaign is reserved for a release checkpoint or a demonstrated platform risk.
 
 ## Scientific and performance decision lane
 
@@ -1172,7 +1198,7 @@ malformed outputs and mixed-source artifacts reject. Replace hard-coded suite
 counts with semantic contracts in touched paths while preserving inherited gates.
 Do not bulk-refactor all evidence tools before delivering the next user workflow.
 
-Review this queue after each accepted workflow. Preserve M0–M7 criteria and
+Review and update this queue after every task using the task closeout and waste review, including failed or blocked attempts. Preserve M0–M7 criteria and
 reference histories, update statuses at the defined fixture scope, and identify
 the next blocking dependency. Do not claim full completion until the complete
 requirement-to-evidence audit passes.

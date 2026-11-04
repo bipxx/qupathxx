@@ -1,6 +1,6 @@
 # Current implementation task
 
-Work is paused. This process cleanup does not resume implementation or launch CI.
+Implementation is paused. This planning update defines the remaining work and task closeout; it does not launch builds or CI.
 
 Latest pushed implementation: QuPath070V2 cell processing, with C++/Python,
 saved-recipe replay, CLI/batch and ImGui/managed delivery. The installed product
@@ -12,10 +12,19 @@ Mac-native41110197405 and portable41110209770 runs completed successfully
 (last checked 2026-11-01). Artifact authentication and complete acceptance
 audits remain pending; a green run alone is not audited acceptance.
 
-Next action when implementation resumes: collect the existing 308 artifacts
-and run their prepared original auditors once. No new build or dispatch is
-needed. Then continue the next research workflow using affected checks under
-the [validation policy](api-delivery-plan.md#validation-and-build-policy).
+Next action when implementation resumes: R0 collects the existing308 artifacts
+and runs the prepared original auditors once; R1 then reconciles scope, decisions
+and remaining gaps. Follow the [R0-R16 completion queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+and its dependencies. After every task, apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
+and update the next action/check selection before proceeding.
+
+Latest task closeout (2026-11-04):
+Outcome/evidence: remaining-work queue and mandatory per-task waste review added;
+milestone criteria and workflow inventory preserved. Waste/cost: stale305/298
+next-step instructions and one oversized research-work item obscured scheduling;
+documentation-only checks reuse existing evidence. Plan change/next action:
+replace that queue with R0-R16, keep one latest closeout here and begin R0 only
+when implementation resumes. No application build or CI dispatch is needed.
 
 The [306 closeout](benchmarks/original-source-cell-qualification-306/terminal307/receipt.json)
 remains accepted for its declared engineering scopes. Neither that acceptance

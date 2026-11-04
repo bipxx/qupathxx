@@ -321,42 +321,24 @@ workflow parity.
 
 ## Execution order from the present state
 
-The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-is the sole detailed scheduling authority. Original-source nominal cell consumers
-are locally delivered through SDK, CLI, project batches, ImGui and managed commands.
-Candidate295 is terminal/unaccepted overall: all11 archives authenticate,
-original Mac-native and portable auditors accept their roles, and Windows engine
-rejects Unicode auto-selection. Repair297 is locally verified at native28c33573.
-Candidate298 is frozen at9fbc9315. Preserve its complete original portable
-acceptance and engine rejection; collect the remaining archive from Mac40792333489
-and run its original complete auditor when terminal. Combined acceptance still
-requires all11 authenticated archives and every required role. Preserve
-qualified281 and both terminal failed campaigns. Comparison296 retains its
-separate two-host corpus evidence and explicit clipped-ROI differences. Continue
-remaining SCI1-B workflows, the decision lane and REL1 through every M0-M7 exit.
-Policy302 remains locally delivered. Private304 now reproduces the13 captured
-held-out workflows through shared native basin, sampled shape/refinement and body
-stages on Windows/GCC sanitizers. Deliver its additive original-source recipe and
-the separately versioned affine sampler through existing request, archive/replay,
-feature/contour and consumer paths. Preserve legacy policies, explicit units,
-source-supported context and declared budgets; keep diagnostic intermediates out
-of ordinary retained records. Verify all13 original-source workflows and existing
-defaults before one combined own-source qualification.298 remains terminal:
-Mac/portable accept and engine rejects, with all11 archives authenticated. No
-redispatch or acceptance transfer follows. All broader M0-M7 lanes remain open.
-The current task card records observed status rather than another ordered backlog.
+The [remaining-work queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+is the single detailed completion plan. R0 closes existing qualification evidence;
+R1 defines the supported workflows/decisions; R2-R12 complete the outstanding
+M0-M6 behavior and evidence; R13 closes a defined supported release. R14-R16
+retain broader host, integration and automation parity after that release.
+Follow the named dependencies rather than repeating completed implementations.
 
-Retain the accepted `61e546e` baseline and original failed candidates. Reuse
-unchanged native products for observer/package-only changes with explicit
-identity/applicability proof; a changed source label alone does not require a
-compiler run. Independent dataset, scientific, hardware and release decisions
-keep their own dependencies and do not become substitutes for implementation.
+After every task, perform the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
+and update its state, next action, dependencies and checks before starting the
+next task. Reuse valid evidence and existing code, remove duplicate work and
+retain checks justified by actual correctness or release risk. A failure or
+missing decision changes the next action; it does not automatically restart a
+campaign or block independent work.
 
-Estimate remaining work per complete user workflow after identifying its actual
-code, fixture, scientific, hardware and decision dependencies. The historical
-4-7 engineer-month estimate and percentages derived from test counts are not
-current estimates. No workflow is complete from a preparatory parser, fixture
-or green job count alone.
+All original milestone criteria below and above remain binding at their defined
+scope. No release or full-parity claim follows from finishing a queue row,
+passing one crop or increasing a test count. Review every M0-M7 exit against
+actual scope-matched evidence before declaring the corresponding release done.
 
 ## Planning and validation discipline
 

@@ -2,6 +2,13 @@
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
+Remaining implementation and acceptance work is scheduled once in the
+[R0-R16 completion queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
+Reader/display gaps map to R2/R3, annotation/project gaps to R4/R5,
+analysis/classification/spatial/TMA to R6-R10, scripting/batches to R11,
+whole-slide resources/performance to R12 and release/remaining parity to R13-R16.
+Task closeout updates the affected row only when its evidence changes.
+
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
 `04ccfa4fb7d43e9b566393e08e83690b72248d44`. Source areas below refer to modules
 under that revision. Each row names an implementation responsibility, not a
