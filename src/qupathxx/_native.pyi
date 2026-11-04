@@ -712,6 +712,8 @@ class Document:
 
     def apply_boolean(self, target: int, operands: Sequence[int], operation: BooleanOp) -> None: ...
 
+    def merge_annotations(self, object_ids: Sequence[int], discard_points: bool = ...) -> int: ...
+
     def remove_annotation(self, arg: int, /) -> bool: ...
 
     def remove_objects(self, arg: Sequence[int], /) -> None: ...
@@ -1660,6 +1662,8 @@ class GuiInputKind(enum.Enum):
     PIXEL_CLASSIFIERS_KEY = 68
 
     RAW_CHANNELS_KEY = 70
+
+    MERGE_KEY = 71
 
     TMA_KEY = 69
 
@@ -11292,6 +11296,8 @@ class ViewerSession:
     def inspect(self, image_id: int, object_id: int = ...) -> int: ...
 
     def execute(self, image_id: int, edits: Sequence[ObjectEdit], label: str = ..., expected_revision: int | None = ...) -> int: ...
+
+    def merge_annotations(self, image_id: int, object_ids: Sequence[int], discard_points: bool = ..., expected_revision: int | None = ...) -> int: ...
 
     def spatial_distances(self, image_id: int, sources: Sequence[int], targets: Sequence[int], options: SpatialDistanceOptions = ..., keep: bool = ..., expected_revision: int | None = ...) -> int: ...
 

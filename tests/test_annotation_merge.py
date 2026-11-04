@@ -117,16 +117,20 @@ def test_managed_merge_submission_limits_and_cancel(tmp_path):
 
 @GUI
 @pytest.mark.skipif(not q.has_geos,reason='GEOS')
-def test_imgui_merge_keyboard_undo_redo_and_selection(tmp_path):
+@pytest.mark.parametrize('history',[False,True])
+def test_imgui_merge_keyboard_undo_redo_and_selection(tmp_path,history):
     from test_gui_replay import event
     doc,ids=setup(CASES[0]);options=q.GuiOptions();options.settle_tiles=True
-    options.inputs=[event(10,q.GuiInputKind.SELECT_ALL_KEY),event(20,q.GuiInputKind.MERGE_KEY),
-                    event(30,q.GuiInputKind.UNDO_KEY),event(40,q.GuiInputKind.REDO_KEY)]
+    revision=doc.revision
+    inputs=[event(10,q.GuiInputKind.SELECT_ALL_KEY),event(20,q.GuiInputKind.MERGE_KEY)]
+    if history:inputs += [event(30,q.GuiInputKind.UNDO_KEY),event(40,q.GuiInputKind.REDO_KEY)]
+    options.inputs=inputs
     capture=tmp_path/'merge.ppm'
     report=q.show(doc,frame_limit=50,capture_path=str(capture),options=options)
     assert report.replay_complete and doc.object_count==1 and doc.undo_label=='Merge annotations'
     assert doc.annotations[0].geometry.area==600 and doc.annotations[0].id not in ids.values()
-    assert capture.exists() and report.selected_ids==[]
+    assert doc.revision==revision+(3 if history else 1)
+    assert capture.exists() and report.selected_ids==([] if history else [doc.annotations[0].id])
 
 
 @GUI

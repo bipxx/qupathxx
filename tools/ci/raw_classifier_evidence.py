@@ -42,6 +42,7 @@ def source_paths():
            'tools/reference_nominal_cells.py',*('tests/fixtures/nominal-cells-v1/'+name for name in ('manifest.json','source.rgb','processed.rgb','nucleus.u32le','body.u32le'))}
     paths.update(('tools/upstream/ome_length_units.groovy', 'tests/fixtures/ome-units-6.5.1/reference.json', 'tests/fixtures/ome-units-6.5.1/manifest.json'))
     paths.update(('tools/reference_jpeg_tiff.py', 'cmake/TiffJpeg.cmake', 'third_party/tiff-jpeg-NOTICE.txt', 'tests/test_tiff_jpeg.py'))
+    paths.update(('tests/typing/annotation_merge_valid.py','tests/typing/annotation_merge_invalid.py'))
     paths.update(('tests/test_annotation_merge.py', 'tools/upstream/qupath_annotation_merge.groovy', 'tests/fixtures/qupath-annotation-merge-0.7.0/input.json', 'tests/fixtures/qupath-annotation-merge-0.7.0/reference.json', 'tests/fixtures/qupath-annotation-merge-0.7.0/manifest.json'))
     paths.update(('tools/qupath_gaussian.py','tools/upstream/qupath_gaussian_probe.groovy','tests/test_qupath_gaussian.py','tools/reference_imagej_gaussian.py'))
     paths.update(('tools/qupath_cell_inputs.py','tools/upstream/qupath_cell_inputs_probe.groovy','tests/test_qupath_cell_inputs.py'))
