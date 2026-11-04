@@ -1,0 +1,8 @@
+.......                                                                  [100%]
+============================== warnings summary ===============================
+tests/test_object_edit_state.py::test_desktop_object_color_overrides_class_and_invalidates_cached_overlay
+  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\test_object_edit_state.py:182: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+    assert sum(pixel==(18,52,86) for pixel in canvas.getdata())>100
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+7 passed, 28 deselected, 1 warning in 6.71s

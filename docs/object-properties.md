@@ -50,10 +50,11 @@ Resources/ownership, command methods, field limits, errors and SDK exports are
 reviewed in the header, binder and named workflows. HTTP/auth/retry semantics are
 not applicable; no HTTP/proto API lint configuration is present for this SDK.
 Generated stubs/typing and the installed inspect/save/export workflows pass
-within the linked Windows scope. C++ source compatibility is additive; clients
-must rebuild for the extended Annotation layout. The wheel does not ship headers. This contract is not a release, biological-validation or performance claim.
+within the linked Windows scope. C++ clients rebuild for changed native layouts and include object_properties.hpp
+when inspecting the owner. C++ extension stability remains R15. The wheel does
+not ship headers. Existing Python arguments/defaults remain compatible. This contract is not a release, biological-validation or performance claim.
 
-## Object editing state (EDITSTATE1 in progress)
+## Object editing state (EDITSTATE1 locally verified)
 
 ObjectProperties adds optional color_rgb (24-bit RGB), a locked flag and optional
 class_probability; existing constructor arguments/defaults remain valid. Annotation
@@ -96,5 +97,6 @@ their existing precedence. The existing render revision invalidates overlay cach
 
 API review applies AIP-180 compatibility and AIP-203 field behavior to this local
 SDK: resources/ownership, fields, commands, codec migration and errors are reviewed;
-Python/stub/typing and changed installed UI checks are pending. HTTP/auth/retry
+Python/stub/typing and changed installed UI checks pass in the
+[local evidence](benchmarks/object-edit-state-r5/README.md). HTTP/auth/retry
 semantics remain inapplicable. The original PROP1 evidence retains its own scope.

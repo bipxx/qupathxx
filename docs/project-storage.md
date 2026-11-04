@@ -1,13 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 16 stores canonical object state,
+source descriptors. SQLite schema version 17 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
 [spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
-[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–15
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–16
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -76,7 +76,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 16. Schemas 1–15 migrate
+The application ID is `0x51505858` and new `user_version` is 17. Schemas 1–16 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -248,8 +248,10 @@ remain embedded; caller-supplied source paths retain their existing validation.
 
 The Hamamatsu NDPI validation packet exercises this path with real nine-level
 pixels, anisotropic calibration and a saved/replayed LoG run. The new default attachment behavior passes local native and Python/full
-Windows headless checks; source-specific hosted qualification is in progress.
-Older source receipts do not cover it. No database schema or existing archive encoding changes.
+Windows headless checks in its original packet. Retain source-specific receipts;
+[current scheduling and validation](api-delivery-plan.md#validation-and-build-policy)
+determine any new campaign. No database schema or existing archive encoding changes
+were needed for that attachment workflow.
 
 ## Saved source verification (schema15)
 
@@ -294,3 +296,12 @@ special values; orphan/malformed/noncanonical data rejects before publication.
 Schemas1–15 migrate within the existing save transaction. No input-source reads
 or second Python object model are introduced. See the [local workflow evidence](benchmarks/object-properties-r5/README.md);
 remaining editing-state/plane and release work stays in the queue.
+
+## Object editing state (schema17)
+
+Schema17 uses the existing object_properties table. QOP1 remains readable and
+canonical for ordinary metadata/measurements; QOP2 adds lock/color/reported-probability
+fields. Opening schema16 permits only QOP1. Saving advances the version in the same
+transaction as object rows; a failure rolls back both. No new image read or separate
+frontend store is introduced. See the [field contract](object-properties.md#object-editing-state-editstate1-locally-verified)
+and [native/Python/UI evidence](benchmarks/object-edit-state-r5/README.md).

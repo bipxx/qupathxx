@@ -73,7 +73,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1/RELINK1 to R5-EDITSTATE1 after SOURCE1/PROP1 closeout and recovery reconciliation while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1/RELINK1 to R5-PLANE1 after SOURCE1/PROP1/EDITSTATE1 closeout and recovery reconciliation while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -119,106 +119,32 @@ The detailed routes and historical packets below supply implementation context,
 not another task order. Deferred parity rows remain part of the long-term target;
 they are not silently removed when the first defined release ships.
 
-Completed bounded implementation: **R2-SI1** adds SI length/time and day
-normalization in the shared TIFF parser. [Local evidence](benchmarks/ome-calibration-units-r2/README.md)
-records83 new unit checks,183 reader checks, one native raw-image suite and
-unchanged stubs/samples; two unrelated desktop opt-ins remain declared skips.
+Reuse the completed workflows below; their detailed counts/source identities
+belong in the linked evidence and feature-matrix, not another implementation task.
+Each result retains its tested source/configuration; none transfers308 acceptance
+to later code. Only the latest closeout stays in current-task.md.
 
-Completed bounded implementation: **R2-META1** supports explicit BinaryOnly XML
-and TIFF masters through the existing reader and guarded source graph. The
-[closeout](benchmarks/binaryonly-ome-r2/README.md) records51 BinaryOnly cases,
-355 distinct targeted passes, two affected native suites,184 declared installed
-and six desktop cases. Failed initial test assumptions and corrected semantic
-batch checks remain preserved; no native batch policy was weakened.
+| Existing authority | Reusable delivered workflow / evidence | Boundary to preserve |
+| --- | --- | --- |
+| R2 reader | [SI units](benchmarks/ome-calibration-units-r2/README.md), [BinaryOnly metadata](benchmarks/binaryonly-ome-r2/README.md), [non-SI units](benchmarks/ome-nonsi-r2/README.md), [JPEG TIFF](benchmarks/tiff-jpeg-r2/README.md) | Selected reader/metadata/codecs, not every vendor or whole-slide budget; all readers/codecs must remain openly licensed |
+| R4 commands | [True object merge](benchmarks/annotation-merge-r4/README.md) | Stable IDs/history and declared loss/refusal; other editor comparisons remain open |
+| R5 migration | [Manifest/assisted import](benchmarks/qupath-project-r5/README.md), [pinned native saved data](benchmarks/qupath-saved-data-r5/README.md), [verified-reader handoff](benchmarks/project-relink-r5/README.md) | Pinned format versions and explicit losses; do not rebuild the imports or reopen the same reader twice |
+| R5 source identity | [Persisted reviewed verification](benchmarks/source-verification-r5/README.md) | Primary hash/companion metadata only; historical association is not past-decoder proof |
+| R5 object facts/state | [Metadata/measurements](benchmarks/object-properties-r5/README.md), [locks/color/reported probability](benchmarks/object-edit-state-r5/README.md) | Historical values, interactive lock hints and foreign-extension limits; sparse history preserves the existing compact budget |
+| R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#version-2-cross-session-collection) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Completed bounded implementation: **R2-UNIT2** normalizes the ten remaining
-convertible non-SI length units through the same parser. [Local evidence](benchmarks/ome-nonsi-r2/README.md)
-records the pinned OME6.5.1 factors,380 targeted passes including114 unit cases,
-six declared desktop skips, two native suites and installed/source identity.
-
-Completed bounded implementation: **R2-CODEC1** adds pinned openly licensed
-JPEG compression through libtiff. [Local evidence](benchmarks/tiff-jpeg-r2/README.md)
-records409 targeted passes/6 declared desktop skips,22 JPEG cases, two native
-suites, same-interpreter OpenSlide/OpenCV coexistence and eight Linux codec-only
-exact decodes with local symbols. Installed bytes/notices/stubs are verified;
-this is not a Linux app or Mac qualification. Other R2 gaps stay recorded.
-
-Completed bounded implementation: **R4-MERGE1** adds true object merging
-through existing immutable geometry, the command journal and selection/controllers.
-[Local evidence](benchmarks/annotation-merge-r4/README.md) records the pinned ten
-QuPath captures,24 distinct merge passes, three native suites and actual desktop/
-managed/typing/persistence flows. The new bool makes mixed-dimensional point loss
-explicit; old Boolean behavior and enum ordinals remain intact. One seven-target
-native build, one final install and stub-only repackaging were used.
-
-Completed bounded workflow: **R5-QPPROJ1**. [Scoped local evidence](benchmarks/qupath-project-r5/README.md)
-records23 distinct new workflow passes,242 selected model passes/four declared
-skips, two additional targeted passes, three selected desktop cases and three
-native suites. Native ee7555e8 and observer78254e7b retain separate identities;
-all62 installed members/RECORD and generated stubs verify. Two build attempts
-produced one successful cached build and one final install. Initial failures remain
-retained; corrections reused the product and independent passing results.
-
-Completed bounded workflow: **R5-QPDATA1**. [Local direct-data evidence](benchmarks/qupath-saved-data-r5/README.md)
-records12 new direct workflow passes and257 distinct selected passes across
-retained model/correction/desktop/observer results, with four declared skips.
-Three native suites, two selected desktop flows and installed stubs pass. The
-pinned QuPath0.7.0 version3 workflow now imports natively without an assisted
-exchange, including all native ROI kinds and cell nuclei. Metadata/settings losses
-and non-default-plane refusal remain explicit. Additional versions, records and
-full property/plane preservation stay under R5. One cached build and one install
-were used; unchanged public signatures reuse typing and existing stubs.
-
-Completed bounded workflow: **R5-RELINK1**. [Local handoff evidence](benchmarks/project-relink-r5/README.md)
-records four new relink cases, two observer controls,226 selected model passes/
-four declared skips, three native suites and two actual desktop relink flows.
-Native/observer26b4f228 retains442 compiler inputs and exact installed package
-identity. The verified reader is retained with its source observation; the second
-open and duplicate compatibility check are removed. Save/reopen remains lazy.
-One cached build/install, unchanged public signatures/stubs and no platform replay.
-
-Completed bounded workflow: **R5-SOURCE1**. [Scoped evidence](benchmarks/source-verification-r5/README.md)
-records persisted review/apply/save/reopen, explicit replacement, stale/file-change
-refusal and schema15 migration. Native ca009219 and observer7b6f871e retain separate
-identities; all446 compiler inputs,62 installed members/RECORD and stubs verify.
-Original a66c8af5 has687 model passes/ten skips; final product has18 targeted
-passes/three desktop skips, a passing native project suite, and three distinct
-corrected desktop outcomes. Four unchanged-core native suites and typing retain
-their original scope. Three native build attempts, two candidate installations;
-failed compiler/native/desktop attempts remain preserved. Primary-only compound
-coverage does not establish all companion bytes or historical decoder inputs.
-
-Completed reconciliation: **R5 recovery gaps**. Current tests and retained
-[installed outcomes](benchmarks/annotation-migration-recovery-local/installed.xml)
-cover hot-journal writable/read-only recovery, abnormal exit/locks, interrupted
-whole-checkpoint publication, cleanup refusal/retry and killed-native-autosave
-collection. Version-2 cross-session discovery/rescue already exists. Corrected
-stale active documentation without rebuilding or replaying passing checks. These
-older results retain their tested source scope; broader storage-pressure,
-hardware power-loss and network durability are not established. Lock-inode and
-unknown-debris preservation remain explicit correctness policies.
-
-Completed bounded workflow: **R5-PROP1**. [Local evidence](benchmarks/object-properties-r5/README.md)
-records immutable imported metadata/measurements through native commands, history,
-snapshots, schema16, Python, ImGui and GeoJSON/CSV. Twenty-five new model cases,
-726 distinct selected model passes/twelve skips, five native suites, two desktop
-flows and stubs/typing pass in their declared source scope. Two successful builds
-(953.27s and457.69s) produced one final installation; the first module's missing
-map-caster import failure is preserved. Correcting the benchmark's duplicated
-schema literal/exact match reused the product and reran only two failed cases.
-All449 compiler inputs and62 installed members/RECORD verify. Imported values stay
-historical; unsupported locks/color/probability/planes remain explicit losses.
-
-Next bounded task: **R5-EDITSTATE1, preserve imported editing state**. Settle typed
-lock/color/class-probability fields and codec migration together. Reuse the immutable
-property owner and native command/history/storage authorities. Check actual QuPath
-lock semantics before enforcing them; provide a user-facing unlock/edit/explicit-clear path, and
-verify changed editing/rendering, undo, save/reopen/export and actual Python/UI.
-Use the existing pinned fixture. Keep non-default planes in a separate source/view
-contract; storing plane numbers alone must not falsely establish plane-aware editing.
-Batch settled API and STL casters before the next build. Reduce property-header
-coupling during an already-required header change, not a standalone optimization
-campaign. Whole-export resource bounds remain R12.
+Next bounded task: **R5-PLANE1, source/view-aware object planes**. Both GeoJSON and
+saved-data import currently refuse non-default channel/Z/T planes. Trace actual
+TiffView/reader axes, project view switching, object selection/spatial queries and
+analysis request capture before defining a native plane type and storage version.
+Use a valid multi-plane TIFF/OME fixture with independent plane pixel expectations;
+check source axis bounds rather than simply removing the current refusal. Finish
+one declared import -> matching view/selection -> analysis -> save/reopen/export
+workflow. Filtering and stale-result/plane eligibility belong to the shared native
+authority. Keep source-series identity, calibration, default-plane replay and
+unsupported readers explicit. Plane labels alone do not establish plane-aware
+editing or scientific sampling. Batch settled API/storage/UI changes before one
+cached integration build; pull actual R2/R3 prerequisites into this same outcome.
 
 ## Execution order for finishing the remaining work
 
@@ -229,7 +155,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-EDITSTATE1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-PLANE1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -243,7 +169,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. RELINK1 verified-reader handoff is locally verified. SOURCE1 persisted review/apply/save is locally verified. Recovery reconciliation confirms existing kill/hot-journal/marked-cleanup coverage. PROP1 metadata/measurement retention is locally verified. Next EDITSTATE1 lock/color/probability retention; then uncovered source races, geometry losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
+| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. RELINK1 verified-reader handoff is locally verified. SOURCE1 persisted review/apply/save is locally verified. Recovery reconciliation confirms existing kill/hot-journal/marked-cleanup coverage. PROP1 metadata/measurement retention is locally verified. EDITSTATE1 lock/color/probability retention is locally verified. Next PLANE1 source/view-aware object planes; then uncovered source races, geometry losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -251,7 +177,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R10 | Vendor-slide/skew/missing-core dearraying; assignment and biological comparisons; per-case pooling on the accepted core set | Reuse QPTMA proposals, edits and batches. Labels block the associated accuracy claim, not codec/editor engineering. No separate TMA qualification campaign |
 | R11 | One versioned open/ROI/analysis/export/save workflow; source/model replacement and partial failures; interrupted/resumed and abandoned work; Python ownership, viewer backpressure and shutdown | Define stage inputs, dependencies and error policy before adding grammar. Keep native jobs/commands as authority. Verify orchestration failures here and numerical results at their existing kernel tests |
 | R3 | Explicit ICC/fluorescence policy and channel behavior; monitor/DPI/resize behavior; uncovered international text and dense navigation | Reuse tile/display/font infrastructure and keep raw measurements unchanged. Test actual affected displays/hosts; route frame, GPU and process budgets to R12 |
-| R12 | First full-versus-tiled correctness/seams; then long-batch process/GPU and imported-property CSV column-union bounds; then cold/warm decode and end-to-end latency; optimize only the measured bottleneck | Freeze workload, hardware, accuracy/settings and metric before timing. Reuse one representative workload across checks. A faster component alone cannot establish overall superiority |
+| R12 | First full-versus-tiled correctness/seams; then long-batch process/GPU and whole-export bounds (the4096-property-column admission check is locally verified); then cold/warm decode and end-to-end latency; optimize only the measured bottleneck | Freeze workload, hardware, accuracy/settings and metric before timing. Reuse one representative workload across checks. A faster component alone cannot establish overall superiority |
 | R13 | Prepare license/notices and package inventory; settle support cells; document the accepted sample workflow/limits; package/install/uninstall and clean-machine walkthrough; one frozen release checkpoint | Close applicable M0-M6 exits for each claimed workflow and host. Review the requirement-to-evidence map once. Release/promotion and project-license decisions remain with the owner |
 | R14 | Add one declared Linux/macOS package/GUI/Python/reader support cell at a time through the existing portable targets | Validate the new host surface and affected native risk. Mac native acceptance does not substitute for Python/GUI/OpenSlide runtime evidence |
 | R15 | First versioned external mask/model adapter; then required OMERO/ImageJ exchange and C++/Python extension contracts | Reuse stable R5/R6/R8/R11 lifecycle, shape, calibration and atomic publication rules. Implement a named adapter outcome before generalizing a plugin framework |
@@ -277,13 +203,12 @@ on one named input. Implemented code awaiting evidence is not a new feature task
 
 | Order / existing family | Next action and easiest path | Minimum remaining checks / handoff |
 | --- | --- | --- |
-| 1 / R5-SOURCE1, locally verified | Completed: use the [scoped record](benchmarks/source-verification-r5/README.md) and immutable historical-baseline contract | Reuse original and corrected results within their declared source scope. Primary-only compound coverage remains explicit; do not reopen this workflow without a changed input or concrete gap |
-| 2 / R5 recovery, reconciliation complete | Existing tests/results cover killed writers, hot-journal recovery, released locks and native autosave debris; version-2 collection covers prior destinations. Active stale blanket gaps are corrected | PROP1 is now locally verified; advance to EDITSTATE1 without another recovery run. Future faults require one named missing boundary. Preserve previous committed project/checkpoint. Hardware power loss, network durability and broader storage pressure remain distinct unproved claims |
-| 3 / R4/R5 editing and exchange | Reconcile remaining hierarchy/class edits and property/non-default-plane losses against actual pinned QuPath fixtures. Choose one concrete mismatch; reuse native commands and existing loss-aware import/export | One edit or exchange workflow preserves supported IDs/geometry/class/calibration through undo and save/reopen, and reports unsupported fields/planes. Extend thin Python/UI consumers only where the selected contract changes |
-| 4 / R6-R10 analysis | Take the first ready slice from the ordered rows above: shared context/halo first, then tissue/features, classifiers, spatial metrics and TMA. Specify expected arrays/geometry and recipe before changing code | Verify the shared native result independently, then one affected installed workflow. Reuse consumers and fixtures. If biological labels/tolerances are unavailable, keep that acceptance open and take a ready engineering slice; do not invent an accuracy threshold |
-| 5 / R11 and R3 | Complete one versioned end-to-end script with restart/error policy, then remaining display/channel/DPI/text behavior; bring a blocking viewer defect forward | Save/reopen and interruption preserve results and ownership. Numerical checks remain at their shared authority. Validate actual affected UI/display behavior rather than repeating the analysis suite |
-| 6 / R12-R13 | Measure the declared whole-slide workload, fix measured bottlenecks, and close each chosen support/package cell. Prepare notices and sample workflows during preceding work | Freeze accuracy/settings/hardware before speed comparisons. One release checkpoint covers the claimed hosts and packages. Research acceptance, project license, support scope and release authorization remain explicit owner decisions |
-| 7 / R14-R16 | Finish included additional hosts, named integrations and broader automation after their shared contracts are stable | Each newly claimed workflow/host gets its affected integration checks. Keep explicit deferrals in the existing rows; broader parity is not silently removed from scope |
+| 1 / R5-PLANE1 | Trace TiffView/axes, object/view filtering and analysis capture; implement the settled plane contract through existing import/object/storage authorities | One declared plane-aware import/view/select/analyze/save/reopen/export workflow has exact pixel/plane checks. Preserve unsupported/out-of-range refusal and legacy default-plane replay |
+| 2 / remaining R4/R5 | Choose the next demonstrated edit/hierarchy, source race or unsupported representation after PLANE1; reuse completed object facts, imports and recovery above | Complete one actual workflow with stable IDs, geometry/calibration, history and explicit losses. Do not restart completed property or fault mechanisms |
+| 3 / R6-R10 analysis | Take the first ready slice from the ordered rows above: shared context/halo first, then tissue/features, classifiers, spatial metrics and TMA. Specify expected arrays/geometry and recipe before changing code | Verify the shared native result independently, then one affected installed workflow. Reuse consumers and fixtures. If biological labels/tolerances are unavailable, keep that acceptance open and take a ready engineering slice; do not invent an accuracy threshold |
+| 4 / R11 and R3 | Complete one versioned end-to-end script with restart/error policy, then remaining display/channel/DPI/text behavior; bring a blocking viewer defect forward | Save/reopen and interruption preserve results and ownership. Numerical checks remain at their shared authority. Validate actual affected UI/display behavior rather than repeating the analysis suite |
+| 5 / R12-R13 | Measure the declared whole-slide workload, fix measured bottlenecks, and close each chosen support/package cell. Prepare notices and sample workflows during preceding work | Freeze accuracy/settings/hardware before speed comparisons. One release checkpoint covers the claimed hosts and packages. Research acceptance, project license, support scope and release authorization remain explicit owner decisions |
+| 6 / R14-R16 | Finish included additional hosts, named integrations and broader automation after their shared contracts are stable | Each newly claimed workflow/host gets its affected integration checks. Keep explicit deferrals in the existing rows; broader parity is not silently removed from scope |
 
 Do not turn reconciliation into a separate audit campaign. Inspect enough existing
 code/evidence to choose the next missing outcome, record that choice and proceed.

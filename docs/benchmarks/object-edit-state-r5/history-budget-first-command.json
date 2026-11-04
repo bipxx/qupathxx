@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys,hashlib;from pathlib import Path;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-edit-state-r5\\\\budget-probe-stage');import qupathxx as q;from qupathxx import _native;assert q.build_environment().git_revision=='eb3c8f0d8a7557733d73681e0bf1fe321dd86881';print('staged source',q.build_environment().git_revision,'native sha256',hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),flush=True);import pytest;sys.exit(pytest.main(['tests/test_object_edit_state.py::test_plain_classification_keeps_the_existing_compact_history_budget', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-edit-state-r5\\\\history-budget-first.xml', '--basetemp=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-edit-state-r5\\\\history-budget-first-temp']))"
+  ],
+  "returncode": 1,
+  "source": "eb3c8f0d8a7557733d73681e0bf1fe321dd86881",
+  "product_installed": false
+}

@@ -1,0 +1,19 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  4: object_classifier
+1/7 Test  #4: object_classifier ................   Passed    0.21 sec
+    Start 17: file_fingerprint
+2/7 Test #17: file_fingerprint .................   Passed    0.57 sec
+    Start 46: qupath_project
+3/7 Test #46: qupath_project ...................   Passed    0.11 sec
+    Start 51: spatial_records
+4/7 Test #51: spatial_records ..................   Passed    2.98 sec
+    Start 54: selection
+5/7 Test #54: selection ........................   Passed    0.24 sec
+    Start 55: project
+6/7 Test #55: project ..........................   Passed    0.38 sec
+    Start 56: interchange
+7/7 Test #56: interchange ......................   Passed    0.08 sec
+
+100% tests passed out of 7
+
+Total Test time (real) =   5.07 sec

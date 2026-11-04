@@ -2,70 +2,49 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. R5-PROP1 has scoped local engineering evidence.
+All M0-M7 remain Partial. EDITSTATE1 has local Windows engineering evidence.
 
-Current: **R5-EDITSTATE1 — retain imported object editing state**.
+Current: **R5-PLANE1 — source/view-aware object planes**.
 
-- Outcome: preserve supported per-object lock, color and class-probability facts
-  through import, inspection/editing, undo, save/reopen and export. These remain
-  explicit saved-data loss codes; metadata/measurements are now retained.
-- Entry/dependency: inspect `qupath_saved_data.cpp`, `interchange.cpp`, native
-  ObjectProperties, object commands and overlay/UI authorities. Reuse pinned
-  synthetic QuPath0.7.0 output. Check upstream lock/edit rules before enforcement;
-  do not assume an ROI lock prohibits every scripted/classification action.
-- Contract/implementation: ObjectProperties typed locked/color/probability fields
-  share immutable maps. Schema17/QOP2 retains QOP1 and migrates16 transactionally.
-  QuPath locks are interactive hints, not a script restriction. Reclassification
-  clears stale probability/override with exact ordinary and optimized undo.
-  Per-object overlay override, actual lock/apply/clear controls and versioned
-  GeoJSON/CSV paths are implemented; new named controls/tests are prepared.
-- Next action: the58 tool-only observer controls pass; freeze settled compiler inputs for one
-  cached build. New container casters are explicit; property bindings are isolated
-  and core.hpp forward-declares the owner. Source-level review caught and fixed
-  a disabled-scope imbalance before compiling. Reuse the existing pinned fixtures;
-  two old-product checks fail for the missing editing-state API, as expected.
-- Probe failure review: the first build completed in681.98s. A staged probe
-  launched with the root development interpreter was intercepted by its editable
-  package hook and loaded the wrong source/module. This proves no new-product
-  behavior. Use the dedicated prior test interpreter, assert the staged source,
-  and retry only this probe. Keep the failed log; no rebuild or install.
-- Attempt closeout: the corrected staged probe identifies eb3c8f0 native bytes
-  and confirms ordinary1000-object classification no longer fits its previously
-  passing64KiB history budget. Unconditional property pointers in every class row
-  caused this real regression. No candidate was installed. Preserve both probe
-  logs, including the earlier wrong-environment failure, and the old passing case.
-- Waste decision/next action: keep the compact class-only row and store a sparse
-  property-owner patch only where typed state actually changes. Rebuild that
-  private transaction/provenance and relink retained products; public API/UI inputs
-  stay frozen. Then one final stub generation/install and affected validation.
-- Reuse/checks: immutable property owners, atomic history and snapshot/storage
-  authorities from PROP1. Check actual imported fields and remaining loss reports;
-  native editing/undo behavior, save/reopen/export, typing/stubs and changed UI.
-  Reuse property fixture/kernel checks when their inputs remain unchanged.
-- Waste control: include STL casters with new bound container types. At the next
-  already-required header change, consider forward-declaring ObjectProperties in
-  core.hpp and including its definition only in actual consumers, reducing future
-  property-header rebuild coupling. No standalone refactor/rebuild campaign.
-- Stop: the declared editing-state workflow works, with unsupported behavior
-  explicit. Remaining source races, planes/versions, R4 and R6-R16 stay in the queue.
+- Outcome: support non-default planes through import, the matching source/view,
+  object selection/analysis, save/reopen and export. Plane labels alone are not
+  completion; both importers currently reject non-default channel/Z/T values.
+- Entry/dependency: trace TiffView/reader axes, project/view switching, ROI/hierarchy
+  and spatial queries, render/picking filters and shared analysis request capture.
+  Reuse eligible multi-plane TIFF/OME fixtures and independent pixel expectations.
+  Check actual source axis bounds; the existing saved-plane refusal fixture must
+  not become a positive merely by deleting its guard.
+- Next action: settle native plane/series identity and default behavior, hierarchy
+  rules, view/selection eligibility, source generation/stale publication and
+  backwards storage/API contract. Pull only required R2/R3 work forward.
+- Checks/reuse: one actual import/view/select/analyze/save/reopen/export workflow;
+  exact plane pixels/coordinates/calibration, absent/out-of-range refusal, stale
+  plane/result rejection and legacy default-plane replay. Reuse existing native
+  request, job, source guards, immutable facts and snapshot authorities. Batch
+  interfaces/casters/storage before one cached integration build/install.
+- Stop: the declared non-default plane workflow works through native/Python/UI
+  with unsupported cases explicit. Other R5 versions/settings, remaining R4,
+  science/resource/release and R6-R16 requirements stay in the queue.
 
-Latest closeout (2026-11-04, PROP1):
-Outcome/evidence: [retained object properties](benchmarks/object-properties-r5/README.md)
-has25 new model passes plus the desktop case,726 distinct selected model passes/
-twelve skips, five native suites, two desktop flows and passing stubs/typing.
-Product0effd30d, native-test3095e6f8 and observerac6b3089 remain distinct; all449
-compiler inputs and62 installed members/RECORD verify. Schema16 migration and
-historical-value semantics are explicit. One final product installation.
-Waste/cost: **retain** first build953.27s/import failure and corrected457.69s build;
-**reuse** completed core/native tests; **remove** full model/platform replay and
-benchmark schema literals. Rerun only two benchmark cases after fixing the stale
-literal and exact-name match. Verify actual package members without guessed
-counts. No build/install for observer edits; no overall speed claim.
-Plan change/next action: finish related missing editor-state fields using the
-existing shared property/command path; settle container casters/contracts before
-another expensive integration build. Whole-export resource bounds remain R12.
+Latest closeout (2026-11-04, EDITSTATE1):
+Outcome/evidence: [editing state](benchmarks/object-edit-state-r5/README.md) has27 new
+model passes/four desktop cases,764 selected passes/sixteen skips, seven native
+suites and seven desktop flows. Stubs/typing pass. Source585d6ba2/observer9e72413b
+bind451 compiler inputs and62 installed members/RECORD. One final install.
+Waste/cost: **reuse** public API/UI compilation after a real compact-history budget
+regression; **remove** unconditional property pointers from class-only rows; use
+sparse owner changes. Old64KiB/1000-object case now passes. First build681.98s,
+private correction56.56s. **Retain** wrong-interpreter and staged regression logs;
+use a dedicated interpreter with asserted source for probes. Facts share maps,
+bindings are localized and consumers explicitly include the property definition.
+No repeated healthy runtime cohort or full platform campaign was needed.
+**Remove** duplicated completed-workflow counts from the active plan; keep only
+reuse links, dependencies and the next steps there.
+Plan change/next action: source/view-aware planes are the next actual import gap.
+The CSV column union is now bounded at4096 before row materialization; wider R12
+export memory/latency remains open. No general performance claim follows.
 
-After every task or failed/stopped attempt, perform the
+After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
-next action, dependencies, reuse and checks before continuing/retrying.
+next action, dependencies, reuse and necessary checks before continuing/retrying.
 Only openly licensed readers and required codecs are eligible.

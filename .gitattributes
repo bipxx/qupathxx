@@ -767,3 +767,5 @@ docs/benchmarks/project-relink-r5/** -text -whitespace
 docs/benchmarks/source-verification-r5/** -text -whitespace
 
 docs/benchmarks/object-properties-r5/** -text -whitespace
+
+docs/benchmarks/object-edit-state-r5/** -text -whitespace

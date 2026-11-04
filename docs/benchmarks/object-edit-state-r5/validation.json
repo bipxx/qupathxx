@@ -1,0 +1,75 @@
+{
+  "native_source": "585d6ba26dec42bdd53d58a14b3f58d3dd65b8d9",
+  "first_candidate_source": "eb3c8f0d8a7557733d73681e0bf1fe321dd86881",
+  "observer_source": "9e72413be846d6d570782a3739dd13458c79331d",
+  "source_fingerprint": "358a4090e42f2d67b975496c40d02b41b88b37b2e07cc8ea53c299fe9ca97327",
+  "compiler_inputs": 451,
+  "private_history_correction_inputs": [
+    "cpp/classification_edit.hpp",
+    "cpp/document_classifications.cpp"
+  ],
+  "installed_members": 62,
+  "native_sha256": "6b383e1501cfd7aa844ee51d5cdfe0e0fbfe5ce472e2dc0cb5980c446a3dd9be",
+  "wheel_sha256": "4cfbd76c168a50b77d5691011aed91191f7efe6c3221bec9b98ed270ac89ff1d",
+  "record_verified": true,
+  "model_passes": 764,
+  "model_declared_skips": 16,
+  "new_edit_state_model_passes": 27,
+  "new_edit_state_gui_skips": 4,
+  "desktop_passes": 7,
+  "new_desktop_cases": 4,
+  "native_suites": 7,
+  "pre_build_tool_only_controls": 58,
+  "typing_intended_errors": 9,
+  "stub_check": true,
+  "native_build_attempts": 2,
+  "successful_native_builds": 2,
+  "build_elapsed_seconds": [
+    681.9821919000242,
+    56.55702940002084
+  ],
+  "first_candidate_budget_regression": true,
+  "uninstalled_staged_budget_probe": true,
+  "wrong_interpreter_probe_preserved": true,
+  "compact_history_budget": "1000 unchanged-geometry classifications fit the existing64KiB budget after sparse property-owner patch",
+  "final_product_installations": 1,
+  "full_platform_campaign": false,
+  "scope": "Local Windows editing hints,24-bit color and reported probability; planes, full QuPath property semantics, science/performance/release remain open",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "6b383e1501cfd7aa844ee51d5cdfe0e0fbfe5ce472e2dc0cb5980c446a3dd9be"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "b4011412dcbe094e015988ba5e4e03bf9f57c19f64dd4e7377e90177ca3d5858"
+    },
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "6cf94061c7e0b002815040c35a9ab532354d96c9a0df10265a850c89f66a5430"
+    },
+    {
+      "path": "products/qupathxx_object_classifier_tests.exe",
+      "cache_path": "Release/qupathxx_object_classifier_tests.exe",
+      "sha256": "4539309f44d3e2a47cacb0fd5baa5f09a5ca89c2cd09d6de990276d7ee5c7029"
+    },
+    {
+      "path": "products/object_properties.obj",
+      "cache_path": "qupathxx_core.dir/Release/object_properties.obj",
+      "sha256": "564e88eca026cf0614204fa363da081461ded255a77afa975fbadcad752b1438"
+    },
+    {
+      "path": "products/document_classifications.obj",
+      "cache_path": "qupathxx_core.dir/Release/document_classifications.obj",
+      "sha256": "20cc5bc2c8caa02c164cd05613181d92ee2d596c316221f2b832fc631bb7980e"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "4fea30048a4ee68e99db6fe86360f702ddd828ed3d5a157f956d8bac28282a89"
+    }
+  ]
+}

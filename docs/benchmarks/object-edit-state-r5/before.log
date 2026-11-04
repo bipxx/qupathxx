@@ -1,0 +1,45 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+____________ test_owned_state_and_scripted_geometry_hint_semantics ____________
+
+    def test_owned_state_and_scripted_geometry_hint_semantics():
+>       doc,obj=scene();old=doc.annotation(obj);assert old.locked and old.color_rgb==0x123456 and old.class_probability==.875
+                ^^^^^^^
+
+tests\test_object_edit_state.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def scene():
+        doc=q.Document(q.Image.demo());obj=doc.add_roi(q.Roi.polygon([q.Point(100,100),q.Point(300,100),q.Point(300,300),q.Point(100,300)]))
+>       doc.set_object_properties(obj,q.ObjectProperties({'note':'retained'},{'Synthetic':3.5},locked=True,color_rgb=0x123456,class_probability=.875))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: __init__(): incompatible function arguments. The following argument types are supported:
+E           1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -> None
+E       
+E       Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }
+
+tests\test_object_edit_state.py:19: TypeError
+_________ test_geojson_csv_native_extension_and_flat_nested_roundtrip _________
+
+    @pytest.mark.skipif(not q.has_interchange,reason='GeoJSON')
+    def test_geojson_csv_native_extension_and_flat_nested_roundtrip():
+>       doc,obj=scene()
+                ^^^^^^^
+
+tests\test_object_edit_state.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def scene():
+        doc=q.Document(q.Image.demo());obj=doc.add_roi(q.Roi.polygon([q.Point(100,100),q.Point(300,100),q.Point(300,300),q.Point(100,300)]))
+>       doc.set_object_properties(obj,q.ObjectProperties({'note':'retained'},{'Synthetic':3.5},locked=True,color_rgb=0x123456,class_probability=.875))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: __init__(): incompatible function arguments. The following argument types are supported:
+E           1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -> None
+E       
+E       Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }
+
+tests\test_object_edit_state.py:19: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_object_edit_state.py::test_owned_state_and_scripted_geometry_hint_semantics
+FAILED tests/test_object_edit_state.py::test_geojson_csv_native_extension_and_flat_nested_roundtrip
+2 failed in 0.37s
