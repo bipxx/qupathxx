@@ -369,17 +369,30 @@ std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::ui
     if(!has_project())throw std::runtime_error("source verification requires project storage");
     const auto& old=entry(id);if(old.info.embedded)throw std::invalid_argument("embedded images have no source file verification");
     fingerprint.validate();const auto path=absolute(fingerprint.path);
-    auto candidate=read_image(path,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options());
-    const auto view=candidate->tiff_view();const auto budgets=candidate->tiff_options();
-    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
+    const auto previous=old.document->server()->reader_source();
+    std::shared_ptr<ImageServer> linked;std::vector<std::unique_ptr<detail::ReaderFileGuard>> guards;
+    bool matches_live=false;
+    if(previous && previous->primary) {const auto status=associate_source_file(*previous,fingerprint).status;matches_live=status=="matching_metadata" || status=="matching_primary_metadata";}
+    if(old.native_lifetime && !old.document->server()->closed() && path==old.info.source_path && matches_live) {
+        try {guards=detail::lock_source_verification_files(associate_source_file(*previous,fingerprint));linked=old.document->server();}
+        catch(const std::runtime_error&) { /* Changed/missing native inputs need a fresh candidate; opening errors propagate below. */ }
+    }
+    if(!linked) {
+        auto candidate=read_image(path,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options());
+        const auto view=candidate->tiff_view();const auto budgets=candidate->tiff_options();
+        linked=std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
+    }
     const auto observed=linked->reader_source();if(!observed || !observed->primary)throw std::invalid_argument("candidate has no observed native source");
     auto association=std::make_shared<const SourceFileAssociation>(associate_source_file(*observed,fingerprint));
     if(association->status!="matching_metadata" && association->status!="matching_primary_metadata")throw std::runtime_error("fingerprint no longer matches candidate; hash and review again");
-    const auto guards=detail::lock_source_verification_files(*association);
+    if(guards.empty())guards=detail::lock_source_verification_files(*association);
     auto review=std::make_shared<ProjectSourceReview::Impl>();review->image=id;review->instance=instance_identity_;
-    review->previous_path=old.info.source_path;const auto previous=old.document->server()->reader_source();review->previous_generation=previous?previous->generation:std::string{};
+    review->previous_path=old.info.source_path;review->previous_generation=previous?previous->generation:std::string{};
     review->baseline=source_verification(id);review->association=std::move(association);review->candidate=std::move(linked);review->path=path;
-    review->comparison=!review->baseline?"unverified":(review->baseline->fingerprint.sha256==fingerprint.sha256 && review->baseline->fingerprint.bytes==fingerprint.bytes?"matching_bytes":"changed_bytes");
+    if(!review->baseline)review->comparison=previous && previous->primary && (!matches_live || !detail::same_reader_files(*previous,*observed))?"changed_observed_source":"unverified";
+    else if(review->baseline->fingerprint.sha256!=fingerprint.sha256 || review->baseline->fingerprint.bytes!=fingerprint.bytes)review->comparison="changed_bytes";
+    else if((review->baseline->source.scope=="compound_files" || observed->scope=="compound_files") && !detail::same_reader_files(review->baseline->source,*observed))review->comparison="changed_dependencies";
+    else review->comparison="matching_bytes";
     review->coverage=observed->scope=="compound_files"?"compound_primary_only":observed->scope;
     return std::shared_ptr<ProjectSourceReview>(new ProjectSourceReview(std::move(review)));
 }
@@ -390,8 +403,9 @@ void Project::apply_source_review(const std::shared_ptr<ProjectSourceReview>& re
     const auto& old=entry(r.image);const auto current=old.document->server()->reader_source();
     if(instance_identity_!=r.instance || old.info.source_path!=r.previous_path || !current || current->generation!=r.previous_generation || source_verification(r.image)!=r.baseline)
         throw std::runtime_error("source review is stale; review the current image again");
-    if(r.comparison=="changed_bytes" && !accept_changed)throw std::invalid_argument("source bytes changed; explicit accept_changed is required");
+    if(review->requires_acceptance() && !accept_changed)throw std::invalid_argument("source or dependency facts changed; explicit accept_changed is required");
     auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association);
+    if(r.comparison=="matching_bytes" && old.info.source_path==r.path && old.document->server()==r.candidate) {r.consumed=true;return;}
     advance(revision_);
     // A matching-byte relink retains the historical baseline. Replacement starts
     // a new baseline; old analysis provenance and previously returned facts stay immutable.

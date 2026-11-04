@@ -28,6 +28,7 @@ void verified_relink_handoff() {
     check(doc->pixel_width_um()==.25 && doc->pixel_height_um()==.5);
     Document old_doc(old);const auto old_roi=old_doc.add_rectangle({0,0,2,2});check(old_doc.mean_intensity(old_roi)==16);
     linked->close();check(old_doc.mean_intensity(old_roi)==16);
+    project.relink(image,original.u8string());
     const auto first=project.review_source_verification(image,*fingerprint_file(original.u8string()));
     check(first->comparison()=="unverified" && !first->consumed() && !project.source_verification(image));
     project.apply_source_review(first);const auto baseline=project.source_verification(image);

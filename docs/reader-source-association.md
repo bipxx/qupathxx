@@ -198,3 +198,34 @@ GPU tiles. This is one warm synthetic workload on one Windows PC, with no vendor
 network filesystem or cross-platform latency claim. Exact native binary SHA-256:
 `bb8defd0e0f051aa83aabb52ad0a1975513feb4873ac7bc295353683e8896708`; source tree SHA-256:
 `8bcef293323426e0ba37c5f315adb9609e66db904aaa450afba27377de14c327`.
+
+
+## Project verification and reviewed replacement (implementation in progress)
+
+The SOURCE1 API adds a private native `ProjectSourceReview` candidate. It does not
+change the live project until apply. `Project.review_source_verification(image_id,
+fingerprint)` consumes an immutable result from the existing FileFingerprintJob,
+opens a structurally compatible native candidate, and reports its comparison with
+the saved baseline. `apply_source_review(review, accept_changed=False)` rechecks
+source versions and workspace/entry freshness before publishing the candidate.
+A changed checksum requires explicit acceptance; compound dependency metadata
+changes are a distinct acceptance case. Primary-only coverage never means all
+companion bytes were checked.
+
+`source_verification(image_id)` returns the immutable saved association;
+`clear_source_verification(image_id)` explicitly removes that baseline. Unverified
+images retain structural relink behavior. Verified entries require the reviewed
+replacement route, so F9 cannot silently discard their expected checksum. Matching
+byte relinks retain historical baseline facts; accepted changed content starts a
+new baseline without rewriting old analysis provenance. Reopening never hashes
+slides or rewrites historical paths/identities. Schema15 stores a bounded,
+checksummed QSV1 association and migrates earlier schemas in the normal transaction.
+
+SDK contract review uses the compatibility and freshness principles of AIP-180
+and AIP-154 for this local native API. Existing signatures/defaults and enum
+ordinals remain intact; new behavior is opt-in through saved verification state.
+Resources/ownership, methods, fields, compatibility, SDK exposure and errors are
+reviewed in the native header/binder and workflow tests. HTTP/auth/retry policies
+are not applicable to this in-process API. Current validation and completion status
+remain in [current task](current-task.md); this section is not a completed delivery
+claim until the installed workflow and migration checks pass.

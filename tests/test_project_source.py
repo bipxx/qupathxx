@@ -35,6 +35,7 @@ def test_initial_verification_is_reviewed_and_reopens_without_source_io(tmp_path
     assert not p.dirty and q.reader_source_json(doc.server.reader_source)==before
     expected=q.source_file_association_json(review.association);p.apply_source_review(review)
     assert review.consumed and p.dirty and doc.mean_intensity(obj)==16
+    assert q.reader_source_json(doc.server.reader_source)==before
     assert p.source_verification(image).fingerprint.sha256==hashlib.sha256(source.read_bytes()).hexdigest()
     p.save(str(path));source.unlink();restored=q.Project.open(str(path))
     assert not restored.images[0].available and restored.document(image).server.reader_source.scope=='unopened'
@@ -131,6 +132,24 @@ def test_schema14_migration_and_rollback_preserve_old_database(tmp_path):
     with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==15
 
 
+def test_reverification_of_unchanged_live_source_keeps_clean_state(tmp_path):
+    p,image,doc,obj,source,path=scene(tmp_path);retain(p,image,source);p.save(str(path))
+    before=q.reader_source_json(doc.server.reader_source);baseline=q.source_file_association_json(p.source_verification(image))
+    review=p.review_source_verification(image,fingerprint(source));assert not review.requires_acceptance
+    p.apply_source_review(review)
+    assert review.consumed and not p.dirty and q.reader_source_json(doc.server.reader_source)==before
+    assert q.source_file_association_json(p.source_verification(image))==baseline
+
+
+def test_unverified_but_observed_source_change_requires_acceptance(tmp_path):
+    p,image,doc,obj,source,path=scene(tmp_path);ppm(source,96)
+    review=p.review_source_verification(image,fingerprint(source))
+    assert review.comparison=='changed_observed_source' and review.requires_acceptance
+    with pytest.raises(ValueError,match='accept_changed'):p.apply_source_review(review)
+    assert not p.dirty and doc.mean_intensity(obj)==16 and p.source_verification(image) is None
+    p.apply_source_review(review,accept_changed=True);assert doc.mean_intensity(obj)==96
+
+
 @pytest.mark.skipif(not q.has_tiff,reason='compound TIFF reader')
 def test_compound_verification_is_explicitly_primary_only_and_guards_companions(tmp_path):
     from test_binaryonly_ome import fixture
@@ -145,6 +164,12 @@ def test_compound_verification_is_explicitly_primary_only_and_guards_companions(
     with metadata.open('ab') as stream:stream.write(b' ')
     with pytest.raises(RuntimeError,match='changed'):p.apply_source_review(pending)
     assert not pending.consumed and q.source_file_association_json(p.source_verification(image))==historical
+    fresh=p.review_source_verification(image,fingerprint(primary))
+    assert fresh.comparison=='changed_dependencies' and fresh.requires_acceptance
+    with pytest.raises(ValueError,match='accept_changed'):p.apply_source_review(fresh)
+    p.apply_source_review(fresh,accept_changed=True)
+    assert p.source_verification(image).fingerprint.sha256==pending.association.fingerprint.sha256
+
 
 
 @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source verification desktop')

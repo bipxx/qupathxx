@@ -12,6 +12,7 @@ const std::string& ProjectSourceReview::path() const {return impl_->path;}
 const std::string& ProjectSourceReview::comparison() const {return impl_->comparison;}
 const std::string& ProjectSourceReview::coverage() const {return impl_->coverage;}
 std::shared_ptr<const SourceFileAssociation> ProjectSourceReview::association() const {return impl_->association;}
+bool ProjectSourceReview::requires_acceptance() const {return impl_->comparison=="changed_bytes" || impl_->comparison=="changed_dependencies" || impl_->comparison=="changed_observed_source";}
 bool ProjectSourceReview::consumed() const {std::lock_guard<std::mutex> lock(impl_->mutex);return impl_->consumed;}
 namespace detail {
 namespace {

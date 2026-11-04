@@ -10,6 +10,7 @@ public:
     const std::string& comparison() const;
     const std::string& coverage() const;
     std::shared_ptr<const SourceFileAssociation> association() const;
+    bool requires_acceptance() const;
     bool consumed() const;
 private:
     friend class Project;

@@ -21,6 +21,15 @@ Current: **R5-SOURCE1, persist and review source verification**, implementation 
   retains checksummed immutable associations; old schemas migrate transactionally.
   Ordinary opening stays lazy. Public additions and UI/schema assertions are
   batched before the first cached build; stubs will come from that exact product.
+- Failed attempt closeout: a1d812a8 cached build stopped with nanobind enum
+  borrowing errors after668.13 seconds. The wrapper cannot be extended like a
+  class wrapper; register values in its existing declaration. No product installed.
+  Retry also corrects changed companion/observed-source reporting and reuses a
+  stable live reader for verification, avoiding a duplicate decode and no-op dirty
+  state. Stable current-reader verification also preserves its generation; unchanged
+  rechecks avoid dirty/autosave churn. Reuse completed objects; one corrected
+  build/install remains, with original
+  failures/logs retained. No platform or reader campaign is justified.
 - Reuse: immutable native source/fingerprint facts, existing worker/cancellation,
   SQLite snapshots and verified relink handoff. Keep ordinary open lazy; distinguish
   primary-file proof, metadata association and compound-source coverage. Historical

@@ -2130,13 +2130,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(ImGui::BeginPopupModal("Source verification",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             if(source_review) {
                 ImGui::TextWrapped("File: %s",source_review->path().c_str());
-                const bool changed=source_review->comparison()=="changed_bytes";
-                ImGui::TextWrapped(changed?"File bytes differ from the saved checksum.":source_review->comparison()=="matching_bytes"?"File bytes match the saved checksum.":"No saved file verification. Save this checksum with the project.");
+                const bool changed=source_review->requires_acceptance();
+                ImGui::TextWrapped(source_review->comparison()=="changed_dependencies"?"The primary checksum matches, but source dependency metadata changed.":source_review->comparison()=="changed_observed_source"?"The file differs from the opened image source. Its previous checksum is unknown.":changed?"File bytes differ from the saved checksum.":source_review->comparison()=="matching_bytes"?"File bytes match the saved checksum.":"No saved file verification. Save this checksum with the project.");
                 const auto association=source_review->association();ImGui::TextUnformatted("Reviewed SHA-256:");
                 ImGui::TextUnformatted(association->fingerprint.sha256.substr(0,32).c_str());ImGui::TextUnformatted(association->fingerprint.sha256.substr(32).c_str());
                 ImGui::TextWrapped(source_review->coverage()=="compound_primary_only"?"Only the primary file was hashed. Companion files were not verified by checksum.":source_review->coverage()=="primary_file"?"Primary file checksum; other dependencies are outside this record.":"Single source file checksum.");
                 auto mark_source=[&](GuiInputTarget target,std::size_t index) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();source_review_bounds[index]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(target);};
-                if(changed) {ui::Checkbox("Use this changed file and replace the saved checksum",&source_accept_changed);mark_source(GuiInputTarget::AcceptSourceReplacement,1);}
+                if(changed) {ui::Checkbox("Accept this source change and save its verification",&source_accept_changed);mark_source(GuiInputTarget::AcceptSourceReplacement,1);}
                 ImGui::BeginDisabled(changed && !source_accept_changed);
                 if(ui::Button("Use reviewed file")) {
                     try {options.project->apply_source_review(source_review,source_accept_changed);mean.invalidate();pending_image=active_image;refresh_active_image=true;project_catalog_dirty=true;source_review.reset();ImGui::CloseCurrentPopup();}
