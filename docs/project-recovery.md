@@ -1,8 +1,8 @@
 # Autosave and recovery
 
 Marked abandoned private work can now be reclaimed under the publication lock;
-see [recovery work cleanup](recovery-work-cleanup.md) for exact-destination scope,
-failure reporting and the remaining cross-session discovery work. Opt-in
+see [recovery work cleanup](recovery-work-cleanup.md) for exact-destination and
+version-2 cross-session discovery/rescue, with separate failure reporting. Opt-in
 [checkpoint retention](recovery-retention.md) now protects idle session owners.
 
 The native `ProjectAutosave` controller captures an immutable save snapshot on

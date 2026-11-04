@@ -1,47 +1,48 @@
 # Current implementation task
 
-Follow the [single R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue),
-[concrete next actions](api-delivery-plan.md#concrete-next-actions-and-completion-gates)
-and [change-based validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. SOURCE1 has local engineering evidence only.
+Use the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue),
+[ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
+and [validation policy](api-delivery-plan.md#validation-and-build-policy).
+All M0-M7 remain Partial; SOURCE1 is locally verified.
 
-Current: **R5 recovery-gap reconciliation**.
+Current: **R5-PROP1 — imported object metadata and measurements**.
 
-- Outcome: distinguish delivered crash/recovery/cleanup behavior from a genuinely
-  missing fault boundary. Correct stale active claims before scheduling new work.
-- Entry/dependency: read `tests/test_project_save.py`, `test_project_recovery.py`,
-  `test_recovery_work_cleanup.py`, recovery docs and existing receipts. Native save
-  hot-journal/process-death and abandoned-autosave cases already exist; SOURCE1
-  adds association rollback/migration checks. No new scheduler or cleanup system.
-- Next action: match each claimed missing recovery behavior to its actual
-  assertion/evidence. Record a concrete uncovered boundary, or advance to a
-  demonstrated edit/property/plane gap if current recovery scope is satisfied.
-- Checks/reuse: documentation consistency and existing evidence inspection first.
-  No build or passing-test replay for reconciliation. Add a deterministic fault
-  case only for a named uncovered boundary, using the existing installed product
-  when compiler inputs are unchanged. Preserve prior project/checkpoint on failure.
-- Stop: covered versus missing is explicit and the next implementation outcome is
-  selected. Process death does not establish hardware power-loss or network-FS
-  durability; these claims need their own intended support scope.
+- Outcome: import supported QuPath object metadata/measurement facts, inspect them,
+  save/reopen and export without the current explicit property loss.
+- Entry/dependency: `cpp/interchange.cpp` drops foreign properties;
+  `cpp/qupath_saved_data.cpp` reports metadata/measurements dropped; `Annotation`
+  currently has no representation. Trace object commands/history, snapshots,
+  project codecs and table/export consumers. Reuse existing pinned synthetic
+  QuPath0.7.0 data and GeoJSON fixtures; no new reference capture by default.
+- Next action: settle the additive native owning types and API/storage migration,
+  including supported values, numeric/nonfinite policy, immutable ownership,
+  limits, duplicate keys and atomic import behavior. Then implement the shared
+  authority and affected Python/ImGui/file routes together.
+- Checks: independent exact fixture properties; lossless supported roundtrip,
+  undo/redo, project migration/rollback and retained snapshot ownership. Preserve
+  unsupported locks/planes/custom payload refusal or explicit loss reports.
+  Settle native interfaces before one cached integration build/install; generate
+  stubs once. Exercise changed installed import/inspect/save/export workflow.
+- Stop: declared supported metadata/measurement workflow survives save/reopen and
+  exchange with precise loss reports for everything outside its contract.
+  Wider properties/locks/planes and broader R5 remain open.
 
-Latest task closeout (2026-11-04, SOURCE1):
-Outcome/evidence: [source verification](benchmarks/source-verification-r5/README.md)
-now completes native/Python/ImGui review/apply/save/reopen with schema15. Final
-product identity, stubs,18 selected passes/three declared desktop skips, project
-native suite and three distinct corrected desktop outcomes pass; original687 model
-passes/ten skips, typing and four native suites retain their source scope.
-Waste/cost: **reuse** unchanged-core results and final installed product; **remove**
-a full suite/platform replay and GUI-fix stub regeneration; **retain** final
-identity checks for the distinct corrected build. Three native attempts took
-668.13s failed,546.58s successful and70.11s GUI correction; native-test-only repair
-17.10s. Two candidate installations total. Failures remain preserved.
-Plan change/next action: source review is locally verified; inspect existing
-recovery coverage before creating another fault test. Keep primary-only compound
-coverage and immutable historical-association limits explicit. Broader R5 is open.
+Latest closeout (2026-11-04, recovery-gap reconciliation):
+Outcome/evidence: [storage reconciliation](project-storage.md#recovery-gap-reconciliation-2026-11-04)
+links retained passing hot-journal, abnormal-exit, whole-snapshot, cleanup lock/
+retry and killed-native-autosave cases. Current assertions were inspected.
+Version-2 cross-session discovery/rescue already exists. Active stale gaps fixed.
+Waste/cost: **remove** another generic crash/cleanup campaign; **reuse** retained
+results within original source scope; **retain** unknown debris and lock inodes
+for their documented safety policy. XML search initially dumped giant single
+lines; **replace** content search with filenames plus parsed named cases. No build,
+installation or test replay was necessary. No hardware power-loss claim follows.
+Plan change/next action: implement the demonstrated property-loss workflow using
+existing native parsers/commands/storage, starting with the contract above.
 
-Then complete demonstrated R4/R5 gaps, R6/R7, R8-R10, R11, R3, R12 and R13.
-Pull eligible R2 inputs forward as required; retain R14-R16 full-target work.
-After every bounded task or failed/stopped attempt, perform the
+Then finish demonstrated R4/R5 gaps, R6/R7, R8-R10, R11, R3, R12 and R13;
+pull eligible R2 inputs forward, and retain R14-R16 full-target scope.
+After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
-next action, dependency, reuse and necessary checks **before** continuing/retrying.
-Keep only the latest closeout here. Only openly licensed readers/codecs are eligible.
+next action, dependencies, reuse and necessary checks before continuing/retrying.
+Only openly licensed readers and required codecs are eligible.

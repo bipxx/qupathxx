@@ -264,3 +264,22 @@ as project rows. Failure rolls back the schema/data and preserves the prior
 committed project. Async snapshots retain the association. Clearing verification
 is an explicit project mutation. See the [review API](reader-source-association.md#project-verification-and-reviewed-replacement)
 and [scoped evidence](benchmarks/source-verification-r5/README.md).
+
+### Recovery-gap reconciliation (2026-11-04)
+
+Existing [installed results](benchmarks/annotation-migration-recovery-local/installed.xml)
+record successful writable/read-only hot-journal cases, abnormal-exit lock release,
+whole-snapshot publication during termination, locked cleanup refusal, cleanup
+failure/retry and both explicit/automatic killed-native-autosave collection cases.
+These assertions were inspected in the corresponding current tests; the older
+results retain their original source scope and are not retesting the SOURCE1
+product. SOURCE1 separately verifies its changed association persistence and
+rollback. [Cross-session work collection](recovery-work-cleanup.md#version-2-cross-session-collection)
+already covers prior destination names and committed snapshot rescue.
+
+No new generic process-kill or cleanup campaign follows from this reconciliation.
+Unknown/unmarked debris and cooperating lock inodes are deliberately preserved.
+Full power-loss/network-filesystem durability and broader storage-pressure bounds
+remain unproved; they need a declared support/workload contract. The next concrete
+R5 implementation gap is imported object properties, which the current GeoJSON
+and saved-data routes explicitly report as dropped.
