@@ -238,6 +238,30 @@
       "test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-xml]",
       "test_project_reopen_retains_metadata_observation_and_verifies_raw_record[tiff]",
       "test_project_reopen_retains_metadata_observation_and_verifies_raw_record[xml]"
+    ],
+    "test_tiff_jpeg": [
+      "test_jpeg_big_endian_white_keeps_raw_samples",
+      "test_jpeg_decode_failure_and_budget_are_explicit[decode_budget]",
+      "test_jpeg_decode_failure_and_budget_are_explicit[jpeg_header]",
+      "test_jpeg_package_contains_decoder_notices",
+      "test_jpeg_project_analysis_replay_and_region_cli[False]",
+      "test_jpeg_project_analysis_replay_and_region_cli[True]",
+      "test_jpeg_raw_preview_and_owned_cache[False-False-False]",
+      "test_jpeg_raw_preview_and_owned_cache[False-False-True]",
+      "test_jpeg_raw_preview_and_owned_cache[False-True-False]",
+      "test_jpeg_raw_preview_and_owned_cache[False-True-True]",
+      "test_jpeg_raw_preview_and_owned_cache[True-False-False]",
+      "test_jpeg_raw_preview_and_owned_cache[True-False-True]",
+      "test_jpeg_raw_preview_and_owned_cache[True-True-False]",
+      "test_jpeg_raw_preview_and_owned_cache[True-True-True]",
+      "test_scalar_fixture_matches_independent_tiff_decode[False-False-False]",
+      "test_scalar_fixture_matches_independent_tiff_decode[False-False-True]",
+      "test_scalar_fixture_matches_independent_tiff_decode[False-True-False]",
+      "test_scalar_fixture_matches_independent_tiff_decode[False-True-True]",
+      "test_scalar_fixture_matches_independent_tiff_decode[True-False-False]",
+      "test_scalar_fixture_matches_independent_tiff_decode[True-False-True]",
+      "test_scalar_fixture_matches_independent_tiff_decode[True-True-False]",
+      "test_scalar_fixture_matches_independent_tiff_decode[True-True-True]"
     ]
   },
   "desktop": {

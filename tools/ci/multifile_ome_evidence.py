@@ -23,6 +23,7 @@ SOURCES=[
  'cpp/tests/raw_image_tests.cpp','cpp/tests/source_identity_tests.cpp','cpp/tests/scientific_raw_sampling_tests.cpp',
  'src/qupathxx/__init__.py','src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
  'tools/reference_multifile_ome.py','tools/reference_binaryonly_ome.py','tests/test_multifile_ome_evidence.py',
+ 'tools/reference_jpeg_tiff.py','cmake/TiffJpeg.cmake','third_party/tiff-jpeg-NOTICE.txt',
  'tools/upstream/ome_length_units.groovy','tests/fixtures/ome-units-6.5.1/reference.json','tests/fixtures/ome-units-6.5.1/manifest.json',
  *['tests/'+name+'.py' for name in CONTRACT['installed']],
  'tests/typing/source_companions_valid.py','tests/typing/source_companions_invalid.py',
