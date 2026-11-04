@@ -211,7 +211,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     FileFingerprintOptions fingerprint_options;fingerprint_options.byte_limit=options.file_fingerprint_byte_limit;fingerprint_options.buffer_bytes=options.file_fingerprint_buffer_bytes;fingerprint_options.validate();
     bool fingerprint_associate=options.file_fingerprint_associate_source;
     std::shared_ptr<ProjectSourceReview> source_review;
-    bool source_accept_changed=false;
+    bool source_accept_changed=false,source_popup_requested=false;
     std::weak_ptr<Document> fingerprint_document;
     std::weak_ptr<Project> fingerprint_project;
     std::string fingerprint_generation;
@@ -2124,29 +2124,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(!current_source || current_source->generation!=fingerprint_generation)throw std::runtime_error("Image source changed; hash it again before review.");
                 const auto value=fingerprint_job.result();if(fingerprint_job.busy() || !value)throw std::runtime_error("Wait for a successful file checksum first.");
                 source_review=options.project->review_source_verification(active_image,*value);source_accept_changed=false;fingerprint_error.clear();
-                ImGui::OpenPopup("Source verification");
+                source_popup_requested=true;
             } catch(const std::exception& e) {fingerprint_error=e.what();}
-        }
-        if(ImGui::BeginPopupModal("Source verification",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
-            if(source_review) {
-                ImGui::TextWrapped("File: %s",source_review->path().c_str());
-                const bool changed=source_review->requires_acceptance();
-                ImGui::TextWrapped(source_review->comparison()=="changed_dependencies"?"The primary checksum matches, but source dependency metadata changed.":source_review->comparison()=="changed_observed_source"?"The file differs from the opened image source. Its previous checksum is unknown.":changed?"File bytes differ from the saved checksum.":source_review->comparison()=="matching_bytes"?"File bytes match the saved checksum.":"No saved file verification. Save this checksum with the project.");
-                const auto association=source_review->association();ImGui::TextUnformatted("Reviewed SHA-256:");
-                ImGui::TextUnformatted(association->fingerprint.sha256.substr(0,32).c_str());ImGui::TextUnformatted(association->fingerprint.sha256.substr(32).c_str());
-                ImGui::TextWrapped(source_review->coverage()=="compound_primary_only"?"Only the primary file was hashed. Companion files were not verified by checksum.":source_review->coverage()=="primary_file"?"Primary file checksum; other dependencies are outside this record.":"Single source file checksum.");
-                auto mark_source=[&](GuiInputTarget target,std::size_t index) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();source_review_bounds[index]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(target);};
-                if(changed) {ui::Checkbox("Accept this source change and save its verification",&source_accept_changed);mark_source(GuiInputTarget::AcceptSourceReplacement,1);}
-                ImGui::BeginDisabled(changed && !source_accept_changed);
-                if(ui::Button("Use reviewed file")) {
-                    try {options.project->apply_source_review(source_review,source_accept_changed);mean.invalidate();pending_image=active_image;refresh_active_image=true;project_catalog_dirty=true;source_review.reset();ImGui::CloseCurrentPopup();}
-                    catch(const std::exception& e) {fingerprint_error=e.what();}
-                }
-                mark_source(GuiInputTarget::ApplySourceVerification,0);ImGui::EndDisabled();
-                ImGui::SameLine();if(ui::Button("Cancel")) {source_review.reset();ImGui::CloseCurrentPopup();}
-                if(!fingerprint_error.empty())ImGui::TextWrapped("%s",fingerprint_error.c_str());
-            } else ImGui::CloseCurrentPopup();
-            ImGui::EndPopup();
         }
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         if(workspace.enabled()) {
@@ -2444,6 +2423,28 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(workspace.enabled()) ImGui::End(); else ImGui::EndChild();
         ImGui::EndDisabled();
+        if(source_popup_requested) {ImGui::OpenPopup("Source verification");source_popup_requested=false;}
+        if(ui::BeginPopupModal("Source verification",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+            if(source_review) {
+                ImGui::TextWrapped("File: %s",source_review->path().c_str());
+                const bool changed=source_review->requires_acceptance();
+                ImGui::TextWrapped(source_review->comparison()=="changed_dependencies"?"The primary checksum matches, but source dependency metadata changed.":source_review->comparison()=="changed_observed_source"?"The file differs from the opened image source. Its previous checksum is unknown.":changed?"File bytes differ from the saved checksum.":source_review->comparison()=="matching_bytes"?"File bytes match the saved checksum.":"No saved file verification. Save this checksum with the project.");
+                const auto association=source_review->association();ImGui::TextUnformatted("Reviewed SHA-256:");
+                ImGui::TextUnformatted(association->fingerprint.sha256.substr(0,32).c_str());ImGui::TextUnformatted(association->fingerprint.sha256.substr(32).c_str());
+                ImGui::TextWrapped(source_review->coverage()=="compound_primary_only"?"Only the primary file was hashed. Companion files were not verified by checksum.":source_review->coverage()=="primary_file"?"Primary file checksum; other dependencies are outside this record.":"Single source file checksum.");
+                auto mark_source=[&](GuiInputTarget target,std::size_t index) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();source_review_bounds[index]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(target);};
+                if(changed) {ui::Checkbox("Accept this source change and save its verification",&source_accept_changed);mark_source(GuiInputTarget::AcceptSourceReplacement,1);}
+                ImGui::BeginDisabled(changed && !source_accept_changed);
+                if(ui::Button("Use reviewed file")) {
+                    try {const auto previous_server=document.server();options.project->apply_source_review(source_review,source_accept_changed);if(document.server()!=previous_server) {mean.invalidate();pending_image=active_image;refresh_active_image=true;project_catalog_dirty=true;}source_review.reset();ImGui::CloseCurrentPopup();}
+                    catch(const std::exception& e) {fingerprint_error=e.what();}
+                }
+                mark_source(GuiInputTarget::ApplySourceVerification,0);ImGui::EndDisabled();
+                ImGui::SameLine();if(ui::Button("Cancel")) {source_review.reset();ImGui::CloseCurrentPopup();}
+                if(!fingerprint_error.empty())ImGui::TextWrapped("%s",fingerprint_error.c_str());
+            } else ImGui::CloseCurrentPopup();
+            ImGui::EndPopup();
+        }
         if(maintenance_popup_requested) {ImGui::OpenPopup("Delete recovery checkpoint?"); maintenance_popup_requested=false;}
         if(ui::BeginPopupModal("Delete recovery checkpoint?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             if(reviewed_checkpoint) {

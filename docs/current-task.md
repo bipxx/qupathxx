@@ -38,6 +38,12 @@ Current: **R5-SOURCE1, persist and review source verification**, implementation 
   its executable against retained core/package bytes, and rerun only that suite.
   Keep the failed XML and separate product/observer source identities. Desktop is
   running on the installed product; no product rebuild/reinstall is required.
+- Desktop failure closeout: two apply/accept cases time out because the new
+  modal inherits the editor's disabled scope; the review-only case passes. Move
+  popup creation/rendering outside that scope beside existing dialogs and use the
+  shared modal sizing helper. This changes GUI only. Preserve687 model passes,
+  typing/stubs and corrected native observer evidence; relink a corrected product,
+  then rerun the changed desktop flow and source/build identity checks only.
 - Reuse: immutable native source/fingerprint facts, existing worker/cancellation,
   SQLite snapshots and verified relink handoff. Keep ordinary open lazy; distinguish
   primary-file proof, metadata association and compound-source coverage. Historical
