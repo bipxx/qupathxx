@@ -21,7 +21,7 @@ def transform():return q.StainTransform([[1,0,0],[0,1,0]])
 def test_batch_captures_axes_and_context_and_reuses_without_statistics(tmp_path):
     project,image,values=scene(tmp_path);doc=project.document(image)
     obj=doc.add_rectangle(q.Rect(1,2,5,6),'Original')
-    view=doc.server.tiff_view;view.z=2;view.t=1;doc.set_tiff_view(view)
+    view=doc.server.tiff_view;view.z=2;view.t=1;doc.set_tiff_view(view);doc.set_object_plane(obj,q.ObjectPlane(-1,2,1))
     options=q.ProjectBatchOptions();options.kind=q.ProjectBatchKind.RAW;options.roi_tile_size=16
     options.raw.channels=2
     request=q.ProjectBatchRequest(project,transform(),options=options)
@@ -68,7 +68,7 @@ def test_resume_rejects_one_bit_sample_change_and_corrupt_checkpoint(tmp_path):
 
 def test_explicit_axes_override_view_and_mixed_reader_failure_is_per_image(tmp_path):
     project,image,values=scene(tmp_path);doc=project.document(image)
-    doc.add_rectangle(q.Rect(0,0,4,4))
+    obj=doc.add_rectangle(q.Rect(0,0,4,4));doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
     other=q.Document(q.Image(4,4,[0]*4*4*3));other.add_rectangle(q.Rect(0,0,4,4));project.add_document(other,'RGB')
     options=q.ProjectBatchOptions();options.kind=q.ProjectBatchKind.RAW;options.failure=q.ProjectBatchFailure.CONTINUE
     options.raw_follow_display=False;options.raw.z=1;options.raw.t=1
@@ -82,7 +82,7 @@ def test_explicit_axes_override_view_and_mixed_reader_failure_is_per_image(tmp_p
 def test_native_cli_raw_axes_unicode_checkpoint_and_resume(tmp_path):
     from qupathxx import _native
     cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
-    project,image,values=scene(tmp_path);doc=project.document(image);doc.add_rectangle(q.Rect(0,0,4,4))
+    project,image,values=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(0,0,4,4));doc.set_object_plane(obj,q.ObjectPlane(-1,2,1))
     path=tmp_path/'量化.qpxproj';project.save(str(path));directory=tmp_path/'结果'
     command=[str(cli),str(path),str(directory),'--kind','raw','--raw-channel','1','--raw-z','2','--raw-time','1','--tile-size','16']
     done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=40)

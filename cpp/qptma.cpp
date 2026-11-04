@@ -102,7 +102,7 @@ std::vector<ObjectEdit> qptma_grid_edits(const QptmaData& data,std::string name,
     options.row_labels=rows;options.column_labels=columns;const auto info=TmaCodec::grid(options);
     std::vector<ObjectEdit> edits;edits.reserve(data.cores.size());
     for(std::size_t i=0;i<data.cores.size();++i) {
-        const auto& core=data.cores[i];auto edit=ObjectEdit::create_geometry(Roi::ellipse(core.bounds),core.name);
+        const auto& core=data.cores[i];auto edit=ObjectEdit::create_geometry(Roi::ellipse(core.bounds),core.name,0,"",ObjectKind::Annotation,std::nullopt,ObjectPlane{});
         edit.value.tma_core=TmaCodec::core(info,i/data.columns,i%data.columns,core.missing,core.case_id);edits.push_back(std::move(edit));
     }
     return edits;
@@ -116,6 +116,7 @@ QptmaExport qptma_from_grid(const TmaGrid& grid,std::string hint,std::string nam
     out.data.rows=grid.info()->rows();out.data.columns=grid.info()->columns();const auto count=out.data.rows*out.data.columns;
     std::vector<const Annotation*> slots(count,nullptr);bool classes=false,parents=false;
     for(const auto& a:grid.cores()) {
+        if(a.plane!=ObjectPlane{})throw std::invalid_argument("qptma cannot represent a non-default object plane; use native project storage");
         if(!a.tma_core || a.tma_core->row()>=out.data.rows || a.tma_core->column()>=out.data.columns)throw std::invalid_argument("invalid TMA snapshot for qptma export");
         const auto i=a.tma_core->row()*out.data.columns+a.tma_core->column();if(slots[i])throw std::invalid_argument("duplicate TMA snapshot slot");
         slots[i]=&a;classes=classes || !a.class_name.empty();parents=parents || a.parent_id!=0;

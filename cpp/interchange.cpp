@@ -207,7 +207,6 @@ struct Reader {
         if(!value.is_object() || !value.contains("type") || !value.contains("coordinates")) throw std::invalid_argument("geometry is missing type/coordinates");
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="coordinates" && member.key()!="plane" && member.key()!="qupathxx" && member.key()!="isEllipse" && member.key()!="bbox")
             notices.add("geometry_members_dropped","Unsupported foreign geometry members will be dropped",true);
-        image_plane(value);
         auto type=text(value["type"]); const auto& c=value["coordinates"];
         if(type=="Point") return Roi::points({point(c)});
         if(type=="MultiPoint") return Roi::points(points(c));

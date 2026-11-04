@@ -357,7 +357,7 @@ struct ViewerOwner::Impl {
             e.object_ids.reserve(1);reserve(ticket,e);
             const auto id=doc->merge_annotations(command->ids,command->flag);
             e.object_ids.push_back(id);e.object_id=id;e.committed=true;
-            if(e.image_id==c.active_image) c.select(e.object_ids);
+            if(e.image_id==c.active_image && doc->object_visible(id)) c.select(e.object_ids);
             done();return;
         }
         if(command->action==Action::TmaAxis) {

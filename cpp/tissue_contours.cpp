@@ -289,7 +289,7 @@ std::vector<std::uint64_t> publish_pixel_contours(Document& document,const Pixel
     const auto parent=traced.contours_->options().clip_to_roi?result.object_id():0;
     for(const auto& c:traced.contours_->components()) {
         const auto& classification=result.model().classes().at(c.label-1);
-        edits.push_back(ObjectEdit::create_geometry(c.geometry,prefix+" "+classification,parent,classification));
+        edits.push_back(ObjectEdit::create_geometry(c.geometry,prefix+" "+classification,parent,classification,ObjectKind::Annotation,std::nullopt,result.object_id()?document.objects().at(result.object_id()).plane:document.active_plane()));
     }
     return document.execute(edits,"Add pixel classifier annotations");
 }
@@ -328,7 +328,8 @@ std::vector<std::uint64_t> publish_raw_pixel_contours(Document& document,const R
     detail::bounded_utf8(prefix,256);if(prefix.empty()) throw std::invalid_argument("raw contour name prefix is empty");
     if(document.revision()!=traced.snapshot_->source.provenance->document_revision || !RawPixelContourKernel::current(document,request,traced.prediction_)) throw std::invalid_argument("raw pixel contours are stale");
     std::vector<ObjectEdit> edits;edits.reserve(traced.contours_->components().size());const auto parent=traced.contours_->options().clip_to_roi?traced.snapshot_->source.provenance->object_id:0;
-    for(const auto& component:traced.contours_->components()) {const auto& name=traced.snapshot_->model.forest().classes().at(component.label-1);edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+name,parent,name));}
+    const auto selection=traced.snapshot_->model.recipe().selection();const auto source_object=traced.snapshot_->source.provenance->object_id;const auto plane=source_object?document.objects().at(source_object).plane:ObjectPlane{-1,selection.z,selection.t};
+    for(const auto& component:traced.contours_->components()) {const auto& name=traced.snapshot_->model.forest().classes().at(component.label-1);edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+name,parent,name,ObjectKind::Annotation,std::nullopt,plane));}
     return document.execute(edits,"Add raw pixel classifier annotations");
 }
 std::shared_ptr<const TissueContours> trace_tissue(const TissueResult& result,TissueContourOptions options,const std::atomic<bool>* cancelled) {return TissueContourKernel::run(result,options,cancelled);}

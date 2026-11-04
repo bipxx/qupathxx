@@ -23,8 +23,8 @@ void text(const std::string& value) {
     if (value.size()>4096 || value.find('\0')!=std::string::npos) throw std::invalid_argument("object text must be at most 4096 bytes and contain no NUL");
 }
 }
-ObjectEdit ObjectEdit::create(Rect roi,std::string name,std::uint64_t parent,std::string classification) {
-    return create_geometry(Roi::rectangle(roi),std::move(name),parent,std::move(classification));
+ObjectEdit ObjectEdit::create(Rect roi,std::string name,std::uint64_t parent,std::string classification,std::optional<ObjectPlane> plane) {
+    return create_geometry(Roi::rectangle(roi),std::move(name),parent,std::move(classification),ObjectKind::Annotation,std::nullopt,plane);
 }
 ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::uint64_t parent,std::string classification) {
     return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
@@ -53,8 +53,8 @@ void Document::set_object_properties(std::uint64_t id,std::shared_ptr<const Obje
 ObjectEdit ObjectEdit::tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo> info) {
     ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
 }
-ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus) {
-    return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus,std::optional<ObjectPlane> plane) {
+    return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)},plane};
 }
 ObjectEdit ObjectEdit::replace_geometry(std::uint64_t id,Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus) {
     return {ObjectEditKind::Replace,{id,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
@@ -155,7 +155,11 @@ struct Document::Staging {
             const auto run=document.cells_.find(a.cell_feature_link->record_id);
             if(run!=document.cells_.end() && a.cell_feature_link->label>run->second.value->result->features().size()) throw std::invalid_argument("invalid cell feature label");
         }
-        if(check_source_plane)document.validate_object_plane(a.plane);
+        if(check_source_plane) {
+            const auto existing=document.objects_.find(a.id);
+            if(existing==document.objects_.end() || existing->second.plane!=a.plane)document.validate_object_plane(a.plane);
+            else a.plane.validate();
+        }
         else {a.plane.validate();if(a.plane!=ObjectPlane{} && !document.server_->tiff_view())throw std::invalid_argument("persisted object plane requires a quantitative TIFF source");}
         const auto roi=a.bounds();
         const auto limit=static_cast<double>(std::numeric_limits<std::int64_t>::max());
@@ -445,7 +449,10 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     for (const auto& edit:edits) {
         if (edit.kind==ObjectEditKind::Create) {
             if (next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
-            auto value=edit.value; value.plane=active_plane(); value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
+            auto value=edit.value;value.plane=active_plane();
+            if(edit.creation_plane)value.plane=*edit.creation_plane;
+            else if(value.parent_id) {const auto parent=staged.get(value.parent_id);if(parent)value.plane=parent->plane;}
+            value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
         } else if (edit.kind==ObjectEditKind::Replace) {
             const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
             auto value=edit.value;value.plane=previous->plane;

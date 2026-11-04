@@ -319,7 +319,7 @@ public:
             if(button("Apply grid preview",GuiInputTarget::ApplyQptmaPreview,disabled || exchange_.valid() || !preview_ || bool(grid_)))perform([&]{
                 if(preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision() || preview_reader_.lock()!=doc.server())throw std::invalid_argument("Grid preview is stale. Load it again.");
                 created_=import_qptma(doc,*preview_);clear_preview();preview_missing_=0;exchange_state_="imported";losses_acknowledged_=false;
-                if(!created_.empty())selection.replace({created_.front()},created_.front());
+                if(!created_.empty() && doc.object_visible(created_.front()))selection.replace({created_.front()},created_.front());else selection.clear();
             });
             if(button("Discard grid preview",GuiInputTarget::DiscardQptmaPreview,!preview_)) {clear_preview();preview_missing_=0;exchange_state_="idle";}
             if(grid_) {

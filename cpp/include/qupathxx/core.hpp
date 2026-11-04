@@ -116,13 +116,14 @@ enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata, Properties, Pl
 struct ObjectEdit {
     ObjectEditKind kind;
     Annotation value;
-    static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
+    std::optional<ObjectPlane> creation_plane;
+    static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", std::optional<ObjectPlane> plane=std::nullopt);
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
     static ObjectEdit plane(std::uint64_t id,ObjectPlane);
     static ObjectEdit properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
     static ObjectEdit tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo>);
-    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
+    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt, std::optional<ObjectPlane> plane=std::nullopt);
     static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
 };
 double mean_rgb(const ImageServer&, const Rect&, const std::atomic<bool>* cancelled = nullptr);

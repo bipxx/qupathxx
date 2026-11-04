@@ -318,7 +318,9 @@ planes travel with immutable save blocks and undo/redo snapshots.
 A document identifies one source series. Series changes still require another
 document. `ObjectPlane(c=-1,z=0,t=0)` uses zero-based indices; channel -1 applies
 to all channels, but Z/time are concrete indices. New interactive/native create
-commands use the active displayed Z/time. Geometry/name/class replacement keeps
+commands use an explicit `ObjectEdit.create/create_geometry(..., plane=...)`
+when supplied; otherwise they inherit a parent plane or use the active displayed
+Z/time. Geometry/name/class replacement keeps
 the object's plane; `set_object_plane` and `ObjectEdit.plane` explicitly change
 it. Parent Z/time must match the child and a channel-specific parent can contain
 only that channel. Boolean/merge operands require identical planes.
@@ -336,11 +338,20 @@ still includes all planes for archival/scripted access. Display intensity/stain
 analysis refuses an object on another plane, or a channel-specific mask over a
 mixed-channel composite. Raw analysis/training/prediction requires matching
 Z/time and, for channel-specific masks, exactly the specified single channel.
-Source/view replacement uses existing request identity checks to reject stale
-publication. Explicit raw requests may sample an object's matching plane even
-when a different plane is displayed. Shape-only/historical facts remain usable
+Source/object replacement uses existing request identity checks to reject stale
+publication. Explicit raw requests remain valid across display-only changes and
+may sample an object's matching plane even when another plane is displayed.
+Created tissue/pixel/streamed contour objects retain the source result plane,
+including when publication is unclipped and a different plane is displayed.
+Interactive imports retain all objects and select only currently visible ones. Shape-only/historical facts remain usable
 without changing the display.
 
 GeoJSON emits non-default planes for body and nucleus; measurement CSV adds
 `plane_c,plane_z,plane_t` only when the selection contains a non-default plane.
 No serialization of arbitrary Java plugins or execution of Groovy is introduced.
+
+Axisless QPTMA imports retain their legacy default plane, independent of the
+current display. QPTMA export refuses a non-default core plane rather than
+silently dropping it; native project storage preserves it. The existing 2D
+spatial-distance request refuses selections mixing Z/time planes; same-plane
+geometry comparisons remain independent of the displayed plane.

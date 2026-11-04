@@ -19,9 +19,15 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   Independent multi-plane, invalid-axis, hierarchy, raw-mask, snapshot/restart and
   desktop workflow cases are prepared. The original invalid saved-plane fixture
   remains a refusal; a clearly derived valid source/metadata case is separate.
-- Next action: finish source review, run the tool-only migration guards, then one
-  combined cached build and staged probe before final packaging/install. Generate
-  stubs from that exact product once. Fix actual failures before retrying.
+- Next action: source corrections are batched and ready for a cached correction
+  build: explicit/parent creation planes, tissue/RGB/raw/streamed publication,
+  lazy unchanged-plane edits, mixed-plane 2D distance refusal, loss-aware QPTMA
+  and visible-only automatic import selection. A changed-input staged recheck
+  passed three repaired probe cases and confirmed the actual streamed-plane bug
+  in4265ff15. The derived saved import explicitly acknowledges its existing
+  saved-calibration override loss. Probe the correction before packaging, then
+  generate stubs from the exact product and install once; do not reinstall the
+  first candidate or repeat unchanged migration-observer controls.
 - Checks/reuse: one actual import/view/select/analyze/save/reopen/export workflow;
   exact plane pixels/coordinates/calibration, absent/out-of-range refusal, stale
   plane/result rejection and legacy default-plane replay. Reuse existing native
@@ -31,21 +37,23 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   with unsupported cases explicit. Other R5 versions/settings, remaining R4,
   science/resource/release and R6-R16 requirements stay in the queue.
 
-Latest closeout (2026-11-04, plan update; PLANE1 is in progress):
-Outcome/evidence: consolidated the execution sequence in the
-[delivery plan](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
-and made start/implement/verify/waste-review/update handoffs explicit. That closeout changed no native
-code/product. The in-progress implementation above has not yet been built/tested.
-The latest native delivery remains [EDITSTATE1](benchmarks/object-edit-state-r5/README.md);
-its source/product and validation scope remain unchanged.
-Waste/cost: **remove** the duplicate next-actions table; **reuse** existing workflow
-evidence and the installed product within its original scope; **retain** affected
-correctness checks. No build, install or platform campaign is needed for this edit.
-No new cost measurement was made.
-Plan change/next action: continue R5-PLANE1 with the card above. After that outcome,
-choose the first demonstrated remaining R4/R5 gap, then follow the ordered slices.
-Update this card and the affected queue entry after each task or failed/stopped
-attempt, applying the waste decision before the next task or retry.
+Latest attempt review (2026-11-04, PLANE1 first staged candidate):
+Outcome/evidence: build4265ff15 succeeded; staged probe41 passes/nine failures/
+one desktop skip. Raw results are retained under root build/object-planes-r5;
+this is an incomplete workflow, not engineering acceptance. Migration observer
+controls passed60 cases before the build; their unchanged tool-only scope stands.
+Waste/cost: **retain** the first build/probe failures. **Merge** the source fixes
+identified during publication review into one correction before packaging.
+The791.53s build began before all object-producing consumers were reviewed;
+review those consumers before freezing future cross-cutting object APIs.
+**Remove** the false assertion that an explicitly selected raw request becomes
+stale merely because the display changed; retain object/source-change rejection.
+**Reuse** the cache and dedicated interpreter; no candidate installation or stub
+pass was spent on this incomplete product. Earlier truncated/guessed-path reads
+were unproductive; use discovered paths and bounded UTF-8 reads.
+Plan change/next action: apply the batched correction above; keep PLANE1 open
+through the final native/Python/desktop/save/reopen/export workflow. Preserve
+prior native EDITSTATE1 evidence at its original source/product scope.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

@@ -243,7 +243,7 @@ std::vector<std::uint64_t> TissueJob::keep_contours(Document& document,std::uint
     if(impl_->published) throw std::logic_error("tissue contours already published; use Undo/Redo for this batch");
     std::vector<ObjectEdit> edits;edits.reserve(impl_->contours->components().size());
     const auto parent=impl_->contours->options().clip_to_roi?id:0;
-    for(const auto& component:impl_->contours->components()) edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+std::to_string(component.label),parent,classification));
+    for(const auto& component:impl_->contours->components()) edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+std::to_string(component.label),parent,classification,ObjectKind::Annotation,std::nullopt,document.objects().at(id).plane));
     auto ids=document.execute(edits,"Add tissue annotations");impl_->published=true;return ids;
 }
 std::uint64_t TissueJob::keep_result(Document& document,std::uint64_t id) {

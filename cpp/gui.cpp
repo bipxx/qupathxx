@@ -1465,7 +1465,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             if(ui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {
-                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses,qupath_ellipse_precision); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
+                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses,qupath_ellipse_precision); auto visible=report.imported_ids;visible.erase(std::remove_if(visible.begin(),visible.end(),[&](auto id){return !document.object_visible(id);}),visible.end());selection->replace(visible);selected=selection->primary();status(report,"Imported");if(visible.size()!=report.imported_ids.size())interchange_status+="\nSwitch Z/time or display channels to view objects on other planes."; }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             ui::Checkbox("Include mean RGB",&csv_intensity);

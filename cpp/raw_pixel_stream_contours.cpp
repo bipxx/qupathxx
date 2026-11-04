@@ -98,7 +98,8 @@ struct RawPixelStreamContourKernel {
         if(bytes>work) throw std::length_error("raw streamed contour retained publication budget exceeded");
         std::vector<ObjectEdit> edits;edits.reserve(components.size());
         const auto parent=result.contours_->options().clip_to_roi?result.snapshot_->prototype->source.provenance->object_id:0;
-        for(const auto& c:components) edits.push_back(ObjectEdit::create_geometry(c.geometry,prefix+" "+classes.at(c.label-1),parent,classes.at(c.label-1)));
+        const auto selection=result.snapshot_->prototype->model.recipe().selection();const auto source_object=result.snapshot_->prototype->source.provenance->object_id;const auto plane=source_object?doc.objects().at(source_object).plane:ObjectPlane{-1,selection.z,selection.t};
+        for(const auto& c:components) edits.push_back(ObjectEdit::create_geometry(c.geometry,prefix+" "+classes.at(c.label-1),parent,classes.at(c.label-1),ObjectKind::Annotation,std::nullopt,plane));
         return doc.execute(edits,"Add raw streamed classifier annotations");
     }
 };

@@ -54,6 +54,8 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     std::vector<std::uint64_t> all;all.reserve(sources.size()+targets.size());all.insert(all.end(),sources.begin(),sources.end());all.insert(all.end(),targets.begin(),targets.end());
     std::sort(all.begin(),all.end());all.erase(std::unique(all.begin(),all.end()),all.end());
     for(auto id:all) if(!doc.objects().count(id)) throw std::out_of_range("spatial object does not exist");
+    const auto plane=doc.objects().at(all.front()).plane;
+    for(auto id:all) {const auto& selected=doc.objects().at(id).plane;if(selected.z!=plane.z || selected.t!=plane.t)throw std::invalid_argument("2D spatial distances require one Z/time plane");}
     d->bytes+=all.size()*(sizeof(SpatialObjectSnapshot)+128)+(sources.size()+targets.size())*sizeof(std::size_t);admit(selection_bytes);
     d->provenance=capture_source_provenance(*doc.server(),d->revision,doc.pixel_width_um(),doc.pixel_height_um());
     d->bytes+=d->provenance->payload_bytes();admit(selection_bytes);d->objects.reserve(all.size());
