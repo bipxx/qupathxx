@@ -12,11 +12,10 @@ Current: **R5-QPDATA1, native saved-data decoding**, implementation in progress.
 - Entry/dependency: inspect pinned PathIO and object/ROI serializers, actual binary
   fixtures and their assisted GeoJSON expectations before choosing decoder types.
   No biological or release decision blocks this synthetic engineering task.
-- Current evidence: actual pinned capture now includes all native ROI kinds,
-  nested IDs, cell nuclei, Unicode, loss-bearing settings and a non-default plane.
-  Both selected direct-import checks fail on the prior installed importer as
-  expected. The decoder and existing preview integration are ready for the first
-  cached build; no completion claim is made before installed checks.
+- Current evidence: cc85a848 built and installed once. Initial model has251
+  passes/five skips; both corrected test assumptions now pass on the same product.
+  Native3, desktop2 and installed stubs pass; six affected observer controls pass.
+  Finish source/package identity and scoped documentation before closing this task.
 - Reuse: QPPROJ1 image adapters, private candidate, source guards, native object
   model/ID mappings, loss-aware geometry import and non-overwriting snapshots.
 - Checks: establish binary record/version/geometry/class/plane expectations;

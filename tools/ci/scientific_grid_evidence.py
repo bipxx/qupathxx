@@ -70,6 +70,7 @@ BASE['cell_expansion']=['506 public real-slide body masks exact with boundary fr
 BASE['viewer_session'].append('Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed')
 CONDITIONAL=[
  ('qupath_project','project','QuPath project native preview, source guards, new publication and replay refusal passed'),
+ ('qupath_project','project','Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed'),
  ('qupath_project','no_project','QuPath project capability disabled and refused'),
  ('project_batch','project','Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed'),
  ('project_batch','no_project','Nominal cell batch option admission passed; project storage unavailable'),

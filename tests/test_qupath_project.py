@@ -177,7 +177,18 @@ def test_native_saved_data_matches_independent_assisted_exchange(tmp_path):
     for actual,expected in zip(direct.images,assisted.images,strict=True):
         doc=reopened.document(actual.native_id);reference=assisted_project.document(expected.native_id)
         assert (doc.pixel_width_um,doc.pixel_height_um)==(reference.pixel_width_um,reference.pixel_height_um)
-        assert q.export_geojson(doc,nested_hierarchy=True).text==q.export_geojson(reference,nested_hierarchy=True).text
+        # Direct decoding retains analytic rectangles. Assisted GeoJSON retains
+        # their polygon outlines, whose vertex starts/hints differ in serialization.
+        assert len(doc.annotations)==len(reference.annotations)
+        for obj,expected in zip(doc.annotations,reference.annotations,strict=True):
+            assert (obj.id,obj.parent_id,obj.name,obj.class_name,obj.kind)==(expected.id,expected.parent_id,expected.name,expected.class_name,expected.kind)
+            assert obj.geometry.area==expected.geometry.area
+            vertices=lambda roi:sorted((point.x,point.y) for point in roi.paths[0])
+            assert vertices(obj.geometry)==vertices(expected.geometry)
+            for y in range(48):
+                for x in range(64):
+                    point=q.Point(x+.5,y+.5)
+                    assert obj.geometry.contains(point)==expected.geometry.contains(point)
         assert doc.object_count==2
 
 

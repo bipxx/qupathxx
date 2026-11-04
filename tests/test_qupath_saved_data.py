@@ -38,7 +38,7 @@ def test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen(tmp_path):
     assert (doc.pixel_width_um,doc.pixel_height_um)==(.25,.5)
     ids=dict(zip(preview.images[0].source_object_ids,preview.images[0].imported_object_ids,strict=True))
     assert set(ids)=={row['id'] for row in reference}
-    kinds={'annotation':q.ObjectKind.Annotation,'detection':q.ObjectKind.Detection,'cell':q.ObjectKind.Cell}
+    kinds={'annotation':q.ObjectKind.ANNOTATION,'detection':q.ObjectKind.DETECTION,'cell':q.ObjectKind.CELL}
     for row in reference:
         obj=doc.annotation(ids[row['id']]);assert obj.name==row['name']
         assert obj.parent_id==(ids[row['parent']] if row['parent'] else 0)
