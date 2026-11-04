@@ -181,3 +181,26 @@ def test_desktop_object_color_overrides_class_and_invalidates_cached_overlay(tmp
         canvas=image.crop((int(bounds.x),int(bounds.y),int(bounds.x+bounds.width),int(bounds.y+bounds.height)))
         assert sum(pixel==(18,52,86) for pixel in canvas.getdata())>100
     assert doc.annotation(obj).color_rgb==0x123456 and report.overlay_cache_hits>0
+
+
+@pytest.mark.skipif(not q.has_project,reason='project')
+def test_optimized_reclassification_snapshots_publish_the_correct_property_owner(tmp_path):
+    doc,obj=scene();doc.classify_annotation(obj,'Before');doc.set_object_edit_state(obj,True,0x123456,.875)
+    project=q.Project();image=project.add_document(doc);path=tmp_path/'before.qpxproj';job=q.ProjectSaveJob();assert job.request(project,str(path))
+    doc.apply_classifications([(obj,'After')]);assert job.wait().applied
+    captured=q.Project.open(str(path)).document(image).annotation(obj)
+    assert captured.class_name=='Before' and captured.locked and captured.color_rgb==0x123456 and captured.class_probability==.875
+    after=tmp_path/'after.qpxproj';project.save(str(after));current=q.Project.open(str(after)).document(image).annotation(obj)
+    assert current.class_name=='After' and current.locked and current.color_rgb is None and current.class_probability is None
+    assert doc.undo();project.save(str(after));restored=q.Project.open(str(after)).document(image).annotation(obj)
+    assert restored.class_name=='Before' and restored.color_rgb==0x123456 and restored.class_probability==.875
+
+
+def test_plain_classification_keeps_the_existing_compact_history_budget():
+    doc=q.Document(q.Image.demo());doc.set_history_limits(0,0)
+    ids=doc.execute([q.ObjectEdit.create(q.Rect(1,1,2,2)) for i in range(1000)])
+    doc.set_history_limits(128,64*1024)
+    # Existing class-only transactions fit this declared payload budget.
+    # Objects without editing state must not pay a property-owner cost per row.
+    doc.apply_classifications([(id,'Tumor') for id in ids])
+    assert doc.history_bytes<=64*1024 and doc.undo() and all(a.class_name=='' for a in doc.annotations)

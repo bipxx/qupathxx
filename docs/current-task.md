@@ -24,6 +24,20 @@ Current: **R5-EDITSTATE1 — retain imported object editing state**.
   and core.hpp forward-declares the owner. Source-level review caught and fixed
   a disabled-scope imbalance before compiling. Reuse the existing pinned fixtures;
   two old-product checks fail for the missing editing-state API, as expected.
+- Probe failure review: the first build completed in681.98s. A staged probe
+  launched with the root development interpreter was intercepted by its editable
+  package hook and loaded the wrong source/module. This proves no new-product
+  behavior. Use the dedicated prior test interpreter, assert the staged source,
+  and retry only this probe. Keep the failed log; no rebuild or install.
+- Attempt closeout: the corrected staged probe identifies eb3c8f0 native bytes
+  and confirms ordinary1000-object classification no longer fits its previously
+  passing64KiB history budget. Unconditional property pointers in every class row
+  caused this real regression. No candidate was installed. Preserve both probe
+  logs, including the earlier wrong-environment failure, and the old passing case.
+- Waste decision/next action: keep the compact class-only row and store a sparse
+  property-owner patch only where typed state actually changes. Rebuild that
+  private transaction/provenance and relink retained products; public API/UI inputs
+  stay frozen. Then one final stub generation/install and affected validation.
 - Reuse/checks: immutable property owners, atomic history and snapshot/storage
   authorities from PROP1. Check actual imported fields and remaining loss reports;
   native editing/undo behavior, save/reopen/export, typing/stubs and changed UI.

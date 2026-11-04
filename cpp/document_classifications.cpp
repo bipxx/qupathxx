@@ -35,7 +35,9 @@ void Document::apply_classifications(const std::vector<std::pair<std::uint64_t,s
     for(const auto& [id,name]:*assignments) {
         text(name);if(!first && previous==id) throw std::invalid_argument("duplicate classification object ID");first=false;previous=id;
         const auto& object=find(id);const auto properties=detail::reclassified_properties(object.properties,!name.empty());if(object.class_name==name && properties==object.properties) continue;
-        edit->rows.push_back({id,name,properties});if(properties!=object.properties)charge((properties?properties->payload_bytes():0)+(object.properties?object.properties->payload_bytes():0));charge(std::max(object.class_name.capacity(),edit->rows.back().alternate.capacity()));
+        edit->rows.push_back({id,name});
+        if(properties!=object.properties) {edit->property_rows.push_back({edit->rows.size()-1,properties});charge(sizeof(detail::ClassificationEdit::PropertyRow)+(properties?properties->payload_bytes():0)+(object.properties?object.properties->payload_bytes():0));}
+        charge(std::max(object.class_name.capacity(),edit->rows.back().alternate.capacity()));
         if(!object.class_name.empty()) --delta[object.class_name];
         if(!name.empty()) ++delta[name];
         if(!name.empty() && !classes_.count(name)) edit->classes.emplace(name,ObjectClass{name});
@@ -70,7 +72,7 @@ void Document::toggle_classifications(detail::ClassificationEdit& edit) {
 #ifdef QUPATHXX_HAS_PROJECT
     struct Replacement {std::shared_ptr<const ObjectBlock>* slot;std::shared_ptr<const ObjectBlock> next;};
     std::vector<Replacement> replacements;replacements.reserve((edit.rows.size()+255)/256+1);
-    auto object_bytes=object_bytes_;
+    auto object_bytes=object_bytes_;std::size_t property_cursor=0;
     for(std::size_t first=0;first<edit.rows.size();) {
         const auto key=(edit.rows[first].id-1)/256;auto last=first+1;
         while(last<edit.rows.size() && (edit.rows[last].id-1)/256==key) ++last;
@@ -80,7 +82,8 @@ void Document::toggle_classifications(detail::ClassificationEdit& edit) {
             const auto id=edit.rows[row].id;while(at<block->values.size() && block->values[at].id<id) ++at;
             if(at==block->values.size() || block->values[at].id!=id || block->values[at].class_name!=objects[row]->class_name) throw std::logic_error("classification snapshot block differs from live object");
             auto& object=block->values[at];block->bytes-=object_payload(object);
-            object.class_name=edit.rows[row].alternate;object.properties=edit.rows[row].properties;object.revision=next;
+            object.class_name=edit.rows[row].alternate;object.revision=next;
+            if(property_cursor<edit.property_rows.size() && edit.property_rows[property_cursor].row==row)object.properties=edit.property_rows[property_cursor++].alternate;
             if(object_payload(object)>std::numeric_limits<std::size_t>::max()-block->bytes) throw std::overflow_error("classification snapshot payload exhausted");
             block->bytes+=object_payload(object);++at;
         }
@@ -90,9 +93,10 @@ void Document::toggle_classifications(detail::ClassificationEdit& edit) {
         object_bytes+=block->bytes;replacements.push_back({&found->second,std::move(block)});first=last;
     }
 #endif
-    // Commit uses only string swaps, integral writes and map-node transfers.
+    // Commit uses only string/owner swaps, integral writes and map-node transfers.
     // Geometry, hierarchy, reader callbacks and allocations stay out of it.
-    for(std::size_t i=0;i<objects.size();++i) {objects[i]->class_name.swap(edit.rows[i].alternate);objects[i]->properties.swap(edit.rows[i].properties);objects[i]->revision=next;}
+    for(std::size_t i=0;i<objects.size();++i) {objects[i]->class_name.swap(edit.rows[i].alternate);objects[i]->revision=next;}
+    for(auto& row:edit.property_rows)objects[row.row]->properties.swap(row.alternate);
     swap_nodes(class_counts_,edit.counts,edit.count_keys);swap_nodes(classes_,edit.classes,edit.class_keys);
     for(std::size_t i=0;i<edit.count_keys.size();++i) edit.expected_counts[i]=class_count(edit.count_keys[i]);
     for(std::size_t i=0;i<edit.class_keys.size();++i) edit.expected_classes[i]=bool(classes_.count(edit.class_keys[i]));
