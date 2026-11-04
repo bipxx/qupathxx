@@ -294,7 +294,7 @@ for job in run['jobs']:
             entry['gui_pixel_contour_benchmark']=contour_gui
 
 
-        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',41),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',38),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
+        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',41),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',39),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith(suffix)]
             assert len(cases)==count and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases), (job['name'], suffix, count, len(cases), [(t.get('name'),[k for k in ['skipped','failure','error'] if t.find(k) is not None]) for t in cases if any(t.find(k) is not None for k in ['skipped','failure','error'])])
             entry[suffix+'_cases']=[t.get('name') for t in cases]
@@ -305,8 +305,8 @@ for job in run['jobs']:
                 assert len(names)==41 and required<=names, (job['name'],'stream header mutation identities missing or duplicated')
             if suffix=='test_pixel_stream_records':
                 names={t.get('name') for t in cases}
-                required={f'test_legacy_schemas_load_and_transactionally_upgrade_to_schema17[{v}]' for v in range(1,17)}
-                assert len(names)==38 and required<=names, (job['name'],'schema17 migration identities missing or duplicated')
+                required={f'test_legacy_schemas_load_and_transactionally_upgrade_to_schema18[{v}]' for v in range(1,18)}
+                assert len(names)==39 and required<=names, (job['name'],'schema18 migration identities missing or duplicated')
 
         if 'GUI' in job['name']:
             records=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_stream_records')]
@@ -320,7 +320,7 @@ for job in run['jobs']:
             records=json.loads(record_path.read_text(encoding='utf8'))
             iw=json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))
             assert records['native_sha256']==iw['native_sha256'] and records['environment']['source_tree_sha256']==iw['source_tree_sha256'] and records['environment']['git_revision']==COMMIT
-            assert records['records']==10000 and records['project_schema']==17 and records['max_encoded_descriptor_bytes']<=131072 and records['total_encoded_descriptor_bytes']<=64*1024*1024
+            assert records['records']==10000 and records['project_schema']==18 and records['max_encoded_descriptor_bytes']<=131072 and records['total_encoded_descriptor_bytes']<=64*1024*1024
             if record_name.startswith('gui-'):
                 assert records['gui']['document_unchanged'] and records['gui']['catalog_complete'] and records['gui']['catalog_max_step']<=1024 and records['gui']['ui_overflow']==0 and records['gui']['gpu_bytes']==65536
             entry[record_name]=records

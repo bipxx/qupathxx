@@ -11,6 +11,7 @@
 #include "qupathxx/geometry.hpp"
 #include "qupathxx/spatial_index.hpp"
 #include "qupathxx/analysis_types.hpp"
+#include "qupathxx/object_plane.hpp"
 
 namespace qpx {
 namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;class SpatialFrontend;struct TmaIndex;}
@@ -104,19 +105,21 @@ struct Annotation {
     std::optional<CellFeatureLink> cell_feature_link;
     std::shared_ptr<const TmaCoreInfo> tma_core;
     std::shared_ptr<const ObjectProperties> properties;
+    ObjectPlane plane;
     bool locked() const;
     std::optional<std::uint32_t> color_rgb() const;
     std::optional<double> class_probability() const;
     Rect bounds() const;
     bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
-enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata, Properties };
+enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata, Properties, Plane };
 struct ObjectEdit {
     ObjectEditKind kind;
     Annotation value;
     static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
+    static ObjectEdit plane(std::uint64_t id,ObjectPlane);
     static ObjectEdit properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
     static ObjectEdit tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo>);
     static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
@@ -155,6 +158,12 @@ public:
     const Image& image() const { return dense_image(*server_); }
     std::shared_ptr<ImageServer> server() const { return server_; }
     void set_tiff_view(const TiffView&);
+    ObjectPlane active_plane() const;
+    void validate_object_plane(const ObjectPlane&) const;
+    bool object_visible(std::uint64_t id) const;
+    void require_object_display_plane(std::uint64_t id) const;
+    void require_object_raw_plane(std::uint64_t id,std::uint32_t first_channel,std::uint32_t channels,std::uint32_t z,std::uint32_t t) const;
+    void set_object_plane(std::uint64_t id,ObjectPlane);
     const ImageMetadata& metadata() const { return server_->metadata(); }
     std::vector<Annotation> annotations() const;
     const std::map<std::uint64_t,Annotation>& objects() const { return objects_; }
@@ -184,6 +193,7 @@ public:
     void clear_tma_grid(bool delete_cores=false);
     std::uint64_t revision() const { return revision_; }
     std::uint64_t structure_revision() const { return structure_revision_; }
+    std::uint64_t object_visibility_revision() const {return structure_revision_>object_plane_revision_?structure_revision_:object_plane_revision_;}
     // Geometry/class/calibration commands change this; archival records do not.
     std::uint64_t render_revision() const { return render_revision_; }
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
@@ -525,6 +535,7 @@ private:
     std::uint64_t revision_ = 0;
     std::uint64_t structure_revision_ = 0;
     std::uint64_t render_revision_ = 0;
+    std::uint64_t object_plane_revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
     std::uint64_t calibration_revision_=0;

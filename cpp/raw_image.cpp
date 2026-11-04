@@ -60,6 +60,35 @@ RawPixelBuffer::RawPixelBuffer(std::int64_t w,std::int64_t h,std::uint32_t c,Sam
 std::size_t RawPixelBuffer::payload_bytes() const {return valid_.capacity()+std::visit([](const auto& v){return v.capacity()*sizeof(typename std::decay_t<decltype(v)>::value_type);},values_);}
 RawPixelBuffer ImageServer::read_raw(const RawRegionRequest&,const std::atomic<bool>*) const {throw std::runtime_error("image reader does not expose raw quantitative samples");}
 std::shared_ptr<ImageServer> ImageServer::with_tiff_view(const TiffView&,const std::atomic<bool>*) const {throw std::runtime_error("image reader does not expose TIFF display views");}
+ObjectPlane Document::active_plane() const {
+    const auto view=server_->tiff_view();return view?ObjectPlane{-1,view->z,view->t}:ObjectPlane{};
+}
+void Document::validate_object_plane(const ObjectPlane& plane) const {
+    plane.validate();if(plane==ObjectPlane{})return;
+    if(!server_->tiff_view())throw std::invalid_argument("object plane requires a quantitative TIFF source");
+    const auto raw=server_->raw_metadata();
+    if(!raw || plane.z>=raw->z_planes || plane.t>=raw->timepoints || (plane.c>=0 && std::uint32_t(plane.c)>=raw->channels))
+        throw std::invalid_argument("object plane is unavailable in the source series");
+}
+bool Document::object_visible(std::uint64_t id) const {
+    const auto& plane=find(id).plane;const auto view=server_->tiff_view();
+    if(!view)return plane==ObjectPlane{};
+    return plane.z==view->z && plane.t==view->t && (plane.c==-1 || std::find(view->channels.begin(),view->channels.end(),plane.c)!=view->channels.end());
+}
+void Document::require_object_raw_plane(std::uint64_t id,std::uint32_t first,std::uint32_t channels,std::uint32_t z,std::uint32_t t) const {
+    const auto& plane=find(id).plane;
+    if(plane.z!=z || plane.t!=t || (plane.c>=0 && (first!=std::uint32_t(plane.c) || channels!=1)))
+        throw std::invalid_argument("raw analysis selection does not match the object plane");
+}
+void Document::require_object_display_plane(std::uint64_t id) const {
+    if(!object_visible(id))throw std::invalid_argument("object is not on the displayed image plane");
+    const auto& plane=find(id).plane;if(plane.c==-1)return;
+    const auto view=server_->tiff_view();
+    // RGB/stain kernels consume the displayed composite. Channel-specific masks
+    // must not silently measure another channel mixed into that composite.
+    if(!view || std::any_of(view->channels.begin(),view->channels.end(),[&](auto c){return c>=0 && c!=plane.c;}))
+        throw std::invalid_argument("channel-specific object requires a matching single-channel display or raw analysis");
+}
 void Document::adopt_tiff_source(std::shared_ptr<ImageServer> next) {
     const auto previous_view=server_->tiff_view();const auto next_view=next?next->tiff_view():nullptr;
     if(!previous_view || !next_view || next->reader_id()!="tiff" || next->source_locator()!=server_->source_locator()) throw std::invalid_argument("TIFF view changes must retain the same source file");
@@ -71,7 +100,9 @@ void Document::adopt_tiff_source(std::shared_ptr<ImageServer> next) {
         if(x.identity_scheme!=y.identity_scheme || x.identity!=y.identity || x.bytes!=y.bytes || x.modified_token!=y.modified_token || x.change_token!=y.change_token || x.stamp_scheme!=y.stamp_scheme) throw std::runtime_error("TIFF source changed; relink/reopen the image explicitly");}
     if(tiff_view_encode(*previous_view)==tiff_view_encode(*next_view)) return;
     if(revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
+    const bool visibility_changed=previous_view->z!=next_view->z || previous_view->t!=next_view->t || previous_view->channels!=next_view->channels;
     server_=std::move(next);++revision_;render_revision_=revision_;
+    if(visibility_changed)object_plane_revision_=revision_;
 }
 void Document::set_tiff_view(const TiffView& view) {
     if(!server_->tiff_view()) throw std::invalid_argument("document does not use the TIFF quantitative reader");

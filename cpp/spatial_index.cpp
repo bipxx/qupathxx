@@ -120,6 +120,7 @@ std::vector<std::uint64_t> Document::query_region(Rect bounds) const {
     auto result=spatial_->query(bounds);
     result.erase(std::remove_if(result.begin(),result.end(),[&](auto id){return spatial_dirty_.count(id)!=0;}),result.end());
     for(const auto& [id,current]:spatial_dirty_) if(current && bounds_intersect(*current,bounds)) result.push_back(id);
+    result.erase(std::remove_if(result.begin(),result.end(),[&](auto id){return !object_visible(id);}),result.end());
     std::sort(result.begin(),result.end()); result.erase(std::unique(result.begin(),result.end()),result.end()); return result;
 }
 std::vector<std::uint64_t> Document::pick(Point point,double tolerance) const {

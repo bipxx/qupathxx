@@ -102,7 +102,7 @@ def test_version1_property_payload_and_schema16_upgrade_rollback(tmp_path):
     project=q.Project();image=project.add_document(doc);path=tmp_path/'legacy.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
         payload=db.execute('SELECT payload FROM object_properties').fetchone()[0];assert payload[:4]==b'QOP\x01'
-        db.execute('PRAGMA user_version=16');db.execute("CREATE TRIGGER fail_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'editing upgrade failed'); END")
+        db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=16');db.execute("CREATE TRIGGER fail_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'editing upgrade failed'); END")
     restored=q.Project.open(str(path));value=restored.document(image);value.set_object_edit_state(obj,True,0x123456,.875)
     with pytest.raises(RuntimeError,match='editing upgrade failed'):restored.save(str(path))
     with sqlite3.connect(path) as db:
@@ -110,7 +110,7 @@ def test_version1_property_payload_and_schema16_upgrade_rollback(tmp_path):
         db.execute('DROP TRIGGER fail_upgrade')
     restored.save(str(path));result=q.Project.open(str(path)).document(image).annotation(obj)
     assert result.locked and result.class_probability==.875 and result.properties.metadata=={'note':'old'}
-    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==17 and db.execute('SELECT payload FROM object_properties').fetchone()[0][:4]==b'QOP\x02'
+    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==18 and db.execute('SELECT payload FROM object_properties').fetchone()[0][:4]==b'QOP\x02'
 
 
 @pytest.mark.skipif(not q.has_project,reason='project')

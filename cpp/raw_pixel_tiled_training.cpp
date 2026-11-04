@@ -104,6 +104,7 @@ RawPixelTiledTrainingRequest::RawPixelTiledTrainingRequest(const Document& doc,c
     source_(doc.server()),identity_(doc.analysis_identity_.token),revision_(doc.revision()) {
     options.validate();tiles.validate();if(ids.empty() || ids.size()>4096) throw std::invalid_argument("raw tiled training requires 1..4096 labelled area IDs");
     auto selected=ids;std::sort(selected.begin(),selected.end());if(std::adjacent_find(selected.begin(),selected.end())!=selected.end()) throw std::invalid_argument("duplicate raw tiled training annotation ID");
+    for(auto id:selected)doc.require_object_raw_plane(id,selection.first_channel,selection.channels,selection.z,selection.t);
     const auto limit=std::min<std::size_t>(64u*1024*1024,options.work_bytes);
     auto source=raw_pixel_capture_lattice_source(doc,lattice,limit);
     auto metadata=source.metadata;metadata.pixel_width_um=source.calibration.x;metadata.pixel_height_um=source.calibration.y;

@@ -579,6 +579,9 @@ void create_raw_analysis(Database& db) {
 void create_spatial(Database& db) {
     db.exec("CREATE TABLE spatial_distance_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=14;");
 }
+void create_object_planes(Database& db) {
+    db.exec("CREATE TABLE object_planes(image_id TEXT NOT NULL,object_id TEXT NOT NULL,c INTEGER NOT NULL CHECK(c>=-1 AND c<65536),z INTEGER NOT NULL CHECK(z>=0 AND z<65536),t INTEGER NOT NULL CHECK(t>=0 AND t<65536),PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=18;");
+}
 void create_object_properties(Database& db) {
     db.exec("CREATE TABLE object_properties(image_id TEXT NOT NULL,object_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=16;");
 }
@@ -710,9 +713,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<15) create_source_verifications(db);
         if(version<16) create_object_properties(db);
         if(version<17)db.exec("PRAGMA user_version=17");
+        if(version<18)create_object_planes(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);db.exec("PRAGMA user_version=17");}
-    db.exec("DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);}
+    db.exec("DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -724,6 +728,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement tma_grid(db,"INSERT INTO tma_grids VALUES(?,?)");
     Statement tiff_view(db,"INSERT INTO tiff_views VALUES(?,?)");
     Statement tma_core(db,"INSERT INTO tma_cores VALUES(?,?,?,?,?,?)");
+    Statement plane_row(db,"INSERT INTO object_planes VALUES(?,?,?,?,?)");
     Statement properties_row(db,"INSERT INTO object_properties VALUES(?,?,?)");
     Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
@@ -770,6 +775,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto geometry=encode(a.geometry); object.blob(8,geometry);
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
+            if(a.plane!=ObjectPlane{}) {plane_row.string(1,key);plane_row.string(2,std::to_string(a.id));plane_row.integer(3,a.plane.c);plane_row.integer(4,a.plane.z);plane_row.integer(5,a.plane.t);plane_row.done();}
             if(a.properties) {properties_row.string(1,key);properties_row.string(2,std::to_string(a.id));properties_row.blob(3,detail::encode_object_properties(*a.properties));properties_row.done();}
             if(a.tma_core) {const auto& t=*a.tma_core;tma_core.string(1,key);tma_core.string(2,std::to_string(a.id));tma_core.integer(3,static_cast<std::int64_t>(t.row()));tma_core.integer(4,static_cast<std::int64_t>(t.column()));tma_core.integer(5,t.missing()?1:0);tma_core.string(6,t.case_id());tma_core.done();}
             if(a.cell_feature_link) {cell_link.string(1,key);cell_link.string(2,std::to_string(a.id));cell_link.string(3,std::to_string(a.cell_feature_link->record_id));cell_link.integer(4,a.cell_feature_link->label);cell_link.done();}
@@ -952,6 +958,15 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             while(rows.row()) {stopped();const auto n=sqlite3_column_bytes(rows.stmt,1);const auto id=number(rows.string(0));
                 if(!id || rows.type(1)!=SQLITE_BLOB || n<0 || n>2*1024*1024 || !property_values.emplace(id,detail::decode_object_properties(sqlite3_column_blob(rows.stmt,1),std::size_t(n),version>=17)).second)throw std::invalid_argument("invalid project object properties");}
         }
+        std::map<std::uint64_t,ObjectPlane> object_planes;
+        if(version>=18) {
+            Statement rows(db,"SELECT object_id,c,z,t FROM object_planes WHERE image_id=?");rows.string(1,key);
+            while(rows.row()) {
+                stopped();const auto id=number(rows.string(0));const auto c=rows.integer(1),z=rows.integer(2),t=rows.integer(3);
+                if(!id || c < -1 || c>=65536 || z<0 || z>=65536 || t<0 || t>=65536 || !object_planes.emplace(id,ObjectPlane{std::int32_t(c),std::uint32_t(z),std::uint32_t(t)}).second)
+                    throw std::invalid_argument("invalid project object plane");
+            }
+        }
         std::vector<Annotation> annotations;
         objects.string(1,key);
         while(objects.row()) {
@@ -963,11 +978,13 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
                 const auto label=objects.integer(9);if(label<1 || label>1000000) throw std::invalid_argument("invalid cell feature label");
                 annotations.back().cell_feature_link=CellFeatureLink{number(objects.string(8)),static_cast<std::uint32_t>(label)};
             }
+            if(const auto it=object_planes.find(annotations.back().id);it!=object_planes.end()) {annotations.back().plane=it->second;object_planes.erase(it);}
             if(const auto tma=core_metadata.find(annotations.back().id);tma!=core_metadata.end()) {annotations.back().tma_core=tma->second;core_metadata.erase(tma);}
             if(const auto it=property_values.find(annotations.back().id);it!=property_values.end()) {annotations.back().properties=it->second;property_values.erase(it);}
             if(progress) progress->objects.fetch_add(1,std::memory_order_relaxed);
         }
         objects.check(sqlite3_reset(objects.stmt)); objects.check(sqlite3_clear_bindings(objects.stmt));
+        if(!object_planes.empty())throw std::invalid_argument("orphaned object planes");
         if(!property_values.empty())throw std::invalid_argument("orphaned object properties");
         if(!core_metadata.empty()) throw std::invalid_argument("orphaned TMA core metadata");
         stopped(); if(progress) progress->phase.store(3);
@@ -1114,6 +1131,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=18 && scalar(db,"SELECT count(*) FROM object_planes p LEFT JOIN objects o ON o.image_id=p.image_id AND o.id=p.object_id WHERE o.id IS NULL"))throw std::invalid_argument("orphaned object plane data");
     if(version>=16 && scalar(db,"SELECT count(*) FROM object_properties p WHERE NOT EXISTS (SELECT 1 FROM objects o WHERE o.image_id=p.image_id AND o.id=p.object_id)"))throw std::invalid_argument("orphaned object properties");
     if(version>=11 && (scalar(db,"SELECT count(*) FROM tma_grids WHERE image_id NOT IN (SELECT id FROM images)") || scalar(db,"SELECT count(*) FROM tma_cores WHERE image_id NOT IN (SELECT id FROM images)"))) throw std::invalid_argument("orphaned TMA grid data");
     if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");

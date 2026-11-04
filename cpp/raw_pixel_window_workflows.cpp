@@ -27,7 +27,7 @@ RawPixelWindowPredictionRequest::RawPixelWindowPredictionRequest(const Document&
     if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw window minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
     if(!budget) budget=model.recipe().features().work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw window prediction budget must be 1..1024 MiB");
     auto source=raw_pixel_capture_window_source(doc,window,object,budget);auto data=std::make_shared<Data>(std::move(window),model,std::move(source));data->minimum=minimum;data->budget=budget;
-    if(object) {const auto& a=doc.annotation(object);if(!a.geometry.is_area()) throw std::invalid_argument("raw window prediction requires an area ROI");data->mask=a.geometry;}
+    if(object) {const auto selection=model.recipe().selection();doc.require_object_raw_plane(object,selection.first_channel,selection.channels,selection.z,selection.t);const auto& a=doc.annotation(object);if(!a.geometry.is_area()) throw std::invalid_argument("raw window prediction requires an area ROI");data->mask=a.geometry;}
     const auto count=std::uint64_t(data->window.core_width())*std::uint64_t(data->window.core_height());
     data->fixed=sizeof(Data)+raw_pixel_source_snapshot_bytes(data->source)+2*model.bytes().size()+2*(data->mask?data->mask->payload_bytes():0)+9*count+262144;
     if(data->fixed>=budget || budget-data->fixed<1024*1024) throw std::length_error("raw window capture/output leaves insufficient feature workspace");

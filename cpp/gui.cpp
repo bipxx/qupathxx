@@ -1531,10 +1531,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(workspace.enabled()) {ImGui::End();workspace.begin("Project and objects",workspace.browser);}
         ImGui::Spacing(); ui::SeparatorText("Objects");
-        if (list_revision!=document.structure_revision()) {
+        if (list_revision!=document.object_visibility_revision()) {
             list_ids.clear(); list_ids.reserve(document.object_count());
-            for (const auto& [id,a]:document.objects()) list_ids.push_back(id);
-            list_revision=document.structure_revision();
+            for (const auto& [id,a]:document.objects()) if(document.object_visible(id))list_ids.push_back(id);
+            list_revision=document.object_visibility_revision();
         }
         ImGui::BeginChild("Object list",{0,90},ImGuiChildFlags_Borders);
         list_offset=ImGui::GetCursorScreenPos(); list_size=ImGui::GetContentRegionAvail();
@@ -1642,6 +1642,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             const auto object=document.annotation(selected);
             auto mark_state=[&](GuiInputTarget target,std::size_t index) {const auto at=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();object_state_bounds[index]={at.x,at.y,size.x,size.y};mark_target(target);};
+            ImGui::Text("ROI plane: channel %d / Z %u / time %u",object.plane.c,object.plane.z,object.plane.t);
             bool locked=object.locked();
             if(ui::Checkbox("Lock ROI geometry",&locked)) {try {document.set_object_edit_state(selected,locked,object.color_rgb(),object.class_probability());editor_revision=document.revision();error.clear();}catch(const std::exception& e){error=e.what();}}
             mark_state(GuiInputTarget::ToggleObjectLock,0);

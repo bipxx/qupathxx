@@ -14,9 +14,14 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   Reuse eligible multi-plane TIFF/OME fixtures and independent pixel expectations.
   Check actual source axis bounds; the existing saved-plane refusal fixture must
   not become a positive merely by deleting its guard.
-- Next action: settle native plane/series identity and default behavior, hierarchy
-  rules, view/selection eligibility, source generation/stale publication and
-  backwards storage/API contract. Pull only required R2/R3 work forward.
+- State: native plane model, import/export, sparse schema18 storage, view/selection
+  filtering and shared RGB/raw analysis guards are implemented but unverified.
+  Independent multi-plane, invalid-axis, hierarchy, raw-mask, snapshot/restart and
+  desktop workflow cases are prepared. The original invalid saved-plane fixture
+  remains a refusal; a clearly derived valid source/metadata case is separate.
+- Next action: finish source review, run the tool-only migration guards, then one
+  combined cached build and staged probe before final packaging/install. Generate
+  stubs from that exact product once. Fix actual failures before retrying.
 - Checks/reuse: one actual import/view/select/analyze/save/reopen/export workflow;
   exact plane pixels/coordinates/calibration, absent/out-of-range refusal, stale
   plane/result rejection and legacy default-plane replay. Reuse existing native
@@ -26,11 +31,11 @@ Current: **R5-PLANE1 — source/view-aware object planes**.
   with unsupported cases explicit. Other R5 versions/settings, remaining R4,
   science/resource/release and R6-R16 requirements stay in the queue.
 
-Latest closeout (2026-11-04, remaining-work plan update):
+Latest closeout (2026-11-04, plan update; PLANE1 is in progress):
 Outcome/evidence: consolidated the execution sequence in the
 [delivery plan](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
-and made start/implement/verify/waste-review/update handoffs explicit. No native
-code or product changed. Review of changed links and diff is the applicable check.
+and made start/implement/verify/waste-review/update handoffs explicit. That closeout changed no native
+code/product. The in-progress implementation above has not yet been built/tested.
 The latest native delivery remains [EDITSTATE1](benchmarks/object-edit-state-r5/README.md);
 its source/product and validation scope remain unchanged.
 Waste/cost: **remove** the duplicate next-actions table; **reuse** existing workflow

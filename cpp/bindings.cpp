@@ -97,9 +97,14 @@ NB_MODULE(_native, m) {
     nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
         .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
     nb::class_<ObjectClass>(m,"ObjectClass").def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color);
+    nb::class_<ObjectPlane>(m,"ObjectPlane")
+        .def(nb::init<std::int32_t,std::uint32_t,std::uint32_t>(),"c"_a=-1,"z"_a=0,"t"_a=0)
+        .def_ro("c",&ObjectPlane::c).def_ro("z",&ObjectPlane::z).def_ro("t",&ObjectPlane::t)
+        .def("__eq__",&ObjectPlane::operator==);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
         .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
         .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
+        .def_ro("plane",&Annotation::plane)
         .def_ro("kind",&Annotation::kind).def_prop_ro("is_detection",&Annotation::is_detection)
         .def_prop_ro("nucleus",[](const Annotation& a){return a.nucleus;}).def_prop_ro("bounds",&Annotation::bounds)
         .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
@@ -108,6 +113,7 @@ NB_MODULE(_native, m) {
         .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
         .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
         .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
+        .def_static("plane",&ObjectEdit::plane,"id"_a,"plane"_a)
         .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
@@ -211,6 +217,9 @@ NB_MODULE(_native, m) {
         .def("remove_class",&Document::remove_class).def("rename_class",&Document::rename_class)
         .def("classify_objects",&Document::classify_objects,"ids"_a,"class_name"_a)
         .def("children",&Document::children)
+        .def("set_object_plane",&Document::set_object_plane,"id"_a,"plane"_a)
+        .def_prop_ro("active_plane",&Document::active_plane)
+        .def("object_visible",&Document::object_visible,"id"_a)
         .def("query_region",&Document::query_region)
         .def("pick",&Document::pick,"point"_a,"tolerance"_a=0)
         .def_prop_ro("spatial_stats",&Document::spatial_stats)

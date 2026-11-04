@@ -65,9 +65,10 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
     auto objects=selected(doc,ids); std::ostringstream out; out.imbue(std::locale::classic()); out<<std::setprecision(17);
     std::set<std::string> metadata_names,measurement_names;
     for(auto id:objects)if(const auto& p=doc.objects().at(id).properties;p) {for(const auto& [k,v]:p->metadata())metadata_names.insert(k);for(const auto& [k,v]:p->measurements())measurement_names.insert(k);if(metadata_names.size()+measurement_names.size()>4096)throw std::length_error("CSV property columns exceed 4096");}
+    bool planes=false;for(auto id:objects)planes|=doc.objects().at(id).plane!=ObjectPlane{};
     bool editing_state=false;for(auto id:objects) {const auto& a=doc.objects().at(id);editing_state|=a.locked() || a.color_rgb().has_value() || a.class_probability().has_value();}
     out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb";
-    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}if(editing_state)out<<",roi_locked,object_color_rgb,class_probability";out<<"\r\n";
+    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}if(editing_state)out<<",roi_locked,object_color_rgb,class_probability";if(planes)out<<",plane_c,plane_z,plane_t";out<<"\r\n";
     const bool calibrated=doc.pixel_width_um().has_value() && doc.pixel_height_um().has_value();
     for(auto id:objects) {
         const auto& a=doc.objects().at(id); auto b=a.geometry.bounds();
@@ -81,6 +82,7 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
         for(const auto& k:metadata_names) {out<<',';if(a.properties) {auto it=a.properties->metadata().find(k);if(it!=a.properties->metadata().end())csv_text(out,it->second);}}
         for(const auto& k:measurement_names) {out<<',';if(a.properties) {auto it=a.properties->measurements().find(k);if(it!=a.properties->measurements().end()) {const auto v=it->second;if(std::isnan(v))out<<"NaN";else if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}}
         if(editing_state) {out<<','<<(a.locked()?"true":"false")<<',';if(a.color_rgb())out<<*a.color_rgb();out<<',';if(a.class_probability()) {const auto v=*a.class_probability();if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}
+        if(planes)out<<','<<a.plane.c<<','<<a.plane.z<<','<<a.plane.t;
         out<<"\r\n"; bounded(out);
     }
     return out.str();
@@ -186,17 +188,26 @@ struct Reader {
         auto shell=points(value[0],true); std::vector<Ring> holes;
         for(std::size_t i=1;i<value.size();++i) holes.push_back(points(value[i],true)); return {std::move(shell),std::move(holes)};
     }
+    ObjectPlane image_plane(const Json& geometry) {
+        ObjectPlane result;
+        if(!geometry.contains("plane"))return result;
+        const auto& value=geometry["plane"];if(!value.is_object())throw std::invalid_argument("invalid image plane");
+        for(const auto& item:value.items()) {
+            if((item.key()!="c" && item.key()!="z" && item.key()!="t") || !item.value().is_number_integer())throw std::invalid_argument("invalid image plane component");
+            // Compare in JSON before narrowing, including unsigned foreign input.
+            if(item.value()<(item.key()=="c"?-1:0) || item.value()>65535)throw std::out_of_range("image plane index exceeds limits");
+            if(item.key()=="c")result.c=item.value().get<std::int32_t>();
+            else if(item.key()=="z")result.z=item.value().get<std::uint32_t>();
+            else result.t=item.value().get<std::uint32_t>();
+        }
+        return result;
+    }
     Roi geometry(const Json& value) {
         vertex_count=0;
         if(!value.is_object() || !value.contains("type") || !value.contains("coordinates")) throw std::invalid_argument("geometry is missing type/coordinates");
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="coordinates" && member.key()!="plane" && member.key()!="qupathxx" && member.key()!="isEllipse" && member.key()!="bbox")
             notices.add("geometry_members_dropped","Unsupported foreign geometry members will be dropped",true);
-        if(value.contains("plane")) {
-            const auto& plane=value["plane"];
-            if(!plane.is_object()) throw std::invalid_argument("invalid image plane");
-            for(const auto& item:plane.items()) if((item.key()!="c" && item.key()!="z" && item.key()!="t") || !item.value().is_number_integer() || item.value()!=(item.key()=="c"?-1:0))
-                throw std::invalid_argument("non-default Z/T/channel planes are not supported");
-        }
+        image_plane(value);
         auto type=text(value["type"]); const auto& c=value["coordinates"];
         if(type=="Point") return Roi::points({point(c)});
         if(type=="MultiPoint") return Roi::points(points(c));
@@ -246,7 +257,7 @@ struct Reader {
     }
     void feature(const Json& value,std::uint64_t parent=0,int depth=0) {
         if(depth>256 || objects.size()>=1000000 || !value.is_object() || value.value("type","")!="Feature") throw std::invalid_argument("invalid feature or hierarchy limit");
-        auto roi=geometry(value.at("geometry"));
+        auto roi=geometry(value.at("geometry"));const auto plane=image_plane(value.at("geometry"));
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="id" && member.key()!="geometry" && member.key()!="properties" && member.key()!="nucleusGeometry" && member.key()!="bbox")
             notices.add("feature_members_dropped","Unsupported foreign feature members will be dropped",true);
         Json empty=Json::object(); const auto& properties=value.contains("properties") && !value["properties"].is_null()?value["properties"]:empty;
@@ -254,6 +265,7 @@ struct Reader {
         auto type=properties.contains("objectType")?text(properties["objectType"]):"annotation";
         auto kind=type=="annotation"?ObjectKind::Annotation:(type=="detection"?ObjectKind::Detection:(type=="cell"?ObjectKind::Cell:throw std::invalid_argument("unsupported objectType: "+type)));
         std::optional<Roi> nucleus; if(value.contains("nucleusGeometry") && !value["nucleusGeometry"].is_null()) nucleus=geometry(value["nucleusGeometry"]);
+        if(nucleus && image_plane(value["nucleusGeometry"])!=plane)throw std::invalid_argument("cell and nucleus must share an image plane");
         std::string name=properties.contains("name")?text(properties["name"]):"Annotation",classification;
         if(properties.contains("classification") && !properties["classification"].is_null()) {
             const auto& c=properties["classification"];
@@ -269,7 +281,7 @@ struct Reader {
         std::string source=value.contains("id")?identifier(value["id"]):"";
         auto local=static_cast<std::uint64_t>(objects.size()+1);
         if(!source.empty() && !identifiers.emplace(source,local).second) throw std::invalid_argument("duplicate feature ID");
-        objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); source_ids.push_back(source);
+        objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); objects.back().plane=plane; source_ids.push_back(source);
         std::map<std::string,std::string> metadata;std::map<std::string,double> measurements;
         if(properties.contains("metadata")) {
             const auto& values=properties["metadata"];if(!values.is_object())throw std::invalid_argument("object metadata must be a string map");
@@ -357,6 +369,10 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
             notices.add("class_probability_extension","Class probability is retained in the native extension; foreign readers may omit it");}
         Json feature={{"type","Feature"},{"id",std::to_string(id)},{"geometry",geometry(a.geometry,notices)},{"properties",std::move(properties)}};
         if(a.nucleus) feature["nucleusGeometry"]=geometry(*a.nucleus,notices);
+        if(a.plane!=ObjectPlane{}) {
+            const Json plane={{"c",a.plane.c},{"z",a.plane.z},{"t",a.plane.t}};feature["geometry"]["plane"]=plane;
+            if(a.nucleus)feature["nucleusGeometry"]["plane"]=plane;
+        }
         return feature;
     };
     if(!nested) {

@@ -68,7 +68,7 @@ def test_saved_settings_losses_require_review_and_explicit_admission(tmp_path):
 
 def test_nondefault_saved_plane_is_explicitly_refused(tmp_path):
     path=corpus(tmp_path,'plane')
-    with pytest.raises(ValueError,match='non-default Z/T/channel'):q.preview_qupath_project(str(path))
+    with pytest.raises(ValueError,match='plane is unavailable'):q.preview_qupath_project(str(path))
     assert not list(tmp_path.glob('*.qpxproj'))
 
 

@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    ObjectPlane,
     ProjectSourceReview,
     QuPathProjectImage, QuPathProjectPreview, preview_qupath_project,
     GuiSpatialOptions, GuiSpatialReport, SpatialDistanceUnits, SpatialDistanceOptions, SpatialObjectSnapshot, SpatialDistanceRequest, SpatialDistanceRow, SpatialDistanceResult, SpatialDistanceRecord, SpatialDistanceStats, SpatialDistanceJob, measure_spatial_distances, spatial_distance_csv, save_spatial_distance_csv,
@@ -141,7 +142,7 @@ __all__ = [
     "optical_density", "FloatRgbImage", "StainTransform",
     "RoiMeasurements", "ShapeMeasurements", "FeatureCacheStats",
     "Annotation",
-    "ObjectProperties", "ObjectEdit", "ObjectKind", "ObjectClass", "ObjectSelection", "Document", "Image", "ImageLevel", "ImageMetadata", "ImageServer",
+    "ObjectPlane", "ObjectProperties", "ObjectEdit", "ObjectKind", "ObjectClass", "ObjectSelection", "Document", "Image", "ImageLevel", "ImageMetadata", "ImageServer",
     "InterchangeReport", "InterchangeIssue", "has_interchange", "export_geojson", "import_geojson", "save_geojson", "load_geojson", "measurements_csv", "save_measurements_csv",
     "Project", "ProjectImage", "ProjectView", "ProjectAutosave", "AutosaveStats", "RecoveryInfo", "has_project", "sqlite_version",
     "RecoveryRetention", "RecoveryRetentionStats",

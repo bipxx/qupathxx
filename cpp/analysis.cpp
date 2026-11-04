@@ -39,6 +39,7 @@ AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const
     if(kind!=AnalysisKind::OpticalDensityMeans && kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid analysis kind");
     if(tile_size<16 || tile_size>1024) throw std::invalid_argument("analysis tile size must be 16..1024");
     if(!source_ || source_->closed()) throw std::invalid_argument("analysis requires an open source");
+    document.require_object_display_plane(id);
     const auto a=document.annotation(id); object_revision_=a.revision;
     if(nucleus && !a.nucleus) throw std::invalid_argument("object has no nucleus");
     roi_=nucleus?*a.nucleus:a.geometry;

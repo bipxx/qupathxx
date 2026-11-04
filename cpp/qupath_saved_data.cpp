@@ -269,7 +269,8 @@ class Decoder {
     Json geometry(Id id) const {
         if(!id)invalid("missing ROI");
         const auto c=int_field(id,"c"),z=int_field(id,"z"),t=int_field(id,"t");
-        if(c!=-1 || z!=0 || t!=0)invalid("non-default Z/T/channel planes are not supported");
+        if(c < -1 || c>=65536 || z<0 || z>=65536 || t<0 || t>=65536)invalid("image plane index exceeds limits");
+        auto result=[&]() -> Json {
         const auto name=stream.name(id);
         if(name=="qupath.lib.roi.RectangleROI$SerializationProxy" || name=="qupath.lib.roi.EllipseROI$SerializationProxy") {
             const auto x=double_field(id,"x"),y=double_field(id,"y"),x2=double_field(id,"x2"),y2=double_field(id,"y2");const Rect b{x,y,x2-x,y2-y};
@@ -282,6 +283,9 @@ class Decoder {
             const auto wkb=field(id,"wkb");if(stream.name(wkb)!="[B")invalid("invalid WKB byte array");return Wkb(at(wkb).bytes).decode();
         }
         invalid("unsupported ROI representation: "+name);
+        }();
+        if(c!=-1 || z!=0 || t!=0)result["plane"]={{"c",c},{"z",z},{"t",t}};
+        return result;
     }
     class Wkb {
         const std::string& bytes;std::size_t pos=0,points=0;unsigned depth=0;

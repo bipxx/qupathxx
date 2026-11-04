@@ -47,7 +47,7 @@ PixelTrainingRequest::PixelTrainingRequest(const Document& doc,const std::vector
     const auto snapshot_limit=std::min<std::size_t>(64u*1024*1024,options.work_bytes);
     auto charge=[&](std::size_t n){if(data->bytes>snapshot_limit || n>snapshot_limit-data->bytes) throw std::length_error("pixel annotation snapshot exceeds memory budget");data->bytes+=n;};
     std::set<std::string> classes;
-    for(auto id:selected) {const auto a=doc.annotation(id);detail::bounded_utf8(a.class_name,256);if(!a.geometry.is_area() || a.class_name.empty()) throw std::invalid_argument("pixel training requires labelled area geometry");
+    for(auto id:selected) {doc.require_object_display_plane(id);const auto a=doc.annotation(id);detail::bounded_utf8(a.class_name,256);if(!a.geometry.is_area() || a.class_name.empty()) throw std::invalid_argument("pixel training requires labelled area geometry");
         const auto b=a.geometry.bounds();if(b.x<0 || b.y<0 || static_cast<long double>(b.x)+b.width>metadata.width || static_cast<long double>(b.y)+b.height>metadata.height) throw std::invalid_argument("pixel training ROI must lie inside the image");
         charge(a.geometry.payload_bytes()+a.class_name.size()+sizeof(std::string));classes.insert(a.class_name);if(classes.size()>256) throw std::invalid_argument("pixel training exceeds 256 classes");
     }

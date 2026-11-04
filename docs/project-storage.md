@@ -1,7 +1,7 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 17 stores canonical object state,
+source descriptors. SQLite schema version 18 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
@@ -76,7 +76,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 17. Schemas 1–16 migrate
+The application ID is `0x51505858` and new `user_version` is 18. Schemas 1–17 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -305,3 +305,42 @@ fields. Opening schema16 permits only QOP1. Saving advances the version in the s
 transaction as object rows; a failure rolls back both. No new image read or separate
 frontend store is introduced. See the [field contract](object-properties.md#object-editing-state-editstate1-locally-verified)
 and [native/Python/UI evidence](benchmarks/object-edit-state-r5/README.md).
+
+
+## Object planes (schema18; validation pending)
+
+The sparse `object_planes(image_id, object_id, c, z, t)` table stores non-default
+object planes. Absent rows retain the legacy channel -1/Z0/time0 interpretation;
+schemas 1–17 remain readable and migrate transactionally on save. Constraints,
+loader checks and object foreign keys reject malformed/orphaned rows. Object
+planes travel with immutable save blocks and undo/redo snapshots.
+
+A document identifies one source series. Series changes still require another
+document. `ObjectPlane(c=-1,z=0,t=0)` uses zero-based indices; channel -1 applies
+to all channels, but Z/time are concrete indices. New interactive/native create
+commands use the active displayed Z/time. Geometry/name/class replacement keeps
+the object's plane; `set_object_plane` and `ObjectEdit.plane` explicitly change
+it. Parent Z/time must match the child and a channel-specific parent can contain
+only that channel. Boolean/merge operands require identical planes.
+
+GeoJSON and pinned saved-data decoding retain plane components, including matching
+cell/nucleus planes. Live import/plane commands check actual source axis bounds;
+non-default planes require the quantitative TIFF reader. Project reopen remains
+lazy when a linked file is missing: it checks stored syntax/hierarchy without
+opening every source; actual reader/view/request validation checks source bounds
+when accessed. Out-of-range imports remain errors even with loss permission.
+
+Spatial queries/picking and interactive selection expose only objects matching
+the active Z/time and an enabled display channel. Document object enumeration
+still includes all planes for archival/scripted access. Display intensity/stain
+analysis refuses an object on another plane, or a channel-specific mask over a
+mixed-channel composite. Raw analysis/training/prediction requires matching
+Z/time and, for channel-specific masks, exactly the specified single channel.
+Source/view replacement uses existing request identity checks to reject stale
+publication. Explicit raw requests may sample an object's matching plane even
+when a different plane is displayed. Shape-only/historical facts remain usable
+without changing the display.
+
+GeoJSON emits non-default planes for body and nucleus; measurement CSV adds
+`plane_c,plane_z,plane_t` only when the selection contains a non-default plane.
+No serialization of arbitrary Java plugins or execution of Groovy is introduced.

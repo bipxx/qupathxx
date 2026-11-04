@@ -95,6 +95,7 @@ RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest regi
     }
     if(object) {
         const auto annotation=doc.annotation(object);object_revision_=annotation.revision;
+        doc.require_object_raw_plane(object,region_.first_channel,region_.channels,region_.z,region_.t);
         context_.name=annotation.name;context_.class_name=annotation.class_name;context_.parent_id=annotation.parent_id;context_.kind=annotation.kind;
         auto ancestor=annotation;std::size_t depth=0;
         for(;;) {

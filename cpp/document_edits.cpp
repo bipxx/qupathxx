@@ -14,7 +14,7 @@ namespace {
 bool same_object(const std::optional<Annotation>& a,const std::optional<Annotation>& b) {
     if (a.has_value()!=b.has_value()) return false;
     if (!a) return true;
-    return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
+    return a->plane==b->plane && a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
         a->geometry.equals(b->geometry) && a->kind==b->kind &&
         (a->properties==b->properties || (a->properties && b->properties && a->properties->equals(*b->properties))) &&
         a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link && bool(a->tma_core)==bool(b->tma_core) && (!a->tma_core || a->tma_core->same_metadata(*b->tma_core));
@@ -30,6 +30,12 @@ ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::u
     return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+ObjectEdit ObjectEdit::plane(std::uint64_t id,ObjectPlane plane) {
+    ObjectEdit out{ObjectEditKind::Plane,{id,"",{},0,"",0}};out.value.plane=plane;return out;
+}
+void Document::set_object_plane(std::uint64_t id,ObjectPlane plane) {
+    execute({ObjectEdit::plane(id,plane)},"Set object plane");
+}
 ObjectEdit ObjectEdit::properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
     ObjectEdit out{ObjectEditKind::Properties,{id,"",{},0,"",0}};out.value.properties=std::move(properties);return out;
 }
@@ -134,7 +140,7 @@ struct Document::Staging {
             } else ++it;
         }
     }
-    void validate_object(const Annotation& a) const {
+    void validate_object(const Annotation& a,bool check_source_plane=true) const {
         text(a.name); text(a.class_name);
         if(!a.class_name.empty() && !has_class(a.class_name)) throw std::invalid_argument("object class is not registered");
         if(a.kind!=ObjectKind::Annotation && a.kind!=ObjectKind::Detection && a.kind!=ObjectKind::Cell)
@@ -149,6 +155,8 @@ struct Document::Staging {
             const auto run=document.cells_.find(a.cell_feature_link->record_id);
             if(run!=document.cells_.end() && a.cell_feature_link->label>run->second.value->result->features().size()) throw std::invalid_argument("invalid cell feature label");
         }
+        if(check_source_plane)document.validate_object_plane(a.plane);
+        else {a.plane.validate();if(a.plane!=ObjectPlane{} && !document.server_->tiff_view())throw std::invalid_argument("persisted object plane requires a quantitative TIFF source");}
         const auto roi=a.bounds();
         const auto limit=static_cast<double>(std::numeric_limits<std::int64_t>::max());
         if (!a.id || roi.x<0 || roi.y<0 || roi.x+roi.width>=limit || roi.y+roi.height>=limit ||
@@ -158,6 +166,7 @@ struct Document::Staging {
         if (a.parent_id) {
             auto parent=get(a.parent_id);
             if (!parent) throw std::invalid_argument("parent annotation does not exist");
+            if (!parent->plane.covers(a.plane)) throw std::invalid_argument("parent plane must contain its child plane");
             if (!parent->geometry.covers(a.geometry)) throw std::invalid_argument("parent ROI must contain its child");
         }
     }
@@ -183,7 +192,7 @@ struct Document::Staging {
             const auto& previous=before.at(id);
             // Geometry edits validate unchanged immediate children; names/classes
             // do not require an O(number of children) containment traversal.
-            if (!previous || !previous->geometry.equals(value->geometry)) for (auto child:children(id)) {
+            if (!previous || previous->plane!=value->plane || !previous->geometry.equals(value->geometry)) for (auto child:children(id)) {
                 auto child_value=get(child);
                 if (child_value) validate_object(*child_value);
             }
@@ -243,7 +252,7 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     std::map<std::uint64_t,std::size_t> depths;
     for(const auto& [id,a]:result->objects_) {
         // Share object/class/ROI/parent containment rules with live edits.
-        validator.validate_object(a);
+        validator.validate_object(a,false);
         if(!a.class_name.empty()) ++result->class_counts_[a.class_name];
         if(!a.parent_id) continue;
         result->children_[a.parent_id].insert(id);
@@ -313,8 +322,9 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
     bool spatial_reset=false;
-    bool membership_changed=false,tma_changed=false;
+    bool membership_changed=false,tma_changed=false,plane_changed=false;
     for(const auto& [id,value]:staged.after) {
+        plane_changed |= value && staged.before.at(id) && value->plane!=staged.before.at(id)->plane;
         membership_changed |= staged.before.at(id).has_value()!=value.has_value();
         tma_changed |= bool(value && value->tma_core) || bool(staged.before.at(id) && staged.before.at(id)->tma_core);
     }
@@ -391,6 +401,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;render_revision_=revision_;
     if(tma_changed) tma_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
+    if(plane_changed)object_plane_revision_=revision_;
 }
 void Document::trim_history() {
     while (undo_.size()+redo_.size()>history_steps_ || history_bytes_>history_budget_) {
@@ -434,15 +445,17 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     for (const auto& edit:edits) {
         if (edit.kind==ObjectEditKind::Create) {
             if (next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
-            auto value=edit.value; value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
+            auto value=edit.value; value.plane=active_plane(); value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
         } else if (edit.kind==ObjectEditKind::Replace) {
             const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
-            auto value=edit.value;
+            auto value=edit.value;value.plane=previous->plane;
             if(!value.tma_core) value.tma_core=previous->tma_core;
             if(!value.properties) value.properties=previous->properties;
             if(value.class_name!=previous->class_name)value.properties=detail::reclassified_properties(value.properties,!value.class_name.empty());
             if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
             staged.write(value.id,std::move(value));
+        } else if(edit.kind==ObjectEditKind::Plane) {
+            auto value=staged.get(edit.value.id);if(!value)throw std::out_of_range("annotation does not exist");value->plane=edit.value.plane;staged.write(value->id,std::move(value));
         } else if(edit.kind==ObjectEditKind::Properties) {
             auto value=staged.get(edit.value.id);if(!value)throw std::out_of_range("annotation does not exist");value->properties=edit.value.properties;staged.write(value->id,std::move(value));
         } else if(edit.kind==ObjectEditKind::TmaMetadata) {
@@ -542,6 +555,7 @@ void Document::apply_boolean(std::uint64_t target,const std::vector<std::uint64_
     // Resolve every input before computation. Ordered operands define the fold;
     // repeats and the target itself are rejected instead of silently subtracted.
     for(auto id:operands) {
+        if(find(id).plane!=find(target).plane) throw std::invalid_argument("Boolean operands must share an image plane");
         if(!find(id).geometry.is_area()) throw std::invalid_argument("Boolean operations require area ROIs");
         if(id==target || !unique.insert(id).second) throw std::invalid_argument("Boolean operands must be distinct from each other and target");
     }
@@ -558,6 +572,7 @@ std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,
     bool areas=false,points=false;
     for(auto id:ids) {
         const auto& a=find(id);
+        if(a.plane!=find(ids.front()).plane)throw std::invalid_argument("merged objects must share an image plane");
         if(!selected.insert(id).second) throw std::invalid_argument("annotation merge IDs must be distinct");
         if(a.properties && (!a.properties->metadata().empty() || !a.properties->measurements().empty() || a.locked() || a.color_rgb() || a.class_probability()))
             throw std::invalid_argument("merge cannot combine historical object properties; clear them explicitly before merging");
@@ -592,7 +607,8 @@ std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,
         staged.write(id,std::nullopt);
     }
     const auto result=next_id_;
-    staged.write(result,Annotation{result,"Annotation",std::move(*geometry),0,classes.size()==1?*classes.begin():"",0});
+    Annotation merged{result,"Annotation",std::move(*geometry),0,classes.size()==1?*classes.begin():"",0};merged.plane=find(ids.front()).plane;
+    staged.write(result,std::move(merged));
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Merge annotations");
     ++next_id_;return result;
 }
