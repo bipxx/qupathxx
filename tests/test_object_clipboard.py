@@ -27,7 +27,7 @@ def scene():
 def test_clipboard_snapshot_graph_properties_ids_and_compound_history(tmp_path):
     source,parent,child,other=scene()
     copied=q.copy_objects(source,[child,parent,child])
-    assert copied.features==2 and copied.issues==[]
+    assert copied.features==2 and [(i.code,i.count) for i in copied.issues]==[('class_probability_extension',1)]
     assert copied.text==q.copy_objects(source,[parent,child]).text
     source.set_object_properties(child,None)
     source.remove_annotation(parent)
@@ -60,7 +60,7 @@ def test_selection_scope_is_explicit_and_descendants_are_optional():
     only=q.copy_objects(doc,[parent]);assert only.features==1
     subtree=q.copy_objects(doc,[parent,child],include_descendants=True);assert subtree.features==2
     detached=q.copy_objects(doc,[child]);assert detached.features==1
-    assert [(i.code,i.count) for i in detached.issues]==[('parent_not_exported',1)]
+    assert [(i.code,i.count) for i in detached.issues]==[('class_probability_extension',1),('parent_not_exported',1)]
     target=document();result=q.paste_objects(target,detached.text)
     assert target.annotation(result.imported_ids[0]).parent_id==0
     with pytest.raises(ValueError,match='allow_losses'):q.export_geojson(doc,[child])
@@ -138,7 +138,7 @@ def test_preserved_or_explicit_plane_is_native_and_atomic(tmp_path):
     text=q.copy_objects(doc,[obj]).text
     result=q.paste_objects(doc,text);assert plane_tuple(doc.annotation(result.imported_ids[0]).plane)==(1,1,1)
     display(doc,2,0)
-    result=q.paste_objects(doc,text,plane=doc.active_plane())
+    result=q.paste_objects(doc,text,plane=doc.active_plane)
     assert plane_tuple(doc.annotation(result.imported_ids[0]).plane)==(-1,2,0)
     before=doc.revision;count=doc.object_count
     with pytest.raises(ValueError):q.paste_objects(doc,text,plane=q.ObjectPlane(-1,3,0))
@@ -155,15 +155,18 @@ def test_desktop_system_clipboard_paste_selection_history_and_saved_restart(tmp_
     options=q.GuiOptions();options.docked_workspace=True;options.width=1600;options.height=1400
     options.autosave_interval_seconds=0;options.settle_tiles=True
     events=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(7,q.GuiInputKind.COPY_OBJECTS_KEY),
-            event(10,q.GuiInputKind.PASTE_OBJECTS_KEY),event(14,q.GuiInputKind.UNDO_KEY),event(18,q.GuiInputKind.REDO_KEY),
-            event(24,q.GuiInputKind.SAVE_KEY)]
+            event(10,q.GuiInputKind.PASTE_OBJECTS_KEY)]
     options.inputs=events
-    report=q.show(project,frame_limit=45,capture_path=str(tmp_path/'clipboard.ppm'),options=options)
+    report=q.show(project,frame_limit=14,capture_path=str(tmp_path/'clipboard.ppm'),options=options)
     assert report.replay_complete and report.clipboard_error==''
     assert report.clipboard_copies==1 and report.clipboard_pastes==1
     assert report.clipboard_copied_objects==report.clipboard_pasted_objects==2
     assert len(report.selected_ids)==2 and set(report.selected_ids).isdisjoint({parent,child})
-    assert not project.dirty
+    revision=doc.revision
+    options.inputs=[event(4,q.GuiInputKind.UNDO_KEY),event(8,q.GuiInputKind.REDO_KEY),event(14,q.GuiInputKind.SAVE_KEY)]
+    history=q.show(project,frame_limit=28,capture_path=str(tmp_path/'clipboard-history.ppm'),options=options)
+    assert history.replay_complete and history.selected_ids==[]
+    assert doc.revision==revision+2 and doc.undo_label=='Paste objects' and not project.dirty
     restored=q.Project.open(str(path)).document(image);assert restored.object_count==4
     a,b=report.selected_ids
     assert restored.annotation(b).parent_id==a and restored.annotation(b).locked
@@ -174,7 +177,7 @@ def test_desktop_clipboard_survives_window_close_and_pastes_to_displayed_plane(t
     from test_gui_replay import event
     from test_raw_analysis import scene as raw_scene
     from test_object_planes import imported,display,plane_tuple
-    doc,_,_=raw_scene(tmp_path);obj=imported(doc,c=1,z=1,t=1);display(doc,1,1)
+    doc,_,_=raw_scene(tmp_path);obj=imported(doc,c=1,z=1,t=1);display(doc,1,1,[1,-1,-1]);assert doc.object_visible(obj)
     options=q.GuiOptions();options.settle_tiles=True
     options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(8,q.GuiInputKind.COPY_OBJECTS_KEY)]
     first=q.show(doc,frame_limit=18,options=options)

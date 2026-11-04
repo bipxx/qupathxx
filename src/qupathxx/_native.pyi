@@ -1727,6 +1727,12 @@ class GuiInputKind(enum.Enum):
 
     REVIEW_SOURCE_VERIFICATION_KEY = 72
 
+    COPY_OBJECTS_KEY = 73
+
+    PASTE_OBJECTS_KEY = 74
+
+    PASTE_CURRENT_PLANE_KEY = 75
+
 class GuiInputTarget(enum.Enum):
     CANVAS = 0
 
@@ -2001,6 +2007,12 @@ class GuiInputTarget(enum.Enum):
     APPLY_OBJECT_EDIT_STATE = 135
 
     CLEAR_OBJECT_PROPERTIES = 136
+
+    COPY_OBJECTS = 137
+
+    PASTE_OBJECTS = 138
+
+    PASTE_CURRENT_PLANE = 139
 
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
@@ -3508,6 +3520,21 @@ class GuiReport:
 
     @property
     def measurement_table_write_ms(self) -> float: ...
+
+    @property
+    def clipboard_copies(self) -> int: ...
+
+    @property
+    def clipboard_pastes(self) -> int: ...
+
+    @property
+    def clipboard_copied_objects(self) -> int: ...
+
+    @property
+    def clipboard_pasted_objects(self) -> int: ...
+
+    @property
+    def clipboard_error(self) -> str: ...
 
     @property
     def file_fingerprint_association(self) -> SourceFileAssociation: ...
@@ -5884,6 +5911,10 @@ class ObjectProperties:
     def class_probability(self) -> float | None: ...
 
     def with_edit_state(self, locked: bool = ..., color_rgb: int | None = ..., class_probability: float | None = ...) -> ObjectProperties: ...
+
+def copy_objects(document: Document, ids: Sequence[int], include_descendants: bool = ..., allow_losses: bool = ..., max_bytes: int = ...) -> InterchangeReport: ...
+
+def paste_objects(document: Document, text: str, plane: ObjectPlane | None = ..., allow_losses: bool = ..., max_bytes: int = ...) -> InterchangeReport: ...
 
 class FileFingerprintOptions:
     def __init__(self) -> None: ...

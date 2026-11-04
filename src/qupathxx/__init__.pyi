@@ -368,6 +368,8 @@ from ._native import (
     InterchangeReport as InterchangeReport,
     InterchangeIssue as InterchangeIssue,
     has_interchange as has_interchange,
+    copy_objects as copy_objects,
+    paste_objects as paste_objects,
     export_geojson as export_geojson,
     import_geojson as import_geojson,
     save_geojson as save_geojson,
