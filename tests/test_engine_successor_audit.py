@@ -166,16 +166,16 @@ def test_legacy_stream_gate_requires_header_mutation_controls(tmp_path,change):
 
 
 @pytest.mark.parametrize('change',['old_count','missing_version13','old_family','duplicate_identity',
-                                   'failed_version13','skipped_version13','error_version13','missing_version14','failed_version14'])
+                                   'failed_version13','skipped_version13','error_version13','missing_version14','failed_version14','missing_version15','failed_version15'])
 def test_legacy_record_gate_refuses_incomplete_migrations(tmp_path,change):
     root,cases=legacy_record_fixture(tmp_path)
-    final=next(c for c in cases if c.get('name').endswith('[14]' if change.endswith('version14') else '[13]'))
+    final=next(c for c in cases if c.get('name').endswith('[15]' if change.endswith('version15') else '[14]' if change.endswith('version14') else '[13]'))
     if change=='old_count':root.remove(cases[-1])
-    elif change in ('missing_version13','missing_version14'):final.set('name','replacement_case')
+    elif change in ('missing_version13','missing_version14','missing_version15'):final.set('name','replacement_case')
     elif change=='old_family':
         for case in cases:case.set('name',case.get('name').replace('to_schema16','to_schema15'))
     elif change=='duplicate_identity':cases[-1].set('name',cases[-2].get('name'))
-    else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error','failed_version14':'failure'}[change])
+    else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error','failed_version14':'failure','failed_version15':'failure'}[change])
     with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)
 
 

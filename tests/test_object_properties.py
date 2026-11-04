@@ -90,7 +90,7 @@ def workspace(tmp_path):
 @pytest.mark.skipif(not q.has_project,reason='project')
 def test_project_snapshot_isolation_and_exact_reopen(tmp_path):
     p,image,doc,obj,path=workspace(tmp_path);job=q.ProjectSaveJob();assert job.request(p,str(path))
-    doc.set_object_properties(obj,q.ObjectProperties({'note':'new'},{'Area':8.5}));assert job.wait(p).state=='ready'
+    doc.set_object_properties(obj,q.ObjectProperties({'note':'new'},{'Area':8.5}));assert job.wait().state=='saved'
     props=q.Project.open(str(path)).document(image).annotation(obj).properties
     assert props.metadata=={'note':'original'} and props.measurements['Area']==3.5 and math.isnan(props.measurements['missing'])
     assert struct.pack('<d',props.measurements['zero'])==struct.pack('<d',-0.0) and p.dirty
@@ -134,10 +134,27 @@ def test_desktop_inspects_imported_properties_and_saves(tmp_path):
     from test_gui_replay import event
     p,image,doc,obj,path=workspace(tmp_path)
     doc.set_object_properties(obj,q.ObjectProperties({'note':'desktop metadata'},{'Synthetic':3.5}))
-    options=q.GuiOptions();options.settle_tiles=True
+    options=q.GuiOptions();options.settle_tiles=True;options.docked_workspace=True;options.autosave_interval_seconds=0
     options.inputs=[event(5,q.GuiInputKind.SELECT_ALL_KEY),event(20,q.GuiInputKind.SAVE_KEY)]
     capture=tmp_path/'object-properties.ppm'
     report=q.show(p,frame_limit=45,capture_path=str(capture),options=options)
     assert report.replay_complete and report.selected_ids==[obj] and capture.exists() and not p.dirty
     restored=q.Project.open(str(path)).document(image).annotation(obj).properties
     assert restored.metadata=={'note':'desktop metadata'} and restored.measurements=={'Synthetic':3.5}
+
+
+@pytest.mark.skipif(not q.has_project,reason='project')
+def test_properties_respect_history_and_snapshot_payload_budgets(tmp_path):
+    doc,obj=document();props=q.ObjectProperties({str(i):'x'*4000 for i in range(24)},{})
+    doc.set_history_limits(10,4096);revision=doc.revision
+    with pytest.raises((ValueError,RuntimeError,IndexError),match='history payload budget'):doc.set_object_properties(obj,props)
+    assert doc.revision==revision and doc.annotation(obj).properties is None
+    doc.set_history_limits(0,0);doc.set_object_properties(obj,props)
+    project=q.Project();image=project.add_document(doc)
+    # Even allowing dense pixels, properties exceed the remaining capture budget.
+    baseline=q.ProjectSaveJob();path=tmp_path/'budget.qpxproj';assert baseline.request(project,str(path));assert baseline.wait().applied
+    count=baseline.stats.snapshot_bytes
+    doc.set_object_properties(obj,None);small=q.ProjectSaveJob();assert small.request(project,str(path));assert small.wait().applied
+    assert small.stats.snapshot_bytes+50000<count
+    doc.set_object_properties(obj,props);limited=q.ProjectSaveJob(small.stats.snapshot_bytes+1000)
+    with pytest.raises((ValueError,RuntimeError,IndexError),match='snapshot exceeds memory budget'):limited.request(project,str(path))

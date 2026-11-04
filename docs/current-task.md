@@ -26,13 +26,17 @@ Current: **R5-PROP1 — imported object metadata and measurements**.
 - Small failed edit-script review: source-closure helper expected a literal module
   path but the tools discover compiler files automatically. Keep that discovery;
   add only the new tests/typing dependencies. No build/check rerun is justified.
-- Next action: freeze the settled compiler inputs for one cached build/install,
-  generate stubs from that exact product, then run affected native/model/typing
-  and desktop inspection/save checks. Baseline checks on SOURCE1 fail as expected
-  because ObjectProperties/import retention are absent. The contract covers
-  including supported values, numeric/nonfinite policy, immutable ownership,
-  limits, duplicate keys and atomic import behavior. Then implement the shared
-  authority and affected Python/ImGui/file routes together.
+- Attempt closeout:3095e6f8 compiled successfully in953.27s; all five selected
+  native suites pass. A pre-install import probe fails with `bad cast` because
+  new dictionary defaults lack nanobind/stl/map.h. No product was installed.
+  The build completed before a reviewed stop could target its old process;
+  no process was stopped or source changed while it was live. Preserve the
+  candidate wheel/probe and native results with their original source identity.
+- Waste decision/next action: add the missing map caster and incrementally rebuild
+  the binding/product using completed core objects. Reuse passing native results
+  because core/header/test inputs are unchanged; verify final installed identity,
+  model workflow, stubs/typing and desktop. Check STL caster includes beside new
+  container arguments before expensive builds. No new reference/platform run.
 - Checks: independent exact fixture properties; lossless supported roundtrip,
   undo/redo, project migration/rollback and retained snapshot ownership. Preserve
   unsupported locks/planes/custom payload refusal or explicit loss reports.

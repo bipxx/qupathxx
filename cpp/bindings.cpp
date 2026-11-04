@@ -12,6 +12,7 @@
 #include "qupathxx/stains.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/map.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/optional.h>

@@ -1,13 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 15 stores canonical object state,
+source descriptors. SQLite schema version 16 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
-[spatial distance tables](spatial-analysis.md) and optional
-[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–14
+[spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–15
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -76,7 +76,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 15. Schemas 1–14 migrate
+The application ID is `0x51505858` and new `user_version` is 16. Schemas 1–15 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -283,3 +283,14 @@ Full power-loss/network-filesystem durability and broader storage-pressure bound
 remain unproved; they need a declared support/workload contract. The next concrete
 R5 implementation gap is imported object properties, which the current GeoJSON
 and saved-data routes explicitly report as dropped.
+
+## Imported object properties (schema16)
+
+[ObjectProperties](object-properties.md) retains historical string metadata and
+named binary64 measurements in immutable owners shared by objects/history/save
+snapshots. `object_properties(image_id,object_id,payload)` references the canonical
+object identity. Its bounded checksummed QOP1 codec preserves signed zero and
+special values; orphan/malformed/noncanonical data rejects before publication.
+Schemas1–15 migrate within the existing save transaction. No input-source reads
+or second Python object model are introduced. Current implementation/validation
+status remains in [current task](current-task.md).
