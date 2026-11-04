@@ -173,7 +173,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | --- | --- | --- |
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
-| R4 | MERGE1 is locally verified. Next CLIP1 annotation copy/paste through shared snapshot/append/command paths, then demonstrated remaining overlapping/nested edit and hierarchy/class transactions | Inspect pinned upstream clipboard semantics first. Complete paste/select/history/save with fresh IDs, correct hierarchy and explicit unsupported cases; reuse existing facts/geometry rather than a second UI model |
+| R4 | MERGE1 is locally verified. Next CLIP1 annotation copy/paste through shared snapshot/append/command paths, then demonstrated remaining overlapping/nested edit and hierarchy/class transactions | Reuse the pinned clipboard investigation in current-task.md; settle the additive contract before editing. Complete paste/select/history/save with fresh IDs, correct hierarchy and explicit unsupported cases; reuse existing facts/geometry rather than a second UI model |
 | R5 | Reuse the completed R5 workflows below, including PLANE1 and SOURCEAXES1. Continue only uncovered source races, geometry losses and unsupported saved-data versions/builders/settings | Reuse SQLite snapshots, source guards, native plane validation and verified-reader handoff. Preserve prior state on refusal. Assess additional formats from actual pinned fixtures; assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
@@ -202,97 +202,52 @@ scope decision. Close M0-M7 against project-plan criteria, not task counts.
 
 ### Completion gates and task handoff
 
-The ordered slices above are the execution sequence; do not maintain a second
-ordered task table. For every selected slice, update current-task.md in place:
-
-| Point | Required decision / action | Exit |
-| --- | --- | --- |
-| Start | Name one missing user outcome, its existing native authority, actual prerequisites and affected Python/UI/CLI/storage paths. Link applicable evidence rather than recapturing it | A bounded outcome, minimum checks and stop condition are recorded before implementation |
-| Implement | Finish the shared behavior and affected consumers together. Settle API, casters and persistence before a combined cached build/install | The declared workflow is usable; additional gaps return to their existing R family |
-| Verify | Run only checks covering changed inputs or a named unresolved risk. Reuse a healthy product for frontend checks; keep numerical expectations at the shared authority | Affected checks pass, or a specific failure/blocker and its evidence are recorded |
-| Review waste | Inspect actual duplicate work, build/install retries, waits, unnecessary outputs and scope expansion. Choose remove, merge, reuse, defer or retain with a reason | Small causes are corrected; larger necessary fixes have one home in the existing queue |
-| Update and continue | Record outcome/state, reusable source/product scope, next action, dependency and remaining checks. Apply the waste decision to the next task before starting it | Advance to the first ready slice; a failed/stopped attempt uses the same handoff before retry |
-
-If a build fails, diagnose the retained failure before starting another build;
-name what changed and reuse independent passing checks. If work expands beyond
-the declared outcome, finish that outcome and schedule the new gap under its
-existing family. Repeated environment or integration failures call for fixing
-the cause, not another identical attempt. No fixed task duration, artificial
-saving target or extra benchmark is needed.
-
-An issue belongs to one family: sampling/halo in R6, orchestration in R11,
-resource measurements in R12 and release support in R13. Consumers link the same
-fix instead of opening duplicate implementation tasks. Reconciliation is part
-of selecting a missing outcome, not a separate audit campaign.
-
-Project completion requires closing the applicable workflow inventory and M0-M7
-exit criteria, with remaining R14-R16 parity either delivered or explicitly
-deferred by the owner. Engineering verification, scientific acceptance and
-supported release are separate states. A local pass or a faster component does
-not establish biological acceptance, release readiness or overall speed.
+Use the ordered slices above as the only backlog. Before implementation, the
+current-task card names one missing user outcome, existing native authority,
+actual prerequisites, affected consumers, minimum checks and stop condition.
+Check the reuse index first; a delivered mechanism needs no new implementation.
+Settle interfaces, casters, persistence and consumers before one combined cached
+build. A card can be ready, in progress, awaiting verification, complete within
+its evidence scope, or blocked by a named dependency; do not use task counts as
+completion percentages.
 
 ## Task closeout and waste review
 
-After every task, including one stopped by a failure or dependency, root performs
-a short self-review before choosing the next task. This is part of task closeout,
-not another build, campaign, independent-model review or report artifact.
+After **every bounded task and every failed or stopped attempt**, update
+current-task.md before starting the next task or retry. Root owns this short
+self-review; it needs no additional reviewer, build, benchmark or report.
 
-1. Record the outcome and existing evidence link. Distinguish completed code,
-   scoped validation, a failed attempt and a real decision/dependency blocker.
-2. Review actual work for duplicate builds/checks/decoding, waits/retries,
-   repeated fixtures/reports, reimplemented shared code, scope growth and unused
-   outputs. Use existing logs for counts/time if useful; record unknown cost as
-   unknown rather than inventing a saving or running a measurement campaign.
-3. For each material waste item choose remove, merge, reuse or defer, or retain
-   it with the concrete correctness/release risk it covers. Fix a small local
-   cause now; schedule a larger fix once under the affected existing task.
-4. Update the task's actual state, next action, dependencies and selected checks;
-   carry the resulting change into the next task before starting it. Correct
-   stale ordering or duplicate gates immediately. Check whether a pending build,
-   fixture capture, frontend check or report can be removed, merged or reused;
-   keep a repeated check only when its changed input or unresolved risk is named.
-   If a task expands, stop at its complete user outcome and return the additional
-   gap to the same R row. If no waste is found, record
-   that briefly and continue; do not manufacture a process change.
+| Record once in the current card | Required content |
+| --- | --- |
+| Outcome / evidence | What works, what failed or remains blocked, and the existing evidence link. Separate engineering verification, scientific acceptance and release support |
+| Waste / decision | Observed duplicate builds, checks, decoding, waits, retries, fixture/report copies, unused output or scope growth. Choose **remove**, **merge**, **reuse**, **defer** or **retain**, with a reason. Use existing timings if available; otherwise cost is unknown. “No material waste; next action unchanged” is valid |
+| Plan change / next action | Apply that decision now: name the next missing behavior, prerequisite, reusable source/product scope and only the checks still needed. Put larger necessary fixes in their existing R family once |
 
-Before any next task or retry, apply this small handoff:
+Fix a small local waste cause before advancing. A repeated check needs a changed
+input or a concrete unresolved risk; reuse does not qualify changed binaries.
+On failure, preserve the original evidence, diagnose the cause and record the
+changed input before retrying. Inspect or resume a live tool session rather
+than launching a replacement. Do not rebuild for a documentation, observer or
+install-path repair when compatible native products can be reused.
 
-- **State:** completed outcome, pending closeout, or the specific failed/blocked step.
-- **Waste decision:** remove, merge, reuse, defer or retain each material repeated
-  operation, with its reason; record measured time only when already available.
-- **Plan adjustment:** revise the same queue row/current card with the next action,
-  prerequisite, reusable product/evidence, and only the checks still needed.
-- **Proceed:** start the next ready task after that update. A waste review does
-  not require another reviewer, build, benchmark or report. A brief “no material
-  waste; next action unchanged” is sufficient when supported.
+Keep only the latest closeout in current-task.md. Update the affected inventory
+row only when its evidence changes, and the same queue row only when its order,
+dependency or remaining scope changes. Link durable evidence instead of copying
+the review into several documents. Long-lived technical lessons may be appended
+to the existing compilexx notes; raw failures stay at their original paths.
 
-Keep only the latest closeout in current-task.md using this compact form:
+A slice closes when its declared user outcome, affected checks and this plan
+handoff are recorded. Finish that outcome before taking new scope; additional
+gaps return to their existing family. Shared sampling/halo fixes belong to R6,
+orchestration to R11, resources to R12 and release support to R13; consumers reuse
+the same fix. If blocked, record the dependency and take the first ready slice.
+An unanswered decision blocks only work that actually depends on it.
 
-> Outcome/evidence: ...  Waste/cost: ...  Plan change/next action: ...
-
-The plan change must be actionable: identify the next missing behavior, its
-dependency, the existing implementation/product to reuse, and the minimum checks
-still necessary. Record each material repeated operation as **remove**, **merge**,
-**reuse**, **defer**, or **retain**, with its reason. Carry a deferred fix into its
-existing R row only if it is needed by a named workflow. Do not start the next
-implementation task with a stale current-task card.
-For a failed attempt, update the card before retrying: state the cause, changed
-input and affected check; reuse independent passing results. Resume or inspect
-an unfinished tool session before starting a replacement operation.
-
-Use observed cost when available; unknown time stays unknown. A short review
-with no material waste is sufficient. This loop adds no mandatory benchmark,
-second reviewer, tracking system or full validation pass. Once the agreed outcome
-and affected checks pass, close the slice and advance. At release closure,
-reconcile remaining R rows against M0-M7 once, including explicit deferrals and
-owner decisions; task counts alone never establish project completion.
-
-Long-lived technical lessons may be appended to the existing compilexx notes;
-raw failures/evidence stay at their original paths. Do not copy this closeout
-into the project plan, workflow inventory and several new receipts. A task is
-closed only when its outcome, appropriate checks and waste-driven plan update
-are recorded. Reopen passed checks only for changed inputs, a failure or a
-specific unresolved risk under the validation policy.
+At release closure, reconcile the remaining inventory against M0-M7 once.
+R14-R16 stay in the full target unless the owner explicitly defers them. Close
+families and milestones against their actual exit criteria; local passes and
+faster components do not establish biological acceptance, release readiness or
+overall speed. Owner decisions on license, research and release stay explicit.
 
 Completed mechanisms stay out of the active implementation queue. The observations below are historical references, not pending work:
 
@@ -427,8 +382,10 @@ these are delivery options, not four newly approved public API contracts.
 
 “Shortest path” means reuse the existing authoritative implementation and avoid
 parallel models or unnecessary rewrites. It does not waive the required final
-behavior or testing. Each row describes what to do next, not a declaration of
-full parity or release acceptance.
+behavior or testing. These rows are implementation entry points, not a second queue or fresh gates.
+Use the ordered slices and reuse index above for current state: historical
+acceptance wording below does not reopen delivered work. No route declares full
+parity or release acceptance.
 
 | API/workflow and existing entry points | Shortest path and shared implementation | Remaining work and decisive acceptance |
 | --- | --- | --- |
