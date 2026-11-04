@@ -185,6 +185,7 @@ def test_desktop_hash_review_apply_and_save(tmp_path,changed,accept):
         inputs.extend([event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT)])
     if not changed or accept:
         inputs.extend([event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)])
+    if not changed or accept:inputs.append(event(24,q.GuiInputKind.SAVE_KEY))
     options.inputs=inputs
     report=q.show(p,frame_limit=50,capture_path=str(tmp_path/'source-review.ppm'),options=options)
     assert report.replay_complete and report.file_fingerprint_state=='succeeded'
@@ -193,4 +194,6 @@ def test_desktop_hash_review_apply_and_save(tmp_path,changed,accept):
     assert verification is not None
     expected_path=candidate if accept else source
     assert verification.fingerprint.sha256==hashlib.sha256(expected_path.read_bytes()).hexdigest()
-    p.save(str(path));assert q.Project.open(str(path)).source_verification(image).fingerprint.sha256==verification.fingerprint.sha256
+    if not changed or accept:assert not p.dirty
+    else:assert p.images[0].source_path==str(source)
+    assert q.Project.open(str(path)).source_verification(image).fingerprint.sha256==verification.fingerprint.sha256
