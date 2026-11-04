@@ -108,7 +108,7 @@ EXTRA+=('tools/qupath_cell_policy_edges.py','tools/upstream/qupath_cell_policy_e
 FIXTURES+=('tests/fixtures/qupath-response-basins-0.7.0/',)
 FIXTURES+=('tests/fixtures/rgb-affine-v2/',)
 FIXTURES+=('tests/fixtures/qupath-body-boundary-v2/','tests/fixtures/qupath-ndpi-cells-0.7.0/',)
-EXTRA+=('tests/test_qupath_body_boundary_revision.py','tools/reference_qupath_body_boundary.py','tools/compare_qupath_ndpi_cells.py','tools/upstream/qupath_ndpi_cells.groovy')
+EXTRA+=('tests/test_ome_calibration_units.py','tests/test_qupath_body_boundary_revision.py','tools/reference_qupath_body_boundary.py','tools/compare_qupath_ndpi_cells.py','tools/upstream/qupath_ndpi_cells.groovy')
 EXTRA+=('tools/reference_qupath_response.py','tools/upstream/qupath_response_basins_probe.groovy')
 
 EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')

@@ -78,8 +78,27 @@ std::uint32_t integer(const tinyxml2::XMLElement* e,const char* key,std::optiona
 std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,const char* unit_key,bool time=false) {
     const auto parsed=detail::positive_decimal_quantity(e->Attribute(key));if(!parsed) return {};const double n=*parsed;
     const auto* attr=e->Attribute(unit_key);const std::string unit=attr?attr:(time?"s":u8"\u00b5m");double scale=0;
-    if(time) {if(unit=="s") scale=1;else if(unit=="ms") scale=.001;else if(unit==u8"\u00b5s") scale=.000001;else if(unit=="min") scale=60;else if(unit=="h") scale=3600;}
-    else {if(unit==u8"\u00b5m" || unit=="um") scale=1;else if(unit=="nm") scale=.001;else if(unit=="mm") scale=1000;else if(unit=="cm") scale=10000;else if(unit=="m") scale=1000000;else if(unit==u8"\u00c5") scale=.0001;}
+    // OME 2016-06 SI range. Store final factors directly so the existing
+    // conversions keep their binary64 arithmetic (no pow or extra scaling).
+    struct Prefix {const char* symbol;double micrometres,seconds;};
+    static constexpr Prefix prefixes[]={
+        {"Y",1e30,1e24},{"Z",1e27,1e21},{"E",1e24,1e18},{"P",1e21,1e15},
+        {"T",1e18,1e12},{"G",1e15,1e9},{"M",1e12,1e6},{"k",1e9,1e3},
+        {"h",1e8,1e2},{"da",1e7,1e1},{"",1e6,1},{"d",1e5,1e-1},
+        {"c",1e4,1e-2},{"m",1e3,1e-3},{u8"\u00b5",1,1e-6},
+        {"n",1e-3,1e-9},{"p",1e-6,1e-12},{"f",1e-9,1e-15},
+        {"a",1e-12,1e-18},{"z",1e-15,1e-21},{"y",1e-18,1e-24}};
+    if(time && unit=="min") scale=60;
+    else if(time && unit=="h") scale=3600;
+    else if(time && unit=="d") scale=86400;
+    else if(!time && unit=="um") scale=1;
+    else if(!time && unit==u8"\u00c5") scale=.0001;
+    else if(!unit.empty() && unit.back()==(time?'s':'m')) {
+        const auto prefix=unit.substr(0,unit.size()-1);
+        for(const auto& entry:prefixes) if(prefix==entry.symbol) {
+            scale=time?entry.seconds:entry.micrometres;break;
+        }
+    }
     const auto value=n*scale;return scale && std::isfinite(value) && value>0?std::optional<double>(value):std::nullopt;
 }
 std::string bounded(const char* text,std::size_t maximum) {if(!text) return {};std::size_t n=0;while(n<=maximum && text[n]) ++n;if(n>maximum) throw std::length_error("TIFF metadata text exceeds limit");return {text,n};}
