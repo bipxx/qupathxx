@@ -1,0 +1,180 @@
+[
+  {
+    "entry_id": "1",
+    "name": "geometry",
+    "objects": [
+      {
+        "id": "9daa029a-3a9d-480d-bbe9-41bd6d5654dd",
+        "parent": null,
+        "name": "Parent α 🚀",
+        "kind": "annotation",
+        "roi": "RectangleROI",
+        "area": 2000.0,
+        "bounds": [
+          2.0,
+          2.0,
+          50.0,
+          40.0
+        ],
+        "nucleus_area": null,
+        "classification": "Tumor"
+      },
+      {
+        "id": "caa1cca9-e2b7-4e0f-8bd9-643c5fde75c6",
+        "parent": "9daa029a-3a9d-480d-bbe9-41bd6d5654dd",
+        "name": "Ellipse",
+        "kind": "annotation",
+        "roi": "EllipseROI",
+        "area": 75.39822368615503,
+        "bounds": [
+          5.0,
+          5.0,
+          12.0,
+          8.0
+        ],
+        "nucleus_area": null,
+        "classification": "Tumor"
+      },
+      {
+        "id": "8042eee4-fa3e-413a-81b9-dc89b8988456",
+        "parent": null,
+        "name": "Polygon",
+        "kind": "annotation",
+        "roi": "PolygonROI",
+        "area": 37.5,
+        "bounds": [
+          20.0,
+          2.0,
+          10.0,
+          8.0
+        ],
+        "nucleus_area": null,
+        "classification": null
+      },
+      {
+        "id": "2059bd5c-6b66-4919-8468-f016e9babb9a",
+        "parent": null,
+        "name": "Line",
+        "kind": "annotation",
+        "roi": "PolylineROI",
+        "area": 0.0,
+        "bounds": [
+          1.0,
+          1.0,
+          11.0,
+          9.0
+        ],
+        "nucleus_area": null,
+        "classification": null
+      },
+      {
+        "id": "14aa68f4-4608-45f9-95d0-0425e040e1e8",
+        "parent": null,
+        "name": "Points",
+        "kind": "annotation",
+        "roi": "PointsROI",
+        "area": 0.0,
+        "bounds": [
+          2.0,
+          3.0,
+          2.0,
+          3.0
+        ],
+        "nucleus_area": null,
+        "classification": null
+      },
+      {
+        "id": "5cf17f2b-515f-4321-8eed-f87963154498",
+        "parent": null,
+        "name": "Holes",
+        "kind": "annotation",
+        "roi": "GeometryROI",
+        "area": 111.0,
+        "bounds": [
+          1.0,
+          20.0,
+          24.0,
+          10.0
+        ],
+        "nucleus_area": null,
+        "classification": null
+      },
+      {
+        "id": "2983f774-b298-4ca9-960e-606393ce0a0c",
+        "parent": null,
+        "name": "Detection",
+        "kind": "detection",
+        "roi": "RectangleROI",
+        "area": 16.0,
+        "bounds": [
+          30.0,
+          20.0,
+          4.0,
+          4.0
+        ],
+        "nucleus_area": null,
+        "classification": "Tumor"
+      },
+      {
+        "id": "d509a5c0-db7b-43a9-b16c-c5b30a49f148",
+        "parent": null,
+        "name": "Cell",
+        "kind": "cell",
+        "roi": "EllipseROI",
+        "area": 62.83185307179586,
+        "bounds": [
+          40.0,
+          20.0,
+          8.0,
+          10.0
+        ],
+        "nucleus_area": 9.42477796076938,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "entry_id": "2",
+    "name": "losses",
+    "objects": [
+      {
+        "id": "43caabc5-6e62-4f37-85f6-7f558ea79550",
+        "parent": null,
+        "name": "Lossy",
+        "kind": "annotation",
+        "roi": "RectangleROI",
+        "area": 100.0,
+        "bounds": [
+          1.0,
+          1.0,
+          10.0,
+          10.0
+        ],
+        "nucleus_area": null,
+        "classification": "Tumor: Positive"
+      }
+    ]
+  },
+  {
+    "entry_id": "3",
+    "name": "plane",
+    "objects": [
+      {
+        "id": "e0ab2943-576d-42e4-81ca-8e297d04415e",
+        "parent": null,
+        "name": "Other Z",
+        "kind": "annotation",
+        "roi": "RectangleROI",
+        "area": 100.0,
+        "bounds": [
+          1.0,
+          1.0,
+          10.0,
+          10.0
+        ],
+        "nucleus_area": null,
+        "classification": "Tumor"
+      }
+    ]
+  }
+]

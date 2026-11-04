@@ -5,13 +5,18 @@ and [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-rema
 R0 is accepted; R1 inventory is reconciled with owner decisions open. Recent R2,
 R4-MERGE1 and R5-QPPROJ1 have scoped local evidence. All M0-M7 remain Partial.
 
-Next: **R5-QPDATA1, pinned native saved-data decoding contract**.
+Current: **R5-QPDATA1, native saved-data decoding**, implementation in progress.
 
 - Outcome: native import of the established QuPath0.7.0 saved-data contract,
   with explicit unsupported/loss reports, through existing project preview/apply.
 - Entry/dependency: inspect pinned PathIO and object/ROI serializers, actual binary
   fixtures and their assisted GeoJSON expectations before choosing decoder types.
   No biological or release decision blocks this synthetic engineering task.
+- Current evidence: actual pinned capture now includes all native ROI kinds,
+  nested IDs, cell nuclei, Unicode, loss-bearing settings and a non-default plane.
+  Both selected direct-import checks fail on the prior installed importer as
+  expected. The decoder and existing preview integration are ready for the first
+  cached build; no completion claim is made before installed checks.
 - Reuse: QPPROJ1 image adapters, private candidate, source guards, native object
   model/ID mappings, loss-aware geometry import and non-overwriting snapshots.
 - Checks: establish binary record/version/geometry/class/plane expectations;

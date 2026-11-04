@@ -1,4 +1,5 @@
 #include "qupathxx/qupath_project.hpp"
+#include "../qupath_saved_data.hpp"
 #include <filesystem>
 #include <fstream>
 #include <chrono>
@@ -9,6 +10,16 @@ template<class F>void rejects(F f){try{f();}catch(const std::exception&){return;
 int main() {
     try {
         if(!has_project() || !has_interchange()) {rejects([]{preview_qupath_project("missing.qpproj");});std::cout<<"QuPath project capability disabled and refused\n";return 0;}
+        const auto fixture=std::filesystem::path(QPX_PROJECT_SOURCE_ROOT)/"tests/fixtures/qupath-project-0.7.0/project/data/1/data.qpdata";
+        std::ifstream input(fixture,std::ios::binary);check(bool(input));
+        const std::string data(std::istreambuf_iterator<char>(input),{});
+        const auto decoded=detail::decode_qupath_saved_data(data);
+        check(decoded.issues.empty() && decoded.pixel_width_um==.25 && decoded.pixel_height_um==.5);
+        check(decoded.geojson.find("56f6bd47-e267-456a-a2d0-cfb01922135c")!=std::string::npos);
+        for(const auto n:{std::size_t(0),std::size_t(4),std::size_t(27),data.size()/2,data.size()-1})rejects([&]{detail::decode_qupath_saved_data(data.substr(0,n));});
+        auto appended=data;appended.push_back(char(0x70));rejects([&]{detail::decode_qupath_saved_data(appended);});
+        std::atomic<bool> cancelled{true};rejects([&]{detail::decode_qupath_saved_data(data,&cancelled);});
+        std::cout<<"Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed\n";
         const auto root=std::filesystem::temp_directory_path()/("qpx-import-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
         std::filesystem::create_directory(root);
         {std::ofstream f(root/"source.ppm",std::ios::binary);f<<"P6\n2 2\n255\n";for(int i=0;i<12;++i) f.put(char(i));}

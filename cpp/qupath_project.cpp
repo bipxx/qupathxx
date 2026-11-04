@@ -1,4 +1,5 @@
 #include "qupathxx/qupath_project.hpp"
+#include "qupath_saved_data.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
@@ -182,7 +183,22 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
         }
         if(has_data) {
             const auto entry=entries.find(info.source_id);
-            if(entry==entries.end()) state->issue("qpdata_not_imported",info.name+": saved objects/settings require the QuPath exchange export");
+            if(entry==entries.end()) {
+                const auto decoded=detail::decode_qupath_saved_data(state->read(data_path,256ull*1024*1024,cancelled),cancelled);
+                const auto saved=parse(decoded.server_metadata);const auto& actual=doc->metadata();
+                if(saved.at("width")!=actual.width || saved.at("height")!=actual.height)throw std::invalid_argument("saved image dimensions differ from source");
+                const auto raw=doc->server()->raw_metadata(cancelled);
+                if(saved.value("sizeZ",1)!=(raw?raw->z_planes:1) || saved.value("sizeT",1)!=(raw?raw->timepoints:1))throw std::invalid_argument("saved image axes differ from source");
+                if(saved.contains("channels") && saved["channels"].size()!=(raw?raw->channels:3))throw std::invalid_argument("saved image channels differ from source");
+                if(saved.contains("pixelType")) {auto type=text(saved["pixelType"]);detail::ascii_lower_in_place(type);if(type!=(raw?sample_name(raw->sample_type):"uint8"))throw std::invalid_argument("saved image sample type differs from source");}
+                const auto imported=import_geojson(*doc,decoded.geojson,true,true);
+                info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
+                for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
+                for(auto issue:decoded.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
+                if(decoded.pixel_width_um && decoded.pixel_height_um)doc->set_calibration(*decoded.pixel_width_um,*decoded.pixel_height_um);
+                else if(!decoded.pixel_width_um && !decoded.pixel_height_um)doc->clear_calibration();
+                else state->issue("partial_calibration",info.name+": partial calibration cannot replace native reader calibration");
+            }
             else {
                 FileFingerprintOptions options;options.byte_limit=512ull*1024*1024;
                 const auto fingerprint=fingerprint_file(data_path,options,cancelled);

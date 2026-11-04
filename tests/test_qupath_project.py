@@ -72,19 +72,17 @@ def test_project_import_preserves_sources_objects_classes_calibration_and_pixels
     assert not (tmp_path/'twice.qpxproj').exists()
 
 
-@pytest.mark.parametrize('loss',['missing_source','unsupported_builder','no_exchange'])
+@pytest.mark.parametrize('loss',['missing_source','unsupported_builder'])
 def test_preview_reports_losses_before_any_new_project_publication(tmp_path,loss):
     path=corpus(tmp_path);data=json.loads(path.read_bytes())
     if loss=='missing_source':(path.parent.parent/'sources/slide α.ome.tif').unlink()
     elif loss=='unsupported_builder':data['images'][0]['serverBuilder']['builderType']='rotated';update_project(path,data)
-    else:(path.parent/'qupathxx-exchange/index.json').unlink()
     preview=q.preview_qupath_project(str(path));assert preview.issues
     output=tmp_path/'loss.qpxproj'
     with pytest.raises(ValueError,match='loss'):preview.import_new(str(output))
     assert not output.exists() and not preview.consumed
     project=preview.import_new(str(output),allow_losses=True)
-    if loss=='no_exchange':assert len(project.images)==2 and all(project.document(e.id).object_count==0 for e in project.images)
-    else:assert len(project.images)==1 and project.images[0].name=='Gray specimen'
+    assert len(project.images)==1 and project.images[0].name=='Gray specimen'
 
 
 @pytest.mark.parametrize('member',['project.qpproj','data/1/data.qpdata','classifiers/classes.json','qupathxx-exchange/index.json','qupathxx-exchange/1.geojson','../sources/gray.ome.tif'])
@@ -166,3 +164,33 @@ def test_imgui_review_and_import_preserve_workspace_until_apply(tmp_path,apply):
         assert [e.name for e in reopened.images]==['Slide α','Gray specimen']
         assert all(reopened.document(e.id).object_count==2 for e in reopened.images)
     assert capture.exists()
+
+
+def test_native_saved_data_matches_independent_assisted_exchange(tmp_path):
+    path=corpus(tmp_path);assisted=q.preview_qupath_project(str(path))
+    assisted_project=assisted.import_new(str(tmp_path/'assisted.qpxproj'))
+    shutil.rmtree(path.parent/'qupathxx-exchange')
+    direct=q.preview_qupath_project(str(path));assert direct.issues==[]
+    assert [i.source_object_ids for i in direct.images]==[i.source_object_ids for i in assisted.images]
+    direct.import_new(str(tmp_path/'direct.qpxproj'))
+    reopened=q.Project.open(str(tmp_path/'direct.qpxproj'))
+    for actual,expected in zip(direct.images,assisted.images,strict=True):
+        doc=reopened.document(actual.native_id);reference=assisted_project.document(expected.native_id)
+        assert (doc.pixel_width_um,doc.pixel_height_um)==(reference.pixel_width_um,reference.pixel_height_um)
+        assert q.export_geojson(doc,nested_hierarchy=True).text==q.export_geojson(reference,nested_hierarchy=True).text
+        assert doc.object_count==2
+
+
+@pytest.mark.parametrize('failure',['header','truncated','trailing','bad_handle','invalid_utf'])
+def test_native_saved_data_corruption_never_publishes(tmp_path,failure):
+    path=corpus(tmp_path);shutil.rmtree(path.parent/'qupathxx-exchange')
+    data_path=path.parent/'data/1/data.qpdata';data=data_path.read_bytes()
+    if failure=='header':data=b'BAD!'+data[4:]
+    elif failure=='truncated':data=data[:-5]
+    elif failure=='trailing':data+=b'\x70'
+    elif failure=='bad_handle':data=data.replace(b'\x71\x00\x7e',b'\x71\xff\xff',1)
+    else:data=data.replace('Parent α'.encode(),b'Parent \xff\xff',1)
+    data_path.write_bytes(data)
+    with pytest.raises(ValueError,match='saved data'):
+        q.preview_qupath_project(str(path))
+    assert not list(tmp_path.glob('*.qpxproj'))
