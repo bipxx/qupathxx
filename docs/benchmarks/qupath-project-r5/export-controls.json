@@ -1,0 +1,26 @@
+[
+  {
+    "case": "readonly",
+    "returncode": 0,
+    "source_files_unchanged": true,
+    "no_server_cache_created": true
+  },
+  {
+    "case": "optional-metadata",
+    "returncode": 0,
+    "source_files_unchanged": true,
+    "no_server_cache_created": true
+  },
+  {
+    "case": "corrupt-final",
+    "returncode": 1,
+    "source_files_unchanged": true,
+    "no_server_cache_created": true
+  },
+  {
+    "case": "ineligible-final",
+    "returncode": 1,
+    "source_files_unchanged": true,
+    "no_server_cache_created": true
+  }
+]

@@ -1,0 +1,13 @@
+....................ss.....................................ss........... [ 29%]
+........................................................................ [ 58%]
+........................................................................ [ 87%]
+..............................                                           [100%]
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+242 passed, 4 skipped, 2 warnings in 17.41s

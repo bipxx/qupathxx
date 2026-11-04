@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\export-readonly\\project.qpproj",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project.groovy"
+  ],
+  "returncode": 0
+}

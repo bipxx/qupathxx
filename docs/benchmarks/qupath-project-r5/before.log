@@ -1,0 +1,15 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+_ test_project_import_preserves_sources_objects_classes_calibration_and_pixels _
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4861/test_project_import_preserves_0')
+
+    def test_project_import_preserves_sources_objects_classes_calibration_and_pixels(tmp_path):
+>       path=corpus(tmp_path);preview=q.preview_qupath_project(str(path))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'qupathxx' has no attribute 'preview_qupath_project'
+
+tests\test_qupath_project.py:51: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+1 failed, 1 passed, 20 deselected in 0.61s

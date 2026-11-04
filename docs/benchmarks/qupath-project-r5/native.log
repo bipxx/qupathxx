@@ -1,0 +1,11 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 46: qupath_project
+1/3 Test #46: qupath_project ...................   Passed    0.13 sec
+    Start 55: project
+2/3 Test #55: project ..........................   Passed    0.18 sec
+    Start 56: interchange
+3/3 Test #56: interchange ......................   Passed    0.50 sec
+
+100% tests passed out of 3
+
+Total Test time (real) =   1.35 sec

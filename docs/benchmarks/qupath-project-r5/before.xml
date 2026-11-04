@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="0.458" timestamp="2026-11-04T12:13:37.636147-05:00" hostname="HEQPC"><testcase classname="tests.test_qupath_project" name="test_pinned_project_and_exchange_identity" time="0.011" /><testcase classname="tests.test_qupath_project" name="test_project_import_preserves_sources_objects_classes_calibration_and_pixels" time="0.045"><failure message="AttributeError: module 'qupathxx' has no attribute 'preview_qupath_project'">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4861/test_project_import_preserves_0')
+
+    def test_project_import_preserves_sources_objects_classes_calibration_and_pixels(tmp_path):
+&gt;       path=corpus(tmp_path);preview=q.preview_qupath_project(str(path))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'qupathxx' has no attribute 'preview_qupath_project'
+
+tests\test_qupath_project.py:51: AttributeError</failure></testcase></testsuite></testsuites>

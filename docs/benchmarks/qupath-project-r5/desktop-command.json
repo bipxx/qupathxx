@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-project-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_qupath_project.py::test_imgui_review_and_import_preserve_workspace_until_apply",
+    "tests/test_gui_project.py::test_switch_restores_view_selection_and_keeps_history_isolated",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\desktop-temp"
+  ],
+  "returncode": 1
+}

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-project-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_qupath_project.py",
+    "tests/test_interchange.py",
+    "tests/test_geojson_hierarchy_export.py",
+    "tests/test_project.py",
+    "tests/test_scientific_grid_evidence.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\model.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\model-temp"
+  ],
+  "returncode": 0
+}

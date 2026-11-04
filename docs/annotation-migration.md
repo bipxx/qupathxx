@@ -48,6 +48,73 @@ dictionary would hide the invalid duplicate. Strict rejection preserves the
 native duplicate-member contract. General metadata preservation needs a separate
 object-model contract.
 
+## Review and import a QuPath project
+
+QuPath0.7.0 `.qpproj` manifests can be reviewed and imported directly. Saved
+annotations in Java `.qpdata` files currently require a one-time assisted export:
+
+1. With QuPath0.7.0, run `QuPath script --args /path/project.qpproj`
+   followed by the path to [export_qupath_project.groovy](../tools/upstream/export_qupath_project.groovy).
+   The exporter writes a new sibling `qupathxx-exchange` directory and refuses an
+   existing one. It reads saved image data directly: corrupt input fails rather
+   than falling back to an empty hierarchy. It does not rewrite the source project
+   or create server caches. Only eligible simple URI builders are accepted.
+2. In the native UI, put the `.qpproj` path in the project-open field and press
+   Ctrl+O to review. Inspect available images, object counts and explicit issues.
+   Choose a new `.qpxproj` destination. A second Ctrl+O imports the reviewed
+   candidate; the usual dirty-workspace replacement confirmation still applies.
+   Refresh the review after changing source inputs. Without an exchange, saved
+   `.qpdata` content is explicitly reported as not imported.
+3. Keep loss admission disabled unless the listed omissions are acceptable.
+   Unsupported or missing images can be omitted only with explicit loss admission;
+   malformed/stale exchange data remains fatal. No usable images is always fatal.
+   Import never overwrites an existing destination, and a failed attempt leaves
+   the current workspace and destination intact.
+
+Python uses the same native authority:
+
+```python
+import qupathxx as q
+
+preview = q.preview_qupath_project("/path/project.qpproj")
+for image in preview.images:
+    print(image.source_id, image.source_path, image.available, image.objects)
+for issue in preview.issues:
+    print(issue.code, issue.message)
+# Call after reviewing issues; default refuses any reported loss.
+project = preview.import_new("/path/imported.qpxproj")
+```
+
+`source_overrides={"1": "/new/source.ome.tif"}` supplies an explicit source path
+by project entry ID. Relative relocation from the saved project URI is attempted
+when an original image path is missing. `exchange_directory` selects a different
+exchange directory. Paths are local files; arbitrary remote URIs and transformed
+builders are unsupported. Simple URI arguments are empty or a TIFF `--series N`.
+Native adapters determine actual supported formats; recognizing a QuPath provider
+name does not load its Java implementation or add its formats.
+
+The preview holds a private native candidate. Properties return snapshots;
+modifying the Python lists cannot alter it. Each image reports source entry ID,
+new native image ID, source path/reader and parallel source-object/native-object
+ID lists. The new native identities persist through save/reopen. A preview is
+consumed only by successful publication and cannot be imported twice. Input
+versions and expected absences are checked again before publication; changed
+source images, metadata, .qpdata or exchange require a fresh review.
+
+The exchange binds project, optional classes/metadata, per-image .qpdata and
+GeoJSON hashes. Nested objects use existing strict loss-aware import semantics.
+Unused project class definitions and tested XY calibration are retained; explicit
+unknown XY remains unknown. Image settings, metadata and unsupported object
+properties produce issues. Saved Z/time calibration overrides are not applied;
+source calibration remains authoritative there. Unknown builders, further planes,
+full project properties and direct Java binary decoding remain separate R5 gaps.
+
+Admission limits are16 MiB manifest,1024 images,4 MiB index,1 MiB each optional
+class/metadata document,256 MiB per GeoJSON and512 MiB per qpdata fingerprint;
+existing object/depth limits also apply. The [scoped evidence](benchmarks/qupath-project-r5/README.md)
+proves two synthetic image entries and nested annotations, rather than complete
+QuPath project migration or arbitrary vendor-builder compatibility.
+
 ## Evidence and remaining work
 
 The nested option is additive; omitting it keeps the previous flat output

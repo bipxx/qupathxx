@@ -1,0 +1,85 @@
+{
+  "native_source": "ee7555e8de6fdc5e182e931e17adb5fa7f8c198c",
+  "observer_source": "78254e7b9223352779dd5127812dccffdcead713",
+  "source_fingerprint": "ba331c67a6a8acebcbb28663dc88f07cf89c62f78aafbba955c7ca360b39e98b",
+  "compiler_inputs": 440,
+  "installed_members": 62,
+  "native_sha256": "3ca701053f77689a5134cda372072c60b6528706b216fcac76ac3f5ce051bb85",
+  "wheel_sha256": "c6633a48449a7870c9f860d223a918f47f95ca2234a81529c70c3bfcf29cdfe1",
+  "model_passes": 242,
+  "model_declared_skips": 4,
+  "additional_targeted_passes": 2,
+  "distinct_new_workflow_passes": 23,
+  "distinct_desktop_passes": 3,
+  "native_suites": 3,
+  "baseline_missing_api_failures": 1,
+  "initial_desktop_test_failures": 1,
+  "native_build_attempts": 2,
+  "successful_native_builds": 1,
+  "final_product_installs": 1,
+  "intended_typing_errors": 2,
+  "installed_stub_check": true,
+  "record_verified": true,
+  "stub_repackage_native_unchanged": true,
+  "prior_codec_archives_unchanged": true,
+  "full_platform_campaign": false,
+  "export_controls": [
+    {
+      "case": "readonly",
+      "returncode": 0,
+      "source_files_unchanged": true,
+      "no_server_cache_created": true
+    },
+    {
+      "case": "optional-metadata",
+      "returncode": 0,
+      "source_files_unchanged": true,
+      "no_server_cache_created": true
+    },
+    {
+      "case": "corrupt-final",
+      "returncode": 1,
+      "source_files_unchanged": true,
+      "no_server_cache_created": true
+    },
+    {
+      "case": "ineligible-final",
+      "returncode": 1,
+      "source_files_unchanged": true,
+      "no_server_cache_created": true
+    }
+  ],
+  "ui_capture_reviewed": "import-final.png: two images and nested parent/child outlines visible",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "3ca701053f77689a5134cda372072c60b6528706b216fcac76ac3f5ce051bb85"
+    },
+    {
+      "path": "products/qupathxx_qupath_project_tests.exe",
+      "cache_path": "Release/qupathxx_qupath_project_tests.exe",
+      "sha256": "d95298e6ab1d6a8e9f3d39fedab1d524e16da48646ef4d3436db03f6feb3c788"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "e77bc38c33e9a4939df44ec7decbc0545da014a32ed28fa77162930aee1f030f"
+    },
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "c7ea80935fb188e6a2cecff146fe8e0cdce61906c3a8e9a660807871433e9a20"
+    },
+    {
+      "path": "products/qupath_project.obj",
+      "cache_path": "qupathxx_core.dir/Release/qupath_project.obj",
+      "sha256": "e0477ce29661e2033a1344a476938b32955f761210e1822f74def7f1385ccbaa"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "c5d6ecad9adb22e942a86aa82262a99878194b99f4502704a176170796577f26"
+    }
+  ]
+}
