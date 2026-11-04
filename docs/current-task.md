@@ -2,48 +2,48 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. PLANE1 has local Windows engineering evidence.
+All M0-M7 remain Partial. SOURCEAXES1 has local Windows engineering evidence.
 
-Current: **R5-SOURCEAXES1 — retained planes when replacing image sources** (ready).
+Current: **R4-CLIP1 — annotation copy/paste** (ready).
 
-- Outcome: relink/review adoption must check retained object planes against a
-  replacement's actual raw axes before publishing the source. Same-XY display
-  compatibility alone does not establish Z/time/channel compatibility.
-- Evidence/entry: project.cpp compatible() checks display width/height/pyramid/
-  type/layout. apply_source_review() installs its candidate after source guards
-  without comparing retained object planes. Reuse SOURCE1/RELINK1 and the new
-  native plane model; candidate readers/metadata must not be opened twice.
-- State: six baseline cases on695158a8 reproduce the missing Z/time/channel
-  guard through both relink and review/apply. All six fail because no ValueError
-  is raised. Raw results stay under root build/source-plane-replacement-r5.
-- Next action: the compatible desktop save failure is an observer bug:
-  options.inputs getter returns a Python copy, so append/extend never sent the
-  save action. Build the event list separately and assign it once; retry only
-  that case. Refusal desktop already passes after separating viewport dirty
-  state from source state. Preserve prior GUI logs and reuse this product;
-  source guards, staged/native checks, bindings and stubs do not change.
-- Checks: reduction refusal preserves old reader/path/baseline and objects;
-  compatible replacement and matching-byte move/no-op still work. Include a
-  plane edit after review/before apply and appropriate stale/failure behavior.
-  Reuse missing-source lazy reopen and existing source observations/owners.
-- Build/reuse: settle the affected producer/consumer paths first. Use the existing
-  cache and reader/source APIs. Run new and older affected contracts on the
-  staged product before installation; generate stubs only if binding inputs
-  change. Keep every passing result in its actual source/configuration scope.
-- Stop: the declared source replacement workflow is safe through native/Python/
-  affected desktop consumers and save/reopen. Other R4/R5 and R6-R16 remain open.
+- Outcome: copy a declared annotation selection and paste it through shared
+  native/Python/ImGui commands, with correct fresh IDs/hierarchy, intended state,
+  selection, one undo/redo transaction and saved reopen behavior.
+- Evidence/entry: core.hpp/document_edits.cpp provide ROI/object commands,
+  immutable facts and append_objects remapping; gui.cpp has drawing/edit/merge
+  but no annotation clipboard flow. Reuse those authorities and existing nested
+  geometry fixtures. Do not create another UI object model or decoder.
+- Next action: inspect the pinned upstream clipboard behavior for selection/
+  descendants, classes/state and planes, then settle native snapshot/transport,
+  coordinates/calibration, paste-plane and unsupported-case contracts. Inspect
+  every producer/consumer before freezing an additive API.
+- Checks: independent nested/overlapping geometry, source snapshot independence,
+  fresh IDs/parent mapping, properties/nucleus/plane handling as applicable,
+  refusal before mutation, compound history and save/reopen. One actual desktop
+  copy/paste flow and installed Python use the same native authority.
+- Build/reuse: combine settled interfaces/casters/UI changes before one cached
+  integration build. Run new and older affected contracts staged before install.
+  Configure native vector properties by assigning a prepared Python list once;
+  do not mutate a returned copy. Reuse valid evidence in its actual scope.
+- Stop: the declared clipboard workflow is usable and verified, with unsupported
+  cases explicit. Other R4/R5 and R6-R16 requirements remain in the queue.
 
-Latest attempt review (2026-11-04, SOURCEAXES1 desktop checks):
-Outcome/evidence: six baseline failures prove the missing axis guard. A private
-project.cpp fix passes93 staged contracts and three affected native suites.
-Two desktop source actions execute, but test save/dirty expectations fail.
-Waste/cost: **retain** both failures. **Reuse** the37.37s product and successful
-staged/native checks. Inspect real GUI save controls/waits and distinguish source
-adoption from viewport state before retrying; an arbitrary frame delay is not
-proof of completed saving. Bindings/schema/stubs remain unchanged, so no stub
-regeneration or typing/build campaign is needed. One build and one install so far.
-Plan change/next action: establish an actual desktop apply/refuse/save sequence
-on this product, then close the task only with saved source/plane evidence.
+Latest closeout (2026-11-04, SOURCEAXES1):
+Outcome/evidence: [retained source planes](benchmarks/source-plane-replacement-r5/README.md)
+closes publication through relink/review, current plane/undo races, compatible
+reductions, reader handoff and saved replay. Native sourceeb53f2bc, observer1b359d96:
+93 staged passes/eleven skips,15 new headless passes, three native suites and two
+actual desktop flows. The one changed compiler input is project.cpp;452 source
+inputs and62 installed members/RECORD are checked. Public API/schema stay unchanged.
+Waste/cost: **reuse** staged contracts, installed product, stubs/typing and passed
+native/refusal checks. One37.37s cached build, one install, zero stub generations.
+**Retain** six baseline failures and three failed desktop attempts. A Python copy
+of GuiOptions.inputs swallowed save actions; construct the list and assign once.
+Inspect ownership before timing retries. Separate GUI viewport dirtiness from
+source publication; headless refusal still checks complete unchanged state.
+Plan change/next action: proceed to CLIP1, the actual missing editing flow above;
+source/plane/recovery mechanisms remain closed within their recorded scope.
+Previously blocked deletion of extracted wheel copies was not retried.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

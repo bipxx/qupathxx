@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-plane-replacement-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_source_plane_replacement.py",
+    "-k",
+    "desktop",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-retry.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-retry-temp"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 1.9413715999107808
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\source-plane-replacement-r5\\\\probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='eb53f2bc50d6f76c47d954cb84ca439d65472923';print('native source',q.build_environment().git_revision,flush=True);import pytest;sys.exit(pytest.main(['tests/test_source_plane_replacement.py', 'tests/test_project_source.py', 'tests/test_project_relink.py', 'tests/test_tiff_project.py', 'tests/test_project.py', 'tests/test_object_planes.py', 'tests/test_source_identity.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\source-plane-replacement-r5\\\\staged.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\source-plane-replacement-r5\\\\staged-temp']))"
+  ],
+  "returncode": 0,
+  "source": "eb53f2bc50d6f76c47d954cb84ca439d65472923",
+  "product_installed": false,
+  "elapsed_seconds": 4.629537200089544
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="1.664" timestamp="2026-11-04T16:50:45.508774-05:00" hostname="HEQPC"><testcase classname="tests.test_source_plane_replacement" name="test_desktop_reviewed_source_axes_are_checked_before_apply_and_save[False]" time="0.922"><failure message="AssertionError: assert (('C:\\Users\\...2, -1, 2, 0)]) == ('C:\\Users\\...2, -1, 2, 0)])&#10;  &#10;  At index 2 diff: True != False&#10;  Use -v to get more diff)">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/desktop-temp/test_desktop_reviewed_source_a0')
+compatible = False
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source replacement desktop')
+    @pytest.mark.parametrize('compatible',[False,True])
+    def test_desktop_reviewed_source_axes_are_checked_before_apply_and_save(tmp_path,compatible):
+        from test_gui_replay import event
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(-1,1 if compatible else 2,0))
+        retain(project,image,tmp_path/'source.ome.tif');saved=tmp_path/'source.qpxproj';project.save(str(saved));before=state(project,image);baseline=saved.read_bytes();path=replacement(tmp_path,'z',2)
+        options=q.GuiOptions();options.file_fingerprint_path=str(path);options.settle_tiles=True;options.width=1280;options.height=1100
+        options.inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY),
+            event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT),
+            event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)]
+        if compatible:options.inputs.append(event(24,q.GuiInputKind.SAVE_KEY))
+        report=q.show(project,frame_limit=50,capture_path=str(tmp_path/'source-axis-review.ppm'),options=options)
+        assert report.replay_complete and report.file_fingerprint_state=='succeeded'
+        if compatible:
+            assert not report.file_fingerprint_error and not project.dirty and doc.server.raw_metadata.z_planes==2
+            assert q.Project.open(str(saved)).document(image).annotation(obj).plane.z==1
+            result=q.analyze_raw(q.RawAnalysisRequest(doc,request(1,1,z=1),obj,tile_size=16));assert result.statistics.means==[13.0]
+        else:
+            assert 'retained object plane' in report.file_fingerprint_error
+&gt;           assert state(project,image)==before and saved.read_bytes()==baseline and doc.server.raw_metadata.z_planes==3
+E           AssertionError: assert (('C:\\Users\\...2, -1, 2, 0)]) == ('C:\\Users\\...2, -1, 2, 0)])
+E             
+E             At index 2 diff: True != False
+E             Use -v to get more diff)
+
+tests\test_source_plane_replacement.py:119: AssertionError</failure></testcase><testcase classname="tests.test_source_plane_replacement" name="test_desktop_reviewed_source_axes_are_checked_before_apply_and_save[True]" time="0.150"><failure message="AssertionError: assert (not '' and not True)&#10; +  where '' = &lt;qupathxx._native.GuiReport object at 0x0000023BED3893A0&gt;.file_fingerprint_error&#10; +  and   True = &lt;qupathxx._native.Project object at 0x0000023BEB309930&gt;.dirty">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/desktop-temp/test_desktop_reviewed_source_a1')
+compatible = True
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source replacement desktop')
+    @pytest.mark.parametrize('compatible',[False,True])
+    def test_desktop_reviewed_source_axes_are_checked_before_apply_and_save(tmp_path,compatible):
+        from test_gui_replay import event
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(-1,1 if compatible else 2,0))
+        retain(project,image,tmp_path/'source.ome.tif');saved=tmp_path/'source.qpxproj';project.save(str(saved));before=state(project,image);baseline=saved.read_bytes();path=replacement(tmp_path,'z',2)
+        options=q.GuiOptions();options.file_fingerprint_path=str(path);options.settle_tiles=True;options.width=1280;options.height=1100
+        options.inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY),
+            event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT),
+            event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)]
+        if compatible:options.inputs.append(event(24,q.GuiInputKind.SAVE_KEY))
+        report=q.show(project,frame_limit=50,capture_path=str(tmp_path/'source-axis-review.ppm'),options=options)
+        assert report.replay_complete and report.file_fingerprint_state=='succeeded'
+        if compatible:
+&gt;           assert not report.file_fingerprint_error and not project.dirty and doc.server.raw_metadata.z_planes==2
+E           AssertionError: assert (not '' and not True)
+E            +  where '' = &lt;qupathxx._native.GuiReport object at 0x0000023BED3893A0&gt;.file_fingerprint_error
+E            +  and   True = &lt;qupathxx._native.Project object at 0x0000023BEB309930&gt;.dirty
+
+tests\test_source_plane_replacement.py:114: AssertionError</failure></testcase></testsuite></testsuites>

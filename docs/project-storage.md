@@ -356,3 +356,16 @@ current display. QPTMA export refuses a non-default core plane rather than
 silently dropping it; native project storage preserves it. The existing 2D
 spatial-distance request refuses selections mixing Z/time planes; same-plane
 geometry comparisons remain independent of the displayed plane.
+
+
+## Retained planes on source replacement
+
+[Local SOURCEAXES1 evidence](benchmarks/source-plane-replacement-r5/README.md)
+verifies direct relink and reviewed adoption against retained object planes.
+Display width/height/pyramid compatibility is followed by current Z/time/channel
+bounds when non-default planes require it. A different candidate is checked
+immediately before publication, including edits/undo after review. Refusal keeps
+the old source/path/baseline and does not consume the review; repairing object
+planes can make that same byte review applicable. Candidate metadata/reader
+ownership is reused, with no pixel decoding or second reader open. A matching
+live-source no-op is unchanged. Schema18 and public signatures are unchanged.

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_source_plane_replacement.py",
+    "-k",
+    "reduced_axes_refuse",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\before.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\before-temp"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 1.0102178000379354,
+  "source": "695158a80e9cc7ebb6d16d35437d7ab7156d2869"
+}

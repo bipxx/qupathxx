@@ -29,6 +29,11 @@ Avoid another receipt/publication cycle for every numerical substep or status
 edit. Keep failures and existing historical records. Do not delete tests or
 weaken numerical thresholds to reduce execution cost.
 
+When configuring nanobind-owned list/dict properties, build the Python container
+locally and assign it once. A returned STL container may be a copy; appending to
+that copy does not change C++ options. Check actual APIs/ownership before
+adjusting replay timing or writing a consumer around an assumed method.
+
 Keep one short current-task file. Workflow coverage belongs in feature-matrix;
 requirements belong in project-plan; this file owns scheduling and validation.
 Historical records are references, never instructions to replay old campaigns.
@@ -73,7 +78,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. Continue with R5-SOURCEAXES1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. Continue with the next demonstrated R4 editing gap while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -131,21 +136,20 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 migration | [Manifest/assisted import](benchmarks/qupath-project-r5/README.md), [pinned native saved data](benchmarks/qupath-saved-data-r5/README.md), [verified-reader handoff](benchmarks/project-relink-r5/README.md) | Pinned format versions and explicit losses; do not rebuild the imports or reopen the same reader twice |
 | R5 source identity | [Persisted reviewed verification](benchmarks/source-verification-r5/README.md) | Primary hash/companion metadata only; historical association is not past-decoder proof |
 | R5 object facts/state | [Metadata/measurements](benchmarks/object-properties-r5/README.md), [locks/color/reported probability](benchmarks/object-edit-state-r5/README.md) | Historical values, interactive lock hints and foreign-extension limits; sparse history preserves the existing compact budget |
-| R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits and changed-source-axis adoption still tracked |
+| R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
+| R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#version-2-cross-session-collection) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Next bounded task: **R5-SOURCEAXES1, retained-plane compatibility on source
-replacement**. Project source compatibility currently compares display metadata;
-reviewed source adoption installs its candidate without checking retained object
-planes against changed raw Z/time/channel counts. Reproduce a replacement with unchanged XY dimensions and fewer raw planes
-first on the existing installed product. Then extend the existing
-relink/review-adoption authority, validating current retained planes before
-publication. Reuse candidate metadata and verified-reader handoff; preserve the
-old source/path/baseline on refusal and the matching-byte move/no-op behavior.
-Include a plane edit between review and apply, because source identity alone
-does not describe the current objects. Keep missing-source reopen lazy. Inspect
-existing guards first; do not add another source-review model or storage layer.
-Run affected older contracts on the staged product before final installation.
+Next bounded task: **R4-CLIP1, annotation copy/paste**. Current object/UI paths
+provide draw/edit/append/import/merge but no annotation clipboard workflow. Trace
+pinned upstream selection, descendant, class/state and plane behavior first;
+then reuse native immutable object facts, ROI geometry, append/remapping and
+compound command/history authorities. Settle pixel-coordinate/calibration and
+target-plane behavior before API changes. Finish copy -> paste -> selection ->
+undo/redo -> save/reopen through native/Python/ImGui. Preserve intended state or
+report unsupported cases before mutation; pasted objects need fresh IDs and
+correct parent mapping. Inspect all object-producing consumers before freezing
+the interface, and run older affected contracts staged before installation.
 
 ## Execution order for finishing the remaining work
 
@@ -156,7 +160,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-SOURCEAXES1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R4-CLIP1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -169,8 +173,8 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | --- | --- | --- |
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
-| R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | Reuse the completed R5 workflows below, including PLANE1. Next SOURCEAXES1 checks retained object planes when relink/review candidates change raw axes; then uncovered source races, geometry losses and unsupported saved-data versions/builders/settings | Reuse SQLite snapshots, source guards, native plane validation and verified-reader handoff. Preserve prior state on refusal. Assess additional formats from actual pinned fixtures; assisted exchange remains an explicit compatibility route |
+| R4 | MERGE1 is locally verified. Next CLIP1 annotation copy/paste through shared snapshot/append/command paths, then demonstrated remaining overlapping/nested edit and hierarchy/class transactions | Inspect pinned upstream clipboard semantics first. Complete paste/select/history/save with fresh IDs, correct hierarchy and explicit unsupported cases; reuse existing facts/geometry rather than a second UI model |
+| R5 | Reuse the completed R5 workflows below, including PLANE1 and SOURCEAXES1. Continue only uncovered source races, geometry losses and unsupported saved-data versions/builders/settings | Reuse SQLite snapshots, source guards, native plane validation and verified-reader handoff. Preserve prior state on refusal. Assess additional formats from actual pinned fixtures; assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |

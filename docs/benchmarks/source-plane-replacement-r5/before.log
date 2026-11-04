@@ -1,0 +1,139 @@
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[z-relink] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho0')
+route = 'relink', axis = 'z'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+            with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+            assert not reviewed.consumed
+        else:
+>           with pytest.raises(ValueError,match='retained object plane'):project.relink(image,str(path))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:48: Failed
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[z-review] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho1')
+route = 'review', axis = 'z'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+>           with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:45: Failed
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[t-relink] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho2')
+route = 'relink', axis = 't'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+            with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+            assert not reviewed.consumed
+        else:
+>           with pytest.raises(ValueError,match='retained object plane'):project.relink(image,str(path))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:48: Failed
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[t-review] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho3')
+route = 'review', axis = 't'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+>           with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:45: Failed
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[c-relink] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho4')
+route = 'relink', axis = 'c'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+            with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+            assert not reviewed.consumed
+        else:
+>           with pytest.raises(ValueError,match='retained object plane'):project.relink(image,str(path))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:48: Failed
+_ test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[c-review] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/before-temp/test_reduced_axes_refuse_witho5')
+route = 'review', axis = 'c'
+
+    @pytest.mark.parametrize('route',['relink','review'])
+    @pytest.mark.parametrize('axis',['z','t','c'])
+    def test_reduced_axes_refuse_without_publishing_reader_path_or_baseline(tmp_path,route,axis):
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,nondefault(axis))
+        source=tmp_path/'source.ome.tif'
+        if route=='review':retain(project,image,source)
+        saved=tmp_path/'original.qpxproj';project.save(str(saved));before=state(project,image);reader=doc.server;bytes_before=saved.read_bytes()
+        path=replacement(tmp_path,axis)
+        if route=='review':
+            reviewed=project.review_source_verification(image,fingerprint(path))
+>           with pytest.raises(ValueError,match='retained object plane'):project.apply_source_review(reviewed,accept_changed=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE ValueError
+
+tests\test_source_plane_replacement.py:45: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[z-relink]
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[z-review]
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[t-relink]
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[t-review]
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[c-relink]
+FAILED tests/test_source_plane_replacement.py::test_reduced_axes_refuse_without_publishing_reader_path_or_baseline[c-review]
+6 failed, 6 deselected in 0.57s
