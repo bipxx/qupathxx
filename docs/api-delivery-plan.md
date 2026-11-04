@@ -33,8 +33,9 @@ Keep one short current-task file. Workflow coverage belongs in feature-matrix;
 requirements belong in project-plan; this file owns scheduling and validation.
 Historical records are references, never instructions to replay old campaigns.
 
-Qualification308 has already run. Finish authentication and the original complete
-audits on its existing artifacts when work resumes; do not rebuild or redispatch.
+Qualification308 is [engineering accepted](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md).
+Its existing artifacts and complete original audits close R0; do not rebuild,
+redispatch or repeat those audits without a specific changed input or concern.
 Future full campaigns follow the checkpoint/risk rule above. Unsupported hosts,
 deferred features and unclaimed speed advantages do not block a narrower declared
 release, while the full long-term backlog remains recorded.
@@ -71,13 +72,13 @@ metric and tolerance. Root prepares concrete proposals and continues work that
 does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
-Start with R0 when implementation resumes, then R1. Follow dependencies below;
+R0 is complete. Continue with R1. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
-Initial states: R0 is pending audit, R1 is pending reconciliation, R2-R12
+Current states: R0 is engineering accepted, R1 is the next task, R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -91,7 +92,7 @@ second backlog or a campaign for each substep.
 
 | ID / milestone | Remaining outcome and easiest implementation path | Dependency | Completion check and reuse rule |
 | --- | --- | --- | --- |
-| R0 / existing qualification | Close candidate308 using its existing engine41110186379, Mac41110197405 and portable41110209770 handles, prepared collectors and original frozen-source auditors | First resumed implementation task | Inspect current run/artifact availability, authenticate the11 required archives and run each original complete auditor once. Record acceptance or the exact failing/missing evidence. Reuse downloaded archives and completed audits; no new build or redispatch. If artifacts expired, record that fact and decide the smallest required recovery rather than automatically launching a matrix |
+| R0 / existing qualification | Completed: [308 closeout](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md) accepts all three original complete audits and11 authenticated archives at frozen ae7a4148 | No remaining R0 dependency | Preserve its declared engineering scope and original source. Reuse this baseline; zero rebuilds/redispatches were needed. Mac Python/GUI/OpenSlide, broader science/resources/speed and release remain open |
 | R1 / M0 scope and fixtures | Reconcile every inventory row against existing receipts; name the first supported research workflows and release/platform cells, remaining feature gaps, public specimen rights/labels, calibration semantics, metrics and benchmark conditions | R0 for the new qualified baseline; corpus inventory and proposals can proceed independently | One concise task/inventory update identifies what is implemented, what needs code and what needs independent evidence. Owner decisions remain explicit; do not fabricate biological labels, tolerances, hardware approval or a project license. Reuse pinned public/synthetic fixtures and prior decisions |
 | R2 / M1 readers and quantitative input | Extend the shared ImageServer/OpenSlide/TIFF adapters only for missing eligible vendor, partial-OME, axis, calibration and damage cases; connect dense/typed sampling to the existing scientific grids | R1 identifies intended formats; independent adapter work need not wait for biological labels | Compare actual pixels/metadata, finite/alpha support, level-zero mapping, pending-close and bounded reads for the selected formats. All readers and required codecs must be openly licensed. Reuse existing decoders, fixtures and request validation; no separate reader model per frontend |
 | R3 / M2 viewer and display | Finish dense-scene navigation, physical DPI/monitor behavior, international glyph delivery, fluorescence/channel presentation and explicit ICC/color policy using the current tile scheduler, font pipeline and display transforms | R1 defines supported display/host scope; R2 supplies missing inputs | Exercise the changed editor/navigation/channel flows on the relevant display configuration, including overlay alignment, resize/close and resource lifetime. Keep display transforms independent of measurements. Reuse the installed product where native inputs are unchanged; record unsupported shaping/color cases explicitly |
