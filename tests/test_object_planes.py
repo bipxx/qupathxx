@@ -1,4 +1,5 @@
 """Plane identity must constrain pixels, masks, edits and saved user workflows."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION
 import csv
 import io
 import json
@@ -44,7 +45,7 @@ def test_import_view_mask_analysis_restart_and_export_use_exact_plane(tmp_path):
     assert result.statistics.valid_pixels==30 and doc.area_um2(obj)==pytest.approx(3.75)
     project=q.Project();image=project.add_document(doc);path=tmp_path/'planes.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==18
+        assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
         assert db.execute('SELECT c,z,t FROM object_planes').fetchall()==[(-1,1,1)]
     restored=q.Project.open(str(path)).document(image)
     assert plane_tuple(restored.annotation(obj).plane)==(-1,1,1) and restored.object_visible(obj)
@@ -233,7 +234,7 @@ def test_schema17_default_plane_upgrade_rolls_back_without_modifying_old_project
     doc,_,_=scene(tmp_path);obj=doc.add_rectangle(q.Rect(1,2,5,6));project=q.Project();image=project.add_document(doc);path=tmp_path/'legacy17.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
         assert db.execute('SELECT count(*) FROM object_planes').fetchone()[0]==0
-        db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=17')
+        db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=17')
         db.execute("CREATE TRIGGER fail_plane_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'plane upgrade failed'); END")
     baseline=path.read_bytes();loaded=q.Project.open(str(path));current=loaded.document(image)
     assert path.read_bytes()==baseline and plane_tuple(current.annotation(obj).plane)==(-1,0,0)

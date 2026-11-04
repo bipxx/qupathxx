@@ -4,8 +4,7 @@ Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-qu
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R4-CLIP1 is locally verified in its recorded scope.
 
-Current: **R5-ROOT1 — saved-data root metadata/measurements** (ready for contract
-preparation; no implementation or verification claimed).
+Current: **R5-ROOT1 — saved-data root metadata/measurements** (contract settled; implementation in progress).
 
 - Outcome: retain the pinned QuPath root metadata/measurements as image-level
   historical facts through native import, Python/ImGui access and saved reopen,
@@ -17,11 +16,20 @@ preparation; no implementation or verification claimed).
   ObjectProperties facts/limits, decoder primitives, storage transactions and
   object-properties inspector/table patterns. The workflow inventory records
   this gap separately from already delivered object-level facts.
-- Next action: inspect pinned root serialization and existing captured fixtures;
-  record independent expected keys/values and the current loss. Trace preview ->
-  native Document/image ownership -> persistence -> Python/UI before choosing an
-  additive facts API and schema migration. Settle root versus ImageData settings
-  semantics, history, limits, nonfinite values and legacy defaults before edits.
+- Investigation: a new synthetic pinned v0.7.0 capture independently records
+  root metadata, finite/NaN/infinite/signed-zero measurements and distinct child
+  facts. Cached PathObject/PathRootObject sources match the existing pinned
+  hashes; root serialization has no ROI. No reader/runtime download is needed.
+- Contract: Document.image_properties exposes immutable ObjectProperties maps;
+  ROI lock/color/probability flags are invalid at image level. Empty facts become
+  None. Set/clear is one ordinary history transaction, does not change object IDs,
+  selection, ROI properties, calibration or live computed measurement values.
+  Schema19 adds one sparse checksummed image_properties row per image; legacy
+  1-18 projects default empty and migrate in the existing save transaction.
+  Save snapshots share owning immutable facts and charge their bounded payload.
+- Next action: extend existing staging/history, preview decoder, snapshot/store,
+  thin binding and historical inspector together. Settle consumers/tests before
+  one combined cached build. Broader ImageData settings retain explicit losses.
 - Checks: captured root values and independent native fixtures; object facts
   unchanged; mutation/refusal/history where applicable; save/reopen and legacy
   project load; import preview/source preservation and loss reports; thin Python
@@ -37,25 +45,24 @@ preparation; no implementation or verification claimed).
   additional saved-data versions/records, remaining R4/R5 gaps and R6-R16 stay in
   the existing queue; completing ROOT1 will not close all interchange or M4.
 
-Latest closeout (2026-11-04, R4-CLIP1):
-Outcome/evidence: [annotation clipboard](benchmarks/object-clipboard-r4/README.md)
-locally verifies native/Python/ImGui copy/paste, graph/state/planes, fresh IDs,
-selection, atomic refusal/history and saved restart. Native dd33c2b1 / observer
-576b5b81: 173 distinct staged passes/fourteen skips (18 new headless passes),
-five native suites, two desktop flows, five packaged-stub checks and positive/
-four-diagnostic negative typing. All453 compiler inputs and62 installed members/
-RECORD match; no schema change. Three existing captures are inspected.
-Waste/decision: **reuse** the 170 initial staged passes and five native suites
-while retrying three observer mistakes; **retain** all original failures.
-**Remove** invalid MYPYPATH and assumptions about Python property calls, channel
-visibility and automatic selection restoration. Verify fixture preconditions
-and existing policies before composing consumer tests. **Merge** native/binding/
-GUI compilation: one705.995s build, one install and one stub generation; observer
-repairs reused the same native bytes. No full platform/science/speed campaign.
-Plan change/next action: clipboard is complete within its declared scope; reuse
-its [contract](annotation-clipboard.md) and evidence. Proceed to ROOT1, an actual
-reported loss, through existing facts/import/storage authorities. Other editing
-and image-settings gaps remain recorded; do not reopen completed mechanisms.
+Latest closeout (2026-11-04, ROOT1 contract/capture):
+Outcome/evidence: the pinned synthetic root capture independently retains Unicode
+metadata, finite/NaN/infinite/signed-zero measurements and distinct child facts.
+Cached serialization sources match the pinned hashes. The installed dd33c2b1
+product reproduces root_properties_dropped (build/root-facts-r5/baseline.xml).
+The shared native/history/import/store/binding/inspector changes and contracts
+are drafted; runtime verification is pending.
+Waste/decision: **reuse** the pinned runtime/source/corpus, immutable facts codec,
+ordinary staged history and save snapshot authority. **Remove** a second facts
+model/decoder and unnecessary ROI/render invalidation for image-only edits.
+**Merge** schema/bindings/GUI into one build. Current-format expectations are
+centralized independently in tests/project_schema_contract.py; legacy fixtures
+remove the new table before downgrading. Only affected migration functions plus
+actual changed workflow contracts are selected, not unrelated numerical cohorts.
+Plan change/next action: freeze the settled compiler inputs for one cached build;
+run ROOT1 and new/older affected contracts staged before installation. Preserve
+this baseline failure and retry only diagnosed failures. Then generate stubs once,
+install once, verify typing and inspect the real historical image/ROI facts UI.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

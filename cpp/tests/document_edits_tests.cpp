@@ -1,4 +1,5 @@
 #include "qupathxx/core.hpp"
+#include "qupathxx/object_properties.hpp"
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
@@ -41,6 +42,16 @@ int main() {
         try { d.update_nucleus(cell,Roi::rectangle({-1,0,1,1})); throw std::runtime_error("invalid nucleus accepted"); }
         catch(const std::invalid_argument&) {}
         check(d.revision()==saved);
+        Document facts(Image::demo());auto roi=facts.add_rectangle({1,2,4,5});
+        const auto object_revision=facts.annotation(roi).revision,render=facts.render_revision(),structure=facts.structure_revision();
+        auto properties=std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{{"note","root"}},std::map<std::string,double>{{"Area",12.5}});
+        facts.set_image_properties(properties);check(facts.image_properties()==properties && facts.object_count()==1);
+        check(facts.annotation(roi).revision==object_revision && facts.render_revision()==render && facts.structure_revision()==structure);
+        check(facts.undo() && !facts.image_properties() && facts.redo() && facts.image_properties()==properties);
+        const auto property_revision=facts.revision();facts.set_image_properties(properties);check(facts.revision()==property_revision);
+        bool invalid_state=false;try {facts.set_image_properties(std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{},std::map<std::string,double>{},true));}catch(const std::invalid_argument&){invalid_state=true;}
+        check(invalid_state && facts.revision()==property_revision && facts.image_properties()==properties);
+        std::cout<<"Native image facts: immutable history, ROI separation and unchanged render/spatial revisions passed\n";
         std::cout<<"Atomic edits, subtree restore, calibration and bounded undo passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

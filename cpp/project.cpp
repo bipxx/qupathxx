@@ -164,6 +164,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
             add(sizeof(std::uint64_t)+sizeof(SourceFileAssociation)+v->second->source.payload_bytes()+file_fingerprint_json(v->second->fingerprint).size());
         }
         add(e.document->object_bytes_);
+        if(e.document->image_properties_)add(e.document->image_properties_->payload_bytes());
         add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
         add(e.document->analysis_bytes_);
@@ -204,6 +205,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         for(const auto& [key,block]:e.document->object_blocks_) doc->object_snapshot_.push_back(block);
         doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;doc->tma_index_=e.document->tma_index_;doc->tma_revision_=e.document->tma_revision_;
         doc->classes_=e.document->classes_;
+        doc->image_properties_=e.document->image_properties_;
         doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
         doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
         const auto& blocks=e.document->analysis_blocks_.values;
@@ -595,6 +597,9 @@ void create_raw_analysis(Database& db) {
 void create_spatial(Database& db) {
     db.exec("CREATE TABLE spatial_distance_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=14;");
 }
+void create_image_properties(Database& db) {
+    db.exec("CREATE TABLE image_properties(image_id TEXT PRIMARY KEY REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=19;");
+}
 void create_object_planes(Database& db) {
     db.exec("CREATE TABLE object_planes(image_id TEXT NOT NULL,object_id TEXT NOT NULL,c INTEGER NOT NULL CHECK(c>=-1 AND c<65536),z INTEGER NOT NULL CHECK(z>=0 AND z<65536),t INTEGER NOT NULL CHECK(t>=0 AND t<65536),PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=18;");
 }
@@ -730,9 +735,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<16) create_object_properties(db);
         if(version<17)db.exec("PRAGMA user_version=17");
         if(version<18)create_object_planes(db);
+        if(version<19)create_image_properties(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);}
-    db.exec("DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);}
+    db.exec("DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -746,6 +752,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement tma_core(db,"INSERT INTO tma_cores VALUES(?,?,?,?,?,?)");
     Statement plane_row(db,"INSERT INTO object_planes VALUES(?,?,?,?,?)");
     Statement properties_row(db,"INSERT INTO object_properties VALUES(?,?,?)");
+    Statement image_properties_row(db,"INSERT INTO image_properties VALUES(?,?)");
     Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
@@ -768,6 +775,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        if(doc.image_properties_) {image_properties_row.string(1,key);image_properties_row.blob(2,detail::encode_object_properties(*doc.image_properties_));image_properties_row.done();}
         if(const auto found=source_verifications_.find(id);found!=source_verifications_.end()) {
             if(e.info.embedded)throw std::invalid_argument("embedded image has source verification");
             const auto bytes=detail::encode_source_verification(*found->second);verification.string(1,key);verification.blob(2,bytes);verification.done();
@@ -1004,7 +1012,17 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         if(!property_values.empty())throw std::invalid_argument("orphaned object properties");
         if(!core_metadata.empty()) throw std::invalid_argument("orphaned TMA core metadata");
         stopped(); if(progress) progress->phase.store(3);
-        auto document=Document::restore(std::move(server),annotations,definitions,images.optional(10),images.optional(11),number(images.string(12)),number(images.string(13)));
+        std::shared_ptr<const ObjectProperties> image_properties;
+        if(version>=19) {
+            Statement row(db,"SELECT payload FROM image_properties WHERE image_id=?");row.string(1,key);
+            if(row.row()) {
+                const auto n=sqlite3_column_bytes(row.stmt,0);
+                if(row.type(0)!=SQLITE_BLOB || n<0 || n>2*1024*1024)throw std::invalid_argument("invalid image properties payload");
+                image_properties=detail::decode_object_properties(sqlite3_column_blob(row.stmt,0),std::size_t(n));
+                if(row.row())throw std::invalid_argument("duplicate image properties");
+            }
+        }
+        auto document=Document::restore(std::move(server),annotations,definitions,images.optional(10),images.optional(11),number(images.string(12)),number(images.string(13)),std::move(image_properties));
         project->saved_revisions_.emplace(info.id,document->revision());
         if(!project->entries_.emplace(info.id,Entry{std::move(info),std::move(document),true}).second) throw std::invalid_argument("duplicate project image ID");
         stopped(); if(progress) progress->images.fetch_add(1,std::memory_order_relaxed);
@@ -1147,6 +1165,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=19 && scalar(db,"SELECT count(*) FROM image_properties p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image properties");
     if(version>=18 && scalar(db,"SELECT count(*) FROM object_planes p LEFT JOIN objects o ON o.image_id=p.image_id AND o.id=p.object_id WHERE o.id IS NULL"))throw std::invalid_argument("orphaned object plane data");
     if(version>=16 && scalar(db,"SELECT count(*) FROM object_properties p WHERE NOT EXISTS (SELECT 1 FROM objects o WHERE o.image_id=p.image_id AND o.id=p.object_id)"))throw std::invalid_argument("orphaned object properties");
     if(version>=11 && (scalar(db,"SELECT count(*) FROM tma_grids WHERE image_id NOT IN (SELECT id FROM images)") || scalar(db,"SELECT count(*) FROM tma_cores WHERE image_id NOT IN (SELECT id FROM images)"))) throw std::invalid_argument("orphaned TMA grid data");

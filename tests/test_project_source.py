@@ -1,4 +1,5 @@
 """Saved file facts and reviewed replacement share native project authority."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION
 import hashlib
 import json
 import os
@@ -120,7 +121,7 @@ def test_invalid_verification_rows_are_refused(tmp_path,failure):
 
 def test_schema14_migration_and_rollback_preserve_old_database(tmp_path):
     p,image,doc,obj,source,path=scene(tmp_path)
-    with sqlite3.connect(path) as db:db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('PRAGMA user_version=14');db.execute("CREATE TRIGGER fail_migration BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'source migration failed'); END")
+    with sqlite3.connect(path) as db:db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('PRAGMA user_version=14');db.execute("CREATE TRIGGER fail_migration BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'source migration failed'); END")
     restored=q.Project.open(str(path));assert restored.source_verification(image) is None
     retain(restored,image,source)
     with pytest.raises(RuntimeError,match='source migration failed'):restored.save(str(path))
@@ -129,7 +130,7 @@ def test_schema14_migration_and_rollback_preserve_old_database(tmp_path):
         assert db.execute("SELECT count(*) FROM sqlite_schema WHERE name='source_verifications'").fetchone()[0]==0
         db.execute('DROP TRIGGER fail_migration')
     restored.save(str(path));assert q.Project.open(str(path)).source_verification(image) is not None
-    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==18
+    with sqlite3.connect(path) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
 
 
 def test_reverification_of_unchanged_live_source_keeps_clean_state(tmp_path):

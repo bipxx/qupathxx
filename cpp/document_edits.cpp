@@ -64,6 +64,7 @@ struct Document::Staging {
     Document& document;
     ObjectPatch before,after;
     ClassPatch before_classes,after_classes;
+    std::optional<std::shared_ptr<const ObjectProperties>> image_properties;
     std::map<std::string,std::size_t> counts;
     std::map<std::uint64_t,std::set<std::uint64_t>> child_sets;
     explicit Staging(Document& d) : document(d) {}
@@ -222,13 +223,13 @@ std::size_t Document::object_payload(const Annotation& a) {
 }
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
-    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision) {
+    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties) {
     if(!next_id || (x && (!std::isfinite(*x) || *x<=0)) || (y && (!std::isfinite(*y) || *y<=0)))
         throw std::invalid_argument("invalid persisted calibration or next object ID");
     // The candidate is private until all validation succeeds. Build canonical
     // nodes once instead of allocating before/after edit patches and committing
     // a synthetic edit just to reconstruct an unpublished document.
-    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;
+    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;result->image_properties_=normalize_image_properties(std::move(image_properties));
     for(const auto& c:classes) {
         text(c.name);
         if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
@@ -322,6 +323,7 @@ std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
     return it==children_.end()?std::vector<std::uint64_t>{}:std::vector<std::uint64_t>(it->second.begin(),it->second.end());
 }
 void Document::commit(Staging& staged,Calibration calibration) {
+    const bool render_changed=!staged.after.empty() || !staged.after_classes.empty() || pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y;
     staged.validate();const auto tma=prepare_tma(staged.before,staged.after);
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
@@ -402,7 +404,8 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
-    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;render_revision_=revision_;
+    if(staged.image_properties)image_properties_=*staged.image_properties;
+    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;if(render_changed)render_revision_=revision_;
     if(tma_changed) tma_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
     if(plane_changed)object_plane_revision_=revision_;
@@ -421,8 +424,9 @@ void Document::set_history_limits(std::size_t steps,std::size_t bytes) {
 }
 void Document::save_edit(Staging& staged,Calibration calibration,std::string label) {
     text(label); staged.normalize();
-    if (staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
+    if (!staged.image_properties && staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
+    if(staged.image_properties)bytes+=sizeof(ImagePropertiesHistory)+(image_properties_?image_properties_->payload_bytes():0)+(*staged.image_properties?(*staged.image_properties)->payload_bytes():0);
     std::set<const TmaGridInfo*> tma_layouts;
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch) {
         bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0)+(a->properties?a->properties->payload_bytes():0):0);
@@ -436,6 +440,7 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
     if (recording) {
         record={staged.before,staged.after,{pixel_width_um_,pixel_height_um_},calibration,
             staged.before_classes,staged.after_classes,std::move(label),bytes};
+        if(staged.image_properties)record.image_properties=std::make_shared<const ImagePropertiesHistory>(ImagePropertiesHistory{image_properties_,*staged.image_properties});
         undo_.reserve(undo_.size()+1);
     }
     commit(staged,calibration);
@@ -632,6 +637,17 @@ void Document::classify_annotation(std::uint64_t id,std::string classification) 
 void Document::reparent_annotation(std::uint64_t id,std::uint64_t parent) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,parent,a.class_name,a.kind,a.nucleus)},"Reparent annotation");
 }
+std::shared_ptr<const ObjectProperties> Document::normalize_image_properties(std::shared_ptr<const ObjectProperties> value) {
+    if(!value)return {};
+    if(value->locked() || value->color_rgb() || value->class_probability())throw std::invalid_argument("image properties cannot contain ROI lock, color or class probability");
+    return value->metadata().empty() && value->measurements().empty()?std::shared_ptr<const ObjectProperties>{}:std::move(value);
+}
+void Document::set_image_properties(std::shared_ptr<const ObjectProperties> value) {
+    value=normalize_image_properties(std::move(value));
+    if(value==image_properties_ || (value && image_properties_ && value->equals(*image_properties_)))return;
+    Staging staged(*this);staged.image_properties=std::move(value);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image properties");
+}
 void Document::set_calibration(double x,double y) {
     if (!std::isfinite(x) || !std::isfinite(y) || x<=0 || y<=0) throw std::invalid_argument("calibration must be finite and positive");
     Staging staged(*this); save_edit(staged,{{x},{y}},"Set calibration");
@@ -640,6 +656,7 @@ void Document::clear_calibration() { Staging staged(*this); save_edit(staged,{},
 void Document::apply_record(const EditRecord& record,bool forward) {
     if(record.classifications.value) {toggle_classifications(*record.classifications.value);return;}
     Staging staged(*this); const auto& patch=forward?record.after:record.before;
+    if(record.image_properties)staged.image_properties=forward?record.image_properties->after:record.image_properties->before;
     for (const auto& [id,value]:patch) staged.write(id,value);
     for(const auto& [name,value]:(forward?record.after_classes:record.before_classes)) staged.write_class(name,value);
     commit(staged,forward?record.after_calibration:record.before_calibration);

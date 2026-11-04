@@ -1,3 +1,4 @@
+#include "qupathxx/object_properties.hpp"
 #include "qupath_saved_data.hpp"
 #include <stdexcept>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
@@ -329,7 +330,23 @@ class Decoder {
         const auto measured=measurements(d.object());
         const auto n=d.integer(4);if(n>1000000)invalid("invalid hierarchy child count");
         Json children=Json::array();for(std::size_t i=0;i<n;++i)children.push_back(object(d.object(),depth+1));
-        if(root) {if(!attributes.empty() || !measured.empty())issue("root_properties_dropped","Root metadata/measurements have no image-object counterpart");d.finish();return children;}
+        if(root) {
+            if(!attributes.empty() || !measured.empty()) {
+                std::map<std::string,double> values;
+                for(const auto& item:measured.items()) {
+                    const auto& value=item.value();
+                    double number;
+                    if(value.is_number())number=value.get<double>();
+                    else if(value=="NaN")number=std::numeric_limits<double>::quiet_NaN();
+                    else if(value=="Infinity")number=std::numeric_limits<double>::infinity();
+                    else if(value=="-Infinity")number=-std::numeric_limits<double>::infinity();
+                    else invalid("invalid retained root measurement");
+                    values.emplace(item.key(),number);
+                }
+                result.image_properties=std::make_shared<const ObjectProperties>(std::move(attributes),std::move(values));
+            }
+            d.finish();return children;
+        }
         Json properties={{"objectType",cell?"cell":detection?"detection":"annotation"}};
         if(!attributes.empty())properties["metadata"]=std::move(attributes);
         if(!measured.empty())properties["measurements"]=measured;

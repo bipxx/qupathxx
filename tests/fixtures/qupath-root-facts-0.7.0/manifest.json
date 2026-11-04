@@ -1,0 +1,34 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "synthetic": true,
+  "patient_data": false,
+  "files": {
+    "project/data/1/data.qpdata": "a7111c5d7715530b6de5a29a7e91e7481f1b362d27f2d1a3d28c31e40e656e47",
+    "project/data/1/server.json": "f5332379792783f60869b699c5a3e9cb66577bbe87c81954582e33f01198cfc6",
+    "project/data/1/summary.json": "28899859cbc74f32d787c7a2d703d1497b01573ab1909e64239ccff53338fffe",
+    "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "project/project.qpproj": "edb035b6561d5524b78e30e8d9e075fad5329564d9023c4cef313ba2762d17bc",
+    "reference.json": "af20dc7ccc2ebcd1fcab8dc294c310d183fd08665320d0667f7fe6643e475420",
+    "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc"
+  },
+  "probes": {
+    "tools/upstream/qupath_root_facts_reference.groovy": "c3aca76f0116cc8cffcbd5b887bd667c5f86f445cf254a538a83d6af5352a0b6"
+  },
+  "serialization_sources": {
+    "PathObject.java": "76101c67b67c920e2a371ab2b255821a557fad941e57048ba78ed5d1e146a925",
+    "PathRootObject.java": "d37861d9051f3726d642669c8e84dd3ebc74c10a4069700aeb1421180225e9d3"
+  }
+}

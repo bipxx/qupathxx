@@ -1530,6 +1530,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(!interchange_status.empty()) ImGui::TextWrapped("%s",interchange_status.c_str());
         }
+        if(const auto facts=document.image_properties();facts && ImGui::CollapsingHeader("Image facts (historical)",ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::TextWrapped("Imported image values; not recomputed ROI or live image measurements.");
+            if(ImGui::BeginChild("image historical facts",{0,180*ui_scale.logical},ImGuiChildFlags_Borders,ImGuiWindowFlags_HorizontalScrollbar)) {
+                for(const auto& [name,value]:facts->metadata()) {ImGui::TextUnformatted(name.c_str());ImGui::SameLine();ImGui::TextUnformatted(value.c_str());}
+                for(const auto& [name,value]:facts->measurements()) {ImGui::TextUnformatted(name.c_str());ImGui::SameLine();ImGui::Text("%.17g",value);}
+            }
+            ImGui::EndChild();
+        }
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
         ImGui::Text("%zu pyramid levels",image.levels.size());
         ui::SeparatorText("Overview");

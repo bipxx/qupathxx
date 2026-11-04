@@ -48,6 +48,7 @@ def main():
             if current=='GuiReport':line=line.replace('-> GuiSpatialReport:', '-> GuiSpatialReport | None:')
             if current=='GuiOptions' and 'def spatial(' in line:line=line.replace('-> GuiSpatialOptions:', '-> GuiSpatialOptions | None:').replace('arg: GuiSpatialOptions,','arg: GuiSpatialOptions | None,')
             if current=='Annotation' and 'def properties(' in line:line=line.replace('-> ObjectProperties:', '-> ObjectProperties | None:')
+            if current=='Document' and 'def image_properties(' in line:line=line.replace('-> ObjectProperties:', '-> ObjectProperties | None:')
             if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')

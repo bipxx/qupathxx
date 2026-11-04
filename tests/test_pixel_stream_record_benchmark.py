@@ -1,4 +1,5 @@
 """Exercise the actual descriptor benchmark against the installed project format."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION
 import hashlib
 import json
 from pathlib import Path
@@ -27,7 +28,7 @@ def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,r
     assert result['content_sha256']==summary.sha256
     assert result['max_encoded_descriptor_bytes']<4096 and result['total_encoded_descriptor_bytes']<records*4096
     with sqlite3.connect(project) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==18
+        assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
         assert db.execute('SELECT count(*) FROM pixel_stream_records').fetchone()[0]==records
     reopened=q.Project.open(str(project))
     assert sum(reopened.document(image.id).pixel_stream_record_count for image in reopened.images)==records

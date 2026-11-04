@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "note": "historical root; not ROI or computed image analysis",
+    "specimen": "synthetic α 🚀"
+  },
+  "measurements": {
+    "Root area": 12.5,
+    "missing": "NaN",
+    "positive infinity": "Infinity",
+    "negative infinity": "-Infinity",
+    "negative zero": -0.0
+  },
+  "objects": 1,
+  "child": {
+    "metadata": {
+      "note": "child facts"
+    },
+    "measurement": 3.5,
+    "area": 120.0
+  }
+}

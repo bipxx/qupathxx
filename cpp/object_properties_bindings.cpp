@@ -19,6 +19,8 @@ void bind_object_properties(nb::module_& m) {
         .def_prop_ro("locked",&Annotation::locked).def_prop_ro("color_rgb",&Annotation::color_rgb).def_prop_ro("class_probability",&Annotation::class_probability);
     auto edit=nb::borrow<nb::class_<ObjectEdit>>(m.attr("ObjectEdit"));edit.def_static("properties",&ObjectEdit::properties,"id"_a,"properties"_a=nb::none());
     auto document=nb::borrow<nb::class_<Document>>(m.attr("Document"));
+    document.def_prop_ro("image_properties",&Document::image_properties)
+        .def("set_image_properties",&Document::set_image_properties,"properties"_a=nb::none());
     document.def("set_object_properties",&Document::set_object_properties,"id"_a,"properties"_a=nb::none())
         .def("set_object_edit_state",&Document::set_object_edit_state,"id"_a,"locked"_a,"color_rgb"_a=nb::none(),"class_probability"_a=nb::none());
 }

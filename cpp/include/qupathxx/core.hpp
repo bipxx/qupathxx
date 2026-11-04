@@ -197,6 +197,9 @@ public:
     std::uint64_t object_visibility_revision() const {return structure_revision_>object_plane_revision_?structure_revision_:object_plane_revision_;}
     // Geometry/class/calibration commands change this; archival records do not.
     std::uint64_t render_revision() const { return render_revision_; }
+    // Historical image-level facts. ROI editing state is not meaningful here.
+    std::shared_ptr<const ObjectProperties> image_properties() const {return image_properties_;}
+    void set_image_properties(std::shared_ptr<const ObjectProperties> properties={});
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
@@ -485,7 +488,7 @@ private:
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
         std::optional<double> pixel_width,std::optional<double> pixel_height,
-        std::uint64_t next_id,std::uint64_t revision);
+        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={});
     const Annotation& find(std::uint64_t id) const;
     void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
@@ -499,6 +502,10 @@ private:
         ClassificationHistory(ClassificationHistory&&) noexcept=default;
         ClassificationHistory& operator=(ClassificationHistory&&) noexcept=default;
     };
+    struct ImagePropertiesHistory {
+        std::shared_ptr<const ObjectProperties> before,after;
+    };
+    static std::shared_ptr<const ObjectProperties> normalize_image_properties(std::shared_ptr<const ObjectProperties>);
     struct EditRecord {
         ObjectPatch before,after;
         Calibration before_calibration,after_calibration;
@@ -506,6 +513,7 @@ private:
         std::string label;
         std::size_t bytes = 0;
         ClassificationHistory classifications{};
+        std::shared_ptr<const ImagePropertiesHistory> image_properties;
     };
     struct Staging;
     std::shared_ptr<const detail::TmaIndex> tma_index_;
@@ -522,6 +530,7 @@ private:
     void refresh_spatial() const;
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
+    std::shared_ptr<const ObjectProperties> image_properties_;
     struct ObjectBlock;
     // Published blocks are immutable. Captures copy block handles, never live
     // map nodes; edits prepare replacements before committing canonical state.
