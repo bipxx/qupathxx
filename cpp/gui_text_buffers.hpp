@@ -12,6 +12,7 @@ struct GuiTextBuffers {
     char measurement_path[32769]{}, cell_table_path[32769]{};
     char project_path[32769]{};
     char autosave_path[32769]{}, recovery_path[32769]{}, recovery_base_path[32769]{};
+    char qupath_project_destination[32769]{};
     char project_open_path[32769]{}, project_image_path[32769]{};
     char project_image_name[4097]{}, project_filter[257]{};
     char interchange_path[32769]{};

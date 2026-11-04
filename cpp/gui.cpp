@@ -1,3 +1,4 @@
+#include "qupathxx/qupath_project.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -349,7 +350,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     }
     std::shared_ptr<Project> staged_project;
     bool staged_is_recovery=true;
-    struct LoadedProject { std::shared_ptr<Project> project; double ms=0; bool recovery=false; };
+    struct LoadedProject { std::shared_ptr<Project> project; double ms=0; bool recovery=false,qupath_import=false; };
     auto load_project=[](const std::string& path,bool recovery,const std::string& base_path) {
         const auto start=std::chrono::steady_clock::now();
         auto candidate=recovery?Project::recover(path,base_path):Project::open(path);
@@ -357,6 +358,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         return LoadedProject{std::move(candidate),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(),recovery};
     };
     std::future<LoadedProject> project_load;
+    std::future<std::shared_ptr<const QuPathProjectPreview>> qupath_review;
+    std::shared_ptr<const QuPathProjectPreview> qupath_preview;
+    auto qupath_cancel=std::make_shared<std::atomic<bool>>(false);
+    struct ImportCancellation {std::shared_ptr<std::atomic<bool>> flag;~ImportCancellation(){flag->store(true);}} qupath_scope{qupath_cancel};
+    std::string qupath_review_input;bool qupath_losses=false;
+    auto& qupath_destination=text_buffers->qupath_project_destination;
+    auto review_qupath=[&](const std::string& path) {
+        qupath_cancel->store(false);qupath_review_input=path;
+        qupath_review=std::async(std::launch::async,[path,cancel=qupath_cancel]{return preview_qupath_project(path,{},"",cancel.get());});
+    };
     auto startup_progress=std::make_shared<Project::LoadProgress>();
     bool startup_active=startup_requested,startup_pending=startup_requested,startup_succeeded=false,startup_cancelled=false;
     std::size_t startup_frames=0,startup_finish_frame=0;
@@ -607,12 +618,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         autosave_stats=autosave.poll();
         if(autosave_stats.state=="error" && previous_autosave_state!="error")
             next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(std::max(5.,autosave_interval));
+        if(qupath_review.valid() && qupath_review.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
+            try {auto reviewed=qupath_review.get();if(qupath_review_input==project_open_path) {qupath_preview=std::move(reviewed);qupath_losses=false;copy_recovery_path(qupath_destination,std::filesystem::u8path(qupath_review_input).replace_extension(".qpxproj").u8string());project_error.clear();}}
+            catch(const std::exception& e) {project_error=e.what();}
+        }
         if(project_load.valid() && !close_dialog_active && !remove_dialog_active && project_load.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
             try {
                 auto loaded=project_load.get();
                 if(startup_active) startup_ms=loaded.ms;
                 if(loaded.recovery) recovery_load_ms=loaded.ms; else project_load_ms=loaded.ms;
                 if(!project_load_cancelled) {
+                    if(loaded.qupath_import) {copy_recovery_path(project_open_path,loaded.project->path());qupath_preview.reset();qupath_losses=false;}
                     staged_project=std::move(loaded.project); staged_is_recovery=loaded.recovery;
                     drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
                     if(options.project->dirty() && !startup_active) recovery_popup_requested=recovery_dialog_active=true;
@@ -1192,13 +1208,44 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(save_job.busy()) ui::TextDisabled("Saving project...");
             ui::SetNextItemWidth(240); ui::InputTextWithHint("##Open project path","Project file to open",project_open_path,sizeof(project_open_path));
-            ImGui::BeginDisabled(project_load.valid() || save_job.busy() || maintenance_job.valid());
-            if(ui::Button("Open project (Ctrl+O)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_O))) {
-                const std::string path=project_open_path;
-                project_load_cancelled=false; loading_recovery=false; project_error.clear();
-                project_load=std::async(std::launch::async,load_project,path,false,std::string{});
+            const std::string import_path=project_open_path;
+            auto extension=std::filesystem::u8path(import_path).extension().u8string();detail::ascii_lower_in_place(extension);
+            const bool is_qupath=extension==".qpproj";
+            if(qupath_preview && qupath_review_input!=import_path) {qupath_preview.reset();qupath_losses=false;}
+            const char* open_label=is_qupath?(qupath_preview?"Import reviewed project (Ctrl+O)":"Review QuPath project (Ctrl+O)"):"Open project (Ctrl+O)";
+            ImGui::BeginDisabled(project_load.valid() || qupath_review.valid() || save_job.busy() || maintenance_job.valid());
+            if(ui::Button(open_label) || (!editing_blocked && !project_load.valid() && !qupath_review.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_O))) {
+                project_load_cancelled=false;loading_recovery=false;project_error.clear();
+                if(is_qupath && !qupath_preview) {
+                    review_qupath(import_path);
+                } else if(is_qupath) {
+                    const auto preview=qupath_preview;const bool losses=qupath_losses;
+                    const std::string destination=qupath_destination;
+                    qupath_cancel->store(false);
+                    project_load=std::async(std::launch::async,[preview,destination,losses,cancel=qupath_cancel] {
+                        const auto started=std::chrono::steady_clock::now();auto imported=preview->import_new(destination,losses,cancel.get());
+                        return LoadedProject{std::move(imported),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count(),false,true};
+                    });
+                } else project_load=std::async(std::launch::async,load_project,import_path,false,std::string{});
             }
             ImGui::EndDisabled();
+            if(qupath_review.valid()) ui::TextDisabled("Reviewing QuPath project...");
+            if(is_qupath && qupath_preview) {
+                ImGui::Text("Reviewed %zu images",qupath_preview->images().size());
+                ImGui::BeginChild("QuPath import report",ImVec2(0,180),true,ImGuiWindowFlags_HorizontalScrollbar);
+                ImGuiListClipper rows;const auto count=qupath_preview->images().size();rows.Begin(int(count+qupath_preview->issues().size()));
+                while(rows.Step()) for(int row=rows.DisplayStart;row<rows.DisplayEnd;++row) {
+                    if(std::size_t(row)<count) {const auto& image=qupath_preview->images()[row];ImGui::Text("%s: %s, %zu objects",image.name.c_str(),image.available?"available":"unavailable",image.objects);}
+                    else {const auto& issue=qupath_preview->issues()[row-count];ImGui::Text("%s (%zu)",issue.message.c_str(),issue.count);}
+                }
+                ImGui::EndChild();
+                if(!qupath_preview->issues().empty()) ui::Checkbox("Accept reported project import losses",&qupath_losses);
+                ui::InputTextWithHint("##QuPath destination","New native project destination",qupath_destination,sizeof(qupath_destination));
+                ImGui::BeginDisabled(project_load.valid() || qupath_review.valid());
+                if(ui::Button("Refresh QuPath review")) {qupath_preview.reset();qupath_losses=false;review_qupath(import_path);}
+                ImGui::EndDisabled();
+                ui::TextDisabled("Existing destination files are preserved.");
+            }
             ImGui::BeginDisabled(project_load.valid() || save_job.busy() || maintenance_job.valid());
             if(ui::Button("New project (Ctrl+N)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_N))) {
                 staged_project=std::make_shared<Project>(); staged_is_recovery=false;
@@ -2453,7 +2500,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         replay.finish_frame(!settling);
         if(settling) ++settle_frames;
-        const bool tiles_settled=raw_pixel.settled() && pixel_classifier.settled() && !startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
+        const bool tiles_settled=raw_pixel.settled() && pixel_classifier.settled() && !startup_active && !project_load.valid() && !qupath_review.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
         const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
@@ -2491,6 +2538,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(final_frame) {finite_run_finished=true;break;}
     }
+    qupath_cancel->store(true);
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
     // Drain a completed finite embedding; a confirmed early close cancels even
@@ -2555,7 +2603,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
         tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
-        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (empty || overview.settled()),
+        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !qupath_review.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (empty || overview.settled()),
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
         tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
         saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},

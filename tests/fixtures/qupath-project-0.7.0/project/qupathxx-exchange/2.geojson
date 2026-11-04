@@ -1,0 +1,93 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "cf53349e-4e04-42b9-a8ec-d0aea8d71e04",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              42
+            ],
+            [
+              52,
+              42
+            ],
+            [
+              52,
+              2
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "Parent α",
+        "classification": {
+          "name": "Tumor",
+          "color": [
+            255,
+            32,
+            48
+          ]
+        },
+        "childObjects": [
+          {
+            "type": "Feature",
+            "id": "19c8f2fd-70c4-4ecf-a005-d46fb4df66a9",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    4,
+                    4
+                  ],
+                  [
+                    4,
+                    14
+                  ],
+                  [
+                    14,
+                    14
+                  ],
+                  [
+                    14,
+                    4
+                  ],
+                  [
+                    4,
+                    4
+                  ]
+                ]
+              ]
+            },
+            "properties": {
+              "objectType": "annotation",
+              "name": "Child",
+              "classification": {
+                "name": "Tumor",
+                "color": [
+                  255,
+                  32,
+                  48
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

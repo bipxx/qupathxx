@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    QuPathProjectImage, QuPathProjectPreview, preview_qupath_project,
     GuiSpatialOptions, GuiSpatialReport, SpatialDistanceUnits, SpatialDistanceOptions, SpatialObjectSnapshot, SpatialDistanceRequest, SpatialDistanceRow, SpatialDistanceResult, SpatialDistanceRecord, SpatialDistanceStats, SpatialDistanceJob, measure_spatial_distances, spatial_distance_csv, save_spatial_distance_csv,
     RawPixelTrainingSettings, GuiRawPixelOptions, GuiRawPixelReport,
     ScientificRawLattice, ScientificRawWindowAxis, ScientificRawWindow, ScientificRawWindowData,
@@ -75,6 +76,7 @@ from ._native import (
 )
 
 __all__ = [
+    "QuPathProjectImage", "QuPathProjectPreview", "preview_qupath_project",
     'GuiSpatialOptions', 'GuiSpatialReport', 'SpatialDistanceUnits', 'SpatialDistanceOptions', 'SpatialObjectSnapshot', 'SpatialDistanceRequest', 'SpatialDistanceRow', 'SpatialDistanceResult', 'SpatialDistanceRecord', 'SpatialDistanceStats', 'SpatialDistanceJob', 'measure_spatial_distances', 'spatial_distance_csv', 'save_spatial_distance_csv',
     "RawPixelTrainingSettings", "GuiRawPixelOptions", "GuiRawPixelReport",
     'ScientificRawLattice', 'ScientificRawWindowAxis', 'ScientificRawWindow', 'ScientificRawWindowData',

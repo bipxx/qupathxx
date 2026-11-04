@@ -6,6 +6,7 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/shared_ptr.h>
 namespace nb=nanobind;using namespace nb::literals;
+void bind_qupath_project(nb::module_&);
 void bind_file_fingerprint(nb::module_& m) {
     using namespace qpx;
     nb::class_<FileFingerprintOptions>(m,"FileFingerprintOptions").def(nb::init<>()).def_rw("byte_limit",&FileFingerprintOptions::byte_limit).def_rw("buffer_bytes",&FileFingerprintOptions::buffer_bytes).def("validate",&FileFingerprintOptions::validate);
@@ -28,4 +29,5 @@ void bind_file_fingerprint(nb::module_& m) {
     auto report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));
     report.def_ro("file_fingerprint_association",&GuiReport::file_fingerprint_association).def_ro("file_fingerprint_state",&GuiReport::file_fingerprint_state).def_ro("file_fingerprint_error",&GuiReport::file_fingerprint_error)
         .def_ro("file_fingerprint_result",&GuiReport::file_fingerprint_result).def_ro("file_fingerprint_bytes",&GuiReport::file_fingerprint_bytes).def_ro("file_fingerprint_ms",&GuiReport::file_fingerprint_ms);
+    bind_qupath_project(m);
 }

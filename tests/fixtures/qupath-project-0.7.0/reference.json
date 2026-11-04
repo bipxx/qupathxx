@@ -1,0 +1,25 @@
+{
+  "project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-project-r5\\project\\project.qpproj",
+  "images": [
+    {
+      "entry_id": "1",
+      "name": "Slide α",
+      "source": [
+        "file:/C:/Users/HEQ/Projects/qupathxx/build/qupath-project-r5/sources/slide%20α.ome.tif"
+      ],
+      "objects": 2,
+      "pixel_width_um": 0.25,
+      "pixel_height_um": 0.5
+    },
+    {
+      "entry_id": "2",
+      "name": "Gray specimen",
+      "source": [
+        "file:/C:/Users/HEQ/Projects/qupathxx/build/qupath-project-r5/sources/gray.ome.tif"
+      ],
+      "objects": 2,
+      "pixel_width_um": 0.7,
+      "pixel_height_um": 0.8
+    }
+  ]
+}
