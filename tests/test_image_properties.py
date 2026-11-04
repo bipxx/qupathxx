@@ -8,6 +8,8 @@ from pathlib import Path
 import shutil
 import sqlite3
 import struct
+import subprocess
+import sys
 
 import pytest
 import qupathxx as q
@@ -169,3 +171,40 @@ def test_desktop_imported_root_and_child_facts_are_separate_and_saved(tmp_path):
     assert not project.dirty
     restored=q.Project.open(str(path)).document(image)
     assert restored.image_properties.measurements['Root area']==12.5 and restored.annotations[0].properties.measurements=={'Root area':3.5}
+
+
+@pytest.mark.skipif(not q.has_project,reason='native worker ownership')
+@pytest.mark.parametrize('scope',['image','object'])
+def test_async_image_facts_final_release_needs_no_python_on_save_worker(tmp_path,scope):
+    # A blocked writer forces worker-side snapshot cleanup after a replacement.
+    # Keep this bounded in a child: a GIL-dependent deleter must not hang pytest.
+    script = r"""
+import sys,sqlite3
+sys.path.insert(0,sys.argv[1])
+import qupathxx as q
+assert q.build_environment().git_revision==sys.argv[3]
+doc=q.Document(q.Image(8,8,[20,40,60]*64));doc.set_history_limits(0,0)
+obj=doc.add_rectangle(q.Rect(1,1,2,2))
+set_facts=lambda value: doc.set_image_properties(value) if sys.argv[4]=='image' else doc.set_object_properties(obj,value)
+read_facts=lambda value: value.image_properties if sys.argv[4]=='image' else value.annotation(obj).properties
+set_facts(q.ObjectProperties({'note':'captured'}))
+project=q.Project();image=project.add_document(doc);path=sys.argv[2];project.save(path)
+lock=sqlite3.connect(path);lock.execute('BEGIN IMMEDIATE')
+job=q.ProjectSaveJob();assert job.request(project,path)
+set_facts(q.ObjectProperties({'note':'later'}))
+print('waiting for blocked writer cleanup after final old-facts release',flush=True)
+result=job.wait()
+assert result.state=='error' and 'locked' in result.error,result.error
+lock.rollback();lock.close()
+assert read_facts(q.Project.open(path).document(image)).metadata=={'note':'captured'}
+assert job.request(project,path) and job.wait().applied
+assert read_facts(q.Project.open(path).document(image)).metadata=={'note':'later'}
+print('native-only image-facts cleanup and retry passed',flush=True)
+"""
+    argv=[sys.executable,'-I','-X','utf8','-c',script,str(Path(q.__file__).parent.parent),str(tmp_path/'worker.qpxproj'),q.build_environment().git_revision,scope]
+    try:result=subprocess.run(argv,cwd=tmp_path,capture_output=True,text=True,timeout=15)
+    except subprocess.TimeoutExpired as failure:
+        output=failure.stdout or b''
+        pytest.fail('image facts worker cleanup timed out: '+(output.decode('utf-8',errors='replace') if isinstance(output,bytes) else output))
+    assert result.returncode==0,result.stdout+'\n'+result.stderr
+    assert 'native-only image-facts cleanup and retry passed' in result.stdout

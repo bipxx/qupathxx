@@ -45,24 +45,24 @@ Current: **R5-ROOT1 — saved-data root metadata/measurements** (contract settle
   additional saved-data versions/records, remaining R4/R5 gaps and R6-R16 stay in
   the existing queue; completing ROOT1 will not close all interchange or M4.
 
-Latest closeout (2026-11-04, ROOT1 contract/capture):
-Outcome/evidence: the pinned synthetic root capture independently retains Unicode
-metadata, finite/NaN/infinite/signed-zero measurements and distinct child facts.
-Cached serialization sources match the pinned hashes. The installed dd33c2b1
-product reproduces root_properties_dropped (build/root-facts-r5/baseline.xml).
-The shared native/history/import/store/binding/inspector changes and contracts
-are drafted; runtime verification is pending.
-Waste/decision: **reuse** the pinned runtime/source/corpus, immutable facts codec,
-ordinary staged history and save snapshot authority. **Remove** a second facts
-model/decoder and unnecessary ROI/render invalidation for image-only edits.
-**Merge** schema/bindings/GUI into one build. Current-format expectations are
-centralized independently in tests/project_schema_contract.py; legacy fixtures
-remove the new table before downgrading. Only affected migration functions plus
-actual changed workflow contracts are selected, not unrelated numerical cohorts.
-Plan change/next action: freeze the settled compiler inputs for one cached build;
-run ROOT1 and new/older affected contracts staged before installation. Preserve
-this baseline failure and retry only diagnosed failures. Then generate stubs once,
-install once, verify typing and inspect the real historical image/ROI facts UI.
+Latest closeout (2026-11-04, ROOT1 ownership failure):
+Outcome/evidence: native69dc9cd7 builds in670.91s and six affected native suites
+pass. The isolated final-release test times out after reaching blocked writer
+cleanup (build/root-facts-r5/ownership-before.xml). With history disabled, the
+worker owns the last shared control that retains a Python wrapper; wait holds
+the GIL while nanobind's py_deleter requests it. Source caster inspection confirms
+the path. The bounded child is terminated; the build and test handles are terminal.
+Waste/decision: **retain** the failed candidate/logs/test bytes; **remove**
+Python-owned lifetime from the common ObjectProperties construction path rather
+than adding separate image/ROI models or callbacks. **Merge** the fix at the
+shared factory and preserve Python value identity/constructor arguments. This
+case should have been checked during constructor/caster tracing before freezing;
+add a final-release precondition to future async owning-value changes.
+Plan change/next action: make ObjectProperties shared_from_this-aware and construct
+Python values with a native shared factory. Test image and ROI final release,
+retain the before failure, then rebuild affected products once. The header/type
+changes justify rerunning affected native and staged contracts. Generate stubs
+and install only after those pass; no general wait/controller rewrite is needed.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

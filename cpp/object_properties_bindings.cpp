@@ -9,7 +9,9 @@ namespace nb=nanobind;using namespace nb::literals;
 void bind_object_properties(nb::module_& m) {
     using namespace qpx;
     nb::class_<ObjectProperties>(m,"ObjectProperties")
-        .def(nb::init<std::map<std::string,std::string>,std::map<std::string,double>,bool,std::optional<std::uint32_t>,std::optional<double>>(),"metadata"_a=std::map<std::string,std::string>{},"measurements"_a=std::map<std::string,double>{},"locked"_a=false,"color_rgb"_a=nb::none(),"class_probability"_a=nb::none())
+        .def(nb::new_([](std::map<std::string,std::string> metadata,std::map<std::string,double> measurements,bool locked,std::optional<std::uint32_t> color,std::optional<double> probability) {
+            return std::make_shared<ObjectProperties>(std::move(metadata),std::move(measurements),locked,color,probability);
+        }),"metadata"_a=std::map<std::string,std::string>{},"measurements"_a=std::map<std::string,double>{},"locked"_a=false,"color_rgb"_a=nb::none(),"class_probability"_a=nb::none())
         .def_prop_ro("metadata",[](const ObjectProperties& p){return p.metadata();}).def_prop_ro("measurements",[](const ObjectProperties& p){return p.measurements();})
         .def_prop_ro("payload_bytes",&ObjectProperties::payload_bytes).def_prop_ro("locked",&ObjectProperties::locked)
         .def_prop_ro("color_rgb",&ObjectProperties::color_rgb).def_prop_ro("class_probability",&ObjectProperties::class_probability)

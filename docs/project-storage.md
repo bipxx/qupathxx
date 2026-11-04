@@ -1,13 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 18 stores canonical object state,
+source descriptors. SQLite schema version 19 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
 [spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
-[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–16
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–18
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -67,6 +67,23 @@ input digests. They load as unverified historical values until a background
 recheck; see [analysis provenance](analysis-provenance.md). Full-source and
 environment provenance remain M5 work.
 
+## Historical image facts
+
+Schema19 adds `image_properties(image_id, payload)`, a sparse row keyed by the
+owning image. It reuses the bounded checksummed ObjectProperties codec for
+metadata and measurements; ROI lock/color/probability state is rejected at image
+level. Empty facts need no row. Schemas1-18 load with no image facts, and save
+creates the table inside the existing canonical transaction. Bad payload types,
+checksums, duplicate/orphan rows or invalid image-level editing state refuse.
+
+`Document.image_properties` owns immutable historical maps. Changes use one
+ordinary document history entry and leave object IDs, ROI facts, calibration,
+selection and ROI/render revisions unchanged. Save snapshots share the immutable
+value and charge its payload before starting IO. An in-flight save retains its
+captured value while later edits remain dirty. The loader restores facts directly
+into the private candidate without synthetic commands or persisted history.
+See [image facts](image-properties.md) for the API and import/inspector contract.
+
 ## Transactions and save conflicts
 
 Saves use one `BEGIN IMMEDIATE` transaction with `synchronous=FULL`. Prepared
@@ -76,7 +93,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 18. Schemas 1–17 migrate
+The application ID is `0x51505858` and new `user_version` is 19. Schemas 1–18 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.

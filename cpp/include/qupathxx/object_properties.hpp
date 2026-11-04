@@ -8,7 +8,7 @@
 namespace qpx {
 // Imported/user-supplied historical facts, not recomputed analysis results.
 // Names/values: bounded UTF-8, no NUL; <=4096 entries total and <=1 MiB payload.
-class ObjectProperties {
+class ObjectProperties : public std::enable_shared_from_this<ObjectProperties> {
 public:
     ObjectProperties(std::map<std::string,std::string> metadata={},std::map<std::string,double> measurements={},bool locked=false,std::optional<std::uint32_t> color_rgb=std::nullopt,std::optional<double> class_probability=std::nullopt);
     ObjectProperties(const ObjectProperties&)=default;
