@@ -32,7 +32,7 @@ arithmetic. Optional ROI masks select pixel centers; `.npy` exports contain the
 whole requested rectangle and do not serialize the separate validity mask.
 
 The [reader licensing policy](reader-license-policy.md) retains this open-source
-libtiff/zlib/tinyxml2 stack and excludes proprietary decoder dependencies.
+libtiff/zlib/tinyxml2/libjpeg-turbo stack and excludes proprietary decoder dependencies.
 
 ## Supported inputs
 
@@ -42,14 +42,19 @@ libtiff/zlib/tinyxml2 stack and excludes proprietary decoder dependencies.
 | Types | uint8/16/32/64, int8/16/32/64, float32/64 |
 | Layout | Strips or tiles; contiguous or separate planes; both byte orders |
 | Photometric | Top-left grayscale MINISBLACK/MINISWHITE or RGB; source alpha honored per pyramid level in preview |
-| Compression | Uncompressed, LZW, PackBits, Deflate |
+| Compression | Uncompressed, LZW, PackBits, Deflate; 8-bit scalar/RGB JPEG with full streams or JPEGTables |
 | OME axes | All six Z/C/T orders, explicit TiffData mappings, grouped RGB samples |
 | Pyramid | Native SubIFDs with increasing integer isotropic scales |
 | Plain TIFF pages | Separate series; no guessed Z/time axes |
 
-JPEG, JPEG2000, palette/YCbCr, rotated orientations, bit-packed and complex
+Old-style JPEG (compression6), JPEG2000, palette/YCbCr, rotated orientations, bit-packed and complex
 samples and noninteger/anisotropic pyramids are rejected by this
 reader. Existing OpenSlide format support remains available separately.
+[R2-CODEC1](benchmarks/tiff-jpeg-r2/README.md) adds JPEG through the existing
+libtiff path with pinned static libjpeg-turbo3.1.3 and packaged licenses/attribution.
+Raw values are the decoded lossy samples, not the encoder's original input.
+This software is based in part on the work of the Independent JPEG Group.
+
 Multi-file opening uses the same APIs and retains companion observations.
 See the [slice contract and limits](multifile-ome-tiff.md) and
 [engineering qualification](benchmarks/multifile-ome-210-qualification.json). Unresolved UUID-only

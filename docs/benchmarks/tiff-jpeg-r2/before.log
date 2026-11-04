@@ -1,0 +1,148 @@
+........FFFFFFFF                                                         [100%]
+================================== FAILURES ===================================
+__________ test_jpeg_raw_preview_and_owned_cache[False-False-False] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne0')
+rgb = False, tiled = False, tables = False
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[False-False-True] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne1')
+rgb = True, tiled = False, tables = False
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[False-True-False] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne2')
+rgb = False, tiled = True, tables = False
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[False-True-True] ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne3')
+rgb = True, tiled = True, tables = False
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[True-False-False] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne4')
+rgb = False, tiled = False, tables = True
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[True-False-True] ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne5')
+rgb = True, tiled = False, tables = True
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+___________ test_jpeg_raw_preview_and_owned_cache[True-True-False] ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne6')
+rgb = False, tiled = True, tables = True
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+____________ test_jpeg_raw_preview_and_owned_cache[True-True-True] ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4856/test_jpeg_raw_preview_and_owne7')
+rgb = True, tiled = True, tables = True
+
+    @pytest.mark.parametrize('rgb',[False,True])
+    @pytest.mark.parametrize('tiled',[False,True])
+    @pytest.mark.parametrize('tables',[False,True])
+    def test_jpeg_raw_preview_and_owned_cache(tmp_path,rgb,tiled,tables):
+        path=tmp_path/'jpeg.ome.tif';expected,_=fixture.generate(path,rgb=rgb,tiled=tiled,tables=tables)
+        expected=expected if rgb else expected[...,None]
+        options=q.TiffOpenOptions();options.cache_bytes=1024*1024
+>       server=q.open_tiff(str(path),options);meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: TIFF compression codec is not enabled in this reader
+
+tests\test_tiff_jpeg.py:37: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[False-False-False]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[False-False-True]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[False-True-False]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[False-True-True]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[True-False-False]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[True-False-True]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[True-True-False]
+FAILED tests/test_tiff_jpeg.py::test_jpeg_raw_preview_and_owned_cache[True-True-True]
+8 failed, 8 passed, 6 deselected in 0.59s

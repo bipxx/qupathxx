@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cmake",
+    "-S",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-smoke",
+    "-B",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build",
+    "-G",
+    "Ninja",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DQPX_SOURCE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159"
+  ],
+  "returncode": 1
+}

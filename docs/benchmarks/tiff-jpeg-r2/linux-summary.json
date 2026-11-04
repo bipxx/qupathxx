@@ -1,0 +1,9 @@
+{
+  "decoded_cases": 8,
+  "samples_exact": true,
+  "symbols": [
+    "  1255: 0000000000078590   151 FUNC    LOCAL  DEFAULT   16 jpeg_std_error",
+    "  1272: 0000000000066940   330 FUNC    LOCAL  DEFAULT   16 jpeg_CreateDecompress"
+  ],
+  "scope": "WSL Ubuntu single-config codec/CMake smoke, not full qupathxx Linux qualification"
+}
