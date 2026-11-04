@@ -101,6 +101,15 @@ std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,con
             scale=time?entry.seconds:entry.micrometres;break;
         }
     }
+    if(!time && !scale) {
+        // Non-SI OME length units, including its approximate parsec factor.
+        // Final micrometre factors leave the legacy/SI arithmetic untouched.
+        static constexpr std::pair<const char*,double> lengths[]={
+            {"in",25400.},{"thou",25.4},{"li",25400./12.},{"ft",304800.},
+            {"yd",914400.},{"mi",1609344000.},{"ua",1.495978707e17},
+            {"ly",9.4607304725808e21},{"pc",3.0856776e22},{"pt",25400./72.}};
+        for(const auto& entry:lengths) if(unit==entry.first) {scale=entry.second;break;}
+    }
     const auto value=n*scale;return scale && std::isfinite(value) && value>0?std::optional<double>(value):std::nullopt;
 }
 std::string bounded(const char* text,std::size_t maximum) {if(!text) return {};std::size_t n=0;while(n<=maximum && text[n]) ++n;if(n>maximum) throw std::length_error("TIFF metadata text exceeds limit");return {text,n};}

@@ -739,3 +739,5 @@ docs/benchmarks/qupath-body-boundary-qualification-308/** -text -whitespace
 docs/benchmarks/ome-calibration-units-r2/** -text -whitespace
 
 docs/benchmarks/binaryonly-ome-r2/** -text -whitespace
+tests/fixtures/ome-units-6.5.1/** -text -whitespace
+tools/upstream/ome_length_units.groovy -text -whitespace
