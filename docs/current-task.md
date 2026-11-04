@@ -16,12 +16,12 @@ Current: **R5-SOURCEAXES1 — retained planes when replacing image sources** (re
 - State: six baseline cases on695158a8 reproduce the missing Z/time/channel
   guard through both relink and review/apply. All six fail because no ValueError
   is raised. Raw results stay under root build/source-plane-replacement-r5.
-- Next action: a private publication guard is implemented in project.cpp;
-  finish test/consumer review, then one cached build. It scans current planes
-  without copying annotations, reads candidate raw metadata once only when
-  needed, and preserves the existing matching-live-source no-op path. Run new
-  and older affected contracts staged before installation. Bindings/schema/
-  kernels are unchanged; reuse existing stubs and typing results.
+- Next action: the compatible desktop save failure is an observer bug:
+  options.inputs getter returns a Python copy, so append/extend never sent the
+  save action. Build the event list separately and assign it once; retry only
+  that case. Refusal desktop already passes after separating viewport dirty
+  state from source state. Preserve prior GUI logs and reuse this product;
+  source guards, staged/native checks, bindings and stubs do not change.
 - Checks: reduction refusal preserves old reader/path/baseline and objects;
   compatible replacement and matching-byte move/no-op still work. Include a
   plane edit after review/before apply and appropriate stale/failure behavior.
@@ -33,24 +33,17 @@ Current: **R5-SOURCEAXES1 — retained planes when replacing image sources** (re
 - Stop: the declared source replacement workflow is safe through native/Python/
   affected desktop consumers and save/reopen. Other R4/R5 and R6-R16 remain open.
 
-Latest closeout (2026-11-04, PLANE1):
-Outcome/evidence: [native planes](benchmarks/object-planes-r5/README.md) covers the
-import/view/select/analyze/publish/save/reopen/export workflow, schema18 migration,
-explicit unsupported cases and real ImGui/managed consumers. Source695158a8 adds
-only a private exception correction to workflow source774abdc4; the evidence
-records their scopes and retained failures. 972 distinct headless passing
-identities, nine native suites plus the affected correction suite, three desktop
-flows and unchanged-stub typing checks are recorded there.
-Waste/cost: **retain** failures; **merge** producer/publication fixes before freezing
-interfaces; **reuse** unchanged numerical/ownership/persistence, GUI and typing
-checks instead of repeating healthy cohorts. Three cached builds took791.53s,
-724.83s and45.03s; two installs and one stub generation. The broader contract
-regression ran after the first install: move that staged check earlier next time.
-**Remove** redundant extracted stages when permitted; automatic approval review
-rejected the deletion as blocked by policy, so all four copies remain. Original
-wheels/logs/products are retained. No platform campaign or independent-review loop was added.
-Plan change/next action: SOURCEAXES1 is the next actual R5 boundary exposed by
-retained planes; use the existing source authority rather than another framework.
+Latest attempt review (2026-11-04, SOURCEAXES1 desktop checks):
+Outcome/evidence: six baseline failures prove the missing axis guard. A private
+project.cpp fix passes93 staged contracts and three affected native suites.
+Two desktop source actions execute, but test save/dirty expectations fail.
+Waste/cost: **retain** both failures. **Reuse** the37.37s product and successful
+staged/native checks. Inspect real GUI save controls/waits and distinguish source
+adoption from viewport state before retrying; an arbitrary frame delay is not
+proof of completed saving. Bindings/schema/stubs remain unchanged, so no stub
+regeneration or typing/build campaign is needed. One build and one install so far.
+Plan change/next action: establish an actual desktop apply/refuse/save sequence
+on this product, then close the task only with saved source/plane evidence.
 
 After each task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

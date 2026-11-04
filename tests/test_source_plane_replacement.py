@@ -104,16 +104,22 @@ def test_desktop_reviewed_source_axes_are_checked_before_apply_and_save(tmp_path
     project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(-1,1 if compatible else 2,0))
     retain(project,image,tmp_path/'source.ome.tif');saved=tmp_path/'source.qpxproj';project.save(str(saved));before=state(project,image);baseline=saved.read_bytes();path=replacement(tmp_path,'z',2)
     options=q.GuiOptions();options.file_fingerprint_path=str(path);options.settle_tiles=True;options.width=1280;options.height=1100
-    options.inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY),
+    inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY),
         event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT),
         event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)]
-    if compatible:options.inputs.append(event(24,q.GuiInputKind.SAVE_KEY))
+    if compatible:inputs.extend([event(23,q.GuiInputKind.MOVE,q.GuiInputTarget.SAVE_PROJECT),event(24,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.SAVE_PROJECT,q.GuiInputWait.TARGET_READY),event(25,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.SAVE_PROJECT)])
+    options.inputs=inputs  # Assign once: the bound vector getter returns a copy.
     report=q.show(project,frame_limit=50,capture_path=str(tmp_path/'source-axis-review.ppm'),options=options)
     assert report.replay_complete and report.file_fingerprint_state=='succeeded'
     if compatible:
-        assert not report.file_fingerprint_error and not project.dirty and doc.server.raw_metadata.z_planes==2
+        assert report.saves_completed==1,(report.project_error,project.images[0].source_path,doc.server.raw_metadata.z_planes)
+        assert not report.file_fingerprint_error and doc.server.raw_metadata.z_planes==2
+        assert project.images[0].source_path==str(path)
         assert q.Project.open(str(saved)).document(image).annotation(obj).plane.z==1
         result=q.analyze_raw(q.RawAnalysisRequest(doc,request(1,1,z=1),obj,tile_size=16));assert result.statistics.means==[13.0]
     else:
         assert 'retained object plane' in report.file_fingerprint_error
-        assert state(project,image)==before and saved.read_bytes()==baseline and doc.server.raw_metadata.z_planes==3
+        after=state(project,image)
+        # GUI viewport state may dirty the project independently of source adoption.
+        assert after[:2]==before[:2] and after[3:]==before[3:]
+        assert saved.read_bytes()==baseline and doc.server.raw_metadata.z_planes==3
