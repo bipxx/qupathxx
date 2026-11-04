@@ -15,6 +15,7 @@ bool same_object(const std::optional<Annotation>& a,const std::optional<Annotati
     if (!a) return true;
     return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
         a->geometry.equals(b->geometry) && a->kind==b->kind &&
+        (a->properties==b->properties || (a->properties && b->properties && a->properties->equals(*b->properties))) &&
         a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link && bool(a->tma_core)==bool(b->tma_core) && (!a->tma_core || a->tma_core->same_metadata(*b->tma_core));
 }
 void text(const std::string& value) {
@@ -28,6 +29,12 @@ ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::u
     return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+ObjectEdit ObjectEdit::properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
+    ObjectEdit out{ObjectEditKind::Properties,{id,"",{},0,"",0}};out.value.properties=std::move(properties);return out;
+}
+void Document::set_object_properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
+    execute({ObjectEdit::properties(id,std::move(properties))},"Set object properties");
+}
 ObjectEdit ObjectEdit::tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo> info) {
     ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
 }
@@ -189,7 +196,7 @@ std::vector<Annotation> Document::annotations() const {
     return result;
 }
 std::size_t Document::object_payload(const Annotation& a) {
-    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0)+(a.tma_core?a.tma_core->payload_bytes():0);
+    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0)+(a.tma_core?a.tma_core->payload_bytes():0)+(a.properties?a.properties->payload_bytes():0);
 }
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -394,7 +401,7 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
     std::size_t bytes=sizeof(EditRecord)+label.size();
     std::set<const TmaGridInfo*> tma_layouts;
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch) {
-        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0):0);
+        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0)+(a->properties?a->properties->payload_bytes():0):0);
         if(a && a->tma_core && tma_layouts.insert(a->tma_core->grid_info().get()).second) bytes+=a->tma_core->grid_info()->payload_bytes();
     }
     for(auto* patch:{&staged.before_classes,&staged.after_classes}) for(const auto& [name,value]:*patch)
@@ -423,8 +430,11 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
             const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
             auto value=edit.value;
             if(!value.tma_core) value.tma_core=previous->tma_core;
+            if(!value.properties) value.properties=previous->properties;
             if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
             staged.write(value.id,std::move(value));
+        } else if(edit.kind==ObjectEditKind::Properties) {
+            auto value=staged.get(edit.value.id);if(!value)throw std::out_of_range("annotation does not exist");value->properties=edit.value.properties;staged.write(value->id,std::move(value));
         } else if(edit.kind==ObjectEditKind::TmaMetadata) {
             auto value=staged.get(edit.value.id);if(!value) throw std::out_of_range("annotation does not exist");value->tma_core=edit.value.tma_core;staged.write(value->id,std::move(value));
         } else if (edit.kind==ObjectEditKind::Remove) staged.remove_subtree(edit.value.id);
@@ -539,6 +549,8 @@ std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,
     for(auto id:ids) {
         const auto& a=find(id);
         if(!selected.insert(id).second) throw std::invalid_argument("annotation merge IDs must be distinct");
+        if(a.properties && (!a.properties->metadata().empty() || !a.properties->measurements().empty()))
+            throw std::invalid_argument("merge cannot combine historical object properties; clear them explicitly before merging");
         if(a.kind!=ObjectKind::Annotation || a.tma_core || (!a.geometry.is_area() && a.geometry.kind()!=RoiKind::Points))
             throw std::invalid_argument("annotation merge requires area or point annotations, excluding TMA cores");
         areas|=a.geometry.is_area();points|=a.geometry.kind()==RoiKind::Points;

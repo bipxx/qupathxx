@@ -103,7 +103,7 @@ def test_loss_reporting_subset_parents_and_unknown_properties():
         q.import_geojson(target, json.dumps(data), assume_pixels=True)
     assert target.object_count == 0
     imported = q.import_geojson(target, json.dumps(data), assume_pixels=True, allow_losses=True)
-    assert [(i.code, i.count) for i in imported.issues] == [("properties_dropped", 2)]
+    assert [(i.code, i.count) for i in imported.issues] == [("properties_dropped", 1)]
 
 
 @geo

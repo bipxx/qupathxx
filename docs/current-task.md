@@ -14,7 +14,22 @@ Current: **R5-PROP1 — imported object metadata and measurements**.
   currently has no representation. Trace object commands/history, snapshots,
   project codecs and table/export consumers. Reuse existing pinned synthetic
   QuPath0.7.0 data and GeoJSON fixtures; no new reference capture by default.
-- Next action: settle the additive native owning types and API/storage migration,
+- Implementation status: immutable ObjectProperties, atomic property commands,
+  history/snapshot charges, schema16 table/codec, GeoJSON/CSV and selected-object
+  inspection are being wired together. Saved-data decoding retains the pinned
+  metadata and measurement representations. No native build/install has run yet.
+- Contract: bounded string metadata and binary64 measurements (canonical NaN,
+  signed zero and infinities preserved); imported facts remain historical after
+  edits. Unknown fields/locks/planes retain explicit refusal/loss. Ordinary edits
+  preserve properties; explicit property clearing is undoable. Merge refuses
+  nonempty historical properties rather than inventing aggregated measurements.
+- Small failed edit-script review: source-closure helper expected a literal module
+  path but the tools discover compiler files automatically. Keep that discovery;
+  add only the new tests/typing dependencies. No build/check rerun is justified.
+- Next action: freeze the settled compiler inputs for one cached build/install,
+  generate stubs from that exact product, then run affected native/model/typing
+  and desktop inspection/save checks. Baseline checks on SOURCE1 fail as expected
+  because ObjectProperties/import retention are absent. The contract covers
   including supported values, numeric/nonfinite policy, immutable ownership,
   limits, duplicate keys and atomic import behavior. Then implement the shared
   authority and affected Python/ImGui/file routes together.

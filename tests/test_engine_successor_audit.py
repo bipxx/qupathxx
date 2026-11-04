@@ -145,11 +145,11 @@ def check_legacy_record_guard(tmp_path,root):
     return scope['entry']
 
 
-def test_legacy_record_gate_accepts_schema15_source_migrations(tmp_path):
+def test_legacy_record_gate_accepts_schema16_properties_migrations(tmp_path):
     root,cases=legacy_record_fixture(tmp_path)
-    assert len(cases)==36
+    assert len(cases)==37
     result=check_legacy_record_guard(tmp_path,root)
-    assert len(result['test_pixel_stream_records_cases'])==36
+    assert len(result['test_pixel_stream_records_cases'])==37
     assert len(result['test_pixel_stream_file_cases'])==41
 
 
@@ -173,7 +173,7 @@ def test_legacy_record_gate_refuses_incomplete_migrations(tmp_path,change):
     if change=='old_count':root.remove(cases[-1])
     elif change in ('missing_version13','missing_version14'):final.set('name','replacement_case')
     elif change=='old_family':
-        for case in cases:case.set('name',case.get('name').replace('to_schema15','to_schema14'))
+        for case in cases:case.set('name',case.get('name').replace('to_schema16','to_schema15'))
     elif change=='duplicate_identity':cases[-1].set('name',cases[-2].get('name'))
     else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error','failed_version14':'failure'}[change])
     with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)

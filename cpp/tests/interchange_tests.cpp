@@ -1,10 +1,17 @@
 #include "qupathxx/interchange.hpp"
+#include "../object_properties_codec.hpp"
+#include <cmath>
+#include <limits>
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
 void check(bool value) { if(!value) throw std::runtime_error("interchange check failed"); }
 int main() {
     try {
+        const ObjectProperties facts({{"note","native"}},{{"Area",3.5},{"negative zero",-0.0},{"missing",std::numeric_limits<double>::quiet_NaN()},{"infinity",std::numeric_limits<double>::infinity()}});
+        auto bytes=detail::encode_object_properties(facts);const auto decoded=detail::decode_object_properties(bytes.data(),bytes.size());
+        check(facts.equals(*decoded) && std::isnan(decoded->measurements().at("missing")) && std::signbit(decoded->measurements().at("negative zero")));
+        bytes.back()^=1;bool bad_checksum=false;try {detail::decode_object_properties(bytes.data(),bytes.size());}catch(const std::invalid_argument&){bad_checksum=true;}check(bad_checksum);
         Document source(Image::demo());
         auto parent=source.add_rectangle({0,0,100,100},"Parent");
         source.add_cell(Roi::rectangle({10,10,20,20}),Roi::rectangle({15,15,3,3}),"Cell",parent,"Tumor");
@@ -39,6 +46,13 @@ int main() {
         check(target.undo() && target.objects().size()==1);
         bool rejected=false; try { import_geojson(target,"{bad}"); } catch(const std::invalid_argument&) { rejected=true; }
         check(rejected && target.redo() && target.objects().size()==3);
+        Document properties(Image::demo());auto item=properties.add_rectangle({1,1,10,10});
+        properties.set_object_properties(item,std::make_shared<const ObjectProperties>(facts));const auto owned=properties.annotation(item).properties;
+        properties.rename_annotation(item,"Preserved");check(properties.annotation(item).properties==owned);
+        const auto exported_properties=export_geojson(properties);Document reimported(Image::demo());import_geojson(reimported,exported_properties.text);
+        check(reimported.annotation(1).properties->equals(facts));
+        properties.set_object_properties(item,nullptr);check(!properties.annotation(item).properties && properties.undo() && properties.annotation(item).properties==owned);
+        std::cout<<"Object properties: immutable history, special numbers, checksummed codec and lossless GeoJSON round trip passed\n";
         auto nested=export_geojson(source,{},false,true);
         check(nested.features==2 && nested.issues.empty());
         check(nested.text.find("childObjects")!=std::string::npos);

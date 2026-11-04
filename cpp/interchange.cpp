@@ -62,7 +62,10 @@ bool has_interchange() {
 }
 std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t>& ids,bool intensity) {
     auto objects=selected(doc,ids); std::ostringstream out; out.imbue(std::locale::classic()); out<<std::setprecision(17);
-    out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb\r\n";
+    std::set<std::string> metadata_names,measurement_names;
+    for(auto id:objects)if(const auto& p=doc.objects().at(id).properties;p) {for(const auto& [k,v]:p->metadata())metadata_names.insert(k);for(const auto& [k,v]:p->measurements())measurement_names.insert(k);}
+    out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb";
+    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}out<<"\r\n";
     const bool calibrated=doc.pixel_width_um().has_value() && doc.pixel_height_um().has_value();
     for(auto id:objects) {
         const auto& a=doc.objects().at(id); auto b=a.geometry.bounds();
@@ -72,7 +75,10 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
         if(a.nucleus) out<<a.nucleus->area(); out<<',';
         if(a.nucleus && calibrated) { auto value=doc.nucleus_area_um2(id); if(!std::isfinite(value)) throw std::overflow_error("physical nucleus area exceeds numeric range"); out<<value; } out<<',';
         if(intensity && a.geometry.is_area()) out<<doc.mean_intensity(id); out<<',';
-        if(intensity && a.nucleus) out<<doc.nucleus_mean_intensity(id); out<<"\r\n"; bounded(out);
+        if(intensity && a.nucleus) out<<doc.nucleus_mean_intensity(id);
+        for(const auto& k:metadata_names) {out<<',';if(a.properties) {auto it=a.properties->metadata().find(k);if(it!=a.properties->metadata().end())csv_text(out,it->second);}}
+        for(const auto& k:measurement_names) {out<<',';if(a.properties) {auto it=a.properties->measurements().find(k);if(it!=a.properties->measurements().end()) {const auto v=it->second;if(std::isnan(v))out<<"NaN";else if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}}
+        out<<"\r\n"; bounded(out);
     }
     return out.str();
 }
@@ -255,12 +261,31 @@ struct Reader {
             auto rgb=c.contains("color")?color(c["color"]):(existing==document.classes().end()?ObjectClass{}.color:existing->second.color);
             definition(classification,rgb);
         }
-        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="childObjects" && p.key()!="children")
-            notices.add("properties_dropped","Unsupported properties (measurements, metadata, locks or custom fields) will be dropped",true);
+        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="metadata" && p.key()!="measurements" && p.key()!="childObjects" && p.key()!="children")
+            notices.add("properties_dropped","Unsupported properties (locks or custom fields) will be dropped",true);
         std::string source=value.contains("id")?identifier(value["id"]):"";
         auto local=static_cast<std::uint64_t>(objects.size()+1);
         if(!source.empty() && !identifiers.emplace(source,local).second) throw std::invalid_argument("duplicate feature ID");
         objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); source_ids.push_back(source);
+        std::map<std::string,std::string> metadata;std::map<std::string,double> measurements;
+        if(properties.contains("metadata")) {
+            const auto& values=properties["metadata"];if(!values.is_object())throw std::invalid_argument("object metadata must be a string map");
+            for(const auto& item:values.items())metadata.emplace(item.key(),text(item.value()));
+        }
+        auto measurement=[&](const Json& value) {
+            if(value.is_number())return value.get<double>();
+            if(value.is_string()) {const auto special=value.get<std::string>();if(special=="NaN")return std::numeric_limits<double>::quiet_NaN();if(special=="Infinity")return std::numeric_limits<double>::infinity();if(special=="-Infinity")return -std::numeric_limits<double>::infinity();}
+            throw std::invalid_argument("measurement must be numeric or NaN/Infinity/-Infinity string");
+        };
+        if(properties.contains("measurements")) {
+            const auto& values=properties["measurements"];
+            if(values.is_object()) {for(const auto& item:values.items())measurements.emplace(item.key(),measurement(item.value()));}
+            else if(values.is_array()) {for(const auto& item:values) {
+                if(!item.is_object() || item.size()!=2 || !item.contains("name") || !item.contains("value"))throw std::invalid_argument("invalid legacy measurement");
+                if(!measurements.emplace(text(item["name"]),measurement(item["value"])).second)throw std::invalid_argument("duplicate measurement name");
+            }} else throw std::invalid_argument("measurements must be a map or legacy array");
+        }
+        if(!metadata.empty() || !measurements.empty())objects.back().properties=std::make_shared<const ObjectProperties>(std::move(metadata),std::move(measurements));
         if(properties.contains("qupathxx")) {
             const auto& q=properties["qupathxx"];
             if(!q.is_object()) throw std::invalid_argument("invalid object extension");
@@ -309,6 +334,12 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
     auto feature_for=[&](std::uint64_t id) {
         const auto& a=doc.objects().at(id); Json properties={{"name",a.name},{"objectType",object_kind(a.kind)}};
         if(!a.class_name.empty()) { auto c=doc.object_class(a.class_name).color; properties["classification"]={{"name",a.class_name},{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}}; }
+        if(a.properties) {
+            if(!a.properties->metadata().empty())properties["metadata"]=a.properties->metadata();
+            if(!a.properties->measurements().empty()) {auto values=Json::object();for(const auto& [name,v]:a.properties->measurements()) {
+                if(std::isnan(v))values[name]="NaN";else if(std::isinf(v))values[name]=v>0?"Infinity":"-Infinity";else values[name]=v;
+            }properties["measurements"]=std::move(values);}
+        }
         if(a.tma_core) notices.add("tma_metadata_omitted","TMA grid, missing flags and case metadata are omitted; cores become ordinary annotations",true);
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
         auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }

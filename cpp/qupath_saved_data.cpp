@@ -196,6 +196,40 @@ class Decoder {
         for(std::size_t i=0;i<at(keys).values.size();++i)if(!out.emplace(text(at(keys).values[i]),text(at(values).values[i])).second)invalid("duplicate metadata key");
         return out;
     }
+    std::vector<Id> list(Id id) const {
+        const auto name=stream.name(id);
+        if(name=="java.util.ArrayList") {
+            Data d(stream,extra(id));const auto n=d.integer(4);if(n>4096 || int_field(id,"size")!=std::int32_t(n))invalid("invalid measurement list size");
+            std::vector<Id> out;while(out.size()<n)out.push_back(d.object());d.finish();return out;
+        }
+        if(name=="java.util.CollSer") {
+            if(int_field(id,"tag")!=1)invalid("unsupported measurement name collection");
+            Data d(stream,extra(id));const auto n=d.integer(4);if(n>4096)invalid("measurement list exceeds 4096 entries");
+            std::vector<Id> out;while(out.size()<n)out.push_back(d.object());d.finish();return out;
+        }
+        if(name=="java.util.Arrays$ArrayList") {const auto array=field(id,"a");if(at(array).kind!=Node::Array || at(array).values.size()>4096)invalid("invalid measurement name array");return at(array).values;}
+        invalid("unsupported measurement list representation: "+name);
+    }
+    Json measurement_json(double v) const {
+        if(std::isnan(v))return "NaN";if(std::isinf(v))return v>0?"Infinity":"-Infinity";return v;
+    }
+    Json measurements(Id id) const {
+        Json out=Json::object();if(!id)return out;const auto name=stream.name(id);
+        auto put=[&](const std::string& key,double value) {if(out.contains(key))invalid("duplicate saved measurement");out[key]=measurement_json(value);};
+        if(name=="qupath.lib.measurements.DefaultMeasurementList") {
+            for(auto measurement:list(field(id,"list"))) {
+                const auto type=stream.name(measurement);const bool single=type=="qupath.lib.measurements.FloatMeasurement";
+                if(!single && type!="qupath.lib.measurements.DoubleMeasurement")invalid("unsupported saved measurement type: "+type);
+                put(text(field(measurement,"name")),floating(number(field(measurement,"value"),single?'F':'D'),single));
+            }
+        } else if(name=="qupath.lib.measurements.NumericMeasurementList$DoubleList" || name=="qupath.lib.measurements.NumericMeasurementList$FloatList") {
+            const bool single=name.find("FloatList")!=std::string::npos;const auto names=list(field(id,"names"));const auto values=field(id,"values");
+            if(stream.name(values)!=(single?"[F":"[D"))invalid("invalid numeric measurement values");const auto& bytes=at(values).bytes;const unsigned width=single?4:8;
+            if(bytes.size()/width<names.size())invalid("short numeric measurement array");
+            for(std::size_t i=0;i<names.size();++i) {std::uint64_t n=0;for(unsigned j=0;j<width;++j)n=(n<<8)|static_cast<unsigned char>(bytes[i*width+j]);put(text(names[i]),floating(n,single));}
+        } else invalid("unsupported measurement storage: "+name);
+        return out;
+    }
     Json classification(Id id,unsigned depth=0) {
         if(!id)return nullptr;
         if(depth>=32 || stream.name(id)!="qupath.lib.objects.classes.PathClass")invalid("unsupported/cyclic classification");
@@ -288,12 +322,13 @@ class Decoder {
         if(uuid.size()!=36)invalid("invalid saved object UUID");
         for(std::size_t i=0;i<uuid.size();++i) {const bool dash=i==8 || i==13 || i==18 || i==23;const auto c=uuid[i];if(dash?c!='-':!((c>='0' && c<='9')||(c>='a'&&c<='f')||(c>='A'&&c<='F')))invalid("invalid saved object UUID");}
         attributes.erase(found);
-        if(!attributes.empty())issue("object_metadata_dropped","Saved object metadata is not represented");
-        const auto measurements=d.object();if(measurements)issue("object_measurements_dropped","Saved object measurements are not migrated");
+        const auto measured=measurements(d.object());
         const auto n=d.integer(4);if(n>1000000)invalid("invalid hierarchy child count");
         Json children=Json::array();for(std::size_t i=0;i<n;++i)children.push_back(object(d.object(),depth+1));
-        if(root) {d.finish();return children;}
+        if(root) {if(!attributes.empty() || !measured.empty())issue("root_properties_dropped","Root metadata/measurements have no image-object counterpart");d.finish();return children;}
         Json properties={{"objectType",cell?"cell":detection?"detection":"annotation"}};
+        if(!attributes.empty())properties["metadata"]=std::move(attributes);
+        if(!measured.empty())properties["measurements"]=measured;
         if(label)properties["name"]=text(label);
         if(color)issue("object_color_dropped","Saved per-object colors are not represented");
         const auto locked=d.object();if(stream.name(locked)!="java.lang.Boolean")invalid("invalid ROI lock flag");

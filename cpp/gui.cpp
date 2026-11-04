@@ -1642,6 +1642,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
             }
             if(object.kind==ObjectKind::Cell) ui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
+            if(object.properties)ImGui::SetNextItemOpen(true,ImGuiCond_Once);
+            if(object.properties && ImGui::TreeNode("Imported properties (historical)")) {
+                ImGui::TextWrapped("Retained values are not recomputed when geometry or calibration changes.");
+                for(const auto& [name,value]:object.properties->metadata()) {ImGui::TextUnformatted(name.c_str());ImGui::SameLine();ImGui::TextUnformatted(value.c_str());}
+                for(const auto& [name,value]:object.properties->measurements()) {ImGui::TextUnformatted(name.c_str());ImGui::SameLine();ImGui::Text("%.17g",value);}
+                ImGui::TreePop();
+            }
             ui::InputText("Name",draft_name,sizeof(draft_name));
             if(ui::BeginCombo("Class",draft_class[0]?draft_class:"Unclassified")) {
                 if(ImGui::Selectable("Unclassified",!draft_class[0])) draft_class[0]=0;

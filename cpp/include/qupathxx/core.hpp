@@ -11,6 +11,7 @@
 #include "qupathxx/geometry.hpp"
 #include "qupathxx/spatial_index.hpp"
 #include "qupathxx/analysis_types.hpp"
+#include "qupathxx/object_properties.hpp"
 
 namespace qpx {
 namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;class SpatialFrontend;struct TmaIndex;}
@@ -102,16 +103,18 @@ struct Annotation {
     std::optional<Roi> nucleus;
     std::optional<CellFeatureLink> cell_feature_link;
     std::shared_ptr<const TmaCoreInfo> tma_core;
+    std::shared_ptr<const ObjectProperties> properties;
     Rect bounds() const;
     bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
-enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata };
+enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata, Properties };
 struct ObjectEdit {
     ObjectEditKind kind;
     Annotation value;
     static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
+    static ObjectEdit properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
     static ObjectEdit tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo>);
     static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
     static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
@@ -206,6 +209,7 @@ public:
     // New root annotation; inputs replaced, surviving direct children promoted
     // to root. Mixed area/point input requires explicit point-loss admission.
     std::uint64_t merge_annotations(const std::vector<std::uint64_t>& ids,bool discard_points=false);
+    void set_object_properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
     void rename_annotation(std::uint64_t id, std::string name);
     void classify_annotation(std::uint64_t id, std::string class_name);
     void reparent_annotation(std::uint64_t id, std::uint64_t parent_id);
