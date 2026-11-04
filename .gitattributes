@@ -759,3 +759,5 @@ docs/benchmarks/qupath-project-r5/** -text -whitespace
 
 tests/fixtures/qupath-saved-data-0.7.0/** -text -whitespace
 tools/upstream/qupath_saved_data_reference.groovy -text -whitespace
+
+docs/benchmarks/qupath-saved-data-r5/** -text -whitespace

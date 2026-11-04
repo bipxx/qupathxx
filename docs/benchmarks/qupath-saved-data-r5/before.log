@@ -1,0 +1,35 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+________ test_native_saved_data_matches_independent_assisted_exchange _________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4862/test_native_saved_data_matches0')
+
+    def test_native_saved_data_matches_independent_assisted_exchange(tmp_path):
+        path=corpus(tmp_path);assisted=q.preview_qupath_project(str(path))
+        assisted_project=assisted.import_new(str(tmp_path/'assisted.qpxproj'))
+        shutil.rmtree(path.parent/'qupathxx-exchange')
+>       direct=q.preview_qupath_project(str(path));assert direct.issues==[]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert [<qupathxx._n...01320C021050>] == []
+E         
+E         Left contains 2 more items, first extra item: <qupathxx._native.InterchangeIssue object at 0x000001327FEBB930>
+E         Use -v to get more diff
+
+tests\test_qupath_project.py:173: AssertionError
+______ test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4862/test_direct_geometry_hierarchy0')
+
+    def test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen(tmp_path):
+        path=corpus(tmp_path,'geometry');preview=q.preview_qupath_project(str(path))
+>       assert preview.issues==[] and preview.images[0].objects==8
+E       assert ([<qupathxx._n...01327FF12AF0>] == []
+E         
+E         Left contains one more item: <qupathxx._native.InterchangeIssue object at 0x000001327FF12AF0>
+E         Use -v to get more diff)
+
+tests\test_qupath_saved_data.py:34: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_project.py::test_native_saved_data_matches_independent_assisted_exchange
+FAILED tests/test_qupath_saved_data.py::test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen
+2 failed in 11.45s

@@ -1,0 +1,79 @@
+{
+  "native_source": "cc85a848c1b81407822cca435487b954407f66ef",
+  "observer_source": "e88858419bb0e933686923cf98c1233daa32a2b7",
+  "source_fingerprint": "0bb2dbe7ca9ca77f72fe33437fccadcb3d4a300f64fb40b9ef3b5c60dd1e4ee7",
+  "compiler_inputs": 442,
+  "installed_members": 62,
+  "native_sha256": "4237bfedfcfe58d1c97fe9386d9da1998ee6e7bdc8b75aa692ea6dec79fbd53a",
+  "wheel_sha256": "17f8ea768c0928afc6a55c59ec5250d6fcdbbb086fc30157dac52cc2fa81c8e5",
+  "initial_model_passes": 251,
+  "initial_model_failures": 2,
+  "initial_model_declared_skips": 5,
+  "corrected_model_passes": 2,
+  "distinct_direct_workflow_passes": 12,
+  "distinct_selected_passes": 257,
+  "remaining_declared_skips": [
+    [
+      "tests.test_qupath_project",
+      "test_imgui_review_and_import_preserve_workspace_until_apply[False]"
+    ],
+    [
+      "tests.test_qupath_project",
+      "test_imgui_review_and_import_preserve_workspace_until_apply[True]"
+    ],
+    [
+      "tests.test_project",
+      "test_slide_link_keeps_explicit_unknown_calibration_and_pixels"
+    ],
+    [
+      "tests.test_project",
+      "test_large_pyramid_is_a_small_project_link"
+    ]
+  ],
+  "desktop_passes": 2,
+  "observer_control_passes": 6,
+  "native_suites": 3,
+  "baseline_missing_decoder_failures": 2,
+  "native_build_attempts": 1,
+  "successful_native_builds": 1,
+  "final_product_installs": 1,
+  "installed_stub_check": true,
+  "record_verified": true,
+  "public_headers_bindings_and_python_unchanged": true,
+  "typing_reused": "qupath-project-r5: unchanged public signatures; current generated-stub check passes",
+  "prior_codec_archives_unchanged": true,
+  "full_platform_campaign": false,
+  "ui_capture_reviewed": "direct-import.png: nested ellipse, line, points, polygon/holes, detection and cell/nucleus outlines visible; supplementary glyph appearance is not qualified",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "4237bfedfcfe58d1c97fe9386d9da1998ee6e7bdc8b75aa692ea6dec79fbd53a"
+    },
+    {
+      "path": "products/qupathxx_qupath_project_tests.exe",
+      "cache_path": "Release/qupathxx_qupath_project_tests.exe",
+      "sha256": "c7f4018cb3f966d6ccb21664e8ea82e2ba9232bcaa212da8e351308e52b71fc6"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "ae6ec6d3f863cc46d0319a9a750a001f727a806dc4849e01d4c32947e6047659"
+    },
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "18a7e4478faecebe3defc8dafbd053566b3d6644a121612c21bfbba14da9cc6d"
+    },
+    {
+      "path": "products/qupath_saved_data.obj",
+      "cache_path": "qupathxx_core.dir/Release/qupath_saved_data.obj",
+      "sha256": "8549e18e8185a5b32a8504dc8deb8094297911ca70d6234f754bf4f3add43e9d"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "b8abe7975ef99fc1192e37a0352d97e8e7c24f10246e3d94b5730e4fa3600de4"
+    }
+  ]
+}

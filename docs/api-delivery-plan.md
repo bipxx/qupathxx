@@ -73,14 +73,14 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1 to its remaining direct-data contract while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified; continue from locally verified R5-QPPROJ1/QPDATA1 to the verified-reader relink handoff while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
 All M0-M7 remain Partial until their actual exit criteria are proved.
 
 Current states: R0 is engineering accepted, R1 inventory reconciliation is complete
-(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is locally verified for manifest plus assisted annotation import, and R2-R12
+(with research/release decisions still open), R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified, R4-MERGE1 is locally verified; R5-QPPROJ1 is locally verified for manifest/assisted import and R5-QPDATA1 for pinned native data-file version3, and R2-R12
 contain partially implemented workflows, R13 is pending release closure and
 R14-R16 retain later parity work. R1 replaces these broad states with actual
 remaining gaps using existing evidence; no row implies starting from scratch.
@@ -159,16 +159,26 @@ all62 installed members/RECORD and generated stubs verify. Two build attempts
 produced one successful cached build and one final install. Initial failures remain
 retained; corrections reused the product and independent passing results.
 
-Next bounded task: **R5-QPDATA1, pinned native saved-data decoding contract**.
-Inspect the captured binary files and pinned PathIO/object/ROI serializers before
-coding. Identify the required stream records, version/identity/geometry/class/plane
-representations and unsupported payloads; reuse the current native hierarchy,
-strict loss reports and preview/publication authority. Implement a bounded decoder
-for the established pinned contract and compare it to the existing assisted
-exchange, including corrupt/truncated input refusal. This is required native
-migration work; another assisted exporter does not satisfy it. Do not introduce
-a Java runtime or general Java plugin execution layer. Expand supported records
-only from actual pinned fixtures and keep unsupported content explicit.
+Completed bounded workflow: **R5-QPDATA1**. [Local direct-data evidence](benchmarks/qupath-saved-data-r5/README.md)
+records12 new direct workflow passes and257 distinct selected passes across
+retained model/correction/desktop/observer results, with four declared skips.
+Three native suites, two selected desktop flows and installed stubs pass. The
+pinned QuPath0.7.0 version3 workflow now imports natively without an assisted
+exchange, including all native ROI kinds and cell nuclei. Metadata/settings losses
+and non-default-plane refusal remain explicit. Additional versions, records and
+full property/plane preservation stay under R5. One cached build and one install
+were used; unchanged public signatures reuse typing and existing stubs.
+
+Next bounded task: **R5-RELINK1, retain the verified source reader**.
+Project::relink currently opens a source for compatibility verification, then
+throws that reader away and creates a lazy LinkedServer that opens it again.
+Pass the verified reader into the existing link instead. Preserve recorded/manual
+metadata and calibration, captured TIFF view/options, source generation, and
+external-owner lifetime. Verify immediate source observation, reads after a path
+change under the reader's existing guard semantics, typed TIFF selection and
+save/reopen. Refusal must leave the previous link intact. This fixes a concrete
+double-open/path-replacement interval; wider persisted fingerprint and explicit
+replacement policy remain separate R5 work. No public API or schema is needed.
 
 ## Execution order for finishing the remaining work
 
@@ -179,7 +189,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-QPDATA1, remaining R4/R5,
+Default remaining order is R5-RELINK1, remaining R4/R5,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -193,7 +203,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 is locally verified. Exercise one missing overlapping/nested edit and hierarchy/class transaction; extend existing commands only for observed differences; cover its compound undo/redo and stable IDs | A complete edit/reopen workflow matches the relevant geometry reference. Dense-object cost moves to R12; already delivered tools stay closed |
-| R5 | QPPROJ1 assisted import is locally verified. Next direct .qpdata decoding from pinned serializers/fixtures; then uncovered source replacement/fingerprint and relink races, write/recovery/lock cleanup, nested geometry/property losses and unsupported builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Assess direct decoding from pinned format evidence before implementation; assisted exchange remains usable while this gap is open |
+| R5 | QPPROJ1 assisted import and QPDATA1 pinned native version3 decoding are locally verified. Next RELINK1 verified-reader handoff; then remaining persisted fingerprint/replacement policy, write/recovery/lock cleanup, geometry/property losses and unsupported data/builder/plane contracts | Reuse SQLite snapshots, source guards and loss-aware exchange. Inspect existing guards before adding race machinery. Preserve prior data on failure and report losses explicitly. Reuse native version3 decoding; assess additional versions/records from actual pinned fixtures. Assisted exchange remains an explicit compatibility route |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |

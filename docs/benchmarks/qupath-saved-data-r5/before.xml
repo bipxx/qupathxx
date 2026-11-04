@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.485" timestamp="2026-11-04T12:51:01.232250-05:00" hostname="HEQPC"><testcase classname="tests.test_qupath_project" name="test_native_saved_data_matches_independent_assisted_exchange" time="0.120"><failure message="assert [&lt;qupathxx._n...01320C021050&gt;] == []&#10;  &#10;  Left contains 2 more items, first extra item: &lt;qupathxx._native.InterchangeIssue object at 0x000001327FEBB930&gt;&#10;  Use -v to get more diff">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4862/test_native_saved_data_matches0')
+
+    def test_native_saved_data_matches_independent_assisted_exchange(tmp_path):
+        path=corpus(tmp_path);assisted=q.preview_qupath_project(str(path))
+        assisted_project=assisted.import_new(str(tmp_path/'assisted.qpxproj'))
+        shutil.rmtree(path.parent/'qupathxx-exchange')
+&gt;       direct=q.preview_qupath_project(str(path));assert direct.issues==[]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert [&lt;qupathxx._n...01320C021050&gt;] == []
+E         
+E         Left contains 2 more items, first extra item: &lt;qupathxx._native.InterchangeIssue object at 0x000001327FEBB930&gt;
+E         Use -v to get more diff
+
+tests\test_qupath_project.py:173: AssertionError</failure></testcase><testcase classname="tests.test_qupath_saved_data" name="test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen" time="0.038"><failure message="assert ([&lt;qupathxx._n...01327FF12AF0&gt;] == []&#10;  &#10;  Left contains one more item: &lt;qupathxx._native.InterchangeIssue object at 0x000001327FF12AF0&gt;&#10;  Use -v to get more diff)">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4862/test_direct_geometry_hierarchy0')
+
+    def test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen(tmp_path):
+        path=corpus(tmp_path,'geometry');preview=q.preview_qupath_project(str(path))
+&gt;       assert preview.issues==[] and preview.images[0].objects==8
+E       assert ([&lt;qupathxx._n...01327FF12AF0&gt;] == []
+E         
+E         Left contains one more item: &lt;qupathxx._native.InterchangeIssue object at 0x000001327FF12AF0&gt;
+E         Use -v to get more diff)
+
+tests\test_qupath_saved_data.py:34: AssertionError</failure></testcase></testsuite></testsuites>

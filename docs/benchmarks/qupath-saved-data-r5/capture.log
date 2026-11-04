@@ -1,0 +1,23 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+12:49:17.956 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+12:49:17.959 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+12:49:17.959 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+12:49:17.986 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+12:49:17.996 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+12:49:18.099 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+12:49:19.919 [main] [INFO ] q.l.i.s.b.BioFormatsServerOptions - Setting max Bio-Formats readers to 20
+12:49:20.908 [main] [WARN ] qupath.lib.roi.GeometryROI - Geometry precision model for ROI Floating does not match default precision model Fixed (Scale=100.0)
+12:49:20.963 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\qupath-saved-data-r5\project\project.qpproj::1
+12:49:20.979 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 8 object(s)...
+12:49:20.992 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.03 seconds
+12:49:21.140 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\qupath-saved-data-r5\project\project.qpproj::2
+12:49:21.147 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+12:49:21.148 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.01 seconds
+12:49:21.198 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\qupath-saved-data-r5\project\project.qpproj::3
+12:49:21.204 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+12:49:21.204 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.01 seconds
+12:49:21.240 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\qupath-saved-data-r5\reference.json

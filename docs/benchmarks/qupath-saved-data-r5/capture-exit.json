@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-saved-data-r5",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_saved_data_reference.groovy"
+  ],
+  "returncode": 0
+}

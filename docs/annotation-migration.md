@@ -51,7 +51,8 @@ object-model contract.
 ## Review and import a QuPath project
 
 QuPath0.7.0 `.qpproj` manifests can be reviewed and imported directly. Saved
-annotations in Java `.qpdata` files currently require a one-time assisted export:
+annotations in pinned version3 `.qpdata` files are decoded natively when no exchange
+is supplied. Assisted exchange remains available for its explicit compatibility route:
 
 1. With QuPath0.7.0, run `QuPath script --args /path/project.qpproj`
    followed by the path to [export_qupath_project.groovy](../tools/upstream/export_qupath_project.groovy).
@@ -63,8 +64,8 @@ annotations in Java `.qpdata` files currently require a one-time assisted export
    Ctrl+O to review. Inspect available images, object counts and explicit issues.
    Choose a new `.qpxproj` destination. A second Ctrl+O imports the reviewed
    candidate; the usual dirty-workspace replacement confirmation still applies.
-   Refresh the review after changing source inputs. Without an exchange, saved
-   `.qpdata` content is explicitly reported as not imported.
+   Refresh the review after changing source inputs. Without an exchange, native
+   saved-data decoding applies the contract below; unsupported data fails explicitly.
 3. Keep loss admission disabled unless the listed omissions are acceptable.
    Unsupported or missing images can be omitted only with explicit loss admission;
    malformed/stale exchange data remains fatal. No usable images is always fatal.
@@ -107,13 +108,52 @@ Unused project class definitions and tested XY calibration are retained; explici
 unknown XY remains unknown. Image settings, metadata and unsupported object
 properties produce issues. Saved Z/time calibration overrides are not applied;
 source calibration remains authoritative there. Unknown builders, further planes,
-full project properties and direct Java binary decoding remain separate R5 gaps.
+full project properties and additional saved-data versions/records remain R5 gaps.
 
 Admission limits are16 MiB manifest,1024 images,4 MiB index,1 MiB each optional
-class/metadata document,256 MiB per GeoJSON and512 MiB per qpdata fingerprint;
+class/metadata document,256 MiB per GeoJSON/native qpdata input and512 MiB per
+qpdata fingerprint in the assisted route;
 existing object/depth limits also apply. The [scoped evidence](benchmarks/qupath-project-r5/README.md)
 proves two synthetic image entries and nested annotations, rather than complete
 QuPath project migration or arbitrary vendor-builder compatibility.
+
+## Native saved-data decoding
+
+The existing preview/import API and ImGui review/apply flow also decode pinned
+QuPath0.7.0 data-file version3 `.qpdata` directly when no exchange entry exists.
+A supplied exchange remains hash-bound and must be current; it is not silently
+ignored on failure. No Java runtime is needed for native import.
+
+Supported hierarchy records retain source UUID-to-native-ID mappings, names,
+flat classes/colors, parent links and annotations/detections/cells with an optional
+nucleus. Supported ROI proxies are rectangle, ellipse, polygon, polyline, points
+and GeometryROI WKB for 2D Point/MultiPoint, LineString, Polygon and MultiPolygon,
+including polygon holes. MultiLineString/geometry collections are not represented. Analytic rectangle/ellipse parameters remain analytic rather
+than inheriting polygonized export precision. Default c=-1,z=0,t=0 planes are
+required; non-default planes and unsupported ROI/stream representations fail
+explicitly. A malformed/truncated stream or missing terminal EOF never publishes
+an image-only project, even with loss admission.
+
+XY calibration comes from saved server metadata; unknown calibration remains
+unknown. Source dimensions, axis/channel counts and sample type must match.
+Unrepresented object metadata, measurements, lock/color, class probability,
+workflow history, image/stain defaults and custom ImageData properties report
+losses before apply. Derived classifications retain their full display name/color
+with a class-hierarchy flattening notice. Saved workflows are never executed.
+TMA-grid metadata is not migrated by this decoder. Unsupported top-level records
+fail, rather than being treated as an empty hierarchy.
+
+The stream reader limits input to256 MiB, one million serialized values,
+128 nesting levels, eight million array elements,16 MiB per serialized string and
+256 MiB of accounted stream-node storage; this is not a bound on total process
+memory. Native hierarchy depth remains32 and existing geometry/import limits
+apply. Java modified UTF-8 surrogate pairs become validated UTF-8. Arbitrary Java
+serialization compatibility, other data versions, full settings/measurements and
+non-default planes remain explicit R5 work.
+
+The [actual capture and installed checks](benchmarks/qupath-saved-data-r5/README.md)
+cover the declared synthetic geometry, loss/refusal and save/reopen scope. They
+establish native data import for that contract, rather than complete QuPath parity.
 
 ## Evidence and remaining work
 
