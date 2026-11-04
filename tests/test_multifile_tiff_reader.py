@@ -213,7 +213,7 @@ def desktop():
         pytest.skip('opt-in compound TIFF desktop')
 
 
-def test_compound_imgui_measure_keep_and_csv(corpus,tmp_path):
+def test_compound_imgui_measure_keep_and_csv(corpus,tmp_path,expected_companions=1):
     desktop()
     import csv
     from test_gui_raw import options
@@ -227,13 +227,13 @@ def test_compound_imgui_measure_keep_and_csv(corpus,tmp_path):
     report=q.show(project,frame_limit=40,options=o)
     assert not report.raw_error,report.raw_error
     assert report.raw_records==1 and report.raw_csv_state=='saved' and report.ui_overflow_items==0
-    assert len(report.raw_analysis_result.source.companions)==1
+    assert len(report.raw_analysis_result.source.companions)==expected_companions
     with Path(o.raw_csv_path).open(encoding='utf-8',newline='') as stream: rows=list(csv.DictReader(stream))
     np.testing.assert_allclose([float(row['mean']) for row in rows],[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
     assert project.document(image).raw_analysis_status(report.raw_record_id)=='current'
 
 
-def test_compound_managed_measure_verify_and_project_save(corpus,tmp_path):
+def test_compound_managed_measure_verify_and_project_save(corpus,tmp_path,expected_companions=1):
     desktop()
     from test_viewer_session import completed,run
     directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[1]))
@@ -247,11 +247,11 @@ def test_compound_managed_measure_verify_and_project_save(corpus,tmp_path):
         completed(session,session.save(str(saved)));completed(session,session.close(True))
     report=run(session,producer,frames=120)
     assert report.ui_overflow_items==0 and session.stats.retained_bytes==0
-    result=held['result'];assert result.source.scope=='compound_files' and len(result.source.companions)==1
+    result=held['result'];assert result.source.scope=='compound_files' and len(result.source.companions)==expected_companions
     np.testing.assert_allclose(result.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
     restored=q.Project.open(str(saved)).document(image)
     assert restored.raw_analysis_status(held['record'])=='unverified'
-    assert len(restored.raw_analysis_records[0].result.source.companions)==1
+    assert len(restored.raw_analysis_records[0].result.source.companions)==expected_companions
 
 
 @pytest.mark.parametrize('count',[64,65])

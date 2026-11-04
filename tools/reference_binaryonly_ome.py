@@ -19,11 +19,12 @@ def tag(name):return '{'+planes.NAMESPACE+'}'+name
 
 
 def generate(directory,master='xml'):
-    if master not in ('xml','tiff','tiff-default'):raise ValueError('unknown metadata master')
+    if master not in ('xml','tiff','tiff-default','tiff-be'):raise ValueError('unknown metadata master')
     directory=Path(directory);planes.generate(directory)
     root=ET.fromstring(planes.metadata(0))
-    metadata_name=METADATA_FILE if master=='xml' else planes.FILES[0]
-    metadata_uuid=METADATA_UUID if master=='xml' else planes.UUIDS[0]
+    master_index=1 if master=='tiff-be' else 0
+    metadata_name=METADATA_FILE if master=='xml' else planes.FILES[master_index]
+    metadata_uuid=METADATA_UUID if master=='xml' else planes.UUIDS[master_index]
     root.set('UUID',metadata_uuid)
     for reference in root.iter(tag('UUID')):
         filename=reference.get('FileName')
@@ -36,7 +37,7 @@ def generate(directory,master='xml'):
     if master=='xml':
         path=directory/metadata_name;path.parent.mkdir();path.write_bytes(full.encode('ascii'))
     for index,name in enumerate(planes.FILES):
-        if master!='xml' and index==0:
+        if master!='xml' and index==master_index:
             text=full
         else:
             partial=ET.Element(tag('OME'),UUID=planes.UUIDS[index])
@@ -56,5 +57,5 @@ def generate(directory,master='xml'):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path)
-    parser.add_argument('--master',choices=['xml','tiff','tiff-default'],default='xml')
+    parser.add_argument('--master',choices=['xml','tiff','tiff-default','tiff-be'],default='xml')
     args=parser.parse_args();print(json.dumps(generate(args.directory,args.master),indent=2))

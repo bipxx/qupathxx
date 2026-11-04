@@ -22,7 +22,7 @@ SOURCES=[
  'cpp/gui_raw.hpp','cpp/gui.cpp','cpp/viewer_session.cpp','cpp/viewer_bindings.cpp',
  'cpp/tests/raw_image_tests.cpp','cpp/tests/source_identity_tests.cpp','cpp/tests/scientific_raw_sampling_tests.cpp',
  'src/qupathxx/__init__.py','src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
- 'tools/reference_multifile_ome.py','tests/test_multifile_ome_evidence.py',
+ 'tools/reference_multifile_ome.py','tools/reference_binaryonly_ome.py','tests/test_multifile_ome_evidence.py',
  *['tests/'+name+'.py' for name in CONTRACT['installed']],
  'tests/typing/source_companions_valid.py','tests/typing/source_companions_invalid.py',
  'tools/ci/multifile_ome_evidence.py','tools/ci/multifile-ome-cases.json','tools/ci/qptma_evidence.py',

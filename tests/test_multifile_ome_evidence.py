@@ -62,8 +62,11 @@ def test_native_false_acceptance_controls(suite,change):
 
 @pytest.mark.parametrize('gui',[False,True])
 def test_complete_installed_desktop_and_typing_evidence(gui,tmp_path):
-    cases=python_cases(gui);assert evidence.python(cases)['passed']==54
-    assert evidence.desktop(cases,gui=gui)==dict(passed=2 if gui else 0,declared_desktop_skips=0 if gui else 2)
+    assert set(evidence.CONTRACT['installed'])=={'test_multifile_tiff_reader','test_multifile_ome_fixture','test_source_companions','test_multifile_tiff_failures','test_ome_calibration_units','test_binaryonly_ome'}
+    cases=python_cases(gui);installed=sum(map(len,evidence.CONTRACT['installed'].values()))
+    desktop=sum(map(len,evidence.CONTRACT['desktop'].values()))
+    assert evidence.python(cases)['passed']==installed
+    assert evidence.desktop(cases,gui=gui)==dict(passed=desktop if gui else 0,declared_desktop_skips=0 if gui else desktop)
     typing_logs(tmp_path);assert evidence.typing(tmp_path)['intended_negative_errors']==3
 
 

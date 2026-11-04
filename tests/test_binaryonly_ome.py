@@ -31,7 +31,7 @@ def write(path,element):
     else:tifffile.tiffcomment(path,data.decode('ascii'))
 
 
-@pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+@pytest.mark.parametrize('master',['xml','tiff','tiff-default','tiff-be'])
 def test_independent_fixture_has_exact_samples_and_explicit_metadata(tmp_path,master):
     manifest=fixture.generate(tmp_path/'corpus',master);directory=tmp_path/'corpus'
     metadata=root(directory/manifest['metadata_file'])
@@ -50,7 +50,7 @@ def test_independent_fixture_has_exact_samples_and_explicit_metadata(tmp_path,ma
         assert hashlib.sha256((directory/entry['path']).read_bytes()).hexdigest()==entry['sha256']
 
 
-@pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+@pytest.mark.parametrize('master',['xml','tiff','tiff-default','tiff-be'])
 @pytest.mark.parametrize('entry',[0,1])
 def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
     directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
@@ -164,14 +164,30 @@ def test_cli_batch_resume_tracks_master_metadata_change(tmp_path,master,grid):
     cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
     command=[str(cli),str(path),str(tmp_path/'output'),'--kind','raw','--raw-channels','2','--raw-z','1','--raw-time','1']
     if grid:command+=['--raw-grid-samples','19,17','--raw-grid-context','0,0']
-    for state in ('saved','reused','saved'):
-        if state=='saved' and (tmp_path/'output').exists():
+    for change,state in ((None,'saved'),(None,'reused'),('PhysicalSizeX','saved' if grid else 'reused'),('TimeIncrement','saved')):
+        if change:
             metadata_path=directory/manifest['metadata_file'];metadata=root(metadata_path)
-            metadata.find('.//'+fixture.tag('Pixels')).set('PhysicalSizeX','.375');write(metadata_path,metadata)
+            metadata.find('.//'+fixture.tag('Pixels')).set(change,'.375' if change=='PhysicalSizeX' else '1')
+            write(metadata_path,metadata)
         done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=60)
         assert done.returncode==0,done.stderr
         report=next(json.loads(line) for line in done.stdout.splitlines() if json.loads(line)['schema']=='qpx.batch-image/1')
         assert report['state']==state
         result=q.Project.open(report['path']).document(image).raw_analysis_records[0].result
         assert result.source.scope=='compound_files' and len(result.source.companions)==(2 if master=='xml' else 1)
+        # The saved document owns its effective calibration. Natural recipes
+        # may reuse equal inputs despite a file-only pixel-size edit. Time
+        # interval is captured in both recipe kinds and must invalidate reuse.
+        assert result.pixel_width_um==.25
+        assert result.metadata.time_interval_seconds==(1 if change=='TimeIncrement' else None)
         np.testing.assert_allclose(result.statistics.means,[fixture.planes.values(1,1,c).mean() for c in (0,1)],rtol=0,atol=1e-10)
+
+
+@pytest.mark.parametrize('master',['xml','tiff'])
+@pytest.mark.parametrize('host',['imgui','managed'])
+def test_desktop_uses_shared_reader_with_metadata_dependencies(tmp_path,master,host):
+    from test_multifile_tiff_reader import desktop,test_compound_imgui_measure_keep_and_csv,test_compound_managed_measure_verify_and_project_save
+    desktop()
+    directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+    run=test_compound_imgui_measure_keep_and_csv if host=='imgui' else test_compound_managed_measure_verify_and_project_save
+    run((directory,manifest),tmp_path,expected_companions=2 if master=='xml' else 1)
