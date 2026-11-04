@@ -18,7 +18,7 @@ int main() {
         bytes.back()^=1;bool bad_checksum=false;try {detail::decode_object_properties(bytes.data(),bytes.size());}catch(const std::invalid_argument&){bad_checksum=true;}check(bad_checksum);
         Document source(Image::demo());
         auto parent=source.add_rectangle({0,0,100,100},"Parent");
-        source.add_cell(Roi::rectangle({10,10,20,20}),Roi::rectangle({15,15,3,3}),"Cell",parent,"Tumor");
+        const auto child=source.add_cell(Roi::rectangle({10,10,20,20}),Roi::rectangle({15,15,3,3}),"Cell",parent,"Tumor");
         check(measurements_csv(source).find("Cell")!=std::string::npos);
         if(!has_interchange()) {
             bool rejected=false; try { export_geojson(source); } catch(const std::runtime_error&) { rejected=true; }
@@ -73,6 +73,16 @@ int main() {
         rejected=false;try {export_geojson(deep,{},false,true);} catch(const std::length_error&) {rejected=true;}
         check(rejected && export_geojson(deep).features==33);
         std::cout<<"Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed\n";
+        auto clipboard=copy_objects(source,{child,parent});
+        Document pasted(Image::demo());const auto sentinel=pasted.add_rectangle({200,200,1,1});
+        const auto pasted_ids=paste_objects(pasted,clipboard.text).imported_ids;
+        check(pasted_ids.size()==2 && pasted_ids[0]>sentinel && pasted.annotation(pasted_ids[1]).parent_id==pasted_ids[0]);
+        check(pasted.undo_label()=="Paste objects" && pasted.undo() && pasted.object_count()==1 && pasted.redo() && pasted.object_count()==3);
+        const auto before=pasted.revision();rejected=false;
+        try {paste_objects(pasted,clipboard.text,std::nullopt,false,4);}catch(const std::length_error&) {rejected=true;}
+        check(rejected && pasted.revision()==before);
+        check(copy_objects(source,{parent},true).features==2 && copy_objects(source,{child}).features==1);
+        std::cout<<"Native clipboard selection, graph remapping, atomic history and byte refusal passed\n";
         std::cout<<"Native interchange atomicity and exact rectangle round trip passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

@@ -37,7 +37,8 @@ const char* roi_kind(RoiKind kind) {
         case RoiKind::MultiPolygon:return "multipolygon"; case RoiKind::Polyline:return "polyline"; case RoiKind::Points:return "points"; }
     throw std::invalid_argument("unknown ROI kind");
 }
-void bounded(std::ostringstream& out) { if(out.tellp()>static_cast<std::streamoff>(byte_limit)) throw std::length_error("export exceeds 256 MiB limit"); }
+void bounded(std::ostringstream& out,std::size_t limit=byte_limit) { if(out.tellp()>static_cast<std::streamoff>(limit)) throw std::length_error("export exceeds byte limit"); }
+void clipboard_limit(std::size_t limit) {if(!limit || limit>byte_limit)throw std::invalid_argument("clipboard byte limit must be in 1..256 MiB");}
 void atomic_write(const std::string& path,const std::string& bytes) {
     valid_text(path,32768); if(path.empty()) throw std::invalid_argument("export path must not be empty");
     if(bytes.size()>byte_limit) throw std::length_error("export exceeds 256 MiB limit");
@@ -95,6 +96,8 @@ InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels
 #ifndef QUPATHXX_HAS_INTERCHANGE
 InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 InterchangeReport import_geojson(Document&,const std::string&,bool,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport copy_objects(const Document&,const std::vector<std::uint64_t>&,bool,bool,std::size_t) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport paste_objects(Document&,const std::string&,std::optional<ObjectPlane>,bool,std::size_t) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 #else
 namespace {
 using Json=nlohmann::json;
@@ -167,6 +170,7 @@ struct Reader {
     std::map<std::string,ObjectClass> classes;
     std::size_t vertex_count=0;
     bool qupath_precision=false;
+    std::size_t max_objects=1000000;
     Point point(const Json& value) {
         if(!value.is_array() || value.size()!=2) throw std::invalid_argument("only 2D XY coordinates are supported");
         return {real(value[0]),real(value[1])};
@@ -255,7 +259,7 @@ struct Reader {
         classes.insert_or_assign(name,ObjectClass{name,rgb});
     }
     void feature(const Json& value,std::uint64_t parent=0,int depth=0) {
-        if(depth>256 || objects.size()>=1000000 || !value.is_object() || value.value("type","")!="Feature") throw std::invalid_argument("invalid feature or hierarchy limit");
+        if(depth>256 || objects.size()>=max_objects || !value.is_object() || value.value("type","")!="Feature") throw std::invalid_argument("invalid feature or hierarchy limit");
         auto roi=geometry(value.at("geometry"));const auto plane=image_plane(value.at("geometry"));
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="id" && member.key()!="geometry" && member.key()!="properties" && member.key()!="nucleusGeometry" && member.key()!="bbox")
             notices.add("feature_members_dropped","Unsupported foreign feature members will be dropped",true);
@@ -319,7 +323,7 @@ struct Reader {
     }
 };
 }
-InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
+static InterchangeReport export_geojson_impl(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested,bool clipboard,std::size_t limit) {
     auto objects=selected(doc,ids); std::set<std::uint64_t> exported(objects.begin(),objects.end()); Notices notices{losses,{}};
     Json metadata={{"version",1},{"coordinateSpace","image-pixels"},{"origin","top-left"},{"imageWidth",doc.metadata().width},{"imageHeight",doc.metadata().height},{"classes",Json::array()}};
     std::set<std::string> used; for(auto id:objects) used.insert(doc.objects().at(id).class_name);
@@ -362,7 +366,7 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
         }
         if(a.tma_core) notices.add("tma_metadata_omitted","TMA grid, missing flags and case metadata are omitted; cores become ordinary annotations",true);
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
-        auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }
+        auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",!clipboard); parent=0; }
         if(!nested) properties["qupathxx"]={{"parentId",std::to_string(parent)}};
         if(const auto probability=a.class_probability()) {properties["qupathxx"]["classProbability"]=std::isinf(*probability)?Json(*probability>0?"Infinity":"-Infinity"):Json(*probability);
             notices.add("class_probability_extension","Class probability is retained in the native extension; foreign readers may omit it");}
@@ -377,7 +381,7 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
     if(!nested) {
         bool first=true;
         for(auto id:objects) {
-            if(!first) out<<','; first=false; out<<feature_for(id).dump(); bounded(out);
+            if(!first) out<<','; first=false; out<<feature_for(id).dump(); bounded(out,limit);
         }
     } else {
         // Stream a bounded-depth forest instead of recursively copying JSON
@@ -399,23 +403,24 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
                 auto found=children.find(id);
                 stack.push_back({found==children.end()?&empty:&found->second});
             }
-            bounded(out);
+            bounded(out,limit);
         }
     }
-    out<<"]}\n"; bounded(out); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
+    out<<"]}\n"; bounded(out,limit); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
 }
-InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision) {
-    if(input.size()>byte_limit) throw std::length_error("GeoJSON exceeds 256 MiB limit");
+static InterchangeReport import_geojson_impl(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision,bool clipboard,std::optional<ObjectPlane> plane,std::size_t limit) {
+    if(input.size()>limit) throw std::length_error("GeoJSON exceeds byte limit");
     if(input.find('\0')!=std::string::npos) throw std::invalid_argument("GeoJSON contains NUL bytes");
     try {
         StrictJson validator; Json::sax_parse(input,&validator);
-        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}}; reader.qupath_precision=qupath_precision;
+        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}}; reader.qupath_precision=qupath_precision; if(clipboard)reader.max_objects=100000;
         if(!root.is_object()) throw std::invalid_argument("expected a Feature or FeatureCollection");
         if(root.contains("crs") && !root["crs"].is_null()) throw std::invalid_argument("geographic/projected CRS is not supported; convert to image pixels first");
         if(root.contains("qupathxx")) {
             const auto& m=root["qupathxx"];
             if(!m.is_object() || !m.contains("version") || !m["version"].is_number_integer() || m["version"]!=1 || m.value("coordinateSpace","")!="image-pixels" || m.value("origin","")!="top-left") throw std::invalid_argument("unsupported native GeoJSON metadata");
-            if(m.at("imageWidth")!=doc.metadata().width || m.at("imageHeight")!=doc.metadata().height) throw std::invalid_argument("GeoJSON image dimensions do not match document");
+            if(!m.at("imageWidth").is_number_integer() || !m.at("imageHeight").is_number_integer() || m.at("imageWidth")<=0 || m.at("imageHeight")<=0 || m.at("imageWidth")>std::numeric_limits<std::int64_t>::max() || m.at("imageHeight")>std::numeric_limits<std::int64_t>::max())throw std::invalid_argument("invalid GeoJSON image dimensions");
+            if(!clipboard && (m.at("imageWidth")!=doc.metadata().width || m.at("imageHeight")!=doc.metadata().height)) throw std::invalid_argument("GeoJSON image dimensions do not match document");
             for(const auto& member:m.items()) if(member.key()!="version" && member.key()!="coordinateSpace" && member.key()!="origin" && member.key()!="imageWidth" && member.key()!="imageHeight" && member.key()!="classes") reader.notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
             if(m.contains("classes")) {
                 if(!m["classes"].is_array()) throw std::invalid_argument("classes must be an array");
@@ -432,9 +437,34 @@ InterchangeReport import_geojson(Document& doc,const std::string& input,bool pix
         for(const auto& [index,parent]:reader.parents) { auto id=reader.identifiers.find(parent); if(id==reader.identifiers.end()) throw std::invalid_argument("parent ID is absent from imported features"); reader.objects[index].parent_id=id->second; }
         std::vector<ObjectClass> classes; for(const auto& [name,c]:reader.classes) classes.push_back(c);
         InterchangeReport report; report.features=reader.objects.size(); report.source_ids=std::move(reader.source_ids); report.issues=reader.notices.finish();
-        report.imported_ids=doc.append_objects(reader.objects,classes);
+        if(clipboard && reader.objects.empty())throw std::invalid_argument("clipboard contains no objects");
+        if(plane)for(auto& object:reader.objects)object.plane=*plane;
+        report.imported_ids=doc.append_objects(reader.objects,classes,clipboard?"Paste objects":"Import annotations");
         return report;
     } catch(const Json::exception& error) { throw std::invalid_argument(std::string("invalid GeoJSON: ")+error.what()); }
+}
+InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
+    return export_geojson_impl(doc,ids,losses,nested,false,byte_limit);
+}
+InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool precision) {
+    return import_geojson_impl(doc,input,pixels,losses,precision,false,std::nullopt,byte_limit);
+}
+InterchangeReport copy_objects(const Document& doc,const std::vector<std::uint64_t>& ids,bool descendants,bool losses,std::size_t limit) {
+    clipboard_limit(limit);
+    if(ids.empty())throw std::invalid_argument("select objects before copying");
+    if(ids.size()>100000)throw std::length_error("clipboard exceeds 100000 objects");
+    auto objects=selected(doc,ids);
+    std::set<std::uint64_t> seen(objects.begin(),objects.end());
+    if(descendants)for(std::size_t i=0;i<objects.size();++i)for(auto child:doc.children(objects[i]))if(seen.insert(child).second) {
+        if(objects.size()>=100000)throw std::length_error("clipboard exceeds 100000 objects");
+        objects.push_back(child);
+    }
+    std::sort(objects.begin(),objects.end());
+    return export_geojson_impl(doc,objects,losses,true,true,limit);
+}
+InterchangeReport paste_objects(Document& doc,const std::string& text,std::optional<ObjectPlane> plane,bool losses,std::size_t limit) {
+    clipboard_limit(limit);
+    return import_geojson_impl(doc,text,true,losses,false,true,plane,limit);
 }
 #endif
 }

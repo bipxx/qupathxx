@@ -429,7 +429,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     bool interchange_pixels=options.interchange_assume_pixels,interchange_losses=options.interchange_allow_losses,interchange_selected=false,csv_intensity=false;
     bool interchange_nested=options.interchange_nested_hierarchy;
     bool qupath_ellipse_precision=options.qupath_ellipse_precision;
-    std::string interchange_status;
+    std::string interchange_status,clipboard_error;
+    bool clipboard_descendants=false;
+    std::size_t clipboard_copies=0,clipboard_pastes=0,clipboard_copied_objects=0,clipboard_pasted_objects=0;
+    std::array<Rect,3> clipboard_bounds{};
     std::uint64_t editor_id=0,editor_revision=0;
     auto& draft_name=text_buffers->draft_name;
     auto& draft_class=text_buffers->draft_class;
@@ -447,7 +450,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::ClearObjectProperties)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::PasteCurrentPlane)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -938,6 +941,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target>=GuiInputTarget::CopyObjects && event.target<=GuiInputTarget::PasteCurrentPlane) {
+                const auto& bounds=clipboard_bounds[std::size_t(event.target)-std::size_t(GuiInputTarget::CopyObjects)];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
+            }
             if(event.target>=GuiInputTarget::ToggleObjectLock && event.target<=GuiInputTarget::ClearObjectProperties) {
                 const auto& bounds=object_state_bounds[std::size_t(event.target)-std::size_t(GuiInputTarget::ToggleObjectLock)];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
             }
@@ -998,6 +1004,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RunBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_B,true);break;
                 case GuiInputKind::CancelBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_B,true);break;
                 case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
+                case GuiInputKind::CopyObjectsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_C,true);break;
+                case GuiInputKind::PasteObjectsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_V,true);break;
+                case GuiInputKind::PasteCurrentPlaneKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_V,true);break;
                 case GuiInputKind::MergeKey: input.AddKeyEvent(ImGuiKey_M,true); break;
                 case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
                 case GuiInputKind::ExportKey: input.AddKeyEvent(ImGuiKey_F6,true); break;
@@ -1124,6 +1133,39 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         bool autosave_requested=false;
         const bool editing_blocked=bool(source_review) || editing_is_blocked();
         const auto& io = ImGui::GetIO();
+        auto clipboard_status=[&](const InterchangeReport& report,const char* action) {
+            interchange_status=std::string(action)+" "+std::to_string(report.features)+" objects";
+            for(const auto& issue:report.issues)interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
+            clipboard_error.clear();error.clear();
+        };
+        auto copy_selection=[&]() {
+            try {
+                auto report=copy_objects(document,selection->ids(),clipboard_descendants,interchange_losses);
+                glfwSetClipboardString(session.window,report.text.c_str());
+                ++clipboard_copies;clipboard_copied_objects+=report.features;clipboard_status(report,"Copied");
+            } catch(const std::exception& e) {clipboard_error=e.what();interchange_status=clipboard_error;error=clipboard_error;}
+        };
+        auto paste_clipboard=[&](bool current_plane) {
+            try {
+                const auto* text=glfwGetClipboardString(session.window);
+                if(!text)throw std::invalid_argument("Clipboard does not contain GeoJSON text");
+                constexpr std::size_t limit=16*1024*1024;std::size_t length=0;
+                while(length<=limit && text[length])++length;
+                if(length>limit)throw std::length_error("Clipboard exceeds 16 MiB limit");
+                auto report=paste_objects(document,std::string(text,length),current_plane?std::optional<ObjectPlane>(document.active_plane()):std::nullopt,interchange_losses);
+                auto visible=report.imported_ids;
+                visible.erase(std::remove_if(visible.begin(),visible.end(),[&](auto id){return !document.object_visible(id);}),visible.end());
+                selection->replace(visible);selected=selection->primary();
+                vertex_dragging=false;active_vertex.reset();marquee=false;drawing=false;draft_points.clear();editor_id=0;
+                ++clipboard_pastes;clipboard_pasted_objects+=report.features;clipboard_status(report,"Pasted");
+                if(visible.size()!=report.imported_ids.size())interchange_status+="\nSwitch Z/time or channels to view objects on other planes.";
+            } catch(const std::exception& e) {clipboard_error=e.what();interchange_status=clipboard_error;error=clipboard_error;}
+        };
+        if(has_image && has_interchange() && !editing_blocked && !io.WantTextInput && io.KeyCtrl && !io.KeyAlt) {
+            if(!io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_C,false))copy_selection();
+            if(ImGui::IsKeyPressed(ImGuiKey_V,false))paste_clipboard(io.KeyShift);
+        }
+
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);
         if(startup_active) {
@@ -1162,7 +1204,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ImGui::IsKeyPressed(ImGuiKey_P)) tool=3;
             if(ImGui::IsKeyPressed(ImGuiKey_L)) tool=4;
             if(ImGui::IsKeyPressed(ImGuiKey_T) && !io.KeyCtrl && !io.KeyAlt) tool=5;
-            if(ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
+            if(!io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
             if(ImGui::IsKeyPressed(ImGuiKey_H)) tool=7;
         }
         ui::SetNextItemWidth(125);
@@ -1444,6 +1486,19 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::TextWrapped("Full-resolution image pixels, top-left origin.");
             ui::Checkbox("Assume image pixels",&interchange_pixels);
             ui::Checkbox("Allow lossy conversion",&interchange_losses);
+            ui::Checkbox("Copy descendants",&clipboard_descendants);
+            auto mark_clipboard=[&](GuiInputTarget target,std::size_t i) {
+                const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();
+                clipboard_bounds[i]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(target);
+            };
+            ImGui::BeginDisabled(selection->ids().empty());
+            if(ui::Button("Copy selected objects (Ctrl+C)"))copy_selection();
+            mark_clipboard(GuiInputTarget::CopyObjects,0);ImGui::EndDisabled();
+            if(ui::Button("Paste objects (Ctrl+V)"))paste_clipboard(false);
+            mark_clipboard(GuiInputTarget::PasteObjects,1);
+            if(ui::Button("Paste to displayed plane (Ctrl+Shift+V)"))paste_clipboard(true);
+            mark_clipboard(GuiInputTarget::PasteCurrentPlane,2);
+            ImGui::TextWrapped("Image pixels; no physical rescaling. Paste retains planes unless displayed plane is chosen.");
             ImGui::BeginDisabled(!has_geos());
             ui::Checkbox("Match QuPath ellipse bounds",&qupath_ellipse_precision);
             ImGui::EndDisabled();
@@ -2717,6 +2772,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     report.rendered_frame_wall_samples=frame_wall_times.size();
     report.rendered_frame_wall_p95_ms=frame_wall_times.empty()?0:frame_wall_times[static_cast<std::size_t>((frame_wall_times.size()-1)*.95)];
     report.max_rendered_frame_wall_ms=frame_wall_times.empty()?0:frame_wall_times.back();
+    report.clipboard_copies=clipboard_copies;report.clipboard_pastes=clipboard_pastes;
+    report.clipboard_copied_objects=clipboard_copied_objects;report.clipboard_pasted_objects=clipboard_pasted_objects;
+    report.clipboard_error=clipboard_error;
     return report;
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {

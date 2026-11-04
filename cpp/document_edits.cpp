@@ -476,6 +476,9 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     return created;
 }
 std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes) {
+    return append_objects(objects,classes,"Import annotations");
+}
+std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,const std::string& history_label) {
     Staging staged(*this); auto next=next_id_;
     std::map<std::uint64_t,std::uint64_t> mapping; std::vector<std::uint64_t> created;
     for(const auto& a:objects) {
@@ -497,7 +500,7 @@ std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation
         }
         staged.write(value.id,std::move(value));
     }
-    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Import annotations");
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},history_label);
     if(!objects.empty()) next_id_=next;
     return created;
 }
