@@ -532,6 +532,48 @@ void Document::apply_boolean(std::uint64_t target,const std::vector<std::uint64_
     if(!geometry) throw std::invalid_argument("Boolean result has no area; remove the object explicitly");
     publish_roi(target,std::move(*geometry),"Boolean ROI edit");
 }
+std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,bool discard_points) {
+    if(ids.empty()) throw std::invalid_argument("annotation merge requires objects");
+    std::set<std::uint64_t> selected;std::set<std::string> classes;
+    bool areas=false,points=false;
+    for(auto id:ids) {
+        const auto& a=find(id);
+        if(!selected.insert(id).second) throw std::invalid_argument("annotation merge IDs must be distinct");
+        if(a.kind!=ObjectKind::Annotation || a.tma_core || (!a.geometry.is_area() && a.geometry.kind()!=RoiKind::Points))
+            throw std::invalid_argument("annotation merge requires area or point annotations, excluding TMA cores");
+        areas|=a.geometry.is_area();points|=a.geometry.kind()==RoiKind::Points;
+        if(!a.class_name.empty()) classes.insert(a.class_name);
+    }
+    if(areas && points && !discard_points) throw std::invalid_argument("mixed area/point merge requires discard_points=True");
+    if(next_id_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
+    std::optional<Roi> geometry;
+    if(areas) {
+        for(auto id:selected) if(find(id).geometry.is_area()) {
+            const auto& shape=find(id).geometry;
+            geometry=geometry?geometry->boolean_operation(shape,BooleanOp::Union):std::optional<Roi>(shape);
+            if(!geometry) throw std::invalid_argument("annotation merge has no area");
+        }
+    } else {
+        std::set<std::pair<double,double>> unique;
+        for(auto id:selected) for(const auto& path:find(id).geometry.paths()) for(auto p:path) {
+            unique.emplace(p.x,p.y);
+            if(unique.size()>1000000) throw std::length_error("merged point ROI exceeds vertex limit");
+        }
+        Ring merged;merged.reserve(unique.size());for(auto p:unique) merged.push_back({p.first,p.second});
+        geometry=Roi::points(std::move(merged));
+    }
+    Staging staged(*this);
+    for(auto id:selected) {
+        for(auto child:children(id)) if(!selected.count(child)) {
+            auto value=find(child);value.parent_id=0;staged.write(child,std::move(value));
+        }
+        staged.write(id,std::nullopt);
+    }
+    const auto result=next_id_;
+    staged.write(result,Annotation{result,"Annotation",std::move(*geometry),0,classes.size()==1?*classes.begin():"",0});
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Merge annotations");
+    ++next_id_;return result;
+}
 void Document::rename_annotation(std::uint64_t id,std::string name) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,std::move(name),a.parent_id,a.class_name,a.kind,a.nucleus)},"Rename annotation");
 }

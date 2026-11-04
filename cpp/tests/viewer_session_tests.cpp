@@ -389,6 +389,18 @@ int main() {
         }
         nominal_cell_session_contracts(root);
         spatial_session_contracts(root);
+        {
+            Harness h;auto doc=h.project->document(1);const auto a=doc->add_roi(Roi::points({{1,1}})),b=doc->add_roi(Roi::points({{2,2}}));
+            ViewerSession session("merge.qpxproj");detail::ViewerOwner owner(session);const auto revision=doc->revision();
+            auto ticket=session.merge_annotations(1,{a,b},false,revision-1);auto event=h.until(owner,session,ticket);
+            check(event.state=="stale" && !event.committed && doc->revision()==revision);session.take(ticket);
+            ticket=session.merge_annotations(1,{a,b},false,revision);event=h.until(owner,session,ticket);
+            check(event.state=="succeeded" && event.action=="merge_annotations" && event.committed && event.object_ids.size()==1);
+            check(h.selected==event.object_ids && doc->annotation(event.object_id).geometry.paths().front().size()==2);session.take(ticket);
+            ticket=session.merge_annotations(1,{event.object_id,999});event=h.until(owner,session,ticket);
+            check(event.state=="failed" && !event.committed);session.take(ticket);owner.finish(h.context);
+            std::cout<<"Managed annotation merge, result identity, selection and stale rejection passed\n";
+        }
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

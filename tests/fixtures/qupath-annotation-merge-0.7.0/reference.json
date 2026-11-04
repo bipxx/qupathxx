@@ -1,0 +1,222 @@
+[
+  {
+    "name": "same-class",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 40 30, 40 10, 10 10))",
+    "area": 600.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "mixed-class",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 40 30, 40 10, 10 10))",
+    "area": 600.0,
+    "classification": null,
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": null
+      }
+    ]
+  },
+  {
+    "name": "one-unclassified",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 40 30, 40 10, 10 10))",
+    "area": 600.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "unclassified",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 40 30, 40 10, 10 10))",
+    "area": 600.0,
+    "classification": null,
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": null
+      }
+    ]
+  },
+  {
+    "name": "disjoint",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "MULTIPOLYGON (((50 20, 60 20, 60 10, 50 10, 50 20)), ((10 30, 30 30, 30 10, 10 10, 10 30)))",
+    "area": 500.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "points",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "MULTIPOINT ((10 10), (20 20), (30 10))",
+    "area": 0.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "mixed-dimension",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 30 30, 30 10, 10 10))",
+    "area": 400.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "children",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 40 30, 40 10, 10 10))",
+    "area": 600.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "child",
+        "parent": null,
+        "classification": "Stroma"
+      },
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      },
+      {
+        "token": "p",
+        "parent": null,
+        "classification": null
+      },
+      {
+        "token": "sibling",
+        "parent": "p",
+        "classification": null
+      }
+    ]
+  },
+  {
+    "name": "nested-selection",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 30 30, 30 10, 10 10))",
+    "area": 400.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "child",
+        "parent": null,
+        "classification": null
+      },
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  },
+  {
+    "name": "singleton",
+    "changed": true,
+    "new_identity": true,
+    "geometry": "POLYGON ((10 10, 10 30, 30 30, 30 10, 10 10))",
+    "area": 400.0,
+    "classification": "Tumor",
+    "object_name": null,
+    "measurements": 0,
+    "selected": [
+      "merged"
+    ],
+    "objects": [
+      {
+        "token": "merged",
+        "parent": null,
+        "classification": "Tumor"
+      }
+    ]
+  }
+]

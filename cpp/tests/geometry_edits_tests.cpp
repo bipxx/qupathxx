@@ -28,6 +28,24 @@ int main() {
             try { Roi::rectangle({0,0,1,1}).boolean_operation(Roi::rectangle({0,0,1,1}),BooleanOp::Union); throw std::logic_error("GEOS capability not enforced"); }
             catch(const std::runtime_error&) {}
         }
+        Document merged(Image::demo());
+        const auto p=merged.add_roi(Roi::points({{10,10},{20,20}})),q=merged.add_roi(Roi::points({{20,20},{30,10}}));
+        const auto id=merged.merge_annotations({p,q});
+        check(merged.object_count()==1 && merged.annotation(id).geometry.paths().front().size()==3);
+        check(merged.undo_label()=="Merge annotations" && merged.undo() && merged.object_count()==2);
+        check(merged.redo() && merged.object_count()==1 && merged.annotation(id).parent_id==0);
+        const auto revision=merged.revision();
+        try {merged.merge_annotations({id,id});throw std::logic_error("duplicate merge accepted");}catch(const std::invalid_argument&) {}
+        check(merged.revision()==revision);
+        if(has_geos()) {
+            Document areas(Image::demo());const auto a=areas.add_rectangle({10,10,20,20}),b=areas.add_rectangle({20,10,20,20});
+            const auto child=areas.add_detection(Roi::rectangle({12,12,2,2}),"child",a,"Stroma");
+            areas.classify_objects({a,b},"Tumor");const auto result=areas.merge_annotations({a,b});
+            check(areas.annotation(result).geometry.area()==600 && areas.annotation(result).class_name=="Tumor");
+            check(areas.annotation(child).parent_id==0 && areas.undo() && areas.annotation(child).parent_id==a);
+            check(areas.redo() && areas.annotation(child).parent_id==0);
+        }
+        std::cout<<"Annotation merge, point union, child preservation and atomic history passed\n";
         std::cout<<"Vertex edits, holes, area overlay and journal passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

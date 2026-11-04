@@ -1,0 +1,379 @@
+[
+  {
+    "name": "same-class",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          20,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "mixed-class",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          20,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Stroma",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "one-unclassified",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          20,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "unclassified",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          20,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "disjoint",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          50,
+          10,
+          10,
+          10
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "points",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": null,
+        "points": [
+          [
+            10,
+            10
+          ],
+          [
+            20,
+            20
+          ]
+        ],
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": null,
+        "points": [
+          [
+            20,
+            20
+          ],
+          [
+            30,
+            10
+          ]
+        ],
+        "classification": "Tumor",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "mixed-dimension",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": null,
+        "points": [
+          [
+            12,
+            12
+          ],
+          [
+            50,
+            10
+          ]
+        ],
+        "classification": "Tumor",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "children",
+    "nodes": [
+      {
+        "token": "p",
+        "rect": [
+          0,
+          0,
+          80,
+          80
+        ],
+        "points": null,
+        "classification": "",
+        "parent": null
+      },
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": "p"
+      },
+      {
+        "token": "b",
+        "rect": [
+          20,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": "p"
+      },
+      {
+        "token": "child",
+        "rect": [
+          12,
+          12,
+          2,
+          2
+        ],
+        "points": null,
+        "classification": "Stroma",
+        "parent": "a"
+      },
+      {
+        "token": "sibling",
+        "rect": [
+          65,
+          65,
+          2,
+          2
+        ],
+        "points": null,
+        "classification": "",
+        "parent": "p"
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "nested-selection",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      },
+      {
+        "token": "b",
+        "rect": [
+          12,
+          12,
+          10,
+          10
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": "a"
+      },
+      {
+        "token": "child",
+        "rect": [
+          14,
+          14,
+          2,
+          2
+        ],
+        "points": null,
+        "classification": "",
+        "parent": "b"
+      }
+    ],
+    "selected": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "name": "singleton",
+    "nodes": [
+      {
+        "token": "a",
+        "rect": [
+          10,
+          10,
+          20,
+          20
+        ],
+        "points": null,
+        "classification": "Tumor",
+        "parent": null
+      }
+    ],
+    "selected": [
+      "a"
+    ]
+  }
+]

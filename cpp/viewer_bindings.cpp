@@ -33,6 +33,11 @@ void bind_viewer_session(nb::module_& m) {
         .def("poll",&ViewerSession::poll,"ticket"_a).def("wait",&ViewerSession::wait,"ticket"_a,"timeout_seconds"_a=30.,nb::call_guard<nb::gil_scoped_release>()).def("take",&ViewerSession::take,"ticket"_a).def("cancel",&ViewerSession::cancel,"ticket"_a)
         .def("catalog",&ViewerSession::catalog,"after_id"_a=0,"limit"_a=64).def("inspect",&ViewerSession::inspect,"image_id"_a,"object_id"_a=0)
         .def("execute",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,ObjectEdit> values,std::string label,std::optional<std::uint64_t> revision){if(nb::len(values)>s.limits().max_edits) throw std::length_error("viewer edit count exceeds limit");std::vector<ObjectEdit> edits;edits.reserve(nb::len(values));for(auto item:values) edits.push_back(nb::cast<ObjectEdit>(item));return s.execute(image,edits,std::move(label),revision);},"image_id"_a,"edits"_a,"label"_a="Python edits","expected_revision"_a=nb::none())
+        .def("merge_annotations",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,std::uint64_t> ids,bool discard,std::optional<std::uint64_t> revision) {
+            if(nb::len(ids)>s.limits().max_edits) throw std::length_error("viewer merge count exceeds limit");
+            std::vector<std::uint64_t> values;values.reserve(nb::len(ids));for(auto id:ids) values.push_back(nb::cast<std::uint64_t>(id));
+            return s.merge_annotations(image,values,discard,revision);
+        },"image_id"_a,"object_ids"_a,"discard_points"_a=false,"expected_revision"_a=nb::none())
         .def("spatial_distances",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,std::uint64_t> a,nb::typed<nb::sequence,std::uint64_t> b,SpatialDistanceOptions options,bool keep,std::optional<std::uint64_t> revision) {
             if(!nb::len(a) || nb::len(a)>100000 || nb::len(b)>100000)throw std::length_error("spatial viewer cohort count exceeds limit");
             std::vector<std::uint64_t> sources,targets;sources.reserve(nb::len(a));targets.reserve(nb::len(b));for(auto v:a)sources.push_back(nb::cast<std::uint64_t>(v));for(auto v:b)targets.push_back(nb::cast<std::uint64_t>(v));

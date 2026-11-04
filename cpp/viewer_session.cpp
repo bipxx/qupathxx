@@ -16,8 +16,8 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours,SpatialMeasure,SpatialInspect,SpatialVerify,SpatialExport};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours","spatial_measure","spatial_inspect","spatial_verify","spatial_export"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours,SpatialMeasure,SpatialInspect,SpatialVerify,SpatialExport,MergeAnnotations};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours","spatial_measure","spatial_inspect","spatial_verify","spatial_export","merge_annotations"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
 struct TmaAxisCommand {bool column=false,remove=false,missing=false;std::size_t index=0;std::optional<std::vector<Rect>> bounds;};
@@ -131,6 +131,10 @@ std::uint64_t ViewerSession::detect_tma_grid(std::uint64_t image,TmaDearrayOptio
 }
 std::uint64_t ViewerSession::execute(std::uint64_t image,const std::vector<ObjectEdit>& edits,std::string label,std::optional<std::uint64_t> revision) {
     if(!image || edits.empty() || edits.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer edit count or image ID");detail::bounded_utf8(label,4096);Command c(Action::Execute);c.image=image;c.revision=revision;c.edits=edits;c.text=std::move(label);return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::merge_annotations(std::uint64_t image,const std::vector<std::uint64_t>& ids,bool discard_points,std::optional<std::uint64_t> revision) {
+    if(!image || ids.empty() || ids.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer merge count or image ID");
+    Command c(Action::MergeAnnotations);c.image=image;c.ids=ids;c.flag=discard_points;c.revision=revision;return impl_->submit(std::move(c));
 }
 namespace {
 Command axis_command(std::uint64_t image,std::size_t index,bool column,bool remove,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {
@@ -347,6 +351,14 @@ struct ViewerOwner::Impl {
         if(command->action==Action::Execute) {
             if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             e.object_ids.reserve(command->edits.size());reserve(ticket,e);const auto ids=doc->execute(command->edits,command->text);e.object_ids.assign(ids.begin(),ids.end());e.committed=true;done();return;
+        }
+        if(command->action==Action::MergeAnnotations) {
+            if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            e.object_ids.reserve(1);reserve(ticket,e);
+            const auto id=doc->merge_annotations(command->ids,command->flag);
+            e.object_ids.push_back(id);e.object_id=id;e.committed=true;
+            if(e.image_id==c.active_image) c.select(e.object_ids);
+            done();return;
         }
         if(command->action==Action::TmaAxis) {
             if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}

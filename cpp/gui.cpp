@@ -305,7 +305,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::optional<std::pair<std::size_t,std::size_t>> active_vertex;
     bool vertex_dragging=false;
     Point vertex_cursor;
-    int boolean_operation=0;
+    int boolean_operation=0;bool discard_merge_points=false;
+    std::array<std::uint64_t,4> merge_stamp{{~0ULL,~0ULL,~0ULL,~0ULL}};
+    bool merge_areas=false,merge_points=false;
     Point anchor;
     auto selection=std::make_unique<ObjectSelection>(*active_document);
     std::uint64_t selected = 0,list_anchor=0;
@@ -962,6 +964,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RunBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_B,true);break;
                 case GuiInputKind::CancelBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_B,true);break;
                 case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
+                case GuiInputKind::MergeKey: input.AddKeyEvent(ImGuiKey_M,true); break;
                 case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
                 case GuiInputKind::ExportKey: input.AddKeyEvent(ImGuiKey_F6,true); break;
                 case GuiInputKind::ImportKey: input.AddKeyEvent(ImGuiKey_F7,true); break;
@@ -1542,6 +1545,21 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
                     } catch(const std::exception& e) { error=e.what(); }
                 }
+            }
+            const std::array<std::uint64_t,4> stamp{{workspace_epoch,active_image,document.render_revision(),selection->revision()}};
+            if(stamp!=merge_stamp) {
+                merge_areas=false;merge_points=false;discard_merge_points=false;
+                for(auto id:selection->ids()) {const auto shape=document.annotation(id).geometry;merge_areas|=shape.is_area();merge_points|=shape.kind()==RoiKind::Points;}
+                merge_stamp=stamp;
+            }
+            if(merge_areas && merge_points) ui::Checkbox("Discard point ROIs when merging into an area",&discard_merge_points);
+            else discard_merge_points=false;
+            ui::TextDisabled("Merge replaces inputs; children remain at root");
+            if(ui::Button("Merge annotations (M)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_M))) {
+                try {
+                    const auto id=document.merge_annotations(selection->ids(),discard_merge_points);
+                    selection->replace({id},id);selected=id;discard_merge_points=false;error.clear();
+                } catch(const std::exception& e) {error=e.what();}
             }
             ui::TextDisabled("Inspector edits the primary object");
         }

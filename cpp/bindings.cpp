@@ -191,6 +191,8 @@ NB_MODULE(_native, m) {
         .def("add_hole",&Document::add_hole,"id"_a,"part"_a,"hole"_a)
         .def("remove_hole",&Document::remove_hole,"id"_a,"part"_a,"hole"_a)
         .def("apply_boolean",&Document::apply_boolean,"target"_a,"operands"_a,"operation"_a)
+        .def("merge_annotations",&Document::merge_annotations,"object_ids"_a,"discard_points"_a=false,
+             "Replace area or point annotations with one new root annotation in a single undo step. Surviving children move to root; mixed area/point input requires explicit discard_points.")
         .def("remove_annotation", &Document::remove_annotation).def("remove_objects",&Document::remove_objects)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
@@ -337,7 +339,7 @@ NB_MODULE(_native, m) {
         .value("EXPORT_MEASUREMENT_TABLE_KEY",GuiInputKind::ExportMeasurementTableKey).value("CANCEL_MEASUREMENT_TABLE_KEY",GuiInputKind::CancelMeasurementTableKey)
         .value("ESTIMATE_STAINS_KEY",GuiInputKind::EstimateStainsKey).value("APPLY_STAIN_ESTIMATE_KEY",GuiInputKind::ApplyStainEstimateKey).value("CANCEL_STAIN_ESTIMATE_KEY",GuiInputKind::CancelStainEstimateKey)
         .value("RUN_BATCH_KEY",GuiInputKind::RunBatchKey).value("CANCEL_BATCH_KEY",GuiInputKind::CancelBatchKey)
-        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey).value("RAW_CHANNELS_KEY",GuiInputKind::RawChannelsKey).value("TMA_KEY",GuiInputKind::TmaKey)
+        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey).value("RAW_CHANNELS_KEY",GuiInputKind::RawChannelsKey).value("MERGE_KEY",GuiInputKind::MergeKey).value("TMA_KEY",GuiInputKind::TmaKey)
         .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
