@@ -4,6 +4,7 @@
 #include "reader_file_guard.hpp"
 #include "filesystem_access.hpp"
 #include "utf8_text.hpp"
+#include "ascii_case.hpp"
 #include "sha256.hpp"
 #include <filesystem>
 #include <algorithm>

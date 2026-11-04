@@ -1,4 +1,5 @@
 #include "qupathxx/qupath_project.hpp"
+#include "ascii_case.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
