@@ -30,6 +30,14 @@ Current: **R5-SOURCE1, persist and review source verification**, implementation 
   rechecks avoid dirty/autosave churn. Reuse completed objects; one corrected
   build/install remains, with original
   failures/logs retained. No platform or reader campaign is justified.
+- Current checks: corrected native a66c8af5 built successfully in546.58 seconds;
+  one final wheel install and byte-preserving stub repackaging are complete.
+  Model687 passes/ten declared skips; stubs and positive/three-negative typing pass.
+  Four native suites pass. The project suite's final test call forgot explicit
+  acceptance for an observed-source change. Correct that test caller only, rebuild
+  its executable against retained core/package bytes, and rerun only that suite.
+  Keep the failed XML and separate product/observer source identities. Desktop is
+  running on the installed product; no product rebuild/reinstall is required.
 - Reuse: immutable native source/fingerprint facts, existing worker/cancellation,
   SQLite snapshots and verified relink handoff. Keep ordinary open lazy; distinguish
   primary-file proof, metadata association and compound-source coverage. Historical

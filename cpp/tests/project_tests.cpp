@@ -44,7 +44,9 @@ void verified_relink_handoff() {
     check(!changed->consumed() && project.source_verification(image)==baseline);project.apply_source_review(changed,true);check(doc->mean_intensity(roi)==96);
     const auto stale=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));project.clear_source_verification(image);refuses([&]{project.apply_source_review(stale);});
     const auto edited=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));ppm("candidate.ppm",192);refuses([&]{project.apply_source_review(edited);});
-    project.apply_source_review(project.review_source_verification(image,*fingerprint_file(candidate.u8string())));
+    const auto observed_change=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));
+    check(observed_change->comparison()=="changed_observed_source" && observed_change->requires_acceptance());
+    refuses([&]{project.apply_source_review(observed_change);});project.apply_source_review(observed_change,true);
     std::cout<<"Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed\n";
     std::filesystem::remove_all(root);
     std::cout<<"Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed\n";

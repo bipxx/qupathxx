@@ -1417,6 +1417,14 @@ class Project:
     @property
     def recovery_source(self) -> str: ...
 
+    def source_verification(self, image_id: int) -> SourceFileAssociation: ...
+
+    def review_source_verification(self, image_id: int, fingerprint: FileFingerprint) -> ProjectSourceReview: ...
+
+    def apply_source_review(self, review: ProjectSourceReview, accept_changed: bool = ...) -> None: ...
+
+    def clear_source_verification(self, image_id: int) -> None: ...
+
     @staticmethod
     def open_without_journal_recovery(path: str) -> Project: ...
 
@@ -1670,6 +1678,8 @@ class GuiInputKind(enum.Enum):
     FINGERPRINT_FILE_KEY = 54
 
     CANCEL_FINGERPRINT_FILE_KEY = 55
+
+    REVIEW_SOURCE_VERIFICATION_KEY = 72
 
 class GuiInputTarget(enum.Enum):
     CANVAS = 0
@@ -1935,6 +1945,10 @@ class GuiInputTarget(enum.Enum):
     SPATIAL_PATH = 130
 
     SPATIAL_RECORD_ID = 131
+
+    APPLY_SOURCE_VERIFICATION = 132
+
+    ACCEPT_SOURCE_REPLACEMENT = 133
 
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
@@ -5948,6 +5962,29 @@ class QuPathProjectPreview:
     def import_new(self, destination: str, allow_losses: bool = ...) -> Project: ...
 
 def preview_qupath_project(path: str, source_overrides: Mapping[str, str] = ..., exchange_directory: str = ...) -> QuPathProjectPreview: ...
+
+class ProjectSourceReview:
+    def __init__(self, _native_only: Never) -> None: ...
+    @property
+    def image_id(self) -> int: ...
+
+    @property
+    def path(self) -> str: ...
+
+    @property
+    def comparison(self) -> str: ...
+
+    @property
+    def coverage(self) -> str: ...
+
+    @property
+    def requires_acceptance(self) -> bool: ...
+
+    @property
+    def association(self) -> SourceFileAssociation: ...
+
+    @property
+    def consumed(self) -> bool: ...
 
 class TmaPolarity(enum.Enum):
     DarkOnLight = 0
