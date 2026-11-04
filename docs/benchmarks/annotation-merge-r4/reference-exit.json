@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\annotation-merge-r4",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\annotation-merge-r4\\probe.groovy"
+  ],
+  "returncode": 0,
+  "verified_pinned_runtime": true,
+  "probe_sha256": "50b62b1cf74a29b8ac87dbf1f0c9b71e3bfe2b7fcaaca972814872b8b1d0e8e3"
+}

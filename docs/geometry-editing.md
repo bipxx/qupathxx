@@ -118,7 +118,7 @@ merging an inactive image does not change the active image's selection.
 
 The ImGui inspector offers **Merge annotations (M)** for multiple selected
 objects. Mixed input exposes an explicit discard-points checkbox; a selection
-or document revision change clears that acknowledgement. Eligibility is cached
+or document revision change clears that acknowledgement. The mixed-input check is cached
 by workspace/image/document/selection revisions instead of rescanning each frame.
 
 API compatibility review ([AIP-180](https://google.aip.dev/180),
@@ -128,6 +128,10 @@ Documentation/examples and expected-revision behavior are covered here; stubs an
 installed consumers are checked at task closeout. REST resources, auth and HTTP
 retry/transcoding rules are not applicable to this local SDK. A retry using
 removed input IDs rejects; callers retain the successful returned identity.
+
+[R4-MERGE1 local verification](benchmarks/annotation-merge-r4/README.md) records
+the pinned ten-case capture,24 distinct merge passes, three affected native suites,
+actual standalone/managed desktop flows and installed typing/stub/package identity.
 
 ## GUI workflow
 

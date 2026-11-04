@@ -1,41 +1,42 @@
 # Current implementation task
 
 Use the [R0-R16 queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-and its [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
-R0 is accepted; R1 inventory is reconciled with owner decisions open.
-R2-SI1/META1/UNIT2 and [CODEC1](benchmarks/tiff-jpeg-r2/README.md) have local
-installed evidence. All M0-M7 remain Partial; other R2 format gaps remain open.
+and [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
+R0 is accepted; R1 inventory is reconciled with owner decisions open. The four
+recent R2 slices and [R4-MERGE1](benchmarks/annotation-merge-r4/README.md) have
+local installed evidence. All M0-M7 and the wider R2/R4/R5 scope remain Partial.
 
-Next: **R4-MERGE1, merge annotation objects**.
+Next: **R5-QPPROJ1, direct QuPath project-manifest import**.
 
-- Outcome/entry: add a true merge through immutable ROI union, the document
-  command journal, bindings and existing selection/ImGui controllers. Current
-  apply_boolean retains target/operands; keep that behavior intact.
-- Prerequisite: capture pinned QuPath0.7.0 mergeAnnotations for area/point,
-  common/mixed classes, metadata, descendants and selection. Define an explicit
-  child/identity policy compatible with native containment and history.
-- Checks: independent geometry and pinned object outcomes; atomic failure,
-  compound undo/redo, metadata/selection and save/reopen; affected installed
-  Python and desktop/managed consumers. Build/install once after APIs settle.
-- Stop: complete the merge user flow and its waste review, then choose the
-  next actual R4/R5 gap. No reader or full platform campaign replay.
+- Outcome/entry: reuse image adapters, loss-aware GeoJSON/QuPath-assisted exchange
+  and native snapshots for a reviewed project preview/import and save/reopen flow.
+- Prerequisite: capture pinned qpproj/qpdata examples; identify builder, URI/path,
+  metadata, plane and annotation payload contracts. Inspect the delivered assisted
+  route before adding code. No biological/support/license decision is needed.
+- Checks: independent manifest expectations; explicit missing/unsupported/loss
+  reports before publication; failed import preserves existing state; Python/UI
+  imports preserve supported source paths, IDs, hierarchy/classes and calibration.
+  One settled build/install and affected import/reopen consumers only.
+- Stop: complete one imported-project workflow with an honest capability/loss
+  report. Direct qpdata decoding and broader property/plane cases remain separate
+  R5 contracts; manifest-only support must not be called complete migration.
 
-Latest closeout (2026-11-04, R2-CODEC1):
-Outcome/evidence: [JPEG TIFF closeout](benchmarks/tiff-jpeg-r2/README.md),409
-targeted passes/6 declared desktop skips, two native suites, two coexistence
-workflow cases and eight exact Linux codec-only decodes. All62 installed members,
-notices and stubs verify. Linux app/Mac support are not qualified by these checks.
-Waste/cost: one cached six-target package build/install and one Linux codec build.
-Avoided a new test codec dependency with a scalar fixture writer. Corrected a
-parent/child CMake-scope mistake in the Linux harness; retained the failure and
-reused all passing Windows checks. No production rebuild after that correction.
-Plan change/next action: read generated feature headers for harness admission;
-preserve products with explicit cache_path; move to MERGE1 instead of expanding
-this into an all-codec campaign. Missing NASM leaves SIMD/performance unclaimed.
+Latest closeout (2026-11-04, R4-MERGE1):
+Outcome/evidence: [ten pinned captures and24 distinct merge passes](benchmarks/annotation-merge-r4/README.md),
+74 selected model passes/15 declared skips, four desktop passes and three native
+suites; typing/stubs/62 installed members/RECORD verify. Mixed point loss requires
+explicit admission. Native acbdc388 and observer64acd130 retain separate identities.
+Waste/cost: one seven-target native build; shared-header changes caused a broad
+core/binding rebuild (elapsed unknown). Generated stubs were repackaged from the
+same native bytes, followed by one final install. Cached UI checks avoid repeated
+selection scans. Reused successful XML when correcting the marker proof; no
+native suite, reader campaign or platform campaign was repeated.
+Plan change/next action: finish generated signatures before installing; retain
+source/evidence identity and cache_path; move to QPPROJ1 using existing migration
+authorities. Preserve the old Boolean command and failed baseline cases.
 
-Apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
-after each task, including failures, and update next action/dependencies/checks
-before starting it. [308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)
-retains its frozen-source scope. Biology/tolerances, hardware, project license
-and exact release support remain owner decisions. Only openly licensed readers
-and required codecs are eligible.
+Apply the [waste review](api-delivery-plan.md#task-closeout-and-waste-review) after
+each task, including failures, then update dependencies/checks before starting
+the next one. Source308 acceptance retains its own platform scope. Biology,
+hardware, project license and exact release support remain owner decisions.
+Only openly licensed readers and required codecs are eligible.

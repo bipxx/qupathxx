@@ -748,3 +748,5 @@ docs/benchmarks/tiff-jpeg-r2/** -text -whitespace
 
 tests/fixtures/qupath-annotation-merge-0.7.0/** -text -whitespace
 tools/upstream/qupath_annotation_merge.groovy -text -whitespace
+
+docs/benchmarks/annotation-merge-r4/** -text -whitespace

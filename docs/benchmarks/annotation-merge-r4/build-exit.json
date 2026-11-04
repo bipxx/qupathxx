@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\merge_r4_backend.py"
+  ],
+  "returncode": 0,
+  "selected_targets": [
+    "_native",
+    "qupathxx_region",
+    "qupathxx_batch",
+    "qupathxx_app",
+    "qupathxx_geometry_edits_tests",
+    "qupathxx_viewer_session_tests",
+    "qupathxx_selection_tests"
+  ]
+}

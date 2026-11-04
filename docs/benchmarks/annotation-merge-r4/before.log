@@ -1,0 +1,174 @@
+.FFFFFFFFFF                                                              [100%]
+================================== FAILURES ===================================
+__ test_merge_matches_pinned_geometry_objects_and_atomic_history[same-class] __
+
+case = {'name': 'same-class', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}, {'token': 'b', 'rect': [20, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+_ test_merge_matches_pinned_geometry_objects_and_atomic_history[mixed-class] __
+
+case = {'name': 'mixed-class', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}, {'token': 'b', 'rect': [20, 10, 20, 20], 'points': None, 'classification': 'Stroma', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+_ test_merge_matches_pinned_geometry_objects_and_atomic_history[one-unclassified] _
+
+case = {'name': 'one-unclassified', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}, {'token': 'b', 'rect': [20, 10, 20, 20], 'points': None, 'classification': '', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+_ test_merge_matches_pinned_geometry_objects_and_atomic_history[unclassified] _
+
+case = {'name': 'unclassified', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': '', ...}, {'token': 'b', 'rect': [20, 10, 20, 20], 'points': None, 'classification': '', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+___ test_merge_matches_pinned_geometry_objects_and_atomic_history[disjoint] ___
+
+case = {'name': 'disjoint', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}, {'token': 'b', 'rect': [50, 10, 10, 10], 'points': None, 'classification': 'Tumor', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+____ test_merge_matches_pinned_geometry_objects_and_atomic_history[points] ____
+
+case = {'name': 'points', 'nodes': [{'token': 'a', 'rect': None, 'points': [[10, 10], [20, 20]], 'classification': 'Tumor', .... {'token': 'b', 'rect': None, 'points': [[20, 20], [30, 10]], 'classification': 'Tumor', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+_ test_merge_matches_pinned_geometry_objects_and_atomic_history[mixed-dimension] _
+
+case = {'name': 'mixed-dimension', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumo... {'token': 'b', 'rect': None, 'points': [[12, 12], [50, 10]], 'classification': 'Tumor', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+___ test_merge_matches_pinned_geometry_objects_and_atomic_history[children] ___
+
+case = {'name': 'children', 'nodes': [{'token': 'p', 'rect': [0, 0, 80, 80], 'points': None, 'classification': '', ...}, {'to......}, {'token': 'sibling', 'rect': [65, 65, 2, 2], 'points': None, 'classification': '', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+_ test_merge_matches_pinned_geometry_objects_and_atomic_history[nested-selection] _
+
+case = {'name': 'nested-selection', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tum..., ...}, {'token': 'child', 'rect': [14, 14, 2, 2], 'points': None, 'classification': '', ...}], 'selected': ['a', 'b']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+__ test_merge_matches_pinned_geometry_objects_and_atomic_history[singleton] ___
+
+case = {'name': 'singleton', 'nodes': [{'token': 'a', 'rect': [10, 10, 20, 20], 'points': None, 'classification': 'Tumor', ...}], 'selected': ['a']}
+
+    @pytest.mark.parametrize('case',CASES,ids=lambda c:c['name'])
+    def test_merge_matches_pinned_geometry_objects_and_atomic_history(case):
+        if not q.has_geos and sum(n['rect'] is not None for n in case['nodes'] if n['token'] in case['selected'])>1:
+            pytest.skip('area union requires GEOS')
+        doc,ids=setup(case);before=state(doc);revision=doc.revision
+        selected=[ids[t] for t in case['selected']];ref=REFERENCE[case['name']]
+        presentation=q.ObjectSelection(doc);presentation.replace(selected)
+>       merged=doc.merge_annotations(selected,discard_points=case['name']=='mixed-dimension')
+               ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'merge_annotations'. Did you mean: 'remove_annotation'?
+
+tests\test_annotation_merge.py:45: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[same-class]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[mixed-class]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[one-unclassified]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[unclassified]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[disjoint]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[points]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[mixed-dimension]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[children]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[nested-selection]
+FAILED tests/test_annotation_merge.py::test_merge_matches_pinned_geometry_objects_and_atomic_history[singleton]
+10 failed, 1 passed, 12 deselected in 0.55s

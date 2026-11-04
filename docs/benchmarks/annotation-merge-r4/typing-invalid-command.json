@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\annotation-merge-r4-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "mypy",
+    "--strict",
+    "--no-incremental",
+    "tests/typing/annotation_merge_invalid.py"
+  ],
+  "returncode": 1
+}
