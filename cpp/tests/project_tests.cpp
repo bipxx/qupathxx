@@ -1,5 +1,8 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "qupathxx/project_source.hpp"
+#include "qupathxx/project_save.hpp"
+#include "../project_source_internal.hpp"
 #include <fstream>
 #include "qupathxx/cells.hpp"
 #include <cstdlib>
@@ -25,6 +28,23 @@ void verified_relink_handoff() {
     check(doc->pixel_width_um()==.25 && doc->pixel_height_um()==.5);
     Document old_doc(old);const auto old_roi=old_doc.add_rectangle({0,0,2,2});check(old_doc.mean_intensity(old_roi)==16);
     linked->close();check(old_doc.mean_intensity(old_roi)==16);
+    const auto first=project.review_source_verification(image,*fingerprint_file(original.u8string()));
+    check(first->comparison()=="unverified" && !first->consumed() && !project.source_verification(image));
+    project.apply_source_review(first);const auto baseline=project.source_verification(image);
+    check(first->consumed() && baseline && doc->mean_intensity(roi)==16);
+    const auto facts=source_file_association_json(*baseline);const auto saved=root/"verified.qpxproj";project.save(saved.u8string());
+    const auto restored=Project::open(saved.u8string());check(source_file_association_json(*restored->source_verification(image))==facts);
+    check(restored->document(image)->server()->reader_source()->scope=="unopened");
+    auto encoded=detail::encode_source_verification(*baseline);check(source_file_association_json(*detail::decode_source_verification(encoded.data(),encoded.size()))==facts);
+    auto refuses=[](auto call) {bool rejected=false;try {call();}catch(const std::exception&){rejected=true;}check(rejected);};
+    encoded.back()^=1;refuses([&]{detail::decode_source_verification(encoded.data(),encoded.size());});
+    ppm("candidate.ppm",96);const auto changed=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));
+    check(changed->comparison()=="changed_bytes");refuses([&]{project.apply_source_review(changed);});refuses([&]{project.relink(image,candidate.u8string());});
+    check(!changed->consumed() && project.source_verification(image)==baseline);project.apply_source_review(changed,true);check(doc->mean_intensity(roi)==96);
+    const auto stale=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));project.clear_source_verification(image);refuses([&]{project.apply_source_review(stale);});
+    const auto edited=project.review_source_verification(image,*fingerprint_file(candidate.u8string()));ppm("candidate.ppm",192);refuses([&]{project.apply_source_review(edited);});
+    project.apply_source_review(project.review_source_verification(image,*fingerprint_file(candidate.u8string())));
+    std::cout<<"Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed\n";
     std::filesystem::remove_all(root);
     std::cout<<"Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed\n";
 }

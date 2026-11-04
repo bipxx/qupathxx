@@ -222,3 +222,14 @@ def test_verified_relink_native_marker_is_required_once(failure):
     else:lines.append(marker)
     case.find('system-out').text='\n'.join(lines)+'\n'
     with pytest.raises(ValueError,match='marker differs'):evidence.native(cases)
+
+
+@pytest.mark.parametrize('failure',['missing','duplicate'])
+def test_project_source_verification_marker_is_required_once(failure):
+    cases=native_cases();case=next(c for c in cases if c.get('name')=='project')
+    marker='Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed'
+    lines=case.findtext('system-out').splitlines()
+    if failure=='missing':lines.remove(marker)
+    else:lines.append(marker)
+    case.find('system-out').text='\n'.join(lines)+'\n'
+    with pytest.raises(ValueError,match='marker differs'):evidence.native(cases)

@@ -7,6 +7,9 @@ namespace qpx {
 namespace detail {struct BatchCheckpoint;}
 class ProjectAutosave;
 class ProjectSaveJob;
+class ProjectSourceReview;
+struct FileFingerprint;
+struct SourceFileAssociation;
 struct RecoveryRetention {
     bool enabled=false;
     std::size_t keep_latest=10,max_deletions=32;
@@ -78,6 +81,10 @@ public:
     void remove_image(std::uint64_t id);
     void rename_image(std::uint64_t id,std::string name);
     void relink(std::uint64_t id,const std::string& path);
+    std::shared_ptr<const SourceFileAssociation> source_verification(std::uint64_t id) const;
+    std::shared_ptr<ProjectSourceReview> review_source_verification(std::uint64_t id,const FileFingerprint&) const;
+    void apply_source_review(const std::shared_ptr<ProjectSourceReview>&,bool accept_changed=false);
+    void clear_source_verification(std::uint64_t id);
     std::optional<ProjectView> view(std::uint64_t id) const;
     void set_view(std::uint64_t id,ProjectView view);
     void clear_view(std::uint64_t id);
@@ -127,6 +134,7 @@ private:
     struct Entry { ProjectImage info; std::shared_ptr<Document> document; bool native_lifetime=false; };
     const Entry& entry(std::uint64_t id) const;
     std::map<std::uint64_t,Entry> entries_;
+    std::map<std::uint64_t,std::shared_ptr<const SourceFileAssociation>> source_verifications_;
     std::map<std::uint64_t,ProjectView> views_;
     std::map<std::uint64_t,std::uint64_t> saved_revisions_;
     std::string path_,identity_,instance_identity_,recovery_source_;

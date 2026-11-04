@@ -42,8 +42,7 @@ std::string status(const ReaderSource& source,const FileFingerprint& fingerprint
 void FileVersion::validate() const {
     detail::bounded_utf8(path,32768);
     // Historical observations must remain readable across operating systems.
-    const bool absolute=!path.empty() && (path[0]=='/' || (path.size()>=2 && path[0]=='\\' && path[1]=='\\') ||
-        (path.size()>=3 && ((path[0]>='A' && path[0]<='Z') || (path[0]>='a' && path[0]<='z')) && path[1]==':' && (path[2]=='/' || path[2]=='\\')));
+    const bool absolute=detail::absolute_source_path(path);
     if(!absolute || bytes>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || observed_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("invalid observed file version");
     detail::validate_file_identity(identity_scheme,identity,stamp_scheme,modified_token,change_token);
 }

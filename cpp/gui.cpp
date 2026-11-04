@@ -1,4 +1,5 @@
 #include "qupathxx/qupath_project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "ascii_case.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
@@ -209,6 +210,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     for(const auto* path:{&options.file_fingerprint_path,&options.file_fingerprint_output}) if(path->size()>32768 || path->find('\0')!=std::string::npos) throw std::invalid_argument("invalid file fingerprint path");
     FileFingerprintOptions fingerprint_options;fingerprint_options.byte_limit=options.file_fingerprint_byte_limit;fingerprint_options.buffer_bytes=options.file_fingerprint_buffer_bytes;fingerprint_options.validate();
     bool fingerprint_associate=options.file_fingerprint_associate_source;
+    std::shared_ptr<ProjectSourceReview> source_review;
+    bool source_accept_changed=false;
+    std::weak_ptr<Document> fingerprint_document;
+    std::weak_ptr<Project> fingerprint_project;
+    std::string fingerprint_generation;
+    std::uint64_t fingerprint_image=0;
+    std::array<Rect,2> source_review_bounds;
     FileFingerprintJob fingerprint_job;std::string fingerprint_error;
     auto text_buffers=std::make_unique<detail::GuiTextBuffers>();
     auto& fingerprint_path=text_buffers->fingerprint_path;
@@ -436,7 +444,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::SpatialRecordId)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::AcceptSourceReplacement)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -927,6 +935,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target==GuiInputTarget::ApplySourceVerification || event.target==GuiInputTarget::AcceptSourceReplacement) {
+                const auto& bounds=source_review_bounds[event.target==GuiInputTarget::ApplySourceVerification?0:1];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
+            }
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
             if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
@@ -1009,6 +1020,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::CancelCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_G,true);break;
                 case GuiInputKind::KeepCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_C,true);break;
                 case GuiInputKind::RecheckCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_C,true);break;
+                case GuiInputKind::ReviewSourceVerificationKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_F,true);break;
                 case GuiInputKind::FingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_F,true);break;
                 case GuiInputKind::CancelFingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_F,true);break;
                 case GuiInputKind::EstimateStainsKey: input.AddKeyEvent(ImGuiKey_F3,true);break;
@@ -1104,7 +1116,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::GetBackgroundDrawList()->AddCallback(ImGui::GetPlatformIO().DrawCallback_SetSamplerFromTex,nullptr);
         bool save_project_requested=false;
         bool autosave_requested=false;
-        const bool editing_blocked=editing_is_blocked();
+        const bool editing_blocked=bool(source_review) || editing_is_blocked();
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);
@@ -2067,7 +2079,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const bool fingerprint_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_F,false);
         const bool fingerprint_cancel=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_F,false);
         bool fingerprint_start=fingerprint_key;
-        if(fingerprint_key) ImGui::SetNextItemOpen(true);
+        bool review_source_requested=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_F,false);
+        if(fingerprint_key || review_source_requested) ImGui::SetNextItemOpen(true);
         if(ImGui::CollapsingHeader("File checksum",options.file_fingerprint_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
             ui::Checkbox("Associate active image",&fingerprint_associate);
             ImGui::BeginDisabled(fingerprint_associate);
@@ -2085,15 +2098,56 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(status.state!="idle") {ImGui::TextWrapped("Bytes: %llu / %llu",static_cast<unsigned long long>(status.bytes),static_cast<unsigned long long>(status.total_bytes));ImGui::TextWrapped("%s",status.path.c_str());}
             if(const auto value=fingerprint_job.result()) {ImGui::TextUnformatted("SHA-256:");ImGui::TextUnformatted(value->sha256.substr(0,32).c_str());ImGui::TextUnformatted(value->sha256.substr(32).c_str());ImGui::TextWrapped("Observed file metadata was stable while reading.");}
             if(const auto association=fingerprint_job.association()) {ImGui::TextWrapped("Reader match: %s",association->status.c_str());ImGui::TextWrapped("Scope: %s",association->source.scope.c_str());ImGui::TextWrapped("Metadata comparison; not proof of historical decoder bytes.");}
+            if(options.project && active_image) {
+                if(const auto saved=options.project->source_verification(active_image)) {ImGui::TextUnformatted("Saved project checksum:");ImGui::TextWrapped("%s",saved->fingerprint.sha256.c_str());}
+                ImGui::BeginDisabled(fingerprint_job.busy() || !fingerprint_job.result() || editing_blocked);
+                if(ui::Button("Review for project (Ctrl+Alt+F)"))review_source_requested=true;
+                ImGui::EndDisabled();
+            }
             if(!status.error.empty()) ImGui::TextWrapped("%s",status.error.c_str());
             if(!fingerprint_error.empty()) ImGui::TextWrapped("%s",fingerprint_error.c_str());
         } else fingerprint_job.poll();
         if(fingerprint_cancel) fingerprint_job.cancel();
-        if(fingerprint_start && !fingerprint_job.busy()) {try {if(fingerprint_associate) {
+        if(fingerprint_start && !fingerprint_job.busy()) {try {
+            source_review.reset();source_accept_changed=false;fingerprint_project=options.project;fingerprint_image=active_image;
+            fingerprint_document=options.project && active_image?options.project->document(active_image):nullptr;
+            const auto live_source=document.server()->reader_source();fingerprint_generation=live_source?live_source->generation:std::string{};
+            if(fingerprint_associate) {
             if(!has_image) throw std::invalid_argument("select an image to associate its source");
             const auto source=document.server()->reader_source();if(!source) throw std::invalid_argument("reader source identity is unavailable");
             fingerprint_job.request_source(*source,fingerprint_output,fingerprint_options);
         } else fingerprint_job.request(fingerprint_path,fingerprint_output,fingerprint_options);fingerprint_error.clear();} catch(const std::exception& e) {fingerprint_error=e.what();}}
+        if(review_source_requested) {
+            try {
+                if(!options.project || !active_image || fingerprint_project.lock()!=options.project || fingerprint_image!=active_image || fingerprint_document.lock()!=options.project->document(active_image))throw std::runtime_error("Hash the selected project image before reviewing its source.");
+                const auto current_source=document.server()->reader_source();
+                if(!current_source || current_source->generation!=fingerprint_generation)throw std::runtime_error("Image source changed; hash it again before review.");
+                const auto value=fingerprint_job.result();if(fingerprint_job.busy() || !value)throw std::runtime_error("Wait for a successful file checksum first.");
+                source_review=options.project->review_source_verification(active_image,*value);source_accept_changed=false;fingerprint_error.clear();
+                ImGui::OpenPopup("Source verification");
+            } catch(const std::exception& e) {fingerprint_error=e.what();}
+        }
+        if(ImGui::BeginPopupModal("Source verification",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+            if(source_review) {
+                ImGui::TextWrapped("File: %s",source_review->path().c_str());
+                const bool changed=source_review->comparison()=="changed_bytes";
+                ImGui::TextWrapped(changed?"File bytes differ from the saved checksum.":source_review->comparison()=="matching_bytes"?"File bytes match the saved checksum.":"No saved file verification. Save this checksum with the project.");
+                const auto association=source_review->association();ImGui::TextUnformatted("Reviewed SHA-256:");
+                ImGui::TextUnformatted(association->fingerprint.sha256.substr(0,32).c_str());ImGui::TextUnformatted(association->fingerprint.sha256.substr(32).c_str());
+                ImGui::TextWrapped(source_review->coverage()=="compound_primary_only"?"Only the primary file was hashed. Companion files were not verified by checksum.":source_review->coverage()=="primary_file"?"Primary file checksum; other dependencies are outside this record.":"Single source file checksum.");
+                auto mark_source=[&](GuiInputTarget target,std::size_t index) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();source_review_bounds[index]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(target);};
+                if(changed) {ui::Checkbox("Use this changed file and replace the saved checksum",&source_accept_changed);mark_source(GuiInputTarget::AcceptSourceReplacement,1);}
+                ImGui::BeginDisabled(changed && !source_accept_changed);
+                if(ui::Button("Use reviewed file")) {
+                    try {options.project->apply_source_review(source_review,source_accept_changed);mean.invalidate();pending_image=active_image;refresh_active_image=true;project_catalog_dirty=true;source_review.reset();ImGui::CloseCurrentPopup();}
+                    catch(const std::exception& e) {fingerprint_error=e.what();}
+                }
+                mark_source(GuiInputTarget::ApplySourceVerification,0);ImGui::EndDisabled();
+                ImGui::SameLine();if(ui::Button("Cancel")) {source_review.reset();ImGui::CloseCurrentPopup();}
+                if(!fingerprint_error.empty())ImGui::TextWrapped("%s",fingerprint_error.c_str());
+            } else ImGui::CloseCurrentPopup();
+            ImGui::EndPopup();
+        }
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         if(workspace.enabled()) {
             ImGui::End();canvas_visible=workspace.begin("Slide",workspace.canvas,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);

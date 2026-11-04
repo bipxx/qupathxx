@@ -160,7 +160,7 @@ void FileFingerprintOptions::validate() const {
     if(buffer_bytes<65536 || buffer_bytes>16*1024*1024) throw std::invalid_argument("file fingerprint buffer must be 64 KiB..16 MiB");
 }
 void FileFingerprint::validate() const {
-    detail::bounded_utf8(path,32768);if(path.empty() || !std::filesystem::u8path(path).is_absolute() || bytes>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || sha256.size()!=64 || sha256.find_first_not_of("0123456789abcdef")!=std::string::npos || !std::isfinite(elapsed_ms) || elapsed_ms<0 || started_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || finished_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("invalid file fingerprint");
+    detail::bounded_utf8(path,32768);if(path.empty() || !detail::absolute_source_path(path) || bytes>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || sha256.size()!=64 || sha256.find_first_not_of("0123456789abcdef")!=std::string::npos || !std::isfinite(elapsed_ms) || elapsed_ms<0 || started_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || finished_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("invalid file fingerprint");
     detail::validate_file_identity(identity_scheme,identity,stamp_scheme,modified_token,change_token);
 }
 std::shared_ptr<const FileFingerprint> fingerprint_file(const std::string& path,FileFingerprintOptions options,const std::atomic<bool>* cancelled) {options.validate();return run(normalized(path),options,cancelled);}

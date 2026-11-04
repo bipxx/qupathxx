@@ -1,4 +1,5 @@
 #include "reader_file_guard.hpp"
+#include "project_source_internal.hpp"
 #include "filesystem_access.hpp"
 #include "atomic_export.hpp"
 #include "ascii_case.hpp"
@@ -144,6 +145,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         if(e.info.embedded) add(e.document->image().pixels().size());
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
         if(e.document->server()->tiff_view()) add(sizeof(TiffView)+1024);
+        if(const auto v=source_verifications_.find(id);v!=source_verifications_.end()) {
+            add(sizeof(std::uint64_t)+sizeof(SourceFileAssociation)+v->second->source.payload_bytes()+file_fingerprint_json(v->second->fingerprint).size());
+        }
         add(e.document->object_bytes_);
         add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
@@ -171,6 +175,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     for(const auto& [id,v]:views_) if(!selected || selected->count(id)) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
     snapshot->identity_=identity_; snapshot->path_=path_; snapshot->generation_=generation_;
+    for(const auto& [id,value]:source_verifications_)if(!selected || selected->count(id))snapshot->source_verifications_.emplace(id,value);
     snapshot->next_id_=next_id_; snapshot->active_image_=active_image_; snapshot->revision_=revision_;
     for(const auto& [id,v]:views_) if(!selected || selected->count(id)) snapshot->views_.emplace(id,v);
     if(selected && !selected->count(snapshot->active_image_)) snapshot->active_image_=selected->empty()?0:*selected->begin();
@@ -232,7 +237,7 @@ void Project::restore_recovery(const std::string& path,const std::string& base) 
     adopt_workspace(*restored);
 }
 void Project::adopt_workspace(Project& candidate) noexcept {
-    entries_.swap(candidate.entries_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
+    entries_.swap(candidate.entries_); source_verifications_.swap(candidate.source_verifications_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
     path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
     std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);
     std::swap(revision_,candidate.revision_); std::swap(saved_revision_,candidate.saved_revision_);
@@ -295,7 +300,7 @@ std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string na
     ++next_id_; ++revision_; if(!active_image_) active_image_=id; return id;
 }
 void Project::remove_image(std::uint64_t id) {
-    entry(id); advance(revision_); entries_.erase(id); views_.erase(id); ++revision_;
+    entry(id); advance(revision_); entries_.erase(id); source_verifications_.erase(id); views_.erase(id); ++revision_;
     if(active_image_==id) active_image_=entries_.empty()?0:entries_.begin()->first;
 }
 void ProjectView::validate() const {
@@ -341,6 +346,7 @@ void Project::rename_image(std::uint64_t id,std::string name) {
     advance(revision_); entries_.at(id).info.name.swap(name); ++revision_;
 }
 void Project::relink(std::uint64_t id,const std::string& path) {
+    if(source_verification(id))throw std::invalid_argument("saved source verification requires reviewed source replacement");
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
     auto source=absolute(path); auto server=read_image(source,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options());
     // Keep recorded source metadata and manual calibration separate from new
@@ -351,6 +357,47 @@ void Project::relink(std::uint64_t id,const std::string& path) {
     auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,view,budgets,std::move(server));
     advance(revision_);
     entries_.at(id).info.source_path.swap(source); entries_.at(id).document->server_=std::move(linked); ++revision_;
+}
+std::shared_ptr<const SourceFileAssociation> Project::source_verification(std::uint64_t id) const {
+    entry(id);const auto found=source_verifications_.find(id);return found==source_verifications_.end()?nullptr:found->second;
+}
+void Project::clear_source_verification(std::uint64_t id) {
+    entry(id);if(!source_verifications_.count(id))return;
+    advance(revision_);source_verifications_.erase(id);++revision_;
+}
+std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::uint64_t id,const FileFingerprint& fingerprint) const {
+    if(!has_project())throw std::runtime_error("source verification requires project storage");
+    const auto& old=entry(id);if(old.info.embedded)throw std::invalid_argument("embedded images have no source file verification");
+    fingerprint.validate();const auto path=absolute(fingerprint.path);
+    auto candidate=read_image(path,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options());
+    const auto view=candidate->tiff_view();const auto budgets=candidate->tiff_options();
+    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
+    const auto observed=linked->reader_source();if(!observed || !observed->primary)throw std::invalid_argument("candidate has no observed native source");
+    auto association=std::make_shared<const SourceFileAssociation>(associate_source_file(*observed,fingerprint));
+    if(association->status!="matching_metadata" && association->status!="matching_primary_metadata")throw std::runtime_error("fingerprint no longer matches candidate; hash and review again");
+    const auto guards=detail::lock_source_verification_files(*association);
+    auto review=std::make_shared<ProjectSourceReview::Impl>();review->image=id;review->instance=instance_identity_;
+    review->previous_path=old.info.source_path;const auto previous=old.document->server()->reader_source();review->previous_generation=previous?previous->generation:std::string{};
+    review->baseline=source_verification(id);review->association=std::move(association);review->candidate=std::move(linked);review->path=path;
+    review->comparison=!review->baseline?"unverified":(review->baseline->fingerprint.sha256==fingerprint.sha256 && review->baseline->fingerprint.bytes==fingerprint.bytes?"matching_bytes":"changed_bytes");
+    review->coverage=observed->scope=="compound_files"?"compound_primary_only":observed->scope;
+    return std::shared_ptr<ProjectSourceReview>(new ProjectSourceReview(std::move(review)));
+}
+void Project::apply_source_review(const std::shared_ptr<ProjectSourceReview>& review,bool accept_changed) {
+    if(!review)throw std::invalid_argument("source review is required");
+    auto& r=*review->impl_;std::lock_guard<std::mutex> lock(r.mutex);
+    if(r.consumed)throw std::invalid_argument("source review already consumed");
+    const auto& old=entry(r.image);const auto current=old.document->server()->reader_source();
+    if(instance_identity_!=r.instance || old.info.source_path!=r.previous_path || !current || current->generation!=r.previous_generation || source_verification(r.image)!=r.baseline)
+        throw std::runtime_error("source review is stale; review the current image again");
+    if(r.comparison=="changed_bytes" && !accept_changed)throw std::invalid_argument("source bytes changed; explicit accept_changed is required");
+    auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association);
+    advance(revision_);
+    // A matching-byte relink retains the historical baseline. Replacement starts
+    // a new baseline; old analysis provenance and previously returned facts stay immutable.
+    source_verifications_.insert_or_assign(r.image,r.comparison=="matching_bytes"?r.baseline:r.association);
+    auto& target=entries_.at(r.image);target.info.source_path.swap(path);target.document->server_=r.candidate;
+    ++revision_;r.consumed=true;
 }
 bool Project::dirty() const {
     if(path_.empty() || revision_!=saved_revision_ || saved_revisions_.size()!=entries_.size()) return true;
@@ -478,7 +525,7 @@ int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
     if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version<1 || version>detail::project_schema_version))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 11)");
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 15)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -516,6 +563,9 @@ void create_raw_analysis(Database& db) {
 }
 void create_spatial(Database& db) {
     db.exec("CREATE TABLE spatial_distance_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=14;");
+}
+void create_source_verifications(Database& db) {
+    db.exec("CREATE TABLE source_verifications(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=15;");
 }
 void create_tiff_views(Database& db) {
     db.exec("CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=12;");
@@ -639,9 +689,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<12) create_tiff_views(db);
         if(version<13) create_raw_analysis(db);
         if(version<14) create_spatial(db);
+        if(version<15) create_source_verifications(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);}
-    db.exec("DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);}
+    db.exec("DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -662,6 +713,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement streams(db,"INSERT INTO pixel_stream_records VALUES(?,?,?)");
     Statement raw_records(db,"INSERT INTO raw_analysis_records VALUES(?,?,?)");
     Statement spatial_records(db,"INSERT INTO spatial_distance_records VALUES(?,?,?)");
+    Statement verification(db,"INSERT INTO source_verifications VALUES(?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -674,6 +726,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        if(const auto found=source_verifications_.find(id);found!=source_verifications_.end()) {
+            if(e.info.embedded)throw std::invalid_argument("embedded image has source verification");
+            const auto bytes=detail::encode_source_verification(*found->second);verification.string(1,key);verification.blob(2,bytes);verification.done();
+        }
         if(const auto projection=doc.server()->tiff_view()) {if(e.info.reader!="tiff" || e.info.embedded) throw std::invalid_argument("TIFF view does not match project reader");const auto encoded=tiff_view_encode(*projection);const std::vector<std::uint8_t> bytes(encoded.begin(),encoded.end());tiff_view.string(1,key);tiff_view.blob(2,bytes);tiff_view.done();}
         if(doc.tma_index_) {tma_grid.string(1,key);const auto bytes=TmaCodec::encode(*doc.tma_index_->info);tma_grid.blob(2,bytes);tma_grid.done();}
         auto saved_view=views_.find(id);
@@ -1015,6 +1071,16 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024*1024) throw std::invalid_argument("invalid spatial distance blob");
             const auto record=SpatialDistanceArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("spatial record identity mismatch");image->second.document->restore_spatial(record);
+        }
+    }
+    if(version>=15) {
+        Statement rows(db,"SELECT image_id,payload FROM source_verifications ORDER BY image_id");
+        while(rows.row()) {
+            stopped();const auto id=number(rows.string(0));const auto image=project->entries_.find(id);
+            if(image==project->entries_.end() || image->second.info.embedded)throw std::invalid_argument("orphaned or embedded source verification");
+            const auto n=sqlite3_column_bytes(rows.stmt,1);if(rows.type(1)!=SQLITE_BLOB || n<0 || n>2*1024*1024)throw std::invalid_argument("invalid source verification payload");
+            const auto value=detail::decode_source_verification(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,1)),std::size_t(n));
+            if(!project->source_verifications_.emplace(id,value).second)throw std::invalid_argument("duplicate source verification");
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");

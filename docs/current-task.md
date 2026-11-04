@@ -5,7 +5,7 @@ and [ordered slices](api-delivery-plan.md#execution-order-for-finishing-the-rema
 R0 is accepted; R1 inventory is reconciled with owner decisions open. Recent R2,
 R4-MERGE1 and R5-QPPROJ1/QPDATA1/RELINK1 have local evidence. All M0-M7 remain Partial.
 
-Next: **R5-SOURCE1, persist and review source verification**.
+Current: **R5-SOURCE1, persist and review source verification**, implementation in progress.
 
 - Outcome: fingerprint an image using the existing worker; retain the association
   with its project entry; save/reopen; compare current bytes explicitly and review
@@ -15,6 +15,12 @@ Next: **R5-SOURCE1, persist and review source verification**.
   existing JSON codecs, project schema/migrations, native job publication and UI
   fingerprint controls. Settle additive API/storage/replacement semantics before
   coding. No biological or release decision blocks this engineering contract.
+- Current contract: native opaque review holds a compatible candidate and a
+  comparison against the saved baseline. Apply rechecks input versions/current
+  image generation and requires explicit acceptance for changed bytes. Schema15
+  retains checksummed immutable associations; old schemas migrate transactionally.
+  Ordinary opening stays lazy. Public additions and UI/schema assertions are
+  batched before the first cached build; stubs will come from that exact product.
 - Reuse: immutable native source/fingerprint facts, existing worker/cancellation,
   SQLite snapshots and verified relink handoff. Keep ordinary open lazy; distinguish
   primary-file proof, metadata association and compound-source coverage. Historical
