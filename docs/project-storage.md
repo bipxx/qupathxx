@@ -105,8 +105,15 @@ pixel request. Missing slides therefore do not prevent restoring annotations,
 classes or image dimensions. Pixel operations report a reader error until the
 link is restored. `relink(id, path)` opens a candidate and checks dimensions,
 pixel layout and every pyramid level before changing the descriptor/server.
-Manual calibration and object state remain intact. Existing references to an
-older server retain that server; the document uses the new link.
+It retains that exact verified reader in the new link, publishing its source
+observation immediately under a fresh wrapper generation. First use does not
+reopen the path. PPM retains its verified owned pixels if the path is later
+removed/replaced; TIFF/OpenSlide retain their existing reader/version behavior.
+Manual calibration, TIFF selection/budgets and object state remain intact.
+Existing references to an older server retain that server; closing the new link
+does not close those old owners. Failed verification leaves the original link
+and dirty state intact. Save snapshots and ordinary project reopening remain lazy.
+See the [scoped handoff checks](benchmarks/project-relink-r5/README.md).
 
 Relink checks structural metadata compatibility, not byte identity. Same-sized
 images with different pixels are not detected by a full-file hash. Source

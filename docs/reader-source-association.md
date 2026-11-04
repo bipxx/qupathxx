@@ -77,7 +77,10 @@ For native readers, getting the cached descriptor and capturing a request perfor
 inspection or full-file hashing. Lazy project opening does not eagerly decode
 slides to populate provenance. A first request can therefore capture `unopened`;
 that historical snapshot stays unknown even if its worker subsequently opens the
-reader. Later snapshots publish the observed decoder descriptor under the same
+reader. Explicit project relink retains the reader it verified and publishes its
+observation immediately under the new wrapper generation; it no longer discards
+that reader and reopens the path on first use. This remains a metadata observation,
+not whole-file identity proof. Later snapshots publish the observed decoder descriptor under the same
 wrapper generation. This distinction avoids retroactively inventing an opening
 observation. Missing files can still be inspected and their archived records read.
 
