@@ -262,3 +262,19 @@ def test_axisless_qptma_import_preserves_default_plane_and_export_refuses_plane_
     assert plane_tuple(doc.annotation(obj).plane)==(-1,0,0) and not doc.object_visible(obj)
     doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
     with pytest.raises(ValueError,match='cannot represent a non-default object plane'):q.qptma_from_grid(doc.tma_grid())
+
+
+@pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in managed desktop')
+def test_managed_merge_keeps_hidden_result_plane_without_failing_automatic_selection(tmp_path):
+    from test_viewer_session import completed,run
+    doc,_,_=scene(tmp_path);ids=[doc.add_rectangle(q.Rect(1,2,5,6)),doc.add_rectangle(q.Rect(4,2,5,6))]
+    for obj in ids:doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
+    project=q.Project();image=project.add_document(doc);source=tmp_path/'source.qpxproj';project.save(str(source))
+    session=q.ViewerSession(str(source));saved=tmp_path/'merged.qpxproj';held={}
+    def producer():
+        completed(session,session.inspect(image));event=completed(session,session.merge_annotations(image,ids))
+        assert event.committed;held['id']=event.object_id
+        current=completed(session,session.inspect(image,event.object_id));assert plane_tuple(current.object.plane)==(-1,1,1)
+        completed(session,session.save(str(saved)));completed(session,session.close(True))
+    report=run(session,producer);assert report.selected_ids==[]
+    restored=q.Project.open(str(saved)).document(image);assert plane_tuple(restored.annotation(held['id']).plane)==(-1,1,1)
