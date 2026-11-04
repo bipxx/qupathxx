@@ -4,6 +4,7 @@
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
 #include "decimal_quantity.hpp"
+#include "filesystem_access.hpp"
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -11,6 +12,7 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <list>
 #include <map>
 #include <mutex>
@@ -114,7 +116,8 @@ class TiffData final {
     struct Cache {std::shared_ptr<Block> value;std::list<Key>::iterator position;};
     TIFF* handle_=nullptr;std::string path_;TiffOpenOptions options_;std::array<char,4096> error_{};const std::atomic<bool>* opening_cancel_=nullptr;
     struct File {
-        std::string path,uuid,xml;std::uint32_t first=0,count=0;
+        std::string path,uuid,xml;std::uint32_t first=0,count=0,metadata_file=UINT32_MAX;
+        bool metadata_only=false;
         std::shared_ptr<const FileVersion> version;
         std::unique_ptr<detail::ReaderFileGuard> opening_guard;
     };
@@ -153,22 +156,67 @@ class TiffData final {
         if(xml.find("<!DOCTYPE")!=std::string::npos || xml.find("<!ENTITY")!=std::string::npos) throw std::invalid_argument("OME document declarations/entities are unsupported");
         if(document.Parse(xml.data(),xml.size())!=tinyxml2::XML_SUCCESS || !local(document.RootElement(),"OME")) throw std::invalid_argument("malformed OME XML or non-OME companion");
     }
-    std::uint32_t load_file(const std::string& path) {
+    std::uint32_t observe_file(const std::string& path) {
         const auto absolute=fs::absolute(fs::u8path(path)).lexically_normal().u8string();
         for(std::uint32_t i=0;i<files_.size();++i) if(files_[i]->path==absolute) return i;
         if(files_.size()>=64) throw std::length_error("TIFF fileset exceeds 64 files");
         auto file=std::make_unique<File>();file->path=absolute;file->opening_guard=std::make_unique<detail::ReaderFileGuard>(absolute);file->version=file->opening_guard->version();
         for(const auto& other:files_) if(other->version->identity_scheme==file->version->identity_scheme && other->version->identity==file->version->identity) throw std::invalid_argument("duplicate TIFF physical file under different paths");
-        const auto ordinal=std::uint32_t(files_.size());files_.push_back(std::move(file));auto& entry=*files_.back();activate(ordinal);
-        char* description=nullptr;TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);entry.xml=bounded(description,1024*1024);
+        const auto ordinal=std::uint32_t(files_.size());files_.push_back(std::move(file));return ordinal;
+    }
+    void set_xml(std::uint32_t ordinal,std::string xml) {
+        auto& entry=*files_[ordinal];entry.xml=std::move(xml);
         if(entry.xml.size()>4*1024*1024-xml_bytes_) throw std::length_error("TIFF fileset XML exceeds 4 MiB");xml_bytes_+=entry.xml.size();
         if(entry.xml.find("<OME")!=std::string::npos || entry.xml.find(":OME")!=std::string::npos) {
             tinyxml2::XMLDocument document;parse_ome(entry.xml,document);entry.uuid=bounded(document.RootElement()->Attribute("UUID"),256);
-            for(std::uint32_t i=0;i<ordinal;++i) if(!entry.uuid.empty() && files_[i]->uuid==entry.uuid) throw std::invalid_argument("duplicate OME UUID across files");
+            for(std::uint32_t i=0;i<files_.size();++i) if(i!=ordinal && !entry.uuid.empty() && files_[i]->uuid==entry.uuid) throw std::invalid_argument("duplicate OME UUID across files");
         }
+    }
+    std::uint32_t load_file(const std::string& path) {
+        const auto ordinal=observe_file(path);auto& entry=*files_[ordinal];
+        if(entry.metadata_only) throw std::invalid_argument("OME TiffData references an XML metadata file");
+        if(entry.count) return ordinal;activate(ordinal);
+        char* description=nullptr;TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);set_xml(ordinal,bounded(description,1024*1024));
         entry.first=std::uint32_t(roots_.size());std::set<std::uint64_t> offsets;
         do {detail::export_checkpoint(opening_cancel_);if(roots_.size()>=65536 || !offsets.insert(TIFFCurrentDirOffset(handle_)).second) throw std::length_error("TIFF primary directory count/cycle limit exceeded");auto directory=inspect();catalog_entries_+=1+directory.sub.size();if(catalog_entries_>131072) throw std::length_error("TIFF directory catalog exceeds limit");roots_.push_back(std::move(directory));error_[0]=0;}while(TIFFReadDirectory(handle_));
         if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
+    }
+    std::uint32_t load_metadata_file(const std::string& path) {
+        detail::export_checkpoint(opening_cancel_);const auto ordinal=observe_file(path);auto& entry=*files_[ordinal];
+        if(entry.count || entry.metadata_only) return ordinal;
+        std::ifstream input(detail::access_path(fs::u8path(entry.path)),std::ios::binary);
+        if(!input) throw std::runtime_error("cannot read OME metadata file");
+        std::array<unsigned char,4> prefix{};input.read(reinterpret_cast<char*>(prefix.data()),prefix.size());
+        const bool little=prefix[0]=='I' && prefix[1]=='I' && (prefix[2]==42 || prefix[2]==43) && prefix[3]==0;
+        const bool big=prefix[0]=='M' && prefix[1]=='M' && prefix[2]==0 && (prefix[3]==42 || prefix[3]==43);
+        if(input.gcount()==4 && (little || big)) {input.close();entry.opening_guard->verify();return load_file(entry.path);}
+        if(!entry.version->bytes || entry.version->bytes>1024*1024 || entry.version->bytes>4*1024*1024-xml_bytes_)
+            throw std::length_error("OME metadata XML is empty or exceeds XML limits");
+        input.clear();input.seekg(0);std::string xml(std::size_t(entry.version->bytes),'\0');
+        for(std::size_t at=0;at<xml.size();) {
+            detail::export_checkpoint(opening_cancel_);const auto count=std::min<std::size_t>(65536,xml.size()-at);
+            input.read(xml.data()+at,std::streamsize(count));if(input.gcount()!=std::streamsize(count)) throw std::runtime_error("incomplete OME metadata read");at+=count;
+        }
+        if(input.peek()!=std::char_traits<char>::eof()) throw std::runtime_error("OME metadata grew during reading");
+        entry.opening_guard->verify();detail::export_checkpoint(opening_cancel_);set_xml(ordinal,std::move(xml));entry.metadata_only=true;return ordinal;
+    }
+    std::uint32_t resolve_metadata(std::uint32_t file) {
+        auto& entry=*files_[file];if(entry.metadata_file!=UINT32_MAX) return entry.metadata_file;
+        if(entry.xml.find("<OME")==std::string::npos && entry.xml.find(":OME")==std::string::npos) return entry.metadata_file=file;
+        tinyxml2::XMLDocument document;parse_ome(entry.xml,document);const auto* root=document.RootElement();const auto* binary=child(root,"BinaryOnly");
+        if(!binary) return entry.metadata_file=file;
+        if(child(root,"Image")) throw std::invalid_argument("OME BinaryOnly cannot also contain Image metadata");
+        std::size_t count=0;for(auto* e=root->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"BinaryOnly")) ++count;
+        if(count!=1) throw std::invalid_argument("OME requires one BinaryOnly metadata reference");
+        const auto name=bounded(binary->Attribute("MetadataFile"),32768),uuid=bounded(binary->Attribute("UUID"),256);
+        if(name.empty() || uuid.empty() || entry.uuid.empty()) throw std::invalid_argument("OME BinaryOnly requires MetadataFile and root/target UUIDs");
+        detail::bounded_utf8(name,32768);
+        const auto metadata=load_metadata_file((fs::u8path(entry.path).parent_path()/fs::u8path(name)).u8string());
+        if(files_[metadata]->uuid!=uuid) throw std::invalid_argument("OME metadata file UUID differs");
+        tinyxml2::XMLDocument master;parse_ome(files_[metadata]->xml,master);
+        if(child(master.RootElement(),"BinaryOnly") || !child(master.RootElement(),"Image"))
+            throw std::invalid_argument("OME metadata master must contain full Image metadata");
+        files_[metadata]->metadata_file=metadata;return entry.metadata_file=metadata;
     }
     // Compare selected-series semantics; file UUIDs and XML formatting differ.
     static auto signature(const tinyxml2::XMLElement* p) {
@@ -185,8 +233,8 @@ class TiffData final {
         return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),bounded(p->Attribute("Type"),32),channels,
             std::array<std::optional<double>,4>{quantity(p,"PhysicalSizeX","PhysicalSizeXUnit"),quantity(p,"PhysicalSizeY","PhysicalSizeYUnit"),quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit"),quantity(p,"TimeIncrement","TimeIncrementUnit",true)});
     }
-    void validate_companion(std::uint32_t file,const tinyxml2::XMLElement* primary) const {
-        if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[file]->xml,document);
+    void validate_companion(std::uint32_t file,const tinyxml2::XMLElement* primary) {
+        if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[resolve_metadata(file)]->xml,document);
         const tinyxml2::XMLElement* selected=nullptr;std::uint32_t count=0;
         for(auto* e=document.RootElement()->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) selected=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         const auto* pixels=child(selected,"Pixels");if(count!=raw_->series_count || !pixels || signature(pixels)!=signature(primary)) throw std::invalid_argument("OME companion series metadata differs");
@@ -211,7 +259,8 @@ class TiffData final {
         if(TIFFGetField(handle_,TIFFTAG_EXTRASAMPLES,&extras,&extra) && d.samples==(d.photo==PHOTOMETRIC_RGB?4:2) && extras==1) {d.alpha=extra[0]==EXTRASAMPLE_ASSOCALPHA || extra[0]==EXTRASAMPLE_UNASSALPHA;d.associated_alpha=extra[0]==EXTRASAMPLE_ASSOCALPHA;}
         return d;
     }
-    void index(const std::string& xml) {
+    void index(std::uint32_t metadata_file) {
+        const auto& xml=files_[metadata_file]->xml;
         raw_->series=options_.view.series;std::vector<std::uint32_t> groups;
         if(xml.find("<OME")==std::string::npos && xml.find(":OME")==std::string::npos) {
             if(raw_->series>=roots_.size()) throw std::out_of_range("TIFF page/series index is outside the file");const auto& d=roots_[raw_->series];
@@ -247,14 +296,15 @@ class TiffData final {
         std::set<std::uint32_t> validated{0};
         auto extent=[&](char axis)->std::uint32_t {return axis=='C'?std::uint32_t(groups.size()):axis=='Z'?raw_->z_planes:raw_->timepoints;};
         for(auto* e=p->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"TiffData")) {
-            detail::export_checkpoint(opening_cancel_);found=true;std::uint32_t file=0;
+            detail::export_checkpoint(opening_cancel_);found=true;std::uint32_t file=metadata_file;
             if(const auto* uuid=child(e,"UUID")) {
                 const auto filename=bounded(uuid->Attribute("FileName"),32768),value=bounded(uuid->GetText(),256);
                 if(value.empty() || files_[0]->uuid.empty()) throw std::invalid_argument("OME file reference requires root and target UUIDs");
-                if(!filename.empty()) file=load_file((fs::u8path(path_).parent_path()/fs::u8path(filename)).u8string());
+                if(!filename.empty()) file=load_file((fs::u8path(files_[metadata_file]->path).parent_path()/fs::u8path(filename)).u8string());
                 else {const auto at=std::find_if(files_.begin(),files_.end(),[&](const auto& f){return f->uuid==value;});if(at==files_.end()) throw std::invalid_argument("unresolved OME UUID without FileName");file=std::uint32_t(at-files_.begin());}
                 if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");if(validated.insert(file).second) validate_companion(file,p);
             }
+            if(files_[file]->metadata_only) throw std::invalid_argument("OME TiffData requires an explicit pixel file UUID");
             const auto& catalog=*files_[file];
             std::array<std::uint32_t,3> position{};for(std::size_t i=0;i<3;++i) position[i]=order[i+2]=='C'?group_index(integer(e,"FirstC",0)):integer(e,order[i+2]=='Z'?"FirstZ":"FirstT",0);
             std::uint64_t linear=0,multiplier=1;for(std::size_t i=0;i<3;++i) {if(position[i]>=extent(order[i+2])) throw std::out_of_range("OME first plane exceeds dimensions");linear+=position[i]*multiplier;multiplier*=extent(order[i+2]);}
@@ -341,7 +391,7 @@ public:
     TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled):path_(fs::absolute(fs::u8path(path)).lexically_normal().u8string()),options_(std::move(options)),opening_cancel_(cancelled) {
         detail::export_checkpoint(cancelled);options_.validate();
         try {
-            load_file(path_);index(files_[0]->xml);levels();view_=std::make_shared<TiffView>(options_.view);
+            load_file(path_);index(resolve_metadata(0));levels();view_=std::make_shared<TiffView>(options_.view);
             if(view_->z>=raw_->z_planes || view_->t>=raw_->timepoints) throw std::out_of_range("TIFF display Z/time index is outside the image");
             if(view_->channels[0]==-2) {const bool rgb=roots_[mapping_.front().ifd].photo==PHOTOMETRIC_RGB;view_->channels=rgb?std::array<std::int32_t,3>{0,1,2}:std::array<std::int32_t,3>{0,0,0};}
             const auto limits=range(raw_->sample_type);for(std::size_t i=0;i<3;++i) {if(view_->channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view_->lower[i])) {view_->lower[i]=limits.first;view_->upper[i]=limits.second;}}
