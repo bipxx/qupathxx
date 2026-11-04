@@ -465,7 +465,7 @@ for job in run['jobs']:
         assert all(raw[key] for key in ['exact_raw_verified','preview_verified','view_cache_reuse_verified','distinct_channels_verified','independent_close_verified'])
         entry['tiff_reader_benchmark']=raw
         with zipfile.ZipFile(wheel) as archive:
-            entry['tiff_notices']={name:hashlib.sha256(archive.read('qupathxx/licenses/'+name)).hexdigest() for name in ['libtiff/LICENSE.md','tiff-zlib/LICENSE','tinyxml2/LICENSE.txt']}
+            entry['tiff_notices']={name:hashlib.sha256(archive.read('qupathxx/licenses/'+name)).hexdigest() for name in ['libtiff/LICENSE.md','tiff-zlib/LICENSE','tinyxml2/LICENSE.txt','tiff-jpeg/LICENSE.md','tiff-jpeg/README.ijg','tiff-jpeg/NOTICE.txt']}
         if 'GUI' in job['name']:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_raw')]
             assert len(cases)==7 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)

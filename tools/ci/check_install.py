@@ -35,7 +35,9 @@ def main():
         for suffix in ['licenses/geos/COPYING', 'licenses/sqlite/sqlite-LICENSE.txt', 'licenses/nlohmann-json/LICENSE.MIT']:
             if not any(name.endswith(suffix) for name in names):
                 raise RuntimeError('missing runtime notice: '+suffix)
-        required = ['libtiff/LICENSE.md', 'tiff-zlib/LICENSE', 'tinyxml2/LICENSE.txt', 'nanobind/LICENSE', 'robin-map/LICENSE', 'opencv/LICENSE',
+        required = ['libtiff/LICENSE.md', 'tiff-zlib/LICENSE', 'tinyxml2/LICENSE.txt',
+                    'tiff-jpeg/LICENSE.md', 'tiff-jpeg/README.ijg', 'tiff-jpeg/NOTICE.txt',
+                    'nanobind/LICENSE', 'robin-map/LICENSE', 'opencv/LICENSE',
                     'opencv/softfloat-notice.txt', 'opencv/zlib-notice.txt', 'opencv/SOURCE-NOTICES.txt']
         if args.gui:
             required += ['glfw/LICENSE.md', 'imgui/LICENSE.txt', 'imgui/ProggyClean-LICENSE.txt',
