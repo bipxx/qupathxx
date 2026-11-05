@@ -1,6 +1,6 @@
 # Reusable stain model files — MODEL1 contract
 
-Status: native foundation/focused checks pass; consumer and installed work pending. This is model
+Status: native foundation and staged consumers pass; installed closeout pending. This is model
 exchange using the current native StainTransform, not a new estimator, model
 registry, QuPath file-format promise or scientific-parity claim.
 
@@ -108,3 +108,29 @@ an identity separation basis internally and must not silently replace the saved
 stain model. Loading selects stain analysis. Existing GUI batch image-settings
 mode consumes that same current inspector transform. Most-recent file-operation
 report fields do not replace current captured analysis recipes.
+
+## SDK, CLI and GUI usage
+
+```python
+import qupathxx as q
+model = q.load_stain_model("estimated-stains.json")
+q.save_stain_model(model, "reusable-model.json")
+request = q.AnalysisRequest.with_intensity_statistics(doc, object_id, model)
+record = doc.keep_analysis(request, q.analyze(request))
+```
+
+CLI: `qupathxx_batch source.qpxproj output --kind stains --stain-model model.json`.
+Explicit white/stains/normalized flags conflict in either order. Batch reuse
+uses the captured model identity, not its path spelling. Managed viewer callers
+load the same native value and pass it to existing analysis commands.
+
+ImGui provides Model file, Load stain model and Save stain model controls. I/O
+runs on native workers; adoption checks the current document/image/project and
+model settings. Failed/stale loads preserve the prior model. Saves protect open
+image/companion/project paths before writing and committing. Saved-analysis
+recheck restores the complete basis for later model saves. Status/digest/errors
+wrap within the inspector. GuiInputWait.STAIN_MODEL_FINISHED supports replay
+without fixed I/O delays; it includes loaded, saved, failed and stale outcomes.
+
+These are staged-verified routes. Wider named registry and QuPath profile-format
+support remain separate gaps; no new project schema or estimator was introduced.

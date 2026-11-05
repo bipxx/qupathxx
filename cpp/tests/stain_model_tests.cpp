@@ -1,6 +1,7 @@
 #include "qupathxx/stain_model_io.hpp"
 #include "qupathxx/stain_estimation.hpp"
 #include "qupathxx/interchange.hpp"
+#include "../stain_model_io_internal.hpp"
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -31,6 +32,9 @@ int main(int argc,char** argv) {
         const auto root=fs::current_path()/("stain-model-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
         fs::create_directory(root);const auto path=root/fs::u8path(u8"model-\u8272.json");save_stain_model(model,path.u8string());
         check(read(path)==text,"model file bytes differ");
+        int guard_checks=0;
+        reject<std::runtime_error>([&]{detail::save_stain_model_guarded(model,path.u8string(),[&]{if(++guard_checks==2)throw std::runtime_error("injected precommit guard");});});
+        check(guard_checks==2 && read(path)==text,"precommit guard did not preserve the old model");
         const auto occupied=root/"occupied";fs::create_directory(occupied);
         reject<std::runtime_error>([&]{save_stain_model(model,occupied.u8string());});check(fs::is_directory(occupied),"failed write replaced directory");
         for(const auto& entry:fs::directory_iterator(root))check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos,"atomic model temporary leaked");

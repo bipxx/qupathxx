@@ -12,6 +12,7 @@
 #include "qupathxx/analysis.hpp"
 #include "gui_profile.hpp"
 #include "gui_text_buffers.hpp"
+#include "gui_stain_model.hpp"
 #include "gui_entry_editor.hpp"
 #include "gui_class_editor.hpp"
 #include "gui_tiles.hpp"
@@ -300,6 +301,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::shared_ptr<Document> active_owner=options.project && options.project->active_image()?options.project->document(options.project->active_image()):nullptr;
     auto active_image=options.project?options.project->active_image():0;
     MeanJob mean;
+    detail::GuiStainModel stain_model_io;
+    Document* stain_model_document=nullptr;std::uint64_t stain_model_revision=0,stain_model_project=0,stain_model_image=0;int stain_model_kind=0;
+    std::vector<double> stain_model_vectors,stain_model_white;
+    std::optional<std::array<ColorVector,3>> stain_model_basis;ColorVector stain_model_basis_white{};
+    std::array<Rect,2> stain_model_bounds{};
     AnalysisJob analysis;StainEstimateJob stain_estimate;bool stain_estimate_applied=false;std::string stain_estimate_error;
     StainEstimateParameters stain_estimate_parameters=options.stain_estimate_parameters?*options.stain_estimate_parameters:StainEstimateParameters{};stain_estimate_parameters.validate();
     TissueJob tissue;
@@ -465,6 +471,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& interchange_path=text_buffers->interchange_path;
     if(options.interchange_path.size()>32768 || options.interchange_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid interchange path");
     std::memcpy(interchange_path,options.interchange_path.c_str(),options.interchange_path.size()+1);
+    auto& stain_model_path=text_buffers->stain_model_path;
+    if(options.stain_model_path.size()>32768 || options.stain_model_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid stain model path");
+    std::memcpy(stain_model_path,options.stain_model_path.c_str(),options.stain_model_path.size()+1);
     bool interchange_pixels=options.interchange_assume_pixels,interchange_losses=options.interchange_allow_losses,interchange_selected=false,csv_intensity=false;
     bool interchange_nested=options.interchange_nested_hierarchy;
     bool qupath_ellipse_precision=options.qupath_ellipse_precision;
@@ -487,7 +496,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::UseImageStains)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::SaveStainModel)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -828,6 +837,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) { project_error=e.what(); refresh_active_image=false; }
         }
         auto& document=*active_document;
+        if(auto loaded=stain_model_io.poll()) {
+            if(stain_model_document!=&document || stain_model_project!=project_replacements || stain_model_image!=active_image || stain_model_revision!=document.revision() || stain_model_kind!=analysis_kind ||
+                stain_model_vectors!=analysis_vectors || stain_model_white!=analysis_white || stain_model_basis!=estimated_basis || stain_model_basis_white!=estimated_white)
+                stain_model_io.fail("Image or stain settings changed while loading; load the model again.","stale");
+            else {
+                estimated_basis=loaded->stains();estimated_white=loaded->white();analysis_kind=1;
+                for(std::size_t c=0;c<3;++c) {analysis_vectors[c]=loaded->stains()[0][c];analysis_vectors[c+3]=loaded->stains()[1][c];analysis_white[c]=loaded->white()[c];}
+                pixel_classifier.invalidate_training();analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;error.clear();
+            }
+        }
         analysis.poll(document,selected);stain_estimate.poll(document,selected);
         classifier.update(document,*selection);pixel_classifier.update(document,*selection);raw_pixel.update(document);
         cell_table_job.poll();measurement_job.poll();
@@ -867,6 +886,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 return !glfwGetWindowAttrib(session.window,GLFW_ICONIFIED) && width>0 && height>0 &&
                     rendered_window_width==width && rendered_window_height==height;
             }
+            if(event.wait_for==GuiInputWait::StainModelFinished) return stain_model_io.finished();
             if(event.wait_for==GuiInputWait::TmaGridReady) return document.tma_core_count()>0;
             if(event.wait_for==GuiInputWait::TiffReady) return raw.ready(document);
             if(event.wait_for==GuiInputWait::TiffViewApplied) return raw.applied(document);
@@ -978,6 +998,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target==GuiInputTarget::LoadStainModel || event.target==GuiInputTarget::SaveStainModel) {
+                const auto& bounds=stain_model_bounds[event.target==GuiInputTarget::LoadStainModel?0:1];
+                origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
+            }
             if(event.target==GuiInputTarget::UseImageStains) {origin={float(image_stains_bounds.x),float(image_stains_bounds.y)};extent={float(image_stains_bounds.width),float(image_stains_bounds.height)};}
             if(event.target>=GuiInputTarget::CopyObjects && event.target<=GuiInputTarget::PasteCurrentPlane) {
                 const auto& bounds=clipboard_bounds[std::size_t(event.target)-std::size_t(GuiInputTarget::CopyObjects)];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
@@ -1907,6 +1931,33 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::TextWrapped("Supply validated OD directions. An imported complete basis is retained until a vector/white edit; otherwise channel 3 is a signed residual.");
             }
             if(analysis_changed) {pixel_classifier.invalidate_training();analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
+            ImGui::BeginDisabled(stain_model_io.busy());
+            ui::SetNextItemWidth(240);ui::InputTextWithHint("Model file","Stain model JSON",stain_model_path,sizeof(stain_model_path));
+            ImGui::BeginDisabled(!has_interchange());
+            if(ui::Button("Load stain model")) {
+                stain_model_document=&document;stain_model_revision=document.revision();stain_model_project=project_replacements;stain_model_image=active_image;stain_model_kind=analysis_kind;
+                stain_model_vectors=analysis_vectors;stain_model_white=analysis_white;stain_model_basis=estimated_basis;stain_model_basis_white=estimated_white;
+                stain_model_io.load(stain_model_path);
+            }
+            {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();stain_model_bounds[0]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(GuiInputTarget::LoadStainModel);}
+            ImGui::EndDisabled();ImGui::SameLine();
+            if(ui::Button("Save stain model")) {
+                try {
+                    std::vector<std::pair<std::string,std::string>> sources;
+                    const auto source=document.server()->reader_source();
+                    if(source) {if(source->primary)sources.emplace_back(source->primary->path,source->primary->identity);for(const auto& file:source->companions)sources.emplace_back(file.path,file.identity);}
+                    if(options.project && !options.project->path().empty())sources.emplace_back(options.project->path(),std::string{});
+                    const auto locator=document.server()->source_locator();
+                    if(!locator.empty() && std::none_of(sources.begin(),sources.end(),[&](const auto& file){return file.first==locator;}))sources.emplace_back(locator,source && source->primary?source->primary->identity:std::string{});
+                    stain_model_io.save(make_transform(true),stain_model_path,std::move(sources));
+                } catch(const std::exception& e) {stain_model_io.fail(e.what());}
+            }
+            {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();stain_model_bounds[1]={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(GuiInputTarget::SaveStainModel);}
+            ImGui::EndDisabled();
+            if(!has_interchange())ImGui::TextWrapped("Model import is unavailable in this build.");
+            if(stain_model_io.state()!="idle")ImGui::TextWrapped("Model file: %s",stain_model_io.state().c_str());
+            if(!stain_model_io.error().empty())ImGui::TextWrapped("%s",stain_model_io.error().c_str());
+            if(!stain_model_io.digest().empty())ImGui::TextWrapped("File model SHA256: %s",stain_model_io.digest().c_str());
             if(ImGui::CollapsingHeader("Stain estimation settings")) {
                 bool changed=false;
                 ui::SetNextItemWidth(100);changed=ui::InputDouble("Minimum OD",&stain_estimate_parameters.min_od,0,0,"%.5g") || changed;
@@ -2010,6 +2061,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                         roi_sampling_policy=saved->result.sampling_policy();
                         analysis_kind=saved->result.kind==AnalysisKind::StainMeans?1:0;analysis_nucleus=saved->result.nucleus;
                         analysis_intensity_statistics=bool(saved->result.intensity_statistics);
+                        estimated_basis=saved->result.stains;estimated_white=saved->result.white;
                         analysis_white.assign(saved->result.white.begin(),saved->result.white.end());
                         for(std::size_t i=0;i<2;++i) for(std::size_t c=0;c<3;++c) analysis_vectors[i*3+c]=saved->result.stains[i][c];
                         error.clear();
@@ -2890,6 +2942,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     report.max_rendered_frame_wall_ms=frame_wall_times.empty()?0:frame_wall_times.back();
     report.clipboard_copies=clipboard_copies;report.clipboard_pastes=clipboard_pastes;
     report.clipboard_copied_objects=clipboard_copied_objects;report.clipboard_pasted_objects=clipboard_pasted_objects;
+    report.stain_model_state=stain_model_io.state();report.stain_model_error=stain_model_io.error();report.stain_model_sha256=stain_model_io.digest();
     report.clipboard_error=clipboard_error;
     if(const auto measured=analysis.result()) report.analysis_intensity_statistics=measured->intensity_statistics;
     if(tissue_result) {

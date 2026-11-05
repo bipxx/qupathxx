@@ -1,6 +1,7 @@
 #include "qupathxx/stain_model_io.hpp"
 #include "qupathxx/stain_estimation.hpp"
 #include "atomic_export.hpp"
+#include "stain_model_io_internal.hpp"
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -64,9 +65,12 @@ StainTransform stain_model_from_json(const std::string& text) {
     }
 #endif
 }
+void detail::save_stain_model_guarded(const StainTransform& model,const std::string& path,const std::function<void()>& verify_output) {
+    const auto text=stain_model_json(model);verify_output();detail::AtomicExportFile file(path,model_byte_limit);
+    file.write(text.data(),text.size());verify_output();file.commit();
+}
 void save_stain_model(const StainTransform& model,const std::string& path) {
-    const auto text=stain_model_json(model);detail::AtomicExportFile file(path,model_byte_limit);
-    file.write(text.data(),text.size());file.commit();
+    detail::save_stain_model_guarded(model,path,[]{});
 }
 StainTransform load_stain_model(const std::string& path) {
 #ifndef QUPATHXX_HAS_INTERCHANGE

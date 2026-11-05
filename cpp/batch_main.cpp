@@ -1,4 +1,5 @@
 #include "qupathxx/project_batch.hpp"
+#include "qupathxx/stain_model_io.hpp"
 #include "batch_checkpoint.hpp"
 #include "decimal_quantity.hpp"
 #include "pixel_stream_cli.hpp"
@@ -71,7 +72,7 @@ int execute(const std::vector<std::string>& args) {
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
             "               --max-pixels N --max-blocks N (per target)\n"
-            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
+            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized  OR --stain-model FILE\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "Tissue grid: --tissue-grid NX NY CX CY (ROI counts, sampled context per axis)\n"
             "Tissue median: --tissue-median (3x3 binary cleanup after threshold)\n"
@@ -133,9 +134,9 @@ int execute(const std::vector<std::string>& args) {
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
         bool raw_contour_flags=false,typed_cell_flags=false,processing_flag=false;
         bool legacy_cell_flags=false,legacy_algorithm=false,requested_raw_level=false,requested_raw_grid=false,raw_grid_flags=false,raw_pixel_flags=false;
-        bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path,raw_pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
+        bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path,raw_pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;std::optional<std::string> stain_model_path;bool numeric_stain_model=false;
         for(std::size_t i=3;i<args.size();++i) {
-            const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
+            const auto& flag=args[i];if(flag=="--white" || flag=="--stains" || flag=="--normalized") numeric_stain_model=true;auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
             if(flag.rfind("--raw-pixel-",0)==0) raw_pixel_flags=true;
             if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else if(v=="raw-pixels") options.kind=ProjectBatchKind::RawPixels;else if(v=="raw-contours") options.kind=ProjectBatchKind::RawPixelContours;else throw std::invalid_argument("unknown batch kind");}
             else if(flag=="--roi-sampling" || flag=="--tissue-sampling") {
@@ -195,6 +196,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--min-vote") options.pixels.prediction.min_vote_fraction=real(value());
             else if(flag=="--image") selection.push_back({integer(value()),{}});
             else if(flag=="--object") objects.push_back(integer(value()));
+            else if(flag=="--stain-model") {if(stain_model_path)throw std::invalid_argument("duplicate --stain-model");stain_model_path=value();}
             else if(flag=="--white") {const auto v=numbers(value());if(v.size()!=3) throw std::invalid_argument("white requires three components");std::copy(v.begin(),v.end(),white.begin());}
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
@@ -275,6 +277,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--roi-intensity-statistics") options.roi_intensity_statistics=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
+        if(stain_model_path && numeric_stain_model) throw std::invalid_argument("--stain-model conflicts with --white, --stains and --normalized");
         if(raw_contour_flags && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw contour flags require --kind raw-contours");
         if(raw_pixel_flags && options.kind!=ProjectBatchKind::RawPixels && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw classifier flags require --kind raw-pixels or raw-contours");
         if(!raw_pixel_model_path.empty()) options.raw_pixel_model=load_raw_pixel_classifier(raw_pixel_model_path,&cancelled);
@@ -289,7 +292,7 @@ int execute(const std::vector<std::string>& args) {
         if(normalized && stains.size()!=3) throw std::invalid_argument("--normalized requires a complete nine-component basis");
         if(requested_tile_size) {if(options.kind==ProjectBatchKind::Pixels) options.pixels.prediction.tile_size=*requested_tile_size;else options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=*requested_tile_size;}
         if(!pixel_model_path.empty()) {if(options.kind!=ProjectBatchKind::Pixels) throw std::invalid_argument("--pixel-model requires --kind pixels");options.pixel_model=load_pixel_classifier(pixel_model_path,&cancelled);}
-        const auto transform=normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white);options.validate();
+        const auto transform=stain_model_path?load_stain_model(*stain_model_path):(normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white));options.validate();
         auto project=Project::open(args[1]);ProjectBatchRequest request(*project,transform,selection,options);project.reset();
         const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});
         std::cout<<project_batch_report_json(report)<<std::flush;return report.state=="succeeded"?0:report.state=="cancelled"?130:1;

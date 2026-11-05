@@ -59,3 +59,68 @@ edit. Reused transform/estimator authorities, strict JSON, saved full-basis GUI
 adoption and old estimate export rather than inventing a registry/result model.
 Next M2 settles and wires native bindings, async GUI file operations and explicit
 CLI conflicts before one combined binding/stub pass; M3 installation remains open.
+
+## M2 staged consumer closeout — 2026-11-05
+
+The [combined candidate](m2-build.log) compiled successfully, including native
+guard tests, bindings, GUI, batch and app. [Two native model suites](m2-native-guards.log)
+pass with a new precommit-guard failure assertion; older unchanged format/transform
+checks retain their M1 scope. All known consumers were wired before the binding
+build. One newly identified async completion wait marker was added before this
+candidate; future contract/layout reviews must include readiness conditions.
+
+Source review found open-project protection and saved-recheck full-basis adoption
+gaps. Bundled those into [one incremental GUI repair](m2-gui-repair-build.log) after
+the original live build finished. No binding source/interface recompile was needed.
+Model workers own only strings/immutable native transforms; owner delivery checks
+document/image/project and current model settings before adoption. Saves recheck
+primary/companion/project aliases through the shared native atomic writer.
+
+[First consumer run](m2-python-first.log):7 passed,2 observer failures. A C++ PPM
+factory was assumed bound; the actual Python entry point is Project.add_image.
+The project-window sidebar required a deeper scroll than a bare document; its
+[position capture](m2-project-position.png) identified the correction. [Both corrected
+cases](m2-observers-corrected.log) pass without another product build or repeating
+seven valid passes. These cover active-image and open-project preservation.
+
+The ten workflow cases across retained runs cover native JSON/file ownership and
+old-export input, exact full basis/white/hash and saved replay, CLI matching/resume/
+conflicting numeric flags, managed capture, GUI load/apply/keep/save/reopen,
+failed-load preservation, OD-mode supplied-basis save, source/project aliases,
+full-basis replay-to-save and [stale image-switch rejection](m2-stale-adoption.log).
+The latter uses a valid bounded large estimate file to exercise pending async
+parsing, switches images, observes stale rejection and verifies the new image's
+prior model. This is one Windows replay, not a general timing/resource claim.
+[Six existing analysis/estimation GUI cases](m2-existing-gui.log) also pass.
+
+One [stub generation](m2-stubs.log), [valid typing](m2-typing-valid.log), exactly
+[three intended negative typing errors](m2-typing-invalid.log) and
+[14 public-stub/signature checks](m2-stub-checks.log) pass. Signatures were unchanged
+by later GUI-only corrections, so these results are reused without regeneration.
+
+The [actual loaded controls/digest](m2-controls-loaded.png) are readable, with
+zero reported overflow. The [first save-error view](m2-save-error.png) exposed
+fingerprint terminology from the shared alias guard. Translated that alias error
+at the model UI boundary; [incremental build](m2-error-context-build.log) and
+[two affected cases](m2-alias-context.log) pass. The
+[corrected view](m2-save-error-corrected.png) is readable and its [proof](m2-error-control-proof.json)
+confirms the project bytes are unchanged. Repeated capture initially tried a new
+Project identity over the first retained project fixture; its native save guard
+refused it before GUI execution. Used a distinct corrected fixture path instead.
+
+[Final staged identity](m2-candidate-identity.json) matches actual compiler-input
+bytes to the loaded source-tree hash and records shipping product hashes. It is
+86fdf6b0 plus the consumer patch, distinct from installed REGION1. Source stubs
+match the staged package. Earlier success-path/typing/control checks keep their
+original candidate scope; final alias/error and stale checks use this final stage.
+No MODEL1 wheel/install or full qualification campaign has occurred.
+
+Waste review: retained the original live bindings build, reused unchanged
+bindings/stubs/numerics for GUI repairs, and reran only affected failed/changed
+observers. Addressed repeated API-exposure assumptions with actual Python exports;
+used phase-specific capture paths and observed project scroll depth. Preserved
+failure logs/images. [Visual cleanup](m2-visual-cleanup.json) proves decoded pixel
+equality before removing duplicate temporary PPMs; PNG evidence remains. Atomic
+UTF-8 edits and actual capacity checks remained in use. Next M3: one settled
+wheel/install and exact installed user route/source/member checks. Named registry,
+QuPath formats/science, other hosts/resources/release and all M0-M7 remain open.

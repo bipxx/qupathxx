@@ -2095,6 +2095,10 @@ class GuiInputTarget(enum.Enum):
 
     USE_IMAGE_STAINS = 140
 
+    LOAD_STAIN_MODEL = 141
+
+    SAVE_STAIN_MODEL = 142
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -2225,6 +2229,8 @@ class GuiInputWait(enum.Enum):
     SPATIAL_VERIFIED = 63
 
     SPATIAL_EXPORTED = 64
+
+    STAIN_MODEL_FINISHED = 65
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2621,6 +2627,12 @@ class GuiOptions:
 
     @spatial.setter
     def spatial(self, arg: GuiSpatialOptions | None, /) -> None: ...
+
+    @property
+    def stain_model_path(self) -> str: ...
+
+    @stain_model_path.setter
+    def stain_model_path(self, arg: str, /) -> None: ...
 
     @property
     def stain_estimate_parameters(self) -> StainEstimateParameters: ...
@@ -3586,6 +3598,15 @@ class GuiReport:
 
     @property
     def stain_estimate_error(self) -> str: ...
+
+    @property
+    def stain_model_state(self) -> str: ...
+
+    @property
+    def stain_model_error(self) -> str: ...
+
+    @property
+    def stain_model_sha256(self) -> str: ...
 
     @property
     def stain_estimate_result(self) -> StainEstimateResult: ...
@@ -4598,6 +4619,14 @@ class StainEstimateResult:
 def estimate_stains(request: StainEstimateRequest) -> StainEstimateResult: ...
 
 def stain_model_sha256(transform: StainTransform) -> str: ...
+
+def stain_model_json(transform: StainTransform) -> str: ...
+
+def stain_model_from_json(text: str) -> StainTransform: ...
+
+def save_stain_model(transform: StainTransform, path: str) -> None: ...
+
+def load_stain_model(path: str) -> StainTransform: ...
 
 def stain_estimate_json(result: StainEstimateResult) -> str: ...
 
