@@ -129,16 +129,20 @@ flat classes/colors, parent links and annotations/detections/cells with an optio
 nucleus. Supported ROI proxies are rectangle, ellipse, polygon, polyline, points
 and GeometryROI WKB for 2D Point/MultiPoint, LineString, Polygon and MultiPolygon,
 including polygon holes. MultiLineString/geometry collections are not represented. Analytic rectangle/ellipse parameters remain analytic rather
-than inheriting polygonized export precision. Default c=-1,z=0,t=0 planes are
-required; non-default planes and unsupported ROI/stream representations fail
-explicitly. A malformed/truncated stream or missing terminal EOF never publishes
+than inheriting polygonized export precision. Supported object planes retain
+c/z/t and must be compatible with the source; unavailable planes and unsupported
+ROI/stream representations fail explicitly. See [object-plane evidence](benchmarks/object-planes-r5/README.md).
+A malformed/truncated stream or missing terminal EOF never publishes
 an image-only project, even with loss admission.
 
 XY calibration comes from saved server metadata; unknown calibration remains
 unknown. Source dimensions, axis/channel counts and sample type must match.
-Unrepresented object metadata, measurements, lock/color, class probability,
-workflow history, image/stain defaults and custom ImageData properties report
-losses before apply. Derived classifications retain their full display name/color
+Supported object metadata, measurements, lock/color and reported class probability
+are retained through [object properties](object-properties.md). Root historical
+facts use [image properties](image-properties.md); recognized image types and stain
+profiles use [saved defaults](image-analysis-settings.md). Unsupported custom
+ImageData properties and executable workflow history report losses before apply.
+Derived classifications retain their full display name/color
 with a class-hierarchy flattening notice. Saved workflows are never executed.
 TMA-grid metadata is not migrated by this decoder. Unsupported top-level records
 fail, rather than being treated as an empty hierarchy.

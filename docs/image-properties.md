@@ -38,9 +38,10 @@ mutation. Getter-held values survive document closure and subsequent replacement
 Pinned QuPath v0.7.0 native version3 saved-data import preserves root metadata and
 measurements, excluding the reserved serialized Object ID used for identity.
 These facts stay distinct from child ROI maps and ImageData settings. Import
-preview remains nonmutating and source guarded. Unsupported ImageData properties,
-stain defaults, image types and other format/version limitations retain their
-existing explicit loss reports; this workflow does not execute saved scripts.
+preview remains nonmutating and source guarded. Recognized image types and stain
+defaults use the separate [saved-defaults contract](image-analysis-settings.md).
+Unsupported ImageData properties and other format/version limitations retain
+explicit loss reports; this workflow does not execute saved scripts.
 Annotation GeoJSON/CSV/clipboard operations still concern selected objects, not
 whole-image facts or settings.
 

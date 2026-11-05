@@ -1,0 +1,4 @@
+tests\typing\image_analysis_settings_invalid.py:5: error: Argument 1 to "set_image_analysis_settings" of "Document" has incompatible type "dict[str, str]"; expected "ImageAnalysisSettings | None"  [arg-type]
+tests\typing\image_analysis_settings_invalid.py:6: error: Incompatible types in assignment (expression has type "ImageAnalysisSettings | None", variable has type "ImageAnalysisSettings")  [assignment]
+tests\typing\image_analysis_settings_invalid.py:7: error: Property "image_analysis_settings" defined in "Document" is read-only  [misc]
+Found 3 errors in 1 file (checked 1 source file)

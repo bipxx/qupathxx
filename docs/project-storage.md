@@ -1,13 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 19 stores canonical object state,
+source descriptors. SQLite schema version 20 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
 [spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
-[source verification](reader-source-association.md#project-verification-and-reviewed-replacement). Schemas 1–18
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement), historical image facts and saved analysis defaults. Schemas 1–19
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -84,6 +84,21 @@ captured value while later edits remain dirty. The loader restores facts directl
 into the private candidate without synthetic commands or persisted history.
 See [image facts](image-properties.md) for the API and import/inspector contract.
 
+## Saved image analysis defaults
+
+Schema20 adds sparse `image_analysis_settings(image_id, payload)` rows. Immutable
+owning values retain image type, profile/channel names, all three normalized
+stain vectors, residual identity and positive finite white. The existing
+checksummed facts codec carries a distinct typed marker; malformed, incompatible,
+duplicate or orphan settings refuse before publication. Schemas1-19 default
+empty. Table creation and canonical writes share the existing save transaction.
+
+Set/clear uses ordinary staged document history. Snapshots copy the native value
+and charge its payload; an in-flight save preserves its captured defaults while
+later edits remain dirty. Settings do not rewrite explicit analysis requests or
+retained recipes. See [saved defaults](image-analysis-settings.md) for Python,
+import, GUI adoption and RGB8 application limits.
+
 ## Transactions and save conflicts
 
 Saves use one `BEGIN IMMEDIATE` transaction with `synchronous=FULL`. Prepared
@@ -93,7 +108,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 19. Schemas 1–18 migrate
+The application ID is `0x51505858` and new `user_version` is 20. Schemas 1–19 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -293,7 +308,7 @@ failure/retry and both explicit/automatic killed-native-autosave collection case
 These assertions were inspected in the corresponding current tests; the older
 results retain their original source scope and are not retesting the SOURCE1
 product. SOURCE1 separately verifies its changed association persistence and
-rollback. [Cross-session work collection](recovery-work-cleanup.md#version-2-cross-session-collection)
+rollback. [Cross-session work collection](recovery-work-cleanup.md#evidence-and-remaining-scope)
 already covers prior destination names and committed snapshot rescue.
 
 No new generic process-kill or cleanup campaign follows from this reconciliation.

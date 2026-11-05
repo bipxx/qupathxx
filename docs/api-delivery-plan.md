@@ -78,7 +78,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. Continue with saved ImageData type/stain-default losses while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. Continue with the demonstrated saved ImageData-property loss while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -137,17 +137,18 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 source identity | [Persisted reviewed verification](benchmarks/source-verification-r5/README.md) | Primary hash/companion metadata only; historical association is not past-decoder proof |
 | R5 object facts/state | [Metadata/measurements](benchmarks/object-properties-r5/README.md), [locks/color/reported probability](benchmarks/object-edit-state-r5/README.md) | Historical values, interactive lock hints and foreign-extension limits; sparse history preserves the existing compact budget |
 | R5 image facts | [Root metadata/measurements](benchmarks/root-facts-r5/README.md) | Native import/Python/ImGui/history/schema19 snapshot/reopen; common native shared ownership and borrowed BLOB lifetime fixes. ImageData defaults/properties remain separate |
+| R5 saved defaults | [Image type/stain defaults](benchmarks/image-settings-r5/README.md) | Recognized pinned types/profiles, native values/history/schema20 snapshots/reopen and explicit Python/ImGui use; RGB8 application limits are explicit. Other ImageData properties remain separate |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R5-SETTINGS1, saved image analysis defaults**.
-The contract, pinned capture and implementation/tests are drafted; the changed
-native product has not yet been built or verified. Do not report defaults as
-delivered from source inspection alone. Follow the [current task](current-task.md)
-for the remaining contract review and affected verification; reuse native stain
-transforms, model identity, requests, import review and store.
-Other ImageData properties, formats/records and editing gaps remain in R4/R5.
+Active bounded task: **R5-DATAPROP1, saved ImageData properties**.
+SETTINGS1 is locally verified in its [recorded scope](benchmarks/image-settings-r5/README.md).
+The existing pinned losses fixture still contains a custom ImageData property
+that the decoder reports as dropped. Follow the [current task](current-task.md)
+for contract preparation; reuse stream parsing, import review, native ownership,
+history, inspectors and transactional storage. Other formats/records and editing
+gaps remain in their R4/R5 rows.
 
 ## Execution order for finishing the remaining work
 
@@ -158,7 +159,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-SETTINGS1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-DATAPROP1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -172,7 +173,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1 is locally verified. SETTINGS1 next: retain recognized saved image type/stain analysis defaults. Then uncovered ImageData/project properties, versions/builders/records, source races and geometry losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1 and SETTINGS1 are locally verified. DATAPROP1 next: retain supported saved ImageData properties with an explicit unsupported-value policy. Then uncovered project properties, versions/builders/records, source races and geometry losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -232,20 +233,20 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active SETTINGS1 slice, the remaining route is: review value/caster,
-history, snapshot and borrowed-buffer boundaries; preflight the selected tests;
-freeze compiler inputs for one cached candidate; run the captured-default,
-explicit-request precedence, migration/refusal and ownership checks; exercise
-explicit GUI adoption; then generate stubs once and verify the affected packaged
-API. Reuse the existing stain numerical baseline if its algorithm and inputs
-remain unchanged. Build/test counts are evidence, not the task's stop condition.
+For the active DATAPROP1 slice, inspect the pinned property serialization and
+existing stream node/value support first. Reuse the demonstrated synthetic
+property fixture; capture additional types only for an uncovered contract.
+Resolve key/type/bounds, native value ownership, unset/clear, unsupported values,
+history and sparse storage before freezing interfaces. Reuse SETTINGS1's lifetime,
+staging and migration patterns where applicable. Confirm observer members from
+the actual exposed APIs before choosing assertions.
 
-After SETTINGS1, select the first demonstrated R4/R5 loss or edit gap from the
-existing inventory, rather than extending defaults speculatively. Then follow
-the ordered slices above through R6/R7, R8-R10, R11, R3, R12/R13 and applicable
-R14-R16. A dependency blocks only its affected slice. Keep owner decisions in
-R1/R13 and continue the first independent ready outcome; do not silently drop
-unresolved parity work or claim full completion from a narrower release.
+After DATAPROP1, select the first demonstrated remaining R4/R5 loss or edit gap
+from the existing inventory. Follow the ordered slices above through R6/R7,
+R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
+affected slice. Keep owner decisions in R1/R13 and continue the first independent
+ready outcome; do not silently drop unresolved parity work or claim full
+completion from a narrower release.
 
 ## Task closeout and waste review
 

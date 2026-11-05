@@ -81,6 +81,22 @@ def test_value_lifetime_history_noop_and_explicit_request_precedence(tmp_path):
     del doc,selection,value,request;gc.collect();assert held.profile_name=='Three' and held.transform().white==[240,245,250]
 
 
+@pytest.mark.skipif(not q.has_project or not q.has_tiff or not q.has_interchange,reason='native saved defaults')
+@pytest.mark.parametrize('old,new',[
+    (b'"Stain 3"',b'"Stain 9"'),
+    (b'"Values 2"',b'"Values 1"'),
+    (b'"1 0 0"',b'"0 0 0"'),
+    (b'" 240 245 250"',b'"   0 245 250"'),
+    (b'xpw\x04\x00\x00\x00\x01t',b'xpw\x04\x00\x00\x00\x02t'),
+],ids=['unknown-field','duplicate-field','singular-basis','zero-white','unknown-version'])
+def test_malformed_saved_defaults_refuse_without_publication(tmp_path,old,new):
+    source=foreign(tmp_path,'custom-three');saved=source.parent/'data/7/data.qpdata'
+    data=saved.read_bytes();assert old in data and len(old)==len(new)
+    saved.write_bytes(data.replace(old,new,1));before=saved.read_bytes()
+    with pytest.raises(ValueError):q.preview_qupath_project(str(source))
+    assert saved.read_bytes()==before and not list(tmp_path.glob('*.qpxproj'))
+
+
 @pytest.mark.parametrize('kwargs',[
     {'image_type':'unknown'}, {'image_type':'FLUORESCENCE','stains':[[1,0,0],[0,1,0]]},
     {'image_type':'BRIGHTFIELD_H_E','stains':[[1,0,0]]}, {'image_type':'BRIGHTFIELD_H_E','stains':[[1,0,0],[1,0,0]]},
@@ -143,11 +159,17 @@ def test_desktop_defaults_are_explicit_and_use_the_full_saved_basis(tmp_path,app
     options=q.GuiOptions();options.width=1600;options.height=1400;options.docked_workspace=True;options.settle_tiles=True;options.autosave_interval_seconds=0;options.analysis_white=[230,231,232]
     events=[event(4,q.GuiInputKind.SELECT_ALL_KEY)]
     if apply:events += [event(7,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.USE_IMAGE_STAINS,q.GuiInputWait.TARGET_READY),event(8,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.USE_IMAGE_STAINS)]
-    events += [event(12,q.GuiInputKind.ANALYZE_KEY),event(48,q.GuiInputKind.SAVE_KEY)];options.inputs=events
+    events += [event(12,q.GuiInputKind.ANALYZE_KEY),event(30,q.GuiInputKind.KEEP_ANALYSIS_KEY),event(48,q.GuiInputKind.SAVE_KEY)];options.inputs=events
     report=q.show(project,frame_limit=75,capture_path=str(tmp_path/('settings-'+str(apply)+'.ppm')),options=options)
-    assert report.replay_complete and report.analysis_state=='ready' and report.analysis_result is not None
+    assert report.replay_complete and report.analysis_state=='ready' and report.analysis_records==1
+    result=doc.latest_analysis(doc.annotations[0].id).result
     expected_white=saved.white if apply else [230,231,232]
-    assert list(report.analysis_result.white)==list(expected_white)
-    assert report.analysis_result.kind==(q.AnalysisKind.STAIN_MEANS if apply else q.AnalysisKind.OPTICAL_DENSITY_MEANS)
-    if apply:np.testing.assert_array_equal(report.analysis_result.stains,saved.basis)
-    assert signature(q.Project.open(str(path)).document(project.images[0].id).image_analysis_settings)==signature(saved)
+    assert list(result.white)==list(expected_white)
+    assert result.kind==(q.AnalysisKind.STAIN_MEANS if apply else q.AnalysisKind.OPTICAL_DENSITY_MEANS)
+    np.testing.assert_array_equal(report.analysis_means,result.means)
+    if apply:np.testing.assert_array_equal(result.stains,saved.basis)
+    reopened=q.Project.open(str(path)).document(project.images[0].id)
+    assert signature(reopened.image_analysis_settings)==signature(saved)
+    retained=reopened.latest_analysis(reopened.annotations[0].id).result
+    assert list(retained.white)==list(result.white) and retained.kind==result.kind
+    np.testing.assert_array_equal(retained.stains,result.stains)
