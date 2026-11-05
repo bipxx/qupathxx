@@ -54,3 +54,15 @@ then decoder/wire/store/SDK/GUI contracts before the next expensive ABI build.
 
 After every bounded task or failed/stopped attempt, record its scoped outcome,
 waste action and changed next step here before continuing or retrying.
+
+CLASS1 native foundation checkpoint: explicit parent/raw ARGB/resolved RGB values,
+shared graph resolution, sparse class history/subtree rename, ordered Project
+registry/defaults and schema26 sparse document semantics are implemented locally.
+Default edits are Project-only; explicit application is one image journal step
+and deduplicates affected definitions without changing stored palette repeats.
+Twenty legacy downgrade helpers and the all25-older-schema native witness are
+updated. Native regression controls are written; execution is pending.
+Waste/action: validate incoming definitions once and reuse trusted ancestor state;
+no cloned UI hierarchy or default-color copy. The next affected core build runs
+classes/project/save/spatial roles only. Bindings, wire/import and GUI integration
+remain pending, so no wheel/stub/install or full-workflow acceptance is claimed.

@@ -83,6 +83,10 @@ public:
     std::vector<ProjectImage> images() const;
     void remove_image(std::uint64_t id);
     void rename_image(std::uint64_t id,std::string name);
+    const std::map<std::string,ObjectClass>& classes() const {return class_registry_;}
+    std::vector<std::string> class_defaults() const {return class_defaults_;}
+    void set_class_registry(const std::vector<ObjectClass>& definitions,std::vector<std::string> defaults={});
+    void apply_class_defaults(std::uint64_t image);
     std::map<std::string,std::string> metadata() const;
     void set_metadata(std::map<std::string,std::string> metadata={});
     std::map<std::string,std::string> image_metadata(std::uint64_t id) const;
@@ -143,6 +147,8 @@ private:
     // its deleter contain no Python references. External documents default off.
     struct Entry { ProjectImage info; std::shared_ptr<Document> document; bool native_lifetime=false; };
     const Entry& entry(std::uint64_t id) const;
+    std::map<std::string,ObjectClass> class_registry_;
+    std::vector<std::string> class_defaults_;
     std::map<std::string,std::string> metadata_;
     std::map<std::uint64_t,Entry> entries_;
     std::map<std::uint64_t,std::shared_ptr<const SourceFileAssociation>> source_verifications_;

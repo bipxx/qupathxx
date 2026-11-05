@@ -1,4 +1,5 @@
 #include "utf8_text.hpp"
+#include "class_registry.hpp"
 #include "image_axis_calibration_codec.hpp"
 #include "image_analysis_settings_codec.hpp"
 #include "image_data_properties_codec.hpp"
@@ -49,6 +50,15 @@ namespace {
 namespace fs=std::filesystem;
 void text(const std::string& value,std::size_t limit=4096) {
     if(value.size()>limit || value.find('\0')!=std::string::npos) throw std::invalid_argument("invalid project text or path");
+}
+std::size_t project_class_bytes(const std::map<std::string,ObjectClass>& classes,const std::vector<std::string>& defaults) {
+    std::size_t bytes=0;
+    for(const auto& [name,value]:classes)bytes+=sizeof(ObjectClass)+128+name.size()+value.name.size()+value.parent.size();
+    for(const auto& name:defaults)bytes+=sizeof(std::string)+name.size();return bytes;
+}
+void validate_project_classes(const std::map<std::string,ObjectClass>& classes,const std::vector<std::string>& defaults) {
+    if(classes.size()>65536 || defaults.size()>65536 || project_class_bytes(classes,defaults)>128ull*1024*1024)throw std::length_error("project class registry exceeds admission limits");
+    for(const auto& name:defaults) {detail::bounded_utf8(name,4096);if(!classes.count(name))throw std::invalid_argument("project default class is not registered");}
 }
 std::size_t string_metadata_bytes(const std::map<std::string,std::string>& metadata) {
     std::size_t bytes=sizeof(metadata);for(const auto& [key,value]:metadata)bytes+=128+key.size()+value.size();return bytes;
@@ -182,6 +192,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("project snapshot exceeds memory budget"); bytes+=count; };
     add(sizeof(Project)+path_.size()+identity_.size());
     add(string_metadata_bytes(metadata_)-sizeof(metadata_));
+    add(project_class_bytes(class_registry_,class_defaults_));
     for(const auto& [id,e]:entries_) {
         if(selected && !selected->count(id)) continue;
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
@@ -200,7 +211,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         if(e.document->image_data_properties_)add(e.document->image_data_properties_->payload_bytes());
         if(e.document->image_analysis_settings_)add(e.document->image_analysis_settings_->payload_bytes()-sizeof(ImageAnalysisSettings));
         add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
-        for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
+        for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size()+c.parent.size());
         add(e.document->analysis_bytes_);
         add(e.document->raw_analysis_bytes_);
         add(e.document->raw_analysis_blocks_.values.size()*sizeof(std::shared_ptr<const Document::RawAnalysisBlock>));
@@ -224,6 +235,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     }
     for(const auto& [id,v]:views_) if(!selected || selected->count(id)) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
+    snapshot->class_registry_=class_registry_;snapshot->class_defaults_=class_defaults_;
     snapshot->metadata_=metadata_;
     snapshot->identity_=identity_; snapshot->path_=path_; snapshot->generation_=generation_;
     for(const auto& [id,value]:source_verifications_)if(!selected || selected->count(id))snapshot->source_verifications_.emplace(id,value);
@@ -292,6 +304,7 @@ void Project::restore_recovery(const std::string& path,const std::string& base) 
     adopt_workspace(*restored);
 }
 void Project::adopt_workspace(Project& candidate) noexcept {
+    class_registry_.swap(candidate.class_registry_);class_defaults_.swap(candidate.class_defaults_);
     metadata_.swap(candidate.metadata_);entries_.swap(candidate.entries_); source_verifications_.swap(candidate.source_verifications_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
     path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
     std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);
@@ -399,6 +412,27 @@ void Project::rename_image(std::uint64_t id,std::string name) {
     if(name.empty()) throw std::invalid_argument("image name must not be empty");
     if(old.info.name==name) return;
     advance(revision_); entries_.at(id).info.name.swap(name); ++revision_;
+}
+void Project::set_class_registry(const std::vector<ObjectClass>& definitions,std::vector<std::string> defaults) {
+    if(definitions.size()>65536 || defaults.size()>65536)throw std::length_error("project class registry exceeds admission limits");
+    auto candidate=detail::normalized_class_registry(definitions);validate_project_classes(candidate,defaults);
+    if(candidate==class_registry_ && defaults==class_defaults_)return;
+    advance(revision_);class_registry_.swap(candidate);class_defaults_.swap(defaults);++revision_;
+}
+void Project::apply_class_defaults(std::uint64_t image) {
+    auto document=entry(image).document;if(class_defaults_.empty())return;auto candidate=document->classes();
+    const std::set<std::string> selected(class_defaults_.begin(),class_defaults_.end());std::set<std::string> applied;
+    for(const auto& name:selected) {
+        const auto chain=detail::class_chain(class_registry_.at(name),[&](const std::string& key)->const ObjectClass* {const auto at=class_registry_.find(key);return at==class_registry_.end()?nullptr:&at->second;},false);
+        for(const auto* value:chain) {
+            if(!applied.insert(value->name).second)continue;
+            const auto old=candidate.find(value->name);
+            if(old!=candidate.end() && old->second.parent!=value->parent)throw std::invalid_argument("project default class identity conflicts with image registry");
+            candidate.insert_or_assign(value->name,*value);
+        }
+    }
+    std::vector<ObjectClass> definitions;definitions.reserve(candidate.size());for(const auto& [name,value]:candidate)definitions.push_back(value);
+    document->replace_class_registry(definitions,"Apply project classes");
 }
 std::map<std::string,std::string> Project::metadata() const {return metadata_;}
 void Project::set_metadata(std::map<std::string,std::string> metadata) {
@@ -659,6 +693,9 @@ void create_spatial(Database& db) {
 void create_image_analysis_settings(Database& db) {
     db.exec("CREATE TABLE image_analysis_settings(image_id TEXT PRIMARY KEY REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=20;");
 }
+void create_class_registries(Database& db) {
+    db.exec("CREATE TABLE class_semantics(image_id TEXT NOT NULL,class_name TEXT NOT NULL,parent_name TEXT NOT NULL,color_argb INTEGER,PRIMARY KEY(image_id,class_name),FOREIGN KEY(image_id,class_name) REFERENCES classes(image_id,name)) STRICT; CREATE TABLE project_classes(name TEXT PRIMARY KEY NOT NULL,parent_name TEXT NOT NULL,color_argb INTEGER) STRICT; CREATE TABLE project_class_defaults(position INTEGER PRIMARY KEY NOT NULL CHECK(position>=0 AND position<65536),class_name TEXT NOT NULL REFERENCES project_classes(name)) STRICT; PRAGMA user_version=26;");
+}
 void create_project_metadata(Database& db) {
     db.exec("CREATE TABLE project_metadata(metadata_key TEXT PRIMARY KEY NOT NULL,metadata_value TEXT NOT NULL) STRICT; PRAGMA user_version=25;");
 }
@@ -819,16 +856,25 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<23)create_image_metadata(db);
         if(version<24)create_image_details(db);
         if(version<25)create_project_metadata(db);
+        if(version<26)create_class_registries(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);}
-    db.exec("DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);}
+    db.exec("DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement global_metadata(db,"INSERT INTO project_metadata VALUES(?,?)");
     for(const auto& [key,value]:metadata_) {global_metadata.string(1,key);global_metadata.string(2,value);global_metadata.done();}
+    Statement project_class(db,"INSERT INTO project_classes VALUES(?,?,?)");
+    for(const auto& [name,value]:class_registry_) {
+        project_class.string(1,name);project_class.string(2,value.parent);
+        if(const auto argb=value.color_argb())project_class.integer(3,*argb);else project_class.null(3);project_class.done();
+    }
+    Statement class_default(db,"INSERT INTO project_class_defaults VALUES(?,?)");
+    for(std::size_t position=0;position<class_defaults_.size();++position) {class_default.integer(1,static_cast<std::int64_t>(position));class_default.string(2,class_defaults_[position]);class_default.done();}
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     Statement level(db,"INSERT INTO levels VALUES(?,?,?,?,?)");
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
+    Statement class_semantics(db,"INSERT INTO class_semantics VALUES(?,?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
     Statement provenance(db,"INSERT INTO analysis_provenance VALUES(?,?,?)");
     auto write_provenance=[&](std::uint64_t image,std::uint64_t record,const std::shared_ptr<const AnalysisProvenance>& p) {if(p) {provenance.string(1,std::to_string(image));provenance.string(2,std::to_string(record));const auto bytes=ProvenanceCodec::encode(*p);provenance.blob(3,bytes);provenance.done();}};
@@ -890,7 +936,13 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         for(std::size_t i=0;i<m.levels.size();++i) {
             level.string(1,key); level.integer(2,static_cast<std::int64_t>(i)); level.integer(3,m.levels[i].width); level.integer(4,m.levels[i].height); level.real(5,m.levels[i].downsample); level.done();
         }
-        for(const auto& [name,c]:doc.classes_) { classification.string(1,key); classification.string(2,name); classification.integer(3,c.color); classification.done(); }
+        for(const auto& [name,c]:doc.classes_) {
+            classification.string(1,key);classification.string(2,name);classification.integer(3,c.color);classification.done();
+            if(!c.parent.empty() || !c.color_present || c.alpha) {
+                class_semantics.string(1,key);class_semantics.string(2,name);class_semantics.string(3,c.parent);
+                if(const auto argb=c.color_argb())class_semantics.integer(4,*argb);else class_semantics.null(4);class_semantics.done();
+            }
+        }
         auto write_object=[&](const Annotation& a) {
             if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
             object.string(1,key); object.string(2,std::to_string(a.id)); object.string(3,a.name); object.string(4,std::to_string(a.parent_id));
@@ -1038,6 +1090,23 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(!project->metadata_.emplace(std::move(name),std::move(value)).second)throw std::invalid_argument("duplicate persisted project metadata key");
         }
     }
+    if(version>=26) {
+        std::vector<ObjectClass> definitions;Statement row(db,"SELECT name,parent_name,color_argb FROM project_classes ORDER BY name");std::size_t bytes=0;
+        while(row.row()) {
+            stopped();if(definitions.size()>=65536)throw std::length_error("persisted project class count exceeds limit");
+            std::optional<std::uint32_t> argb;
+            if(row.type(2)!=SQLITE_NULL) {const auto value=row.integer(2);if(value<0 || std::uint64_t(value)>0xffffffffULL)throw std::invalid_argument("invalid persisted class ARGB");argb=static_cast<std::uint32_t>(value);}
+            auto value=ObjectClass::definition(row.string(0),argb,row.string(1));bytes+=sizeof(ObjectClass)+128+2*value.name.size()+value.parent.size();
+            if(bytes>128ull*1024*1024)throw std::length_error("persisted project class payload exceeds limit");definitions.push_back(std::move(value));
+        }
+        project->class_registry_=detail::normalized_class_registry(definitions);
+        Statement defaults(db,"SELECT position,class_name FROM project_class_defaults ORDER BY position");
+        while(defaults.row()) {
+            stopped();if(project->class_defaults_.size()>=65536 || defaults.integer(0)!=static_cast<std::int64_t>(project->class_defaults_.size()))throw std::invalid_argument("invalid project class default sequence");
+            auto name=defaults.string(1);bytes+=sizeof(std::string)+name.size();if(bytes>128ull*1024*1024)throw std::length_error("persisted project class payload exceeds limit");project->class_defaults_.push_back(std::move(name));
+        }
+        validate_project_classes(project->class_registry_,project->class_defaults_);
+    }
     Statement images(db,"SELECT id,name,reader,source,embedded,width,height,vendor,server_x,server_y,cal_x,cal_y,next_object,revision,rgb FROM images");
     Statement levels(db,"SELECT ordinal,width,height,downsample FROM levels WHERE image_id=? ORDER BY ordinal");
     Statement classes(db,"SELECT name,color FROM classes WHERE image_id=? ORDER BY name");
@@ -1075,6 +1144,18 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         classes.string(1,key);
         while(classes.row()) { auto color=classes.integer(1); if(color<0 || color>0xffffff) throw std::invalid_argument("invalid persisted class color"); definitions.push_back({classes.string(0),static_cast<std::uint32_t>(color)}); }
         classes.check(sqlite3_reset(classes.stmt)); classes.check(sqlite3_clear_bindings(classes.stmt));
+        if(version>=26) {
+            std::map<std::string,std::size_t> at;for(std::size_t index=0;index<definitions.size();++index)if(!at.emplace(definitions[index].name,index).second)throw std::invalid_argument("duplicate persisted class");
+            std::set<std::string> seen;Statement row(db,"SELECT class_name,parent_name,color_argb FROM class_semantics WHERE image_id=?");row.string(1,key);
+            while(row.row()) {
+                stopped();const auto name=row.string(0);const auto found=at.find(name);
+                if(found==at.end() || !seen.insert(name).second)throw std::invalid_argument("orphaned or duplicate class semantics");
+                auto& value=definitions[found->second];value.parent=row.string(1);value.color_present=row.type(2)!=SQLITE_NULL;
+                if(value.color_present) {
+                    const auto argb=row.integer(2);if(argb<0 || std::uint64_t(argb)>0xffffffffULL || (std::uint32_t(argb)&0xffffff)!=value.color)throw std::invalid_argument("inconsistent persisted class ARGB/RGB");value.alpha=std::uint8_t(std::uint32_t(argb)>>24);
+                } else value.alpha=0;
+            }
+        }
         std::shared_ptr<const TmaGridInfo> grid;
         std::map<std::uint64_t,std::shared_ptr<const TmaCoreInfo>> core_metadata;
         if(version>=11) {
@@ -1311,6 +1392,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=26 && scalar(db,"SELECT count(*) FROM class_semantics s WHERE NOT EXISTS (SELECT 1 FROM classes c WHERE c.image_id=s.image_id AND c.name=s.class_name)"))throw std::invalid_argument("orphaned class semantics");
     if(version>=24 && (scalar(db,"SELECT count(*) FROM image_details d WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=d.image_id)") || scalar(db,"SELECT count(*) FROM image_tags t WHERE NOT EXISTS (SELECT 1 FROM image_details d WHERE d.image_id=t.image_id)")))throw std::invalid_argument("orphaned image details or tags");
     if(version>=23 && scalar(db,"SELECT count(*) FROM image_metadata p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image metadata");
     if(version>=22 && scalar(db,"SELECT count(*) FROM image_axis_calibration p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image axis calibration");

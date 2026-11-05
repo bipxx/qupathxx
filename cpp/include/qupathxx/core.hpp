@@ -89,7 +89,19 @@ struct FeatureCacheStats {
 };
 struct ObjectClass {
     std::string name;
-    std::uint32_t color = 0x41e1be; // RGB, no alpha.
+    std::uint32_t color = 0x41e1be; // Resolved RGB view; legacy aggregate initialization stays valid.
+    std::string parent; // Explicit registry key; empty means a flat/root definition.
+    std::uint8_t alpha=0;
+    bool color_present=true;
+    std::optional<std::uint32_t> color_argb() const {
+        if(!color_present)return {};return (std::uint32_t(alpha)<<24)|(color&0xffffff);
+    }
+    std::string leaf_name() const {return parent.empty()?name:name.substr(parent.size()+2);}
+    static ObjectClass definition(std::string name,std::optional<std::uint32_t> argb=0x41e1be,std::string parent={});
+    bool operator==(const ObjectClass& other) const {
+        return name==other.name && color==other.color && parent==other.parent &&
+            color_present==other.color_present && (!color_present || alpha==other.alpha);
+    }
 };
 struct CellFeatureLink {
     std::uint64_t record_id=0;
@@ -216,6 +228,9 @@ public:
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
     void set_class(std::string name, std::uint32_t color);
+    void set_class_definition(ObjectClass definition);
+    void replace_class_registry(const std::vector<ObjectClass>& definitions,std::string label="Replace class registry");
+    std::vector<std::string> class_path(const std::string& name) const;
     void remove_class(const std::string& name);
     void rename_class(const std::string& old_name, std::string new_name);
     void classify_objects(const std::vector<std::uint64_t>& ids, std::string class_name);

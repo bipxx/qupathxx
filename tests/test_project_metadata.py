@@ -92,7 +92,7 @@ def test_snapshot_budget_ownership_and_recovery_restore(tmp_path):
 
 def test_schema24_default_atomic_failed_upgrade_and_reopen(tmp_path):
     project=q.Project();path=tmp_path/'legacy.qpxproj';project.save(str(path))
-    with sqlite3.connect(path) as db:db.execute('DROP TABLE project_metadata');db.execute('PRAGMA user_version=24')
+    with sqlite3.connect(path) as db:db.execute('DROP TABLE class_semantics');db.execute('DROP TABLE project_class_defaults');db.execute('DROP TABLE project_classes');db.execute('DROP TABLE project_metadata');db.execute('PRAGMA user_version=24')
     legacy=q.Project.open(str(path));assert legacy.metadata=={};legacy.set_metadata(RICH)
     with sqlite3.connect(path) as db:db.execute("CREATE TRIGGER fail_global BEFORE INSERT ON project BEGIN SELECT RAISE(ABORT,'global fault'); END")
     before=path.read_bytes()

@@ -1,5 +1,6 @@
 #include "qupathxx/raw_image.hpp"
 #include "object_edit_state.hpp"
+#include "class_registry.hpp"
 #include "tma_internal.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
@@ -79,6 +80,11 @@ struct Document::Staging {
         auto existing=document.classes_.find(name);
         return existing==document.classes_.end()?std::nullopt:std::optional<ObjectClass>(existing->second);
     }
+    const ObjectClass* class_definition(const std::string& name) const {
+        const auto changed=after_classes.find(name);
+        if(changed!=after_classes.end())return changed->second?&*changed->second:nullptr;
+        const auto live=document.classes_.find(name);return live==document.classes_.end()?nullptr:&live->second;
+    }
     bool has_class(const std::string& name) const {
         auto changed=after_classes.find(name);
         return changed==after_classes.end()?document.classes_.count(name)!=0:changed->second.has_value();
@@ -140,9 +146,25 @@ struct Document::Staging {
         // silently recreated and fail validation if still referenced.
         for(const auto& [id,a]:after) if(a && !a->class_name.empty() && !has_class(a->class_name) && !after_classes.count(a->class_name))
             write_class(a->class_name,ObjectClass{a->class_name});
+        if(!after_classes.empty()) {
+            auto lookup=[&](const std::string& name){return class_definition(name);};
+            for(const auto& [name,value]:after_classes)if(value)detail::validate_class_definition(*value);
+            for(auto& [name,value]:after_classes)if(value)*value=detail::resolve_class_definition(*value,lookup,true);
+            // Only absent-color definitions depend on ancestor colors. Preserve
+            // sparse history by journaling their changed resolved views alone.
+            for(const auto& [name,value]:document.classes_)if(!value.color_present && !after_classes.count(name)) {
+                auto resolved=detail::resolve_class_definition(value,lookup,true);
+                if(!(resolved==value))write_class(name,std::move(resolved));
+            }
+            bool removed=false;for(const auto& [name,value]:after_classes)if(!value){removed=true;break;}
+            if(removed)for(const auto& [name,value]:document.classes_) {
+                const auto* current=class_definition(name);
+                if(current && !current->parent.empty() && !has_class(current->parent))throw std::invalid_argument("cannot remove a class with surviving children");
+            }
+        }
         for(auto it=after_classes.begin();it!=after_classes.end();) {
             const auto& old=before_classes.at(it->first); const auto& current=it->second;
-            if(old.has_value()==current.has_value() && (!old || (old->name==current->name && old->color==current->color))) {
+            if(old.has_value()==current.has_value() && (!old || (*old==*current))) {
                 before_classes.erase(it->first); it=after_classes.erase(it);
             } else ++it;
         }
@@ -238,12 +260,8 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;result->image_properties_=normalize_image_properties(std::move(image_properties));if(image_settings && !image_settings->empty())result->image_analysis_settings_=std::move(image_settings);
     if(data_properties && !data_properties->empty())result->image_data_properties_=std::move(data_properties);
     result->image_axis_calibration_=std::move(axis_calibration);
-    for(const auto& c:classes) {
-        text(c.name);
-        if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
-        if(c.color>0xffffff) throw std::invalid_argument("class color must be a 24-bit RGB value");
-        if(!result->classes_.emplace(c.name,c).second) throw std::invalid_argument("duplicate persisted class");
-    }
+    result->classes_=detail::normalized_class_registry(classes);
+    for(const auto& value:classes)if(result->classes_.at(value.name).color!=value.color)throw std::invalid_argument("persisted class RGB view disagrees with its definition");
     for(const auto& a:objects) {
         if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || (a.cell_feature_link && a.cell_feature_link->record_id>revision) || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
@@ -298,21 +316,48 @@ ObjectClass Document::object_class(const std::string& name) const {
 std::size_t Document::class_count(const std::string& name) const {
     auto found=class_counts_.find(name); return found==class_counts_.end()?0:found->second;
 }
+ObjectClass ObjectClass::definition(std::string name,std::optional<std::uint32_t> argb,std::string parent) {
+    ObjectClass value{std::move(name),argb?(*argb&0xffffff):0x41e1be,std::move(parent),std::uint8_t(argb?(*argb>>24):0),argb.has_value()};
+    detail::validate_class_definition(value);
+    if(!argb && value.parent.empty())value.color=detail::qupath_class_default_argb({value.name})&0xffffff;
+    return value;
+}
+std::vector<std::string> Document::class_path(const std::string& name) const {return detail::class_path(classes_,name);}
 void Document::set_class(std::string name,std::uint32_t color) {
-    Staging staged(*this); staged.write_class(name,ObjectClass{name,color});
+    auto value=classes_.count(name)?object_class(name):ObjectClass{name};value.color=color;value.color_present=true;
+    set_class_definition(std::move(value));
+}
+void Document::set_class_definition(ObjectClass value) {
+    Staging staged(*this);const auto key=value.name;staged.write_class(key,std::move(value));
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set class");
+}
+void Document::replace_class_registry(const std::vector<ObjectClass>& definitions,std::string label) {
+    const auto candidate=detail::normalized_class_registry(definitions);Staging staged(*this);
+    for(const auto& [name,value]:classes_)if(!candidate.count(name))staged.write_class(name,std::nullopt);
+    for(const auto& [name,value]:candidate)staged.write_class(name,value);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},std::move(label));
 }
 void Document::remove_class(const std::string& name) {
     object_class(name); Staging staged(*this); staged.write_class(name,std::nullopt);
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Remove class");
 }
 void Document::rename_class(const std::string& old_name,std::string new_name) {
-    auto current=object_class(old_name); if(old_name==new_name) return;
-    if(classes_.count(new_name)) throw std::invalid_argument("class name already exists");
-    Staging staged(*this); current.name=new_name;
-    staged.write_class(new_name,current); staged.write_class(old_name,std::nullopt);
-    for(const auto& [id,a]:objects_) if(a.class_name==old_name) {
-        auto value=a; value.class_name=new_name; staged.write(id,std::move(value));
+    const auto current=object_class(old_name);if(old_name==new_name)return;
+    auto renamed=current;renamed.name=new_name;detail::validate_class_definition(renamed);
+    std::map<std::string,std::string> names;
+    for(const auto& [name,value]:classes_) {
+        const auto chain=detail::class_chain(value,[&](const std::string& key)->const ObjectClass* {const auto at=classes_.find(key);return at==classes_.end()?nullptr:&at->second;});
+        if(std::any_of(chain.begin(),chain.end(),[&](const auto* node){return node->name==old_name;}))names.emplace(name,new_name+name.substr(old_name.size()));
+    }
+    for(const auto& [before,after]:names)if(classes_.count(after) && !names.count(after))throw std::invalid_argument("class name already exists");
+    Staging staged(*this);for(const auto& [before,after]:names)staged.write_class(before,std::nullopt);
+    for(const auto& [before,after]:names) {
+        auto value=object_class(before);value.name=after;
+        if(const auto parent=names.find(value.parent);parent!=names.end())value.parent=parent->second;
+        staged.write_class(after,std::move(value));
+    }
+    for(const auto& [id,object]:objects_)if(const auto name=names.find(object.class_name);name!=names.end()) {
+        auto value=object;value.class_name=name->second;staged.write(id,std::move(value));
     }
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Rename class");
 }
@@ -449,7 +494,7 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
         if(a && a->tma_core && tma_layouts.insert(a->tma_core->grid_info().get()).second) bytes+=a->tma_core->grid_info()->payload_bytes();
     }
     for(auto* patch:{&staged.before_classes,&staged.after_classes}) for(const auto& [name,value]:*patch)
-        bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size():0);
+        bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size()+value->parent.size():0);
     const bool recording=history_steps_ && history_budget_;
     if (recording && bytes>history_budget_) throw std::length_error("edit exceeds history payload budget; raise limits or explicitly disable recording");
     EditRecord record;

@@ -90,7 +90,7 @@ def test_snapshot_ownership_and_each_attribute_counts_toward_budget(tmp_path):
 
 def test_legacy23_defaults_and_failed_upgrade_preserve_file(tmp_path):
     project,image,doc,source=workspace(tmp_path);project.set_image_details(image,DESCRIPTION,TAGS);path=tmp_path/'legacy.qpxproj';project.save(str(path))
-    with sqlite3.connect(path) as db:db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE image_tags');db.execute('DROP TABLE image_details');db.execute('PRAGMA user_version=23')
+    with sqlite3.connect(path) as db:db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE image_tags');db.execute('DROP TABLE image_details');db.execute('PRAGMA user_version=23')
     legacy=q.Project.open(str(path));assert_details(legacy,image,None,[]);legacy.set_image_details(image,DESCRIPTION,TAGS)
     with sqlite3.connect(path) as db:db.execute("CREATE TRIGGER fail_details BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'details fault'); END")
     before=path.read_bytes()
