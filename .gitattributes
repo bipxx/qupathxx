@@ -829,3 +829,5 @@ tools/upstream/qupath_class_readback.groovy -text
 tools/upstream/qupath_class_colors_reference.groovy -text
 
 docs/benchmarks/class-hierarchy-r4/** -text -whitespace
+
+docs/benchmarks/class-history-r4/** -text -whitespace

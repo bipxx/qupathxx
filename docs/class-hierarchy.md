@@ -122,3 +122,12 @@ verify the complete declared route. Earlier checkpoint pending statements are
 historical source scopes. The remaining class-only rename geometry/history
 admission concern belongs to the next R4/R12 task, with a measured probe before
 changing its journal. No broad performance/parity claim follows from CLASS1.
+
+
+Subsequent [CLASSHISTORY1 closeout](benchmarks/class-history-r4/README.md) at2892db74
+reuses the classification field journal for administrative subtree rename.
+The matched polygon probe now fits1419 accounted bytes under16KiB; native
+subtree/property/copy/snapshot/undo/refusal checks pass. Probability remains
+unchanged for rename; reclassification still resets it. This closes the earlier
+geometry-charge concern within its recorded scope, not broader dense-scene
+resources or whole-slide performance. No class API/schema change was required.

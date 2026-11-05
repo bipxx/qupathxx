@@ -168,3 +168,10 @@ rename budget was measured here. Use the installed candidate once to establish
 whether a class-only rename is rejected by an otherwise reasonable history
 budget, then reuse the existing classification journal if a repair is needed.
 Do not reopen CLASS1 imports or repeat its capture/package campaign.
+
+
+Subsequent [CLASSHISTORY1](../class-history-r4/README.md) at2892db74 closes the
+history-admission concern above using the existing field journal. The matched
+installed polygon rename now uses1419 accounted bytes under16KiB, with probability,
+geometry/index, snapshot and undo semantics retained. CLASS1's earlier source
+scopes stay unchanged; the current queue advances to R6 context/halo replay.

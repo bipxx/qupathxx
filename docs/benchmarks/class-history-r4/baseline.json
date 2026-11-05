@@ -1,0 +1,19 @@
+{
+  "source": "8722d96d788a550945e15b7aa3e32e29423b9a54",
+  "vertices": 2000,
+  "history_budget": 16384,
+  "before": [
+    1,
+    0,
+    "Root",
+    31415.874858795658
+  ],
+  "after": [
+    1,
+    0,
+    "Root",
+    31415.874858795658
+  ],
+  "error": "edit exceeds history payload budget; raise limits or explicitly disable recording",
+  "rejected": true
+}
