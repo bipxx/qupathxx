@@ -12,6 +12,13 @@ rather than claim a pristine consumer machine without evidence. Parked native
 edits stay outside the release commit. Publication remains a candidate, with
 no broader scientific/performance/support claims.
 
+Handoff commit75d9e08c is pushed. Draft release assets are uploaded. Initial
+job42098869843 and its failed-job retry stopped at draft download, before install
+or numerical work: GitHub hides drafts from the default read-only contents token.
+Correct only the dedicated job's contents permission; no new packages or engine
+builds. Draft creation also required the full commit SHA rather than its short
+form. Check external command exit status before dispatching dependent work.
+
 ## Delivered — selected Windows research workflow checkpoint
 
 The [selected checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)

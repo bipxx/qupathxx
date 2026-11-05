@@ -131,6 +131,10 @@ jobs:
 
   windows-candidate:
     if: ${{ inputs.candidate_release_tag && !inputs.portable_linux && !inputs.macos_native }}
+    # GitHub hides draft releases from tokens without push-capable contents access.
+    # This job only reads the prepared draft; it never edits or publishes releases.
+    permissions:
+      contents: write
     runs-on: windows-2022
     timeout-minutes: 20
     steps:
