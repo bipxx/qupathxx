@@ -139,12 +139,14 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 image facts | [Root metadata/measurements](benchmarks/root-facts-r5/README.md) | Native import/Python/ImGui/history/schema19 snapshot/reopen; common native shared ownership and borrowed BLOB lifetime fixes. ImageData defaults/properties remain separate |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
-| R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#version-2-cross-session-collection) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
+| R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Next bounded task: **R5-SETTINGS1, saved image analysis defaults**.
-The decoder still explicitly drops recognized ImageData image type and stain
-settings. Follow the [current task](current-task.md) for contract preparation;
-reuse native stain transforms, model identity, requests, import review and store.
+Active bounded task: **R5-SETTINGS1, saved image analysis defaults**.
+The contract, pinned capture and implementation/tests are drafted; the changed
+native product has not yet been built or verified. Do not report defaults as
+delivered from source inspection alone. Follow the [current task](current-task.md)
+for the remaining contract review and affected verification; reuse native stain
+transforms, model identity, requests, import review and store.
 Other ImageData properties, formats/records and editing gaps remain in R4/R5.
 
 ## Execution order for finishing the remaining work
@@ -207,6 +209,44 @@ build. A card can be ready, in progress, awaiting verification, complete within
 its evidence scope, or blocked by a named dependency; do not use task counts as
 completion percentages.
 
+Apply these gates to each selected slice, without creating a separate campaign:
+
+1. **Choose the missing behavior.** Name the researcher action and observable
+   result, the existing API authority and the gap in current evidence. Inspect
+   existing implementation first. If it already satisfies the outcome, reuse
+   its evidence and close the inventory gap without writing replacement code.
+2. **Settle one contract.** Specify inputs, units/planes, ownership, errors,
+   cancellation and retained state where affected. Identify the native command
+   or request, thin nanobind exposure and necessary ImGui/CLI consumers. Reuse
+   existing models, codecs and job publication; add an API only for a missing
+   operation. Resolve interdependent interfaces before building.
+3. **Implement and verify the complete route.** Use a small independent expected
+   result or pinned upstream fixture at the shared authority. Exercise affected
+   consumers and save/reopen when state changes. Select public test nodes and
+   confirm the interpreter/product identity before a long run. Combine native
+   changes into one cached candidate; subsequent builds need an actual changed
+   compiler input or configuration. Preserve failed candidates and their logs.
+4. **Close and replan.** Record the scoped outcome and waste decision below.
+   Update the existing queue row only if scope, dependency or order changed;
+   update coverage only when evidence changed. Set the next ready slice and its
+   first concrete action before continuing. A failed attempt returns here before
+   retry, with its diagnosis and changed input rather than another identical run.
+
+For the active SETTINGS1 slice, the remaining route is: review value/caster,
+history, snapshot and borrowed-buffer boundaries; preflight the selected tests;
+freeze compiler inputs for one cached candidate; run the captured-default,
+explicit-request precedence, migration/refusal and ownership checks; exercise
+explicit GUI adoption; then generate stubs once and verify the affected packaged
+API. Reuse the existing stain numerical baseline if its algorithm and inputs
+remain unchanged. Build/test counts are evidence, not the task's stop condition.
+
+After SETTINGS1, select the first demonstrated R4/R5 loss or edit gap from the
+existing inventory, rather than extending defaults speculatively. Then follow
+the ordered slices above through R6/R7, R8-R10, R11, R3, R12/R13 and applicable
+R14-R16. A dependency blocks only its affected slice. Keep owner decisions in
+R1/R13 and continue the first independent ready outcome; do not silently drop
+unresolved parity work or claim full completion from a narrower release.
+
 ## Task closeout and waste review
 
 After **every bounded task and every failed or stopped attempt**, update
@@ -225,6 +265,26 @@ On failure, preserve the original evidence, diagnose the cause and record the
 changed input before retrying. Inspect or resume a live tool session rather
 than launching a replacement. Do not rebuild for a documentation, observer or
 install-path repair when compatible native products can be reused.
+
+Make the waste decision operational, not a recurring promise. For every observed
+cost, name its cause and the action taken now: remove duplicate work; merge work
+at its common authority; reuse evidence within its actual scope; defer work with
+a dependency and re-entry trigger; or retain a necessary check with its risk.
+Record elapsed time or build/install counts only when already available; do not
+add instrumentation or a report merely to complete this review. If the same
+waste recurs, change the execution step that allowed it before the next attempt.
+
+Use this short handoff in the current card:
+
+> Outcome/evidence: scoped result, unresolved failures and evidence location.
+> Waste/action: observed cost and remove/merge/reuse/defer/retain decision applied.
+> Next: one ready outcome and first action, dependencies, reused product/source
+> scope, and the checks needed for the remaining risk.
+
+No material waste is a valid finding. Do not manufacture optimization tasks,
+weaken assertions, remove failure evidence or rerun passing checks to demonstrate
+that a review occurred. The review is complete when the next action reflects the
+decision, not when another document or audit has been produced.
 
 Keep only the latest closeout in current-task.md. Update the affected inventory
 row only when its evidence changes, and the same queue row only when its order,
