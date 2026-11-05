@@ -155,7 +155,7 @@ public:
             if(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
             ImGui::BeginDisabled(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
-            if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+            if(options_.kind!=ProjectBatchKind::Tissue) {options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;options_.tissue.smoothing_sigma=0;}
             if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
             if(options_.kind!=ProjectBatchKind::Raw) {options_.raw_grid.reset();options_.raw_grid_work_bytes=256u*1024*1024;}
             if(options_.kind!=ProjectBatchKind::Tissue) {options_.tissue_min_component_area_um2.reset();options_.tissue_max_component_area_um2.reset();}
@@ -225,6 +225,7 @@ public:
                 else if(options_.kind==ProjectBatchKind::Cells && options_.cell_grid) grid_cell_controls(*options_.cell_grid,options_.grid_cells);
                 else {
                 if(options_.kind==ProjectBatchKind::Tissue) {
+                    ui::InputDouble("Sigma (px)",&options_.tissue.smoothing_sigma,0,0,"%.5g");
                     cell_area_controls(options_.tissue_min_component_area_um2,options_.tissue_max_component_area_um2,true);
                     int sampling=static_cast<int>(options_.tissue.sampling_policy);
                     if(ui::Combo("Tissue polygon samples",&sampling,"Geometry coverage\0Polygon winding\0")) options_.tissue.sampling_policy=static_cast<RoiSamplingPolicy>(sampling);
@@ -299,7 +300,7 @@ public:
                 }
                 if(run_options.kind!=ProjectBatchKind::Raw) {run_options.raw_grid.reset();run_options.raw_grid_work_bytes=256u*1024*1024;}
                 if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
-                if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+                if(run_options.kind!=ProjectBatchKind::Tissue) {run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;run_options.tissue.smoothing_sigma=0;}
                 if(run_options.kind!=ProjectBatchKind::Cells) {reset_cell_detector(run_options.cells);run_options.cell_grid.reset();run_options.cell_nominal.reset();}
                 if(run_options.cell_nominal) run_options.cells=CellParameters{};
                 const bool stains=run_options.kind!=ProjectBatchKind::RawPixels && run_options.kind!=ProjectBatchKind::RawPixelContours && run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:

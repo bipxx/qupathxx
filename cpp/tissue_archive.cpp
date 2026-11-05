@@ -38,7 +38,8 @@ std::vector<std::uint8_t> TissueArchiveCodec::encode(const TissueResult& r,const
     if(!r.input_format_override_.empty()) throw std::invalid_argument("cell detector masks require their versioned cell archive");
     stopped(cancelled);Writer w;const auto& p=r.parameters_;
     p.validate();
-    if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding) {w.bytes[3]=2;w.u64(1);}
+    if(p.smoothing_sigma>0) {w.bytes[3]=3;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);}
+    else if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding) {w.bytes[3]=2;w.u64(1);}
     for(auto v:{r.object_id_,r.object_revision_,r.document_revision_}) w.u64(v);
     w.u64(r.nucleus_);w.u64(static_cast<std::uint64_t>(p.feature));w.real(p.threshold);
     w.u64(p.connectivity);w.u64(static_cast<std::uint64_t>(std::int64_t(p.level)+1));w.u64(p.open_radius);w.u64(p.close_radius);w.u64(p.fill_holes);
@@ -70,13 +71,15 @@ std::shared_ptr<const TissueResult> TissueArchiveCodec::decode(const std::uint8_
     const std::string checksum(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(checksum) || digest(data,size-64,roi,cancelled)!=checksum) throw std::invalid_argument("tissue mask checksum mismatch");
     Reader d{data,size-64};if(d.byte()!='Q' || d.byte()!='T' || d.byte()!='M') throw std::invalid_argument("unsupported tissue mask encoding");
-    const auto version=d.byte();if(version!=1 && version!=2) throw std::invalid_argument("unsupported tissue mask encoding");
-    const auto policy=version==2?d.u64():0;
+    const auto version=d.byte();if(version!=1 && version!=2 && version!=3) throw std::invalid_argument("unsupported tissue mask encoding");
+    const auto policy=version>=2?d.u64():0;
+    const auto sigma=version==3?d.real():0.;
+    if(version==3 && (policy>1 || sigma<=0 || sigma>16)) throw std::invalid_argument("invalid smoothed tissue recipe");
     if((version==2 && policy!=1)) throw std::invalid_argument("unsupported tissue sampling policy");
     auto r=std::shared_ptr<TissueResult>(new TissueResult());r->roi_=std::move(roi);r->image_bounds_={0,0,double(metadata.width),double(metadata.height)};
     r->object_id_=d.u64();r->object_revision_=d.u64();r->document_revision_=d.u64();r->nucleus_=d.limited(1)!=0;
     if(!r->object_id_ || r->object_revision_>r->document_revision_) throw std::invalid_argument("invalid tissue mask identity");
-    auto& p=r->parameters_;p.sampling_policy=static_cast<RoiSamplingPolicy>(policy);p.feature=static_cast<TissueFeature>(d.limited(3));p.threshold=d.real();p.connectivity=static_cast<int>(d.limited(8));
+    auto& p=r->parameters_;p.smoothing_sigma=sigma;p.sampling_policy=static_cast<RoiSamplingPolicy>(policy);p.feature=static_cast<TissueFeature>(d.limited(3));p.threshold=d.real();p.connectivity=static_cast<int>(d.limited(8));
     p.level=static_cast<std::int32_t>(std::int64_t(d.limited(std::uint64_t(std::numeric_limits<std::int32_t>::max())+1))-1);
     p.open_radius=static_cast<int>(d.limited(256));p.close_radius=static_cast<int>(d.limited(256));p.fill_holes=d.limited(1)!=0;
     p.max_hole_pixels=d.u64();p.min_pixels=d.u64();p.max_pixels=d.u64();p.tile_size=static_cast<std::size_t>(d.limited(1024));p.max_components=static_cast<std::size_t>(d.limited(1000000));p.work_bytes=static_cast<std::size_t>(d.limited(512u*1024u*1024u));p.validate();
@@ -100,7 +103,7 @@ std::shared_ptr<const TissueResult> TissueArchiveCodec::decode(const std::uint8_
     if(r->cleanup_ms_<0 || r->elapsed_ms_<r->cleanup_ms_ || (!tissue_detail::enabled(p) && (r->cleaned_pixels_!=r->threshold_pixels_ || r->filled_pixels_ || r->cleanup_ms_)) ||
        (!p.fill_holes && r->filled_pixels_) || (components==0)!=(r->foreground_pixels_==0)) throw std::invalid_argument("invalid tissue mask statistics");
     const auto capacity=std::min<std::uint64_t>(count,p.max_components);
-    const auto estimate=count*(tissue_detail::enabled(p)?9:8)+capacity*sizeof(TissueComponent)+16ull*p.tile_size*p.tile_size+65536;
+    const auto estimate=tissue_detail::work_bytes(count,capacity,p);
     if(estimate!=r->estimated_work_bytes_ || count*4+components*sizeof(TissueComponent)+r->roi_.payload_bytes()>256u*1024u*1024u) throw std::invalid_argument("tissue mask exceeds its decoded budget");
     for(int i=0;i<64;++i) r->input_sha256_.push_back(static_cast<char>(d.byte()));if(!hex(r->input_sha256_)) throw std::invalid_argument("invalid tissue input digest");
     const bool compressed=d.limited(1)!=0;const auto entries=d.limited(count);

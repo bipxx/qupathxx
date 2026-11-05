@@ -2,11 +2,19 @@
 #include "qupathxx/tissue.hpp"
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <limits>
 #include <stdexcept>
 namespace qpx::tissue_detail {
 inline bool enabled(const TissueParameters& p) {return p.open_radius || p.close_radius || p.fill_holes;}
+inline std::uint64_t work_bytes(std::uint64_t count,std::uint64_t capacity,const TissueParameters& p) {
+    const bool smooth=p.smoothing_sigma>0;
+    const auto kernel=smooth?std::uint64_t(2*std::ceil(3*p.smoothing_sigma)+1)*sizeof(double):0;
+    return count*(smooth?41:enabled(p)?9:8)+capacity*sizeof(TissueComponent)+16ull*p.tile_size*p.tile_size+65536+kernel;
+}
 inline const char* algorithm(const TissueParameters& p,std::int32_t level) {
+    if(p.smoothing_sigma>0) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?
+        "qpx.threshold-components/winding-4":"qpx.threshold-components/4";
     if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding)
         return enabled(p)?"qpx.threshold-components/winding-3":level?"qpx.threshold-components/winding-2":"qpx.threshold-components/winding-1";
     return enabled(p)?"qpx.threshold-components/3":level?"qpx.threshold-components/2":"qpx.threshold-components/1";

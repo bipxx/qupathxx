@@ -852,7 +852,7 @@ struct GuiOptions {
     std::vector<double> analysis_vectors={.65,.70,.29,.07,.99,.11};
     std::vector<double> analysis_white={255,255,255};
     int tissue_feature=0,tissue_connectivity=8;
-    double tissue_threshold=.3;
+    double tissue_threshold=.3,tissue_smoothing_sigma=0;
     std::uint64_t tissue_min_pixels=1,tissue_max_pixels=0;
     int tissue_open_radius=0,tissue_close_radius=0;
     bool tissue_fill_holes=false;

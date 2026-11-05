@@ -49,7 +49,7 @@ struct MeasurementTableRequest::Data {
     };
     MeasurementTableKind kind;MeasurementTableOptions options;
     std::vector<Image> images;std::vector<Entry> entries;
-    bool project=false;std::string identity;std::uint64_t revision=0,generation=0,rows=0;
+    bool project=false,smoothed_tissue=false;std::string identity;std::uint64_t revision=0,generation=0,rows=0;
     std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("measurement table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& ids={}) {
@@ -58,7 +58,7 @@ struct MeasurementTableRequest::Data {
             if(options.require_current && status!="current") throw std::invalid_argument("measurement table requires current verified records");
             charge(sizeof(Entry)+record->payload_bytes());Entry e;e.image=index;e.status=status_code(status);
             if constexpr(std::is_same_v<decltype(record),std::shared_ptr<const AnalysisRecord>>) {e.roi=std::move(record);++rows;}
-            else {e.tissue=std::move(record);const auto count=std::max<std::size_t>(1,e.tissue->result->components().size());if(count>std::numeric_limits<std::uint64_t>::max()-rows) throw std::overflow_error("measurement row count overflow");rows+=count;}
+            else {e.tissue=std::move(record);smoothed_tissue=smoothed_tissue || e.tissue->result->parameters().smoothing_sigma>0;const auto count=std::max<std::size_t>(1,e.tissue->result->components().size());if(count>std::numeric_limits<std::uint64_t>::max()-rows) throw std::overflow_error("measurement row count overflow");rows+=count;}
             entries.push_back(std::move(e));
         };
         if(kind==MeasurementTableKind::Roi) {
@@ -111,13 +111,14 @@ struct MeasurementTableWriter {
         h+="table_schema,record_id,source_object_id,source_object_revision,captured_document_revision,export_document_revision,status_at_capture,algorithm,input_sha256,nucleus,roi_kind,roi_min_x_px,roi_min_y_px,roi_width_px,roi_height_px,roi_area_px2,roi_length_px,captured_pixel_width_um,captured_pixel_height_um,roi_area_um2,roi_length_um,captured_unix_ms,source_tree_sha256,white_r,white_g,white_b,stain_1_r,stain_1_g,stain_1_b,stain_2_r,stain_2_g,stain_2_b,stain_3_r,stain_3_g,stain_3_b,";
         if(request.kind()==MeasurementTableKind::Roi) h+="channel_space,samples,tiles,tile_size,mean_channel_1,mean_channel_2,mean_channel_3,elapsed_ms\r\n";
         else h+="producer,level,downsample,detection_feature,threshold,connectivity,requested_level,open_radius_sample_px,close_radius_sample_px,fill_holes,max_hole_samples,min_component_samples,max_component_samples,tile_size,max_components,work_bytes,samples,threshold_samples,cleaned_samples,filled_samples,foreground_samples,raw_components,kept_components,component_label,component_samples,component_min_x_px,component_min_y_px,component_width_px,component_height_px,component_centroid_x_px,component_centroid_y_px,component_area_px2,component_area_um2,cleanup_ms,elapsed_ms\r\n";
+        if(request.data_->smoothed_tissue) {h.resize(h.size()-2);h+=",smoothing_sigma_sample_px\r\n";}
         return h;
     }
     static Row prefix(const MeasurementTableRequest& request,const MeasurementTableRequest::Data::Entry& entry) {
         const auto& d=*request.data_;const auto& image=d.images.at(entry.image);const auto* t=entry.tissue?entry.tissue->result.get():nullptr;const auto* a=entry.roi?&entry.roi->result:nullptr;
         const auto& roi=a?entry.roi->roi:t->roi();const auto& provenance=a?a->provenance:t->provenance();Row row;
         if(d.project) {row.string(d.identity);row.integer(d.generation);row.integer(d.revision);row.integer(image.id);row.string(image.name);}
-        row.string(std::string(d.project?"qpx.project-":"qpx.")+(a?"roi-table/1":"tissue-table/1"));
+        row.string(std::string(d.project?"qpx.project-":"qpx.")+(a?"roi-table/1":d.smoothed_tissue?"tissue-table/2":"tissue-table/1"));
         row.integer(a?entry.roi->id:entry.tissue->id);row.integer(a?a->object_id:t->object_id());row.integer(a?a->object_revision:t->object_revision());
         row.integer(a?a->document_revision:t->document_revision());row.integer(image.revision);row.string(status_name(entry.status));
         row.string(a?a->algorithm:t->algorithm());row.string(a?a->input_sha256:t->input_sha256());row.integer(a?a->nucleus:t->nucleus());row.integer(static_cast<unsigned>(roi.kind()));
@@ -130,7 +131,7 @@ struct MeasurementTableWriter {
     }
     template<class Sink> static void run(const MeasurementTableRequest& request,Sink&& sink,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr) {
         export_checkpoint(cancelled);sink(header(request));std::uint64_t done=0;
-        auto emit=[&](Row& row) {sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);};
+        auto emit=[&](Row& row,double sigma=0.) {if(request.data_->smoothed_tissue) row.real(sigma);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);};
         for(const auto& entry:request.data_->entries) {
             export_checkpoint(cancelled);auto row=prefix(request,entry);
             if(entry.roi) {
@@ -141,12 +142,12 @@ struct MeasurementTableWriter {
                 for(auto value:{std::uint64_t(p.open_radius),std::uint64_t(p.close_radius),std::uint64_t(p.fill_holes),p.max_hole_pixels,p.min_pixels,p.max_pixels,std::uint64_t(p.tile_size),std::uint64_t(p.max_components),std::uint64_t(p.work_bytes),r.samples(),r.threshold_pixels(),r.cleaned_pixels(),r.filled_pixels(),r.foreground_pixels(),r.raw_components(),std::uint64_t(r.components().size())}) row.integer(value);
                 const auto& provenance=r.provenance();auto x=provenance?provenance->effective_pixel_width_um:std::optional<double>{};auto y=provenance?provenance->effective_pixel_height_um:std::optional<double>{};
                 const auto saved=row;
-                if(r.components().empty()) {for(int i=0;i<10;++i) row.separator();row.real(r.cleanup_ms());row.real(r.elapsed_ms());emit(row);}
+                if(r.components().empty()) {for(int i=0;i<10;++i) row.separator();row.real(r.cleanup_ms());row.real(r.elapsed_ms());emit(row,p.smoothing_sigma);}
                 for(const auto& component:r.components()) {
                     export_checkpoint(cancelled);row=saved;row.integer(component.label);row.integer(component.pixels);
                     for(auto value:{component.bounds.x,component.bounds.y,component.bounds.width,component.bounds.height,component.centroid.x,component.centroid.y}) row.real(value);
                     const double area=double(component.pixels)*r.downsample()*r.downsample();row.real(area);if(x && y) row.real(area* *x* *y);else row.separator();
-                    row.real(r.cleanup_ms());row.real(r.elapsed_ms());emit(row);
+                    row.real(r.cleanup_ms());row.real(r.elapsed_ms());emit(row,p.smoothing_sigma);
                 }
             }
         }

@@ -2,6 +2,7 @@
 #include "sha256.hpp"
 #include "calibrated_cell_numeric.hpp"
 #include "tissue_cleanup.hpp"
+#include "masked_gaussian.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -30,6 +31,7 @@ void TissueParameters::validate() const {
     validate_sampling_policy(sampling_policy);
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
         throw std::invalid_argument("invalid tissue feature");
+    if(!std::isfinite(smoothing_sigma) || smoothing_sigma<0 || smoothing_sigma>16) throw std::invalid_argument("tissue smoothing sigma must be finite and 0..16 sampled pixels");
     if(!std::isfinite(threshold)) throw std::invalid_argument("tissue threshold must be finite");
     if(connectivity!=4 && connectivity!=8) throw std::invalid_argument("tissue connectivity must be 4 or 8");
     if(level< -1) throw std::invalid_argument("tissue level must be -1 (auto) or nonnegative");
@@ -58,7 +60,7 @@ TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const Sta
         const auto w=static_cast<std::uint64_t>(x1-x0),h=static_cast<std::uint64_t>(y1-y0);
         if(w>std::numeric_limits<std::uint32_t>::max()/h) continue;
         const auto count=w*h,capacity=std::min<std::uint64_t>(count,parameters.max_components);
-        const auto estimate=count*(tissue_detail::enabled(parameters)?9:8)+capacity*sizeof(TissueComponent)+16ull*parameters.tile_size*parameters.tile_size+65536;
+        const auto estimate=tissue_detail::work_bytes(count,capacity,parameters);
         if(estimate>parameters.work_bytes || (found && l.downsample>=downsample_)) continue;
         // Validate the furthest nominal tile before the worker allocates/decodes.
         const auto step=static_cast<std::int64_t>(parameters.tile_size);
@@ -100,13 +102,14 @@ struct TissueKernel {
         output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
         output->roi_=source.roi_;output->image_bounds_={0,0,double(source.source_->metadata().width),double(source.source_->metadata().height)};
         output->algorithm_=tissue_detail::algorithm(p,request.level_);
-        const bool cleanup=tissue_detail::enabled(p);
+        const bool cleanup=tissue_detail::enabled(p),smooth=p.smoothing_sigma>0;
         output->parameters_=p;output->estimated_work_bytes_=request.estimated_work_bytes_;
         output->object_id_=source.object_id_;output->object_revision_=source.object_revision_;output->document_revision_=source.document_revision_;
         output->nucleus_=source.nucleus_;output->white_=source.transform_.white();output->stains_=source.transform_.stains();
         output->labels_.resize(count);output->components_.reserve(request.component_capacity_);
         std::vector<std::uint32_t> queue;queue.reserve(count);
-        std::vector<std::uint8_t> domain;if(cleanup) domain.resize(count);
+        std::vector<std::uint8_t> domain;if(cleanup || smooth) domain.resize(count);
+        std::vector<double> scores;if(smooth) scores.resize(count);
         auto& labels=output->labels_;constexpr auto foreground=std::numeric_limits<std::uint32_t>::max();
         Sha256 digest;const std::string format=output->input_format();digest.update(format.data(),format.size());
         digest.integer(static_cast<std::uint64_t>(source.source_->metadata().width));digest.integer(static_cast<std::uint64_t>(source.source_->metadata().height));
@@ -139,9 +142,12 @@ struct TissueKernel {
                         }
                         ++output->samples_;
                         const auto target=static_cast<std::size_t>((y-request.y0_+row)*width+x-request.x0_+col);
-                        if(cleanup) domain[target]=1;
+                        if(cleanup || smooth) domain[target]=1;
                         const double score=stain_feature(p.feature)?data[i+static_cast<int>(p.feature)-1]:double(data[i])+double(data[i+1])+double(data[i+2]);
-                        if(score>=p.threshold) {labels[target]=foreground;++output->threshold_pixels_;}
+                        if(smooth) {
+                            if(!std::isfinite(score)) throw std::runtime_error("nonfinite tissue smoothing feature");
+                            scores[target]=score;
+                        } else if(score>=p.threshold) {labels[target]=foreground;++output->threshold_pixels_;}
                     }
                 }
                 ++tiles;if(completed) completed->store(tiles,std::memory_order_relaxed);x+=w;
@@ -149,6 +155,15 @@ struct TissueKernel {
             y+=h;
         }
         if(!output->samples_) throw std::invalid_argument("tissue ROI contains no opaque pixel centers");
+        if(smooth) {
+            if(phase) phase->store(6);
+            detail::masked_gaussian(scores,domain,static_cast<std::size_t>(width),static_cast<std::size_t>(height),p.smoothing_sigma,[&]{check_cancelled(cancelled);});
+            for(std::size_t i=0;i<count;++i) {
+                if((i&4095)==0) check_cancelled(cancelled);
+                if(domain[i] && scores[i]>=p.threshold) {labels[i]=foreground;++output->threshold_pixels_;}
+            }
+            std::vector<double>().swap(scores);
+        }
         if(cleanup) {
             if(phase) phase->store(4);const auto began=std::chrono::steady_clock::now();
             if(p.open_radius) {
@@ -227,7 +242,7 @@ bool TissueJob::request(const TissueRequest& request) {
 TissueStats TissueJob::poll(const Document& document,std::uint64_t id) {
     if(impl_->request && !impl_->request->matches(document,id)) {impl_->stale=true;impl_->cancelled.store(true);impl_->result.reset();impl_->contours.reset();impl_->published=false;impl_->stats.state=busy()?"cancelling":"stale";}
     impl_->stats.completed_tiles=impl_->completed.load(std::memory_order_relaxed);
-    const auto phase=impl_->phase.load();impl_->stats.phase=phase==5?"contours":phase==4?"cleanup":phase==2?"components":phase==3?"complete":phase==0 && !busy()?"idle":"thresholding";
+    const auto phase=impl_->phase.load();impl_->stats.phase=phase==6?"smoothing":phase==5?"contours":phase==4?"cleanup":phase==2?"components":phase==3?"complete":phase==0 && !busy()?"idle":"thresholding";
     if(busy() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {auto completed=impl_->future.get();impl_->stats.elapsed_ms=completed.elapsed_ms;impl_->stats.completed_tiles=impl_->completed.load();
             if(impl_->stale) impl_->stats.state="stale";

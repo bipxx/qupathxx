@@ -200,7 +200,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     validate_sampling_policy(options.tissue_sampling_policy);
     TissueParameters tissue_parameters;
     tissue_parameters.sampling_policy=options.tissue_sampling_policy;
-    tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;
+    tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;tissue_parameters.smoothing_sigma=options.tissue_smoothing_sigma;
     tissue_parameters.connectivity=options.tissue_connectivity;tissue_parameters.min_pixels=options.tissue_min_pixels;tissue_parameters.max_pixels=options.tissue_max_pixels;
     tissue_parameters.level=options.tissue_level;tissue_parameters.open_radius=options.tissue_open_radius;tissue_parameters.close_radius=options.tissue_close_radius;
     detail::validate_tissue_area_limits(options.tissue_min_component_area_um2,options.tissue_max_component_area_um2);
@@ -2007,6 +2007,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
                 ui::EndCombo();
             }
+            tissue_changed=ui::InputDouble("Sigma (px)",&tissue_parameters.smoothing_sigma,0,0,"%.5g") || tissue_changed;
             tissue_changed=ui::InputDouble("Threshold >=",&tissue_parameters.threshold,0,0,"%.5g") || tissue_changed;
             tissue_changed=ui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
             tissue_changed=ui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
@@ -2016,7 +2017,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             tissue_changed=ui::Checkbox("Fill enclosed holes",&tissue_parameters.fill_holes) || tissue_changed;
             if(tissue_parameters.fill_holes) tissue_changed=ui::InputScalar("Hole max (0=all)",ImGuiDataType_U64,&tissue_parameters.max_hole_pixels) || tissue_changed;
             ImGui::PopItemWidth();
-            ui::TextDisabled("Radii and sizes use sampled pixels");
+            ui::TextDisabled("Sigma/radii/sizes: sampled px");
             ImGui::PushID("tissue_physical_area");
             tissue_changed=detail::cell_area_controls(tissue_min_area,tissue_max_area,true) || tissue_changed;
             ImGui::PopID();
@@ -2032,7 +2033,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
-                ui::TextDisabled("%s",tissue_status.phase=="contours"?"Tracing tissue contours...":tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
+                ui::TextDisabled("%s",tissue_status.phase=="smoothing"?"Smoothing tissue feature...":tissue_status.phase=="contours"?"Tracing tissue contours...":tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
                 if(ui::Button("Cancel tissue") || (tissue_key && io.KeyShift)) tissue.cancel();
             }
             ui::Checkbox("Show tissue mask",&show_tissue);

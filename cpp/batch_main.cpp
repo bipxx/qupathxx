@@ -73,6 +73,7 @@ int execute(const std::vector<std::string>& args) {
             "               --max-pixels N --max-blocks N (per target)\n"
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
+            "Tissue Gaussian: --tissue-sigma NUMBER (sampled pixels, 0..16)\n"
             "Tissue area: --tissue-min-area-um2 NUMBER --tissue-max-area-um2 NUMBER (inclusive)\n"
             "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
             "--roi-sampling coverage|winding  --tissue-sampling coverage|winding\n"
@@ -244,6 +245,7 @@ int execute(const std::vector<std::string>& args) {
             }
             else if(flag=="--cell-log-prominence") {legacy_cell_flags=true;options.cells.log_prominence=real(value());}
             else if(flag=="--cell-context-padding") {legacy_cell_flags=true;const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
+            else if(flag=="--tissue-sigma") options.tissue.smoothing_sigma=real(value());
             else if(flag=="--tissue-min-area-um2") options.tissue_min_component_area_um2=real(value());
             else if(flag=="--tissue-max-area-um2") options.tissue_max_component_area_um2=real(value());
             else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());

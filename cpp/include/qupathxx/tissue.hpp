@@ -15,6 +15,7 @@ struct TissueParameters {
     std::uint64_t min_pixels=1,max_pixels=0;
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    double smoothing_sigma=0; // Gaussian sigma in sampled pixels; 0 preserves raw thresholding.
     void validate() const;
 };
 class TissueRequest {
@@ -109,7 +110,7 @@ public:
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
-    std::size_t retained_bytes() const {return sizeof(TissueResult)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
+    std::size_t retained_bytes() const {return sizeof(TissueResult)-(parameters_.smoothing_sigma==0?sizeof(double):0)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
 private:
     friend struct TissueKernel;
     friend class Document;
