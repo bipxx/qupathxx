@@ -124,3 +124,41 @@ equality before removing duplicate temporary PPMs; PNG evidence remains. Atomic
 UTF-8 edits and actual capacity checks remained in use. Next M3: one settled
 wheel/install and exact installed user route/source/member checks. Named registry,
 QuPath formats/science, other hosts/resources/release and all M0-M7 remain open.
+
+## M3 installed file-reuse closeout — 2026-11-05
+
+One [cached wheel build](m3-wheel.log) and one [isolated install](m3-install.log)
+completed at6219a08f1713d641633156e70f12b3fd70331d82. The reused runtime environment
+now contains MODEL1; previous REGION1/GRID1 wheels, stages and receipts remain
+preserved. No new environment, binding-source compilation, stub generation or
+full qualification campaign was needed for M3.
+
+All [ten installed workflow cases](m3-installed.log) pass at this exact product:
+SDK file/JSON ownership/old export and saved replay, CLI full-basis match/resume/
+conflicts, managed capture, GUI load/apply/keep/save/reopen, failed-load preservation,
+OD-mode supplied-basis save, active image/project overwrite protection, saved-
+recheck full-basis save and stale image-switch rejection. The large estimate-file
+case proves the observed pending-load scenario on this Windows replay; it is not
+a general performance/resource or platform claim. [Standalone shipping smoke](m3-standalone-smoke.json)
+checks exact RGBA region extraction and successful empty-app startup/exit.
+
+[Shipping integrity](shipping-integrity.json) matches all495 actual compiler
+inputs to the loaded source-tree hash and all65 hashed wheel/RECORD/installed
+members, including the source stubs. [Reuse proof](m3-reuse-proof.json) confirms
+M2's495 source inputs and58 staged public/dependency members are byte-identical.
+Only four shipping products are excluded from that file comparison for provenance
+refresh/current region delivery. Keep M1/M2 format, guard, typing and UI results
+at their original scope. Installed source is clean6219a08f; the wheel SHA256 is
+2883d4807575f0ebf1849f0db47668d6cb532f6ff0a8864b3fb3615667bc4302.
+
+Waste review: no failed M3 attempt or duplicate build/install/stub campaign.
+Actual capacity was checked (~1.4GB before packaging), backend settings/runtime
+were reused, and existing standalone flags were reused from the prior verified
+smoke. Atomic edits, phase-specific paths and prior failed artifacts remain.
+The earlier observer/API/scroll issues did not recur in installed execution.
+
+MODEL1 is locally verified for this bounded exact model-file reuse workflow.
+It does not close wider named preset/catalogue/registry, QuPath profile formats,
+estimator biological parity, resource/speed, host support or release requirements.
+Next trace named profile/preset behavior against ImageAnalysisSettings and pinned
+upstream defaults; select a demonstrated gap or reuse existing evidence.

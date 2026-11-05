@@ -1,6 +1,6 @@
 # Reusable stain model files — MODEL1 contract
 
-Status: native foundation and staged consumers pass; installed closeout pending. This is model
+Status: locally verified for the bounded file-reuse workflow; [installed evidence](benchmarks/stain-model-r7/README.md#m3-installed-file-reuse-closeout--2026-11-05). This is model
 exchange using the current native StainTransform, not a new estimator, model
 registry, QuPath file-format promise or scientific-parity claim.
 
@@ -126,11 +126,11 @@ load the same native value and pass it to existing analysis commands.
 
 ImGui provides Model file, Load stain model and Save stain model controls. I/O
 runs on native workers; adoption checks the current document/image/project and
-model settings. Failed/stale loads preserve the prior model. Saves protect open
+model settings. Failed/stale loads preserve the prior model. Saves protect captured active
 image/companion/project paths before writing and committing. Saved-analysis
 recheck restores the complete basis for later model saves. Status/digest/errors
 wrap within the inspector. GuiInputWait.STAIN_MODEL_FINISHED supports replay
 without fixed I/O delays; it includes loaded, saved, failed and stale outcomes.
 
-These are staged-verified routes. Wider named registry and QuPath profile-format
+These are installed-verified routes within the recorded Windows scope. Wider named registry and QuPath profile-format
 support remain separate gaps; no new project schema or estimator was introduced.
