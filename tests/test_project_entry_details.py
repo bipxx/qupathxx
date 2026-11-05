@@ -161,10 +161,10 @@ def test_stale_attributes_preserve_preview_and_missing_source_keeps_inspection(t
 @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in entry details desktop')
 def test_desktop_inspects_changed_attributes_and_saves(tmp_path):
     from test_gui_replay import event
-    project,image,doc,source=workspace(tmp_path);target=tmp_path/'desktop.qpxproj';project.save(str(target));project.set_image_details(image,'Desktop saved α\nsecond line',['desktop-tag','α',''])
+    project,image,doc,source=workspace(tmp_path);target=tmp_path/'desktop.qpxproj';project.save(str(target));project.set_image_metadata(image,RICH);project.set_image_details(image,'Desktop saved α\nsecond line',['desktop-tag','α',''])
     options=q.GuiOptions();options.width=1500;options.height=1400;options.project_image_path=str(source);options.inputs=[event(20,q.GuiInputKind.SAVE_KEY)]
     report=q.show(project,frame_limit=45,capture_path=str(tmp_path/'entry-details.ppm'),options=options);assert report.replay_complete
-    assert_details(q.Project.open(str(target)),image,'Desktop saved α\nsecond line',['desktop-tag','α',''])
+    restored=q.Project.open(str(target));assert_details(restored,image,'Desktop saved α\nsecond line',['desktop-tag','α','']);assert restored.image_metadata(image)==RICH
 
 
 @pytest.mark.parametrize('fields,description,tags',[({},None,[]),({'description':None,'tags':None},None,[]),({'description':'','tags':[]},'',[]),({'tags':['b','a','b','']},None,['b','a',''])],ids=['absent','null','empty','duplicate-order'])

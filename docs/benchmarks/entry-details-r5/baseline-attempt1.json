@@ -1,0 +1,6 @@
+{
+  "expected_loss_count": 3,
+  "observed_loss_count": 4,
+  "failure": "AssertionError in baseline expectation; JSON primitive empty string is reported as a description loss by the old importer",
+  "action": "Retain explicit empty description as a distinct supported state; correct baseline expectation, no product/source capture repair"
+}

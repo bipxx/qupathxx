@@ -2,50 +2,68 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. R5-ENTRYMETA1 is locally verified in its
-[recorded scope](benchmarks/entry-metadata-r5/README.md).
+All M0-M7 remain Partial. R5-ENTRYDETAILS1 is locally verified in its
+[recorded scope](benchmarks/entry-details-r5/README.md).
 
-Current: **R5-ENTRYDETAILS1 — project-entry tags and description** (contract inspection ready).
+Current: **R5-ENTRYEDIT1 — GUI authoring of entry metadata/details** (ready).
 
-- Outcome: retain both remaining known entry attributes on ProjectImage/Project
-  with exact strings and tag-set semantics, independently of short metadata,
-  ImageData properties and historical root/ROI facts.
-- Entry/evidence: cpp/qupath_project.cpp still reports nonempty tags/description
-  as image_metadata_dropped. The entry-metadata fixture's with-losses case already
-  captures both through actual QuPath save/reload. Existing project map/state,
-  snapshot/schema23 and inspector/SDK APIs provide the implementation pattern.
-- First action: inspect pinned tags/description serialization and current entry
-  APIs, especially null/empty defaults, tag uniqueness/order and text limits.
-  Settle both attribute contracts together before editing the shared header.
-- Contract: owning copies, atomic replacement/clear/no-op, project dirty lifecycle,
-  bounded exact UTF8/tag values, snapshot accounting and transactional old-default
-  migration. Keep unsupported fields and global metadata explicitly tracked.
-- Reuse: current capture/readout and parent source, ProjectImage/Project, source
-  review/publication and existing store/inspector/SDK. No new model/codec or
-  metadata/ROI/reader/math recapture; capture only a demonstrated missing form.
-- Checks/stop: independent exact values/sets and source-ID binding, absence/empty
-  defaults, invalid and stale/refusal atomicity, update/snapshot/save/reopen and
-  actual saved-geometry import/Python/desktop use. Settle interfaces before one
-  cached build, one necessary stub/install pass and a scoped waste handoff.
-- Dependencies: engineering can proceed now. Research labels, project license
-  and release support decisions block only their claims. Only openly licensed
-  readers and required codecs are eligible. Broader R4/R5 and R6-R16 stay queued.
+- Outcome: a researcher edits short metadata, nullable description and ordered
+  tags in the existing sidebar, with Apply/Cancel and saved/reopened exact state.
+- Entry/evidence: cpp/gui.cpp currently exposes read-only entry fields; Project
+  now provides owning getters and atomic set_image_metadata/set_image_details.
+  Snapshot/schema24/import/SDK contracts already have scoped evidence.
+- First action: inspect current ImGui text-edit/replay helpers and sidebar state.
+  Design bounded transient drafts and separate native apply actions for metadata
+  versus the atomic description/tag pair. Reuse the settled APIs; no public header,
+  native model, persistence format or codec change for an already supported edit.
+- Contract: preserve UTF8, None/empty and first tag order; duplicate-key feedback,
+  clear/cancel/no-op and native refusal without partial live edits. Bind drafts
+  to project/image; detect replacement/removal or changed baseline fields before
+  stale application. Refresh existing dirty/catalog state on success.
+- Reuse: current fixture/reference and installed entry-details product fb5d714d
+  within unchanged native scope, project/store validators and inspector. Avoid
+  repeating migrations/numerics/typing or generating stubs for a UI-only change.
+- Checks/stop: actual add/edit/remove/clear/cancel/refusal and stale-context flows,
+  metadata versus details namespace independence, exact save/reopen and affected
+  package/UI lifetime behavior. One cached candidate after consumer design settles;
+  record scoped evidence and waste handoff, keeping broader parity open.
+- Cost boundary: expected UI-only compiler changes; one cached candidate and
+  affected installed UI/package checks after drafts and interactions settle.
+  No new capture, schema migration, stub generation or numerical campaign unless
+  a demonstrated change invalidates the retained evidence. Record the reason
+  before any repeat build/install/check.
+- Scope stop: close when the declared authoring/save/reopen and stale-draft flows
+  pass. Put newly discovered independent gaps back in R4/R5 rather than extending
+  this task. Reconcile that remaining inventory once, then take the next ready
+  gap or R6 context/halo replay.
+- Dependencies: engineering can proceed now. Research labels, license and release
+  support choices block only their claims. Only openly licensed readers/codecs
+  are eligible. Global metadata/other R4/R5 and R6-R16 work remain in the queue.
 
-Latest task review (2026-11-04, ENTRYDETAILS1 candidate preparation):
-Outcome/evidence: source integration and44 new product controls are ready;
-selected new/affected project/import/legacy tests collect with bounded semantic
-IDs. Pinned references/parent/probe identity pass. Old b4abea1b reports four losses,
-including empty description, and lacks the pair API. No product build/run yet.
-Waste/action: **merge** both attributes before one header edit; **reuse** captured
-builder/source and current Project authority/snapshot/store/inspector. A baseline
-count assumption and glob matching its own receipt were corrected without any
-native or capture retry; diagnostics retained. Short IDs prevent1MiB payloads
-inflating logs. Reuse the trimmed backend's four selected native roles.
-Next: freeze/build once, execute the selected metadata/details/import/store/
-legacy cohort, four native roles and actual changed-state inspector/save. Then
-one stub/repackage/install/typing pass and exact native/member identity checks.
-No new model/codec, raw geometry/math recapture or per-attribute build cycle.
+Latest task review (2026-11-04, ENTRYDETAILS1 closeout):
+Outcome/evidence:203 staged passes/seven GUI skips, four native roles covering
+all23 older migrations, combined changed-metadata/description/tag UI save/reopen,
+installed snapshot/separate budgets, five public-stub and positive/three-negative
+typing checks pass. Nullable/empty text, first-occurrence tag order and actual
+v1/v2 saved geometry routes retain exact state. All465 compiler inputs and65
+installed hashed members match; combined screenshot inspected.
+Waste/action: **merge** both attributes before one585.09s ABI/header build;
+**reuse** captured builder/source and current Project/snapshot/store/inspector.
+One entry-only supplement, one stub pass and one uv install; no new codec/model
+or pixel/ROI/math recapture. Retain baseline count/glob failures and correct via
+explicit directory/file checks; short semantic IDs prevent huge payload logs.
+Next: reuse these now-settled native APIs for UI authoring, avoiding another
+public-header/layout or binding change unless a concrete missing operation is
+found. Scope remains retention/native-Python editing/read-only inspection until
+ENTRYEDIT1's actual authoring flow passes; full R5/science/resources/release open.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
 next action, dependencies, reuse, checks and stop condition before continuing.
+
+Plan-maintenance review (2026-11-04): remaining R2-R16 families stay in the single
+queue. Added explicit task scope/cost boundaries and a one-time R4/R5 handoff
+reconciliation. Waste/action: reuse the existing queue, receipts and closeout
+format; remove any need for a second backlog, cost ledger or review campaign.
+Documentation-only change: check links/consistency/diff; no build or tests needed.
+Next implementation remains ENTRYEDIT1 with the first action and stop above.

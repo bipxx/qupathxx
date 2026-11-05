@@ -274,5 +274,5 @@ unsupported representations still require their existing loss review.
 
 Short project-entry metadata maps now have [scoped retention](project-entry-metadata.md)
 through ProjectImage/Project and manifest/exchange1/2 imports, including actual
-saved geometry routes. Tags, description and global project metadata remain
-distinct losses pending their queued contracts.
+saved geometry routes. [Tags and description](project-entry-details.md) also have scoped retention
+through their project authority. Global project metadata remains a distinct loss.

@@ -85,7 +85,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. Continue with grouped tags/description while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. Continue with GUI entry authoring through the settled APIs while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -150,17 +150,18 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 assisted state | [Explicit native/GeoJSON state routes](benchmarks/assisted-state-r5/README.md) | Exchange1 compatibility, exchange2 native facts/defaults/properties/TMA and mixed routes, source guards and actual Python/desktop import/save; broader calibration/metadata/records remain open |
 | R5 saved physical axes | [Z/time calibration](benchmarks/axis-calibration-r5/README.md) | Recognized native/direct-v2 Z spacing and explicit timestamp units/offsets/order/prefixes, owning history/snapshots/schema22, source compatibility and actual Python/desktop; acquisition metadata/historical recipes remain unchanged |
 | R5 project-entry maps | [Owning metadata strings](benchmarks/entry-metadata-r5/README.md) | ProjectImage/Project replacement/getters, exact UTF8/bounds, source binding, actual saved-geometry routes, snapshot/schema23/SDK/inspector; tags/description/global metadata remain separate |
+| R5 entry tags/description | [Nullable descriptions/ordered tags](benchmarks/entry-details-r5/README.md) | Atomic native/Python pair editing, exact null/empty/insertion order, snapshots/schema24, actual import geometry and read-only inspector; GUI authoring/global metadata remain open |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R5-ENTRYDETAILS1, project-entry tags and description**.
-ENTRYMETA1 is [locally verified](benchmarks/entry-metadata-r5/README.md) for
-owning short string maps across project/import/snapshot/schema23/SDK/inspector.
-Its pinned fixture already captures distinct tags and description, still reported
-as losses. Settle both remaining entry attributes together before the next
-ProjectImage/header edit; reuse that capture and project authority.
-Other global metadata, calibration, formats, races and losses remain open.
+Active bounded task: **R5-ENTRYEDIT1, GUI authoring of entry metadata/details**.
+ENTRYDETAILS1 is [locally verified](benchmarks/entry-details-r5/README.md) for
+nullable description and ordered unique tags, alongside short metadata. Native/
+Python editing and read-only inspection are delivered; the existing sidebar has
+no authoring controls for those fields. Reuse the settled getter/setter APIs and
+store, avoiding another public-header/model/codec change for a frontend gap.
+Global project metadata, formats, races and broader parity remain open.
 
 ## Execution order for finishing the remaining work
 
@@ -171,7 +172,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-ENTRYDETAILS1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-ENTRYEDIT1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -185,7 +186,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 next: settle tags/description together through ProjectImage/Project, reusing captured fields before one header edit. Then global metadata/other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 next: editable sidebar flows through existing atomic setters. Then global metadata/other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -210,6 +211,29 @@ On completion, mark only the state supported by evidence: engineering verificati
 scientific acceptance and release support remain separate. Close an R family only
 when its remaining inventory entries are accepted or explicitly deferred with a
 scope decision. Close M0-M7 against project-plan criteria, not task counts.
+
+### Task boundaries and cost controls
+
+Before starting the selected slice, put its included outcome and explicitly
+remaining gaps in current-task.md. Choose the smallest complete user workflow,
+not an entire R family. New findings join the existing family; expand the active
+slice only when they prevent its declared outcome or invalidate its evidence.
+This prevents an open-ended migration or validation effort from delaying the
+next research workflow.
+
+State the expected expensive operations in that same card: which compiler
+inputs change, whether a native build/install/stub generation is needed, and
+which retained results can be reused. This is a planning estimate, not a quota
+that can justify skipping a necessary check. Before repeating an expensive
+operation, identify the changed input or unresolved failure and update the card.
+Do not add a timer, reporting framework or separate cost ledger for this rule.
+
+After ENTRYEDIT1, reconcile the remaining R4/R5 inventory once against the
+existing implementation and receipts. Select the first demonstrated gap with a
+bounded outcome; do not start another general import audit or recapture already
+accepted fields. When no independent R4/R5 implementation is ready, advance to
+R6 context/halo replay. Keep any blocked scientific acceptance or owner decision
+in its existing row with a concrete re-entry condition.
 
 ### Completion gates and task handoff
 
@@ -245,20 +269,21 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active ENTRYDETAILS1 slice, use the existing entry-metadata capture's
-with-losses case. Inspect the pinned tags-set and description API/serialization,
-null/empty/default semantics and current ProjectImage lifecycle. Settle both
-attributes and their owning getters, atomic update semantics, limits, snapshot/
-store migration and inspector contracts before changing the shared header.
-Retain exact strings and tag-set semantics independently of metadata maps,
-ImageData properties and root facts. Capture only an actually missing upstream
-representation; ordinary type/boundary controls can be synthetic and labeled.
-Verify old defaults, malformed/source-stale refusal, actual saved geometry/import
-routes, update/snapshot/save/reopen and affected Python/desktop consumers before
-one scoped closeout. No new state class, duplicate codec or unrelated campaign
-is needed when the existing project authority suffices.
+For the active ENTRYEDIT1 slice, inspect existing text-edit and replay primitives
+and the current read-only source/name sidebar. Provide bounded transient drafts
+for metadata key/value rows, nullable description and ordered tags. Apply through
+Project.set_image_metadata or the atomic details pair setter, with clear Apply/
+Cancel/no-op behavior and duplicate-key feedback. Keep Project as authority;
+frontend drafts do not replace models/codecs or duplicate native validation.
+Bind drafts to the opened project/image and detect replacement/removal or same-
+field edits before applying stale data. Refresh existing listing/dirty state after
+success. Exercise real add/edit/remove/clear/cancel/refusal and saved/reopened
+state, including UTF8 and None/empty distinctions. Use existing automation where
+possible; add public API/header surface only for a demonstrated missing operation.
+Reuse unchanged native/store/typing evidence; a UI-only change needs affected
+actual UI and package checks, not repeated numerical or migration campaigns.
 
-After ENTRYDETAILS1, select the first demonstrated remaining R4/R5 loss or edit gap
+After ENTRYEDIT1, select the first demonstrated remaining R4/R5 loss or edit gap
 from the existing inventory. Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent

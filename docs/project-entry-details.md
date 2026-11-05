@@ -1,6 +1,6 @@
-# Project-entry tags and description (ENTRYDETAILS1, candidate pending)
+# Project-entry tags and description
 
-Source implementation is connected; product build/verification is pending. Both
+R5-ENTRYDETAILS1 is [locally verified](benchmarks/entry-details-r5/README.md). Both
 attributes extend existing ProjectImage/Project state, independently of entry
 metadata, ImageData properties and root/ROI facts. The
 [pinned supplement](../tests/fixtures/qupath-entry-details-0.7.0/manifest.json)
@@ -37,10 +37,15 @@ read-only description viewport and clipped ordered tag rows/full hover values.
 Python supplies atomic editing for this slice. Metadata-map values keep their
 own namespace and getter/setter behavior.
 
-Verify captured/independent values, optional defaults and duplicate order, owning
-getters/listings, no-op/clear and failed pair updates, exact limits, each attribute's
-snapshot budget/ownership, corrupt/orphan store rows, legacy23 rollback/upgrade,
-actual geometry and stale/missing-source behavior, changed-state desktop save,
-installed SDK/stubs/typing and affected project/import/native migrations before
-scoped acceptance. Broader global metadata/formats/research/resources/support/
-release remain queued; no general speed or full QuPath parity claim is implied.
+The receipt verifies captured exact values/order, optional/default/duplicate order,
+owning getters/listings, no-op/clear and atomic invalid pair updates, exact limits,
+separate snapshot budgets/ownership, corrupt/orphan store rows, schema23 rollback/
+upgrade, actual saved-geometry and stale/missing-source behavior, combined changed
+metadata/details UI save, installed SDK/stubs/typing and native project migrations.
+Compiled and observer/stub identities remain separate.
+
+One grouped ABI/header candidate, one stub generation and one install were used.
+Native/Python authoring and read-only inspector are delivered; GUI authoring is the
+[next task](current-task.md), reusing these settled APIs. Global metadata/formats/
+research/resources/support/release remain queued; this receipt establishes no
+full QuPath parity or general speed claim.

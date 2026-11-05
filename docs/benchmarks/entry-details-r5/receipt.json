@@ -1,0 +1,38 @@
+{
+  "requirement": "R5-ENTRYDETAILS1",
+  "product_source": "fb5d714d3ac41ad36304591733b8a99264c1f5ff",
+  "platform": "Windows x64 CPython3.12 Release; GUI/TIFF/OpenSlide/GEOS/project/interchange enabled",
+  "fixture": "../../../tests/fixtures/qupath-entry-details-0.7.0/manifest.json",
+  "results": {
+    "staged": {
+      "passed": 203,
+      "skipped": 7
+    },
+    "native_roles": 4,
+    "desktop_combined_entry_attributes": 1,
+    "installed_snapshot_and_each_attribute_budget": 1,
+    "public_stubs": 5,
+    "positive_typing": true,
+    "expected_negative_diagnostics": 3
+  },
+  "cost": {
+    "product_builds": 1,
+    "build_seconds": 585.0914628000464,
+    "entry_only_supplement_runs": 1,
+    "stub_generations": 1,
+    "final_installs": 1,
+    "server_pixel_roi_recaptures": 0
+  },
+  "semantics": "Nullable description retains None versus empty text; ordered unique tags preserve first occurrence, exact case/UTF8 and empty tags. Atomic pair replacement/getters on Project; owning ProjectImage fields, snapshot accounting and schema24 sparse normalized rows.",
+  "limits": [
+    "1MiB UTF8 description;4096 tag inputs/4096 bytes each/1MiB estimated unique-tag payload; invalid NUL/types/null members refuse.",
+    "Read-only inspector and native/Python editing; GUI authoring remains next. Global metadata and broader R5 formats/races/science/resources/host/release remain open."
+  ],
+  "failures_retained": [
+    "Baseline expected three losses, but old JSON string handling also reported explicit empty description: actual four. Corrected expectation only.",
+    "Baseline glob matched baseline-attempt1.json rather than a directory; filtered unique directory and checked project file before retry.",
+    "Initial automatic pytest IDs expanded1MiB boundary payloads into large collection output; short semantic IDs installed before product verification."
+  ],
+  "integrity": "integrity.json",
+  "observer_note": "Combined desktop observer adds metadata coverage after product freeze; stubs are packaging-only. Compiler inputs unchanged."
+}

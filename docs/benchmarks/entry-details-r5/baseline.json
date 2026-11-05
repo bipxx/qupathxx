@@ -1,0 +1,24 @@
+{
+  "source": "b4abea1be50153da46f5c910aafdd84558b6aa1a",
+  "fixture_identity_passed": true,
+  "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\entry-details-r5\\baseline-qfap4lgd\\foreign\\project\\project.qpproj",
+  "issues": [
+    {
+      "code": "image_metadata_dropped",
+      "message": "empty-description: tags is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "empty-description: description is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "unicode-description: tags is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "unicode-description: description is not represented"
+    }
+  ],
+  "details_api_available": false
+}

@@ -29,7 +29,8 @@ existing project entry/name lifecycle.
 
 Manifest metadata uses the same import path for plain projects and exchange1/2.
 Existing manifest/source/hash guards cover changes between review and apply.
-Descriptions/tags and global project metadata remain explicit distinct losses.
+[Tags/description](project-entry-details.md) now have separate scoped retention;
+global project metadata remains a distinct loss.
 The existing image source/name panel provides a clipped read-only entry list;
 full text is available on hover, with line breaks flattened only in row previews.
 Python remains the replacement-edit route for this slice.
@@ -44,7 +45,7 @@ GeoJSON, v2 GeoJSON and v2 native routes. Optional absent/null maps retain empty
 legacy defaults. Final observer hashes are distinct from compiled product inputs.
 
 One cached candidate and one stub/install pass were used. This closes the short
-entry-map engineering workflow only. Tags, description, global project metadata,
-broader R5 formats/records/races and release/scientific/resource work remain
-open. The [next task](current-task.md) groups tags and description, reusing their
-already captured case before another shared-header edit.
+entry-map engineering workflow only. Tags/description have their separate receipt; GUI authoring, global project
+metadata, broader R5 formats/records/races and release/scientific/resource work
+remain open. The [next task](current-task.md) adds authoring to the existing
+inspector through the now-settled native APIs.
