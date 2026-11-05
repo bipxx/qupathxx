@@ -5,7 +5,7 @@ and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R5-ENTRYDETAILS1 is locally verified in its
 [recorded scope](benchmarks/entry-details-r5/README.md).
 
-Current: **R5-ENTRYEDIT1 — GUI authoring of entry metadata/details** (ready).
+Current: **R5-ENTRYEDIT1 — GUI authoring of entry metadata/details** (in progress).
 
 - Outcome: a researcher edits short metadata, nullable description and ordered
   tags in the existing sidebar, with Apply/Cancel and saved/reopened exact state.
@@ -67,3 +67,10 @@ reconciliation. Waste/action: reuse the existing queue, receipts and closeout
 format; remove any need for a second backlog, cost ledger or review campaign.
 Documentation-only change: check links/consistency/diff; no build or tests needed.
 Next implementation remains ENTRYEDIT1 with the first action and stop above.
+
+ENTRYEDIT1 inspection review: native getters/setters and existing replay helpers
+are present. Two guessed paths (gui.hpp and build/entrydetails_r5_backend.py)
+were absent; discover files with rg --files and use the actual build/ci helper.
+No build was attempted. Waste/action: remove path guessing; implement local GUI
+drafts through settled APIs, with no binding/schema change. Next: editor patch,
+then one affected cached build and actual UI interactions.

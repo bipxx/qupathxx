@@ -12,6 +12,7 @@
 #include "qupathxx/analysis.hpp"
 #include "gui_profile.hpp"
 #include "gui_text_buffers.hpp"
+#include "gui_entry_editor.hpp"
 #include "gui_tiles.hpp"
 #include "gui_thumbnail.hpp"
 #include "gui_workspace.hpp"
@@ -352,6 +353,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::string error;
     auto& project_path=text_buffers->project_path;
     std::string project_error;
+    detail::EntryEditor entry_editor;
     ProjectAutosave autosave(options.autosave_snapshot_budget);
     RecoveryRetention retention;
     retention.enabled=options.recovery_retention_enabled; retention.keep_latest=options.recovery_keep_latest;
@@ -1392,6 +1394,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0");
                     if(ui::Button("Add image (F8)")) add_image=true;
                     auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+                    ImGui::BeginDisabled(current==project_images.end() || project_load.valid());
+                    if(ui::Button("Edit entry metadata / details")) {
+                        try {entry_editor.open(options.project,active_image);}
+                        catch(const std::exception& e){project_error=e.what();}
+                    }
+                    ImGui::EndDisabled();
                     auto entry_line=[](std::string text) {for(auto& c:text)if(c=='\n' || c=='\r' || c=='\t')c=' ';return text;};
                     if(current!=project_images.end() && !current->metadata.empty() && ImGui::CollapsingHeader("Project entry metadata",ImGuiTreeNodeFlags_DefaultOpen)) {
                         if(ImGui::BeginChild("##Entry metadata",{0,180},ImGuiChildFlags_Borders)) {
@@ -1432,6 +1440,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ImGui::TreePop();
                 }
             }
+            if(entry_editor.draw(options.project,active_image))project_catalog_dirty=true;
             if(remove_image) {
                 remove_popup_requested=remove_dialog_active=true; pending_image=0;
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;

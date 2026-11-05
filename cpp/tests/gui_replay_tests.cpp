@@ -4,6 +4,7 @@
 #ifdef QPX_GUI_TEXT_INPUT_TESTS
 #include <imgui.h>
 #include "gui_font_checks.hpp"
+#include "gui_entry_editor_checks.hpp"
 #endif
 void check(bool value) {if(!value) throw std::runtime_error("replay check failed");}
 template<class Exception,class Function> void rejects(Function action) {try {action();} catch(const Exception&) {return;}throw std::logic_error("missing replay rejection");}
@@ -46,6 +47,7 @@ int main() {
         using namespace qpx;using Clock=GuiReplayDeadline::Clock;
 #ifdef QPX_GUI_TEXT_INPUT_TESTS
         unicode_text_input();
+        entry_editor_checks::run();
         gui_font_checks::run();
 #else
         std::cout<<"GUI Unicode scalar input disabled (GUI unavailable)\n";
