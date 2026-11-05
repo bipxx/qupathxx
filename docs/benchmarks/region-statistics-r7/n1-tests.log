@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 41: region_statistics
+1/2 Test #41: region_statistics ................   Passed    0.13 sec
+    Start 59: project
+2/2 Test #59: project ..........................   Passed    0.21 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.41 sec

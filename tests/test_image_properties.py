@@ -13,7 +13,7 @@ import sys
 
 import pytest
 import qupathxx as q
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 
 FIXTURE=Path(__file__).parent/'fixtures/qupath-root-facts-0.7.0'
 
@@ -128,7 +128,7 @@ def test_saved_snapshot_owns_the_captured_image_facts_and_charges_payload(tmp_pa
 def test_legacy_default_and_failed_migration_preserve_the_original_file(tmp_path,version):
     project,image,doc,obj,path=workspace(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute('DROP TABLE image_properties')
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute('DROP TABLE image_properties')
         if version<18:db.execute('DROP TABLE object_planes')
         db.execute('PRAGMA user_version='+str(version))
         db.execute("CREATE TRIGGER fail_insert BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'root migration fault'); END")

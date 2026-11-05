@@ -1,0 +1,44 @@
+Start testing: Nov 05 10:35 Eastern Standard Time
+----------------------------------------------------------
+41/62 Testing: region_statistics
+41/62 Test: region_statistics
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_region_statistics_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/region-intensity-v1/pre-statistics.qpxproj"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"region_statistics" start time: Nov 05 10:35 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Region SQL boundary rejected: missing
+Region SQL boundary rejected: orphan
+Region SQL boundary rejected: tampered
+Region SQL boundary rejected: legacy-parent
+Region SQL boundary rejected: parent-mean
+Region SQL boundary rejected: downgrade
+{"observer_revision":"17b6cf7c1656a3ee5d90bf57bb17b0088aef1e4f+dirty","analysis_result_bytes":272,"analysis_request_bytes":24824,"analysis_record_bytes":304,"compartment_statistics_bytes":216,"channel_statistics_bytes":104,"records":[{"id":4,"samples":4,"payload_bytes":2141,"table_bytes":67948},{"id":5,"samples":4,"payload_bytes":2141,"table_bytes":67948},{"id":6,"samples":4,"payload_bytes":2149,"table_bytes":67956},{"id":7,"samples":4,"payload_bytes":2149,"table_bytes":67956},{"id":8,"samples":1,"payload_bytes":2141,"table_bytes":67948}]}
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"region_statistics" end time: Nov 05 10:35 Eastern Standard Time
+"region_statistics" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/62 Testing: project
+59/62 Test: project
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_project_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"project" start time: Nov 05 10:35 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"project" end time: Nov 05 10:35 Eastern Standard Time
+"project" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 05 10:35 Eastern Standard Time

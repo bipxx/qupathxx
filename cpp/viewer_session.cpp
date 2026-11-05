@@ -38,6 +38,7 @@ struct Command {
     RawPixelStreamOptions raw_pixel_stream;RawPixelStreamSaveOptions raw_pixel_save;
     RawPixelStreamFileLimits raw_pixel_limits;double raw_pixel_vote=0;std::size_t raw_pixel_work=16u*1024*1024;std::uint64_t raw_pixel_index=0;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    bool analysis_intensity_statistics=false;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
     TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area,tissue_min_area,tissue_max_area;
     std::optional<TissueGridSampling> tissue_grid;std::optional<ScientificGrid> tissue_exact_grid;
@@ -58,7 +59,7 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.object) n+=sizeof(Annotation)+e.object->name.capacity()+e.object->class_name.capacity()+e.object->geometry.payload_bytes()+(e.object->nucleus?e.object->nucleus->payload_bytes():0);
     if(e.object && e.object->tma_core) n+=e.object->tma_core->payload_bytes()+e.object->tma_core->grid_info()->payload_bytes();
     if(e.metadata) n+=sizeof(ImageMetadata)+e.metadata->vendor.capacity()+e.metadata->levels.capacity()*sizeof(ImageLevel);
-    if(e.analysis) n+=sizeof(AnalysisResult)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
+    if(e.analysis) n+=sizeof(AnalysisResult)+detail::analysis_statistics_bytes(*e.analysis)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
     if(e.raw_pixel_training) n+=e.raw_pixel_training->payload_bytes();
     if(e.raw_pixel_checkpoint) n+=sizeof(RawPixelTrainingCheckpoint)+e.raw_pixel_checkpoint->bytes().capacity();
@@ -161,6 +162,11 @@ std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
 std::uint64_t ViewerSession::set_tiff_view(std::uint64_t image,TiffView view) {view.validate();Command c(Action::TiffView);c.image=image;c.tiff_view=view;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {return analyze_with_sampling_policy(image,object,transform,RoiSamplingPolicy::GeometryCoverage,kind,nucleus);}
 std::uint64_t ViewerSession::analyze_with_sampling_policy(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::analyze_with_intensity_statistics(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {
+    validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;
+    c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;c.analysis_intensity_statistics=true;
+    return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {return tissue_with_component_area_limits(image,object,transform,{},{},p,retain);}
 std::uint64_t ViewerSession::tissue_with_component_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,TissueParameters p,bool retain) {
@@ -437,7 +443,9 @@ struct ViewerOwner::Impl {
             if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
             pending->raw_table.emplace(*doc,cmd.ids,cmd.flag,state->limits.snapshot_bytes,paths);
         }
-        else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy);
+        else if(cmd.action==Action::Analyze) pending->analysis.emplace(cmd.analysis_intensity_statistics?
+            AnalysisRequest::with_intensity_statistics(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy):
+            AnalysisRequest(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy));
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(cmd.tissue_exact_grid?
             TissueRequest::with_grid_component_area_limits(*doc,e.object_id,*cmd.transform,*cmd.tissue_exact_grid,cmd.tissue_min_area,cmd.tissue_max_area,cmd.tissue):cmd.tissue_grid?
             TissueRequest::for_grid_roi(*doc,e.object_id,*cmd.transform,*cmd.tissue_grid,cmd.tissue,false,cmd.tissue_min_area,cmd.tissue_max_area):

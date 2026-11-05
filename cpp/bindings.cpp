@@ -439,6 +439,7 @@ NB_MODULE(_native, m) {
         .def_rw("startup_path",&GuiOptions::startup_path).def_rw("startup_kind",&GuiOptions::startup_kind).def_rw("startup_image_id",&GuiOptions::startup_image_id)
         .def_rw("recovery_retention_enabled",&GuiOptions::recovery_retention_enabled).def_rw("recovery_keep_latest",&GuiOptions::recovery_keep_latest).def_rw("recovery_max_age_days",&GuiOptions::recovery_max_age_days)
         .def_rw("roi_sampling_policy",&GuiOptions::roi_sampling_policy).def_rw("tissue_sampling_policy",&GuiOptions::tissue_sampling_policy)
+        .def_rw("analysis_intensity_statistics",&GuiOptions::analysis_intensity_statistics)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
         .def_prop_rw("tissue_grid",[](const GuiOptions& o)->std::optional<TissueGridSampling> {return o.tissue_grid?std::optional<TissueGridSampling>(*o.tissue_grid):std::nullopt;},
@@ -487,6 +488,9 @@ NB_MODULE(_native, m) {
         .def_ro("startup_images",&GuiReport::startup_images).def_ro("startup_objects",&GuiReport::startup_objects).def_ro("startup_ms",&GuiReport::startup_ms)
         .def_ro("retention_metadata_ms",&GuiReport::retention_metadata_ms).def_ro("retention_ownership_ms",&GuiReport::retention_ownership_ms).def_ro("retention_removal_ms",&GuiReport::retention_removal_ms).def_ro("retention_prefetch_peak",&GuiReport::retention_prefetch_peak)
         .def_ro("analysis_state",&GuiReport::analysis_state).def_ro("analysis_error",&GuiReport::analysis_error)
+        .def_prop_ro("analysis_intensity_statistics",[](const GuiReport& r)->std::optional<CompartmentIntensityStatistics> {
+            if(r.analysis_intensity_statistics) return *r.analysis_intensity_statistics;return std::nullopt;
+        })
         .def_ro("analysis_means",&GuiReport::analysis_means).def_ro("analysis_samples",&GuiReport::analysis_samples)
         .def_ro("analysis_object",&GuiReport::analysis_object).def_ro("analysis_tiles",&GuiReport::analysis_tiles).def_ro("analysis_ms",&GuiReport::analysis_ms)
         .def_ro("analysis_records",&GuiReport::analysis_records).def_ro("saved_analysis_status",&GuiReport::saved_analysis_status)

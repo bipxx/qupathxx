@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/cell_statistics.hpp"
+#include "intensity_moments.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -17,39 +18,8 @@ namespace intensity_detail {
 inline void checkpoint(const std::atomic<bool>* cancel) {
     if(cancel && cancel->load(std::memory_order_relaxed)) throw std::runtime_error("cell intensity statistics cancelled");
 }
-struct Moment {
-    double sum=0,correction=0,mean=0,m2=0,minimum=0,maximum=0;
-    void add(double value,std::uint64_t count) {
-        if(!std::isfinite(value)) throw std::invalid_argument("cell intensity statistics require finite foreground samples");
-        if(count==1) minimum=maximum=value;
-        else {minimum=std::min(minimum,value);maximum=std::max(maximum,value);}
-        const auto adjusted=value-correction,next=sum+adjusted;
-        correction=(next-sum)-adjusted;sum=next;
-        const auto delta=value-mean;mean+=delta/double(count);m2+=delta*(value-mean);
-        if(!std::isfinite(sum) || !std::isfinite(mean) || !std::isfinite(m2))
-            throw std::overflow_error("cell intensity statistics exceed finite numeric range");
-    }
-};
-struct Compartment {
-    std::uint64_t count=0;
-    std::array<Moment,3> rgb,channels;
-    void add(const ColorVector& colors,const ColorVector& transformed) {
-        ++count;
-        for(std::size_t c=0;c<3;++c) {rgb[c].add(colors[c],count);channels[c].add(transformed[c],count);}
-    }
-    CompartmentIntensityStatistics finish() const {
-        if(!count) throw std::logic_error("empty compartment has no intensity statistics");
-        CompartmentIntensityStatistics result;result.samples=count;
-        auto copy=[&](const auto& moments,auto& output) {
-            if(count>1) output.sample_standard_deviation=ColorVector{};
-            for(std::size_t c=0;c<3;++c) {
-                const auto& m=moments[c];output.sum[c]=m.sum;output.minimum[c]=m.minimum;output.maximum[c]=m.maximum;
-                if(count>1) (*output.sample_standard_deviation)[c]=std::sqrt(std::max(0.,m.m2)/double(count-1));
-            }
-        };
-        copy(rgb,result.rgb);copy(channels,result.channels);return result;
-    }
-};
+using Moment=detail::IntensityMoment;
+using Compartment=detail::IntensityCompartment;
 struct Cell {Compartment nucleus,cell,cytoplasm;};
 }
 inline std::size_t cell_intensity_statistics_work_bytes(std::size_t count) {

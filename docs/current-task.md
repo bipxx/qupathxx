@@ -1,74 +1,59 @@
 # Current implementation task
 
-Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
-and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. GRID1 is locally verified in its bounded area-grid scope.
-Current: **R7-REGION1 — retained natural region intensity statistics**,
-**contract and pre-layout witness complete; production implementation next**.
+Follow the [single queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
+and [REGION1 steps](api-delivery-plan.md#r7-region1-remaining-delivery-steps).
+All M0-M7 remain Partial; the full R2-R16 objective remains active.
 
-## Contract and captured compatibility evidence
+## State — N1/N2 complete; N3 installed closeout next
 
-[Contract](region-intensity-statistics.md), [trace/witness](benchmarks/region-statistics-r7/README.md):
-reuse the existing cell compensated moments and analysis capture/loop/jobs/records/
-tables. Add opt-in RGB/transformed sum/extrema/sample SD, preserving existing
-float32 input values, old mean accumulation, source/ROI/alpha/plane/transform rules.
-Use absent singleton SD and the existing empty-support error. No second source
-read, reader adapter, detection wrapper or whole-plugin parity claim.
+Native/shared moments, optional immutable retention, schema27/replay/ROI CSV2 and
+all Python/managed/ImGui/batch/CLI consumers are implemented and staged-verified.
+[Evidence and retained failures](benchmarks/region-statistics-r7/README.md#n2-staged-consumer-closeout--2026-11-05)
+include seven native suites, six SQL faults, project suite,57 first-run Python
+passes plus21 corrected migration cases, GUI cases, typing and14 stub checks.
+No REGION1 wheel/install has occurred. REGION1 is not yet workflow-complete.
 
-The [five mean-only records](../tests/fixtures/region-intensity-v1/manifest.json)
-cover OD/stain, geometry/winding and singleton cases, signed channels and independent
-moments. All old means reopen/replay/verify. [Native sizes](../tests/fixtures/region-intensity-v1/native-boundaries.json)
-were captured against unchanged production headers: result256/request24824/record288,
-channel stats104/compartment216 bytes. Old payload2141/2149, table67948/67956 and
-batch111105/111137 bounds are pinned. Values are MSVC/x64; do not assume other ABIs.
-Use lazy immutable statistics ownership instead of inlining216 bytes into all
-mean-only records; charge enabled storage explicitly and preserve old defaults.
+Active source: build/ci/scientific-grid-159; cache: build/ci/gridfrontends167-package.
+Stage: build/region-statistics-r7/stage, loaded by the existing project-metadata-r5
+probe env via a plain .pth. Its old .pth is preserved. Root .venv is build/static
+only. Frozen installed GRID1 and its stage remain unchanged. All handles terminal.
+N2 source-tree SHA256 f8120edbdce5f7b69f3f8260c2529d0533a4dd04c7c167d4223ba98130b59cdd
+matches490 current compiler inputs; preserve original dirty source/product identity.
 
-## Next bounded task — settle owners/storage and implement native route
+## Next bounded task — N3
 
-First action: trace AnalysisResult/AnalysisRecord inline owners, snapshot/project
-formats, classifier mean consumers and table/batch byte accounting using discovered
-paths. Existing analysis SQL has fixed mean fields. Choose a versioned optional
-statistics payload through current persistence; measured records must reject
-missing/inconsistent payloads. Keep old-only replay and CSV unchanged.
+First check current free capacity and the existing cached wheel backend. Prepare
+one REGION1 wheel using retained compatible products and a distinct output path.
+Build only required shipping targets if source/configuration or provenance needs
+it; no binding-source recompile/stub generation for unchanged interfaces. Use the
+existing isolated runtime env for one install after preserving its GRID1 receipt.
+Run installed region-statistics save/reopen/replay/export and affected CLI/GUI
+smoke, verify package members/RECORD, stubs and actual source/configuration scope.
+Reuse N1/N2 numerical, fault, typing and control evidence; no full campaign.
 
-Settle known request/result, GUI option/report and batch metadata layouts together
-before the first production build. Then share the cell moments at a neutral
-internal boundary, add explicit AnalysisRequest.with_intensity_statistics capture
-and reduce accepted RGB/existing transformed samples in the same loop. Do not
-change old mean sums/order or introduce another result/sampler/reader authority.
-Use the contract's tiny expectations, alpha/nonrectangular eligibility, singleton/
-empty/cancel/stale cases and the captured old bounds. Build only affected native
-targets while debugging; one bindings/stub pass after all consumers settle.
-Stop with the complete native retained/replay/export route verified before staged
-thin-consumer closeout. Preserve failures and update this review before each retry.
-No new wheel/install/stub generation for the native implementation step.
+Exit: installed user route and shipping members agree with the settled source.
+Update coverage only for that bounded REGION1 route. N4 then chooses the next
+missing region/stain workflow from the existing R7 queue. All broader sampling,
+biology, whole-slide resource/speed, supported hosts and release exits stay open.
+Only openly licensed readers/codecs are eligible.
 
-## Reusable product state
+## Latest closeout and waste review — N2 / 2026-11-05
 
-GRID1 installed f72c1992+dirty remains frozen (docs-only package stamp).485 native
-inputs/65 installed members match, with staged evidence reused by explicit source/
-configuration proof. Runtime: build/ci/project-metadata-r5-env; probe uses
-build/tissue-grid-r7/stage. Root .venv is build/static only. The new observer target
-used the existing cache and refreshed its own provenance; it did not replace the
-installed wheel. All known handles are terminal. Openly licensed readers/codecs
-only; wider research/resources/hosts/release and all M0-M7 remain open.
-
-## Latest task review — pre-layout native witness (2026-11-05)
-
-Outcome: actual C++ record/request/result/statistics sizes and payloads captured;
-four header hashes equal the frozen production headers, all five table bounds
-match, and the saved archive hash is unchanged. No production layout change.
-
-Waste/action: first observer compile assumed pointer records, but the API returns
-AnalysisRecord values. Read the signature, used explicit const AnalysisRecord&
-and rebuilt only that target. Keep both build logs and the run. Earlier Python
-capture's unbound-method failure and preserved/resumed archive remain documented.
-Inspect actual C++ return ownership and Python bindings before observers; no
-copying conventions from neighboring APIs. No binding/wheel/install/stub campaign.
-
-Plan adjustment/next: the necessary C++ witness is complete. Use its216-byte DTO
-measurement to choose lazy stats ownership and settle all known umbrella-header
-fields before production compilation. Next action is the owner/storage trace
-above. Review actual waste and update the plan before each next task/retry; the
-full objective remains active.
+- Outcome: combined build/stage, SDK/CLI,21 corrected legacy migration cases,
+  managed/GUI/batch flows, one stub pass, typing and public-stub checks pass.
+  Actual checkbox click retained statistics. Eight affected GUI cases pass after
+  the visual repair; the expanded saved summary is readable.
+- Actual waste: synthetic downgrade builders retained a new table; one Markdown
+  write hit full disk; shallow capture missed the control; raw summary text was
+  clipped despite zero reported overflow. One compiler belonged to imagejxx.
+- Applied action: shared versioned table-removal helper for19 legacy builders;
+  atomic UTF-8 writes; verified duplicate cleanup (~551MB, canonical files kept);
+  actual scrolled/expanded visual inspection; split min/max presentation lines;
+  observe only the confirmed project build. Preserve all failures and receipts.
+- Reuse/removal: original bindings build was resumed, never restarted. UI repair
+  compiled GUI and relinked products; unchanged stubs/typing/math were reused.
+  Do not repeat57 passing tests to repair one fixture. No new campaign or result
+  authority. Source/configuration scope is explicit in the N2 identity receipt.
+- Plan adjustment: N2 marked staged-verified; N3 first checks actual capacity.
+  The queue's UI rule now includes expanded raw text. Check whether these applied
+  corrections prevent recurrence at N3 closeout; update before any retry.

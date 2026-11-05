@@ -94,3 +94,42 @@ actual evidence/waste, the applied change and next action before proceeding.
 This selected workflow leaves additional resolution/grid contracts, hue/circular
 features, approximate median, textures and biological tolerances in the existing
 R7/R12 queue. All M0-M7 remain Partial.
+
+## Public workflow and ownership
+
+Use `AnalysisRequest.with_intensity_statistics(document, object_id, transform,
+kind=AnalysisKind.STAIN_MEANS, nucleus=False, tile_size=256,
+sampling_policy=RoiSamplingPolicy.GEOMETRY_COVERAGE)` for the opt-in recipe.
+`request.measure_intensity` identifies the captured choice. The original
+constructor stays mean-only. Call the same `analyze`, `keep_analysis`, replay,
+verification and measurement-table operations used by the existing ROI route.
+
+`result.intensity_statistics` is an optional owning Python value of the existing
+`CompartmentIntensityStatistics` type. It contains `samples`, `rgb` and `channels`;
+each channel group has three-element `sum`, `minimum`, `maximum` and optional
+`sample_standard_deviation`. Nested values remain valid after result/request/
+document destruction. Python properties are read-only values. Native retained
+records freeze external aliases and share immutable optional storage. Disabled
+statistics preserve legacy logical quota charges; enabled storage is charged.
+
+The managed viewer exposes `analyze_with_intensity_statistics(image_id, object_id,
+transform, sampling_policy=GEOMETRY_COVERAGE, kind=STAIN_MEANS, nucleus=False)`.
+It follows the existing analysis command's capture/retain lifecycle. ImGui uses
+an **Intensity statistics** checkbox, expandable current/saved summaries and the
+same keep/recheck/export actions. `GuiOptions.analysis_intensity_statistics`
+selects the initial mode; `GuiReport.analysis_intensity_statistics` reports the
+current optional result. Rechecking a saved recipe restores its mode.
+
+For project batches use `ProjectBatchOptions.roi_intensity_statistics=True` or
+`qupathxx_batch SOURCE OUTPUT --kind stains --roi-intensity-statistics` (also
+valid with `--kind od`). Non-ROI workflows reject the option. Its enabled value
+participates in batch identity/resume; old mean-only parameter JSON stays
+unchanged. The project-batch UI exposes the same checkbox for ROI workflows.
+
+Schema27 stores QRI1 statistics in a keyed optional analysis side table. The
+payload checksum binds to its parent recipe/input/means. Missing, orphan,
+invalid-byte, wrong-parent, modified-parent and downgrade cases are rejected.
+Old mean-only archives remain readable. ROI tables become CSV2 when any selected
+record has statistics; absent statistics fields are blank in mixed rows.
+Old-only ROI export remains CSV1. The first implementation supports the natural
+sample domain only; wider feature/plugin/grid parity remains on the main queue.

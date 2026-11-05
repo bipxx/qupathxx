@@ -5,9 +5,11 @@
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
+void check_region_intensity(const char* fixture);
 int main(int argc,char** argv) {
     try {
         if(argc!=2) throw std::invalid_argument("region statistics witness requires the pre-statistics project path");
+        check_region_intensity(argv[1]);if(!has_project()) return 0;
         auto project=Project::open(argv[1]);const auto doc=project->document(1);
         if(doc->analysis_record_count()!=5) throw std::runtime_error("legacy region witness must have five records");
         std::cout<<"{\"observer_revision\":\""<<build_environment()->git_revision<<"\",\"analysis_result_bytes\":"<<sizeof(AnalysisResult)

@@ -1,5 +1,5 @@
 """Portable classifier cohorts, application audits and project/recovery isolation."""
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 import concurrent.futures
 import gc
 import hashlib
@@ -173,7 +173,7 @@ def test_schema_seven_migration_rolls_back_on_save_failure(tmp_path):
     doc, ids = workspace(); project = q.Project(); project.add_document(doc)
     path = tmp_path/'legacy.qpxproj'; project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute('DROP TABLE pixel_stream_records');db.execute('DROP TABLE pixel_classifier_records');db.execute('DROP TABLE classifier_records'); db.execute('PRAGMA user_version=7')
         db.execute("CREATE TRIGGER injected BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected classifier migration'); END")
     _, job = predicted(doc, ids); job.apply(doc)

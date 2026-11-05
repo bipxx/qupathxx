@@ -13,7 +13,7 @@ import pytest
 import qupathxx as q
 import tifffile
 from test_axis_calibration_capture import FIXTURE, EXPECTED
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 
 pytestmark=pytest.mark.skipif(not q.has_tiff or not q.has_project or not q.has_interchange,reason='TIFF/project/interchange')
 
@@ -85,7 +85,7 @@ def test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic(tmp_path):
     job=q.ProjectSaveJob();assert job.request(project,str(path));doc.set_image_axis_calibration(q.ImageAxisCalibration());assert job.wait().applied
     assert_axes(q.Project.open(str(path)).document(image),4.5,[1,2,3,4])
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('PRAGMA user_version=21');db.execute("CREATE TRIGGER fail_axis BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'axis fault'); END")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('PRAGMA user_version=21');db.execute("CREATE TRIGGER fail_axis BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'axis fault'); END")
     legacy=q.Project.open(str(path));restored=legacy.document(image);assert restored.image_axis_calibration is None
     restored.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[1,2,3,4]))
     with pytest.raises(RuntimeError,match='axis fault'):legacy.save(str(path))

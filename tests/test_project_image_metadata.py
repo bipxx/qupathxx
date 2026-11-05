@@ -8,7 +8,7 @@ import sqlite3
 
 import pytest
 import qupathxx as q
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 
 ROOT=Path(__file__).resolve().parents[1]
 FIXTURE=ROOT/'tests/fixtures/qupath-entry-metadata-0.7.0'
@@ -96,7 +96,7 @@ def test_snapshot_owns_map_and_metadata_counts_toward_budget(tmp_path):
 
 def test_schema22_default_and_failed_upgrade_preserve_original(tmp_path):
     project,image,doc,source=workspace(tmp_path);project.set_image_metadata(image,RICH);path=tmp_path/'legacy.qpxproj';project.save(str(path))
-    with sqlite3.connect(path) as db:db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('PRAGMA user_version=22')
+    with sqlite3.connect(path) as db:drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('PRAGMA user_version=22')
     legacy=q.Project.open(str(path));assert legacy.image_metadata(image)=={}
     legacy.set_image_metadata(image,RICH)
     with sqlite3.connect(path) as db:db.execute("CREATE TRIGGER fail_metadata BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'metadata fault'); END")

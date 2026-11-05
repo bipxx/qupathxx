@@ -167,7 +167,7 @@ public:
             if(!raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
             if(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
             ImGui::BeginDisabled(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
-            if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+            if(options_.kind!=ProjectBatchKind::Roi) {options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;options_.roi_intensity_statistics=false;}
             if(options_.kind!=ProjectBatchKind::Tissue) {options_.tissue_grid.reset();options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;options_.tissue.smoothing_sigma=0;options_.tissue.median_cleanup=false;}
             if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
             if(options_.kind!=ProjectBatchKind::Raw) {options_.raw_grid.reset();options_.raw_grid_work_bytes=256u*1024*1024;}
@@ -223,6 +223,7 @@ public:
                 if(!options_.raw_follow_display) {axis("Z (zero-based)",options_.raw.z);axis("Time (zero-based)",options_.raw.t);}
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else if(options_.kind==ProjectBatchKind::Roi) {
+                ui::Checkbox("Intensity statistics",&options_.roi_intensity_statistics);
                 int sampling=static_cast<int>(options_.roi_sampling_policy);
                 if(ui::Combo("ROI polygon samples",&sampling,"Geometry coverage\0Polygon winding\0")) options_.roi_sampling_policy=static_cast<RoiSamplingPolicy>(sampling);
                 int feature=static_cast<int>(options_.roi_kind);

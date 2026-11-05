@@ -1,3 +1,4 @@
+#include "region_statistics_codec.hpp"
 #include "utf8_text.hpp"
 #include "class_registry.hpp"
 #include "image_axis_calibration_codec.hpp"
@@ -693,6 +694,9 @@ void create_spatial(Database& db) {
 void create_image_analysis_settings(Database& db) {
     db.exec("CREATE TABLE image_analysis_settings(image_id TEXT PRIMARY KEY REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=20;");
 }
+void create_analysis_statistics(Database& db) {
+    db.exec("CREATE TABLE analysis_statistics(image_id TEXT NOT NULL,id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id),FOREIGN KEY(image_id,id) REFERENCES analysis_records(image_id,id)) STRICT; PRAGMA user_version=27;");
+}
 void create_class_registries(Database& db) {
     db.exec("CREATE TABLE class_semantics(image_id TEXT NOT NULL,class_name TEXT NOT NULL,parent_name TEXT NOT NULL,color_argb INTEGER,PRIMARY KEY(image_id,class_name),FOREIGN KEY(image_id,class_name) REFERENCES classes(image_id,name)) STRICT; CREATE TABLE project_classes(name TEXT PRIMARY KEY NOT NULL,parent_name TEXT NOT NULL,color_argb INTEGER) STRICT; CREATE TABLE project_class_defaults(position INTEGER PRIMARY KEY NOT NULL CHECK(position>=0 AND position<65536),class_name TEXT NOT NULL REFERENCES project_classes(name)) STRICT; PRAGMA user_version=26;");
 }
@@ -857,9 +861,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<24)create_image_details(db);
         if(version<25)create_project_metadata(db);
         if(version<26)create_class_registries(db);
+        if(version<27)create_analysis_statistics(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);}
-    db.exec("DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);create_analysis_statistics(db);}
+    db.exec("DELETE FROM analysis_statistics; DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement global_metadata(db,"INSERT INTO project_metadata VALUES(?,?)");
@@ -900,6 +905,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement raw_records(db,"INSERT INTO raw_analysis_records VALUES(?,?,?)");
     Statement spatial_records(db,"INSERT INTO spatial_distance_records VALUES(?,?,?)");
     Statement verification(db,"INSERT INTO source_verifications VALUES(?,?)");
+    Statement analysis_statistics(db,"INSERT INTO analysis_statistics VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -972,6 +978,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         for(int c=0;c<3;++c) {analysis.real(14+c,r.means[c]);analysis.real(17+c,r.white[c]);}
         for(int i=0;i<3;++i) for(int c=0;c<3;++c) analysis.real(20+i*3+c,r.stains[i][c]);
         const auto geometry=encode(record.roi);analysis.blob(29,geometry);analysis.done();
+        if(r.intensity_statistics) {
+            const auto bytes=detail::encode_region_statistics(r);analysis_statistics.string(1,std::to_string(image_id));
+            analysis_statistics.string(2,std::to_string(record.id));analysis_statistics.blob(3,bytes);analysis_statistics.done();
+        }
       };
       for(const auto& [record_id,stored]:e.document->analysis_) write_analysis(*stored.value);
       for(const auto& block:e.document->analysis_snapshot_) for(const auto& record:block->records) if(record) write_analysis(*record);
@@ -1276,7 +1286,9 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         row.check(sqlite3_reset(row.stmt));row.check(sqlite3_clear_bindings(row.stmt));return result;
     };
     if(version>=3) {
-        Statement rows(db,"SELECT image_id,id,object_id,object_revision,document_revision,algorithm,input_sha256,kind,nucleus,tile_size,samples,tiles,elapsed_ms,mean_r,mean_g,mean_b,white_r,white_g,white_b,s00,s01,s02,s10,s11,s12,s20,s21,s22,geometry FROM analysis_records ORDER BY image_id,id");
+        std::string query="SELECT image_id,id,object_id,object_revision,document_revision,algorithm,input_sha256,kind,nucleus,tile_size,samples,tiles,elapsed_ms,mean_r,mean_g,mean_b,white_r,white_g,white_b,s00,s01,s02,s10,s11,s12,s20,s21,s22,geometry";
+        if(version>=27) query+=",(SELECT payload FROM analysis_statistics s WHERE s.image_id=analysis_records.image_id AND s.id=analysis_records.id)";
+        query+=" FROM analysis_records ORDER BY image_id,id";Statement rows(db,query.c_str());
         while(rows.row()) {
             stopped();auto image_id=number(rows.string(0));auto image=project->entries_.find(image_id);
             if(image==project->entries_.end()) throw std::invalid_argument("orphaned analysis record");
@@ -1289,7 +1301,13 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             r.samples=number(rows.string(10));r.tiles=number(rows.string(11));r.elapsed_ms=rows.real(12);
             for(int c=0;c<3;++c) {r.means[c]=rows.real(13+c);r.white[c]=rows.real(16+c);}
             for(int i=0;i<3;++i) for(int c=0;c<3;++c) r.stains[i][c]=rows.real(19+i*3+c);
-            record.roi=decode(rows,28);r.provenance=read_provenance(image_id,record.id);image->second.document->restore_analysis(std::move(record));
+            record.roi=decode(rows,28);r.provenance=read_provenance(image_id,record.id);
+            if(version>=27 && rows.type(29)!=SQLITE_NULL) {
+                const auto size=sqlite3_column_bytes(rows.stmt,29);
+                if(rows.type(29)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid region statistics payload");
+                r.intensity_statistics=detail::decode_region_statistics(r,static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,29)),std::size_t(size));
+            }
+            image->second.document->restore_analysis(std::move(record));
         }
     }
     if(version>=4) {
@@ -1392,6 +1410,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=27 && scalar(db,"SELECT count(*) FROM analysis_statistics s WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=s.image_id AND a.id=s.id)")) throw std::invalid_argument("orphaned region statistics");
     if(version>=26 && scalar(db,"SELECT count(*) FROM class_semantics s WHERE NOT EXISTS (SELECT 1 FROM classes c WHERE c.image_id=s.image_id AND c.name=s.class_name)"))throw std::invalid_argument("orphaned class semantics");
     if(version>=24 && (scalar(db,"SELECT count(*) FROM image_details d WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=d.image_id)") || scalar(db,"SELECT count(*) FROM image_tags t WHERE NOT EXISTS (SELECT 1 FROM image_details d WHERE d.image_id=t.image_id)")))throw std::invalid_argument("orphaned image details or tags");
     if(version>=23 && scalar(db,"SELECT count(*) FROM image_metadata p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image metadata");

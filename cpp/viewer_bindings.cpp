@@ -65,6 +65,8 @@ void bind_viewer_session(nb::module_& m) {
         .def("contour_raw_pixel_file",&ViewerSession::contour_raw_pixel_file,"image_id"_a,"path"_a,"limits"_a=RawPixelStreamFileLimits{},"options"_a=RawPixelStreamContourOptions{},"record_id"_a=0,"replay"_a=false,"apply"_a=false,"name_prefix"_a="Raw pixel","expected_revision"_a=nb::none())
         .def("contour_raw_pixel_stream",&ViewerSession::contour_raw_pixel_stream,"image_id"_a,"model"_a,"lattice"_a,"stream"_a=RawPixelStreamOptions{},"options"_a=RawPixelStreamContourOptions{},"region"_a=nb::none(),"object_id"_a=0,"apply"_a=false,"name_prefix"_a="Raw pixel","expected_revision"_a=nb::none())
         .def("read_raw_pixel_stream",&ViewerSession::read_raw_pixel_stream,"image_id"_a,"path"_a,"index"_a=0,"limits"_a=RawPixelStreamFileLimits{},"record_id"_a=0,"retain_result"_a=false)
+        .def("analyze_with_intensity_statistics",&ViewerSession::analyze_with_intensity_statistics,"image_id"_a,"object_id"_a,"transform"_a,
+            "sampling_policy"_a=RoiSamplingPolicy::GeometryCoverage,"kind"_a=AnalysisKind::StainMeans,"nucleus"_a=false)
         .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue_with_component_area_limits",&ViewerSession::tissue_with_component_area_limits,"image_id"_a,"object_id"_a,"transform"_a,

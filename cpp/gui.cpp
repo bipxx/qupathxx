@@ -339,6 +339,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     int analysis_kind=options.analysis_kind;
     auto roi_sampling_policy=options.roi_sampling_policy;
     bool analysis_nucleus=options.analysis_nucleus;
+    bool analysis_intensity_statistics=options.analysis_intensity_statistics;
     std::uint64_t kept_analysis_generation=0,pending_analysis_recheck=0;
     Viewport viewport;
     if(options.start_view) viewport=*options.start_view;
@@ -1898,6 +1899,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             int roi_sampling=static_cast<int>(roi_sampling_policy);
             if(ui::Combo("ROI polygon samples",&roi_sampling,"Geometry coverage\0Polygon winding\0")) {roi_sampling_policy=static_cast<RoiSamplingPolicy>(roi_sampling);analysis_changed=true;}
             analysis_changed=ui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
+            analysis_changed=ui::Checkbox("Intensity statistics",&analysis_intensity_statistics) || analysis_changed;
             analysis_changed=ui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
             if(analysis_kind==1) {
                 analysis_changed=ui::InputScalarN("Stain 1",ImGuiDataType_Double,analysis_vectors.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
@@ -1943,14 +1945,33 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool start_analysis=ui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(start_analysis && !analysis.busy()) {
-                try {analysis.request(AnalysisRequest(document,selected,make_transform(analysis_kind==1),analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,analysis_nucleus,256,roi_sampling_policy));error.clear();}
+                try {const auto transform=make_transform(analysis_kind==1);
+                    const auto kind=analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;
+                    analysis.request(analysis_intensity_statistics
+                        ?AnalysisRequest::with_intensity_statistics(document,selected,transform,kind,analysis_nucleus,256,roi_sampling_policy)
+                        :AnalysisRequest(document,selected,transform,kind,analysis_nucleus,256,roi_sampling_policy));error.clear();}
                 catch(const std::exception& e) {error=e.what();}
             }
             if(analysis.busy()) {
                 ImGui::Text("Tiles: %llu / %llu",static_cast<unsigned long long>(analysis_status.completed_tiles),static_cast<unsigned long long>(analysis_status.total_tiles));
                 if(ui::Button("Cancel analysis") || (analysis_key && io.KeyShift)) analysis.cancel();
             }
+            auto intensity_summary=[](const std::shared_ptr<const CompartmentIntensityStatistics>& statistics) {
+                if(!statistics) return;
+                for(int domain=0;domain<2;++domain) {
+                    const auto& values=domain?statistics->channels:statistics->rgb;
+                    const char* label=domain?"Channel":"RGB";
+                    for(std::size_t c=0;c<3;++c) {
+                        ImGui::Text("%s %d sum: %.6g",label,int(c+1),values.sum[c]);
+                        ImGui::Text("%s %d minimum: %.6g",label,int(c+1),values.minimum[c]);
+                        ImGui::Text("%s %d maximum: %.6g",label,int(c+1),values.maximum[c]);
+                        if(values.sample_standard_deviation) ImGui::Text("%s %d sample SD: %.6g",label,int(c+1),(*values.sample_standard_deviation)[c]);
+                        else ImGui::Text("%s %d sample SD: undefined (one sample)",label,int(c+1));
+                    }
+                }
+            };
             if(const auto result=analysis.result()) {
+                if(result->intensity_statistics && ImGui::TreeNode("Intensity summary")) {intensity_summary(result->intensity_statistics);ImGui::TreePop();}
                 const char* od_labels[]={"Mean OD R","Mean OD G","Mean OD B"};
                 const char* stain_labels[]={"Mean stain 1","Mean stain 2","Mean stain 3"};
                 for(std::size_t c=0;c<3;++c) ImGui::Text("%s: %.6g",analysis_kind==0?od_labels[c]:stain_labels[c],result->means[c]);
@@ -1977,6 +1998,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::TextUnformatted(label);
                 ImGui::Text("%s / %s",saved->result.kind==AnalysisKind::StainMeans?"Stains":"Optical density",saved->result.nucleus?"Nucleus":"Body");
                 for(std::size_t c=0;c<3;++c) ImGui::Text("Saved channel %d: %.6g",static_cast<int>(c+1),saved->result.means[c]);
+                if(saved->result.intensity_statistics && ImGui::TreeNode("Saved intensity summary")) {intensity_summary(saved->result.intensity_statistics);ImGui::TreePop();}
                 const bool can_recheck=!analysis.busy() && state!="object_changed" && state!="source_closed";
                 ImGui::BeginDisabled(!can_recheck);
                 const bool recheck_clicked=ui::Button("Recheck saved (Ctrl+Shift+K)") || (archive_key && io.KeyShift);
@@ -1987,6 +2009,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                         analysis.request(replay);pending_analysis_recheck=saved->id;
                         roi_sampling_policy=saved->result.sampling_policy();
                         analysis_kind=saved->result.kind==AnalysisKind::StainMeans?1:0;analysis_nucleus=saved->result.nucleus;
+                        analysis_intensity_statistics=bool(saved->result.intensity_statistics);
                         analysis_white.assign(saved->result.white.begin(),saved->result.white.end());
                         for(std::size_t i=0;i<2;++i) for(std::size_t c=0;c<3;++c) analysis_vectors[i*3+c]=saved->result.stains[i][c];
                         error.clear();
@@ -2868,6 +2891,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     report.clipboard_copies=clipboard_copies;report.clipboard_pastes=clipboard_pastes;
     report.clipboard_copied_objects=clipboard_copied_objects;report.clipboard_pasted_objects=clipboard_pasted_objects;
     report.clipboard_error=clipboard_error;
+    if(const auto measured=analysis.result()) report.analysis_intensity_statistics=measured->intensity_statistics;
     if(tissue_result) {
         if(tissue_result->scientific_grid()) report.tissue_grid=*tissue_result->scientific_grid();
         report.tissue_downsample_x=tissue_result->downsample_x();report.tissue_downsample_y=tissue_result->downsample_y();

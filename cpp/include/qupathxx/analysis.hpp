@@ -11,6 +11,9 @@ public:
     AnalysisRequest(const Document&,std::uint64_t object_id,const StainTransform&,
         AnalysisKind kind=AnalysisKind::StainMeans,bool nucleus=false,std::size_t tile_size=256);
     AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,RoiSamplingPolicy);
+    static AnalysisRequest with_intensity_statistics(const Document&,std::uint64_t,const StainTransform&,
+        AnalysisKind=AnalysisKind::StainMeans,bool nucleus=false,std::size_t tile_size=256,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage);
+    bool measure_intensity() const {return measure_intensity_;}
     bool matches(const Document&,std::uint64_t selected_id) const;
     std::uint64_t object_id() const {return object_id_;}
     std::uint64_t object_revision() const {return object_revision_;}
@@ -40,7 +43,7 @@ private:
     AnalysisKind kind_;
     RoiSamplingPolicy sampling_policy_=RoiSamplingPolicy::GeometryCoverage;
     bool nucleus_;
-    bool snapshot_only_=false;
+    bool snapshot_only_=false,measure_intensity_=false;
     std::size_t tile_size_;
     Roi roi_;
     std::shared_ptr<const AnalysisProvenance> provenance_;

@@ -1,5 +1,6 @@
 #include "qupathxx/analysis.hpp"
 #include "sha256.hpp"
+#include "intensity_moments.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -17,9 +18,13 @@ const char* roi_analysis_algorithm(RoiSamplingPolicy policy) {
     validate_sampling_policy(policy);
     return policy==RoiSamplingPolicy::GeometryCoverage?"qpx.roi-channel-means/1":"qpx.roi-channel-means/winding-1";
 }
+const char* roi_statistics_algorithm(RoiSamplingPolicy policy) {
+    validate_sampling_policy(policy);
+    return policy==RoiSamplingPolicy::GeometryCoverage?"qpx.roi-channel-statistics/1":"qpx.roi-channel-statistics/winding-1";
+}
 RoiSamplingPolicy roi_analysis_sampling_policy(const std::string& algorithm) {
-    if(algorithm=="qpx.roi-channel-means/1") return RoiSamplingPolicy::GeometryCoverage;
-    if(algorithm=="qpx.roi-channel-means/winding-1") return RoiSamplingPolicy::PolygonWinding;
+    if(algorithm=="qpx.roi-channel-means/1" || algorithm=="qpx.roi-channel-statistics/1") return RoiSamplingPolicy::GeometryCoverage;
+    if(algorithm=="qpx.roi-channel-means/winding-1" || algorithm=="qpx.roi-channel-statistics/winding-1") return RoiSamplingPolicy::PolygonWinding;
     throw std::invalid_argument("unsupported ROI analysis algorithm");
 }
 const char* analysis_input_format(RoiSamplingPolicy policy,bool pyramid) {
@@ -66,14 +71,18 @@ bool AnalysisRequest::matches(const Document& document,std::uint64_t selected_id
     const auto it=document.objects().find(object_id_);
     return it!=document.objects().end() && it->second.revision==object_revision_;
 }
+AnalysisRequest AnalysisRequest::with_intensity_statistics(const Document& d,std::uint64_t id,const StainTransform& transform,AnalysisKind kind,bool nucleus,std::size_t tile_size,RoiSamplingPolicy policy) {
+    AnalysisRequest request(d,id,transform,kind,nucleus,tile_size,policy);request.measure_intensity_=true;return request;
+}
 struct AnalysisKernel {
     static AnalysisResult run(const AnalysisRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
         if(request.snapshot_only_) throw std::logic_error("scientific source snapshot requires its explicit-grid consumer");
         const auto started=std::chrono::steady_clock::now(); check_cancelled(cancelled);
-        AnalysisResult result;result.provenance=request.provenance_;result.algorithm=roi_analysis_algorithm(request.sampling_policy_);
+        AnalysisResult result;result.provenance=request.provenance_;result.algorithm=request.measure_intensity_?roi_statistics_algorithm(request.sampling_policy_):roi_analysis_algorithm(request.sampling_policy_);
         result.object_id=request.object_id_; result.object_revision=request.object_revision_; result.document_revision=request.document_revision_;
         result.kind=request.kind_; result.nucleus=request.nucleus_; result.white=request.transform_.white(); result.stains=request.transform_.stains();
         ColorVector sum{},correction{};
+        std::optional<detail::IntensityCompartment> moments;if(request.measure_intensity_) moments.emplace();
         Sha256 digest;
         const std::string format=analysis_input_format(request.sampling_policy_);digest.update(format.data(),format.size());
         digest.integer(static_cast<std::uint64_t>(request.source_->metadata().width));
@@ -104,6 +113,11 @@ struct AnalysisKernel {
                             const double v=data[i+c]-correction[c],next=sum[c]+v;
                             correction[c]=(next-sum[c])-v; sum[c]=next;
                         }
+                        if(moments) {
+                            const auto pixel=static_cast<std::size_t>((row*w+col)*4);const auto& bytes=pixels.bytes();
+                            moments->add({double(bytes[pixel]),double(bytes[pixel+1]),double(bytes[pixel+2])},
+                                {double(data[i]),double(data[i+1]),double(data[i+2])},"region intensity statistics");
+                        }
                         ++result.samples;
                     }
                 }
@@ -115,6 +129,7 @@ struct AnalysisKernel {
         check_cancelled(cancelled);
         if(!result.samples) throw std::invalid_argument("ROI contains no opaque pixel centers");
         for(std::size_t c=0;c<3;++c) result.means[c]=sum[c]/static_cast<double>(result.samples);
+        if(moments) result.intensity_statistics=std::make_shared<const CompartmentIntensityStatistics>(moments->finish());
         result.input_sha256=digest.finish();
         result.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
         return result;
@@ -194,7 +209,10 @@ bool AnalysisJob::verify_result(Document& document,std::uint64_t id) {
 }
 AnalysisRequest AnalysisRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.analysis_record(id);
-    AnalysisRequest request(document,record.result.object_id,StainTransform::from_normalized(record.result.stains,record.result.white),record.result.kind,record.result.nucleus,record.tile_size,record.result.sampling_policy());
+    const auto transform=StainTransform::from_normalized(record.result.stains,record.result.white);
+    AnalysisRequest request=record.result.intensity_statistics?
+        with_intensity_statistics(document,record.result.object_id,transform,record.result.kind,record.result.nucleus,record.tile_size,record.result.sampling_policy()):
+        AnalysisRequest(document,record.result.object_id,transform,record.result.kind,record.result.nucleus,record.tile_size,record.result.sampling_policy());
     if(request.object_revision()!=record.result.object_revision || !request.roi().equals(record.roi)) throw std::invalid_argument("saved analysis object has changed");
     return request;
 }

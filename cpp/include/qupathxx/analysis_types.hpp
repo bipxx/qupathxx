@@ -2,9 +2,11 @@
 #include "qupathxx/geometry.hpp"
 #include "qupathxx/provenance.hpp"
 #include "qupathxx/stains.hpp"
+#include "qupathxx/cell_statistics.hpp"
 namespace qpx {
 enum class AnalysisKind { OpticalDensityMeans, StainMeans };
 const char* roi_analysis_algorithm(RoiSamplingPolicy);
+const char* roi_statistics_algorithm(RoiSamplingPolicy);
 RoiSamplingPolicy roi_analysis_sampling_policy(const std::string& algorithm);
 const char* analysis_input_format(RoiSamplingPolicy,bool pyramid=false);
 struct AnalysisResult {
@@ -16,8 +18,14 @@ struct AnalysisResult {
     std::array<ColorVector,3> stains{};
     double elapsed_ms=0;
     std::shared_ptr<const AnalysisProvenance> provenance;
+    std::shared_ptr<const CompartmentIntensityStatistics> intensity_statistics;
     RoiSamplingPolicy sampling_policy() const {return roi_analysis_sampling_policy(algorithm);}
 };
+namespace detail {
+inline std::size_t analysis_statistics_bytes(const AnalysisResult& r) {
+    return r.intensity_statistics?sizeof(CompartmentIntensityStatistics)+2*sizeof(std::shared_ptr<const CompartmentIntensityStatistics>):0;
+}
+}
 struct AnalysisRecord {
     std::uint64_t id=0;
     AnalysisResult result;

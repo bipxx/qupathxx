@@ -10,7 +10,7 @@ import sqlite3
 import numpy as np
 import pytest
 import qupathxx as q
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 
 FIXTURE=Path(__file__).parent/'fixtures/qupath-image-settings-0.7.0'
 REFERENCE=json.loads((FIXTURE/'reference.json').read_bytes())
@@ -123,7 +123,7 @@ def test_snapshot_owned_values_and_legacy19_atomic_upgrade(tmp_path):
     job=q.ProjectSaveJob();assert job.request(project,str(path));doc.set_image_analysis_settings(q.ImageAnalysisSettings('FLUORESCENCE'));doc.clear_history();assert job.wait().applied
     assert signature(q.Project.open(str(path)).document(image).image_analysis_settings)==before and project.dirty
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE IF EXISTS image_metadata');db.execute('DROP TABLE IF EXISTS image_axis_calibration');db.execute('DROP TABLE IF EXISTS image_data_properties');db.execute('DROP TABLE image_analysis_settings');db.execute('PRAGMA user_version=19');db.execute("CREATE TRIGGER fail_settings BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'settings fault'); END")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE IF EXISTS image_metadata');db.execute('DROP TABLE IF EXISTS image_axis_calibration');db.execute('DROP TABLE IF EXISTS image_data_properties');db.execute('DROP TABLE image_analysis_settings');db.execute('PRAGMA user_version=19');db.execute("CREATE TRIGGER fail_settings BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'settings fault'); END")
     legacy=q.Project.open(str(path));assert legacy.document(image).image_analysis_settings is None
     legacy.document(image).set_image_analysis_settings(settings())
     with pytest.raises(RuntimeError,match='settings fault'):legacy.save(str(path))

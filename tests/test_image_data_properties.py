@@ -13,7 +13,7 @@ import sys
 
 import pytest
 import qupathxx as q
-from project_schema_contract import CURRENT_SCHEMA_VERSION
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 
 ROOT=Path(__file__).resolve().parents[1]
 FIXTURE=ROOT/'tests/fixtures/qupath-image-data-properties-0.7.0'
@@ -165,7 +165,7 @@ assert q.Project.open(sys.argv[1]).document(image).image_data_properties.values[
 def test_schema20_defaults_and_failed_upgrade_are_atomic(tmp_path):
     project,image,doc,obj,path=workspace(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('DROP TABLE image_data_properties');db.execute('PRAGMA user_version=20');db.execute("CREATE TRIGGER fail_property BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property fault'); END")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('DROP TABLE image_data_properties');db.execute('PRAGMA user_version=20');db.execute("CREATE TRIGGER fail_property BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property fault'); END")
     legacy=q.Project.open(str(path));assert legacy.document(image).image_data_properties is None;legacy.document(image).set_image_data_properties(properties())
     with pytest.raises(RuntimeError,match='property fault'):legacy.save(str(path))
     with sqlite3.connect(path) as db:

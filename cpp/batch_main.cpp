@@ -79,7 +79,7 @@ int execute(const std::vector<std::string>& args) {
             "Tissue area: --tissue-min-area-um2 NUMBER --tissue-max-area-um2 NUMBER (inclusive)\n"
             "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
             "--roi-sampling coverage|winding  --tissue-sampling coverage|winding\n"
-            "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
+            "--continue-on-error  --no-resume  --publish-cells  --nucleus  --roi-intensity-statistics\n"
             "--tma-only  --include-missing-tma (TMA scope only)\n"
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
             "--csv-bytes N  --checkpoint-bytes N\n"
@@ -272,6 +272,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--no-resume") options.resume=false;
             else if(flag=="--publish-cells") options.publish_cells=true;
             else if(flag=="--nucleus") options.nucleus=true;
+            else if(flag=="--roi-intensity-statistics") options.roi_intensity_statistics=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
         if(raw_contour_flags && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw contour flags require --kind raw-contours");

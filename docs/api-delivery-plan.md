@@ -93,7 +93,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; R6-SPLIT1 trace reuses existing split/merge and feature-domain evidence; R7-AREA1 is locally verified for physical tissue filters; FILTER1 is locally verified for pre-threshold Gaussian smoothing; MEDIAN1 is locally verified for fixed binary cleanup; R7-GRID1 is locally verified for its bounded area-grid workflow; next trace R7-REGION1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; R6-SPLIT1 trace reuses existing split/merge and feature-domain evidence; R7-AREA1 is locally verified for physical tissue filters; FILTER1 is locally verified for pre-threshold Gaussian smoothing; MEDIAN1 is locally verified for fixed binary cleanup; R7-GRID1 is locally verified for its bounded area-grid workflow; finish R7-REGION1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -189,7 +189,7 @@ to its existing R row, with its dependency and next action.
 
 CLASS1, CLASSHISTORY1 and R6-CONTEXT1 are locally verified. R6-SPLIT1 trace
 reuses existing engineering cases without a new campaign. R7-AREA1 is locally
-verified; FILTER1/MEDIAN1 locally verify Gaussian and binary median. GRID1 locally verifies its bounded area-grid workflow. Trace R7-REGION1 next, then
+verified; FILTER1/MEDIAN1 locally verify Gaussian and binary median. GRID1 locally verifies its bounded area-grid workflow. Finish R7-REGION1 next, then
 remaining ready R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -205,7 +205,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R4 | MERGE1 and CLIP1 are locally verified. CLASSHISTORY1 locally verifies class-only rename field history/admission. Remaining overlapping/nested edit and hierarchy/class work needs a demonstrated missing behavior | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
 | R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 is locally verified for shared ancestry and project-default retention/authoring. Remaining calibration/project properties, versions/builders/records, source races and geometry losses need named fixtures/fault contracts | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | CONTEXT1 is locally verified: exact RGB-phase support, QCL9/QCA9 identities and retained legacy replay. SAMPLING1 locally verifies the declared lossless TIFF SubIFD workflow. FEATURE1 locally verifies [retained compartment statistics](benchmarks/cell-statistics-r6/README.md), owning SDK, QCL/QCA, CSV/CLI/ImGui and legacy quota compatibility. SPLIT1 trace reuses touching/clipped-domain, policy-edge and body-boundary cases. Remaining work is a named uncovered context/vendor/domain case or representative specimen acceptance; take the next ready R7 slice while no such engineering case is ready | Reuse [CONTEXT1](benchmarks/cell-context-r6/README.md), [lossless pyramid integration](benchmarks/cell-pyramid-r6/README.md) and ordinary context/halo evidence. Inspect existing definitions and pinned reference before adding fields. Extend the shared authority; labels block only biological acceptance |
-| R7 | AREA1 [locally verifies physical tissue filters](benchmarks/tissue-area-r7/README.md) through native/SDK/managed viewer/ImGui/batch/CLI and frozen count-recipe replay. FILTER1 [locally verifies Gaussian smoothing](benchmarks/tissue-smoothing-r7/README.md), QTM3/CSV2, consumers and old quota/replay compatibility. MEDIAN1 [locally verifies fixed binary cleanup](benchmarks/tissue-median-r7/README.md), QTM4/CSV3, consumers and older unfiltered/Gaussian limits. GRID1 locally verifies bounded native/installed area-RGB sampling/context, QTM5/CSV4 and old limits. REGION1 trace identifies missing retained natural RGB/OD/stain dispersion; reuse cell moments and existing analysis authority, with the pre-layout C++ witness complete and production implementation next; follow with missing stain estimation/model registry and specimen comparisons | Reuse the shared resolver, labeling/morphology, jobs, records and tables. Before filtering changes, pin feature units, neighborhood/halo, eligibility and image/ROI edge behavior against an independent tiny array. Preserve old unfiltered replay; use existing filter/sampling kernels before adding another implementation |
+| R7 | AREA1 [locally verifies physical tissue filters](benchmarks/tissue-area-r7/README.md) through native/SDK/managed viewer/ImGui/batch/CLI and frozen count-recipe replay. FILTER1 [locally verifies Gaussian smoothing](benchmarks/tissue-smoothing-r7/README.md), QTM3/CSV2, consumers and old quota/replay compatibility. MEDIAN1 [locally verifies fixed binary cleanup](benchmarks/tissue-median-r7/README.md), QTM4/CSV3, consumers and older unfiltered/Gaussian limits. GRID1 locally verifies bounded native/installed area-RGB sampling/context, QTM5/CSV4 and old limits. REGION1 trace identifies missing retained natural RGB/OD/stain dispersion; reuse cell moments and existing analysis authority, with native implementation and seven affected suites passing, persistence fault checks and consumers still pending; follow with missing stain estimation/model registry and specimen comparisons | Reuse the shared resolver, labeling/morphology, jobs, records and tables. Before filtering changes, pin feature units, neighborhood/halo, eligibility and image/ROI edge behavior against an independent tiny array. Preserve old unfiltered replay; use existing filter/sampling kernels before adding another implementation |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
 | R9 | Neighborhoods and density; signed distances; tiled aggregation | Extend the existing spatial index and measurement tables one metric at a time, with physical units and independent geometry expectations. Reuse the consumer routes; scaling belongs to R12 |
 | R10 | Vendor-slide/skew/missing-core dearraying; assignment and biological comparisons; per-case pooling on the accepted core set | Reuse QPTMA proposals, edits and batches. Labels block the associated accuracy claim, not codec/editor engineering. No separate TMA qualification campaign |
@@ -262,16 +262,27 @@ component physical limits use calibrated per-axis area. Nominal sampling and
 whole-plugin/biological equivalence remain separate claims. Use openly licensed
 reader/codec dependencies only. The current card owns immediate status/next action.
 
-### R7-REGION1 selected next contract
+<a id="r7-region1-selected-next-contract"></a>
+### R7-REGION1 remaining delivery steps
 
-The [trace](benchmarks/region-statistics-r7/README.md) identifies a means-only
-retained RGB/OD/stain route and a reusable cell moments reducer. Follow the
-[region contract](region-intensity-statistics.md). The C++ pre-layout witness
-is complete against unchanged headers; Python does not expose that payload method.
-Five saved mean-only records and actual payload/table/batch/JSON boundaries exist
-and must not be recaptured. Settle known result/options/report layouts and persistence
-before implementing one native pass with thin consumers. Trace itself required
-no product build/install/stubs or new specimen corpus. The current card owns status.
+Follow the [region contract](region-intensity-statistics.md) and
+[source-specific evidence](benchmarks/region-statistics-r7/README.md).
+The pre-layout witness is complete. The native implementation compiled and all
+seven affected native suites passed on 2026-11-05. This is native engineering
+evidence; REGION1 is not yet an installed, complete user workflow.
+The current card owns live status. Execute these bounded tasks in order:
+
+| Task | Easiest route / remaining action | Exit and cost control |
+| --- | --- | --- |
+| N1: native retention checks (passed) | Reuse AnalysisRequest.with_intensity_statistics, shared cell moments/codec helpers, lazy immutable result, existing jobs/replay, schema27 and ROI CSV2. Six schema27 missing/orphan/tampered/parent/downgrade fault cases and the existing project suite now pass; reuse their recorded evidence. | Existing seven-suite pass covers moments, eligibility, cancellation/stale publication, legacy bounds, replay, round-trip and CSV. Storage-boundary assertions and affected project/region tests pass; reopen only for a changed storage input or uncovered fault. No bindings, wheel, install or fixture recapture. |
+| N2: thin consumers (staged checks passed) | Expose the settled factory/getter and owning statistics through nanobind; wire SDK/managed viewer, ImGui opt-in/report, CLI and batch flag to that same native request. Reuse the existing compartment statistics vocabulary and native batch/managed dispatch. | Staged SDK/CLI/batch/managed/GUI paths, owning values, matched recipes, actual clicked control and readable expanded summaries pass. One stub generation, valid/negative typing and public-stub checks pass. Reuse native numerical assertions; N3 still must verify installation. |
+| N3: installed workflow closeout | Reuse compatible native/staged products. Package/install one settled candidate and run open -> ROI statistics -> retain/export -> save/reopen/replay through affected installed consumers. | Verify changed package/stub members and relevant shipping smoke tests. Record actual source/configuration and a single evidence summary; update coverage only for the demonstrated route. Rebuild/reinstall only for a changed input or diagnosed failure. |
+| N4: hand off within R7 | Compare remaining region/stain-estimation/model-registry requirements with existing implementation and pinned definitions; select one demonstrated missing user outcome. | Put its first action, fixture/expectation, dependencies and minimal checks in the current card. Reuse completed traces and fixtures. Specimen acceptance and broad plugin/grid/resource claims remain open. No automatic qualification campaign. |
+
+After each task **and each failed/stopped attempt**, apply the existing
+[handoff review](#completion-gates-and-task-handoff) before continuing or retrying.
+The five saved mean-only records and native layout witnesses remain frozen;
+no new reader, sampler, result model or specimen corpus is needed for this slice.
 
 ### Dispatch and finish the remaining queue
 
@@ -332,8 +343,9 @@ Windows wildcard filenames and large unfiltered plan dumps.
 Discover filenames before explicit reads, and inspect declared API/report fields
 before writing observers. When comparing retained compiler inputs, preserve raw
 newline bytes; a normalized Git blob is not necessarily the compiled file.
-For UI changes, inspect the new controls at their actual scroll position before
-packaging; a correct result overlay alone does not prove the controls are legible.
+For UI changes, inspect the new controls at their actual scroll position and
+expanded result text before packaging; a correct result overlay or a zero
+instrumented overflow count alone does not prove raw ImGui text is legible.
 Do not add a timer, reporting framework or separate cost ledger for this rule.
 
 The one-time R4/R5 reconciliation is complete and selected project metadata,
@@ -391,7 +403,14 @@ latest review in current-task.md before the next task or retry. Keep it brief:
 This is part of closeout, not a new audit, report, benchmark or approval round.
 Use the existing card and queue; do not accumulate a parallel waste backlog.
 Repeated waste must change the next task's procedure, rather than merely being
-noted again. A check remains required when it covers a real unresolved risk.
+noted again. Before advancing, confirm that the selected action is applied:
+remove/merge redundant future work now, link the evidence being reused, or attach
+an explicit re-entry condition to deferred work. Retained work needs its reason
+in the card. If an improvement is not applied yet, its concrete action belongs
+in the next task before the expensive operation it is intended to prevent.
+Check whether the previous task's adjustment worked; revise it if the same waste
+recurs. Do this in the same brief review, without a second audit or ledger.
+A check remains required when it covers a real unresolved risk.
 
 R4/R5 reconciliation (2026-11-05): entry state, nested geometry transport and
 covered recovery/source guards already have scoped receipts; do not redeliver

@@ -1,4 +1,5 @@
 #include "qupathxx/analysis.hpp"
+#include "region_statistics_codec.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -7,17 +8,18 @@ namespace qpx {
 namespace {
 void advance(std::uint64_t revision) {if(revision==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");}
 void check_result(const Document& document,const AnalysisRequest& request,const AnalysisResult& result) {
+    detail::validate_region_statistics(result);
     if(!request.matches(document,request.object_id())) throw std::invalid_argument("analysis request is stale");
     if(result.object_id!=request.object_id() || result.object_revision!=request.object_revision() || result.document_revision!=request.document_revision() ||
-       result.provenance!=request.provenance() || result.algorithm!=roi_analysis_algorithm(request.sampling_policy()) || result.kind!=request.kind() || result.nucleus!=request.nucleus() || result.white!=request.transform().white() || result.stains!=request.transform().stains())
+       result.provenance!=request.provenance() || result.algorithm!=(request.measure_intensity()?roi_statistics_algorithm(request.sampling_policy()):roi_analysis_algorithm(request.sampling_policy())) || result.kind!=request.kind() || result.nucleus!=request.nucleus() || result.white!=request.transform().white() || result.stains!=request.transform().stains())
         throw std::invalid_argument("analysis result does not match its request");
 }
 }
-std::size_t AnalysisRecord::payload_bytes() const {return sizeof(AnalysisRecord)+(result.provenance?result.provenance->payload_bytes():0)+192+result.algorithm.size()+result.input_sha256.size()+roi.payload_bytes();}
+std::size_t AnalysisRecord::payload_bytes() const {return sizeof(AnalysisRecord)-(result.intensity_statistics?0:sizeof(result.intensity_statistics))+detail::analysis_statistics_bytes(result)+(result.provenance?result.provenance->payload_bytes():0)+192+result.algorithm.size()+result.input_sha256.size()+roi.payload_bytes();}
 void AnalysisRecord::validate(const ImageMetadata& metadata) const {
     const auto& r=result;
     if(r.provenance) {r.provenance->validate();if(r.provenance->object_id!=r.object_id || r.provenance->object_revision!=r.object_revision || r.provenance->document_revision!=r.document_revision || r.provenance->nucleus!=r.nucleus || r.provenance->source.width!=metadata.width || r.provenance->source.height!=metadata.height) throw std::invalid_argument("analysis provenance identity mismatch");}
-    (void)r.sampling_policy();
+    (void)r.sampling_policy();detail::validate_region_statistics(r);
     if(!id || !r.object_id || r.object_revision>r.document_revision || r.document_revision>=id ||
        (r.kind!=AnalysisKind::OpticalDensityMeans && r.kind!=AnalysisKind::StainMeans) || !r.samples || !r.tiles ||
        tile_size<16 || tile_size>1024 || !std::isfinite(r.elapsed_ms) || r.elapsed_ms<0)
@@ -68,7 +70,9 @@ void Document::restore_analysis(AnalysisRecord record) {
 }
 std::uint64_t Document::keep_analysis(const AnalysisRequest& request,const AnalysisResult& result) {
     check_result(*this,request,result); advance(revision_);
-    AnalysisRecord record{revision_+1,result,request.roi(),request.tile_size()};record.validate(metadata());
+    AnalysisRecord record{revision_+1,result,request.roi(),request.tile_size()};
+    if(result.intensity_statistics) record.result.intensity_statistics=std::make_shared<const CompartmentIntensityStatistics>(*result.intensity_statistics);
+    record.validate(metadata());
     // Insertion uses the prospective canonical revision; roll it back on failure.
     ++revision_;
     try {restore_analysis(std::move(record));} catch(...) {--revision_;throw;}
@@ -88,7 +92,8 @@ bool Document::verify_analysis(std::uint64_t id,const AnalysisRequest& request,c
        old.white!=result.white || old.stains!=result.stains || stored.value->tile_size!=request.tile_size() || !stored.value->roi.equals(request.roi()))
         throw std::invalid_argument("verification request does not match saved analysis parameters");
     stored.identity=analysis_identity_.token;stored.source=server_;
-    stored.verified=old.input_sha256==result.input_sha256 && old.means==result.means && old.samples==result.samples && old.tiles==result.tiles;
+    stored.verified=old.input_sha256==result.input_sha256 && old.means==result.means && old.samples==result.samples && old.tiles==result.tiles &&
+        bool(old.intensity_statistics)==bool(result.intensity_statistics) && (!old.intensity_statistics || *old.intensity_statistics==*result.intensity_statistics);
     return stored.verified;
 }
 std::vector<AnalysisRecord> Document::analysis_records() const {std::vector<AnalysisRecord> result;result.reserve(analysis_.size());for(const auto& [id,entry]:analysis_) result.push_back(*entry.value);return result;}
