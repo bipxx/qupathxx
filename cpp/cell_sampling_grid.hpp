@@ -2,6 +2,7 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/scientific_sampling.hpp"
 #include "cell_policy_names.hpp"
+#include "rgb_nominal.hpp"
 #include <cstring>
 
 namespace qpx {
@@ -11,10 +12,16 @@ struct CellSamplingGrid {
     std::optional<ScientificGrid> area;
     std::shared_ptr<const NominalCellSampling> nominal;
     std::int64_t image_width_,image_height_;
+    std::optional<detail::RgbNominalPlan> exact_support_phase;
     CellSamplingGrid(ScientificGrid grid):area(std::move(grid)),image_width_(area->image_width()),image_height_(area->image_height()) {}
-    CellSamplingGrid(std::int64_t w,std::int64_t h,NominalCellSampling sampling):
+    CellSamplingGrid(std::int64_t w,std::int64_t h,NominalCellSampling sampling,bool exact_support=false):
         nominal(std::make_shared<const NominalCellSampling>(std::move(sampling))),image_width_(w),image_height_(h) {
         if(w<=0 || h<=0) throw std::invalid_argument("nominal cell source dimensions must be positive");
+        if(exact_support) {
+            const auto& n=*nominal;const auto& r=n.source_request();
+            exact_support_phase=detail::rgb_nominal_support_phase(w,h,r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,
+                -std::int64_t(n.context_x()),-std::int64_t(n.context_y()),n.width(),n.height(),nullptr,r.sampling);
+        }
     }
     std::int64_t width() const {return nominal?nominal->width():area->width();}
     std::int64_t height() const {return nominal?nominal->height():area->height();}
@@ -33,7 +40,16 @@ struct CellSamplingGrid {
     GridReadBounds read_bounds(const std::atomic<bool>* cancelled=nullptr) const;
     std::vector<TissueComponent> components(const std::vector<std::uint32_t>&,std::uint32_t,const std::atomic<bool>*) const;
     bool affine() const {return nominal && nominal->source_request().sampling==RgbNominalSampling::AffineInverse;}
-    const char* input_format() const {return affine()?"qpx.nominal-affine-cell-rgb/1":nominal?"qpx.nominal-cell-rgb/1":"qpx.grid-opaque-rgb-area/1";}
+    const char* input_format() const {
+        if(exact_support_phase) return affine()?"qpx.nominal-affine-cell-rgb/2":"qpx.nominal-cell-rgb/2";
+        return affine()?"qpx.nominal-affine-cell-rgb/1":nominal?"qpx.nominal-cell-rgb/1":"qpx.grid-opaque-rgb-area/1";
+    }
+    static bool exact_support_for(const NominalCellSampling& sampling,const char* format) {
+        const bool affine=sampling.source_request().sampling==RgbNominalSampling::AffineInverse;
+        if(std::strcmp(format,affine?"qpx.nominal-affine-cell-rgb/1":"qpx.nominal-cell-rgb/1")==0) return false;
+        if(std::strcmp(format,affine?"qpx.nominal-affine-cell-rgb/2":"qpx.nominal-cell-rgb/2")==0) return true;
+        throw std::invalid_argument("nominal cell support identity differs from sampling policy");
+    }
     const char* algorithm(CellProcessingPolicy processing=CellProcessingPolicy::Quantitative) const {
         return nominal?cell_detail::nominal_algorithm(nominal->source_request().sampling,processing):"qpx.grid-log-watershed-bodies/1";
     }
@@ -73,13 +89,13 @@ template<class Writer> void cell_grid_write(Writer& w,const CellSamplingGrid& gr
         for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) w.integer(std::uint64_t(v));
     }
 }
-template<class Reader> CellSamplingGrid cell_grid_read(Reader& r,bool nominal,std::size_t work_bytes,bool sampling=false) {
+template<class Reader> CellSamplingGrid cell_grid_read(Reader& r,bool nominal,std::size_t work_bytes,bool sampling=false,bool exact_support=false) {
     auto integer=[&] {const auto bits=r.integer();std::int64_t v;std::memcpy(&v,&bits,8);return v;};
     if(nominal) {
         const auto w=integer(),h=integer(),x=integer(),y=integer(),rw=integer(),rh=integer();const auto step=r.real();
         const auto cx=std::uint32_t(r.integer(4096)),cy=std::uint32_t(r.integer(4096));
         const auto policy=sampling?RgbNominalSampling(r.integer(1)):RgbNominalSampling::IntegerOrigin;
-        return CellSamplingGrid(w,h,NominalCellSampling(RgbNominalRequest(x,y,rw,rh,step,policy),cx,cy));
+        return CellSamplingGrid(w,h,NominalCellSampling(RgbNominalRequest(x,y,rw,rh,step,policy),cx,cy),exact_support);
     }
     std::array<std::int64_t,10> v;for(auto& n:v) n=integer();
     return ScientificGrid(v[0],v[1],{v[2],v[4],v[6],v[8]},{v[3],v[5],v[7],v[9]},work_bytes);

@@ -54,6 +54,29 @@ struct Reader final:qpx::ImageServer {
 };
 }
 void check_rgb_nominal_sampling() {
+    // Independent white-source/explicit support bitmap: fixed phase at nominal
+    // X index2 is two 32-bit fraction units below zero, while its binary64
+    // nominal world center is positive. Alpha remains opaque even for padding.
+    for(const auto mode:{qpx::RgbNominalSampling::IntegerOrigin,qpx::RgbNominalSampling::AffineInverse})for(const auto context:{0,2}) {
+        const auto plan=qpx::detail::plan_rgb_nominal_window(8,8,-4,0,12,8,1.6,-context,-context,8+2*context,5+2*context,nullptr,mode);
+        const auto phase=qpx::detail::rgb_nominal_support_phase(8,8,-4,0,12,8,1.6,-context,-context,8+2*context,5+2*context,nullptr,mode);
+        expect(phase.empty());
+        const auto pixels=render(plan,std::vector<unsigned char>(8*8*4,255),8);
+        std::size_t supported=0;
+        for(std::int64_t y=0;y<plan.output_height;++y)for(std::int64_t x=0;x<plan.output_width;++x) {
+            const bool expected=x-context>=3 && x-context<=7 && y-context>=0 && y-context<5;
+            const auto valid=qpx::detail::rgb_nominal_source_support(plan,x,y);expect(valid==expected);supported+=valid;
+            expect(qpx::detail::rgb_nominal_source_support(phase,x,y)==expected);
+            const auto i=std::size_t((y*plan.output_width+x)*4);
+            for(unsigned channel=0;channel<3;++channel)expect(pixels.bytes()[i+channel]==(expected?255:0));
+            expect(pixels.bytes()[i+3]==255);
+        }
+        expect(supported==25 && std::fma(2.5,1.6,-4.)>0 && !qpx::detail::rgb_nominal_source_support(plan,2+context,context));
+        refuses<std::out_of_range>([&]{qpx::detail::rgb_nominal_source_support(plan,-1,0);});
+        refuses<std::out_of_range>([&]{qpx::detail::rgb_nominal_source_support(plan,0,plan.output_height);});
+    }
+    std::cout<<"Nominal fixed-phase support: explicit signed-boundary bitmap, opaque white/padding distinction, both coordinate policies/context windows passed; cell integration remains version-gated\n";
+
     using namespace qpx;
     using namespace qpx::detail;
     const auto root=std::filesystem::path(QPX_RGB_NOMINAL_FIXTURE);

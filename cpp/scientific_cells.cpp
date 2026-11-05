@@ -96,7 +96,7 @@ CellRequest CellRequest::for_nominal_roi(const Document& document,std::uint64_t 
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,GridCellParameters p):
     CellRequest(doc,id,transform,CellSamplingGrid(std::move(grid)),std::move(p)) {}
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,NominalCellSampling sampling,GridCellParameters p):
-    CellRequest(doc,id,transform,CellSamplingGrid(doc.metadata().width,doc.metadata().height,std::move(sampling)),std::move(p)) {}
+    CellRequest(doc,id,transform,CellSamplingGrid(doc.metadata().width,doc.metadata().height,std::move(sampling),true),std::move(p)) {}
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellSamplingGrid grid,GridCellParameters p):
     reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
     p.validate();

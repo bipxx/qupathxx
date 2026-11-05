@@ -20,7 +20,7 @@ auto nominal(const NominalCellSampling& n) {
     const auto& r=n.source_request();return std::make_tuple(r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,n.context_x(),n.context_y(),r.sampling);
 }
 bool same_sampling(const TissueResult& a,const TissueResult& b) {
-    if(a.nominal_sampling() || b.nominal_sampling()) return a.nominal_sampling() && b.nominal_sampling() && nominal(*a.nominal_sampling())==nominal(*b.nominal_sampling());
+    if(a.nominal_sampling() || b.nominal_sampling()) return a.nominal_sampling() && b.nominal_sampling() && std::string(a.input_format())==b.input_format() && nominal(*a.nominal_sampling())==nominal(*b.nominal_sampling());
     return a.scientific_grid() && b.scientific_grid() && grid(*a.scientific_grid())==grid(*b.scientific_grid());
 }
 bool same_grid_request(const CellResult& a,const CellResult& b) {
@@ -145,7 +145,7 @@ CellRequest CellRequest::replay(const Document& document,std::uint64_t id) {
     if(record->result->grid_parameters()) {
         if((!r.scientific_grid() && !r.nominal_sampling()) || !r.provenance()) throw std::invalid_argument("saved grid cell geometry or provenance is missing");
         const auto transform=StainTransform::from_normalized(r.stains(),r.white());
-        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,*r.nominal_sampling(),*record->result->grid_parameters()):
+        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,CellSamplingGrid(document.metadata().width,document.metadata().height,*r.nominal_sampling(),CellSamplingGrid::exact_support_for(*r.nominal_sampling(),r.input_format())),*record->result->grid_parameters()):
             CellRequest(document,r.object_id(),transform,*r.scientific_grid(),*record->result->grid_parameters());
         const auto& p=request.scientific_->source.provenance();
         if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) ||

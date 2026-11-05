@@ -26,11 +26,22 @@ RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_heig
 // Output-lattice window, not a new integer source crop. Negative sample indices
 // provide up to4096 context samples on each side without shifting the lattice.
 // All sample centers use the original request's fixed-point start/stride.
+// Validated phase without a source-window scan. Safe for support-only users;
+// this has an empty read window and must not be rendered as a pixel plan.
+RgbNominalPlan rgb_nominal_support_phase(std::int64_t image_width,std::int64_t image_height,
+    std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double nominal_downsample,
+    std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
+    const std::atomic<bool>* cancelled=nullptr,
+    RgbNominalCoordinates coordinates=RgbNominalCoordinates::IntegerOrigin);
 RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t image_height,
     std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double nominal_downsample,
     std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
     const std::atomic<bool>* cancelled=nullptr,
     RgbNominalCoordinates coordinates=RgbNominalCoordinates::IntegerOrigin);
+// Coordinate support from the exact fixed-point sampling phase, independent of
+// RGB values and opaque black padding. No pixels/IO are required for this query.
+// Cell recipe integration must version support semantics to retain old replay.
+bool rgb_nominal_source_support(const RgbNominalPlan&,std::int64_t x,std::int64_t y);
 // The window must have exactly plan.window dimensions and opaque RGBA bytes.
 // Pass nullptr only for an empty plan. Output is owned, opaque RGBA, including
 // black outside-image samples. No default quantitative sampling policy changes.

@@ -187,7 +187,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. CLASSHISTORY1 locally verifies class-only rename field history/admission. Remaining overlapping/nested edit and hierarchy/class work needs a demonstrated missing behavior | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
 | R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 is locally verified for shared ancestry and project-default retention/authoring. Remaining calibration/project properties, versions/builders/records, source races and geometry losses need named fixtures/fault contracts | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
-| R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
+| R6 | First finish CONTEXT1: use the RGB sampler's exact phase for nominal support, version retained input identity and preserve old replay. Then vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Reuse the private support primitive and ordinary context/halo evidence. New uniform-white signed-boundary requests must produce zero cells; pinned legacy records must replay their original result. Extend the shared sampling/kernel authority; labels block only biological acceptance |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
 | R9 | Neighborhoods and density; signed distances; tiled aggregation | Extend the existing spatial index and measurement tables one metric at a time, with physical units and independent geometry expectations. Reuse the consumer routes; scaling belongs to R12 |
@@ -212,6 +212,40 @@ scientific acceptance and release support remain separate. Close an R family onl
 when its remaining inventory entries are accepted or explicitly deferred with a
 scope decision. Close M0-M7 against project-plan criteria, not task counts.
 
+### Dispatch and finish the remaining queue
+
+Use the ordered rows above until the full inventory is resolved. For each next
+slice, write a concrete action and expected result in current-task.md; a family
+name such as "classification" is not an executable task. Start with its existing
+native request/command, then identify only the missing nanobind, ImGui, CLI or
+batch plumbing needed for that user outcome. All affected consumers must use the
+same native behavior. An API already exposed correctly needs no wrapper rewrite.
+
+For R2/R4/R5, reopen only a named unsupported representation, edit or fault,
+with its retained fixture and expected behavior. For R6-R10, establish sampling,
+units, feature/model identity and a small independent expectation before broad
+specimen comparison. For R11, retain one open-to-save pipeline and extend its
+failure/resume behavior rather than adding a second job system. For R3, test the
+specific display or input interaction; for R12, freeze the complete workload
+before measuring and optimize the measured bottleneck. R13 uses the resulting
+requirement-to-evidence map; R14-R16 reuse those stable contracts for each added
+host, adapter or execution route. The detailed routes below supply existing API
+entry points; historical packet checklists are not new execution requirements.
+
+At each handoff, the selected slice must have:
+
+- A user-visible result, prerequisites and explicit remaining scope.
+- A native implementation path and affected consumers/persistence versions.
+- A decisive correctness check and the compatible evidence it reuses.
+- A close condition, expected build/install work and first next action.
+
+No unmeasured calendar estimate or completion percentage substitutes for these
+conditions. Close the full project only when every included inventory gap has
+accepted evidence or an explicit owner scope decision, M0-M7 exit criteria are
+met, and the declared release support is verified. A smaller supported release
+does not erase later parity work. Do not claim speed superiority without matched
+end-to-end workload, hardware, accuracy/settings and resource measurements.
+
 ### Task boundaries and cost controls
 
 Before starting the selected slice, put its included outcome and explicitly
@@ -226,6 +260,9 @@ inputs change, whether a native build/install/stub generation is needed, and
 which retained results can be reused. This is a planning estimate, not a quota
 that can justify skipping a necessary check. Before repeating an expensive
 operation, identify the changed input or unresolved failure and update the card.
+Check a prior live session or retained result before launching a replacement.
+Use directory/content searches with explicit globs and bounded output; avoid
+Windows wildcard filenames and large unfiltered plan dumps.
 Do not add a timer, reporting framework or separate cost ledger for this rule.
 
 The one-time R4/R5 reconciliation is complete and selected project metadata,

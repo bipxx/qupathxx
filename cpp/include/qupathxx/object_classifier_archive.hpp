@@ -19,6 +19,8 @@ struct ObjectCellFeatureSource {
     std::shared_ptr<const NominalCellSampling> nominal_sampling;
     std::optional<GridCellParameters> grid_parameters;
     ResolvedGridCellParameters resolved_grid_parameters;
+    // Versioned nominal input support, retained per origin (QCA9 kind5).
+    bool nominal_exact_support=false;
     std::size_t payload_bytes() const;
 };
 // Immutable worker-prepared artifact. Reopening never restores live request authority.

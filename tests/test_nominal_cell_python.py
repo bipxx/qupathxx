@@ -119,7 +119,7 @@ def test_nominal_job_project_reopen_verification_and_csv_keep_original_authority
         assert row['table_schema']=='qpx.cell-table/8' and row['sampling_grid']=='nominal_rgb'
         assert row['detector_mode']=='nominal-log-bodies' and float(row['sample_step_x_px'])==1.5
         assert row['grid_extent_width_px']=='256' and row['grid_samples_x']=='171'
-        assert row['grid_context_x']=='0' and row['grid_input_format']=='qpx.nominal-cell-rgb/1'
+        assert row['grid_context_x']=='0' and row['grid_input_format']=='qpx.nominal-cell-rgb/2'
     project=q.Project();image=project.add_document(doc);path=tmp_path/'nominal.qpxproj';project.save(str(path))
     reopened=q.Project.open(str(path)).document(image);record=reopened.cell_record(run)
     assert reopened.cell_status(run)=='unverified' and record.result.nominal_sampling.source_request.downsample==1.5

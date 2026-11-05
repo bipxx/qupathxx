@@ -421,6 +421,10 @@ void check_scientific_raw_analysis() {
         const auto& c=raw_sampling_reference::cases[reference.source];
         auto reader=std::make_shared<AnalysisReader>(reference.source);Document document(reader);
         const auto object=reference.roi?document.add_rectangle({1,1,3,2},"captured ROI"):0;
+        if(object && (c.z || c.t))document.set_object_plane(object,{-1,c.z,c.t});
+        // Authoring the explicit plane validates metadata; the observation
+        // below measures request capture/IO, not that setup validation.
+        reader->metadata_reads=0;
         const ScientificGrid grid(5,4,{c.x,c.w,c.nx,c.cx},{c.y,c.h,c.ny,c.cy});
         ScientificRawOptions options;options.first_channel=c.first;options.channels=c.channels;options.z=c.z;options.t=c.t;
         RawAnalysisRequest request(document,grid,options,object);

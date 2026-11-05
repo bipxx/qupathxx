@@ -12,6 +12,7 @@ void checkpoint(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_r
 }
 bool CellSamplingGrid::source_support(std::size_t i) const {
     const auto x=std::int64_t(i%std::size_t(width())),y=std::int64_t(i/std::size_t(width()));
+    if(exact_support_phase) return detail::rgb_nominal_source_support(*exact_support_phase,x,y);
     if(nominal) return center_x(x)>=0 && center_y(y)>=0 && center_x(x)<image_width_ && center_y(y)<image_height_;
     const auto ix=x+area->x().first_index(),iy=y+area->y().first_index();
     return area->x().edge(ix).floor()>=0 && area->y().edge(iy).floor()>=0 &&

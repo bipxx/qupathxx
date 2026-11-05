@@ -84,7 +84,7 @@ RgbNominalPlan plan_rgb_nominal(std::int64_t image_width,std::int64_t image_heig
     return plan_rgb_nominal_window(image_width,image_height,x,y,width,height,step,
         0,0,output_size(width,step),output_size(height,step),cancel,coordinates);
 }
-RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t image_height,
+RgbNominalPlan rgb_nominal_support_phase(std::int64_t image_width,std::int64_t image_height,
     std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
     std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
     const std::atomic<bool>* cancel,RgbNominalCoordinates coordinates) {
@@ -108,6 +108,16 @@ RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t ima
         x=ax.first;start=ax.second;y=ay.first;start_y=ay.second;
     }else if(coordinates!=RgbNominalCoordinates::IntegerOrigin)
         throw std::invalid_argument("Unknown RGB nominal coordinate policy");
+    return {image_width,image_height,x,y,samples_width,samples_height,start,stride,step<1,{0,0,0,0,0},sample_x,sample_y,start_y};
+}
+RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t image_height,
+    std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,double step,
+    std::int64_t sample_x,std::int64_t sample_y,std::int64_t samples_width,std::int64_t samples_height,
+    const std::atomic<bool>* cancel,RgbNominalCoordinates coordinates) {
+    auto phase=rgb_nominal_support_phase(image_width,image_height,x,y,width,height,step,
+        sample_x,sample_y,samples_width,samples_height,cancel,coordinates);
+    x=phase.x;y=phase.y;
+    const auto start=phase.start,start_y=phase.start_y,stride=phase.stride;
     const auto wx=window_axis(x,image_width,sample_x,samples_width,start,stride,step<1,cancel);
     const auto wy=window_axis(y,image_height,sample_y,samples_height,start_y,stride,step<1,cancel);
     RegionRequest window{0,0,0,0,0};
@@ -116,7 +126,12 @@ RgbNominalPlan plan_rgb_nominal_window(std::int64_t image_width,std::int64_t ima
         window={wx.first,wy.first,0,wx.second,wy.second};
     }
     checkpoint(cancel);
-    return {image_width,image_height,x,y,samples_width,samples_height,start,stride,step<1,window,sample_x,sample_y,start_y};
+    phase.window=window;return phase;
+}
+bool rgb_nominal_source_support(const RgbNominalPlan& plan,std::int64_t x,std::int64_t y) {
+    if(x<0 || y<0 || x>=plan.output_width || y>=plan.output_height)throw std::out_of_range("RGB nominal support coordinate outside output window");
+    return point(plan.x,plan.image_width,plan.start,plan.stride,plan.sample_x+x,plan.nearest).valid &&
+        point(plan.y,plan.image_height,plan.start_y,plan.stride,plan.sample_y+y,plan.nearest).valid;
 }
 PixelBuffer sample_rgb_nominal(const RgbNominalPlan& plan,const PixelBuffer* source,const std::atomic<bool>* cancel) {
     checkpoint(cancel);

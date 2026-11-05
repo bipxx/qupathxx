@@ -89,7 +89,7 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
     checkpoint(cancelled);const auto& p=*r.grid_parameters();p.validate();
     if(!r.nuclei() || !r.cells() || !r.nuclei()->provenance() ||
        (!r.nuclei()->scientific_grid() && !r.nuclei()->nominal_sampling())) throw std::invalid_argument("missing grid cell archive snapshot");
-    const auto& n=*r.nuclei();const CellSamplingGrid grid=n.nominal_sampling()?CellSamplingGrid(n.provenance()->source.width,n.provenance()->source.height,*n.nominal_sampling()):CellSamplingGrid(*n.scientific_grid());
+    const auto& n=*r.nuclei();const CellSamplingGrid grid=n.nominal_sampling()?CellSamplingGrid(n.provenance()->source.width,n.provenance()->source.height,*n.nominal_sampling(),CellSamplingGrid::exact_support_for(*n.nominal_sampling(),n.input_format())):CellSamplingGrid(*n.scientific_grid());
     if(std::string(r.algorithm())!=grid.algorithm(p.processing)) throw std::invalid_argument("grid cell archive algorithm differs");
     const auto provenance=ProvenanceCodec::encode(*n.provenance());
     if(r.domain_bits_.size()!=(n.labels().size()+7)/8 || !hex(n.input_sha256()) || n.input_sha256()!=r.cells()->input_sha256() || r.elapsed_ms()<0)
@@ -98,8 +98,8 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
     if(encoded_bound>limit || archive_work(n.labels().size(),r.features().size(),r.markers().size(),n.provenance()->payload_bytes(),n.roi().payload_bytes(),p.contours.work_bytes,std::size_t(encoded_bound))>work_limit)
         throw std::length_error("grid cell archive exceeds encoded byte limit");
     const bool processing=p.processing!=CellProcessingPolicy::Quantitative;
-    const bool extended=grid.affine() || cell_detail::qupath_processing(p.processing);
-    Writer w;w.bytes[3]=extended?8:processing?7:grid.nominal?6:5;parameters(w,p,processing || extended);cell_grid_write(w,grid,extended);
+    const bool extended=bool(grid.exact_support_phase) || grid.affine() || cell_detail::qupath_processing(p.processing);
+    Writer w;w.bytes[3]=grid.exact_support_phase?9:extended?8:processing?7:grid.nominal?6:5;parameters(w,p,processing || extended);cell_grid_write(w,grid,extended);
     w.blob(provenance);for(auto v:n.white()) w.real(v);for(const auto& row:n.stains()) for(auto v:row) w.real(v);
     const auto& q=*r.resolved_grid_parameters();for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) w.real(v);w.integer(q.min_nucleus_samples);w.integer(q.max_nucleus_samples);
     for(auto v:{n.samples(),n.threshold_pixels(),std::uint64_t(r.raw_peaks()),std::uint64_t(r.markers().size()),std::uint64_t(r.features().size())}) w.integer(v);
@@ -118,7 +118,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     checkpoint(cancelled);if(!data || size<512 || size>limit) throw std::invalid_argument("invalid grid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("grid cell archive checksum mismatch");
-    Reader d{data+4,size-68};const auto p=parameters(d,data[3]>=7,data[3]>=8);const auto grid=cell_grid_read(d,data[3]>=6,p.work_bytes,data[3]>=8);
+    Reader d{data+4,size-68};const auto p=parameters(d,data[3]>=7,data[3]>=8);const auto grid=cell_grid_read(d,data[3]>=6,p.work_bytes,data[3]>=8,data[3]>=9);
     if(grid.image_width()!=metadata.width || grid.image_height()!=metadata.height || !roi.is_area()) throw std::invalid_argument("grid cell archive image or ROI mismatch");
     const auto b=roi.bounds();if(b.x<0 || b.y<0 || b.x+b.width>metadata.width || b.y+b.height>metadata.height) throw std::invalid_argument("grid cell archive ROI exceeds image");
     const auto blob=d.blob(4ULL*1024*1024);const auto provenance=ProvenanceCodec::decode(blob.first,blob.second);

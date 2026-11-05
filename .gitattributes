@@ -831,3 +831,5 @@ tools/upstream/qupath_class_colors_reference.groovy -text
 docs/benchmarks/class-hierarchy-r4/** -text -whitespace
 
 docs/benchmarks/class-history-r4/** -text -whitespace
+
+tests/fixtures/cell-context-legacy-v1/** -text -whitespace
