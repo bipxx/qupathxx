@@ -2,6 +2,7 @@
 
 #include "qupathxx/project.hpp"
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <array>
 #include <cstring>
 #include <stdexcept>
@@ -26,10 +27,11 @@ class EntryEditor {
         buffer.fill(0);std::memcpy(buffer.data(),value.data(),value.size());
     }
     void select_metadata(int row) {
-        metadata_row_=row;
+        // InputText caches active contents independently of our rebound buffer.
+        ImGui::ClearActiveID();metadata_row_=row;
         if(row>=0) {copy(key_,metadata_[row].first);copy(value_,metadata_[row].second);}
     }
-    void select_tag(int row) {tag_row_=row;if(row>=0)copy(tag_,tags_[row]);}
+    void select_tag(int row) {ImGui::ClearActiveID();tag_row_=row;if(row>=0)copy(tag_,tags_[row]);}
     void load(const std::shared_ptr<Project>& project,std::uint64_t image) {
         // Read before replacing a previous draft, so a removed image cannot clear it.
         auto metadata=project->image_metadata(image);
@@ -78,8 +80,8 @@ public:
                 ImGui::BeginDisabled(metadata_row_<0);
                 if(ImGui::Button("Remove metadata")) {metadata_.erase(metadata_.begin()+metadata_row_);select_metadata(metadata_.empty()?-1:0);}
                 if(metadata_row_>=0) {
-                    if(ImGui::InputTextMultiline("Key",key_.data(),key_.size(),{0,55}))metadata_[metadata_row_].first=key_.data();
-                    if(ImGui::InputTextMultiline("Value",value_.data(),value_.size(),{0,80}))metadata_[metadata_row_].second=value_.data();
+                    if(ImGui::InputTextMultiline("Key",key_.data(),key_.size(),{0,55},ImGuiInputTextFlags_AllowTabInput))metadata_[metadata_row_].first=key_.data();
+                    if(ImGui::InputTextMultiline("Value",value_.data(),value_.size(),{0,80},ImGuiInputTextFlags_AllowTabInput))metadata_[metadata_row_].second=value_.data();
                 }
                 ImGui::EndDisabled();
                 if(ImGui::Button("Clear metadata")) {metadata_.clear();select_metadata(-1);}
@@ -96,7 +98,7 @@ public:
             if(ImGui::BeginTabItem("Description and tags")) {
                 ImGui::Checkbox("Description present",&has_description_);
                 ImGui::BeginDisabled(!has_description_);
-                ImGui::InputTextMultiline("Description",description_.data(),description_.size(),{0,130});
+                ImGui::InputTextMultiline("Description",description_.data(),description_.size(),{0,130},ImGuiInputTextFlags_AllowTabInput);
                 ImGui::EndDisabled();
                 if(ImGui::BeginChild("Tag rows",{0,100},ImGuiChildFlags_Borders)) {
                     ImGuiListClipper clip;clip.Begin(static_cast<int>(tags_.size()));
@@ -110,7 +112,7 @@ public:
                 if(ImGui::Button("Add tag")) {tags_.emplace_back();select_tag(static_cast<int>(tags_.size()-1));}
                 ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(tag_row_<0);
                 if(ImGui::Button("Remove tag")) {tags_.erase(tags_.begin()+tag_row_);select_tag(tags_.empty()?-1:0);}
-                if(tag_row_>=0 && ImGui::InputTextMultiline("Tag",tag_.data(),tag_.size(),{0,55}))tags_[tag_row_]=tag_.data();
+                if(tag_row_>=0 && ImGui::InputTextMultiline("Tag",tag_.data(),tag_.size(),{0,55},ImGuiInputTextFlags_AllowTabInput))tags_[tag_row_]=tag_.data();
                 ImGui::EndDisabled();
                 if(ImGui::Button("Clear tags")) {tags_.clear();select_tag(-1);}
                 if(ImGui::Button("Apply description and tags")) {

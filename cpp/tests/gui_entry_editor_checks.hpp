@@ -39,10 +39,10 @@ inline void run() {
         io.AddKeyEvent(ImGuiKey_Backspace,true);frame();io.AddKeyEvent(ImGuiKey_Backspace,false);frame();
         io.AddInputCharactersUTF8(value);frame();
     };
-    activate("Add metadata","Metadata");text("Key",u8"Research \u03b1","Metadata");text("Value","value\nsecond line","Metadata");
+    activate("Add metadata","Metadata");text("Key",u8"Research \u03b1","Metadata");text("Value","value\nsecond\tline","Metadata");
     require(project->image_metadata(image).empty(),"Draft leaked into live metadata");
     activate("Apply metadata","Metadata");
-    require(project->image_metadata(image).at(u8"Research \u03b1")=="value\nsecond line","Metadata apply lost text");
+    require(project->image_metadata(image).at(u8"Research \u03b1")=="value\nsecond\tline","Metadata apply lost text");
     activate("Add metadata","Metadata");text("Key",u8"Research \u03b1","Metadata");text("Value","overwrite","Metadata");
     activate("Apply metadata","Metadata");require(project->image_metadata(image).size()==1 && project->image_metadata(image).begin()->second!="overwrite","Duplicate key overwrote live metadata");
     activate("Remove metadata","Metadata");
@@ -54,6 +54,8 @@ inline void run() {
     activate("Add tag","Description and tags"); // Preserve an explicit empty tag.
     require(!project->image_description(image) && project->image_tags(image).empty(),"Details draft leaked");
     activate("Apply description and tags","Description and tags");
+    std::cout<<"Details diagnostic: present="<<project->image_description(image).has_value()<<" description="<<project->image_description(image).value_or("<null>")<<" tags="<<project->image_tags(image).size()<<" popup scroll="<<ImGui::FindWindowByName("Edit project entry")->Scroll.y<<" max="<<ImGui::FindWindowByName("Edit project entry")->ScrollMax.y<<'\n';
+    for(const auto& tag:project->image_tags(image))std::cout<<"Saved tag ["<<tag<<"]\n";
     require(project->image_description(image)==u8"Description \u03b1\nsecond line" && project->image_tags(image)==std::vector<std::string>({"z-last","a-first",""}),"Details apply lost nullable/order state");
     const auto path=std::filesystem::temp_directory_path()/(project->identity()+"-entry-editor.qpxproj");
     struct Cleanup {std::filesystem::path path;~Cleanup(){std::error_code error;std::filesystem::remove(path,error);}} cleanup{path};
@@ -77,6 +79,21 @@ inline void run() {
     const auto other=project->add_document(std::make_shared<qpx::Document>(qpx::Image::demo()));
     active=other;frame();activate("Apply description and tags","Description and tags");
     require(!project->image_description(other),"Replacement project accepted old draft");project=original;active=image;frame();
+    // Native refusal at the aggregate tag boundary must leave live values intact.
+    std::vector<std::string> near_limit;
+    for(int i=0;i<252;++i){auto value=std::to_string(i);value.append(4096-value.size(),'x');near_limit.push_back(std::move(value));}
+    project->set_image_details(image,"boundary",near_limit);activate("Reload current entry");
+    activate("Add tag","Description and tags");text("Tag",std::string(4096,'y').c_str(),"Description and tags");
+    activate("Apply description and tags","Description and tags");
+    require(project->image_tags(image)==near_limit && project->image_description(image)=="boundary","Native refusal partially applied draft");
+    project->set_image_details(image,"",{});activate("Reload current entry");
+    // Metadata has its own stale baseline and independent clear operation.
+    ImGui::ActivateItemByID(ImHashStr("Metadata",0,ImHashStr("Entry fields",0,ImGui::FindWindowByName("Edit project entry")->ID)));frame();frame();
+    project->set_image_metadata(image,{{"external","current"}});activate("Apply metadata","Metadata");
+    require(project->image_metadata(image).at("external")=="current","Stale metadata overwrote newer map");
+    activate("Reload current entry");activate("Clear metadata","Metadata");activate("Apply metadata","Metadata");
+    require(project->image_metadata(image).empty() && project->image_description(image)=="","Metadata clear changed details");
+    ImGui::ActivateItemByID(ImHashStr("Description and tags",0,ImHashStr("Entry fields",0,ImGui::FindWindowByName("Edit project entry")->ID)));frame();frame();
     // Unknown active image disables publication; removal is caught by Project.
     active=image+100;frame();activate("Apply description and tags","Description and tags");require(project->image_description(image)=="","Wrong image accepted draft");active=image;frame();
     project->remove_image(image);activate("Apply description and tags","Description and tags");require(project->images().empty(),"Removed entry was recreated");

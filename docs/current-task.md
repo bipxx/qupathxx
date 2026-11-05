@@ -74,3 +74,43 @@ were absent; discover files with rg --files and use the actual build/ci helper.
 No build was attempted. Waste/action: remove path guessing; implement local GUI
 drafts through settled APIs, with no binding/schema change. Next: editor patch,
 then one affected cached build and actual UI interactions.
+
+ENTRYEDIT1 build checkpoint: product/observer committed at9abb5450; cached GUI
+observer/app build is live in session28466. Compiler scope is GUI plus changed
+provenance, with no public API or schema changes. A later guessed cpp/app.cpp
+lookup also failed; use the CMake target source listing instead. This recurring
+inspection waste requires changing the lookup method, not retrying guessed names.
+Next: poll this same build, then run the existing GUI observer with actual ImGui
+activation/text input; preserve any failure and diagnose before retry.
+
+ENTRYEDIT1 attempt review: cached GUI observer/app build passed. First real-ImGui
+observer passed metadata drafting, text input and duplicate refusal, then failed
+its details apply assertion. Preserve build/entry-edit-observer-attempt1.log.
+No passing status or package install is claimed. Waste/action: retain this focused
+failure; inspect actual details and widget visibility before changing native code
+or repeating the whole build. Next: add observer-only diagnostics and rebuild
+only its changed target to distinguish input targeting from product behavior.
+
+ENTRYEDIT1 diagnosis update: attempt2 shows exact multiline description persisted,
+but two tags instead of three; popup has no vertical clipping (scroll max zero).
+This rules out hidden Apply. Preserve attempt2; next inspect actual tag values
+and selection/text-field activation before a targeted repair. Observer-only rebuild
+was retained; no wheel/install/native contract changes.
+
+ENTRYEDIT1 attempt3 diagnosis: retained tags are z-last/a-first; the newly added
+empty row was overwritten by the still-active ImGui tag text cache, then native
+first-occurrence deduplication correctly removed that duplicate. Fix the GUI
+buffer rebind by clearing active text state when selecting/loading a draft row.
+Native normalization remains unchanged. Waste/action: merge diagnostic values
+into future first-failure output instead of successive observer-only probes.
+Next: rebuild affected GUI/observer once for this concrete input-state repair.
+
+ENTRYEDIT1 repair review: attempt4 passes all original actual ImGui checks,
+including saved/reopened values, no-op dirty state, UTF8/multiline input,
+metadata duplicates, null/empty/tags order, cancel, stale details, project/image
+replacement and removed entries. Buffer rebind repair fixes the empty-tag loss.
+Waste/action: retain attempts1-3; no native API/schema/model changes. Group final
+tab-input support with explicit metadata-stale/clear and native aggregate-budget
+refusal controls before final packaging; reuse existing SDK/store/numerical
+results. Next: one frozen cached wheel/observer build, install once and inspect
+installed UI. No new stubs or capture required.
