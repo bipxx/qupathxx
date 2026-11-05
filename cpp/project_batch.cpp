@@ -281,7 +281,8 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
     if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;// Keep legacy unfiltered snapshot accounting inside the existing bookkeeping
     // allowance; smoothed requests fully charge their new sigma metadata.
-    std::size_t charge=sizeof(Data)-detail::inactive_tissue_parameter_bytes(options.tissue)+65536+d->json.capacity()+d->sha.capacity();
+    std::size_t charge=sizeof(Data)-detail::inactive_tissue_parameter_bytes(options.tissue)-
+        (options.tissue_grid?0:sizeof(options.tissue_grid))+(options.tissue_grid?sizeof(TissueGridSampling):0)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
     if(raw_classifier_batch(options.kind)) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {

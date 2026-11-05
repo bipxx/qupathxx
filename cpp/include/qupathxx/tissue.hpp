@@ -29,9 +29,22 @@ inline std::size_t inactive_tissue_parameter_bytes(const TissueParameters& p) {
         (!p.median_cleanup?sizeof(TissueParameters)-offsetof(TissueParameters,median_cleanup):0);
 }
 }
+struct TissueGridSampling {
+    std::uint32_t samples_x=512,samples_y=512,context_x=0,context_y=0;
+    void validate() const;
+};
 class TissueRequest {
 public:
     TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool nucleus=false);
+    TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,ScientificGrid,TissueParameters={},bool nucleus=false);
+    static TissueRequest for_grid_roi(const Document&,std::uint64_t object_id,const StainTransform&,TissueGridSampling={},
+        TissueParameters={},bool nucleus=false,std::optional<double> minimum_um2={},std::optional<double> maximum_um2={});
+    static TissueRequest with_grid_component_area_limits(const Document&,std::uint64_t object_id,const StainTransform&,ScientificGrid,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool nucleus=false);
+    const ScientificGrid* scientific_grid() const {return grid_.get();}
+    double downsample_x() const {return grid_?GridFraction(grid_->x().extent(),grid_->x().samples()).binary64():downsample_;}
+    double downsample_y() const {return grid_?GridFraction(grid_->y().extent(),grid_->y().samples()).binary64():downsample_;}
+
     static TissueRequest with_component_area_limits(const Document&,std::uint64_t object_id,const StainTransform&,
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool nucleus=false);
     bool matches(const Document& d,std::uint64_t id) const {
@@ -42,9 +55,13 @@ public:
     const Roi& roi() const {return source_.roi();}
     std::uint64_t total_tiles() const {return total_tiles_;}
     std::int32_t level() const {return level_;}
-    double downsample() const {return downsample_;}
-    Rect level_bounds() const {return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
-    Rect bounds() const {const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};}
+    double downsample() const {if(grid_) throw std::logic_error("explicit tissue grid requires per-axis sampling geometry");return downsample_;}
+    Rect level_bounds() const {if(grid_) throw std::logic_error("explicit tissue grid has no natural-level bounds");return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
+    Rect bounds() const {
+        if(grid_) {const auto& g=*grid_;const auto x=g.x().edge(g.x().first_index()).binary64(),y=g.y().edge(g.y().first_index()).binary64();
+            return {x,y,g.x().edge(g.x().stop_index()).binary64()-x,g.y().edge(g.y().stop_index()).binary64()-y};}
+        const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};
+    }
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
     const std::shared_ptr<const AnalysisProvenance>& provenance() const {return source_.provenance();}
     static TissueRequest replay(const Document&,std::uint64_t record_id);
@@ -61,6 +78,8 @@ private:
     double downsample_=1;
     std::int64_t x0_=0,y0_=0,x1_=0,y1_=0;
     std::uint64_t total_tiles_=0;
+    std::shared_ptr<const ScientificGrid> grid_;
+    static void apply_component_area_limits(const Document&,TissueRequest&,std::optional<double>,std::optional<double>);
 };
 struct TissueComponent {
     std::uint32_t label=0;

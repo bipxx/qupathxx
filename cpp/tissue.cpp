@@ -3,6 +3,9 @@
 #include "calibrated_cell_numeric.hpp"
 #include "tissue_cleanup.hpp"
 #include "masked_gaussian.hpp"
+#include "scientific_raster.hpp"
+#include "scientific_channel_values.hpp"
+#include "roi_scientific_grid.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -76,21 +79,72 @@ TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const Sta
     if(!has_centers) throw std::invalid_argument("ROI contains no pixel centers at the requested pyramid level");
     if(!found) throw std::length_error("tissue raster exceeds work budget or uint32 indexing; select a coarser level or smaller ROI");
 }
+void TissueGridSampling::validate() const {
+    if(!samples_x || !samples_y || samples_x>1000000 || samples_y>1000000 || context_x>4096 || context_y>4096)
+        throw std::invalid_argument("tissue grid sampling requires 1..1000000 samples and 0..4096 context per axis");
+}
+TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,TissueParameters parameters,bool nucleus):
+    source_(document,id,transform,stain_feature(parameters.feature)?AnalysisKind::StainMeans:AnalysisKind::OpticalDensityMeans,nucleus,256,true,parameters.sampling_policy,true),parameters_(parameters),
+    grid_(std::make_shared<const ScientificGrid>(std::move(grid))) {
+    parameters_.validate();
+    if(parameters.level>0 || parameters.tile_size!=256)
+        throw std::invalid_argument("explicit tissue grid requires level zero/auto and default tile size");
+    parameters_.level=0;
+    const auto& m=source_.source_->metadata();const auto& g=*grid_;
+    if(source_.source_->closed() || m.width!=g.image_width() || m.height!=g.image_height() || m.levels.empty() ||
+       m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1 ||
+       m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA)
+        throw std::invalid_argument("grid tissue requires an open matching unit-scale RGBA8 level zero");
+    validate_scientific_raster_geometry(g);
+    const auto count=std::uint64_t(g.width())*std::uint64_t(g.height());
+    if(count>std::numeric_limits<std::uint32_t>::max()) throw std::length_error("tissue grid exceeds uint32 indexing");
+    const auto capacity=std::min<std::uint64_t>(std::uint64_t(g.x().samples())*std::uint64_t(g.y().samples()),parameters.max_components);
+    // Simultaneous sampling peak: RGB/support + transformed channels + mask,
+    // flood scratch, support/core domains and optional scores. This also covers
+    // the later Gaussian scratch after the sampled RGB/channels are released.
+    const auto bytes=tissue_detail::grid_work_bytes(g,parameters,source_.roi(),*source_.provenance());
+    if(bytes>parameters.work_bytes) throw std::length_error("tissue grid exceeds work budget");
+    x1_=g.width();y1_=g.height();component_capacity_=std::size_t(capacity);estimated_work_bytes_=std::size_t(bytes);total_tiles_=1;
+    physical_calibration_revision_=document.calibration_revision();
+}
+TissueRequest TissueRequest::for_grid_roi(const Document& document,std::uint64_t id,const StainTransform& transform,TissueGridSampling sampling,
+    TissueParameters parameters,bool nucleus,std::optional<double> minimum,std::optional<double> maximum) {
+    sampling.validate();parameters.validate();detail::validate_tissue_area_limits(minimum,maximum);
+    const auto object=document.annotation(id);
+    if(nucleus && !object.nucleus) throw std::invalid_argument("tissue grid requires an existing nucleus ROI");
+    const auto& roi=nucleus?*object.nucleus:object.geometry;
+    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,parameters.work_bytes);
+    return with_grid_component_area_limits(document,id,transform,std::move(grid),minimum,maximum,parameters,nucleus);
+}
+TissueRequest TissueRequest::with_grid_component_area_limits(const Document& document,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,
+    std::optional<double> minimum,std::optional<double> maximum,TissueParameters parameters,bool nucleus) {
+    detail::validate_tissue_area_limits(minimum,maximum);
+    TissueRequest request(document,id,transform,std::move(grid),parameters,nucleus);
+    apply_component_area_limits(document,request,minimum,maximum);return request;
+}
 TissueRequest TissueRequest::with_component_area_limits(const Document& document,std::uint64_t id,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,TissueParameters parameters,bool nucleus) {
     detail::validate_tissue_area_limits(minimum,maximum);
     TissueRequest request(document,id,transform,parameters,nucleus);
-    if(!minimum && !maximum) return request;
+    apply_component_area_limits(document,request,minimum,maximum);return request;
+}
+void TissueRequest::apply_component_area_limits(const Document& document,TissueRequest& request,std::optional<double> minimum,std::optional<double> maximum) {
+    if(!minimum && !maximum) return;
     const auto& captured=request.provenance();
     if(!captured || !captured->effective_pixel_width_um || !captured->effective_pixel_height_um)
         throw std::invalid_argument("physical tissue area limits require both pixel calibration axes");
     request.physical_calibration_revision_=document.calibration_revision();
-    const auto count=static_cast<std::uint64_t>(request.x1_-request.x0_)*static_cast<std::uint64_t>(request.y1_-request.y0_);
-    const auto limits=detail::calibrated_area_pixel_limits(count,request.downsample_,*captured->effective_pixel_width_um,
-        *captured->effective_pixel_height_um,minimum,maximum,parameters.min_pixels,parameters.max_pixels);
+    const auto count=request.grid_?std::uint64_t(request.grid_->x().samples())*std::uint64_t(request.grid_->y().samples()):
+        static_cast<std::uint64_t>(request.x1_-request.x0_)*static_cast<std::uint64_t>(request.y1_-request.y0_);
+    const auto& p=request.parameters_;
+    const auto x=*captured->effective_pixel_width_um,y=*captured->effective_pixel_height_um;
+    const auto limits=request.grid_?detail::calibrated_area_count_limits(count,[&](std::uint64_t n) {
+        return detail::calibrated_cell_product({double(n),request.downsample_x(),request.downsample_y(),x,y},true);
+    },minimum,maximum,p.min_pixels,p.max_pixels):detail::calibrated_area_pixel_limits(count,request.downsample_,x,y,minimum,maximum,p.min_pixels,p.max_pixels);
     request.parameters_.min_pixels=limits.first;request.parameters_.max_pixels=limits.second;
-    request.parameters_.validate();return request;
+    request.parameters_.validate();
 }
+
 struct TissueKernel {
     static std::shared_ptr<const TissueResult> run(const TissueRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         const auto started=std::chrono::steady_clock::now();check_cancelled(cancelled);
@@ -99,16 +153,19 @@ struct TissueKernel {
         output->ticket_=request.ticket_;
         const auto width=request.x1_-request.x0_,height=request.y1_-request.y0_;const auto scale=request.downsample_;
         const auto count=static_cast<std::size_t>(width*height);
-        output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
+        const bool grid=bool(request.grid_);
+        output->bounds_=request.bounds();output->level_bounds_=grid?Rect{}:request.level_bounds();output->level_=request.level_;output->downsample_=scale;
+        if(grid) {output->scientific_grid_=*request.grid_;output->input_format_override_="qpx.grid-opaque-rgb-area/1";}
         output->roi_=source.roi_;output->image_bounds_={0,0,double(source.source_->metadata().width),double(source.source_->metadata().height)};
-        output->algorithm_=tissue_detail::algorithm(p,request.level_);
+        output->algorithm_=grid?"qpx.grid-threshold-components/1":tissue_detail::algorithm(p,request.level_);
         const bool cleanup=tissue_detail::enabled(p),smooth=p.smoothing_sigma>0;
         output->parameters_=p;output->estimated_work_bytes_=request.estimated_work_bytes_;
         output->object_id_=source.object_id_;output->object_revision_=source.object_revision_;output->document_revision_=source.document_revision_;
         output->nucleus_=source.nucleus_;output->white_=source.transform_.white();output->stains_=source.transform_.stains();
         output->labels_.resize(count);output->components_.reserve(request.component_capacity_);
         std::vector<std::uint32_t> queue;queue.reserve(count);
-        std::vector<std::uint8_t> domain;if(cleanup || smooth) domain.resize(count);
+        std::vector<std::uint8_t> domain;if(cleanup || smooth || grid) domain.resize(count);
+        std::vector<std::uint8_t> core;if(grid) core.resize(count);
         std::vector<double> scores;if(smooth) scores.resize(count);
         auto& labels=output->labels_;constexpr auto foreground=std::numeric_limits<std::uint32_t>::max();
         Sha256 digest;const std::string format=output->input_format();digest.update(format.data(),format.size());
@@ -120,6 +177,25 @@ struct TissueKernel {
         for(auto value:{request.x0_,request.y0_,request.x1_,request.y1_}) digest.integer(static_cast<std::uint64_t>(value));digest.integer(p.tile_size);
         if(phase) phase->store(1);
         std::uint64_t tiles=0;
+        if(grid) {
+            const auto input=read_scientific_rgb(*source.source_,*request.grid_,cancelled);
+            output->input_sha256_=scientific_raster_input_sha256(source,input,cancelled);
+            std::vector<double> channels(count*3);
+            detail::scientific_channel_values(input.values(),input.valid(),source.transform_,stain_feature(p.feature),channels,cancelled);
+            for(std::size_t i=0;i<count;++i) {
+                if((i&4095)==0) check_cancelled(cancelled);
+                if(!input.valid()[i]) continue;
+                domain[i]=1;
+                core[i]=scientific_core_roi_contains(source.roi_,*request.grid_,p.sampling_policy,i%std::size_t(width),i/std::size_t(width));
+                output->samples_+=core[i]!=0;
+                const auto at=i*3;
+                const double score=stain_feature(p.feature)?channels[at+static_cast<int>(p.feature)-1]:channels[at]+channels[at+1]+channels[at+2];
+                if(!std::isfinite(score)) throw std::runtime_error("nonfinite tissue grid feature");
+                if(smooth) scores[i]=score;
+                else if(score>=p.threshold) {labels[i]=foreground;output->threshold_pixels_+=core[i]!=0;}
+            }
+            if(completed) completed->store(1,std::memory_order_relaxed);
+        } else {
         for(auto y=request.y0_;y<request.y1_;) {
             const auto h=std::min<std::int64_t>(p.tile_size,request.y1_-y);
             for(auto x=request.x0_;x<request.x1_;) {
@@ -154,13 +230,14 @@ struct TissueKernel {
             }
             y+=h;
         }
+        }
         if(!output->samples_) throw std::invalid_argument("tissue ROI contains no opaque pixel centers");
         if(smooth) {
             if(phase) phase->store(6);
             detail::masked_gaussian(scores,domain,static_cast<std::size_t>(width),static_cast<std::size_t>(height),p.smoothing_sigma,[&]{check_cancelled(cancelled);});
             for(std::size_t i=0;i<count;++i) {
                 if((i&4095)==0) check_cancelled(cancelled);
-                if(domain[i] && scores[i]>=p.threshold) {labels[i]=foreground;++output->threshold_pixels_;}
+                if(domain[i] && scores[i]>=p.threshold) {labels[i]=foreground;output->threshold_pixels_+=!grid || core[i];}
             }
             std::vector<double>().swap(scores);
         }
@@ -175,11 +252,24 @@ struct TissueKernel {
                 tissue_detail::square(labels,queue,domain,width,height,p.close_radius,true,cancelled);
                 tissue_detail::square(labels,queue,domain,width,height,p.close_radius,false,cancelled);
             }
-            if(p.fill_holes) output->filled_pixels_=tissue_detail::fill(labels,queue,domain,width,height,p.connectivity,p.max_hole_pixels,cancelled);
-            for(std::size_t i=0;i<count;++i) {if((i&4095)==0) check_cancelled(cancelled);output->cleaned_pixels_+=labels[i]!=0;}
+            if(p.fill_holes) {
+                std::uint64_t before=0;
+                if(grid) for(std::size_t i=0;i<count;++i) {if((i&4095)==0) check_cancelled(cancelled);before+=core[i] && labels[i]!=0;}
+                const auto filled=tissue_detail::fill(labels,queue,domain,width,height,p.connectivity,p.max_hole_pixels,cancelled);
+                if(grid) {
+                    std::uint64_t after=0;
+                    for(std::size_t i=0;i<count;++i) {if((i&4095)==0) check_cancelled(cancelled);after+=core[i] && labels[i]!=0;}
+                    output->filled_pixels_=after-before;
+                } else output->filled_pixels_=filled;
+            }
+            for(std::size_t i=0;i<count;++i) {if((i&4095)==0) check_cancelled(cancelled);output->cleaned_pixels_+=labels[i]!=0 && (!grid || core[i]);}
             output->cleanup_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();
             queue.clear();
         } else output->cleaned_pixels_=output->threshold_pixels_;
+        if(grid) for(std::size_t i=0;i<count;++i) {
+            if((i&4095)==0) check_cancelled(cancelled);
+            if(!core[i]) labels[i]=0;
+        }
         if(phase) phase->store(2);
         for(std::size_t seed=0;seed<count;++seed) {
             if((seed&4095)==0) check_cancelled(cancelled);
@@ -203,10 +293,16 @@ struct TissueKernel {
             const auto label=static_cast<std::uint32_t>(output->components_.size()+1);
             for(std::size_t i=0;i<queue.size();++i) {if((i&4095)==0) check_cancelled(cancelled);labels[queue[i]]=label;}
             const auto n=static_cast<std::uint64_t>(queue.size());output->foreground_pixels_+=n;
+            if(grid) {
+                const auto& g=*request.grid_;const auto left=g.x().edge(g.x().first_index()+min_x).binary64(),top=g.y().edge(g.y().first_index()+min_y).binary64();
+                output->components_.push_back({label,n,{left,top,g.x().edge(g.x().first_index()+max_x+1).binary64()-left,g.y().edge(g.y().first_index()+max_y+1).binary64()-top},
+                    {scientific_axis_centroid(g.x(),sum_x,n),scientific_axis_centroid(g.y(),sum_y,n)}});
+            } else {
             output->components_.push_back({label,n,{double(request.x0_+min_x)*scale,double(request.y0_+min_y)*scale,double(max_x-min_x+1)*scale,double(max_y-min_y+1)*scale},
                 {(double(request.x0_)+double(sum_x)/double(n)+.5)*scale,(double(request.y0_)+double(sum_y)/double(n)+.5)*scale}});
+            }
         }
-        check_cancelled(cancelled);output->input_sha256_=digest.finish();
+        check_cancelled(cancelled);if(!grid) output->input_sha256_=digest.finish();
         output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();if(phase) phase->store(3);
         return output;
     }

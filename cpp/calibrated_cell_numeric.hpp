@@ -44,14 +44,15 @@ inline double calibrated_cell_product(std::initializer_list<double> factors,bool
 // Resolve inclusive physical bounds against the captured sampling lattice.
 // Return count+1/0 for an impossible interval; zero remains the unlimited
 // maximum sentinel in the existing pixel-count recipe.
-inline std::pair<std::uint64_t,std::uint64_t> calibrated_area_pixel_limits(
-    std::uint64_t count,double scale,double x,double y,std::optional<double> minimum,
+template<class Area>
+inline std::pair<std::uint64_t,std::uint64_t> calibrated_area_count_limits(
+    std::uint64_t count,Area area_for_count,std::optional<double> minimum,
     std::optional<double> maximum,std::uint64_t pixel_min,std::uint64_t pixel_max) {
     if(count==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("sampling grid is not representable");
     auto first=[&](auto predicate) {
         std::uint64_t lo=1,hi=count+1;
         while(lo<hi) {const auto mid=lo+(hi-lo)/2;
-            const auto area=calibrated_cell_product({double(mid),scale,scale,x,y},true);
+            const auto area=area_for_count(mid);
             if(predicate(area)) hi=mid;else lo=mid+1;
         }
         return lo;
@@ -64,6 +65,14 @@ inline std::pair<std::uint64_t,std::uint64_t> calibrated_area_pixel_limits(
     const auto effective_max=std::min(pixel_max?pixel_max:count,upper);
     if(effective_min>effective_max) return {count+1,0};
     return {effective_min,upper<count && (!pixel_max || upper<pixel_max)?upper:pixel_max};
+}
+
+inline std::pair<std::uint64_t,std::uint64_t> calibrated_area_pixel_limits(
+    std::uint64_t count,double scale,double x,double y,std::optional<double> minimum,
+    std::optional<double> maximum,std::uint64_t pixel_min,std::uint64_t pixel_max) {
+    return calibrated_area_count_limits(count,[&](std::uint64_t n) {
+        return calibrated_cell_product({double(n),scale,scale,x,y},true);
+    },minimum,maximum,pixel_min,pixel_max);
 }
 
 }

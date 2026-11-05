@@ -27,7 +27,13 @@ struct InputDigestKernel {
         if(r.snapshot_only_) throw std::logic_error("scientific source snapshot requires its explicit-grid input identity");
         return run(r,0,1,r.x0_,r.y0_,r.x1_,r.y1_,c);
     }
-    static std::string run(const TissueRequest& r,const std::atomic<bool>* c) {return run(r.source_,r.level_,r.downsample_,r.x0_,r.y0_,r.x1_,r.y1_,c);}
+    static std::string run(const TissueRequest& r,const std::atomic<bool>* c) {
+        if(r.grid_) {
+            const auto input=read_scientific_rgb(*r.source_.source_,*r.grid_,c);
+            return scientific_raster_input_sha256(r.source_,input,c);
+        }
+        return run(r.source_,r.level_,r.downsample_,r.x0_,r.y0_,r.x1_,r.y1_,c);
+    }
     static std::string run(const CellRequest& r,const std::atomic<bool>* c) {
         if(r.scientific_) {
             const auto input=read_cell_rgb(*r.reader_,r.scientific_->grid,c);

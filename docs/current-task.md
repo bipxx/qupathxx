@@ -2,72 +2,60 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. [MEDIAN1](benchmarks/tissue-median-r7/README.md) is
-locally verified in its recorded scope; broader R2-R16 work stays active.
+All M0-M7 remain Partial. Current: **R7-GRID1 — explicit tissue sampling and
+context**, **in progress**. [G1 native and G2 retention/export](benchmarks/tissue-grid-r7/README.md)
+have focused verification; [G3-G4](api-delivery-plan.md#r7-grid1-remaining-execution-steps) remain.
 
-Current: **R7-GRID1 — explicit tissue sampling and context contract**
-(ready for trace).
+## Native state and contract
 
-- Outcome: finish one demonstrated missing tissue sampling/context workflow
-  through the existing native raster, retained results and thin consumers.
-- First action: inspect TissueRequest's native-level capture, scientific/nominal
-  raster APIs, shared support/lattice descriptors, cell grid requests and mask
-  archive restrictions. Compare their existing evidence with the R7 user outcome.
-  Reuse a delivered route if it already satisfies that outcome; do not add another
-  reader, sampler or result model. Pin the actual missing behavior before coding.
-- Contract before editing: define requested origin/extent/spacing/counts, units,
-  source plane/reader, ROI and opaque support, context/halo, threshold/filter
-  sampling domains, edge ownership, calibration, errors and replay identity.
-  Establish an independent tiny expected mask and declared tolerance. Preserve
-  intentional native/nominal/grid recipe distinctions and old archives.
-- Easiest route: reuse ScientificGrid/scientific raster, nominal support, tissue
-  cleanup/filters, jobs, persistence and tables where compatible. Add only missing
-  factory/descriptor/codec plumbing, then affected SDK/managed/ImGui/batch/CLI.
-  Reader/codecs must remain openly licensed. Pull R2 forward only for a real gap.
-- Checks/stop: one full selected workflow, exact lattice/pixel/mask and relevant
-  seam/domain/calibration expectations, save/replay/export and changed consumer/
-  cancel/stale/resource checks. Close only that slice; broader context, feature/
-  stain/model/specimen and whole-slide work stays in R7/R12 and the wider queue.
-- Cost: trace requires no build/install/capture. Reuse final34704c24, existing
-  stages/caches and isolated environments. Settle coupled contract/interface
-  fields before compilation; trace all inline quota owners and valid old bounds.
-  Inspect actual scrolled controls before packaging. Reuse tests by source and
-  configuration; no status-driven campaign or duplicate filter/reader work.
-  Root .venv is build/static tooling only, not the runtime editable environment.
+- Request/factories, calibrated count resolution, float64 area-RGB channels,
+  shared digest/cleanup, core-only counters/components and exact axis geometry
+  are implemented. Level-zero RGBA8 area means; exact descriptor or per-ROI counts/
+  context. Filters use captured valid support; output uses eligible core centers.
+- QTM5 embeds provenance and exact geometry; project provenance must agree.
+  Records/replay/status handle grid geometry and captured effective calibration.
+  Cell/nominal masks stay in their own archives. CSV4 supports mixed grid/natural
+  records, signed origins and per-axis/physical areas; old-only CSV1/2/3 remain.
+- Eight affected native suites pass, plus the final grid-only integrity observer.
+  All three old MSVC/x64 archive/table/batch/work boundaries remain exact. Required
+  installed/consumer checks remain open. No GRID1 bindings/stubs/wheel/install.
+- Existing cache/environments and final MEDIAN1 installed product are retained.
+  Root .venv is build/static only; runtime uses isolated environments. All known
+  build handles are terminal. Readers/codecs must remain openly licensed.
 
-## Latest task review — MEDIAN1 closeout (2026-11-05)
+## Next bounded task — G3 thin consumers
 
-Outcome/evidence: [final34704c24](benchmarks/tissue-median-r7/README.md) delivers
-fixed3x3 post-threshold binary cleanup across native, owning SDK, managed viewer,
-ImGui and batch/CLI.524 actual ImageJ outputs match independent rank/edge logic.
-Seven native suites,148 staged cases, two actual GUI flows, strict typing with
-three intended invalid assignments and eight installed shipping checks pass.
-Old unfiltered/Gaussian record/table/batch/work limits and QTM1/2/3 replay remain
-unchanged; QTM4/CSV3 retain enabled median.482 build inputs and65 installed/wheel
-members match. Stage and final source/configuration agree, except revision stamp.
-Other skipped checks and wider science/host/resource/speed claims stay unclaimed.
+First action: locate actual binding registration order and current tissue request/
+GUI/batch/CLI consumers. Register owning TissueGridSampling before defaults; expose
+exact-grid and ROI factories plus grid/per-axis getters. Existing natural APIs
+remain usable. Managed viewer captures on its owner thread; ImGui and batch/CLI
+use per-ROI count/context options through the same native request. Replace scalar
+sampling displays/reports for grids. Validate grid options only for tissue work;
+retain old default batch JSON/quotas and include enabled grid settings in identity.
 
-Waste/action: **reuse** existing mask/cleanup/jobs/archives/tables/parameter routes
-and queue scratch. **Consolidate** five scattered size deductions into one shared
-parameter-offset policy; pin both prior parameter groups before editing. No
-native/staged/installed failure, byte repair or retry occurred. One full binding
-compile, one stub generation, one wheel and one install were needed. The live
-build was polled rather than restarted. A web cache miss was resolved by fetching
-only the pinned source into the existing cache; no extra checkout. Scrolled
-controls were inspected before the wheel, and existing RGB capture was converted
-unchanged for viewing. No new specimen corpus, reader/model/environment or
-reporting framework was introduced.
+Settle all coupled fields/casters/consumers before one combined bindings build and
+stub generation. Inspect scrolled controls before packaging. Check typing/array
+ownership, changed SDK/managed/CLI/batch/ImGui flows and the old witnesses with the
+staged product. Reuse native numerical evidence; no per-frontend oracle campaign.
+Stop after staged consumers pass and review waste before G4 package/install.
 
-Plan adjustment/next: MEDIAN1 enters the reuse index and tissue coverage row.
-GRID1 first traces existing sampling/retention authorities. Group coupled
-contract/interface work when it is ready to avoid a build per parameter; do not
-invent unsettled APIs. After every bounded task or failed/stopped attempt,
-record actual outcome, waste/action, plan change and next task/retry before
-continuing. Keep all unfinished M0-M7 and the wider queue intact.
+## Latest task review — G2 retention/export (2026-11-05)
 
-Cleanup review: redundant build PPM bytes matched the retained PNG's decoded RGB
-before removal. A PowerShell parent-path guard used an unsupported Split-Path
-parameter combination; the resolved single named PPM was removed, and no recursive
-operation occurred. Verify its fixed parent with System.IO.Path and its absence;
-do not repeat deletion. Preserve the equality manifest/PNG and all source/fixtures/
-logs/caches. Use one supported path API for future cleanup guards.
+Outcome/evidence: [native results, commands and retained attempts](benchmarks/tissue-grid-r7/README.md).
+QTM5 round trips, malformed-prefix/context-label refusals, project replay/status,
+mixed CSV4/areas and signed/empty records pass. All three old stored quota groups
+are unchanged. G1/G2 do not close GRID1 or broader science/host/resource/speed work.
+
+Waste/action: reused descriptor/provenance/sampling/record/table authorities and
+saved fixtures. One failed native compile from a local-name collision required
+one corrected cached build; inspect existing locals before inserting branches.
+One grid-only observer extension covered outstanding signed/empty/off-core cases;
+eight passing suites were reused because production code stayed unchanged. CMake
+refreshed provenance for observer edits; preserve each binary's actual identity.
+No bindings/stub/wheel/install, extra decoder/model or full campaign was needed.
+
+Plan adjustment/next: G2 has scoped native verification; G3 is next as above.
+QTM5 independently admits the current decoder layout while retaining historical
+producer work estimates; no ABI-dependent capacity equality for the new recipe.
+The wider queue is unchanged. After each task or failed/stopped attempt, record
+outcome/evidence, actual waste/action, plan change and next action before continuing.

@@ -1,4 +1,5 @@
 #include "qupathxx/tissue.hpp"
+#include "scientific_grid_codec.hpp"
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
@@ -7,11 +8,23 @@ namespace qpx {
 namespace {
 void advance(std::uint64_t revision) {if(revision==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");}
 auto parameters(const TissueParameters& p) {return std::make_tuple(p.feature,p.threshold,p.connectivity,p.level,p.open_radius,p.close_radius,p.fill_holes,p.max_hole_pixels,p.min_pixels,p.max_pixels,p.tile_size,p.max_components,p.work_bytes,p.sampling_policy,p.smoothing_sigma,p.median_cleanup);}
+bool same_sampling(const TissueResult& a,const TissueResult& b) {
+    if(a.scientific_grid() || b.scientific_grid())
+        return a.scientific_grid() && b.scientific_grid() && scientific_grid_equal(*a.scientific_grid(),*b.scientific_grid());
+    return a.downsample()==b.downsample();
+}
+bool valid_tissue_grid(const TissueResult& r) {
+    return !r.nominal_sampling() && (!r.scientific_grid() ||
+        (r.algorithm()=="qpx.grid-threshold-components/1" && std::string(r.input_format())=="qpx.grid-opaque-rgb-area/1" && bool(r.provenance())));
+}
+bool same_grid_calibration(const TissueResult& r,const Document& d) {
+    return !r.scientific_grid() || (r.provenance() && r.provenance()->effective_pixel_width_um==d.pixel_width_um() && r.provenance()->effective_pixel_height_um==d.pixel_height_um());
+}
 bool equivalent(const TissueResult& a,const TissueResult& b) {
     return a.algorithm()==b.algorithm() && a.input_sha256()==b.input_sha256() && a.object_id()==b.object_id() &&
         a.object_revision()==b.object_revision() && a.nucleus()==b.nucleus() && a.roi().equals(b.roi()) &&
         parameters(a.parameters())==parameters(b.parameters()) && a.white()==b.white() && a.stains()==b.stains() &&
-        a.level()==b.level() && a.downsample()==b.downsample() && a.samples()==b.samples() &&
+        a.level()==b.level() && same_sampling(a,b) && a.samples()==b.samples() &&
         a.threshold_pixels()==b.threshold_pixels() && a.cleaned_pixels()==b.cleaned_pixels() && a.filled_pixels()==b.filled_pixels() &&
         a.foreground_pixels()==b.foreground_pixels() && a.raw_components()==b.raw_components() && a.labels()==b.labels();
 }
@@ -19,7 +32,7 @@ bool equivalent(const TissueResult& a,const TissueResult& b) {
 std::size_t TissueRecord::payload_bytes() const {if(!result) throw std::invalid_argument("tissue record has no mask");return sizeof(TissueRecord)+192+producer.capacity()+result->retained_bytes()+result->roi().payload_bytes()+result->algorithm().capacity()+result->input_sha256().capacity();}
 void Document::restore_tissue(std::shared_ptr<const TissueRecord> record) {
     if(!record || !record->result || !record->id || record->id>revision_ || record->result->document_revision()>=record->id ||
-       !record->result->object_id() || record->result->object_id()>=next_id_ || record->producer.empty() || record->producer.size()>256 || record->producer.find('\0')!=std::string::npos || record->result->scientific_grid() || record->result->nominal_sampling())
+       !record->result->object_id() || record->result->object_id()>=next_id_ || record->producer.empty() || record->producer.size()>256 || record->producer.find('\0')!=std::string::npos || !valid_tissue_grid(*record->result))
         throw std::invalid_argument("invalid tissue archive record");
     const auto bytes=record->payload_bytes();
     if(tissue_.size()>=10000 || bytes>256u*1024u*1024u-tissue_bytes_) throw std::length_error("tissue archive exceeds its 10000-record/256 MiB limit");
@@ -39,7 +52,7 @@ void Document::restore_tissue(std::shared_ptr<const TissueRecord> record) {
     tissue_bytes_+=bytes;
 }
 std::uint64_t Document::keep_tissue(const TissueRequest& request,std::shared_ptr<const TissueResult> result) {
-    if(result && (result->scientific_grid() || result->nominal_sampling())) throw std::invalid_argument("explicit-grid masks require their versioned cell record");
+    if(result && !valid_tissue_grid(*result)) throw std::invalid_argument("cell masks require their versioned cell record");
     if(!result || !request.matches(*this,request.object_id()) || request.ticket_!=result->ticket_) throw std::invalid_argument("tissue result does not match its current request");
     advance(revision_);auto record=std::make_shared<TissueRecord>();record->id=revision_+1;record->result=std::move(result);
     ++revision_;try {restore_tissue(record);} catch(...) {--revision_;throw;}
@@ -66,6 +79,7 @@ std::string Document::tissue_status(std::uint64_t id) const {
     if(object==objects_.end() || object->second.revision!=result.object_revision()) return "object_changed";
     const auto roi=result.nucleus()?object->second.nucleus:std::optional<Roi>(object->second.geometry);
     if(!roi || !roi->equals(result.roi())) return "object_changed";
+    if(!same_grid_calibration(result,*this)) return "source_changed";
     if(!stored.identity || stored.identity!=analysis_identity_.token) return "unverified";
     if(stored.source.lock().get()!=server_.get()) return "source_changed";
     if(server_->closed()) return "source_closed";
@@ -82,9 +96,12 @@ bool Document::remove_tissue(std::uint64_t id) {
 }
 TissueRequest TissueRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.tissue_record(id);const auto& r=*record->result;
-    TissueRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),r.parameters(),r.nucleus());
+    if(!same_grid_calibration(r,document)) throw std::invalid_argument("saved tissue grid calibration has changed");
+    const auto transform=StainTransform::from_normalized(r.stains(),r.white());
+    TissueRequest request=r.scientific_grid()?TissueRequest(document,r.object_id(),transform,*r.scientific_grid(),r.parameters(),r.nucleus()):
+        TissueRequest(document,r.object_id(),transform,r.parameters(),r.nucleus());
     const auto object=document.annotation(r.object_id());
-    if(object.revision!=r.object_revision() || !request.roi().equals(r.roi()) || request.level()!=r.level() || request.downsample()!=r.downsample())
+    if(object.revision!=r.object_revision() || !request.roi().equals(r.roi()) || request.level()!=r.level() || (r.scientific_grid()?!scientific_grid_equal(*request.scientific_grid(),*r.scientific_grid()):request.downsample()!=r.downsample()))
         throw std::invalid_argument("saved tissue object or pyramid has changed");
     return request;
 }

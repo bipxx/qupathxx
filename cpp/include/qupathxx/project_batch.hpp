@@ -38,6 +38,7 @@ struct ProjectBatchOptions {
     std::optional<RawGridSampling> raw_grid;std::size_t raw_grid_work_bytes=256u*1024*1024;
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
     RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    std::shared_ptr<const TissueGridSampling> tissue_grid;
     void validate() const;
 };
 struct ProjectBatchSelection {std::uint64_t image_id=0;std::vector<std::uint64_t> object_ids;};

@@ -18,6 +18,7 @@ struct ScientificRasterSpec {
 };
 // Detector geometry needs distinct, interior-representable world centers and
 // edges. The request planner can call this before any IO or raster allocation.
+double scientific_axis_centroid(const ScientificGridAxis&,std::uint64_t index_sum,std::uint64_t samples);
 void validate_scientific_axis_geometry(const ScientificGridAxis&,std::int64_t first,std::int64_t stop,
     const std::atomic<bool>* cancelled=nullptr);
 void validate_scientific_raster_geometry(const ScientificGrid&,const std::atomic<bool>* cancelled=nullptr);

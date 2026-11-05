@@ -3,6 +3,7 @@
 #include "qupathxx/scientific_sampling.hpp"
 #include "cell_policy_names.hpp"
 #include "rgb_nominal.hpp"
+#include "scientific_grid_codec.hpp"
 #include <cstring>
 
 namespace qpx {
@@ -85,8 +86,7 @@ template<class Writer> void cell_grid_write(Writer& w,const CellSamplingGrid& gr
         w.real(r.downsample);w.integer(n.context_x());w.integer(n.context_y());
         if(sampling) w.integer(std::uint64_t(r.sampling));
     } else {
-        const auto& g=*grid.area;
-        for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) w.integer(std::uint64_t(v));
+        scientific_grid_write(w,*grid.area);
     }
 }
 template<class Reader> CellSamplingGrid cell_grid_read(Reader& r,bool nominal,std::size_t work_bytes,bool sampling=false,bool exact_support=false) {
@@ -97,7 +97,6 @@ template<class Reader> CellSamplingGrid cell_grid_read(Reader& r,bool nominal,st
         const auto policy=sampling?RgbNominalSampling(r.integer(1)):RgbNominalSampling::IntegerOrigin;
         return CellSamplingGrid(w,h,NominalCellSampling(RgbNominalRequest(x,y,rw,rh,step,policy),cx,cy),exact_support);
     }
-    std::array<std::int64_t,10> v;for(auto& n:v) n=integer();
-    return ScientificGrid(v[0],v[1],{v[2],v[4],v[6],v[8]},{v[3],v[5],v[7],v[9]},work_bytes);
+    return scientific_grid_read(r,work_bytes);
 }
 }

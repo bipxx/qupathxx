@@ -1,0 +1,42 @@
+{
+  "source": "34704c24ac7fc0f2087fe36140a285976986a24d",
+  "image": 1,
+  "object": 1,
+  "file": "pre-grid.qpxproj",
+  "sha256": "5e2ea0771841a642c1adc3d6646f517d1260d8d8b7feacd7af525952437f0596",
+  "cases": [
+    {
+      "record": 3,
+      "sigma": 0.0,
+      "median": false,
+      "retained_bytes": 2542,
+      "payload_bytes": 3058,
+      "table_bytes": 68865,
+      "batch_bytes": 109149,
+      "batch_json_bytes": 1340,
+      "work_bytes": 1118720
+    },
+    {
+      "record": 4,
+      "sigma": 1.7,
+      "median": false,
+      "retained_bytes": 2550,
+      "payload_bytes": 3066,
+      "table_bytes": 68873,
+      "batch_bytes": 109189,
+      "batch_json_bytes": 1369,
+      "work_bytes": 1120936
+    },
+    {
+      "record": 5,
+      "sigma": 1.7,
+      "median": true,
+      "retained_bytes": 2558,
+      "payload_bytes": 3074,
+      "table_bytes": 68881,
+      "batch_bytes": 109229,
+      "batch_json_bytes": 1398,
+      "work_bytes": 1120936
+    }
+  ]
+}

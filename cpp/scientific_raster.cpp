@@ -13,16 +13,18 @@
 namespace qpx {
 namespace {
 void checkpoint(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("scientific raster construction cancelled");}
-double centroid(const ScientificGridAxis& axis,std::uint64_t sum,std::uint64_t count) {
-    const auto mean=double(sum)/double(count),whole=std::floor(mean);
-    const auto anchor=axis.center(axis.first_index()+static_cast<std::int64_t>(whole)).binary64();
-    return anchor+(mean-whole)*GridFraction(axis.extent(),axis.samples()).binary64();
-}
+
 struct Stats {
     std::uint64_t count=0,x=0,y=0;
     std::int64_t left=std::numeric_limits<std::int64_t>::max(),top=std::numeric_limits<std::int64_t>::max(),right=0,bottom=0;
 };
 }
+double scientific_axis_centroid(const ScientificGridAxis& axis,std::uint64_t sum,std::uint64_t count) {
+    const auto mean=double(sum)/double(count),whole=std::floor(mean);
+    const auto anchor=axis.center(axis.first_index()+static_cast<std::int64_t>(whole)).binary64();
+    return anchor+(mean-whole)*GridFraction(axis.extent(),axis.samples()).binary64();
+}
+
 void validate_scientific_axis_geometry(const ScientificGridAxis& value,std::int64_t begin,std::int64_t end,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);
     const auto* axis=&value;
@@ -84,7 +86,7 @@ std::vector<TissueComponent> scientific_raster_components(const ScientificGrid& 
     for(std::uint32_t i=0;i<count;++i) {
         checkpoint(cancelled);const auto& s=stats[i];if(!s.count) throw std::invalid_argument("scientific raster labels are not dense");
         const auto x=edge_x(s.left),y=edge_y(s.top);
-        components.push_back({i+1,s.count,{x,y,edge_x(s.right+1)-x,edge_y(s.bottom+1)-y},{centroid(grid.x(),s.x,s.count),centroid(grid.y(),s.y,s.count)}});
+        components.push_back({i+1,s.count,{x,y,edge_x(s.right+1)-x,edge_y(s.bottom+1)-y},{scientific_axis_centroid(grid.x(),s.x,s.count),scientific_axis_centroid(grid.y(),s.y,s.count)}});
     }
     return components;
 }

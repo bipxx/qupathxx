@@ -16,6 +16,7 @@
 #include "qupathxx/image_axis_calibration.hpp"
 
 namespace qpx {
+struct TissueGridSampling;
 class ImageDataProperties;
 namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;class SpatialFrontend;struct TmaIndex;}
 class RawAnalysisRequest;class RawAnalysisResult;struct RawAnalysisRecord;
@@ -861,6 +862,7 @@ struct GuiOptions {
     double replay_timeout_seconds=5;
     bool settle_tiles=false;
     std::shared_ptr<const CellParameters> cell_parameters;
+    std::shared_ptr<const TissueGridSampling> tissue_grid;
     std::shared_ptr<const GridCellSampling> cell_grid;
     std::shared_ptr<const NominalCellRoiSampling> cell_nominal;
     std::shared_ptr<const GridCellParameters> grid_cell_parameters;

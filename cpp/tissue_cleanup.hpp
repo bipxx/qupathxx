@@ -12,6 +12,14 @@ inline std::uint64_t work_bytes(std::uint64_t count,std::uint64_t capacity,const
     const auto kernel=smooth?std::uint64_t(2*std::ceil(3*p.smoothing_sigma)+1)*sizeof(double):0;
     return count*(smooth?41:enabled(p)?9:8)+capacity*sizeof(TissueComponent)+16ull*p.tile_size*p.tile_size+65536+kernel;
 }
+inline std::uint64_t grid_work_bytes(const ScientificGrid& g,const TissueParameters& p,const Roi& roi,const AnalysisProvenance& source) {
+    const auto count=std::uint64_t(g.width())*std::uint64_t(g.height());
+    if(count>std::numeric_limits<std::uint32_t>::max()) throw std::length_error("tissue grid exceeds uint32 indexing");
+    const auto capacity=std::min<std::uint64_t>(std::uint64_t(g.x().samples())*std::uint64_t(g.y().samples()),p.max_components);
+    const auto kernel=p.smoothing_sigma>0?std::uint64_t(2*std::ceil(3*p.smoothing_sigma)+1)*sizeof(double):0;
+    return g.sampling_buffer_bytes()+(34ULL+(p.smoothing_sigma>0?8ULL:0ULL))*count+
+        capacity*sizeof(TissueComponent)+source.payload_bytes()+2ULL*roi.payload_bytes()+sizeof(TissueResult)+sizeof(TissueRequest)+65536+kernel;
+}
 inline const char* algorithm(const TissueParameters& p,std::int32_t level) {
     if(p.median_cleanup) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?
         "qpx.threshold-components/winding-5":"qpx.threshold-components/5";
