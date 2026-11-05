@@ -1,6 +1,7 @@
 # Class ancestry and project defaults
 
-CLASS1 is in progress. The captured reference and default-color primitive do not
+CLASS1 is in progress. The [reference/default-color preflight](benchmarks/class-hierarchy-r4/README.md)
+is verified; the captured reference and default-color primitive do not
 establish native hierarchy/palette support. The current product still flattens
 native ancestry and refuses names-array GeoJSON and several valid class files.
 

@@ -284,16 +284,20 @@ PROJECTMETA1 now retains the separate project map; its receipt and existing
 entry/snapshot/store/editor evidence are reusable within their tested scopes.
 Do not repeat that capture/build or infer class retention from string metadata.
 
-For CLASS1, first inspect ObjectClass/Document class commands/history and the
-existing saved-data classification decoder, project class-list parser and
-GeoJSON wire contract against pinned PathClass behavior. Resolve ancestry,
+CLASS1 [reference/default-color preflight](benchmarks/class-hierarchy-r4/README.md)
+is verified; the public hierarchy workflow remains pending. It confirms explicit
+names-array GeoJSON, format-scoped project path decoding, palette order/repeats,
+ARGB/absence and fresh-process color precedence. Reuse its39-case internal color
+primitive and retained builder/ROI; do not repeat the capture. Implement the
+ObjectClass/Document class-history, project registry/defaults and import/store
+route in the [settled contract](class-hierarchy.md). Resolve ancestry,
 identity versus display names (including literal delimiters), colors, duplicates,
 rename/remove/undo and project defaults before changing public layouts. Do not
 infer parents by splitting display names or silently merge distinct classes.
 Reuse one class authority for Project/Document/imports and thin Python/UI paths;
 no parallel hierarchy model, second decoder or general plugin framework.
-Capture only missing class facts against retained geometry/builders in one
-supplement. Deliver import -> inspect/edit -> save/reopen, including zero-image
+The captured supplement and small default-color oracle now supply those facts.
+Deliver import -> inspect/edit -> save/reopen, including zero-image
 project defaults, with exact parent links and explicit refusal/loss for truly
 unsupported states. Exercise actual native/Python/ImGui consumers and the relevant
 history, snapshot/migration and source guards. Group compatible class/header/

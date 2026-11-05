@@ -1,0 +1,26 @@
+{
+  "task": "R4/R5-CLASS1",
+  "status": "in progress; reference/default-color preflight verified, public hierarchy integration pending",
+  "primitive_source": "46358eb403975a8c6d6966f0a862298e5d51a2dd",
+  "reference_tests": {
+    "passed": 5,
+    "scope": "identity/provenance, palette order/duplicates/NULL, ancestry/ARGB, fresh color precedence and upstream colorless GeoJSON failure"
+  },
+  "native_primitive": {
+    "role": "classes",
+    "passed": true,
+    "independent_color_cases": 39,
+    "existing_flat_history_passed": true
+  },
+  "baseline_source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "upstream_processes": 3,
+  "process_scopes": [
+    "class-only producer",
+    "fresh process readback to avoid singleton-cache bias",
+    "default-color-only oracle after observed missing-color fallback"
+  ],
+  "wheels": 0,
+  "stubs": 0,
+  "installs": 0,
+  "remaining": "ObjectClass ancestry/raw+resolved color integration, Document history/rename, ordered Project registry/defaults, native/GeoJSON wire, schema/snapshots/recovery, SDK and actual GUI workflows"
+}

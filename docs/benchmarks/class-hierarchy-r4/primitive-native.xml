@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-05T00:56:05"
+	>
+	<testcase name="classes" classname="classes" time="0.0549008" status="run">
+		<properties/>
+		<system-out>Independent QuPath default colors:39 cases, UTF16/normalization, parent/ARGB/scaling and dark rejection passed
+Class registry, counts, atomic edits and history passed
+</system-out>
+	</testcase>
+</testsuite>
