@@ -1,11 +1,32 @@
 # Working on qupathxx
 
+## Result fidelity and scope
+
+The owner explicitly does not require100% QuPath parity. Deliver useful selected
+research workflows; feature-matrix gaps and R0-R16 are a reference catalogue,
+not a promise to implement everything. Choose additional work only for a real
+user need or demonstrated correctness/usability blocker. This supersedes older
+instructions to preserve the entire parity target or close every M0-M7 row.
+
+Small visual differences in fonts, spacing, icons, themes, antialiasing and layout
+are acceptable when they do not affect results or use of the workflow. Do not
+chase screenshot/pixel/layout equivalence with QuPath. UI checks should establish
+readable values, usable controls and correct geometry/overlay registration.
+Fix misleading colors/channels/scales, clipped result values, hidden errors or
+misaligned masks when they can affect interpretation or decisions.
+
+Keep scientific inputs, calibration, measurements, result identities, persistence
+and export/replay correct under the workflow's declared contracts/tolerances.
+Cosmetic tolerance does not authorize changing raw pixel data, weakening numeric
+checks or silently relaxing exact stored identity. Classify screenshot checks by
+purpose; retain those proving meaningful behavior, not cosmetic sameness.
+
 ## Deliver the selected user workflow
 
 Read [current-task.md](docs/current-task.md) and the
 [Windows checkpoint](docs/api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)
 before implementation. They own current state and delivery scope; the R0-R16
-inventory owns the long-term backlog. Historical packets and receipts are
+inventory records optional expansion opportunities. Historical packets and receipts are
 evidence, not instructions to replay campaigns. Follow newer user steering.
 
 - Keep one in-progress user outcome. For the selected checkpoint, finish open

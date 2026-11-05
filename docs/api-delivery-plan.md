@@ -2,6 +2,28 @@
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
+## Result fidelity and scope policy
+
+Owner decision:100% QuPath parity is not a project completion requirement.
+Accept small visual differences that do not affect results or the user's ability
+to perform the workflow. Deliver selected useful outcomes; treat the R0-R16 and
+feature inventory as a reference catalogue of optional expansion, not a mandatory
+remaining-work count. This decision supersedes older full-target/M0-M7 preservation
+instructions below and in historical records. Milestone criteria apply only to
+selected capabilities and claims; do not relabel unimplemented features accepted.
+
+| Difference | Acceptance rule |
+| --- | --- |
+| Fonts, spacing, icons, theme, antialiasing, minor layout | Accept when controls and values remain usable/readable and research output is unchanged. No screenshot-equivalence campaign |
+| Overlay alignment, scale/orientation, channel labels/colors, displayed numbers or errors | Fix when the difference can mislead interpretation, hide a result/failure or change user action; use existing geometric/semantic tolerances |
+| Reader pixels, calibration, analysis values/masks, identity, save/export/replay | Preserve the selected workflow's correctness contracts and declared numerical tolerances; cosmetic acceptance does not relax these |
+
+Select future features by user need or a concrete workflow blocker. A remaining
+Partial row or an upstream capability alone does not authorize more work.
+Releases close against their declared workflow/support scope, not every QuPath
+feature. Review visual checks for their purpose before execution; keep tests
+that establish meaningful display/interaction behavior rather than exact styling.
+
 ## Next delivery checkpoint: Windows research workflow
 
 Current continuation selects one release handoff after the delivered local
@@ -24,7 +46,7 @@ licensed packaging is a separate overlay. Broader stable-release/platform
 qualification and parity remain open. Do not automatically expand into
 them after this checkpoint; the stop condition below still applies.
 
-This checkpoint controls the next delivery; R0-R16 remains the long-term backlog.
+This checkpoint controls the selected delivery; R0-R16 is an optional reference catalogue.
 Finish one usable Windows x64 workflow before selecting more parity features.
 This is an engineering candidate, not full QuPath parity, biological acceptance,
 speed superiority or public release. Existing milestone requirements remain in
@@ -59,8 +81,8 @@ Stop after these outcomes and report the candidate's supported workflow and
 remaining gaps. The broader R2-R13 families do not all need closure before this
 engineering checkpoint. R14-R16, additional biology/vendor cases, new spatial or
 classifier features, integrations, distributed workers and speed optimization
-are outside it unless a demonstrated failure blocks this workflow. Full M0-M7
-completion is still required before claiming the entire project done.
+are outside it unless a demonstrated failure blocks this workflow. Project
+completion is assessed against the selected outcomes, not full QuPath parity.
 
 PRESET1 P1 has passing native checks. Park P2/P3 and its import-identity decision
 in R7 unless named presets are required for this workflow. The retained round-
@@ -163,13 +185,13 @@ implementations. Copyleft readers remain eligible subject to distribution terms.
 
 ## Dependency lanes and immediate queue
 
-This is the single remaining-work queue. Root owns implementation, integration
+This is the reference index; only the selected current task is the active work queue. Root owns implementation, integration
 and task closeout. The repository owner decides the supported release matrix,
 project license and publication; research decisions need an identified corpus,
 metric and tolerance. Root prepares concrete proposals and continues work that
-does not depend on an unanswered decision. Do not infer a narrower final scope
-from the work already delivered. The Windows checkpoint above is the selected
-next delivery scope; it does not reduce the long-term target.
+does not depend on an unanswered decision. Follow the owner-selected workflow scope rather than requiring exhaustive
+parity. The Windows checkpoint above is the declared delivery scope; optional
+features need a concrete user need before selection.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
 R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; R6-SPLIT1 trace reuses existing split/merge and feature-domain evidence; R7-AREA1 is locally verified for physical tissue filters; FILTER1 is locally verified for pre-threshold Gaussian smoothing; MEDIAN1 is locally verified for fixed binary cleanup; R7-GRID1 is locally verified for its bounded area-grid workflow; R7-REGION1 is locally verified; remaining stain-estimation/model-registry gaps stay on R7 while owner decisions remain open. Select the next task from the Windows checkpoint blockers. Follow dependencies below;
@@ -215,8 +237,7 @@ R1-R12 may expose a missing implementation or decision; update that task's
 specific next action rather than adding an overlapping queue. Root records
 scientific/release decisions with their owner and continues independent work.
 The detailed routes and historical packets below supply implementation context,
-not another task order. Deferred parity rows remain part of the long-term target;
-they are not silently removed when the first defined release ships.
+not another task order. Unselected parity rows remain documented options, not delivery requirements.
 
 Reuse the completed workflows below; their detailed counts/source identities
 belong in the linked evidence and feature-matrix, not another implementation task.
@@ -279,7 +300,7 @@ R2 inventory before closing M1. Prepare R1 decisions and release
 notices alongside the task that needs them. Move R3 earlier for an actual viewer
 blocker, or R12 earlier for a measured resource failure. This order is scheduling,
 not an instruction to finish every possible reader before doing analysis.
-R14-R16 follow the applicable stable contracts and remain part of the full target.
+R14-R16 are optional and use the applicable stable contracts if selected.
 
 | Existing row | Ordered remaining slices and easiest route | Stop condition / dependency handling |
 | --- | --- | --- |
@@ -310,7 +331,7 @@ order. Do not create speculative infrastructure to bypass a decision.
 On completion, mark only the state supported by evidence: engineering verification,
 scientific acceptance and release support remain separate. Close an R family only
 when its remaining inventory entries are accepted or explicitly deferred with a
-scope decision. Close M0-M7 against project-plan criteria, not task counts.
+scope decision. Close selected outcomes against applicable criteria, not task counts.
 
 <a id="r7-grid1-remaining-execution-steps"></a>
 ### R7-GRID1 delivered execution steps
@@ -322,7 +343,7 @@ installed cases, exact region extraction and app smoke. One wheel/install matche
 pass. See [complete evidence and retained attempts](benchmarks/tissue-grid-r7/README.md).
 These delivered steps are a reuse reference, not instructions to run them again.
 The current card selects R7-REGION1; broader sampling/science/resources and all
-unfinished M0-M7 remain active.
+unselected milestone gaps remain optional.
 
 | Task, in dependency order | Easiest implementation path | Exit and minimum verification |
 | --- | --- | --- |
@@ -443,10 +464,9 @@ At each handoff, the selected slice must have:
 - A close condition, expected build/install work and first next action.
 
 No unmeasured calendar estimate or completion percentage substitutes for these
-conditions. Close the full project only when every included inventory gap has
-accepted evidence or an explicit owner scope decision, M0-M7 exit criteria are
-met, and the declared release support is verified. A smaller supported release
-does not erase later parity work. Do not claim speed superiority without matched
+conditions. Close a delivery when its selected outcomes and applicable milestone
+criteria have evidence and declared release support is verified. Unselected
+inventory gaps remain optional; they do not block completion. Do not claim speed superiority without matched
 end-to-end workload, hardware, accuracy/settings and resource measurements.
 
 ### Task boundaries and cost controls
@@ -635,9 +655,9 @@ orchestration to R11, resources to R12 and release support to R13; consumers reu
 the same fix. If blocked, record the dependency and take the first ready slice.
 An unanswered decision blocks only work that actually depends on it.
 
-At release closure, reconcile the remaining inventory against M0-M7 once.
-R14-R16 stay in the full target unless the owner explicitly defers them. Close
-families and milestones against their actual exit criteria; local passes and
+At release closure, reconcile only selected requirements against applicable
+milestone criteria once. R14-R16 and other unselected gaps are optional. Close
+selected families against their declared criteria; local passes and
 faster components do not establish biological acceptance, release readiness or
 overall speed. Owner decisions on license, research and release stay explicit.
 

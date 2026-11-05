@@ -4,13 +4,19 @@ Current status is maintained only in the [current task](current-task.md). Follow
 
 ## Current execution map
 
-Use the [delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for ordering and the current task for pending work. Historical campaign tables and superseded instructions have moved to history. All M0-M7 remain Partial; the requirements below are unchanged. Each bounded task ends with the [waste review and plan handoff](api-delivery-plan.md#completion-gates-and-task-handoff) before the next task or retry. The delivery plan owns that procedure; do not duplicate task lists here.
+The owner's [result-fidelity policy](api-delivery-plan.md#result-fidelity-and-scope-policy)
+supersedes the original full-parity target. Small cosmetic differences are
+acceptable when outputs, interpretation and workflow usability remain correct.
+Select useful workflows rather than implementing every upstream capability.
+
+Use the [delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for ordering and the current task for pending work. Historical campaign tables and superseded instructions have moved to history. Historical M0-M7 Partial states retain their recorded scope; only selected outcomes are required. Each bounded task ends with the [waste review and plan handoff](api-delivery-plan.md#completion-gates-and-task-handoff) before the next task or retry. The delivery plan owns that procedure; do not duplicate task lists here.
 
 The next delivery is the [Windows research-workflow checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow), using existing supported
 slide/ROI/tissue/statistics/export/save paths in ImGui and nanobind Python.
-Its blockers take priority over new parity features. The full M0-M7/R0-R16
-requirements remain the long-term target; they do not all gate this narrower
-engineering candidate or establish its biological or performance claims.
+Its blockers take priority over optional features. M0-M7/R0-R16 are reference
+areas: only selected outcomes and applicable acceptance criteria gate a delivery.
+Unselected gaps do not imply unfinished required work or establish biological
+or performance claims.
 
 ## Scope and release boundaries
 
@@ -21,7 +27,8 @@ remain eligible through open-source readers.
 
 
 Target Windows x64 first, while keeping portable C++17 and CMake targets.
-Add supported Linux and macOS packages after the Windows workflow is stable.
+Add Linux/macOS packages only when selected for a concrete user need after the
+Windows workflow is stable.
 Keep GUI and Python optional so the native analysis engine runs without either.
 
 Freeze the initial comparison baseline to
@@ -39,7 +46,7 @@ classification, scripting and integrations.
 | 1.0 defined workflow release | Install supported packages and reproduce accepted research workflows | M7; only the published support matrix is promised |
 | Later parity releases | Broader QuPath functionality and interchange | Individually gated backlog; 1.0 does not imply full QuPath parity |
 
-The long-term target includes QuPath's major research workflows. Java binary
+Future research workflows are selected by user need, not exhaustive QuPath parity. Java binary
 compatibility, JavaFX widget parity, Java extensions and executing Groovy scripts
 are outside the initial release. Python provides the new scripting surface.
 
@@ -329,9 +336,9 @@ workflow parity.
 
 The [remaining-work queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 is the single detailed completion plan. R0 closes existing qualification evidence;
-R1 defines the supported workflows/decisions; R2-R12 complete the outstanding
-M0-M6 behavior and evidence; R13 closes a defined supported release. R14-R16
-retain broader host, integration and automation parity after that release.
+R1 defines selected workflows/decisions; choose R2-R12 work only for their
+needed behavior and evidence. R13 closes a defined supported release; R14-R16
+are optional host, integration and automation expansion.
 Follow the named dependencies rather than repeating completed implementations.
 
 After every task, perform the [waste review](api-delivery-plan.md#task-closeout-and-waste-review)
@@ -343,7 +350,7 @@ campaign or block independent work.
 
 All original milestone criteria below and above remain binding at their defined
 scope. No release or full-parity claim follows from finishing a queue row,
-passing one crop or increasing a test count. Review every M0-M7 exit against
+passing one crop or increasing a test count. Review applicable selected milestone criteria against
 actual scope-matched evidence before declaring the corresponding release done.
 
 ## Planning and validation discipline

@@ -1,5 +1,12 @@
 # Current implementation task
 
+Owner scope update:100% QuPath parity is not required. Small cosmetic differences
+are acceptable when results, interpretation and workflow usability are unaffected.
+The [scope policy](api-delivery-plan.md#result-fidelity-and-scope-policy) and AGENTS.md
+supersede earlier full-target instructions. Unselected inventory gaps are optional;
+do not start work simply because a row remains Partial. Scientific correctness,
+calibration, persistence/export/replay and meaningful overlay/display checks stay.
+
 ## Delivered — Windows candidate handoff
 
 The selected [Windows workflow](windows-workflow.md) and its targeted fresh-host
@@ -7,7 +14,7 @@ handoff pass. [One evidence summary](benchmarks/windows-workflow-checkpoint/READ
 links the local and hosted receipts. The declared engineering
 [prerelease is published](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.1)
 with16 assets, sources, guide and deployment evidence. Do not merge the parked native PRESET1 work or start another parity
-extension. Full M0-M7/R0-R16 scope remains open for its actual claims.
+extension. Unselected M0-M7/R0-R16 features are optional; the declared candidate scope remains unchanged.
 
 Native code is frozen MODEL1 source6219a08f, tree
 432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892.
@@ -40,9 +47,9 @@ and is ineligible for acceptance.
 
 PRESET1 P1 passed focused native checks locally. Its native sources and CMake
 changes remain uncommitted and were excluded from the handoff commits/binaries.
-P2/P3 and exact import identity remain parked, with the existing normalization
-observation retained. R2-R13 remain12 broad workstreams; R14-R16 retain3 later
-parity workstreams. The23 Partial rows are broader scope, not candidate job counts.
+P2/P3 and exact import identity remain optional, with the existing normalization
+observation retained. R2-R16 and the23 Partial rows form a reference catalogue,
+not a count of mandatory remaining jobs.
 
 ## Latest closeout and waste review
 

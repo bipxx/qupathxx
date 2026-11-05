@@ -1,5 +1,11 @@
 # QuPath workflow inventory
 
+This is a reference catalogue, not a mandatory parity backlog. Under the owner's
+[scope policy](api-delivery-plan.md#result-fidelity-and-scope-policy), unselected
+Partial/missing rows do not block a release or count as required remaining work.
+Small cosmetic differences are acceptable; result correctness and meaningful
+display/interaction behavior remain required for selected workflows.
+
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
 Remaining implementation and acceptance work is scheduled once in the
