@@ -17,6 +17,7 @@
 #ifdef QUPATHXX_HAS_INTERCHANGE
 #include <nlohmann/json.hpp>
 #include "strict_json.hpp"
+#include "qupath_class_wire.hpp"
 #endif
 
 namespace qpx {
@@ -163,30 +164,13 @@ std::uint32_t color(const Json& value) {
     }
     throw std::invalid_argument("class color must be RGB or a packed integer");
 }
-// Class colors retain their complete wire bit pattern; object colors above
-// remain RGB-only. Gson's channel array is RGB[A], with opaque RGB by default.
-std::optional<std::uint32_t> class_argb(const Json& value) {
-    if(value.is_null())return {};
-    if(value.is_array() && (value.size()==3 || value.size()==4)) {
-        std::uint32_t rgb=0,alpha=255;
-        for(std::size_t i=0;i<value.size();++i) {
-            if(!value[i].is_number_integer() || value[i]<0 || value[i]>255)throw std::invalid_argument("invalid class color channel");
-            const auto channel=value[i].get<std::uint32_t>();
-            if(i<3)rgb=(rgb<<8)|channel;else alpha=channel;
-        }
-        return (alpha<<24)|rgb;
-    }
-    if(!value.is_number_integer() || value<std::numeric_limits<std::int32_t>::min() || value>std::numeric_limits<std::uint32_t>::max())
-        throw std::invalid_argument("invalid packed class ARGB");
-    return static_cast<std::uint32_t>(value.get<std::int64_t>());
-}
 struct Reader {
     const Document& document; Notices notices;
     std::vector<Annotation> objects; std::vector<std::string> source_ids;
     std::map<std::string,std::uint64_t> identifiers;
     std::vector<std::pair<std::size_t,std::string>> parents;
     std::map<std::string,ObjectClass> classes;
-    std::set<std::string> explicit_classes,native_classes;
+    std::set<std::string> explicit_classes,native_classes,context_classes;
     std::size_t vertex_count=0;
     bool qupath_precision=false;
     std::size_t max_objects=1000000;
@@ -298,7 +282,7 @@ struct Reader {
                 path.push_back(std::move(leaf));
             }
         }
-        const auto raw=c.contains("color")?class_argb(c["color"]):std::nullopt;
+        const auto raw=c.contains("color")?detail::class_argb(c["color"]):std::nullopt;
         std::string parent,key;
         for(std::size_t i=0;i<path.size();++i) {
             key=parent.empty()?path[i]:parent+": "+path[i];const bool leaf=i+1==path.size();
@@ -309,7 +293,7 @@ struct Reader {
                 if(value.parent!=parent)throw std::invalid_argument("classification disagrees with native class ancestry");
                 // The feature is a readable projection; native metadata owns raw
                 // alpha/absence, including legacy RGB classes whose alpha is zero.
-                if(leaf && raw && ((*raw&0xffffff)!=value.color || (value.color_present && (*raw>>24)!=255 && (*raw>>24)!=value.alpha)))
+                if(leaf && raw && !context_classes.count(key) && ((*raw&0xffffff)!=value.color || (value.color_present && (*raw>>24)!=255 && (*raw>>24)!=value.alpha)))
                     throw std::invalid_argument("classification disagrees with native class color");
             } else definition(ObjectClass::definition(key,leaf?raw:std::nullopt,parent),leaf);
             parent=key;
@@ -379,11 +363,11 @@ struct Reader {
 static InterchangeReport export_geojson_impl(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested,bool clipboard,std::size_t limit) {
     auto objects=selected(doc,ids); std::set<std::uint64_t> exported(objects.begin(),objects.end()); Notices notices{losses,{}};
     Json metadata={{"version",1},{"coordinateSpace","image-pixels"},{"origin","top-left"},{"imageWidth",doc.metadata().width},{"imageHeight",doc.metadata().height},{"classes",Json::array()}};
-    std::set<std::string> used; for(auto id:objects) used.insert(doc.objects().at(id).class_name);
+    std::set<std::string> used;
     // Selected leaves require their explicit ancestor definitions as well.
     for(auto id:objects) {
         auto name=doc.objects().at(id).class_name;
-        while(!name.empty()) {used.insert(name);name=doc.object_class(name).parent;}
+        while(!name.empty() && used.insert(name).second)name=doc.object_class(name).parent;
     }
     bool extended=false;
     for(const auto& [name,c]:doc.classes())if(ids.empty() || used.count(name))extended|=!c.parent.empty() || !c.color_present || c.alpha!=0;
@@ -479,7 +463,7 @@ static InterchangeReport export_geojson_impl(const Document& doc,const std::vect
     }
     out<<"]}\n"; bounded(out,limit); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
 }
-static InterchangeReport import_geojson_impl(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision,bool clipboard,std::optional<ObjectPlane> plane,std::size_t limit) {
+static InterchangeReport import_geojson_impl(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision,bool clipboard,std::optional<ObjectPlane> plane,std::size_t limit,const std::map<std::string,ObjectClass>* class_context=nullptr) {
     if(input.size()>limit) throw std::length_error("GeoJSON exceeds byte limit");
     if(input.find('\0')!=std::string::npos) throw std::invalid_argument("GeoJSON contains NUL bytes");
     try {
@@ -499,7 +483,7 @@ static InterchangeReport import_geojson_impl(Document& doc,const std::string& in
                 for(const auto& c:m["classes"]) {
                     const auto name=text(c.at("name"));
                     if(reader.classes.count(name))throw std::invalid_argument("duplicate native class definition");
-                    auto value=m["version"]==1?ObjectClass::definition(name,color(c.at("color"))):ObjectClass::definition(name,class_argb(c.at("argb")),text(c.at("parent")));
+                    auto value=m["version"]==1?ObjectClass::definition(name,color(c.at("color"))):ObjectClass::definition(name,detail::class_argb(c.at("argb")),text(c.at("parent")));
                     // Preserve and verify the stored resolved RGB cache for absent colors.
                     if(m["version"]==2) {
                         const auto rgb=color(c.at("color"));
@@ -514,6 +498,15 @@ static InterchangeReport import_geojson_impl(Document& doc,const std::string& in
                 reader.classes=std::move(normalized);
             }
         } else if(!pixels) throw std::invalid_argument("untagged GeoJSON requires assume_pixels=true");
+        // Project loading establishes class-cache colors before either native
+        // saved data or assisted GeoJSON is read. A palette overrides colors,
+        // never a different parent/flat identity. No frontend parser is added.
+        if(class_context)for(const auto& [name,value]:*class_context) {
+            const auto found=reader.classes.find(name);
+            if(found!=reader.classes.end() && found->second.parent!=value.parent)throw std::invalid_argument("project class identity conflicts with imported definition");
+            reader.classes.insert_or_assign(name,value);reader.native_classes.insert(name);
+            reader.explicit_classes.insert(name);reader.context_classes.insert(name);
+        }
         auto type=root.value("type","");
         if(type=="FeatureCollection") {
             for(const auto& member:root.items()) if(member.key()!="type" && member.key()!="features" && member.key()!="qupathxx" && member.key()!="bbox" && member.key()!="crs") reader.notices.add("collection_members_dropped","Unsupported collection fields will be dropped",true);
@@ -534,6 +527,9 @@ static InterchangeReport import_geojson_impl(Document& doc,const std::string& in
 }
 InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
     return export_geojson_impl(doc,ids,losses,nested,false,byte_limit);
+}
+InterchangeReport detail::import_geojson_class_context(Document& doc,const std::string& input,const std::map<std::string,ObjectClass>& classes) {
+    return import_geojson_impl(doc,input,true,true,false,false,std::nullopt,byte_limit,&classes);
 }
 InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool precision) {
     return import_geojson_impl(doc,input,pixels,losses,precision,false,std::nullopt,byte_limit);

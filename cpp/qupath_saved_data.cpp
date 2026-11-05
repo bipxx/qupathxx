@@ -1,5 +1,6 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupath_saved_data.hpp"
+#include "class_registry.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "tma_internal.hpp"
 #include <stdexcept>
@@ -178,6 +179,8 @@ double floating(std::uint64_t bits,bool single=false) {
 
 class Decoder {
     const Stream& stream;QuPathSavedData result;std::set<Id> objects;std::size_t count=0;
+    std::map<Id,std::string> class_ids;
+    std::map<std::string,ObjectClass> class_definitions;
     std::shared_ptr<const TmaGridInfo> tma_grid;
     std::map<Id,std::pair<std::size_t,std::size_t>> tma_slots;
     const Node& at(Id id) const {return stream.at(id);}
@@ -237,14 +240,30 @@ class Decoder {
         } else invalid("unsupported measurement storage: "+name);
         return out;
     }
-    Json classification(Id id,unsigned depth=0) {
-        if(!id)return nullptr;
+    std::string class_key(Id id,unsigned depth=0) {
+        if(!id)return {};
         if(depth>=32 || stream.name(id)!="qupath.lib.objects.classes.PathClass")invalid("unsupported/cyclic classification");
-        auto name=text(field(id,"name"),true);const auto parent=field(id,"parentClass");
-        if(parent) {auto base=classification(parent,depth+1);if(!base.is_null())name=base.at("name").get<std::string>()+": "+name;issue("classification_hierarchy_flattened","Derived class retained as its full display name without class-parent semantics");}
-        if(name.empty())return nullptr;
-        Json out={{"name",name}};const auto color=field(id,"colorRGB");
-        if(color) {if(stream.name(color)!="java.lang.Integer")invalid("invalid class color");const auto c=number(field(color,"value"),'I');out["color"]=Json::array({(c>>16)&255,(c>>8)&255,c&255});}
+        const auto cached=class_ids.find(id);if(cached!=class_ids.end())return cached->second;
+        const auto name=text(field(id,"name"),true);const auto parent=class_key(field(id,"parentClass"),depth+1);
+        if(name.empty()) {if(!parent.empty())invalid("null derived class name");return {};}
+        if(name.find(':')!=std::string::npos || name.find('\n')!=std::string::npos)invalid("invalid saved class leaf");
+        const auto key=parent.empty()?name:parent+": "+name;std::optional<std::uint32_t> raw;
+        if(const auto color=field(id,"colorRGB")) {
+            if(stream.name(color)!="java.lang.Integer")invalid("invalid class color");raw=static_cast<std::uint32_t>(number(field(color,"value"),'I'));
+        }
+        auto value=ObjectClass::definition(key,raw,parent);
+        value=resolve_class_definition(value,[&](const std::string& key)->const ObjectClass* {const auto found=class_definitions.find(key);return found==class_definitions.end()?nullptr:&found->second;});
+        const auto found=class_definitions.find(key);
+        if(found!=class_definitions.end() && !(found->second==value))invalid("conflicting saved class definitions");
+        if(found==class_definitions.end()) {if(class_definitions.size()>=65536)invalid("too many saved classes");class_definitions.emplace(key,value);}
+        class_ids.emplace(id,key);return key;
+    }
+    Json classification(Id id) {
+        const auto key=class_key(id);if(key.empty())return nullptr;
+        const auto& value=class_definitions.at(key);const auto c=value.color;
+        Json out={{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}};
+        if(value.parent.empty())out["name"]=key;else out["names"]=class_path(class_definitions,key);
+        if(value.color_present && value.alpha!=0 && value.alpha!=255)out["color"].push_back(value.alpha);
         return out;
     }
     Ring coordinates(Id id) const {
@@ -544,6 +563,11 @@ public:
                 grid(field(id,"tmaGrid"));
                 Json collection={{"type","FeatureCollection"},{"features",object(field(id,"rootObject"),0,true)}};
                 if(result.tma_cores.size()!=tma_slots.size())invalid("saved TMA grid references a core absent from the hierarchy");
+                if(!class_definitions.empty()) {
+                    Json definitions=Json::array();
+                    for(const auto& [name,c]:class_definitions)definitions.push_back({{"name",name},{"parent",c.parent},{"color",c.color},{"argb",c.color_argb()?Json(*c.color_argb()):Json(nullptr)}});
+                    collection["qupathxx"]={{"version",2},{"coordinateSpace","image-pixels"},{"origin","top-left"},{"imageWidth",metadata.at("width")},{"imageHeight",metadata.at("height")},{"classes",std::move(definitions)}};
+                }
                 result.geojson=collection.dump();if(result.geojson.size()>256ull*1024*1024)invalid("decoded geometry exceeds 256 MiB");
             } else if(name=="java.util.HashMap") {if(properties_seen)invalid("duplicate ImageData property map");properties_seen=true;properties(id);}
             else if(name=="qupath.lib.color.ColorDeconvolutionStains") {

@@ -8,6 +8,7 @@
 using namespace qpx;
 void check(bool value) {if(!value)throw std::runtime_error("QuPath project check failed");}
 template<class F>void rejects(F f){try{f();}catch(const std::exception&){return;}throw std::runtime_error("missing import refusal");}
+#include "class_project_checks.hpp"
 int main() {
     try {
         if(!has_project() || !has_interchange()) {rejects([]{preview_qupath_project("missing.qpproj");});std::cout<<"QuPath project capability disabled and refused\n";return 0;}
@@ -41,6 +42,7 @@ int main() {
         auto stale=preview_qupath_project((root/"project.qpproj").u8string());
         {std::ofstream f(root/"source.ppm",std::ios::binary|std::ios::app);f.put('x');}
         rejects([&]{stale->import_new((root/"stale.qpxproj").u8string());});check(!std::filesystem::exists(root/"stale.qpxproj") && !stale->consumed());
+        class_project_checks(root);
         std::filesystem::remove_all(root);
         std::cout<<"QuPath project native preview, source guards, new publication and replay refusal passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}

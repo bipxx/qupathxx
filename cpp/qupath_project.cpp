@@ -15,6 +15,8 @@
 #include <set>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
 #include "strict_json.hpp"
+#include "qupath_class_wire.hpp"
+#include "class_registry.hpp"
 #endif
 namespace qpx {
 namespace fs=std::filesystem;
@@ -147,13 +149,28 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
         const auto data=state->read(name,limit,cancelled);
         if(!bundle_files.is_null() && bundle_files.at(relative)!=hash(data))throw std::invalid_argument("exchange project metadata is stale");return parse(data);
     };
-    std::vector<ObjectClass> classes;
+    std::vector<ObjectClass> classes;std::vector<std::string> defaults;
     if(const auto class_data=bound_read("classifiers/classes.json",1024*1024)) {
-        const auto& list=class_data->at("pathClasses");if(!list.is_array() || list.size()>65536) throw std::invalid_argument("invalid project class list");
-        std::set<std::string> names;
-        for(const auto& c:list) {for(auto it=c.begin();it!=c.end();++it) if(it.key()!="name" && it.key()!="color") state->issue("class_properties_dropped","Unsupported class property: "+it.key());const auto name=text(c.at("name"));const auto color=c.at("color").get<std::int64_t>();if(name.empty() || color<0 || color>0xffffff || !names.insert(name).second) throw std::invalid_argument("invalid project class");classes.push_back({name,std::uint32_t(color)});}
+        const auto& list=class_data->at("pathClasses");if(!list.is_array() || list.size()>65536)throw std::invalid_argument("invalid project class list");
+        std::map<std::string,ObjectClass> definitions;std::set<std::string> explicit_names;
+        for(const auto& c:list) {
+            for(const auto& item:c.items())if(item.key()!="name" && item.key()!="color")state->issue("class_properties_dropped","Unsupported class property: "+item.key());
+            const auto path=detail::qupath_project_class_path(text(c.at("name")));
+            const auto raw=c.contains("color")?detail::class_argb(c.at("color")):std::nullopt;
+            std::string parent,key;
+            for(std::size_t i=0;i<path.size();++i) {
+                key=parent.empty()?path[i]:parent+": "+path[i];const bool leaf=i+1==path.size();
+                const auto value=ObjectClass::definition(key,leaf?raw:std::nullopt,parent);
+                const auto found=definitions.find(key);
+                if(leaf && explicit_names.count(key) && !(found->second==value))throw std::invalid_argument("conflicting repeated project class definition");
+                if(found==definitions.end() || (leaf && !explicit_names.count(key)))definitions.insert_or_assign(key,value);
+                if(leaf)explicit_names.insert(key);parent=key;
+            }
+            defaults.push_back(key);
+        }
+        for(const auto& [name,c]:definitions)classes.push_back(c);
     }
-    if(root.at("images").empty() && !classes.empty())state->issue("project_classes_dropped","Class definitions without images have no native project-level registry",classes.size());
+    state->project->set_class_registry(classes,std::move(defaults));
     if(const auto metadata_value=bound_read("data/metadata.json",1024*1024)) {
         const auto& metadata=*metadata_value;if(!metadata.is_object() || metadata.size()>4096)throw std::invalid_argument("invalid project metadata");
         std::map<std::string,std::string> values;
@@ -202,7 +219,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
             if(const auto source=doc->server()->reader_source()) {if(source->primary)state->observe(source->primary->path,source->primary.get());for(const auto& file:source->companions) state->observe(file.path,&file);}
             else state->observe(info.source_path);
         } catch(const std::exception& e) {if(info.native_id)state->project->remove_image(info.native_id);info.native_id=0;state->issue("unavailable_image",info.name+": "+e.what());state->images.push_back(info);continue;}
-        for(const auto& c:classes) doc->set_class(c.name,c.color);
+        doc->replace_class_registry(classes,"Import project classes");
         if(builder.contains("metadata") && builder["metadata"].contains("pixelCalibration")) {
             const auto& calibration=builder["metadata"]["pixelCalibration"];
             auto axis=[&](const char* key)->std::optional<double> {if(!calibration.contains(key)) return {};const auto& q=calibration[key];if(q.at("unit")==u8"\u00b5m") return physical(q.at("value"));if(q.at("unit")!="px")state->issue("calibration_unit",info.name+": unsupported calibration unit");return {};};
@@ -220,7 +237,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 if(saved.value("sizeZ",1)!=(raw?raw->z_planes:1) || saved.value("sizeT",1)!=(raw?raw->timepoints:1))throw std::invalid_argument("saved image axes differ from source");
                 if(saved.contains("channels") && saved["channels"].size()!=(raw?raw->channels:3))throw std::invalid_argument("saved image channels differ from source");
                 if(saved.contains("pixelType")) {auto type=text(saved["pixelType"]);detail::ascii_lower_in_place(type);if(type!=(raw?sample_name(raw->sample_type):"uint8"))throw std::invalid_argument("saved image sample type differs from source");}
-                const auto imported=import_geojson(*doc,decoded.geojson,true,true);
+                const auto imported=detail::import_geojson_class_context(*doc,decoded.geojson,state->project->classes());
                 if(!decoded.tma_cores.empty()) {
                     std::vector<ObjectEdit> edits;edits.reserve(decoded.tma_cores.size());
                     for(std::size_t i=0;i<imported.source_ids.size();++i) {
@@ -249,7 +266,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 const auto filename=text(item.at("file"));if(filename.empty() || fs::u8path(filename).filename().u8string()!=filename || filename.find_first_of("\\/:")!=std::string::npos || filename=="." || filename=="..") throw std::invalid_argument("exchange filename must be a single component");
                 const auto contents=state->read((index_path.parent_path()/fs::u8path(filename)).u8string(),256ull*1024*1024,cancelled);
                 if(item.at("sha256")!=hash(contents)) throw std::invalid_argument("exchange annotation checksum mismatch");
-                const auto imported=import_geojson(*doc,contents,true,true);
+                const auto imported=detail::import_geojson_class_context(*doc,contents,state->project->classes());
                 info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
                 for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
                 auto x=physical(item.at("pixel_width_um")),y=physical(item.at("pixel_height_um"));
