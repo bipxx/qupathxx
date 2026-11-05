@@ -1,0 +1,11 @@
+{
+  "retired": "g3-controls.ppm",
+  "retained": "g3-controls.png",
+  "size": [
+    1440,
+    900
+  ],
+  "rgb_sha256": "b425046ab5caf3b3c7708bd0183bc24637f1bf321ac46c7fc95a17fcec6f4a4f",
+  "ppm_sha256": "5968a582a75f2517379b15d25b9529359e7c3844c1b242693b0aaf6c8ccc08e9",
+  "png_sha256": "6b1cafe66adbe4714f6eeddd70e08fe90cd124cd4f42c65f891f012627210063"
+}

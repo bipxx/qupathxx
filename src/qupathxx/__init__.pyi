@@ -337,6 +337,7 @@ from ._native import (
     trace_tissue as trace_tissue,
     TissueFeature as TissueFeature,
     TissueParameters as TissueParameters,
+    TissueGridSampling as TissueGridSampling,
     TissueRequest as TissueRequest,
     TissueComponent as TissueComponent,
     TissueResult as TissueResult,

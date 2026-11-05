@@ -103,21 +103,80 @@ G2 commands used the same cmake/ctest/cache as G1:
 & $ctest --test-dir $cache -C Release -R '^tissue_grid$' --output-on-failure
 ```
 
+## G3 staged consumers — 2026-11-05
+
+One combined cached build completed _native, batch/app and grid/project-batch/
+viewer native tests. [Three native suites pass](g3-native.log), including captured
+C++ mutable-option alias isolation, identity changes and checkpoint reuse. No
+binding compiler retry, wheel or install was needed. The live compiler was
+verified against its response file/CPU and awaited rather than restarted.
+
+[95 non-GUI cases pass across retained runs](g3-python-first.log), with only
+[the corrected CLI node rerun](g3-python-cli-corrected.log). SDK coverage includes
+owning descriptor/option copies, NumPy owner lifetime, exact/ROI factories, physical
+limits, QTM5 project replay, CSV4, batch/CLI checkpoint identity and all three old
+stored boundaries. Other selected record/area/viewer lifecycle checks pass;14
+optional cases were skipped in that non-GUI run and are not claimed as passed.
+
+[Four initial GUI flows pass](g3-gui-first.log), then the [corrected grid preview/
+retention flow passes](g3-gui-corrected.log) and the [grid desktop batch passes](g3-gui-batch.log):
+six distinct passing GUI cases. They cover managed exact/count owner capture,
+retention/save, legacy managed median, both legacy tissue overlays, grid preview/
+per-axis reporting/retention and a batch using the same captured recipe. GUI
+controls were inspected at their actual scroll position in the [capture](g3-controls.png):
+counts5x3/context1x2, source-level-zero mode, readable filter controls and grid
+steps1.4x1.6667. The temporary control PPM was retired only after decoded RGB
+[equality](g3-capture-proof.json); PNG and failed-run captures/logs remain.
+
+One stub generation produced both public stub files. [Strict valid typing passes](g3-typing-valid.log);
+[three intended invalid assignments fail](g3-typing-invalid.log). Both staged stub
+files match source. The [candidate identity](g3-candidate-identity.json) matches485
+raw compiler inputs to the module's source-tree hash, three staged products and
+two stub files at a8956989+dirty. This is staged evidence, not installed shipping.
+
+Two runtime failures were observer identity mistakes: CLI default H&E vectors
+were compared with an SDK identity basis, then the GUI OD expectation incorrectly
+used displayed stain vectors. Masks matched; the existing GUI OD branch captures
+the identity basis. Passed matching CLI vectors and corrected the GUI expectation;
+no production code changed and only the failed nodes reran. Next derive identity
+from the actual consumer request branch before comparing digests. Equal masks do
+not establish equal captured transforms.
+
+G3 used the same cmake/ctest/cache above and the isolated probe interpreter:
+
+```powershell
+$probe = 'C:/Users/HEQ/Projects/qupathxx/build/ci/project-metadata-r5-probe-env/Scripts/python.exe'
+& $cmake --build $cache --config Release --target _native qupathxx_batch qupathxx_app qupathxx_tissue_grid_tests qupathxx_project_batch_tests qupathxx_viewer_session_tests --parallel 2
+& $ctest --test-dir $cache -C Release -R '^(tissue_grid|project_batch|viewer_session)$' --output-on-failure
+& $probe tools/generate_stubs.py
+& $probe -m pytest tests/test_tissue_grid.py tests/test_tissue_records.py tests/test_tissue_area_limits.py tests/test_viewer_session.py -q --tb=short
+```
+
+After the first Python run, only test_grid_batch_cli_checkpoint_and_identity
+reran. With QUPATHXX_TEST_GUI=1, the selected GUI nodes were
+`test_managed_grid_capture_retention_and_exact_descriptor`,
+`test_gui_grid_report_preview_and_retention`,
+`test_managed_owner_retains_median_recipe`, and both parameter cases of
+`test_gui_tissue_matches_native_mask_and_draws_overlay`. Only the grid preview
+node reran after its observer correction. The additional
+`test_gui_grid_batch_matches_captured_recipe` then passed separately. Strict mypy
+used no-incremental/strict with follow_imports=silent and
+follow_imports_for_stubs=True; its positive/negative logs are linked above.
+
 ## Remaining and waste review
 
-G3 must expose the settled native route through nanobind, managed viewer, ImGui,
-batch and CLI. G4 must verify one installed workflow, including the retained legacy
-witnesses. No GRID1 bindings build, stubs, wheel or install has run. G1/G2 synthetic
-and native retention checks do not close GRID1, broader R6/R7/R12 or M0-M7.
+G4 must package/install one frozen candidate and verify shipping identities and
+the installed grid workflow/legacy witnesses. G1-G3 do not close broader R6/R7/R12
+or M0-M7. No GRID1 wheel or install has run. The prior MEDIAN1 installed product
+remains available; the isolated probe now points at build/tissue-grid-r7/stage.
 
-G1 observed waste: guessed paths/oversized inspection output; a build started before
-checking the digest entry point; two observer setup mistakes caused extra grid
-compiles. Apply: discover declarations; inspect identity callers/return types;
-establish fixture eligibility with the independent oracle before selecting an ROI.
-G2 observed waste: local-name collision required a cached compiler retry. Inspect
-existing locals before inserting a branch; keep the failure. Reuse passing native
-code results for observer-only extensions rather than repeating all suites. Reuse
-sampler/codec/provenance/table authorities and old fixtures; no full campaign or
-new result model is required. QTM5 keeps the producer's historical work estimate
-but separately admits the current decoder layout, avoiding an ABI-dependent
-capacity-equality requirement. Legacy exact estimate semantics remain unchanged.
+G1/G2 failures above remain evidence. G3 reused native authorities and artifacts,
+settled coupled consumers before one binding build and generated stubs once.
+Wrong guessed paths/Windows filename wildcards and oversized enum output were
+observed during inspection: use directory searches with -g filters, discover
+names first and bound substrings for long declarations. Short repetitive polls
+were unhelpful; changed to20-second polls and verified actual compiler ownership.
+No replacement build, full campaign, reader/model, environment or new job system.
+Use actual transform branches for identity assertions; reuse passing unaffected
+checks after observer corrections. Next apply the existing package/source/member
+checks once, rather than repeating this staged numerical/GUI matrix.

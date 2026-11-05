@@ -1,0 +1,15 @@
+..F.ss.................................................................. [ 66%]
+...............ss.........sssssssss.s                                    [100%]
+================================== FAILURES ===================================
+_________________ test_grid_batch_cli_checkpoint_and_identity _________________
+tests\test_tissue_grid.py:124: in test_grid_batch_cli_checkpoint_and_identity
+    assert actual.labels == result.labels and actual.input_sha256 == result.input_sha256
+E   AssertionError: assert (b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E     
+E     Use -v to get more diff and 'c6f861425c6d...aa4a85d450a64' == 'd6ffdad9990f...d270e6781f4e7'
+E     
+E     - d6ffdad9990fd6989afa9ef23c5fe57d6921f4cea1d94d02783d270e6781f4e7
+E     + c6f861425c6dae5140f5143c887ed5c0b43055e9d3601435621aa4a85d450a64)
+=========================== short test summary info ===========================
+FAILED tests/test_tissue_grid.py::test_grid_batch_cli_checkpoint_and_identity
+1 failed, 94 passed, 14 skipped in 3.01s

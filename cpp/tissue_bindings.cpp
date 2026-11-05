@@ -23,11 +23,23 @@ void bind_tissue(nb::module_& m) {
         .def_rw("min_pixels",&TissueParameters::min_pixels).def_rw("max_pixels",&TissueParameters::max_pixels)
         .def_rw("tile_size",&TissueParameters::tile_size).def_rw("max_components",&TissueParameters::max_components).def_rw("work_bytes",&TissueParameters::work_bytes)
         .def("validate",&TissueParameters::validate);
+    nb::class_<TissueGridSampling>(m,"TissueGridSampling").def(nb::init<>())
+        .def_rw("samples_x",&TissueGridSampling::samples_x).def_rw("samples_y",&TissueGridSampling::samples_y)
+        .def_rw("context_x",&TissueGridSampling::context_x).def_rw("context_y",&TissueGridSampling::context_y)
+        .def("validate",&TissueGridSampling::validate);
     nb::class_<TissueRequest>(m,"TissueRequest")
         .def_static("replay",&TissueRequest::replay,"document"_a,"record_id"_a)
         .def_static("with_component_area_limits",&TissueRequest::with_component_area_limits,"document"_a,"object_id"_a,"transform"_a,
             "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"nucleus"_a=false)
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,TissueParameters,bool>(),"document"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def(nb::init<const Document&,std::uint64_t,const StainTransform&,ScientificGrid,TissueParameters,bool>(),
+            "document"_a,"object_id"_a,"transform"_a,"grid"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def_static("for_grid_roi",&TissueRequest::for_grid_roi,"document"_a,"object_id"_a,"transform"_a,"sampling"_a=TissueGridSampling{},
+            "parameters"_a=TissueParameters{},"nucleus"_a=false,"minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none())
+        .def_static("with_grid_component_area_limits",&TissueRequest::with_grid_component_area_limits,"document"_a,"object_id"_a,"transform"_a,"grid"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def_prop_ro("scientific_grid",[](const TissueRequest& r){return r.scientific_grid()?std::optional<ScientificGrid>(*r.scientific_grid()):std::nullopt;})
+        .def_prop_ro("downsample_x",&TissueRequest::downsample_x).def_prop_ro("downsample_y",&TissueRequest::downsample_y)
         .def("matches",&TissueRequest::matches).def_prop_ro("object_id",&TissueRequest::object_id)
         .def_prop_ro("parameters",[](const TissueRequest& r){return r.parameters();})
         .def_prop_ro("level",&TissueRequest::level).def_prop_ro("downsample",&TissueRequest::downsample)

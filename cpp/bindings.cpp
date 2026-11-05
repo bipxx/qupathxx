@@ -1,3 +1,4 @@
+#include "qupathxx/tissue.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/spatial_analysis.hpp"
@@ -440,6 +441,8 @@ NB_MODULE(_native, m) {
         .def_rw("roi_sampling_policy",&GuiOptions::roi_sampling_policy).def_rw("tissue_sampling_policy",&GuiOptions::tissue_sampling_policy)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
+        .def_prop_rw("tissue_grid",[](const GuiOptions& o)->std::optional<TissueGridSampling> {return o.tissue_grid?std::optional<TissueGridSampling>(*o.tissue_grid):std::nullopt;},
+            [](GuiOptions& o,std::optional<TissueGridSampling> v) {o.tissue_grid=v?std::make_shared<const TissueGridSampling>(*v):nullptr;})
         .def_rw("tissue_median_cleanup",&GuiOptions::tissue_median_cleanup)
         .def_rw("tissue_smoothing_sigma",&GuiOptions::tissue_smoothing_sigma)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
@@ -491,6 +494,8 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_components",&GuiReport::tissue_components).def_ro("tissue_gpu_bytes",&GuiReport::tissue_gpu_bytes)
         .def_ro("tissue_samples",&GuiReport::tissue_samples).def_ro("tissue_foreground_pixels",&GuiReport::tissue_foreground_pixels)
         .def_ro("tissue_ms",&GuiReport::tissue_ms).def_ro("tissue_preview_ready",&GuiReport::tissue_preview_ready)
+        .def_prop_ro("tissue_grid",[](const GuiReport& r){return r.tissue_grid;})
+        .def_ro("tissue_downsample_x",&GuiReport::tissue_downsample_x).def_ro("tissue_downsample_y",&GuiReport::tissue_downsample_y)
         .def_ro("tissue_level",&GuiReport::tissue_level).def_ro("tissue_downsample",&GuiReport::tissue_downsample)
         .def_ro("tissue_width",&GuiReport::tissue_width).def_ro("tissue_height",&GuiReport::tissue_height)
         .def_ro("tissue_cleaned_pixels",&GuiReport::tissue_cleaned_pixels).def_ro("tissue_filled_pixels",&GuiReport::tissue_filled_pixels)

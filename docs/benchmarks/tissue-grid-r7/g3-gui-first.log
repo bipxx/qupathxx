@@ -1,0 +1,12 @@
+.F...                                                                    [100%]
+================================== FAILURES ===================================
+_________________ test_gui_grid_report_preview_and_retention __________________
+tests\test_tissue_grid.py:186: in test_gui_grid_report_preview_and_retention
+    assert report.tissue_input_sha256 == expected.input_sha256
+E   AssertionError: assert 'd6ffdad9990f...d270e6781f4e7' == 'c6f861425c6d...aa4a85d450a64'
+E     
+E     - c6f861425c6dae5140f5143c887ed5c0b43055e9d3601435621aa4a85d450a64
+E     + d6ffdad9990fd6989afa9ef23c5fe57d6921f4cea1d94d02783d270e6781f4e7
+=========================== short test summary info ===========================
+FAILED tests/test_tissue_grid.py::test_gui_grid_report_preview_and_retention
+1 failed, 4 passed in 1.70s

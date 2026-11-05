@@ -24,6 +24,8 @@ void bind_project_batch(nb::module_& m) {
         .def_rw("raw_contours",&ProjectBatchOptions::raw_contours).def_rw("raw_contour_prefix",&ProjectBatchOptions::raw_contour_prefix).def_rw("raw_contour_publication_bytes",&ProjectBatchOptions::raw_contour_publication_bytes)
         .def_rw("raw_grid",&ProjectBatchOptions::raw_grid).def_rw("raw_grid_work_bytes",&ProjectBatchOptions::raw_grid_work_bytes)
         .def_rw("raw",&ProjectBatchOptions::raw).def_rw("raw_follow_display",&ProjectBatchOptions::raw_follow_display).def_rw("raw_max_pixels",&ProjectBatchOptions::raw_max_pixels)
+        .def_prop_rw("tissue_grid",[](const ProjectBatchOptions& o)->std::optional<TissueGridSampling> {return o.tissue_grid?std::optional<TissueGridSampling>(*o.tissue_grid):std::nullopt;},
+            [](ProjectBatchOptions& o,std::optional<TissueGridSampling> v) {o.tissue_grid=v?std::make_shared<const TissueGridSampling>(*v):nullptr;})
         .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells)
         .def_rw("cell_grid",&ProjectBatchOptions::cell_grid).def_rw("grid_cells",&ProjectBatchOptions::grid_cells)
         .def_rw("cell_nominal",&ProjectBatchOptions::cell_nominal)

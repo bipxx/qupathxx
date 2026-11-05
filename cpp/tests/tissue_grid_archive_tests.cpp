@@ -139,6 +139,22 @@ void check_tissue_grid_archives() {
     require(restored->tissue_record(first)->result->labels()==doc->tissue_record(first)->result->labels() && restored->tissue_status(first)=="unverified","project grid restart");
     const auto replay=TissueRequest::replay(*restored,first);
     require(restored->verify_tissue(first,replay,*detect_tissue(replay)),"project grid replay verifies");
+    {
+        auto sampling=std::make_shared<TissueGridSampling>();sampling->samples_x=5;sampling->samples_y=3;sampling->context_x=1;sampling->context_y=2;
+        ProjectBatchOptions options;options.kind=ProjectBatchKind::Tissue;options.tissue_grid=sampling;
+        const ProjectBatchRequest captured(*project,transform,{},options);const auto identity=captured.parameters_sha256();
+        sampling->samples_x=4;require(ProjectBatchRequest(*project,transform,{},options).parameters_sha256()!=identity,"grid batch identity tracks counts");
+        const auto directory=std::filesystem::current_path()/(project->identity()+"-grid-snapshot");
+        const auto report=run_project_batch(captured,directory.u8string());
+        require(report.state=="succeeded" && report.saved==1,"grid batch captured snapshot executes");
+        const auto output=Project::open(report.images.at(0).path)->document(image)->latest_tissue(object)->result;
+        require(output->scientific_grid() && output->scientific_grid()->x().samples()==5,"C++ mutable alias does not change captured sampling");
+        require(run_project_batch(captured,directory.u8string()).reused==1,"grid batch checkpoint resumes");
+        options.kind=ProjectBatchKind::Cells;reject([&]{options.validate();});
+        // Only retire this test's named output under its current build directory.
+        require(directory.parent_path()==std::filesystem::current_path(),"batch output cleanup stays inside test directory");
+        std::filesystem::remove_all(directory);
+    }
     std::filesystem::remove(path);
 #if defined(_MSC_VER) && defined(_WIN64)
     // Pinned MSVC/x64 old archive and exact stored admission boundaries, all three parameter groups.

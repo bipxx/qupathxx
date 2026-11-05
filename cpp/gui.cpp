@@ -206,6 +206,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     detail::validate_tissue_area_limits(options.tissue_min_component_area_um2,options.tissue_max_component_area_um2);
     auto tissue_min_area=options.tissue_min_component_area_um2,tissue_max_area=options.tissue_max_component_area_um2;
     tissue_parameters.median_cleanup=options.tissue_median_cleanup;tissue_parameters.fill_holes=options.tissue_fill_holes;tissue_parameters.max_hole_pixels=options.tissue_max_hole_pixels;tissue_parameters.validate();
+    auto tissue_grid=options.tissue_grid?std::make_shared<const TissueGridSampling>(*options.tissue_grid):nullptr;
+    if(tissue_grid) {
+        tissue_grid->validate();
+        if(tissue_parameters.level>0) throw std::invalid_argument("tissue grid requires level zero/auto");
+        tissue_parameters.level=0;
+    }
     if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
         throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
     if(options.project && options.project->active_image() && options.project->document(options.project->active_image()).get()!=&document)
@@ -1995,9 +2001,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::SeparatorText("Threshold tissue mask");
             const auto tissue_status=tissue.poll(document,selected);
             ImGui::PushItemWidth(132.f);
-            bool tissue_changed=ui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            bool tissue_changed=detail::tissue_sampling_controls(tissue_grid);
+            if(tissue_grid) tissue_parameters.level=0;
+            tissue_changed=ui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0") || tissue_changed;
             int tissue_sampling=static_cast<int>(tissue_parameters.sampling_policy);
             if(ui::Combo("Tissue polygon samples",&tissue_sampling,"Geometry coverage\0Polygon winding\0")) {tissue_parameters.sampling_policy=static_cast<RoiSamplingPolicy>(tissue_sampling);tissue_changed=true;}
+            if(!tissue_grid) {
             const auto level_label=tissue_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(tissue_parameters.level);
             if(ui::BeginCombo("Tissue level",level_label.c_str())) {
                 if(ImGui::Selectable("Auto (work budget)",tissue_parameters.level<0)) {tissue_parameters.level=-1;tissue_changed=true;}
@@ -2007,6 +2016,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
                 ui::EndCombo();
             }
+            } else ui::TextDisabled("Area means from source level zero");
             tissue_changed=ui::InputDouble("Sigma (px)",&tissue_parameters.smoothing_sigma,0,0,"%.5g") || tissue_changed;
             tissue_changed=ui::InputDouble("Threshold >=",&tissue_parameters.threshold,0,0,"%.5g") || tissue_changed;
             tissue_changed=ui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
@@ -2030,7 +2040,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detect_clicked && !tissue.busy()) {
                 try {
                     tissue_parameters.feature=static_cast<TissueFeature>(tissue_feature);tissue_parameters.connectivity=tissue_connectivity?8:4;
-                    tissue.request(TissueRequest::with_component_area_limits(document,selected,make_transform(tissue_feature!=0),tissue_min_area,tissue_max_area,tissue_parameters,analysis_nucleus));tissue_annotations_added=0;error.clear();
+                    tissue.request(tissue_grid?TissueRequest::for_grid_roi(document,selected,make_transform(tissue_feature!=0),*tissue_grid,tissue_parameters,analysis_nucleus,tissue_min_area,tissue_max_area):
+                        TissueRequest::with_component_area_limits(document,selected,make_transform(tissue_feature!=0),tissue_min_area,tissue_max_area,tissue_parameters,analysis_nucleus));tissue_annotations_added=0;error.clear();
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
@@ -2039,7 +2050,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             ui::Checkbox("Show tissue mask",&show_tissue);
             if(const auto result=tissue.result()) {
-                ImGui::Text("Level %d / %.5gx / %lld x %lld",result->level(),result->downsample(),static_cast<long long>(result->width()),static_cast<long long>(result->height()));
+                if(result->scientific_grid()) ImGui::Text("Grid %.5g x %.5g px / %lld x %lld",result->downsample_x(),result->downsample_y(),static_cast<long long>(result->width()),static_cast<long long>(result->height()));
+                else ImGui::Text("Level %d / %.5gx / %lld x %lld",result->level(),result->downsample(),static_cast<long long>(result->width()),static_cast<long long>(result->height()));
                 ui::TextDisabled("Size filters count sampled pixels");
                 ImGui::Text("Components: %zu",result->components().size());
                 ImGui::Text("Kept pixels: %llu",static_cast<unsigned long long>(result->foreground_pixels()));
@@ -2712,7 +2724,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
-        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,tissue_min_area,tissue_max_area,cell_parameters,cell_min_area,cell_max_area,cell_grid,cell_nominal,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,tissue_grid,tissue_min_area,tissue_max_area,cell_parameters,cell_min_area,cell_max_area,cell_grid,cell_nominal,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
         raw_pixel.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
@@ -2833,7 +2845,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         active_document->analysis_record_count(),saved_analysis?active_document->analysis_status(saved_analysis->id):std::string{},
         tissue_status.state,tissue_status.error.empty()?tissue_preview.error():tissue_status.error,tissue_result?tissue_result->input_sha256():std::string{},
         tissue_result?tissue_result->components().size():0,tissue_preview.peak_bytes(),tissue_result?tissue_result->samples():0,tissue_result?tissue_result->foreground_pixels():0,
-        tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
+        tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result && !tissue_result->scientific_grid()?tissue_result->downsample():0,
         tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
         replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !qupath_review.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (empty || overview.settled()),
@@ -2856,6 +2868,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     report.clipboard_copies=clipboard_copies;report.clipboard_pastes=clipboard_pastes;
     report.clipboard_copied_objects=clipboard_copied_objects;report.clipboard_pasted_objects=clipboard_pasted_objects;
     report.clipboard_error=clipboard_error;
+    if(tissue_result) {
+        if(tissue_result->scientific_grid()) report.tissue_grid=*tissue_result->scientific_grid();
+        report.tissue_downsample_x=tissue_result->downsample_x();report.tissue_downsample_y=tissue_result->downsample_y();
+    }
     return report;
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {

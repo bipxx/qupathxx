@@ -72,6 +72,10 @@ void bind_viewer_session(nb::module_& m) {
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)
         .def("nominal_cells",&ViewerSession::nominal_cells,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=NominalCellRoiSampling{},"parameters"_a=GridCellParameters{},"retain_result"_a=false)
+        .def("grid_tissue",&ViewerSession::grid_tissue,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=TissueGridSampling{},"parameters"_a=TissueParameters{},
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"retain_result"_a=false)
+        .def("tissue_on_grid",&ViewerSession::tissue_on_grid,"image_id"_a,"object_id"_a,"transform"_a,"grid"_a,"parameters"_a=TissueParameters{},
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"retain_result"_a=false)
         .def("grid_cells",&ViewerSession::grid_cells,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=GridCellSampling{},"parameters"_a=GridCellParameters{},"retain_result"_a=false)
         .def("cells_with_nucleus_area_limits",&ViewerSession::cells_with_nucleus_area_limits,"image_id"_a,"object_id"_a,"transform"_a,
             "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=CellParameters{},"retain_result"_a=false)

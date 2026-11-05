@@ -85,6 +85,10 @@ public:
     std::uint64_t analyze(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool retain_result=false);
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);
+    std::uint64_t grid_tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueGridSampling={},TissueParameters={},
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},bool retain_result=false);
+    std::uint64_t tissue_on_grid(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,ScientificGrid,TissueParameters={},
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},bool retain_result=false);
     std::uint64_t grid_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,GridCellSampling={},GridCellParameters={},bool retain_result=false);
     std::uint64_t nominal_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,NominalCellRoiSampling={},GridCellParameters={},bool retain_result=false);
     // Bounds and parameters are copied at submission. The owner resolves units

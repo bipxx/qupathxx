@@ -73,6 +73,7 @@ int execute(const std::vector<std::string>& args) {
             "               --max-pixels N --max-blocks N (per target)\n"
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
+            "Tissue grid: --tissue-grid NX NY CX CY (ROI counts, sampled context per axis)\n"
             "Tissue median: --tissue-median (3x3 binary cleanup after threshold)\n"
             "Tissue Gaussian: --tissue-sigma NUMBER (sampled pixels, 0..16)\n"
             "Tissue area: --tissue-min-area-um2 NUMBER --tissue-max-area-um2 NUMBER (inclusive)\n"
@@ -246,6 +247,12 @@ int execute(const std::vector<std::string>& args) {
             }
             else if(flag=="--cell-log-prominence") {legacy_cell_flags=true;options.cells.log_prominence=real(value());}
             else if(flag=="--cell-context-padding") {legacy_cell_flags=true;const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
+            else if(flag=="--tissue-grid") {
+                auto next=[&](std::uint64_t limit) {const auto n=integer(value());if(n>limit) throw std::invalid_argument("tissue grid count/context exceeds limit");return std::uint32_t(n);};
+                TissueGridSampling sampling;sampling.samples_x=next(1000000);sampling.samples_y=next(1000000);
+                sampling.context_x=next(4096);sampling.context_y=next(4096);sampling.validate();
+                options.tissue_grid=std::make_shared<const TissueGridSampling>(sampling);
+            }
             else if(flag=="--tissue-median") options.tissue.median_cleanup=true;
             else if(flag=="--tissue-sigma") options.tissue.smoothing_sigma=real(value());
             else if(flag=="--tissue-min-area-um2") options.tissue_min_component_area_um2=real(value());
