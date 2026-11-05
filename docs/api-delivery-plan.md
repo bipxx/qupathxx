@@ -11,6 +11,11 @@ candidate publication within the resulting support statement. Reuse installed
 analysis evidence; add only the missing deployment checks. No broad platform
 matrix or optional parity extension belongs to this handoff.
 
+The targeted fresh-host job42099947943 passes install/run/removal with preserved
+user outputs. The12-archive dependency source inventory is complete for this
+candidate; see the guide/evidence links below. Candidate publication closes this
+handoff, not the broader R13 stable-release or R2-R16 parity requirements.
+
 The local engineering checkpoint is delivered; see the
 [workflow guide](windows-workflow.md) and [evidence summary](benchmarks/windows-workflow-checkpoint/README.md).
 The owner selected AGPL, applied as AGPL-3.0-only. Native source remains6219a08f;

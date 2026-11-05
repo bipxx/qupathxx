@@ -53,3 +53,28 @@ Failures and superseded experiment outputs retain their original directories.
 The existing MODEL1/REGION1/GRID1 kernel, legacy, failure and typing evidence keeps
 its original source/configuration scope. No qualification308, cross-platform
 matrix, specimen campaign, new estimator/registry or speed benchmark was run.
+
+## Fresh Windows handoff
+
+[Hosted run42099947943](https://github.com/bipxx/qupathxx/actions/runs/42099947943)
+passes the targeted Windows job at harness commitc0aeba86. Other matrix jobs
+were skipped. [Raw handoff receipt](hosted-handoff.json) records fresh image
+20261101.353.1, frozen candidate hashes, installed SDK/desktop outputs and actual
+uninstall. Seven project/CSV/JSON files retain their pre-uninstall hashes.
+The mapped runtime log proves GEOS/OpenSlide loaded from the candidate package
+under sanitized PATH; pinned Mesa is a test-only driver overlay, never shipped.
+
+[Dependency inventory](dependency-sources.json) authenticates12 original source
+archives in qupathxx-dependency-sources.zip. OpenSlide source includes all16 SDK
+library projects and build recipes/patches; nanobind includes robin-map. Fonts
+retain notices/pinned source URLs, and NumPy/OS/runtime/driver are separate
+prerequisites. All source packages are offered with the candidate release.
+
+Handoff setup failures remain visible:42098869843 could not read draft assets
+with contents:read (and its failed-job retry did not resolve that permission);
+42099196388 installed successfully but the harness used a case-sensitive dict
+for SystemRoot;42099581064 passed install/renderer setup then hit external CMU
+DNS failure. Scoped fixes enabled draft visibility, read Windows environment
+through os.environ and used a checksum-verified fixture mirror. No candidate
+binary or numerical threshold changed across those attempts. Source/fixture
+mirrors remove unnecessary network dependence from this handoff.

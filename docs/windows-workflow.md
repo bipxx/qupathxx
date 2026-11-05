@@ -1,12 +1,18 @@
 # Windows research workflow candidate
 
-This local engineering candidate opens an Aperio brightfield slide, authors a
+This engineering candidate opens an Aperio brightfield slide, authors a
 bounded calibrated rectangle, retains tissue and region-intensity measurements,
 exports CSV and saves a project that reopens in ImGui or Python. The native code
 is MODEL1 source `6219a08f`; the package adds the owner's AGPL-3.0-only decision.
 It does not include the parked PRESET1 implementation or imply full QuPath parity.
 
 ## Files and prerequisites
+
+Download the [Windows prerelease candidate](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.1).
+Choose the native ZIP for standalone use, or the wheel for Python3.12 x64.
+Application and dependency source archives, notices and validation evidence are
+provided alongside the binaries. The optional CMU-1.svs asset mirrors the pinned
+CC0 fixture; its recorded hash is unchanged.
 
 In this workspace the final files are in
 `C:\Users\HEQ\Projects\qupathxx\build\windows-workflow-checkpoint\delivery-agpl`:
@@ -17,11 +23,14 @@ In this workspace the final files are in
 - `qupathxx-source-6219a08f.zip`: matching native-source snapshot with the
   project license and source notes. All495 recorded compiler-input files match
   their original raw-byte hashes; later PRESET1 code is excluded.
+- `qupathxx-dependency-sources.zip` and `dependency-sources.json`:12 original
+  source archives with checksums and upstream origins, including OpenSlide's
+  complete source/build distribution and nanobind's bundled robin-map.
 - `candidate.json`, `wheel-license-overlay.json`, runtime manifests and
   `installation.json`: identity, package changes, dependency closure and install
   evidence. The native compiler identity is unchanged by the license overlay.
 
-Use Windows x64 with an OpenGL-capable desktop/driver and the Microsoft Visual
+Use Windows x64 with an OpenGL3.2-capable desktop/driver and the Microsoft Visual
 C++ x64 runtime required by the manifest (`concrt140`, `msvcp140`, `msvcp140_2`,
 `vcruntime140`, `vcruntime140_1`). The wheel also requires CPython 3.12 x64;
 the standalone app does not require Python. The example requires the `arrays`
@@ -93,8 +102,24 @@ The static manifests inventory every shipped file and PE dependency. They show
 that native executables do not depend on Python; OS/driver/runtime availability
 is demonstrated only on the tested host. The source revision, original wheel
 digest, unchanged members and license-overlay members are recorded separately.
-Distribution/source-availability review and a genuinely clean-machine release
-walkthrough remain R13 work before claiming a public supported release.
+The [dependency source inventory](benchmarks/windows-workflow-checkpoint/dependency-sources.json)
+maps the shipped native libraries to pinned source archives. OpenSlide's source
+distribution includes its16 library projects, patches and build system. GEOS,
+OpenCV, SQLite, JSON, TIFF/JPEG/zlib/XML, ImGui, GLFW and nanobind/robin-map sources
+are supplied alongside the matching application source. Build recipes remain
+in that application snapshot; unmodified font assets retain their original
+notices and pinned source URLs. NumPy and the OS/compiler/graphics runtimes are
+separately installed prerequisites, not bundled application sources.
+
+[Fresh Windows deployment run42099947943](https://github.com/bipxx/qupathxx/actions/runs/42099947943)
+passes install, real-slide Python/ImGui authoring/analysis/export/save/replay,
+standalone reopening, and wheel/native uninstall. PATH was restricted to Windows
+system directories; mapped GEOS/OpenSlide libraries came from the installed
+package. Uninstall preserved seven project/CSV/summary files byte-for-byte.
+The fresh Windows Server2022 image was20261101.353.1 with declared MSVC runtimes
+and pinned test-only Mesa. Mesa was added only to disposable test folders, then
+removed; it is absent from shipped artifacts. This is an explicit fresh-host
+deployment result, not a claim about every consumer GPU or Windows configuration.
 
 To remove the Python package, run `python -m pip uninstall qupathxx` in its
 environment; a dedicated environment may instead be deleted after closing its
@@ -104,7 +129,8 @@ those outside the application/environment directory.
 
 ## Support boundary
 
-Verified: this Windows host, the declared packages, one RGB8 calibrated Aperio
+Verified: local Windows11 Pro10.0.26200 x64 plus the fresh hosted configuration
+above, the declared packages, one RGB8 calibrated Aperio
 ROI, native tissue/statistics, saved replay, CSV and both installed UI routes.
 The separate baseline retains its original tests; this checkpoint does not
 upgrade them into acceptance of changed code or new platforms. No claim covers

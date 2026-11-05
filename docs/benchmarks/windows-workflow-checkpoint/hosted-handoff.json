@@ -1,0 +1,76 @@
+{
+  "scope": "fresh Windows hosted runner, declared MSVC runtime and test-only pinned Mesa; sanitized PATH",
+  "runner_image": "20261101.353.1",
+  "candidate_hashes": {
+    "project_license": "AGPL-3.0-only",
+    "native_archive_sha256": "d8f8816f8cb2093d5c27a0310470f44d92f9d6d1f1e8111f31024469480bfc80",
+    "licensed_wheel_sha256": "1f7584f3d038d62c0479af095b9820bce7a09197083728b4f471ed9d9c2abe87",
+    "source_archive_sha256": "81fbe85aa1716e8730ef9ba7337483dfa57bbff872f828aa3722b8eb3b8f2eec",
+    "record_members_verified": 72,
+    "source_inputs_verified": 495
+  },
+  "installed_python": "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\environment\\Scripts\\python.exe",
+  "package": "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\environment\\Lib\\site-packages\\qupathxx",
+  "native": "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\native",
+  "test_driver_files": [
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\environment\\Lib\\site-packages\\qupathxx\\opengl32.dll",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\environment\\Lib\\site-packages\\qupathxx\\libgallium_wgl.dll",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\native\\opengl32.dll",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\native\\libgallium_wgl.dll"
+  ],
+  "protected_user_files": {
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\sdk\\measurements.csv": "7b4b015d13d523da820a78ad9d42eb548d7ff361a0eef4f6b43c0eee2d192725",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\sdk\\study.qpxproj": "74f3c281efcb0e8fa210297a52fc5e559ae05006979e07abee8526b8e82f49c0",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\sdk\\tissue.csv": "81efe3246b3ae6a79dac5af01a69f48cb688f4920f52b6c3ec2d6596e1b03a2a",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\sdk\\workflow.json": "1159f0bca581eb81a45b885741dd50deee78197a3ac513958c1094e5f865ced3",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\desktop\\desktop-report.json": "782a4cc22590f30d1361ed1606572b7f002509fbdc80b0b90316cadb42ef5424",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\desktop\\desktop.csv": "8b34635f994a6c0b32d0bdd921c38089858b34d3ca244ed8d67f4eae9f817218",
+    "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\run\\desktop\\desktop.qpxproj": "90a042516f71571ddca79dc1008ca103879e70b0736a4769ebbe9511c4c245b8"
+  },
+  "sdk": {
+    "source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+    "source_tree_sha256": "432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892",
+    "source": "D:\\a\\qupathxx\\qupathxx\\build\\windows-handoff\\input\\CMU-1.svs",
+    "image_id": 1,
+    "object_id": 1,
+    "roi": [
+      29185,
+      2048,
+      512,
+      512
+    ],
+    "pixel_width_um": 0.499,
+    "pixel_height_um": 0.499,
+    "samples": 262144,
+    "tissue_foreground_pixels": 246394,
+    "tissue_components": 11,
+    "analysis_record": 2,
+    "tissue_record": 3,
+    "independent_rgb_statistics": true,
+    "saved_replay": true
+  },
+  "desktop": {
+    "replay_complete": true,
+    "analysis_state": "ready",
+    "analysis_error": "",
+    "tissue_state": "ready",
+    "tissue_error": "",
+    "project_error": "",
+    "measurement_table_state": "succeeded",
+    "measurement_table_error": "",
+    "measurement_table_rows": 1,
+    "ui_overflow_items": 0,
+    "source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+    "object_count": 1,
+    "analysis_records": 1,
+    "tissue_records": 1,
+    "saved_replay": true,
+    "standalone_project_exit": 0,
+    "standalone_stderr": ""
+  },
+  "install_run_verified": true,
+  "uninstall_verified": true,
+  "engine_builds": 0,
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/42099947943",
+  "harness_commit": "c0aeba86e457917a69fad4a9808d02fd064daa80"
+}

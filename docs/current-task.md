@@ -1,107 +1,59 @@
 # Current implementation task
 
-## In progress — bounded Windows release handoff
+## Windows candidate handoff — verification complete, publication next
 
-The local workflow checkpoint below is delivered. Current user continuation
-selects the next handoff: verify frozen candidate installation/run/removal on one
-fresh Windows hosted runner, finish dependency/source availability inventory,
-commit/push the handoff and prepare the candidate publication. No optional
-PRESET1 work, engine rebuild or full platform campaign. Local Windows Sandbox
-is unavailable; the remote job must record its actual Windows/Mesa/MSVC scope
-rather than claim a pristine consumer machine without evidence. Parked native
-edits stay outside the release commit. Publication remains a candidate, with
-no broader scientific/performance/support claims.
+The selected [Windows workflow](windows-workflow.md) and its targeted fresh-host
+handoff pass. [One evidence summary](benchmarks/windows-workflow-checkpoint/README.md)
+links the local and hosted receipts. Publish only the declared engineering
+prerelease; do not merge the parked native PRESET1 work or start another parity
+extension. Full M0-M7/R0-R16 scope remains open for its actual claims.
 
-Handoff commit75d9e08c is pushed. Draft release assets are uploaded. Initial
-job42098869843 and its failed-job retry stopped at draft download, before install
-or numerical work: GitHub hides drafts from the default read-only contents token.
-Correct only the dedicated job's contents permission; no new packages or engine
-builds. Draft creation also required the full commit SHA rather than its short
-form. Check external command exit status before dispatching dependent work.
-
-Job42099196388 downloaded the frozen packages and installed successfully, then
-stopped in the harness: copying os.environ into a plain dict loses Windows key
-case-insensitivity. Read SystemRoot from os.environ before sanitizing PATH. This
-does not change the candidate; a new hosted job is necessary because the old
-runner is terminal. Source collection now supplies12 pinned dependency archives,
-including the OpenSlide source distribution and robin-map within nanobind.
-
-Job42099581064 passed install and test renderer setup, then the external CMU
-fixture host failed DNS resolution. Mirror the already pinned CC0 fixture in the
-draft and require its exact size/SHA256; do not change data or numerical checks.
-
-## Delivered — selected Windows research workflow checkpoint
-
-The [selected checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)
-has a local engineering candidate. Follow the [run guide](windows-workflow.md)
-and [one evidence summary](benchmarks/windows-workflow-checkpoint/README.md).
-Stop here as planned; do not automatically begin optional parity work or a public
-release. The full M0-M7/R0-R16 target remains open for its actual requirements.
-
-Delivered: real CMU-1.svs -> bounded calibrated ROI -> retained tissue and region
-statistics -> CSV -> saved replay, through installed Python and actual ImGui
-input; the standalone executable reopens the resulting projects. Updated existing
-examples/region_workflow.py with explicit ROI coordinates, retained statistics/
-tissue, component-aware exports and independent integer pixel moments. Existing
-output and invalid-ROI refusal checks pass without changing output files.
-
-Native source is frozen MODEL1 at6219a08f, tree
+Native code is frozen MODEL1 source6219a08f, tree
 432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892.
-The owner selected AGPL; project code is AGPL-3.0-only. Licensed wheel build-tag1
-changes metadata/RECORD/notices and preserves63 original members. Original65
-shipping members matched before preparing the standalone archive. No native
-rebuild or stub generation. A matching source archive preserves all495 recorded
-compiler-input hashes. The source worktree also has parked PRESET1 changes;
-those are not installed or included in the frozen-source candidate.
+Owner-selected project license is AGPL-3.0-only. The license overlay preserves63
+original members and changes only metadata/RECORD/notices; all65 seed shipping
+members matched before native extraction. No native rebuild or stub generation.
+The application source archive verifies all495 compiler inputs. A12-archive
+source bundle provides dependencies, including OpenSlide's16 SDK source projects
+and build patches, and nanobind/robin-map. Fonts retain unmodified assets/notices;
+NumPy and Windows/MSVC/graphics are separate prerequisites.
 
-Final artifacts and package/install receipts:
-build/windows-workflow-checkpoint/delivery-agpl. Isolated licensed installation:
-build/windows-workflow-checkpoint/clean-install. SDK example results:
-build/windows-workflow-checkpoint/sdk-final. Desktop capture/report/project:
-build/windows-workflow-checkpoint/desktop-viewport. Paths are relative to the
-main workspace, not this nested checkout. Do not delete these candidate products.
+Fresh Windows run42099947943 at harness commitc0aeba86 passes installation,
+real-slide Python/ImGui ROI/tissue/statistics/CSV/save/replay, standalone reopen,
+actual wheel/native removal and preservation of7 user files. Image20261101.353.1
+uses declared MSVC runtimes and pinned test-only Mesa; PATH excludes development
+SDK directories and mapped GEOS/OpenSlide come from the installed package.
+Local Windows11 Pro10.0.26200 also passed the original workflow. Do not infer
+arbitrary GPU/Windows support or biological/performance parity from these results.
 
-The seed runtime remains build/ci/project-metadata-r5-env and native cache is
-build/ci/gridfrontends167-package. The old project-metadata-r5-probe-env imports
-an older dirty stage and must not be used to verify this candidate. Root .venv
-was removed; recreate build/static tools only when a future task requires them.
-Readers and required codecs remain openly licensed.
+Draft/public candidate tag: v0.1.0-windows-candidate.1 on bipxx/qupathxx.
+Final local files: build/windows-workflow-checkpoint/delivery-agpl. Hosted receipt
+and source inventory are durable under docs/benchmarks/windows-workflow-checkpoint.
+The seed/runtime/cache and candidate data remain at the previously recorded
+main-workspace paths. Only main and this active source checkout remain; source
+archives from cleanup are preserved. The old probe is a different dirty stage
+and is ineligible for acceptance.
 
-## Remaining scope
+## Parked scope
 
-This is an isolated install/extraction and real desktop workflow on the current
-Windows host. A genuinely clean-machine walkthrough, public support/release
-checkpoint, broader distribution review, biological/specimen acceptance and
-matched end-to-end speed claims remain outside this engineering checkpoint.
-AGPL selection is resolved; it is no longer an owner blocker. R2-R13 remain12
-broad workstreams and R14-R16 retain3 later parity workstreams;23 Partial inventory
-rows are broader scope, not remaining checkpoint jobs or a completion percentage.
-
-PRESET1 P1 native checks passed; P2/P3 and its exact import-identity decision
-remain parked. Retained build/stain-presets-r7/normalization-observation.json
-already records the successful round-trip observation. Do not rerun it or weaken
-identity assertions. Only main and this active source checkout remain; archived
-commits/dirty snapshots are preserved under build/storage-cleanup-20261105.
+PRESET1 P1 passed focused native checks locally. Its native sources and CMake
+changes remain uncommitted and were excluded from the handoff commits/binaries.
+P2/P3 and exact import identity remain parked, with the existing normalization
+observation retained. R2-R13 remain12 broad workstreams; R14-R16 retain3 later
+parity workstreams. The23 Partial rows are broader scope, not candidate job counts.
 
 ## Latest closeout and waste review
 
-Checks: real-slide262,144 samples/0.499um calibration,246,394 tissue samples and11
-component CSV rows; independent RGB moments and native saved replay; real ImGui
-ROI/analysis/tissue/export/save with zero reported UI overflow; source-independent
-standalone reopen; final licensed install's72 RECORD members; native/wheel static
-closure; preserved outputs and invalid ROI refusal. Native kernel/legacy/fault/
-typing checks retain their original MODEL1/REGION1/GRID1 scope.
+Fresh handoff initially stopped on draft-token visibility, Windows environment
+case handling and external fixture DNS, before numerical acceptance. Scoped
+fixes changed only the harness and authenticated fixture access. Failed runs and
+logs remain linked in the evidence summary; all candidate hashes stayed fixed.
+A duplicate permission retry did not change the cause: inspect the failed phase
+and its actual authorization/environment before redispatch. Source collection
+reused cached pinned archives; no compiler, full platform/corpus qualification,
+registry or performance campaign was added. After publication, stop at this
+handoff and report the supported scope rather than pulling in new features.
 
-Waste found: assumed request argument order, metadata/CSV/state APIs and viewport
-semantics caused observer failures. Inspected actual APIs and captured a short
-blank-view diagnostic; corrected screen translation instead of adding waits or
-patching product code. Finished a successful desktop session's artifact checks
-without replaying it. Added optional NumPy once; repackaged only when the owner's
-license decision changed package inputs. Failures remain at original paths.
-No qualification308/platform/corpus campaign, new estimator or registry was run.
-
-Cleanup exception: automatic approval review rejected both guarded and literal
-deletion of the superseded pre-license archive in
-build/windows-workflow-checkpoint/delivery (only reason: blocked by policy).
-It remains as an earlier attempt, not the selected candidate. Final supported
-artifact paths for this local checkpoint are exclusively delivery-agpl above.
+The superseded pre-license archive in build/windows-workflow-checkpoint/delivery
+remains after automatic cleanup review rejected deletion (blocked by policy).
+It is not the selected candidate; use only delivery-agpl or the prerelease assets.
