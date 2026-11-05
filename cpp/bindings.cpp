@@ -309,6 +309,8 @@ NB_MODULE(_native, m) {
         .def("image_description",&Project::image_description,"id"_a)
         .def("image_tags",&Project::image_tags,"id"_a)
         .def("set_image_details",&Project::set_image_details,"id"_a,"description"_a=nb::none(),"tags"_a=std::vector<std::string>{})
+        .def_prop_ro("metadata",&Project::metadata)
+        .def("set_metadata",&Project::set_metadata,"metadata"_a=std::map<std::string,std::string>{})
         .def("image_metadata",&Project::image_metadata,"id"_a)
         .def("set_image_metadata",&Project::set_image_metadata,"id"_a,"metadata"_a=std::map<std::string,std::string>{})
         .def("view",&Project::view).def("set_view",&Project::set_view).def("clear_view",&Project::clear_view)

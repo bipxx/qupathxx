@@ -1,0 +1,53 @@
+[
+  {
+    "name": "rich",
+    "metadata": {
+      "project-key": "project-scope",
+      "": "empty key",
+      "empty": "",
+      "multiline": "line1\nline2\t\"quoted\"",
+      "unicode": "Synthetic α 🚀",
+      "é": "composed",
+      "é": "decomposed",
+      "integer": "9223372036854775807",
+      "null-word": "null"
+    },
+    "images": [
+      {
+        "id": "1",
+        "name": "Entry",
+        "metadata": {
+          "project-key": "entry-scope"
+        }
+      }
+    ]
+  },
+  {
+    "name": "empty",
+    "metadata": {},
+    "images": [
+      {
+        "id": "1",
+        "name": "Entry",
+        "metadata": {
+          "project-key": "entry-scope"
+        }
+      }
+    ]
+  },
+  {
+    "name": "no-images",
+    "metadata": {
+      "project-key": "project-scope",
+      "": "empty key",
+      "empty": "",
+      "multiline": "line1\nline2\t\"quoted\"",
+      "unicode": "Synthetic α 🚀",
+      "é": "composed",
+      "é": "decomposed",
+      "integer": "9223372036854775807",
+      "null-word": "null"
+    },
+    "images": []
+  }
+]

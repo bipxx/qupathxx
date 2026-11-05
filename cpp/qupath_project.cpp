@@ -69,7 +69,7 @@ std::shared_ptr<Project> QuPathProjectPreview::import_new(const std::string& des
     std::lock_guard<std::mutex> lock(impl_->mutex);check_cancel(cancelled);
     if(impl_->consumed) throw std::invalid_argument("QuPath import preview already consumed");
     if(!losses && !impl_->issues.empty()) throw std::invalid_argument("QuPath import has reported losses; review before allow_losses=True");
-    if(impl_->project->images().empty()) throw std::invalid_argument("QuPath import has no available supported images");
+    if(impl_->project->images().empty() && !impl_->images.empty()) throw std::invalid_argument("QuPath import has no available supported images");
     impl_->verify(cancelled);
     impl_->project->save_new(destination,512ull*1024*1024,1024ull*1024*1024,cancelled,[&]{impl_->verify(cancelled);});
     impl_->consumed=true;return impl_->project;
@@ -153,7 +153,13 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
         std::set<std::string> names;
         for(const auto& c:list) {for(auto it=c.begin();it!=c.end();++it) if(it.key()!="name" && it.key()!="color") state->issue("class_properties_dropped","Unsupported class property: "+it.key());const auto name=text(c.at("name"));const auto color=c.at("color").get<std::int64_t>();if(name.empty() || color<0 || color>0xffffff || !names.insert(name).second) throw std::invalid_argument("invalid project class");classes.push_back({name,std::uint32_t(color)});}
     }
-    if(const auto metadata_value=bound_read("data/metadata.json",1024*1024)) {const auto& metadata=*metadata_value;if(!metadata.is_object()) throw std::invalid_argument("invalid project metadata");if(!metadata.empty()) state->issue("project_metadata_dropped","Project metadata is not represented in native projects",metadata.size());}
+    if(root.at("images").empty() && !classes.empty())state->issue("project_classes_dropped","Class definitions without images have no native project-level registry",classes.size());
+    if(const auto metadata_value=bound_read("data/metadata.json",1024*1024)) {
+        const auto& metadata=*metadata_value;if(!metadata.is_object() || metadata.size()>4096)throw std::invalid_argument("invalid project metadata");
+        std::map<std::string,std::string> values;
+        for(const auto& field:metadata.items())values.emplace(field.key(),text(field.value()));
+        state->project->set_metadata(std::move(values));
+    }
     for(auto it=root.begin();it!=root.end();++it) if(it.key()!="version" && it.key()!="createTimestamp" && it.key()!="modifyTimestamp" && it.key()!="uri" && it.key()!="lastID" && it.key()!="images") state->issue("project_fields_dropped","Unsupported project field: "+it.key());
     for(const auto& [id,item]:entries) if(!ids.count(id)) throw std::invalid_argument("exchange has unknown entry ID");
     for(const auto& image:root.at("images")) {

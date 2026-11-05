@@ -106,4 +106,38 @@ inline void run() {
     activate("Cancel / close");
     std::cout<<"Entry editor actual ImGui input: metadata add/edit/duplicate refusal, details/order/null/empty, clear/cancel/stale/image removal passed\n";
 }
+inline void project_metadata() {
+    if(!qpx::has_project())return;
+    struct Context {ImGuiContext* value=ImGui::CreateContext();~Context(){ImGui::DestroyContext(value);}} context;
+    auto& io=ImGui::GetIO();io.IniFilename=nullptr;io.LogFilename=nullptr;io.DisplaySize={1000,900};io.DeltaTime=1.f/60;io.ConfigInputTrickleEventQueue=false;
+    unsigned char* pixels=nullptr;int width=0,height=0;io.Fonts->GetTexDataAsAlpha8(&pixels,&width,&height);
+    auto project=std::make_shared<qpx::Project>();std::uint64_t active=0;
+    qpx::detail::EntryEditor editor;bool opening=true;
+    auto frame=[&] {ImGui::NewFrame();ImGui::Begin("Project host");if(opening){ImGui::PushID("Other tree");editor.open_project(project);ImGui::PopID();opening=false;}editor.draw(project,active);ImGui::End();ImGui::Render();};
+    frame();frame();
+    auto id=[&](const char* label,bool field=true) {
+        auto* window=ImGui::FindWindowByName("Edit project metadata");require(window!=nullptr,"Global metadata popup missing");auto seed=window->ID;
+        if(field)seed=ImHashStr("Metadata",0,ImHashStr("Entry fields",0,seed));return ImHashStr(label,0,seed);
+    };
+    auto activate=[&](const char* label,bool field=true){ImGui::ActivateItemByID(id(label,field));frame();frame();};
+    auto text=[&](const char* label,const char* value) {
+        ImGui::ActivateItemByID(id(label));GImGui->NavNextActivateFlags=ImGuiActivateFlags_PreferInput;frame();frame();require(ImGui::GetActiveID()==id(label),"Global text field inactive");
+        io.AddKeyEvent(ImGuiMod_Ctrl,true);io.AddKeyEvent(ImGuiKey_A,true);frame();io.AddKeyEvent(ImGuiKey_A,false);io.AddKeyEvent(ImGuiMod_Ctrl,false);frame();
+        io.AddKeyEvent(ImGuiKey_Backspace,true);frame();io.AddKeyEvent(ImGuiKey_Backspace,false);frame();io.AddInputCharactersUTF8(value);frame();
+    };
+    activate("Add metadata");text("Key",u8"Global \u03b1");text("Value","project scope");require(project->metadata().empty(),"Global draft leaked");
+    activate("Apply metadata");require(project->metadata().at(u8"Global \u03b1")=="project scope" && project->images().empty(),"Zero-image global Apply failed");
+    const auto path=std::filesystem::temp_directory_path()/(project->identity()+"-global-editor.qpxproj");
+    struct Cleanup {std::filesystem::path path;~Cleanup(){std::error_code error;std::filesystem::remove(path,error);}} cleanup{path};project->save(path.u8string());
+    activate("Apply metadata");require(!project->dirty(),"Global exact Apply dirtied project");
+    auto restored=qpx::Project::open(path.u8string());require(restored->metadata()==project->metadata() && restored->images().empty(),"Global GUI save/reopen failed");
+    // Image selection is independent of project-level editing; the new entry must remain untouched.
+    active=project->add_document(std::make_shared<qpx::Document>(qpx::Image::demo()));project->set_image_metadata(active,{{"Global","entry only"}});frame();
+    text("Value","global after image change");activate("Apply metadata");require(project->metadata().at(u8"Global \u03b1")=="global after image change" && project->image_metadata(active).at("Global")=="entry only","Project mode merged entry namespace or became stale on image change");
+    project->set_metadata({{"external","current"}});activate("Apply metadata");require(project->metadata().count("external")==1,"Stale global Apply overwrote newer state");
+    activate("Reload current project",false);activate("Clear metadata");activate("Apply metadata");require(project->metadata().empty(),"Global clear failed");
+    activate("Add metadata");text("Value","cancel this");activate("Cancel / close",false);require(project->metadata().empty(),"Global cancel applied draft");
+    std::cout<<"Project metadata actual ImGui: zero-image Apply/save/reopen/no-op, image-selection namespace independence, stale refusal, clear and cancel passed\n";
+}
+
 }

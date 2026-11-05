@@ -1286,6 +1286,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool next_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageDown,ImGuiInputFlags_RouteGlobal);
             const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
             ui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
+            ImGui::BeginDisabled(project_load.valid());
+            if(ui::Button("Edit project metadata")) {
+                try {entry_editor.open_project(options.project);}
+                catch(const std::exception& e){project_error=e.what();}
+            }
+            ImGui::EndDisabled();
             ImGui::BeginDisabled(save_job.busy());
             ui::SetNextItemWidth(240); ui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
             const bool save_pressed=ui::Button("Save project (Ctrl+S)");

@@ -156,13 +156,12 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R4/R5 remaining-gap reconciliation** (one bounded pass).
-[ENTRYEDIT1](benchmarks/entry-editor-r5/README.md) locally verifies entry GUI
-authoring through settled APIs, with stale/refusal guards and installed
-mouse/Apply/save/reopen evidence. Inspect the remaining inventory against
-existing code/receipts; select one demonstrated ready gap and its exact contract.
-Do not recapture accepted fields or start a general import audit. Global project
-metadata, formats, races and broader parity remain open.
+Active bounded task: **R5-PROJECTMETA1, project-level string metadata**.
+The one-time R4/R5 reconciliation is complete: cpp/qupath_project.cpp still
+reports nonempty data/metadata.json as project_metadata_dropped, while pinned
+DefaultProject stores a separate Map<String,String>. Entry maps/details/editor
+are already covered and must not be recaptured. Retain global metadata through
+existing Project snapshots/store and expose owning Python/GUI editing.
 
 ## Execution order for finishing the remaining work
 
@@ -173,7 +172,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is one R4/R5 gap reconciliation, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-PROJECTMETA1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -187,7 +186,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. Reconcile remaining gaps once; then global metadata/other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. Reconciliation selects PROJECTMETA1 next: preserve/edit project-level string maps through the existing authorities. Then other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -270,20 +269,29 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active reconciliation, inspect the existing R4/R5 inventory, relevant
-import/edit authorities and linked evidence once. Distinguish a demonstrated
-missing user action or retained value from an already delivered mechanism, a
-pinned-version limitation, or an owner-dependent claim. Start with remaining
-project-level metadata/field loss notices and the associated fixture/source
-contract; do not assume that an internal field or arbitrary Java object belongs
-to the portable contract. Record ready gaps in their existing R4/R5 row only.
-Select one next outcome, its API/consumer route, smallest missing independent
-reference and minimum checks. No build, new capture or generic audit framework
-is needed just to reconcile current coverage. R3 retains dense/multiline-list,
-scale/display/host behavior outside the editor's declared local workflow.
+R4/R5 reconciliation (2026-11-05): entry state, nested geometry transport and
+covered recovery/source guards already have scoped receipts; do not redeliver
+them. Nonempty project-level metadata is a demonstrated missing retained value
+(cpp/qupath_project.cpp). Derived class-parent semantics remain a demonstrated
+separate gap (classification_hierarchy_flattened in cpp/qupath_saved_data.cpp);
+full names alone do not close that requirement. Additional server-builder forms,
+file versions, Java-typed records and replacement/network/power-loss guarantees
+need a named fixture or fault contract before implementation; existing explicit
+refusals do not establish support. Keep these in their existing R4/R5 rows.
 
-After this reconciliation, select the first demonstrated remaining R4/R5 gap
-from the existing inventory. Follow the ordered slices above through R6/R7,
+For PROJECTMETA1, reuse the captured builder for one project-only save/reload
+supplement, without pixels/ROIs. Keep project and entry metadata independent;
+reuse the bounded UTF8/string-map rules and native transaction/snapshot budget.
+Expose an owning getter plus atomic replacement/clear/no-op setter, including
+empty projects, and extend the existing draft editor rather than copying it.
+Verify manifest and actual assisted geometry routes, stale source-file guards,
+malformed stored/input maps, owning snapshots and failed-write preservation.
+Group native/header/binding/consumer changes before a cached candidate, generate
+stubs once and install once unless a concrete failure changes the inputs. No
+unrelated numerical or full platform campaign is needed.
+
+After PROJECTMETA1, select the first demonstrated remaining R4/R5 gap.
+Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent
 ready outcome; do not silently drop unresolved parity work or claim full

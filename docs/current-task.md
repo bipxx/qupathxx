@@ -2,50 +2,83 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. [R5-ENTRYEDIT1](benchmarks/entry-editor-r5/README.md)
-is locally verified within its declared GUI entry-authoring scope.
+All M0-M7 remain Partial; [ENTRYEDIT1](benchmarks/entry-editor-r5/README.md) is
+locally verified within its stated GUI-authoring scope.
 
-Current: **R4/R5 remaining-gap reconciliation** (ready; one bounded pass).
+Current: **R5-PROJECTMETA1 — project-level string metadata** (in progress).
 
-- Outcome: identify the next demonstrated missing researcher workflow from the
-  existing inventory, its authoritative API/consumer path and decisive check.
-- First action: inspect remaining project-level metadata/field loss notices,
-  their pinned source/fixture contracts, and the matching feature-matrix entries.
-  Compare existing import/edit authorities and accepted receipts before coding.
-- Reuse: accepted entry maps/details/GUI, facts/defaults/properties/TMA, geometry,
-  source guards and recovery evidence retain their original scope. No new model,
-  decoder, general import audit, corpus recapture or second backlog.
-- Dependencies: independent engineering may proceed now. Identify actual owner
-  prerequisites for biological, license and support claims; block only those.
-  Readers and required codecs must be openly licensed.
-- Cost/check/stop: documentation/source inspection and changed-link/diff checks;
-  no build/install/stubs just to reconcile existing coverage. Stop with one ready
-  bounded task, exact contract, missing reference, minimum checks and first action
-  in this card. Update existing R4/R5 rows for other real gaps; if none is ready,
-  proceed to R6 context/halo replay. Keep R6-R16 and all milestone exits intact.
+- Outcome: import, inspect/edit, save/reopen a project-wide string map independent
+  of entry metadata, descriptions/tags and image/ROI facts, including zero images.
+- Evidence/first action: cpp/qupath_project.cpp156 explicitly drops nonempty
+  data/metadata.json. Pinned QuPath DefaultProject owns Map<String,String>, saves
+  it with syncChanges and reloads separately. Capture one project-only supplement
+  with the retained builder; no server, pixel or ROI recapture.
+- Contract: owning Project.metadata getter and atomic set_metadata replacement/
+  default clear; no-op leaves dirty state unchanged, edits affect Project only.
+  Reuse exact UTF8/4096-byte strings,4096 pairs and1MiB estimated-map limits from
+  entry metadata. No implicit typed conversion, Unicode normalization or namespace
+  merging. Legacy absence defaults to empty; malformed values refuse atomically.
+- Route: existing Project state/snapshot/budget/normalized SQLite migration,
+  common manifest/assisted import source guards, thin nanobind exposure, existing
+  draft editor extended for project mode (metadata only), usable without images.
+- Checks/stop: pinned exact save/reload reference; actual manifest/v1/v2 geometry
+  routes; namespace separation/owning copies/no-op/clear/refusal; empty project;
+  snapshot ownership/budget/failed-write preservation; old schema migration and
+  malformed rows; actual GUI draft/stale/Apply/save/reopen; installed SDK/typing.
+  Close only this vertical workflow and hand off the next demonstrated gap.
+- Cost: group header/binding/store/consumer contracts before one cached candidate;
+  one stub generation/install after APIs settle. Reuse entry fixtures, validators,
+  store/snapshot/editor and unchanged numerics. Repeat only for changed inputs or
+  an unresolved failure, recording its cause before retry.
+- Dependencies: ready independently of biology/license/support decisions. Only
+  openly licensed readers/codecs. Broader R4/R5 and R6-R16 remain scheduled.
 
-Latest task review (2026-11-04, ENTRYEDIT1 closeout):
-Outcome/evidence: native product db90985d has bounded metadata/details drafts,
-independent Apply actions, cancel/reload, exact null/empty/order/text handling,
-stale project/image/field checks and atomic native refusal. The existing GUI
-observer passes actual ImGui activation/text/Tab, saved/reopened exact state,
-no-op dirty state and native aggregate-budget refusal. Installed mouse
-remove/Apply/close/Ctrl+S/reopen preserves the exact metadata change and independent
-details; both editor tabs were visually inspected. All467 compiler inputs are
-unchanged and65 installed hashed members match wheel/RECORD; native stubs unchanged.
-See the [receipt and preserved failures](benchmarks/entry-editor-r5/README.md).
-Waste/action: **reuse** settled APIs/store/SDK/science and existing replay;
-**retain** installed integration, which found a popup-ID scope bug missed by
-widget-only checks. Buffer rebinding also required clearing active ImGui text.
-Two wheel candidates/installs were justified by that changed GUI input; no stubs,
-corpus or numerical/migration campaign. Several observer-only diagnosis rebuilds
-were avoidable: include actual values and visibility in the first failure output.
-Send actual Tab key events and hover/move before pointer-warp tab clicks. Computer
-Use initialization failed; existing q.show capture avoided a new automation stack.
-Next: reconcile remaining R4/R5 gaps once as above. R3 dense/multiline-list,
-scale/display/host coverage and broader migration/science/resources/release remain
-open; no full parity or overall speed claim.
+Latest task review (2026-11-05, one-time R4/R5 reconciliation):
+Outcome/evidence: source confirms a separate project string map is dropped;
+derived class-parent semantics are flattened in qupath_saved_data.cpp. Existing
+entry/facts/defaults/properties/TMA/geometry/recovery/source workflows retain
+scoped receipts. Additional builders/versions/Java records and network/power-loss
+claims need specific fixtures/fault contracts, not a new general audit.
+Waste/action: **reuse** current implementation/receipts and source-only review;
+**remove** another broad import audit, build or recapture of accepted fields.
+A guessed project_snapshot.hpp path was absent; inspect known project.cpp and
+project.hpp, using discovered paths only. No build/install was run for review.
+Next: PROJECTMETA1 supplement capture, then grouped native/consumer implementation.
 
-After each bounded task or failed/stopped attempt, perform the
-[waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
-next action, dependencies, reuse, checks and stop condition before continuing.
+After every bounded task or failed/stopped attempt, record the scoped outcome,
+waste action and changed next step here before continuing or retrying.
+
+PROJECTMETA1 capture review: one2.77s project-only QuPath process saved/reloaded
+rich, empty and zero-image projects; nine captured files reuse the old builder
+and source identity. Installed db90985d baseline confirms nine global pairs are
+reported as dropped and zero-image import is refused even after loss approval.
+Waste/action: reuse that baseline/runtime/source; no pixels/ROI/biology capture.
+Implement genuine empty-project import without permitting all-unavailable image
+projects, and group global map/store/snapshot/editor changes before building.
+
+PROJECTMETA1 edit-attempt review: bulk patch stopped on a schema-constant spacing
+assertion before binding/import/editor edits. Header/native map/schema25 changes
+are present; Python schema constant is CURRENT_SCHEMA_VERSION=24 without spaces.
+Waste/action: preserve this diagnosis and resume only the unapplied edits against
+observed source. No build/retry/capture/install occurred; keep grouped candidate
+pending until APIs, consumer and meaningful tests are complete.
+
+PROJECTMETA1 legacy-helper review: first replacement matched no downgrade helpers
+because they use separate db.execute calls rather than SQL semicolon batches.
+Updated the observed execute-call form in19 modules, keeping corruption tests
+intact. Another nonexistent optional test-path lookup was attempted; subsequent
+searches must target the tests directory with filename globs, not guessed files.
+No build has started. Next: focused project-metadata contracts, then grouped GUI
+observer extension and one cached candidate after interfaces/tests settle.
+
+PROJECTMETA1 pre-build review:48 focused cases (two opt-in desktop), existing
+entry/affected project controls, five native roles including actual GUI and all
+24 older schemas are selected. New capture identity test passes on the old safe
+environment; functional changes remain unverified until candidate execution.
+Grouped native map/schema25/snapshot/recovery adoption, owning SDK and shared
+editor project mode are settled. Empty-source import retains metadata; all-
+unavailable nonempty projects still refuse. Zero-image project class definitions
+receive an explicit loss notice, since the registry is a separate remaining gap.
+Waste/action: reuse source/capture/validators/editor and old affected selection;
+no numerical campaign or new observer framework. Next: freeze and run the cached
+candidate once, preserve and diagnose any failures before retrying.

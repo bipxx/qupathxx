@@ -18,7 +18,7 @@ class EntryEditor {
     std::vector<std::pair<std::string,std::string>> metadata_;
     std::vector<std::string> tags_;
     std::vector<char> description_;
-    bool has_description_{},open_requested_{};
+    bool has_description_{},open_requested_{},project_mode_{};
     int metadata_row_{-1},tag_row_{-1};
     std::array<char,4097> key_{},value_{},tag_{};
     std::string error_;
@@ -34,31 +34,32 @@ class EntryEditor {
     void select_tag(int row) {ImGui::ClearActiveID();tag_row_=row;if(row>=0)copy(tag_,tags_[row]);}
     void load(const std::shared_ptr<Project>& project,std::uint64_t image) {
         // Read before replacing a previous draft, so a removed image cannot clear it.
-        auto metadata=project->image_metadata(image);
-        auto description=project->image_description(image);
-        auto tags=project->image_tags(image);
+        auto metadata=project_mode_?project->metadata():project->image_metadata(image);
+        auto description=project_mode_?std::optional<std::string>{}:project->image_description(image);
+        auto tags=project_mode_?std::vector<std::string>{}:project->image_tags(image);
         owner_=project;image_=image;
         baseline_metadata_=std::move(metadata);baseline_description_=description;baseline_tags_=tags;
         metadata_.assign(baseline_metadata_.begin(),baseline_metadata_.end());tags_=std::move(tags);
-        description_.assign(1024*1024+1,0);has_description_=description.has_value();
+        description_.assign(project_mode_?1:1024*1024+1,0);has_description_=description.has_value();
         if(description)std::memcpy(description_.data(),description->data(),description->size());
         select_metadata(metadata_.empty()?-1:0);select_tag(tags_.empty()?-1:0);error_.clear();
     }
 public:
     void open(const std::shared_ptr<Project>& project,std::uint64_t image) {
-        load(project,image);open_requested_=true;
+        project_mode_=false;load(project,image);open_requested_=true;
     }
+    void open_project(const std::shared_ptr<Project>& project) {project_mode_=true;load(project,0);open_requested_=true;}
     // Return true only when a native setter succeeded (including an exact no-op).
     bool draw(const std::shared_ptr<Project>& project,std::uint64_t image) {
-        bool applied=false;
+        bool applied=false;const char* popup=project_mode_?"Edit project metadata":"Edit project entry";
         // Resolve popup IDs in the draw scope, independent of the sidebar tree.
-        if(open_requested_) {ImGui::OpenPopup("Edit project entry");open_requested_=false;}
+        if(open_requested_) {ImGui::OpenPopup(popup);open_requested_=false;}
         ImGui::SetNextWindowSize({640,660},ImGuiCond_FirstUseEver);
-        if(!ImGui::BeginPopupModal("Edit project entry",nullptr,ImGuiWindowFlags_NoSavedSettings))return false;
-        const bool same=project==owner_ && image==image_;
+        if(!ImGui::BeginPopupModal(popup,nullptr,ImGuiWindowFlags_NoSavedSettings))return false;
+        const bool same=project==owner_ && (project_mode_ || image==image_);
         ImGui::TextUnformatted("Changes stay in this draft until Apply. Save the project to persist them.");
         if(!same)ImGui::TextWrapped("The active project or image changed. Reload the current entry or cancel.");
-        if(ImGui::Button("Reload current entry")) {
+        if(ImGui::Button(project_mode_?"Reload current project":"Reload current entry")) {
             try {load(project,image);}catch(const std::exception& e){error_=e.what();}
         }
         ImGui::SameLine();if(ImGui::Button("Cancel / close")) {ImGui::CloseCurrentPopup();owner_.reset();}
@@ -89,15 +90,15 @@ public:
                 if(ImGui::Button("Clear metadata")) {metadata_.clear();select_metadata(-1);}
                 if(ImGui::Button("Apply metadata")) {
                     try {
-                        if(project->image_metadata(image_)!=baseline_metadata_)throw std::runtime_error("Metadata changed outside this draft. Reload before applying.");
+                        if((project_mode_?project->metadata():project->image_metadata(image_))!=baseline_metadata_)throw std::runtime_error("Metadata changed outside this draft. Reload before applying.");
                         std::map<std::string,std::string> values;
                         for(const auto& item:metadata_)if(!values.emplace(item).second)throw std::runtime_error("Duplicate metadata key. Edit or remove the duplicate before applying.");
-                        project->set_image_metadata(image_,values);baseline_metadata_=std::move(values);error_.clear();applied=true;
+                        if(project_mode_)project->set_metadata(values);else project->set_image_metadata(image_,values);baseline_metadata_=std::move(values);error_.clear();applied=true;
                     }catch(const std::exception& e){error_=e.what();}
                 }
                 ImGui::EndTabItem();
             }
-            if(ImGui::BeginTabItem("Description and tags")) {
+            if(!project_mode_ && ImGui::BeginTabItem("Description and tags")) {
                 ImGui::Checkbox("Description present",&has_description_);
                 ImGui::BeginDisabled(!has_description_);
                 ImGui::InputTextMultiline("Description",description_.data(),description_.size(),{0,130},ImGuiInputTextFlags_AllowTabInput);

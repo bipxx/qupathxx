@@ -48,6 +48,7 @@ int main() {
 #ifdef QPX_GUI_TEXT_INPUT_TESTS
         unicode_text_input();
         entry_editor_checks::run();
+        entry_editor_checks::project_metadata();
         gui_font_checks::run();
 #else
         std::cout<<"GUI Unicode scalar input disabled (GUI unavailable)\n";

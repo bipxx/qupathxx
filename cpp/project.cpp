@@ -50,16 +50,16 @@ namespace fs=std::filesystem;
 void text(const std::string& value,std::size_t limit=4096) {
     if(value.size()>limit || value.find('\0')!=std::string::npos) throw std::invalid_argument("invalid project text or path");
 }
-std::size_t image_metadata_bytes(const std::map<std::string,std::string>& metadata) {
+std::size_t string_metadata_bytes(const std::map<std::string,std::string>& metadata) {
     std::size_t bytes=sizeof(metadata);for(const auto& [key,value]:metadata)bytes+=128+key.size()+value.size();return bytes;
 }
-std::size_t validate_image_metadata_item(const std::string& key,const std::string& value) {
+std::size_t validate_string_metadata_item(const std::string& key,const std::string& value) {
     detail::bounded_utf8(key,4096);detail::bounded_utf8(value,4096);return 128+key.size()+value.size();
 }
-void validate_image_metadata(const std::map<std::string,std::string>& metadata) {
-    if(metadata.size()>4096)throw std::invalid_argument("image metadata exceeds 4096 entries");
+void validate_string_metadata(const std::map<std::string,std::string>& metadata) {
+    if(metadata.size()>4096)throw std::invalid_argument("metadata exceeds 4096 entries");
     std::size_t bytes=sizeof(metadata);
-    for(const auto& [key,value]:metadata) {bytes+=validate_image_metadata_item(key,value);if(bytes>1024*1024)throw std::invalid_argument("image metadata exceeds 1MiB payload");}
+    for(const auto& [key,value]:metadata) {bytes+=validate_string_metadata_item(key,value);if(bytes>1024*1024)throw std::invalid_argument("metadata exceeds 1MiB payload");}
 }
 std::vector<std::string> normalize_image_tags(std::vector<std::string> tags) {
     if(tags.size()>4096)throw std::invalid_argument("image tags exceed 4096 inputs");
@@ -181,10 +181,11 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     bytes=0;
     auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("project snapshot exceeds memory budget"); bytes+=count; };
     add(sizeof(Project)+path_.size()+identity_.size());
+    add(string_metadata_bytes(metadata_)-sizeof(metadata_));
     for(const auto& [id,e]:entries_) {
         if(selected && !selected->count(id)) continue;
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
-        add(image_metadata_bytes(e.info.metadata)-sizeof(e.info.metadata));
+        add(string_metadata_bytes(e.info.metadata)-sizeof(e.info.metadata));
         if(e.info.description)add(e.info.description->size());
         for(const auto& tag:e.info.tags)add(64+tag.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
@@ -223,6 +224,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     }
     for(const auto& [id,v]:views_) if(!selected || selected->count(id)) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
+    snapshot->metadata_=metadata_;
     snapshot->identity_=identity_; snapshot->path_=path_; snapshot->generation_=generation_;
     for(const auto& [id,value]:source_verifications_)if(!selected || selected->count(id))snapshot->source_verifications_.emplace(id,value);
     snapshot->next_id_=next_id_; snapshot->active_image_=active_image_; snapshot->revision_=revision_;
@@ -290,7 +292,7 @@ void Project::restore_recovery(const std::string& path,const std::string& base) 
     adopt_workspace(*restored);
 }
 void Project::adopt_workspace(Project& candidate) noexcept {
-    entries_.swap(candidate.entries_); source_verifications_.swap(candidate.source_verifications_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
+    metadata_.swap(candidate.metadata_);entries_.swap(candidate.entries_); source_verifications_.swap(candidate.source_verifications_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
     path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
     std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);
     std::swap(revision_,candidate.revision_); std::swap(saved_revision_,candidate.saved_revision_);
@@ -398,9 +400,14 @@ void Project::rename_image(std::uint64_t id,std::string name) {
     if(old.info.name==name) return;
     advance(revision_); entries_.at(id).info.name.swap(name); ++revision_;
 }
+std::map<std::string,std::string> Project::metadata() const {return metadata_;}
+void Project::set_metadata(std::map<std::string,std::string> metadata) {
+    validate_string_metadata(metadata);if(metadata_==metadata)return;
+    advance(revision_);metadata_.swap(metadata);++revision_;
+}
 std::map<std::string,std::string> Project::image_metadata(std::uint64_t id) const {return entry(id).info.metadata;}
 void Project::set_image_metadata(std::uint64_t id,std::map<std::string,std::string> metadata) {
-    const auto& old=entry(id);validate_image_metadata(metadata);if(old.info.metadata==metadata)return;
+    const auto& old=entry(id);validate_string_metadata(metadata);if(old.info.metadata==metadata)return;
     advance(revision_);entries_.at(id).info.metadata.swap(metadata);++revision_;
 }
 std::optional<std::string> Project::image_description(std::uint64_t id) const {return entry(id).info.description;}
@@ -652,6 +659,9 @@ void create_spatial(Database& db) {
 void create_image_analysis_settings(Database& db) {
     db.exec("CREATE TABLE image_analysis_settings(image_id TEXT PRIMARY KEY REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=20;");
 }
+void create_project_metadata(Database& db) {
+    db.exec("CREATE TABLE project_metadata(metadata_key TEXT PRIMARY KEY NOT NULL,metadata_value TEXT NOT NULL) STRICT; PRAGMA user_version=25;");
+}
 void create_image_details(Database& db) {
     db.exec("CREATE TABLE image_details(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),description TEXT) STRICT; CREATE TABLE image_tags(image_id TEXT NOT NULL REFERENCES image_details(image_id),position INTEGER NOT NULL CHECK(position>=0 AND position<4096),tag TEXT NOT NULL,PRIMARY KEY(image_id,position),UNIQUE(image_id,tag)) STRICT; PRAGMA user_version=24;");
 }
@@ -808,11 +818,14 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<22)create_image_axis_calibration(db);
         if(version<23)create_image_metadata(db);
         if(version<24)create_image_details(db);
+        if(version<25)create_project_metadata(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);}
-    db.exec("DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);}
+    db.exec("DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
+    Statement global_metadata(db,"INSERT INTO project_metadata VALUES(?,?)");
+    for(const auto& [key,value]:metadata_) {global_metadata.string(1,key);global_metadata.string(2,value);global_metadata.done();}
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     Statement level(db,"INSERT INTO levels VALUES(?,?,?,?,?)");
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
@@ -1015,6 +1028,16 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     if(project->identity_.size()!=32 || project->identity_.find_first_not_of("0123456789abcdef")!=std::string::npos || !project->next_id_ || generation<1 || meta.row())
         throw std::invalid_argument("invalid project metadata");
     project->generation_=static_cast<std::uint64_t>(generation);
+    if(version>=25) {
+        Statement row(db,"SELECT metadata_key,metadata_value FROM project_metadata ORDER BY metadata_key");
+        std::size_t bytes=sizeof(project->metadata_);
+        while(row.row()) {
+            if(project->metadata_.size()>=4096)throw std::invalid_argument("persisted project metadata exceeds 4096 entries");
+            auto name=row.string(0),value=row.string(1);bytes+=validate_string_metadata_item(name,value);
+            if(bytes>1024*1024)throw std::invalid_argument("persisted project metadata exceeds 1MiB payload");
+            if(!project->metadata_.emplace(std::move(name),std::move(value)).second)throw std::invalid_argument("duplicate persisted project metadata key");
+        }
+    }
     Statement images(db,"SELECT id,name,reader,source,embedded,width,height,vendor,server_x,server_y,cal_x,cal_y,next_object,revision,rgb FROM images");
     Statement levels(db,"SELECT ordinal,width,height,downsample FROM levels WHERE image_id=? ORDER BY ordinal");
     Statement classes(db,"SELECT name,color FROM classes WHERE image_id=? ORDER BY name");
@@ -1123,7 +1146,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             std::size_t bytes=sizeof(info.metadata);
             while(row.row()) {
                 if(info.metadata.size()>=4096)throw std::invalid_argument("persisted image metadata exceeds 4096 entries");
-                auto name=row.string(0),value=row.string(1);bytes+=validate_image_metadata_item(name,value);
+                auto name=row.string(0),value=row.string(1);bytes+=validate_string_metadata_item(name,value);
                 if(bytes>1024*1024)throw std::invalid_argument("persisted image metadata exceeds 1MiB payload");
                 if(!info.metadata.emplace(std::move(name),std::move(value)).second)throw std::invalid_argument("duplicate persisted image metadata key");
             }
