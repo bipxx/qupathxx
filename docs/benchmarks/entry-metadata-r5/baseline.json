@@ -1,0 +1,24 @@
+{
+  "source": "5c179651e4d1e265a1e04f11bb2acd4634d7a081",
+  "fixture_identity_passed": true,
+  "images": 3,
+  "issues": [
+    {
+      "code": "image_metadata_dropped",
+      "message": "metadata \u03b1: metadata is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "with-losses: metadata is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "with-losses: tags is not represented"
+    },
+    {
+      "code": "image_metadata_dropped",
+      "message": "with-losses: description is not represented"
+    }
+  ],
+  "metadata_api_available": false
+}

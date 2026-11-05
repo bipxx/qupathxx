@@ -1,0 +1,42 @@
+{
+  "requirement": "R5-ENTRYMETA1",
+  "product_source": "b4abea1be50153da46f5c910aafdd84558b6aa1a",
+  "platform": "Windows x64 CPython3.12 Release; GUI/TIFF/OpenSlide/GEOS/project/interchange enabled",
+  "fixture": "../../../tests/fixtures/qupath-entry-metadata-0.7.0/manifest.json",
+  "results": {
+    "staged": {
+      "passed": 155,
+      "skipped": 6
+    },
+    "supplementary_optional_map_controls": 2,
+    "native_roles": 4,
+    "desktop": 1,
+    "installed_snapshot_budget": 1,
+    "public_stubs": 5,
+    "positive_typing": true,
+    "expected_negative_diagnostics": 3,
+    "actual_saved_geometry_route_controls": 3
+  },
+  "cost": {
+    "product_builds": 1,
+    "build_seconds": 553.5140082000289,
+    "capture_runs": 1,
+    "stub_generations": 1,
+    "final_installs": 1,
+    "reader_math_recaptures": 0
+  },
+  "scope": "Owning per-entry string metadata via ProjectImage/Project, exact UTF8/value bounds, atomic replacement/clear/no-op, manifest and exchange1/2 import, snapshots/budget, schema23, malformed store/foreign input/source-stale/refusal, missing-source, old-schema migration and actual Python/desktop persistence.",
+  "limits": [
+    "Tags, description, global project metadata and broader R5 representations remain distinct open scope.",
+    "No new biology, speed, reader-format or supported-release acceptance."
+  ],
+  "waste_actions": [
+    "Reused the parent TIFF and current ProjectImage/snapshot/store/import authorities; no metadata codec or new state class.",
+    "One combined ABI build; verified the live binding compiler instead of restarting.",
+    "Two unnecessary inherited native targets were compiled; exact executed backend preserved and future target list trimmed to selected roles. Cost of those extra targets was not separately measured.",
+    "Reuse the captured tag/description case next and settle both remaining entry attributes before editing the shared public header."
+  ],
+  "executed_backend_sha256": "89c1ebeb49e2b7f93433b0970f37dce50a5f8b43777ceab1739b5eb9353a3ac7",
+  "integrity": "integrity.json",
+  "observer_note": "Two optional-map controls, three retained geometry-route controls and generated stubs follow product freeze; observer hashes recorded, compiler inputs unchanged."
+}

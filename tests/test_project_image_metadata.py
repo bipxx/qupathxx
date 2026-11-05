@@ -165,3 +165,33 @@ def test_documented_text_and_entry_bounds_are_admitted(tmp_path,values):
 def test_metadata_survives_missing_source_without_opening_reader(tmp_path):
     project,image,doc,source=workspace(tmp_path);project.set_image_metadata(image,RICH);path=tmp_path/'missing.qpxproj';project.save(str(path));doc.server.close();source.unlink()
     reopened=q.Project.open(str(path));assert reopened.image_metadata(image)==RICH and reopened.images[0].metadata==RICH
+
+
+@pytest.mark.parametrize('representation',['absent','null'])
+def test_optional_foreign_metadata_defaults_to_empty(tmp_path,representation):
+    path=foreign(tmp_path,'metadata α');data=json.loads(path.read_bytes())
+    if representation=='absent':data['images'][0].pop('metadata')
+    else:data['images'][0]['metadata']=None
+    path.write_text(json.dumps(data),encoding='utf-8');preview=q.preview_qupath_project(str(path));assert preview.issues==[]
+    target=tmp_path/'empty.qpxproj';project=preview.import_new(str(target));image=preview.images[0].native_id
+    assert project.image_metadata(image)==q.Project.open(str(target)).image_metadata(image)=={}
+    with sqlite3.connect(target) as db:assert db.execute('SELECT count(*) FROM image_metadata').fetchone()[0]==0
+
+
+@pytest.mark.parametrize('route',['v1-geojson','v2-geojson','v2-native'])
+def test_entry_metadata_with_actual_saved_geometry_routes(tmp_path,route):
+    from test_qupath_project import corpus,update_project
+    path=corpus(tmp_path);data=json.loads(path.read_bytes());data['images'][0]['metadata']=RICH;update_project(path,data)
+    index=path.parent/'qupathxx-exchange/index.json';bundle=json.loads(index.read_bytes())
+    if route!='v1-geojson':
+        bundle['schema']='qpx.qupath-project-exchange/2'
+        if route=='v2-native':bundle['images']=[{k:item[k] for k in ['entry_id','qpdata_sha256']}|{'representation':'native-saved-data'} for item in bundle['images']]
+        else:
+            for item in bundle['images']:item['representation']='geojson'
+        index.write_text(json.dumps(bundle),encoding='utf-8')
+    preview=q.preview_qupath_project(str(path));assert preview.issues==[] and [i.objects for i in preview.images]==[2,2]
+    target=tmp_path/'geometry.qpxproj';project=preview.import_new(str(target));reopened=q.Project.open(str(target))
+    first,second=preview.images
+    assert project.image_metadata(first.native_id)==reopened.image_metadata(first.native_id)==RICH
+    assert project.image_metadata(second.native_id)==reopened.image_metadata(second.native_id)=={}
+    assert all(reopened.document(i.native_id).object_count==2 and len(i.source_object_ids)==2 for i in preview.images)

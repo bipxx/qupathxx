@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\.local\\bin\\uv.exe",
+    "pip",
+    "install",
+    "--python",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entry-metadata-r5-env\\Scripts\\python.exe",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\entry-metadata-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "returncode": 0,
+  "seconds": 0.7653095000423491,
+  "wheel_sha256": "c72c20bfdfb492d80351a4da34c110f30255872a907bd38d4b98fd5c25905f29",
+  "native_bytes_reused": true
+}

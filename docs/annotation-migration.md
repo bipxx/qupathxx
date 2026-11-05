@@ -270,3 +270,9 @@ Saved physical Z/time calibration now has [scoped native/direct-v2 retention](im
 including explicit unknown and partial timestamps. The original exchange1 and
 explicit GeoJSON loss contract remains unchanged. Other project metadata and
 unsupported representations still require their existing loss review.
+
+
+Short project-entry metadata maps now have [scoped retention](project-entry-metadata.md)
+through ProjectImage/Project and manifest/exchange1/2 imports, including actual
+saved geometry routes. Tags, description and global project metadata remain
+distinct losses pending their queued contracts.

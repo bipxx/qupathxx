@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.115" timestamp="2026-11-04T22:43:25.435899-05:00" hostname="HEQPC"><testcase classname="tests.test_project_image_metadata" name="test_snapshot_owns_map_and_metadata_counts_toward_budget" time="0.043" /></testsuite></testsuites>

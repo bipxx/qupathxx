@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entry-metadata-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q,pytest;assert q.build_environment().git_revision=='b4abea1be50153da46f5c910aafdd84558b6aa1a';raise SystemExit(pytest.main(['tests/test_project_image_metadata.py::test_snapshot_owns_map_and_metadata_counts_toward_budget','-q','--junitxml=C:/Users/HEQ/Projects/qupathxx/build/entry-metadata-r5/installed.xml','--basetemp','C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\entry-metadata-r5\\\\installed-temp']))"
+  ],
+  "returncode": 0,
+  "seconds": 0.7252185000106692
+}

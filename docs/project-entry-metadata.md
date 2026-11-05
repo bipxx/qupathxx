@@ -1,7 +1,6 @@
-# Project-entry metadata (ENTRYMETA1, candidate pending)
+# Project-entry metadata
 
-The implementation is connected in source; build and product verification are
-pending. Metadata lives on the existing ProjectImage/Project authority, separate
+R5-ENTRYMETA1 is [locally verified](benchmarks/entry-metadata-r5/README.md). Metadata lives on the existing ProjectImage/Project authority, separate
 from ImageData properties, root/ROI facts, tags and description. The
 [pinned capture](../tests/fixtures/qupath-entry-metadata-0.7.0/manifest.json)
 contains three QuPath0.7 entries reloaded through ProjectIO, sharing an existing
@@ -35,10 +34,17 @@ The existing image source/name panel provides a clipped read-only entry list;
 full text is available on hover, with line breaks flattened only in row previews.
 Python remains the replacement-edit route for this slice.
 
-Verify independent captured values/IDs, namespace separation, owning listings/
+The receipt records exact values/IDs, namespace separation, owning listings/
 getters, no-op/clear, invalid-input atomicity, snapshot ownership/budget,
 malformed stored rows, schema22 rollback/upgrade, missing-source inspection,
-source-stale and existing-destination preservation, actual desktop save/inspect,
-installed API/stubs/typing and affected native/project/import migrations. Settle
-those interfaces before one cached candidate and one stub/install pass. This
-slice does not close the whole R5 metadata/interchange or release family.
+source-stale/existing-destination preservation, actual changed-metadata desktop
+save/inspection, installed API/stubs/typing and affected native/project/import
+migrations. Rich maps also accompany retained saved geometry on actual v1
+GeoJSON, v2 GeoJSON and v2 native routes. Optional absent/null maps retain empty
+legacy defaults. Final observer hashes are distinct from compiled product inputs.
+
+One cached candidate and one stub/install pass were used. This closes the short
+entry-map engineering workflow only. Tags, description, global project metadata,
+broader R5 formats/records/races and release/scientific/resource work remain
+open. The [next task](current-task.md) groups tags and description, reusing their
+already captured case before another shared-header edit.
