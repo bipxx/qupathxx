@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-data-properties-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "final_product_installs": 1,
+  "stub_generations": 1,
+  "native_bytes_reused": true,
+  "wheel_sha256": "ac34eff234e0c971e4f793d8a9b094882c921d280f8c096740a640ee63956042"
+}

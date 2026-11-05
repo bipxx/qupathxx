@@ -145,6 +145,7 @@ def test_python_cycles_depth_empty_null_and_history_budget():
 @pytest.mark.skipif(not q.has_project,reason='snapshots')
 def test_snapshot_ownership_payload_budget_and_python_worker_final_release(tmp_path):
     script='''import qupathxx as q, gc, sys
+assert q.build_environment().git_revision==sys.argv[2]
 doc=q.Document(q.Image(16,12,[20,40,60]*16*12))
 doc.execute([q.ObjectEdit.create(q.Rect(0,0,1,1)) for _ in range(1000)])
 doc.set_image_data_properties(q.ImageDataProperties({'values':[None,True,9007199254740993,{'text':'original'}]}))
@@ -152,7 +153,7 @@ project=q.Project();image=project.add_document(doc);job=q.ProjectSaveJob();asser
 doc.set_image_data_properties();doc.clear_history();gc.collect();assert job.wait().applied
 assert q.Project.open(sys.argv[1]).document(image).image_data_properties.values['values'][2]==9007199254740993
 '''
-    child=subprocess.run([sys.executable,'-I','-X','utf8','-c',script,str(tmp_path/'worker.qpxproj')],capture_output=True,text=True,encoding='utf-8',timeout=25)
+    child=subprocess.run([sys.executable,'-I','-X','utf8','-c',script,str(tmp_path/'worker.qpxproj'),q.build_environment().git_revision],capture_output=True,text=True,encoding='utf-8',timeout=25)
     assert child.returncode==0,child.stdout+child.stderr
     project,image,doc,obj,path=workspace(tmp_path);doc.set_image_data_properties();empty=q.ProjectSaveJob();assert empty.request(project,str(tmp_path/'empty.qpxproj'));stats=empty.wait()
     doc.set_image_data_properties(q.ImageDataProperties({'large':'x'*4000}));job=q.ProjectSaveJob(snapshot_budget=stats.snapshot_bytes+100)

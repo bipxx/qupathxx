@@ -787,3 +787,5 @@ tools/upstream/qupath_image_settings_reference.groovy -text
 
 tests/fixtures/qupath-image-data-properties-0.7.0/** -text -whitespace
 tools/upstream/qupath_image_data_properties_reference.groovy -text
+
+docs/benchmarks/image-data-properties-r5/** -text -whitespace

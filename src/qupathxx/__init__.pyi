@@ -357,6 +357,7 @@ from ._native import (
     ObjectPlane as ObjectPlane,
     ObjectProperties as ObjectProperties,
     ImageAnalysisSettings as ImageAnalysisSettings,
+    ImageDataProperties as ImageDataProperties,
     ObjectEdit as ObjectEdit,
     ObjectKind as ObjectKind,
     ObjectClass as ObjectClass,
