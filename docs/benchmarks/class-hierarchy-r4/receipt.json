@@ -1,6 +1,6 @@
 {
   "task": "R4/R5-CLASS1",
-  "status": "in progress; reference/default-color preflight verified, public hierarchy integration pending",
+  "status": "in progress; native class/history/schema26 foundation verified; import/export/SDK/GUI pending",
   "primitive_source": "46358eb403975a8c6d6966f0a862298e5d51a2dd",
   "reference_tests": {
     "passed": 5,
@@ -22,5 +22,22 @@
   "wheels": 0,
   "stubs": 0,
   "installs": 0,
-  "remaining": "ObjectClass ancestry/raw+resolved color integration, Document history/rename, ordered Project registry/defaults, native/GeoJSON wire, schema/snapshots/recovery, SDK and actual GUI workflows"
+  "remaining": "ObjectClass ancestry/raw+resolved color integration, Document history/rename, ordered Project registry/defaults, native/GeoJSON wire, schema/snapshots/recovery, SDK and actual GUI workflows",
+  "native_foundation": {
+    "source": "be834edfbc895b09c8c2e97052a820753cbd465a",
+    "roles": [
+      "classes",
+      "project",
+      "project_save",
+      "spatial_records"
+    ],
+    "all_passed": true,
+    "older_schema_versions": 25,
+    "scope": "Native class values/edit history and synchronous schema26 registry/default roundtrips only. New class import/export, SDK/GUI and specific async/recovery/fault controls remain pending."
+  },
+  "geojson_wire": {
+    "source": "de8f988955d8cfbd25eee7e3d393eec39121df05",
+    "scope": "wire-scope.json",
+    "status": "native affected roles pass; complete CLASS1 remains open"
+  }
 }

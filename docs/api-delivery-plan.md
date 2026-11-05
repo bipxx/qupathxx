@@ -284,15 +284,19 @@ PROJECTMETA1 now retains the separate project map; its receipt and existing
 entry/snapshot/store/editor evidence are reusable within their tested scopes.
 Do not repeat that capture/build or infer class retention from string metadata.
 
-CLASS1 [reference/default-color preflight](benchmarks/class-hierarchy-r4/README.md)
-is verified; the public hierarchy workflow remains pending. It confirms explicit
+CLASS1 [reference/default-color and native foundation](benchmarks/class-hierarchy-r4/README.md)
+are verified in their scoped roles. Native ancestry/history/schema26 registries
+and ordered defaults now pass affected tests; the complete hierarchy workflow
+still needs import/export, SDK/GUI and installed ownership/fault checks. It confirms explicit
 names-array GeoJSON, format-scoped project path decoding, palette order/repeats,
 ARGB/absence and fresh-process color precedence. Reuse its39-case internal color
-primitive and retained builder/ROI; do not repeat the capture. Implement the
-ObjectClass/Document class-history, project registry/defaults and import/store
-route in the [settled contract](class-hierarchy.md). Resolve ancestry,
+primitive and retained builder/ROI; do not repeat the capture. Reuse the verified
+ObjectClass/Document class-history, project registry/defaults and schema26 store
+foundation in the [settled contract](class-hierarchy.md); do not implement it
+again. Complete its wire and consumer routes while preserving ancestry,
 identity versus display names (including literal delimiters), colors, duplicates,
-rename/remove/undo and project defaults before changing public layouts. Do not
+rename/remove/undo and project defaults. Change the settled public layout only
+for a demonstrated missing requirement. Do not
 infer parents by splitting display names or silently merge distinct classes.
 Reuse one class authority for Project/Document/imports and thin Python/UI paths;
 no parallel hierarchy model, second decoder or general plugin framework.
@@ -303,6 +307,27 @@ unsupported states. Exercise actual native/Python/ImGui consumers and the releva
 history, snapshot/migration and source guards. Group compatible class/header/
 binding/store/consumer changes before one cached candidate; keep unrelated
 numerical and release campaigns out of this engineering task.
+
+### CLASS1 remaining execution steps
+
+These steps refine the active R4/R5 task, not a second backlog or four delivery
+campaigns. Reference/color resolution and the native schema26 foundation are
+verified; native GeoJSON v1/v2 transport now also passes its affected checks.
+Step 1 still needs binary decoding and project palette context; steps 2-4 remain
+open for this workflow. After each bounded
+step or failed attempt, apply the closeout rule below before proceeding.
+
+| Order | Missing behavior and easiest existing route | Decisive result / avoidable work |
+| --- | --- | --- |
+| 1. Wire integration | Extend cpp/qupath_saved_data.cpp and cpp/interchange.cpp to retain explicit ancestry, optional raw ARGB and legacy flat identities. Use the same definitions/parser context in cpp/qupath_project.cpp for palette precedence and ordered/repeated defaults, including zero images. Version native extension metadata without changing legacy flat RGB output unnecessarily | Retained pinned native, GeoJSON and project cases recover exact parents, raw/resolved colors and defaults. Include ancestor closure for selected-object export, incompatible identity refusal and old-format compatibility. Remove a loss notice only for behavior now retained. Reuse captures and the color resolver; no second decoder or source preflight |
+| 2. Thin SDK and editor | Expose the existing ObjectClass/Document/Project operations in cpp/bindings.cpp with owning Python values. Extend current ImGui class controls for parent/raw color and project defaults; explicit application uses the native command | A user can inspect/edit ancestry and defaults, apply defaults to an image, undo and save/reopen through Python and the actual editor. Preserve stale-draft, no-op and atomic refusal behavior. No frontend class graph, color resolver or validator |
+| 3. Integration and integrity | Add only uncovered hierarchy-specific snapshot/recovery, malformed-store, budget and failed-write cases to existing suites. Once contracts and consumers settle, make one combined cached candidate, generate stubs once and install once | Run affected native roles, installed import/edit/save/reopen, ownership/typing and editor flows. Link unchanged reference checks; verify changed runtime source. Diagnose a failure and rerun affected cases, rebuilding only when compiler inputs require it. Existing flat-state checks alone cannot prove new class fields |
+| 4. Close and hand off | Reconcile CLASS1 results with its declared contract and update the current card and affected coverage once | Exact ancestry, raw colors, palette repeats/empty projects, compatibility and atomic state changes are evidenced across affected consumers. Any unsupported state has an explicit refusal/loss. Keep full R4/R5 open for their other gaps; choose the next demonstrated ready slice from the existing queue |
+
+A passing native foundation does not close steps 1-3. Do not publish a complete
+CLASS1 claim, start another broad qualification or repeat a wheel/stub/install
+cycle between these steps. If integration exposes a shared API defect, fix it
+at its existing authority and record which evidence is invalidated.
 
 After CLASS1, select the first demonstrated remaining R4/R5 gap.
 Follow the ordered slices above through R6/R7,

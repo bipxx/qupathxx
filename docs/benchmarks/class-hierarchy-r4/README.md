@@ -37,3 +37,52 @@ unique definitions. Group parent/raw/resolved colors and project defaults before
 the next public-layout build; otherwise each newly discovered field incurs the
 same long bindings compilation. Next implement that class authority through
 existing history/import/store/SDK/GUI paths, using these unchanged references.
+
+
+Native foundation (subsequent source be834edf): the [four affected roles](foundation-native.xml)
+pass. The [exact input/configuration/binary scope](foundation-scope.json) is
+separate from the earlier color-only observer and installed baseline. Explicit
+parent/raw ARGB/resolved RGB, native definition/registry edits, subtree rename
+along actual edges, raw/resolved color undo/redo, collision/orphan/depth refusal,
+unchanged geometry/spatial index and synchronous schema26 document/project
+roundtrips are verified. Project defaults preserve order/repeats and do not
+silently edit image classes; explicit application is one image history step.
+Empty-project registry roundtrip passes. The spatial role covers all25 older
+schemas. Specific new async snapshot/recovery/budget/corrupt-row cases and
+import/export/SDK/GUI flows still need their CLASS1 integration checks.
+
+Foundation waste review: parent/ARGB/resolution/default storage were grouped
+before an affected core build; all four roles passed on the first attempt.
+Definitions are checked once at their boundary, trusted ancestors are reused,
+and palette application deduplicates affected definitions while preserving stored
+order/repeats. History remains sparse and geometry avoids reindexing. No new
+capture, wheel, stubs or install was needed. Finish common native/GeoJSON class
+wire and project-context precedence, then thin SDK/GUI consumers before the
+single installed workflow candidate; do not repeat the completed preflight.
+
+
+GeoJSON integration (source de8f9889): [classes/interchange checks](wire-native-leaf.xml)
+pass for explicit parent paths, raw ARGB/absence, native version2 metadata,
+selected-export ancestor closure, literal flat and explicit delimiter-bearing
+native leaves, geometry retention, undo/redo and atomic identity/corrupt-color
+refusal. Legacy flat RGB export keeps version1; its feature color remains a
+readable RGB projection. Derived features use names arrays; partial alpha adds
+a fourth channel. Native metadata owns exact raw bits/absence while foreign
+projection uses resolved color, so cleared colors remain readable.
+
+The [input/binary scope](wire-scope.json) identifies the built dirty tree and its
+matching committed compiler inputs without relabeling runtime provenance. The
+[first compile failure](wire-build.log) is preserved: ObjectClass only defines
+C++17 equality; negation repaired both new inequality comparisons. The repair
+and a subsequent native-leaf case each changed compiler inputs; both passing
+runs are retained. No new wheel, stubs/install or upstream capture occurred.
+A failed Windows wildcard search was corrected to a directory plus -g filter;
+manifest inspection should print only requested fields, not entire hash maps.
+
+This closes the native GeoJSON substep, not CLASS1. Next adapt the existing
+binary decoder and shared project palette context, preserving palette order,
+repeats and zero-image registries. Remove flattening/loss notices only when
+those routes retain the state. SDK/editor and new-field integrity checks remain
+pending. Fold duplicate per-object ancestor traversal into the next wire edit;
+walk each distinct class chain once rather than adding a separate optimization
+build now. Keep that cleanup within the existing interchange authority.

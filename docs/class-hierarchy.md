@@ -22,7 +22,7 @@ Pinned0.7.0 facts from the class-only capture and fresh-process witness:
   QuPath. Preserve raw absence separately from resolved display color; do not
   label a same-process singleton-cache value as a saved-state reference.
 
-Implementation route (public model changes remain pending):
+Implementation route (native foundation verified; SDK/wire/GUI integration pending):
 
 1. Extend the existing owning ObjectClass with explicit parent and optional raw
    ARGB, retaining its existing name key and RGB view for compatibility. Known
@@ -73,3 +73,32 @@ ownership, old schemas/corrupt rows/atomic failed writes/source guards, actual
 Python/GUI workflows and installed SDK/typing. Reuse retained geometry/pixels and
 unchanged numerical comparisons. A primitive check alone does not close CLASS1,
 M3/M4, broader color/display behavior, scientific/resource/host or release scope.
+
+
+Native foundation checkpoint: [source be834edf](benchmarks/class-hierarchy-r4/foundation-scope.json)
+passes classes/project/save/spatial roles. ObjectClass now has explicit parent,
+ARGB presence/alpha and a resolved RGB view. C++ definition/registry/path APIs,
+sparse staged history and subtree rename, Project registry/ordered defaults and
+schema26 sparse document semantics are present. Legacy flat RGB rows need no
+semantic row. Stored unknown-color RGB views must agree with the reconstructed
+graph. Default edits are Project-only; explicit application records one Document
+edit. Palette repeats are retained but affected definitions are applied once.
+The model/header is settled for the following integration; this is not a passing
+Python/GUI or class interoperability claim.
+
+Next implement the common reader/writer and existing binary decoder, preserving
+explicit paths/parent closure, native flat identity, raw ARGB/absence and project
+color precedence. Add the thin ObjectClass/Document/Project SDK and existing
+class controls, then exercise the complete installed workflow. Cover new raw
+class snapshot/recovery/budget/fault cases there rather than repeating unrelated
+science, reference capture or native tests without changed inputs.
+
+
+Native GeoJSON substep at de8f9889 is verified in the [wire scope](benchmarks/class-hierarchy-r4/wire-scope.json).
+Version1 flat RGB output remains compatible. Version2 stores every selected
+class's explicit parent, resolved RGB and nullable raw ARGB, including ancestor
+closure; feature names arrays represent derived paths. Raw absence is retained
+in metadata while the feature projects a readable resolved color. Native
+metadata disambiguates literal flat keys and delimiter-bearing native leaves.
+Import rejects identity/raw-cache conflicts atomically. Binary/project palette
+integration and Python/editor exposure remain pending.
