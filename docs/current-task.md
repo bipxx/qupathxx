@@ -135,3 +135,24 @@ use observed API/report fields. Reuse the staged build and earlier passed checks
 Next freeze stubs/tests, create one cached wheel and install once; compare the
 compiler-input identity and packaged members, then run only shipping checks
 covering the final product. Broader skipped GUI cases remain unclaimed.
+
+Visual observer attempt review: the image viewer cannot decode the retained PPM
+capture. No rendering test failed. Convert its unchanged RGB bytes to PNG with
+the standard library for inspection; preserve the original and do not rerun GUI.
+The wheel build remains live in its original session 30043.
+
+Visual review: retained screenshot confirms the filtered two-pixel overlay and
+calibration, but the new inspector controls are below the visible scroll area.
+That is a concrete remaining UI inspection gap, so add a scoped scroll/capture
+check using discovered replay APIs. A search included another guessed nonexistent
+GUI test file; remove that guess and discover filenames from the tests directory.
+The wheel build succeeded; reuse it, since the remaining work changes observers.
+
+Shipping/UI review: first wheel built and installed once; seven final-package
+checks pass. Scrolled capture exposes a clipped physical-filter header despite
+correct values/result. Shorten it to Physical component area and rebuild only
+affected GUI consumers plus provenance. Preserve the first wheel/logs/capture.
+Actual waste: visible-control inspection happened after packaging, costing a
+second package/install. Move scrolled-control inspection before packaging for
+future UI tasks. No new numerical/API/stub comparison is needed for this one
+label change; final GUI capture and package integrity cover the changed risk.

@@ -35,7 +35,7 @@ the retained sampled component area and captured calibration.
 The managed viewer exposes tissue_with_component_area_limits with the same
 bounds and existing retain_result option. GuiOptions and ProjectBatchOptions
 expose tissue_min_component_area_um2 and tissue_max_component_area_um2. ImGui
-shows Physical tissue component area controls; the project batch dialog can use
+shows Physical component area controls; the project batch dialog can use
 image-inspector settings or explicit batch settings. The native batch executable
 accepts --tissue-min-area-um2 and --tissue-max-area-um2 for --kind tissue. Batch
 recipe identity includes supplied bounds, so changed physical limits cannot reuse

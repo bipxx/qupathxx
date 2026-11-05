@@ -24,7 +24,7 @@ inline bool cell_detector_controls(CellParameters& p) {
 }
 inline bool cell_area_controls(std::optional<double>& minimum,std::optional<double>& maximum,bool tissue=false) {
     bool changed=false;
-    if(ImGui::CollapsingHeader(tissue?"Physical tissue component area":"Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+    if(ImGui::CollapsingHeader(tissue?"Physical component area":"Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
         auto bound=[&](const char* toggle,const char* label,std::optional<double>& value) {
             bool enabled=bool(value);
             if(ui::Checkbox(toggle,&enabled)) {value=enabled?std::optional<double>(0):std::nullopt;changed=true;}
