@@ -1,6 +1,7 @@
 """Known-wrong old cell outputs are compatibility witnesses, not science targets."""
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -108,3 +109,22 @@ def test_classifier_mixed_legacy_and_corrected_origins_roundtrip(tmp_path):
     restored_project.save(str(second))
     assert q.Project.open(str(second)).document(manifest["image_id"]).classifier_records[-1].archive.sha256 == digest
     assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest["sha256"]
+
+
+@pytest.mark.skipif(not q.has_gui or os.environ.get("QUPATHXX_TEST_GUI") != "1", reason="opt-in nominal legacy desktop replay")
+@pytest.mark.parametrize("case", MANIFEST["cases"], ids=lambda case: case["file"])
+def test_gui_recheck_preserves_legacy_nominal_support(case):
+    from test_gui_replay import event
+
+    project = q.Project.open(str(FIXTURE / case["file"]))
+    doc = project.document(case["image_id"])
+    options = q.GuiOptions()
+    options.inputs = [event(4, q.GuiInputKind.SELECT_ALL_KEY),
+                      event(8, q.GuiInputKind.RECHECK_CELL_RUN_KEY),
+                      event(10, q.GuiInputKind.MOVE, wait=q.GuiInputWait.CELLS_VERIFIED)]
+    report = q.show(doc, frame_limit=40, options=options)
+    assert report.saved_cell_id == case["record_id"]
+    assert report.saved_cell_status == "current" and report.cell_preview_ready
+    assert report.cell_result.cell_count == case["legacy_cells"]
+    assert report.cell_result.nuclei.input_format == case["input_format"]
+    assert report.cell_result.nuclei.input_sha256 == case["input_sha256"]

@@ -833,3 +833,5 @@ docs/benchmarks/class-hierarchy-r4/** -text -whitespace
 docs/benchmarks/class-history-r4/** -text -whitespace
 
 tests/fixtures/cell-context-legacy-v1/** -text -whitespace
+
+docs/benchmarks/cell-context-r6/** -text -whitespace

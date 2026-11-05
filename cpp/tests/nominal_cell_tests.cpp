@@ -82,6 +82,33 @@ void check_nominal_cells() {
         rejects<std::invalid_argument>([&]{document->verify_cells(2,fresh,*corrected);});
         verify(CellArchiveCodec::encode(*legacy)==bytes);
     }
+    if(has_geos()) {
+        const auto path=std::filesystem::path(QPX_NOMINAL_CELL_FIXTURE).parent_path()/"cell-context-legacy-v1/patterned-legacy.qpxproj";
+        const auto project=Project::open(path.u8string());const auto document=project->document(1);
+        verify(document->cell_records().size()==1);const auto retained=document->cell_records().front();
+        const auto legacy=retained->result;const auto replay=CellRequest::replay(*document,retained->id);
+        verify(document->verify_cells(retained->id,replay,*detect_cells(replay)));
+        auto ids=document->publish_cell_record(retained->id);const auto legacy_count=ids.size();verify(legacy_count==3);
+        const auto& mask=*legacy->nuclei();
+        const CellRequest input(*document,1,StainTransform::from_normalized(mask.stains(),mask.white()),*mask.nominal_sampling(),*legacy->grid_parameters());
+        const auto corrected=detect_cells(input);const auto kept=document->keep_cells(input,corrected);
+        const auto next=document->publish_cell_record(kept);ids.insert(ids.end(),next.begin(),next.end());
+        ObjectFeatureOptions options;options.cell_rgb=true;const ObjectFeatureRequest features(*document,ids,options);
+        const auto table=extract_object_features(features);std::vector<std::pair<std::string,std::string>> schema;
+        for(const auto& f:table->features()) schema.emplace_back(f.name,f.unit);
+        const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture(schema));const auto classified=classify_objects(features,model);
+        ObjectClassifierRecord record;record.id=document->revision()+1;record.name="Mixed support policies";
+        record.archive=archive_object_classifier(classified->table(),model,classified);
+        const auto bytes=ObjectClassifierArchiveCodec::encode(record,nullptr);
+        const auto restored=ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),document->metadata(),nullptr);
+        for(std::size_t i=0;i<ids.size();++i) {
+            const auto source=restored->archive->table()->cell_origin(i)->source;
+            verify(source->nominal_exact_support==(i>=legacy_count));
+            verify(source->input_sha256==(i<legacy_count?mask.input_sha256():corrected->nuclei()->input_sha256()));
+        }
+        verify(ObjectClassifierArchiveCodec::encode(*restored,nullptr)==bytes);
+        std::cout<<"Mixed QCA9 classifier origin policies: legacy false/corrected true retained per row after decode\n";
+    }
     std::cout<<"Nominal exact support: zero false cells/20 or380 samples, QCL9 roundtrip; pinned QCL6 legacy replay and cross-policy refusal passed\n";
     const auto original=fixture("source.rgb"),processing=fixture("processed.rgb");
     auto reader=std::make_shared<Reader>(original);auto document=std::make_shared<Document>(reader);auto& doc=*document;
