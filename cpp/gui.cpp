@@ -13,6 +13,7 @@
 #include "gui_profile.hpp"
 #include "gui_text_buffers.hpp"
 #include "gui_entry_editor.hpp"
+#include "gui_class_editor.hpp"
 #include "gui_tiles.hpp"
 #include "gui_thumbnail.hpp"
 #include "gui_workspace.hpp"
@@ -354,6 +355,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& project_path=text_buffers->project_path;
     std::string project_error;
     detail::EntryEditor entry_editor;
+    auto image_class_editor=std::make_unique<detail::ClassEditor>();
+    auto project_class_editor=std::make_unique<detail::ClassEditor>(true);
     ProjectAutosave autosave(options.autosave_snapshot_budget);
     RecoveryRetention retention;
     retention.enabled=options.recovery_retention_enabled; retention.keep_latest=options.recovery_keep_latest;
@@ -463,11 +466,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t editor_id=0,editor_revision=0;
     auto& draft_name=text_buffers->draft_name;
     auto& draft_class=text_buffers->draft_class;
-    auto& class_name=text_buffers->class_name;
-    std::string class_key;
     bool draft_use_object_color=false,draft_use_class_probability=false;float draft_object_color[3]={};double draft_class_probability=0;
     std::array<Rect,3> object_state_bounds{};
-    float class_color[3]={65/255.f,225/255.f,190/255.f};
     Rect draft_roi;
     Roi draft_geometry;
     std::uint64_t draft_parent=0;
@@ -1446,6 +1446,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ImGui::TreePop();
                 }
             }
+            if(ImGui::CollapsingHeader("Project classes and defaults"))project_class_editor->draw(options.project,nullptr,active_image);
             if(entry_editor.draw(options.project,active_image))project_catalog_dirty=true;
             if(remove_image) {
                 remove_popup_requested=remove_dialog_active=true; pending_image=0;
@@ -1712,41 +1713,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         ImGui::EndChild();
-        if(ImGui::CollapsingHeader("Classes")) {
-            ui::SetNextItemWidth(180);
-            if(ui::BeginCombo("Registry",class_key.empty()?"New class":class_key.c_str())) {
-                if(ImGui::Selectable("New class",class_key.empty())) { class_key.clear(); class_name[0]=0; }
-                for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==class_key)) {
-                    class_key=name; std::memcpy(class_name,name.c_str(),name.size()+1);
-                    class_color[0]=((c.color>>16)&255)/255.f; class_color[1]=((c.color>>8)&255)/255.f; class_color[2]=(c.color&255)/255.f;
-                }
-                ui::EndCombo();
-            }
-            ui::SetNextItemWidth(180); ui::InputText("Class name",class_name,sizeof(class_name));
-            ui::SetNextItemWidth(180); ui::ColorEdit3("RGB",class_color);
-            if(ui::Button("Save color")) {
-                try {
-                    // Rename is a separate explicit command so one button is
-                    // always one journal step and cannot partially rename.
-                    std::string name=class_key.empty()?class_name:class_key;
-                    auto byte=[](float v){ return static_cast<unsigned>(std::lround(std::clamp(v,0.f,1.f)*255)); };
-                    document.set_class(name,(byte(class_color[0])<<16)|(byte(class_color[1])<<8)|byte(class_color[2]));
-                    class_key=name; error.clear();
-                } catch(const std::exception& e) { error=e.what(); }
-            }
-            if(!class_key.empty()) {
-                ImGui::SameLine();
-                if(ui::Button("Rename")) {
-                    try { document.rename_class(class_key,class_name); class_key=class_name; error.clear(); }
-                    catch(const std::exception& e) { error=e.what(); }
-                }
-                ImGui::Text("Assigned: %zu",document.class_count(class_key));
-                if(ui::Button("Remove unused class")) {
-                    try { document.remove_class(class_key); class_key.clear(); class_name[0]=0; error.clear(); }
-                    catch(const std::exception& e) { error=e.what(); }
-                }
-            }
-        }
+        if(ImGui::CollapsingHeader("Classes"))image_class_editor->draw(options.project,&document,active_image);
         ImGui::Text("Selected: %zu",selection->size());
         if(selected && ui::Button("Delete selected")) delete_selection();
         if(selected) { ImGui::SameLine(); if(ui::Button("Clear selection")) { selection->clear(); selected=0; } }
