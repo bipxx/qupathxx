@@ -19,6 +19,13 @@ Correct only the dedicated job's contents permission; no new packages or engine
 builds. Draft creation also required the full commit SHA rather than its short
 form. Check external command exit status before dispatching dependent work.
 
+Job42099196388 downloaded the frozen packages and installed successfully, then
+stopped in the harness: copying os.environ into a plain dict loses Windows key
+case-insensitivity. Read SystemRoot from os.environ before sanitizing PATH. This
+does not change the candidate; a new hosted job is necessary because the old
+runner is terminal. Source collection now supplies12 pinned dependency archives,
+including the OpenSlide source distribution and robin-map within nanobind.
+
 ## Delivered — selected Windows research workflow checkpoint
 
 The [selected checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)

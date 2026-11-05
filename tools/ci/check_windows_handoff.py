@@ -62,7 +62,9 @@ def main():
             shutil.copy2(mesa/name, directory/name)
             driver_paths.append(str(directory/name))
     env = os.environ.copy()
-    env['PATH'] = os.pathsep.join([str(Path(env['SystemRoot'])/'System32'), env['SystemRoot']])
+    # os.environ is case-insensitive on Windows; its dict copy is not.
+    windows_root = os.environ['SystemRoot']
+    env['PATH'] = os.pathsep.join([str(Path(windows_root)/'System32'), windows_root])
     env['LIBGL_ALWAYS_SOFTWARE'], env['GALLIUM_DRIVER'] = '1', 'llvmpipe'
     software = args.work/'software-python/python.exe'
     fixtures = json.loads((ROOT/'tests/fixtures/manifest.json').read_text())
