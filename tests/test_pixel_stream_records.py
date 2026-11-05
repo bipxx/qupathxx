@@ -138,7 +138,7 @@ def test_legacy_schemas_load_and_transactionally_upgrade_to_schema18(tmp_path,ve
 def test_schema9_migration_rolls_back_with_the_original_bytes_intact(tmp_path):
     project,_,_,_,_=scene(tmp_path);source=tmp_path/'legacy.qpxproj';project.save(str(source))
     with sqlite3.connect(source) as db:
-        db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute('DROP TABLE pixel_stream_records');db.execute('PRAGMA user_version=9')
         db.execute("CREATE TRIGGER fail_stream_migration BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected stream migration'); END")
     loaded=q.Project.open(str(source));before=source.read_bytes()

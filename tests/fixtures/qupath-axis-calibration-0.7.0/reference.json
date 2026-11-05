@@ -1,0 +1,228 @@
+[
+  {
+    "reused": true,
+    "name": "nanoseconds",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "microseconds",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "milliseconds-offset",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "seconds",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "minutes-irregular",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "hours",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": true,
+    "name": "days",
+    "z_spacing_um": "0x1.cp0",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": false,
+    "name": "partial",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.ap1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.ap1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": false,
+    "name": "nonmonotonic",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x1.4p2",
+      "0x1.8p1",
+      "0x1.8p1",
+      "-0x1.0p0"
+    ],
+    "seconds": [
+      "0x1.4p2",
+      "0x1.8p1",
+      "0x1.8p1",
+      "-0x1.0p0"
+    ],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  },
+  {
+    "reused": false,
+    "name": "unknown",
+    "z_spacing_um": "NaN",
+    "time_unit": "SECONDS",
+    "times": [],
+    "seconds": [],
+    "z_planes": 3,
+    "timepoints": 4,
+    "plane": [
+      2,
+      3
+    ]
+  }
+]

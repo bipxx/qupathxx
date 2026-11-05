@@ -13,6 +13,7 @@
 #include "qupathxx/analysis_types.hpp"
 #include "qupathxx/object_plane.hpp"
 #include "qupathxx/image_analysis_settings.hpp"
+#include "qupathxx/image_axis_calibration.hpp"
 
 namespace qpx {
 class ImageDataProperties;
@@ -202,6 +203,11 @@ public:
     // Historical image-level facts. ROI editing state is not meaningful here.
     std::shared_ptr<const ObjectProperties> image_properties() const {return image_properties_;}
     void set_image_properties(std::shared_ptr<const ObjectProperties> properties={});
+    const std::optional<ImageAxisCalibration>& image_axis_calibration() const {return image_axis_calibration_;}
+    void set_image_axis_calibration(std::optional<ImageAxisCalibration> value={});
+    std::optional<double> z_spacing_um() const;
+    std::optional<double> z_position_um(std::uint32_t z) const;
+    std::optional<double> timepoint_seconds(std::uint32_t t) const;
     const std::optional<ImageAnalysisSettings>& image_analysis_settings() const {return image_analysis_settings_;}
     void set_image_analysis_settings(std::optional<ImageAnalysisSettings> settings={});
     std::shared_ptr<const ImageDataProperties> image_data_properties() const {return image_data_properties_;}
@@ -494,7 +500,7 @@ private:
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
         std::optional<double> pixel_width,std::optional<double> pixel_height,
-        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={},std::optional<ImageAnalysisSettings> image_settings={},std::shared_ptr<const ImageDataProperties> data_properties={});
+        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={},std::optional<ImageAnalysisSettings> image_settings={},std::shared_ptr<const ImageDataProperties> data_properties={},std::optional<ImageAxisCalibration> axis_calibration={});
     const Annotation& find(std::uint64_t id) const;
     void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
@@ -513,6 +519,7 @@ private:
     };
     static std::shared_ptr<const ObjectProperties> normalize_image_properties(std::shared_ptr<const ObjectProperties>);
     struct ImageDataPropertiesHistory {std::shared_ptr<const ImageDataProperties> before,after;};
+    struct ImageAxisHistory {std::optional<ImageAxisCalibration> before,after;};
     struct ImageSettingsHistory {std::optional<ImageAnalysisSettings> before,after;};
     struct EditRecord {
         ObjectPatch before,after;
@@ -523,6 +530,7 @@ private:
         ClassificationHistory classifications{};
         std::shared_ptr<const ImagePropertiesHistory> image_properties;
         std::shared_ptr<const ImageSettingsHistory> image_settings;
+        std::shared_ptr<const ImageAxisHistory> axis_calibration;
         std::shared_ptr<const ImageDataPropertiesHistory> data_properties;
     };
     struct Staging;
@@ -542,6 +550,8 @@ private:
     std::map<std::uint64_t,Annotation> objects_;
     std::shared_ptr<const ObjectProperties> image_properties_;
     std::optional<ImageAnalysisSettings> image_analysis_settings_;
+    std::optional<ImageAxisCalibration> image_axis_calibration_;
+    void validate_axis_source(const ImageServer&) const;
     std::shared_ptr<const ImageDataProperties> image_data_properties_;
     struct ObjectBlock;
     // Published blocks are immutable. Captures copy block handles, never live

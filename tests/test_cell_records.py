@@ -162,7 +162,7 @@ def test_save_and_recovery_capture_keep_removed_runs_isolated(tmp_path):
 def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
     project, doc, image, obj, _, _, _, path = saved(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("PRAGMA user_version=4")

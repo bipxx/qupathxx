@@ -243,8 +243,10 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active CALIB1 slice, first compare QuPath saved metadata, current raw
-source axes and Document calibration/persistence. Distinguish unknown units,
+For the active CALIB1 slice, ten saved calibration captures and13 independent
+fixture/source checks are ready. Follow the [settled contract](image-axis-calibration.md)
+to integrate the drafted native value/codec through Document state, history,
+persistence and consumers; no native candidate has been verified yet. Distinguish unknown units,
 regular/irregular Z/time spacing and source-plane indices from physical values.
 Define precedence and compatibility for direct/v2 native versus v1/GeoJSON routes
 before selecting a representation. Reuse the existing reader metadata, immutable

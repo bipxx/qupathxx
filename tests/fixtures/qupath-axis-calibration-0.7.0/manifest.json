@@ -1,0 +1,131 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "probes": {
+    "tests/fixtures/qupath-axis-calibration-0.7.0/probes/capture-resumed.groovy": "761f9140327c2b324ceca7d784a8c6487df503e61713f561b7a5c26805310c88",
+    "tests/fixtures/qupath-axis-calibration-0.7.0/probes/qupath_axis_calibration_attempt1.groovy": "6733eb002f12aaa64c9b7d55f4c96b511d62858aea4d119cb247a2af110a3fc9",
+    "tests/fixtures/qupath-axis-calibration-0.7.0/probes/qupath_axis_calibration_attempt2.groovy": "907c52742e0e5e556ab2f9b5df71a61c8b1009555a428bf3a7c1d15c41cdcf44",
+    "tools/upstream/read_qupath_axis_calibration.groovy": "813a0d2d573ce64e032d2d8c0a1314c5ef07ee605f0d9e0682607e66450b9d15"
+  },
+  "files": {
+    "probes/capture-resumed.groovy": "761f9140327c2b324ceca7d784a8c6487df503e61713f561b7a5c26805310c88",
+    "probes/qupath_axis_calibration_attempt1.groovy": "6733eb002f12aaa64c9b7d55f4c96b511d62858aea4d119cb247a2af110a3fc9",
+    "probes/qupath_axis_calibration_attempt2.groovy": "907c52742e0e5e556ab2f9b5df71a61c8b1009555a428bf3a7c1d15c41cdcf44",
+    "project/data/1/data.qpdata": "23ad0a0e5828b3bec18a292a1eff0c0c770997b7bebefaed4a7cc363b7bf9dca",
+    "project/data/10/data.qpdata": "ce9382866d8d857b2ee60f68ab3a389676dc44e71047415f9d4315aa046bb2b2",
+    "project/data/2/data.qpdata": "e286084ecd9bd81040742eb49278525b7d41252a90fd99c76ffec15611c71d76",
+    "project/data/3/data.qpdata": "30170443630e961e4e656c19f995d1544ff3db088bbcd93587832559449f7553",
+    "project/data/4/data.qpdata": "ae037b6d9f2d719d59fe05bb4c12ffae99a65316108cff1c6a54f1922d70133b",
+    "project/data/5/data.qpdata": "9221e49458f90f579869367bc28087674e9656168920b50e4bdbb4154c006652",
+    "project/data/6/data.qpdata": "259248123f773fbe0bf8c351aa8575fdec4986d23f57287edaf68c89521bdded",
+    "project/data/7/data.qpdata": "0d8aebdf7231fc8fe893540ed5690b749887b6c507a94fd5d5aeb0e6df2f70b5",
+    "project/data/8/data.qpdata": "be2a4f736a99d34cc00bbe1fe3e8631bcbb1688489d77c76c72c4ca93a0c2490",
+    "project/data/9/data.qpdata": "1e86c4398155335cb5e1fe5c6d6f7cf172110dac24e15ef30a1a9aaba57c76f4",
+    "project/project.qpproj": "72368e6c033373e73c69af26d2b4150ec2b730a0d39067037e56fd9befc8fe65",
+    "reference.json": "ec5eec360a800144ed15292daccca6cacc84308887918437264fee5fff5c8bf2",
+    "saved-reference.json": "318aa6b8a636ccf5c9eb506ed6497eb39125f584dfc7f007c1425a100bb1d713",
+    "source.ome.tif": "834f95e805373a782e1ff3bdfd635525012fe8ead970656cc193e8b618ce4443"
+  },
+  "source": {
+    "shape_TZCYX": [
+      4,
+      3,
+      1,
+      16,
+      20
+    ],
+    "dtype": "uint16",
+    "values": "numpy.arange(3840).reshape(4,3,1,16,20)",
+    "pixel_width_um": 0.25,
+    "pixel_height_um": 0.5,
+    "z_spacing_um": 1.75,
+    "time_interval_seconds": 0.25
+  },
+  "capture_commands": [
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_axis_calibration_reference.groovy"
+      ],
+      "returncode": 1,
+      "seconds": 4.845650699920952,
+      "probe_sha256": "6733eb002f12aaa64c9b7d55f4c96b511d62858aea4d119cb247a2af110a3fc9"
+    },
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\capture-resumed",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_axis_calibration_reference.groovy"
+      ],
+      "returncode": 1,
+      "seconds": 2.1963764000684023,
+      "probe_sha256": "907c52742e0e5e556ab2f9b5df71a61c8b1009555a428bf3a7c1d15c41cdcf44"
+    },
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\capture-resumed",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_axis_calibration_reference.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 4.620438099838793,
+      "probe_sha256": "761f9140327c2b324ceca7d784a8c6487df503e61713f561b7a5c26805310c88"
+    },
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\capture-resumed\\project\\project.qpproj",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\capture-resumed\\saved-reference.json",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\read_qupath_axis_calibration.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.623640599893406,
+      "probe_sha256": "813a0d2d573ce64e032d2d8c0a1314c5ef07ee605f0d9e0682607e66450b9d15"
+    }
+  ],
+  "reused_entry_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "reused_binary_hashes": {
+    "1": "23ad0a0e5828b3bec18a292a1eff0c0c770997b7bebefaed4a7cc363b7bf9dca",
+    "2": "e286084ecd9bd81040742eb49278525b7d41252a90fd99c76ffec15611c71d76",
+    "3": "30170443630e961e4e656c19f995d1544ff3db088bbcd93587832559449f7553",
+    "4": "ae037b6d9f2d719d59fe05bb4c12ffae99a65316108cff1c6a54f1922d70133b",
+    "5": "9221e49458f90f579869367bc28087674e9656168920b50e4bdbb4154c006652",
+    "6": "259248123f773fbe0bf8c351aa8575fdec4986d23f57287edaf68c89521bdded",
+    "7": "0d8aebdf7231fc8fe893540ed5690b749887b6c507a94fd5d5aeb0e6df2f70b5"
+  },
+  "reference_policy": "saved-reference.json reads exact qpdata with null supplied builder and is checked against independent declared values. reference.json from project-entry reads is retained: reused entries use the assembled project/source builder and report source calibration; it is not the saved-state oracle. Attempt1 stopped on NaN time serialization at entry8; attempt2 stopped at parsing; attempt3 reuses seven exact binaries and saves only three missing cases. Original incomplete entry8 is excluded."
+}

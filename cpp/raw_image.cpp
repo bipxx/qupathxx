@@ -99,6 +99,7 @@ void Document::adopt_tiff_source(std::shared_ptr<ImageServer> next) {
     if(old && old->primary && fresh && fresh->primary) {const auto& x=*old->primary;const auto& y=*fresh->primary;
         if(x.identity_scheme!=y.identity_scheme || x.identity!=y.identity || x.bytes!=y.bytes || x.modified_token!=y.modified_token || x.change_token!=y.change_token || x.stamp_scheme!=y.stamp_scheme) throw std::runtime_error("TIFF source changed; relink/reopen the image explicitly");}
     if(tiff_view_encode(*previous_view)==tiff_view_encode(*next_view)) return;
+    validate_axis_source(*next);
     if(revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     const bool visibility_changed=previous_view->z!=next_view->z || previous_view->t!=next_view->t || previous_view->channels!=next_view->channels;
     server_=std::move(next);++revision_;render_revision_=revision_;

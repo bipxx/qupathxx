@@ -799,3 +799,7 @@ tools/upstream/export_qupath_project_state.groovy -text
 tests/fixtures/qupath-assisted-state-0.7.0/** -text -whitespace
 
 docs/benchmarks/assisted-state-r5/** -text -whitespace
+
+tests/fixtures/qupath-axis-calibration-0.7.0/** -text -whitespace
+tools/upstream/qupath_axis_calibration_reference.groovy -text
+tools/upstream/read_qupath_axis_calibration.groovy -text

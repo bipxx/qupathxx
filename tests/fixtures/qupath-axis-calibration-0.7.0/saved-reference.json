@@ -1,0 +1,178 @@
+[
+  {
+    "name": "nanoseconds",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "NANOSECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.dcd65p27",
+      "0x1.dcd65p28",
+      "0x1.65a0bcp29"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "microseconds",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "MICROSECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.e848p17",
+      "0x1.e848p18",
+      "0x1.6e36p19"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.0p-2",
+      "0x1.0p-1",
+      "0x1.8p-1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "milliseconds-offset",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "MILLISECONDS",
+    "times": [
+      "0x1.388p10",
+      "0x1.77p10",
+      "0x1.b58p10",
+      "0x1.f4p10"
+    ],
+    "seconds": [
+      "0x1.4p0",
+      "0x1.8p0",
+      "0x1.cp0",
+      "0x1.0p1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "seconds",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x1.0p1",
+      "0x1.8p1",
+      "0x1.0p2",
+      "0x1.4p2"
+    ],
+    "seconds": [
+      "0x1.0p1",
+      "0x1.8p1",
+      "0x1.0p2",
+      "0x1.4p2"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "minutes-irregular",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "MINUTES",
+    "times": [
+      "-0x1.0p-1",
+      "0x0.0p0",
+      "0x1.8p-1",
+      "0x1.0p1"
+    ],
+    "seconds": [
+      "-0x1.ep4",
+      "0x0.0p0",
+      "0x1.68p5",
+      "0x1.ep6"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "hours",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "HOURS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p-1",
+      "0x1.0p0",
+      "0x1.0p1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.c2p10",
+      "0x1.c2p11",
+      "0x1.c2p12"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "days",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "DAYS",
+    "times": [
+      "0x0.0p0",
+      "0x1.0p0",
+      "0x1.0p1",
+      "0x1.8p1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.518p16",
+      "0x1.518p17",
+      "0x1.fa4p17"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "partial",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x0.0p0",
+      "0x1.ap1"
+    ],
+    "seconds": [
+      "0x0.0p0",
+      "0x1.ap1"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "nonmonotonic",
+    "z_spacing_um": "0x1.2p2",
+    "time_unit": "SECONDS",
+    "times": [
+      "0x1.4p2",
+      "0x1.8p1",
+      "0x1.8p1",
+      "-0x1.0p0"
+    ],
+    "seconds": [
+      "0x1.4p2",
+      "0x1.8p1",
+      "0x1.8p1",
+      "-0x1.0p0"
+    ],
+    "z_planes": 3,
+    "timepoints": 4
+  },
+  {
+    "name": "unknown",
+    "z_spacing_um": "NaN",
+    "time_unit": "SECONDS",
+    "times": [],
+    "seconds": [],
+    "z_planes": 3,
+    "timepoints": 4
+  }
+]

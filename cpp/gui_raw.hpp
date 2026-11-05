@@ -258,6 +258,14 @@ public:
         auto perform=[&](auto&& action) {try {action();error_.clear();}catch(const std::exception& error) {failure(error);task_="failed";}};
         if(metadata_) ImGui::TextWrapped("%s / %u channels / %u Z planes / %u timepoints",sample_name(metadata_->sample_type).c_str(),metadata_->channels,metadata_->z_planes,metadata_->timepoints);
         else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a TIFF/OME-TIFF with the quantitative TIFF reader.");else if((state_=="failed" || state_=="cancelled") && ui::Button("Retry channel metadata")) state_="waiting";}
+        if(metadata_) {
+            try {
+                const auto z=doc.z_position_um(options_.view.z),t=doc.timepoint_seconds(options_.view.t);
+                ImGui::TextWrapped("Physical axes: %s",doc.image_axis_calibration()?"saved image calibration":"reader calibration");
+                if(z)ImGui::Text("Z: %.10g um",*z);else ImGui::TextUnformatted("Z position: unknown");
+                if(t)ImGui::Text("Time: %.10g s",*t);else ImGui::TextUnformatted("Time: unknown");
+            } catch(const std::exception& error) {ImGui::TextWrapped("Physical axes unavailable: %s",error.what());}
+        }
         const bool disabled=blocked || busy();
         auto number=[&](const char* label,std::uint32_t& value,std::uint32_t maximum) {int n=static_cast<int>(value);if(ui::InputInt(label,&n)) value=std::uint32_t(std::clamp(n,0,int(maximum-1)));};
         if(ImGui::BeginTabBar("Quantitative views")) {

@@ -5,7 +5,7 @@ and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R5-ASSISTSTATE1 is locally verified in its
 [recorded scope](benchmarks/assisted-state-r5/README.md).
 
-Current: **R5-CALIB1 — saved Z/time calibration** (contract inspection ready).
+Current: **R5-CALIB1 — saved Z/time calibration** (capture verified; native value/codec drafted; integration pending).
 
 - Outcome: retain supported saved physical Z/time calibration without changing
   source plane indices, explicit analysis recipes or measurement units silently.
@@ -13,10 +13,12 @@ Current: **R5-CALIB1 — saved Z/time calibration** (contract inspection ready).
   image_settings_dropped for multi-Z/time saved data; cpp/qupath_project.cpp uses
   source raw metadata for plane compatibility. Existing source-axis adoption,
   reader units and native/v2 state routes provide the implementation base.
-- First action: inspect saved calibration fields and existing reader/Document
-  axes, override ownership, snapshots and store. Determine what is already
-  representable and what smallest missing operation is needed before coding.
-- Contract to settle: units, unknown/nonfinite values, regular/irregular spacing,
+- First action: integrate the drafted owning ImageAxisCalibration value/codec
+  through Document staging/history/restore, snapshots/store and source adoption;
+  then native import, nanobind and the existing raw inspector. Follow the settled
+  [contract](image-axis-calibration.md); no candidate build until interfaces and
+  affected tests are ready.
+- Contract: units, unknown/nonfinite values, regular/irregular spacing,
   source versus saved precedence, immutable ownership, replacement compatibility,
   legacy defaults, loss/refusal and direct/v2 native versus v1/GeoJSON behavior.
 - Reuse: accepted source-axis/unit fixtures, current reader and retained state,
@@ -32,23 +34,21 @@ Current: **R5-CALIB1 — saved Z/time calibration** (contract inspection ready).
   Biological labels, project license and release support block only their claims.
   Only openly licensed readers and required codecs are eligible.
 
-Latest task review (2026-11-04, ASSISTSTATE1 closeout):
-Outcome/evidence: explicit exchange2 native/GeoJSON/mixed routes retain native
-facts/defaults/properties/TMA using one complete native authority. Original
-staged76 passes/1 observer failure/5 GUI skips combine with targeted repairs to
-77 unique passes; four native roles, actual desktop import/save, installed mixed
-workflow plus5 stub checks and three producer controls pass. See the linked
-receipt; all461 compiler inputs and65 installed hashed wheel members match.
-Waste/action: **reuse** six successful captures and parent binaries/references;
-**merge** geometry/state import at the existing native decoder. One cached build
-45.55s, one successful install, zero stub generations. Two observer assumptions
-were repaired with targeted nodes; passing cohorts/product were retained. Missing
-pip required the available uv installer. All failed attempts remain recorded.
-**Remove** nested command quoting and wildcard path assumptions; use literal
-here-strings and directory/-g searches. No campaign, alternate state codec or
-rebuild for these repairs. Screenshot inspected; full R5/science/release stay open.
-Next: inspect CALIB1's saved versus source-axis contract before implementation;
-reuse accepted route evidence without extending its claims to calibration.
+Latest task review (2026-11-04, CALIB1 candidate preparation):
+Outcome/evidence: shared Document/history/snapshot/store22/native-import/Python/
+raw-inspector implementation is connected.44 initial product test nodes collect;
+retained-record and independent valid-wire/bound controls were added afterward.
+Thirteen fixture/source controls remain the only passing CALIB1-specific evidence.
+Waste/action: **merge** physical-axis access at Document and reuse source raw
+metadata unchanged; **retain** old-format and affected artificial-downgrade checks
+because the sparse table changes schema. Select touched downgrade nodes instead
+of rerunning their entire unrelated numerical suites. No interim product builds.
+Native save-test filename probing failed; existing cache/backend targets were
+reused and actual document-edits target was confirmed from CMake.
+Next: freeze/build one cached candidate including affected native roles, stage
+new/import/state/source and downgrade cohorts, then one stub pass and installed/
+desktop checks. Preserve failures before targeted repair. Source-axis APIs and
+schema22 have not yet been compiled or accepted.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
