@@ -1,0 +1,106 @@
+{
+  "assets": [
+    {
+      "digest": "sha256:d348d4b519c2532bb60b566ba823ebbfe03b1bdbb7d09fe5357636aa8e0a2aec",
+      "name": "candidate.json",
+      "size": 3042,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+      "name": "CMU-1.svs",
+      "size": 177552579,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:3bba9c87935ceb6dd73f2eea47029ea72957a1603fe52fd992f44899a3359547",
+      "name": "dependency-sources.json",
+      "size": 4724,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:9459ce930f9c29a27df7828bf8a607e0d1a2bc9c9b1aeb2c3b4750273bdc807d",
+      "name": "hosted-handoff.json",
+      "size": 3908,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:3ae9e2398d2e9747f84499fc591d53732c6545846bf63a51f99f60f4101c9486",
+      "name": "manifest.json",
+      "size": 7778,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:f3f5575f7569ba7c5bbad5176bcfcd23050b893e813cd809ec7f23424ebd7875",
+      "name": "native-runtime-manifest.json",
+      "size": 47836,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:1f7584f3d038d62c0479af095b9820bce7a09197083728b4f471ed9d9c2abe87",
+      "name": "qupathxx-0.1.0-1-cp312-cp312-win_amd64.whl",
+      "size": 32805115,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b",
+      "name": "qupathxx-dependency-sources.zip",
+      "size": 135374582,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:81fbe85aa1716e8730ef9ba7337483dfa57bbff872f828aa3722b8eb3b8f2eec",
+      "name": "qupathxx-source-6219a08f.zip",
+      "size": 61801889,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:d8f8816f8cb2093d5c27a0310470f44d92f9d6d1f1e8111f31024469480bfc80",
+      "name": "qupathxx-windows-x64-candidate.zip",
+      "size": 27861285,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:9a15e7840dae39301974123d35ff416b4922f5766ded952c85b03b24967109b2",
+      "name": "release-handoff.json",
+      "size": 706,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:85cfee7b015bb6c6fd66155f4d9cf92cb7a7b0aa9a5cefc184a575e83975eefc",
+      "name": "SHA256SUMS",
+      "size": 1371,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:89ec4f9fb41e202dfb8a1ffc36d32ebe6f45d4235b2bde1c7873ddc99ee40510",
+      "name": "source-bundle.json",
+      "size": 333,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:026bfc561af5596963a816a1c83a358169c322a45632e3ff2a2e662c80426496",
+      "name": "wheel-license-overlay.json",
+      "size": 1359,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:7cf1de1e6fb2de5e4dc76b674c8fa1a51bd8d87bea170585362daa65c6e018cf",
+      "name": "wheel-runtime-manifest.json",
+      "size": 60814,
+      "state": "uploaded"
+    },
+    {
+      "digest": "sha256:086c37b8c6593c13322fd7edfc0117424a47559aba3ae0c891828ce9f019cb37",
+      "name": "windows-workflow.md",
+      "size": 8506,
+      "state": "uploaded"
+    }
+  ],
+  "draft": false,
+  "prerelease": true,
+  "published": "2026-11-05T20:09:55Z",
+  "tag": "v0.1.0-windows-candidate.1",
+  "target": "f92f06599b2dc793e611caafdf40c9850e9624dd",
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.1"
+}

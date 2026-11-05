@@ -1,11 +1,12 @@
 # Current implementation task
 
-## Windows candidate handoff — verification complete, publication next
+## Delivered — Windows candidate handoff
 
 The selected [Windows workflow](windows-workflow.md) and its targeted fresh-host
 handoff pass. [One evidence summary](benchmarks/windows-workflow-checkpoint/README.md)
-links the local and hosted receipts. Publish only the declared engineering
-prerelease; do not merge the parked native PRESET1 work or start another parity
+links the local and hosted receipts. The declared engineering
+[prerelease is published](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.1)
+with16 assets, sources, guide and deployment evidence. Do not merge the parked native PRESET1 work or start another parity
 extension. Full M0-M7/R0-R16 scope remains open for its actual claims.
 
 Native code is frozen MODEL1 source6219a08f, tree
@@ -26,7 +27,8 @@ SDK directories and mapped GEOS/OpenSlide come from the installed package.
 Local Windows11 Pro10.0.26200 also passed the original workflow. Do not infer
 arbitrary GPU/Windows support or biological/performance parity from these results.
 
-Draft/public candidate tag: v0.1.0-windows-candidate.1 on bipxx/qupathxx.
+Published candidate tag: v0.1.0-windows-candidate.1 on bipxx/qupathxx;
+release targetf92f0659, deployment harnessc0aeba86, native source6219a08f.
 Final local files: build/windows-workflow-checkpoint/delivery-agpl. Hosted receipt
 and source inventory are durable under docs/benchmarks/windows-workflow-checkpoint.
 The seed/runtime/cache and candidate data remain at the previously recorded

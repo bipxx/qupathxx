@@ -13,14 +13,15 @@ matrix or optional parity extension belongs to this handoff.
 
 The targeted fresh-host job42099947943 passes install/run/removal with preserved
 user outputs. The12-archive dependency source inventory is complete for this
-candidate; see the guide/evidence links below. Candidate publication closes this
-handoff, not the broader R13 stable-release or R2-R16 parity requirements.
+candidate; see the guide/evidence links below. Published prerelease
+v0.1.0-windows-candidate.1 closes this handoff, not the broader R13 stable-release
+or R2-R16 parity requirements. Stop at the declared candidate outcome.
 
 The local engineering checkpoint is delivered; see the
 [workflow guide](windows-workflow.md) and [evidence summary](benchmarks/windows-workflow-checkpoint/README.md).
 The owner selected AGPL, applied as AGPL-3.0-only. Native source remains6219a08f;
-licensed packaging is a separate overlay. Public supported release, clean-machine
-qualification and broader parity remain open. Do not automatically expand into
+licensed packaging is a separate overlay. Broader stable-release/platform
+qualification and parity remain open. Do not automatically expand into
 them after this checkpoint; the stop condition below still applies.
 
 This checkpoint controls the next delivery; R0-R16 remains the long-term backlog.
