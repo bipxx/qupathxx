@@ -67,6 +67,8 @@ void bind_viewer_session(nb::module_& m) {
         .def("read_raw_pixel_stream",&ViewerSession::read_raw_pixel_stream,"image_id"_a,"path"_a,"index"_a=0,"limits"_a=RawPixelStreamFileLimits{},"record_id"_a=0,"retain_result"_a=false)
         .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
+        .def("tissue_with_component_area_limits",&ViewerSession::tissue_with_component_area_limits,"image_id"_a,"object_id"_a,"transform"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)
         .def("nominal_cells",&ViewerSession::nominal_cells,"image_id"_a,"object_id"_a,"transform"_a,"sampling"_a=NominalCellRoiSampling{},"parameters"_a=GridCellParameters{},"retain_result"_a=false)

@@ -1,5 +1,6 @@
 #include "qupathxx/tissue.hpp"
 #include "sha256.hpp"
+#include "calibrated_cell_numeric.hpp"
 #include "tissue_cleanup.hpp"
 #include <algorithm>
 #include <chrono>
@@ -72,6 +73,21 @@ TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const Sta
     }
     if(!has_centers) throw std::invalid_argument("ROI contains no pixel centers at the requested pyramid level");
     if(!found) throw std::length_error("tissue raster exceeds work budget or uint32 indexing; select a coarser level or smaller ROI");
+}
+TissueRequest TissueRequest::with_component_area_limits(const Document& document,std::uint64_t id,const StainTransform& transform,
+    std::optional<double> minimum,std::optional<double> maximum,TissueParameters parameters,bool nucleus) {
+    detail::validate_tissue_area_limits(minimum,maximum);
+    TissueRequest request(document,id,transform,parameters,nucleus);
+    if(!minimum && !maximum) return request;
+    const auto& captured=request.provenance();
+    if(!captured || !captured->effective_pixel_width_um || !captured->effective_pixel_height_um)
+        throw std::invalid_argument("physical tissue area limits require both pixel calibration axes");
+    request.physical_calibration_revision_=document.calibration_revision();
+    const auto count=static_cast<std::uint64_t>(request.x1_-request.x0_)*static_cast<std::uint64_t>(request.y1_-request.y0_);
+    const auto limits=detail::calibrated_area_pixel_limits(count,request.downsample_,*captured->effective_pixel_width_um,
+        *captured->effective_pixel_height_um,minimum,maximum,parameters.min_pixels,parameters.max_pixels);
+    request.parameters_.min_pixels=limits.first;request.parameters_.max_pixels=limits.second;
+    request.parameters_.validate();return request;
 }
 struct TissueKernel {
     static std::shared_ptr<const TissueResult> run(const TissueRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {

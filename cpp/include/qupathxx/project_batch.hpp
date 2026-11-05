@@ -21,6 +21,7 @@ struct ProjectBatchOptions {
     std::optional<GridCellSampling> cell_grid;
     std::optional<NominalCellRoiSampling> cell_nominal;
     GridCellParameters grid_cells;
+    std::optional<double> tissue_min_component_area_um2,tissue_max_component_area_um2;
     std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::optional<PixelClassifier> pixel_model;
     PixelStreamOptions pixels;

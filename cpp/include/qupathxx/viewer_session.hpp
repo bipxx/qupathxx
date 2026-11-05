@@ -89,6 +89,8 @@ public:
     std::uint64_t nominal_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,NominalCellRoiSampling={},GridCellParameters={},bool retain_result=false);
     // Bounds and parameters are copied at submission. The owner resolves units
     // against the live image/ROI when this queued command begins execution.
+    std::uint64_t tissue_with_component_area_limits(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool retain_result=false);
     std::uint64_t cells_with_nucleus_area_limits(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={},bool retain_result=false);
     std::uint64_t export_measurements(std::uint64_t image_id,MeasurementTableKind,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});

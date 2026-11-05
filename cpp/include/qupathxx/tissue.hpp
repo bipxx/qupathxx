@@ -20,7 +20,11 @@ struct TissueParameters {
 class TissueRequest {
 public:
     TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool nucleus=false);
-    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id);}
+    static TissueRequest with_component_area_limits(const Document&,std::uint64_t object_id,const StainTransform&,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool nucleus=false);
+    bool matches(const Document& d,std::uint64_t id) const {
+        return source_.matches(d,id) && (!physical_calibration_revision_ || *physical_calibration_revision_==d.calibration_revision());
+    }
     std::uint64_t object_id() const {return source_.object_id();}
     const TissueParameters& parameters() const {return parameters_;}
     const Roi& roi() const {return source_.roi();}
@@ -39,6 +43,7 @@ private:
     std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     AnalysisRequest source_;
     TissueParameters parameters_;
+    std::optional<std::uint64_t> physical_calibration_revision_;
     std::size_t estimated_work_bytes_=0,component_capacity_=0;
     std::int32_t level_=0;
     double downsample_=1;

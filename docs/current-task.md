@@ -5,7 +5,7 @@ and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. Completed workflows retain their recorded source and
 scope in the delivery plan reuse index. Broader R2-R16 work remains open.
 
-Current: **R7-AREA1 — calibrated tissue component area limits** (ready).
+Current: **R7-AREA1 — calibrated tissue component area limits** (in progress).
 
 - Outcome: a researcher supplies optional inclusive minimum/maximum component
   areas in square micrometers and gets the same tissue result through native,
@@ -63,3 +63,44 @@ now starts with AREA1. The existing ordered R0-R16 queue remains authoritative.
 The shared closeout now requires an actual waste decision and changed retry
 reason after every task or failed/stopped attempt, without another report cycle.
 Next: settle AREA1 boundaries and inspect existing consumer APIs before coding.
+
+Implementation attempt review: one read-only search used a Windows wildcard as
+an explicit filename and failed; no build or product changed. Remove that form:
+search the cpp directory with -g globs. The authoritative cell implementation
+already rejects a zero physical maximum under underflow; reuse that behavior
+rather than adding a speculative repair. Next extract the shared count resolver
+and add the tissue factory and stale-calibration guard before consumer changes.
+
+Trace correction before implementation: a second read guessed a nonexistent
+cell_sampling.cpp path. The valid companion search still returned the needed
+field, but future filename discovery must use rg --files before explicit reads.
+No runtime attempt was made. Shared resolver extraction preserves the already
+implemented cell zero-bound policy; tissue uses the same resolver and existing
+count recipe, with an ephemeral calibration revision only.
+
+Native/consumer implementation review: shared resolver extracted without changing
+cell count-recipe semantics; tissue factory and all native/SDK/desktop/viewer/
+batch entry points are wired. No new persisted result fields or codecs were
+added; only ephemeral TissueRequest calibration state changed, and source search
+found no sizeof(TissueRequest) quota charge. Tiny-mask checks use independently
+known 1/2/4-pixel components. Reuse existing cell regressions for the extraction.
+Next run affected native builds and inspect failures before any retry; bindings,
+stubs and installed flows follow after native contracts pass. No wheel/install
+has run. Keep bounded search output to avoid repeated truncation.
+
+Static-read attempt review: a nonexistent tissue_tables.cpp path was included in
+a search alongside the real measurement_tables.cpp; no product/build failed.
+That is a repeated filename-guessing error, so subsequent reads use only discovered
+paths and narrow line ranges. The SDK tests now cover batch resume/recipe identity,
+CSV, CLI and both desktop routes as well as physical conversion and saved replay.
+The running native build is reused; no replacement build or install was started.
+
+Native foundation review: the cached native build completed successfully,
+including app/batch consumers. Tissue, cell_calibration and project_batch native
+roles pass (3/3, native-tests.log). The shared cell resolver retains existing
+boundary behavior. A helper-discovery search also passed PowerShell-only syntax
+to rg; it failed read-only and is removed, with direct discovered paths used
+instead. No failed build or numerical retry occurred. Next build the settled
+bindings and region target in the same cache, stage once, generate stubs once,
+and run the selected installed workflow. Preserve the first successful native
+logs; no full qualification or new environment is needed.

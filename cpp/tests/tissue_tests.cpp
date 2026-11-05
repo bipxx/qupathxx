@@ -4,6 +4,7 @@
 #include <chrono>
 #include <cmath>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 #include <thread>
 void check(bool v) {if(!v) throw std::runtime_error("tissue check failed");}
@@ -61,8 +62,50 @@ public:
     void close() override {}
     bool closed() const override {return false;}
 };
+void physical_area_limits() {
+    using namespace qpx;
+    std::vector<std::uint8_t> rgb(8*4*3,255);
+    for(const auto point:std::vector<std::pair<int,int>>{{0,0},{3,0},{4,0},{0,2},{1,2},{0,3},{1,3}})
+        for(int c=0;c<3;++c) rgb[(point.second*8+point.first)*3+c]=0;
+    Document doc(Image(8,4,rgb));const auto id=doc.add_rectangle({0,0,8,4});
+    StainTransform transform({{1,0,0},{0,1,0}});TissueParameters p;p.connectivity=4;
+    auto request=[&](std::optional<double> lo,std::optional<double> hi) {return TissueRequest::with_component_area_limits(doc,id,transform,lo,hi,p);};
+    auto invalid=[&](auto action) {bool rejected=false;try {action();}catch(const std::invalid_argument&) {rejected=true;}check(rejected);};
+    check(detect_tissue(request({},{}))->components().size()==3);
+    invalid([&]{request(0.,{});}); // Even zero is an explicitly physical bound.
+    for(double bad:{-1.,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()}) {
+        invalid([&]{request(bad,{});});invalid([&]{request({},bad);});
+    }
+    invalid([&]{request(2.,1.);});
+    doc.set_calibration(.5,.25); // One sample = 0.125 square micrometers.
+    auto exact=request(.25,.25);check(exact.parameters().min_pixels==2 && exact.parameters().max_pixels==2);
+    auto result=detect_tissue(exact);check(result->components().size()==1 && result->foreground_pixels()==2);
+    check(detect_tissue(request(.25,.5))->foreground_pixels()==6);
+    check(detect_tissue(request(std::nextafter(.25,1.),{}))->foreground_pixels()==4);
+    check(detect_tissue(request({},std::nextafter(.25,0.)))->foreground_pixels()==1);
+    check(detect_tissue(request({},0.))->foreground_pixels()==0);
+    p.min_pixels=3;check(detect_tissue(request({},.25))->foreground_pixels()==0);p.min_pixels=1;
+    p.max_pixels=1;check(detect_tissue(request(.25,{}))->foreground_pixels()==0);p.max_pixels=0;
+    const auto saved=doc.keep_tissue(exact,result);
+    doc.set_calibration(1.,1.);check(!exact.matches(doc,id));
+    invalid([&]{doc.keep_tissue(exact,result);});
+    auto replay=TissueRequest::replay(doc,saved);
+    check(replay.parameters().min_pixels==2 && replay.parameters().max_pixels==2);
+    check(detect_tissue(replay)->labels()==result->labels()); // Frozen count recipe.
+    auto plain=request({},{});doc.set_calibration(2.,3.);check(plain.matches(doc,id));
+    doc.set_calibration(1e-300,1e-300);check(detect_tissue(request({},0.))->foreground_pixels()==0);
+    check(detect_tissue(request(1.,{}))->foreground_pixels()==0);
+    doc.set_calibration(1e308,1e-308);check(request(2.5,3.5).parameters().min_pixels==3 && request(2.5,3.5).parameters().max_pixels==3);
+    auto pyramid=std::make_shared<Pyramid>();Document multi(pyramid);multi.set_calibration(.5,.25);
+    const auto region=multi.add_rectangle({0,0,60,60});p.level=1;
+    auto scaled=TissueRequest::with_component_area_limits(multi,region,transform,2.25,2.25,p);
+    check(scaled.downsample()==1.5 && scaled.parameters().min_pixels==8 && scaled.parameters().max_pixels==8);
+    const auto reads=pyramid->reads;auto impossible=TissueRequest::with_component_area_limits(multi,region,transform,{},0.,p);
+    check(pyramid->reads==reads && impossible.parameters().min_pixels==1601);
+}
 int main() {
     try {
+        physical_area_limits();
         std::vector<std::uint8_t> rgb;
         for(int y=0;y<3;++y) for(int x=0;x<3;++x) for(int c=0;c<3;++c) rgb.push_back((x+y)%2?255:0);
         qpx::Document doc(qpx::Image(3,3,rgb));const auto id=doc.add_rectangle({0,0,3,3});

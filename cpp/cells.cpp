@@ -132,27 +132,8 @@ CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint6
     const auto x=*provenance->effective_pixel_width_um,y=*provenance->effective_pixel_height_um,scale=request.downsample();
     const auto grid=request.level_bounds();
     const auto count=static_cast<std::uint64_t>(grid.width)*static_cast<std::uint64_t>(grid.height);
-    if(count==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("cell sampling grid is not representable");
-    auto first=[&](auto predicate) {
-        std::uint64_t lo=1,hi=count+1;
-        while(lo<hi) {const auto mid=lo+(hi-lo)/2;
-            const auto area=detail::calibrated_cell_product({double(mid),scale,scale,x,y},true);
-            if(predicate(area)) hi=mid;else lo=mid+1;
-        }
-        return lo;
-    };
-    const auto lower=minimum?first([&](double area){return area>=*minimum;}):1;
-    // A nonempty nucleus always has positive mathematical area, including when
-    // the final double underflows. Explicit maximum zero therefore rejects all.
-    const auto upper=maximum?(*maximum==0?0:first([&](double area){return area>*maximum;})-1):count;
-    const auto effective_min=std::max(p.min_nucleus_pixels,lower);
-    const auto effective_max=std::min(p.max_nucleus_pixels?p.max_nucleus_pixels:count,upper);
-    if(effective_min>effective_max) {
-        request.parameters_.min_nucleus_pixels=count+1;request.parameters_.max_nucleus_pixels=0;
-    } else {
-        request.parameters_.min_nucleus_pixels=effective_min;
-        if(upper<count && (!p.max_nucleus_pixels || upper<p.max_nucleus_pixels)) request.parameters_.max_nucleus_pixels=upper;
-    }
+    const auto limits=detail::calibrated_area_pixel_limits(count,scale,x,y,minimum,maximum,p.min_nucleus_pixels,p.max_nucleus_pixels);
+    request.parameters_.min_nucleus_pixels=limits.first;request.parameters_.max_nucleus_pixels=limits.second;
     request.parameters_.validate();return request;
 }
 std::optional<CellIntensityStatistics> CellResult::intensity_statistics(std::uint32_t label) const {

@@ -441,6 +441,8 @@ NB_MODULE(_native, m) {
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
+        .def_rw("tissue_min_component_area_um2",&GuiOptions::tissue_min_component_area_um2)
+        .def_rw("tissue_max_component_area_um2",&GuiOptions::tissue_max_component_area_um2)
         .def_rw("tissue_connectivity",&GuiOptions::tissue_connectivity).def_rw("tissue_min_pixels",&GuiOptions::tissue_min_pixels).def_rw("tissue_max_pixels",&GuiOptions::tissue_max_pixels)
         .def_rw("tissue_level",&GuiOptions::tissue_level)
         .def_rw("tissue_open_radius",&GuiOptions::tissue_open_radius).def_rw("tissue_close_radius",&GuiOptions::tissue_close_radius)

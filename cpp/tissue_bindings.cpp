@@ -23,6 +23,8 @@ void bind_tissue(nb::module_& m) {
         .def("validate",&TissueParameters::validate);
     nb::class_<TissueRequest>(m,"TissueRequest")
         .def_static("replay",&TissueRequest::replay,"document"_a,"record_id"_a)
+        .def_static("with_component_area_limits",&TissueRequest::with_component_area_limits,"document"_a,"object_id"_a,"transform"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"nucleus"_a=false)
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,TissueParameters,bool>(),"document"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
         .def("matches",&TissueRequest::matches).def_prop_ro("object_id",&TissueRequest::object_id)
         .def_prop_ro("parameters",[](const TissueRequest& r){return r.parameters();})

@@ -203,6 +203,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;
     tissue_parameters.connectivity=options.tissue_connectivity;tissue_parameters.min_pixels=options.tissue_min_pixels;tissue_parameters.max_pixels=options.tissue_max_pixels;
     tissue_parameters.level=options.tissue_level;tissue_parameters.open_radius=options.tissue_open_radius;tissue_parameters.close_radius=options.tissue_close_radius;
+    detail::validate_tissue_area_limits(options.tissue_min_component_area_um2,options.tissue_max_component_area_um2);
+    auto tissue_min_area=options.tissue_min_component_area_um2,tissue_max_area=options.tissue_max_component_area_um2;
     tissue_parameters.fill_holes=options.tissue_fill_holes;tissue_parameters.max_hole_pixels=options.tissue_max_hole_pixels;tissue_parameters.validate();
     if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
         throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
@@ -2015,6 +2017,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(tissue_parameters.fill_holes) tissue_changed=ui::InputScalar("Hole max (0=all)",ImGuiDataType_U64,&tissue_parameters.max_hole_pixels) || tissue_changed;
             ImGui::PopItemWidth();
             ui::TextDisabled("Radii and sizes use sampled pixels");
+            ImGui::PushID("tissue_physical_area");
+            tissue_changed=detail::cell_area_controls(tissue_min_area,tissue_max_area,true) || tissue_changed;
+            ImGui::PopID();
             if(tissue_changed) tissue.cancel();
             const bool tissue_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_D,false);
             ImGui::BeginDisabled(tissue.busy());
@@ -2023,7 +2028,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detect_clicked && !tissue.busy()) {
                 try {
                     tissue_parameters.feature=static_cast<TissueFeature>(tissue_feature);tissue_parameters.connectivity=tissue_connectivity?8:4;
-                    tissue.request(TissueRequest(document,selected,make_transform(tissue_feature!=0),tissue_parameters,analysis_nucleus));tissue_annotations_added=0;error.clear();
+                    tissue.request(TissueRequest::with_component_area_limits(document,selected,make_transform(tissue_feature!=0),tissue_min_area,tissue_max_area,tissue_parameters,analysis_nucleus));tissue_annotations_added=0;error.clear();
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
@@ -2705,7 +2710,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
-        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,cell_grid,cell_nominal,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,tissue_min_area,tissue_max_area,cell_parameters,cell_min_area,cell_max_area,cell_grid,cell_nominal,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
         raw_pixel.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});

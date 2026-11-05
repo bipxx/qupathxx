@@ -22,9 +22,9 @@ inline bool cell_detector_controls(CellParameters& p) {
     }
     return changed;
 }
-inline bool cell_area_controls(std::optional<double>& minimum,std::optional<double>& maximum) {
+inline bool cell_area_controls(std::optional<double>& minimum,std::optional<double>& maximum,bool tissue=false) {
     bool changed=false;
-    if(ImGui::CollapsingHeader("Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+    if(ImGui::CollapsingHeader(tissue?"Physical tissue component area":"Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
         auto bound=[&](const char* toggle,const char* label,std::optional<double>& value) {
             bool enabled=bool(value);
             if(ui::Checkbox(toggle,&enabled)) {value=enabled?std::optional<double>(0):std::nullopt;changed=true;}
@@ -33,7 +33,7 @@ inline bool cell_area_controls(std::optional<double>& minimum,std::optional<doub
         bound("Minimum area (um^2)","Area minimum >=",minimum);
         bound("Maximum area (um^2)","Area maximum <=",maximum);
         if(maximum && *maximum==0)
-            ImGui::TextWrapped("Maximum zero keeps no nuclei. Disable the maximum to remove the upper bound.");
+            ImGui::TextWrapped("Maximum zero keeps no %s. Disable the maximum to remove the upper bound.",tissue?"components":"nuclei");
         ImGui::TextWrapped("Uses image calibration and the selected sampling level. Both sampled and physical size limits apply.");
     }
     return changed;
@@ -122,7 +122,7 @@ public:
     const std::string& error() const {return error_.empty()?stats_.error:error_;}
     std::shared_ptr<const ProjectBatchReport> result() const {return job_.result();}
     template<class Transform>
-    void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,const CellParameters& cells,
+    void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,std::optional<double> tissue_min_area,std::optional<double> tissue_max_area,const CellParameters& cells,
         std::optional<double> cell_min_area,std::optional<double> cell_max_area,const std::optional<GridCellSampling>& cell_grid,const std::optional<NominalCellRoiSampling>& cell_nominal,const GridCellParameters& grid_cells,AnalysisKind roi_kind,RoiSamplingPolicy roi_sampling_policy,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
         const auto& io=ImGui::GetIO();
         const bool shortcut=!io.WantTextInput && io.KeyCtrl && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B,false);
@@ -158,6 +158,7 @@ public:
             if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
             if(options_.kind!=ProjectBatchKind::Raw) {options_.raw_grid.reset();options_.raw_grid_work_bytes=256u*1024*1024;}
+            if(options_.kind!=ProjectBatchKind::Tissue) {options_.tissue_min_component_area_um2.reset();options_.tissue_max_component_area_um2.reset();}
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
             if(raw_classifier || options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
@@ -224,6 +225,7 @@ public:
                 else if(options_.kind==ProjectBatchKind::Cells && options_.cell_grid) grid_cell_controls(*options_.cell_grid,options_.grid_cells);
                 else {
                 if(options_.kind==ProjectBatchKind::Tissue) {
+                    cell_area_controls(options_.tissue_min_component_area_um2,options_.tissue_max_component_area_um2,true);
                     int sampling=static_cast<int>(options_.tissue.sampling_policy);
                     if(ui::Combo("Tissue polygon samples",&sampling,"Geometry coverage\0Polygon winding\0")) options_.tissue.sampling_policy=static_cast<RoiSamplingPolicy>(sampling);
                 }
@@ -287,7 +289,8 @@ public:
                 }
                 else if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
                 else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {
-                    run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.roi_sampling_policy=roi_sampling_policy;
+                    run_options.tissue=tissue;
+                    if(run_options.kind==ProjectBatchKind::Tissue) {run_options.tissue_min_component_area_um2=tissue_min_area;run_options.tissue_max_component_area_um2=tissue_max_area;}run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.roi_sampling_policy=roi_sampling_policy;
                     run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;
                     if(run_options.kind==ProjectBatchKind::Cells) {
                         run_options.cell_grid=cell_grid;run_options.cell_nominal=cell_nominal;run_options.grid_cells=grid_cells;
