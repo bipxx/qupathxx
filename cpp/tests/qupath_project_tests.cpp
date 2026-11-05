@@ -1,4 +1,5 @@
 #include "qupathxx/qupath_project.hpp"
+#include "qupathxx/tma.hpp"
 #include "../qupath_saved_data.hpp"
 #include <filesystem>
 #include <fstream>
@@ -20,6 +21,13 @@ int main() {
         auto appended=data;appended.push_back(char(0x70));rejects([&]{detail::decode_qupath_saved_data(appended);});
         std::atomic<bool> cancelled{true};rejects([&]{detail::decode_qupath_saved_data(data,&cancelled);});
         std::cout<<"Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed\n";
+        const auto tma_fixture=std::filesystem::path(QPX_PROJECT_SOURCE_ROOT)/"tests/fixtures/qupath-saved-tma-0.7.0/project/data";
+        auto saved=[&](int entry) {std::ifstream f(tma_fixture/std::to_string(entry)/"data.qpdata",std::ios::binary);check(bool(f));return std::string(std::istreambuf_iterator<char>(f),{});};
+        const auto tma=detail::decode_qupath_saved_data(saved(1));check(tma.issues.empty() && tma.tma_cores.size()==6);
+        std::size_t missing=0;for(const auto& [uuid,core]:tma.tma_cores) {check(uuid.size()==36 && core->grid_info()->rows()==2 && core->grid_info()->columns()==3);missing+=core->missing();}check(missing==2);
+        const auto legacy=detail::decode_qupath_saved_data(saved(2));bool legacy_case=false;for(const auto& [uuid,core]:legacy.tma_cores)legacy_case|=core->case_id()==u8"legacy α";check(legacy_case);
+        for(int entry=3;entry<=8;++entry)rejects([&]{detail::decode_qupath_saved_data(saved(entry));});
+        std::cout<<"Native saved TMA grid: identity slots, missing/case state, legacy fallback and membership refusal passed\n";
         const auto root=std::filesystem::temp_directory_path()/("qpx-import-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
         std::filesystem::create_directory(root);
         {std::ofstream f(root/"source.ppm",std::ios::binary);f<<"P6\n2 2\n255\n";for(int i=0;i<12;++i) f.put(char(i));}

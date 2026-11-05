@@ -192,6 +192,15 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 if(saved.contains("channels") && saved["channels"].size()!=(raw?raw->channels:3))throw std::invalid_argument("saved image channels differ from source");
                 if(saved.contains("pixelType")) {auto type=text(saved["pixelType"]);detail::ascii_lower_in_place(type);if(type!=(raw?sample_name(raw->sample_type):"uint8"))throw std::invalid_argument("saved image sample type differs from source");}
                 const auto imported=import_geojson(*doc,decoded.geojson,true,true);
+                if(!decoded.tma_cores.empty()) {
+                    std::vector<ObjectEdit> edits;edits.reserve(decoded.tma_cores.size());
+                    for(std::size_t i=0;i<imported.source_ids.size();++i) {
+                        const auto core=decoded.tma_cores.find(imported.source_ids[i]);
+                        if(core!=decoded.tma_cores.end())edits.push_back(ObjectEdit::tma_metadata(imported.imported_ids[i],core->second));
+                    }
+                    if(edits.size()!=decoded.tma_cores.size())throw std::invalid_argument("saved TMA core identity mapping is incomplete");
+                    doc->execute(edits,"Import saved TMA grid");
+                }
                 doc->set_image_properties(decoded.image_properties);
                 doc->set_image_analysis_settings(decoded.image_settings);
                 doc->set_image_data_properties(decoded.data_properties);

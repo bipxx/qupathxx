@@ -4,7 +4,7 @@ Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-qu
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R5-DATAPROP1 is locally verified in its recorded scope.
 
-Current: **R5-TMASAVED1 — native saved-data TMA grids** (ready for contract preparation).
+Current: **R5-TMASAVED1 — native saved-data TMA grids** (contract settled; capture/implementation preparation).
 
 - Outcome: retain a recognized pinned saved-data TMA grid, its core identities,
   geometry, ordering, missing/case state and supported child hierarchy through
@@ -30,28 +30,22 @@ Current: **R5-TMASAVED1 — native saved-data TMA grids** (ready for contract pr
   campaign or repeated text-codec qualification is implied. Other R4/R5 losses,
   source races, R6-R16 and owner research/license/release decisions remain open.
 
-Latest closeout (2026-11-04, R5-DATAPROP1):
-Outcome/evidence: [typed ImageData properties](benchmarks/image-data-properties-r5/README.md)
-retains null/bool/exact signed64/binary64/UTF-8/list/map values through pinned
-native import, Python deep copies, history, immutable snapshots, schema21 and
-ImGui inspection/save/reopen. Unknown/cyclic/non-string-map Java values require
-explicit whole-property loss review; malformed/oversize payloads refuse.
-Final nativecb693c5a:40 new headless cases and one actual desktop pass, four
-native suites, five packaged-stub checks, positive/three-diagnostic negative
-typing and installed typed-import smoke.258 unchanged legacy passes/13 skips
-retain source3d272074 scope; reconciled headless union298 passes/14 declared skips.
-All461 compiler inputs and65 hashed installed wheel members match. Capture read.
-Waste/action: **reuse** parser/list, UTF-8/SHA, native factory/history/snapshot/
-store authorities and cache. Fact maps cannot preserve these value types; keep
-one bounded typed model/codec shared by consumers. **Retain** baseline and two
-initial bad-cast failures. **Fix** checked integer conversion instead of weakening
-assertions. One679.95s build plus34.28s binding-only repair; one stub generation
-and one final install. Only the new property module and current native roles were
-rechecked after that compiler change; unchanged legacy evidence was reconciled.
-Plan change/next: DATAPROP1 closes in local declared scope. Prepare TMASAVED1
-above from an actual remaining decoder loss. Reuse existing TMA state to avoid
-another private-field/header-wide build when the current model suffices. No
-full qualification, overall speed claim or milestone/release completion follows.
+Latest task review (2026-11-04, TMASAVED1 contract/capture/baseline):
+Outcome/evidence: corrected capture succeeds with eight grid/membership variants,
+including reversed hierarchy order, duplicate names, legacy cases and children.
+Fixture/probe hashes pass. Previous installed product reproduces unsupported
+TMA-core failure. All affected public cases collect; the new module has21 cases.
+Decoder/import drafts use one grid layout and map UUIDs to existing native IDs,
+then attach metadata with one staged edit inside the private preview.
+Waste/action: **reuse** native TMA state/commands/store and shared stream/list/
+ROI/fact/plane parsing. **Remove** nested ternaries next to Groovy list literals;
+two failed parse probes are retained before the successful conditional form.
+Use zero-prefixed decimals. No new public API, document field or schema was
+needed; keep existing stubs and avoid broad binding recompilation or a detector/
+text-codec/scientific campaign. Preserve the failing installed baseline.
+Next: freeze four affected compiler files for one cached build; run new TMA and
+shared import regressions, four native roles and one actual TMA export/save flow.
+Then install once, check unchanged packaged stubs/RECORD and close only this route.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

@@ -1,6 +1,7 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupath_saved_data.hpp"
 #include "qupathxx/image_data_properties.hpp"
+#include "tma_internal.hpp"
 #include <stdexcept>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
 #include "strict_json.hpp"
@@ -177,6 +178,8 @@ double floating(std::uint64_t bits,bool single=false) {
 
 class Decoder {
     const Stream& stream;QuPathSavedData result;std::set<Id> objects;std::size_t count=0;
+    std::shared_ptr<const TmaGridInfo> tma_grid;
+    std::map<Id,std::pair<std::size_t,std::size_t>> tma_slots;
     const Node& at(Id id) const {return stream.at(id);}
     Id field(Id id,const std::string& key) const {const auto& fields=at(id).fields;const auto it=fields.find(key);if(it==fields.end())invalid("missing field "+key+" in "+stream.name(id));return it->second;}
     const std::vector<Id>& extra(Id id) const {
@@ -200,18 +203,18 @@ class Decoder {
         for(std::size_t i=0;i<at(keys).values.size();++i)if(!out.emplace(text(at(keys).values[i]),text(at(values).values[i])).second)invalid("duplicate metadata key");
         return out;
     }
-    std::vector<Id> list(Id id) const {
+    std::vector<Id> list(Id id,std::size_t limit=4096) const {
         const auto name=stream.name(id);
         if(name=="java.util.ArrayList") {
-            Data d(stream,extra(id));const auto n=d.integer(4);if(n>4096 || int_field(id,"size")!=std::int32_t(n))invalid("invalid measurement list size");
+            Data d(stream,extra(id));const auto n=d.integer(4);if(n>limit || int_field(id,"size")!=std::int32_t(n))invalid("invalid saved list size");
             std::vector<Id> out;while(out.size()<n)out.push_back(d.object());d.finish();return out;
         }
         if(name=="java.util.CollSer") {
             if(int_field(id,"tag")!=1)invalid("unsupported measurement name collection");
-            Data d(stream,extra(id));const auto n=d.integer(4);if(n>4096)invalid("measurement list exceeds 4096 entries");
+            Data d(stream,extra(id));const auto n=d.integer(4);if(n>limit)invalid("saved list exceeds item limit");
             std::vector<Id> out;while(out.size()<n)out.push_back(d.object());d.finish();return out;
         }
-        if(name=="java.util.Arrays$ArrayList") {const auto array=field(id,"a");if(at(array).kind!=Node::Array || at(array).values.size()>4096)invalid("invalid measurement name array");return at(array).values;}
+        if(name=="java.util.Arrays$ArrayList") {const auto array=field(id,"a");if(at(array).kind!=Node::Array || at(array).values.size()>limit)invalid("invalid saved list array");return at(array).values;}
         invalid("unsupported measurement list representation: "+name);
     }
     Json measurement_json(double v) const {
@@ -318,18 +321,38 @@ class Decoder {
         explicit Wkb(const std::string& input):bytes(input) {}
         Json decode() {auto out=value();if(pos!=bytes.size())invalid("trailing WKB bytes");return out;}
     };
+    void grid(Id id) {
+        if(!id)return;
+        if(stream.name(id)!="qupath.lib.objects.hierarchy.DefaultTMAGrid")invalid("unsupported saved TMA grid representation");
+        const auto rows=int_field(id,"gridHeight"),columns=int_field(id,"gridWidth");
+        if(rows<=0 || columns<=0 || columns>10000 || rows>10000/columns)invalid("empty, oversized or invalid saved TMA grid dimensions");
+        const auto cores=list(field(id,"cores"),10000);
+        if(cores.size()!=std::size_t(rows)*std::size_t(columns))invalid("saved TMA grid dimensions disagree with its core count");
+        TmaGridOptions options;options.rows=std::size_t(rows);options.columns=std::size_t(columns);tma_grid=TmaCodec::grid(options);
+        for(std::size_t i=0;i<cores.size();++i) {
+            if(stream.name(cores[i])!="qupath.lib.objects.TMACoreObject")invalid("saved TMA grid contains a non-core object");
+            if(!tma_slots.emplace(cores[i],std::make_pair(i/options.columns,i%options.columns)).second)invalid("duplicate saved TMA grid core reference");
+        }
+    }
     Json object(Id id,unsigned depth,bool root=false) {
         if(depth>32 || ++count>1000000)invalid("hierarchy exceeds object/depth limit");
         if(!objects.insert(id).second)invalid("cyclic or shared hierarchy object");
         const auto name=stream.name(id);
-        const bool cell=name=="qupath.lib.objects.PathCellObject",detection=name=="qupath.lib.objects.PathDetectionObject";
-        if(root?name!="qupath.lib.objects.PathRootObject":(!cell && !detection && name!="qupath.lib.objects.PathAnnotationObject"))invalid("unsupported hierarchy object: "+name);
+        const bool cell=name=="qupath.lib.objects.PathCellObject",detection=name=="qupath.lib.objects.PathDetectionObject",core=name=="qupath.lib.objects.TMACoreObject";
+        if(root?name!="qupath.lib.objects.PathRootObject":(!core && !cell && !detection && name!="qupath.lib.objects.PathAnnotationObject"))invalid("unsupported hierarchy object: "+name);
+        if(core && !tma_slots.count(id))invalid("TMA core is not listed in the saved grid");
         Data d(stream,extra(id));const auto label=d.object(),color=d.object(),meta=d.object();
         auto attributes=metadata(meta);const auto found=attributes.find("Object ID");if(found==attributes.end())invalid("missing saved object identity");
         const auto uuid=found->second;
         if(uuid.size()!=36)invalid("invalid saved object UUID");
         for(std::size_t i=0;i<uuid.size();++i) {const bool dash=i==8 || i==13 || i==18 || i==23;const auto c=uuid[i];if(dash?c!='-':!((c>='0' && c<='9')||(c>='a'&&c<='f')||(c>='A'&&c<='F')))invalid("invalid saved object UUID");}
         attributes.erase(found);
+        std::string case_id;
+        if(core) {
+            auto entry=attributes.find("Case ID");
+            if(entry==attributes.end()) {const auto legacy=attributes.find("Unique ID");if(legacy!=attributes.end())entry=attributes.emplace("Case ID",legacy->second).first;}
+            if(entry!=attributes.end())case_id=entry->second;
+        }
         const auto measured=measurements(d.object());
         const auto n=d.integer(4);if(n>1000000)invalid("invalid hierarchy child count");
         Json children=Json::array();for(std::size_t i=0;i<n;++i)children.push_back(object(d.object(),depth+1));
@@ -358,11 +381,17 @@ class Decoder {
         const auto locked=d.object();if(stream.name(locked)!="java.lang.Boolean")invalid("invalid ROI lock flag");
         const auto lock_value=number(field(locked,"value"),'Z');if(lock_value>1)invalid("invalid ROI lock value");if(lock_value)properties["isLocked"]=true;
         const auto cls=classification(d.object());if(!cls.is_null())properties["classification"]=cls;
-        auto roi=geometry(d.object());const auto probability=floating(d.integer(8));
+        const auto roi_id=d.object();auto roi=geometry(roi_id);const auto probability=floating(d.integer(8));
         if(!std::isnan(probability))properties["qupathxx"]={{"classProbability",measurement_json(probability)}};
         if(!children.empty())properties["childObjects"]=std::move(children);
         Json out={{"type","Feature"},{"id",uuid},{"geometry",std::move(roi)},{"properties",std::move(properties)}};
         if(cell) {const auto nucleus=d.object();if(nucleus)out["nucleusGeometry"]=geometry(nucleus);}
+        if(core) {
+            if(stream.name(roi_id)!="qupath.lib.roi.EllipseROI$SerializationProxy")invalid("saved TMA cores require analytic ellipse ROIs");
+            const auto missing=d.integer(1);if(missing>1)invalid("invalid saved TMA missing flag");
+            const auto slot=tma_slots.at(id);
+            if(!result.tma_cores.emplace(uuid,TmaCodec::core(tma_grid,slot.first,slot.second,bool(missing),case_id)).second)invalid("duplicate saved TMA core identity");
+        }
         d.finish();return out;
     }
     ImageAnalysisSettings stain_settings(const std::string& type,const std::string& input) const {
@@ -482,8 +511,9 @@ public:
             else if(name=="qupath.lib.plugins.workflow.Workflow") {Data d(stream,extra(id));if(d.integer(4)!=1)invalid("unsupported workflow version");const auto count=d.integer(4);if(count>1000000)invalid("too many workflow steps");for(std::size_t n=0;n<count;++n)d.object();d.finish();if(count)issue("workflow_dropped","Saved workflow history is not executable in the native project");}
             else if(name=="qupath.lib.objects.hierarchy.PathObjectHierarchy") {
                 if(hierarchy)invalid("multiple hierarchies");hierarchy=true;
-                if(field(id,"tmaGrid"))issue("tma_grid_dropped","Saved TMA grid structure is not migrated by this decoder");
+                grid(field(id,"tmaGrid"));
                 Json collection={{"type","FeatureCollection"},{"features",object(field(id,"rootObject"),0,true)}};
+                if(result.tma_cores.size()!=tma_slots.size())invalid("saved TMA grid references a core absent from the hierarchy");
                 result.geojson=collection.dump();if(result.geojson.size()>256ull*1024*1024)invalid("decoded geometry exceeds 256 MiB");
             } else if(name=="java.util.HashMap") {if(properties_seen)invalid("duplicate ImageData property map");properties_seen=true;properties(id);}
             else if(name=="qupath.lib.color.ColorDeconvolutionStains") {

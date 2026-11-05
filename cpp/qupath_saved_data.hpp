@@ -10,6 +10,7 @@ struct QuPathSavedData {
     std::shared_ptr<const ObjectProperties> image_properties;
     std::optional<ImageAnalysisSettings> image_settings;
     std::shared_ptr<const ImageDataProperties> data_properties;
+    std::map<std::string,std::shared_ptr<const TmaCoreInfo>> tma_cores;
 };
 QuPathSavedData decode_qupath_saved_data(const std::string&,const std::atomic<bool>* cancelled=nullptr);
 }
