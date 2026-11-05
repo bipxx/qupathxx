@@ -18,6 +18,8 @@
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <stdexcept>
+#include <limits>
+#include <new>
 namespace nb = nanobind;
 using namespace nb::literals;
 void bind_scheduler(nb::module_&);
@@ -100,7 +102,19 @@ NB_MODULE(_native, m) {
         .def_ro("base_entries",&SpatialStats::base_entries).def_ro("dirty_entries",&SpatialStats::dirty_entries);
     nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
         .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
-    nb::class_<ObjectClass>(m,"ObjectClass").def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color);
+    nb::class_<ObjectClass>(m,"ObjectClass")
+        .def("__init__",[](ObjectClass* self,std::string name,std::optional<std::int64_t> packed,std::string parent) {
+            std::optional<std::uint32_t> argb;
+            if(packed) {
+                if(*packed<std::numeric_limits<std::int32_t>::min() || *packed>std::numeric_limits<std::uint32_t>::max())throw std::invalid_argument("class ARGB must fit signed or unsigned32 bits");
+                argb=static_cast<std::uint32_t>(*packed);
+            }
+            new(self) ObjectClass(ObjectClass::definition(std::move(name),argb,std::move(parent)));
+        },"name"_a,"color_argb"_a=std::optional<std::int64_t>{0x41e1be},"parent"_a="",
+        "Owning class definition. Parent is an explicit registry key; None retains absent raw color. Register the definition to resolve derived display colors.")
+        .def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color)
+        .def_ro("parent",&ObjectClass::parent).def_prop_ro("leaf_name",&ObjectClass::leaf_name)
+        .def_prop_ro("color_argb",&ObjectClass::color_argb).def("__eq__",&ObjectClass::operator==);
     nb::class_<ObjectPlane>(m,"ObjectPlane")
         .def(nb::init<std::int32_t,std::uint32_t,std::uint32_t>(),"c"_a=-1,"z"_a=0,"t"_a=0)
         .def_ro("c",&ObjectPlane::c).def_ro("z",&ObjectPlane::z).def_ro("t",&ObjectPlane::t)
@@ -218,6 +232,9 @@ NB_MODULE(_native, m) {
         })
         .def("object_class",&Document::object_class).def("class_count",&Document::class_count)
         .def("set_class",&Document::set_class,"name"_a,"color"_a)
+        .def("set_class_definition",&Document::set_class_definition,"definition"_a)
+        .def("replace_class_registry",&Document::replace_class_registry,"definitions"_a,"label"_a="Replace class registry")
+        .def("class_path",&Document::class_path,"name"_a)
         .def("remove_class",&Document::remove_class).def("rename_class",&Document::rename_class)
         .def("classify_objects",&Document::classify_objects,"ids"_a,"class_name"_a)
         .def("children",&Document::children)
@@ -309,6 +326,14 @@ NB_MODULE(_native, m) {
         .def("image_description",&Project::image_description,"id"_a)
         .def("image_tags",&Project::image_tags,"id"_a)
         .def("set_image_details",&Project::set_image_details,"id"_a,"description"_a=nb::none(),"tags"_a=std::vector<std::string>{})
+        .def_prop_ro("classes",[](const Project& p) {
+            std::vector<ObjectClass> result;result.reserve(p.classes().size());
+            for(const auto& [name,value]:p.classes())result.push_back(value);
+            return result;
+        })
+        .def_prop_ro("class_defaults",&Project::class_defaults)
+        .def("set_class_registry",&Project::set_class_registry,"definitions"_a,"defaults"_a=std::vector<std::string>{})
+        .def("apply_class_defaults",&Project::apply_class_defaults,"image_id"_a)
         .def_prop_ro("metadata",&Project::metadata)
         .def("set_metadata",&Project::set_metadata,"metadata"_a=std::map<std::string,std::string>{})
         .def("image_metadata",&Project::image_metadata,"id"_a)

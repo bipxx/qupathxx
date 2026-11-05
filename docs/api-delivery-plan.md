@@ -317,8 +317,10 @@ verified; native GeoJSON v1/v2 transport now also passes its affected checks.
 Step 1 native/GeoJSON/binary and native/v1-assisted project transport now pass
 the retained class cases, palette precedence and synchronous reopen checks.
 Steps 2-4 remain open for this workflow; broader installed route checks follow
-with the combined candidate. After each bounded
-step or failed attempt, apply the closeout rule below before proceeding.
+with the combined candidate. Owning SDK surfaces/runtime cases are prepared
+in source but uncompiled; finish the existing editor before that candidate.
+After each bounded step or failed attempt, apply the closeout rule below before
+proceeding.
 
 | Order | Missing behavior and easiest existing route | Decisive result / avoidable work |
 | --- | --- | --- |
