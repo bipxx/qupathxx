@@ -91,6 +91,16 @@ def test_capture_staleness_ownership_and_saved_count_recipe(tmp_path):
     assert restored.tissue_record(record).result.provenance.effective_pixel_width_um == .5
 
 
+def test_async_physical_request_rejects_changed_calibration():
+    doc, obj, transform = scene()
+    job = q.TissueJob()
+    request = q.TissueRequest.with_component_area_limits(doc, obj, transform, .25, .25)
+    assert job.request(request)
+    doc.set_calibration(1., 1.)
+    assert job.wait(doc, obj).state == 'stale'
+    assert job.result is None and not doc.tissue_records
+
+
 def test_selected_level_and_anisotropy(pyramid_levels):
     server, _ = pyramid_levels
     doc = q.Document(server)
@@ -151,9 +161,9 @@ def test_batch_recipe_resume_csv_and_native_cli(tmp_path):
     assert done.returncode == 0, done.stdout + done.stderr
     terminal = json.loads(done.stdout.splitlines()[-1])
     assert terminal['saved'] == 1
-    checkpoints = list((tmp_path / 'cli').glob('*.qpxproj'))
-    assert len(checkpoints) == 1
-    assert q.Project.open(str(checkpoints[0])).document(image).latest_tissue(obj).result.foreground_pixels == 2
+    assert len(terminal['images']) == 1
+    checkpoint = terminal['images'][0]['path']
+    assert q.Project.open(checkpoint).document(image).latest_tissue(obj).result.foreground_pixels == 2
     repeated = subprocess.run(command, capture_output=True, text=True, timeout=30)
     assert repeated.returncode == 0 and json.loads(repeated.stdout.splitlines()[-1])['reused'] == 1
     for bad in [command + ['--kind', 'cells'], command + ['--tissue-min-area-um2', '1']]:

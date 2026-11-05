@@ -104,3 +104,34 @@ instead. No failed build or numerical retry occurred. Next build the settled
 bindings and region target in the same cache, stage once, generate stubs once,
 and run the selected installed workflow. Preserve the first successful native
 logs; no full qualification or new environment is needed.
+
+Binding-stage review: native numerical gates passed; binding compilation remains
+live in session 53853 (observed cl process CPU advancing), so no restart is
+justified. Source tests now also include async calibration-stale rejection.
+Plan adjustment: stage and verify the native product before making the single
+wheel, so observer/setup corrections do not force another package. Reuse the
+probe environment and preserve the final60a baseline in its existing stage.
+
+Stage smoke attempt review: the binding build and CMake install succeeded and
+the isolated probe imported the intended new-stage native module. The observer
+then asked for a nonexistent BuildEnvironment.revision field; this is a harness
+error, not a product failure. Inspect the exposed environment fields before the
+corrected identity check. Reuse this stage/build; do not recompile or reinstall.
+
+Stage verification attempt review: 121 checks passed, 7 GUI cases skipped and
+one new CLI observer failed after a successful CLI save. It guessed checkpoint
+files lived directly in the output root; the product uses a nested layout.
+Inspect the existing CLI result/path contract and use that authoritative path
+before retrying only the failed node. Keep all 121 passed results and the first
+log; no native edit, rebuild, stub generation or install is justified. Then run
+the two new actual desktop nodes explicitly with GUI enabled.
+
+Staged workflow review: the corrected single CLI node passes using the emitted
+report image path; 121 earlier passes are retained. Both new actual GUI nodes
+pass with GUI explicitly enabled. Strict typing passes the positive fixture and
+reports exactly the three intended invalid calls. One stub generation completed.
+Waste/action: remove guessed checkpoint layouts and environment field names;
+use observed API/report fields. Reuse the staged build and earlier passed checks.
+Next freeze stubs/tests, create one cached wheel and install once; compare the
+compiler-input identity and packaged members, then run only shipping checks
+covering the final product. Broader skipped GUI cases remain unclaimed.
