@@ -123,6 +123,31 @@ def test_class_snapshot_budget_and_recovery_ownership(tmp_path):
 
 
 @pytest.mark.skipif(not q.has_project, reason='project capability')
+def test_document_class_snapshot_and_recovery_are_owning(tmp_path):
+    project = q.Project(); doc = q.Document(q.Image(2, 2, [0] * 12))
+    image = project.add_document(doc)
+    doc.replace_class_registry(definitions())
+    project.set_class_registry([q.ObjectClass('Global only', None)], ['Global only'])
+    before = values(doc)
+    path = tmp_path / 'document-snapshot.qpxproj'; job = q.ProjectSaveJob()
+    assert job.request(project, str(path))
+    doc.rename_class('Parent', 'Later')
+    assert job.wait().applied
+    saved = q.Project.open(str(path))
+    assert values(saved.document(image)) == before and saved.class_defaults == ['Global only'] and project.dirty
+    assert doc.undo()
+    recovery = tmp_path / 'document-classes.qpxrecover'; writer = q.ProjectAutosave()
+    assert writer.request(project, str(recovery))
+    doc.rename_class('Parent', 'Later')
+    assert writer.wait().state == 'ready'
+    recovered = q.Project.recover(str(recovery))
+    assert values(recovered.document(image)) == before and recovered.class_defaults == ['Global only']
+    project.restore_recovery(str(recovery))
+    assert values(project.document(image)) == before
+    assert doc.class_path('Later: Positive') == ['Later', 'Positive']
+
+
+@pytest.mark.skipif(not q.has_project, reason='project capability')
 @pytest.mark.parametrize('damage', ['orphan-parent', 'argb-negative', 'argb-overflow', 'default-gap', 'default-missing', 'doc-cache', 'doc-parent'])
 def test_malformed_class_store_refuses(tmp_path, damage):
     project = q.Project(); doc = q.Document(q.Image.demo()); project.add_document(doc)

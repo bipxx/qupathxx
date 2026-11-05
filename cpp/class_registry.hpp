@@ -5,8 +5,10 @@
 
 namespace qpx::detail {
 inline void validate_class_definition(const ObjectClass& value) {
+    if(value.name.empty())throw std::invalid_argument("class name must not be empty");
+    if(value.name.find('\0')!=std::string::npos || value.parent.find('\0')!=std::string::npos)throw std::invalid_argument("class name/parent contains NUL");
     bounded_utf8(value.name,4096);bounded_utf8(value.parent,4096);
-    if(value.name.empty() || value.color>0xffffff)throw std::invalid_argument("invalid class name or RGB view");
+    if(value.color>0xffffff)throw std::invalid_argument("invalid class color RGB view");
     if(!value.parent.empty()) {
         const auto prefix=value.parent+": ";
         if(value.name.size()<=prefix.size() || value.name.compare(0,prefix.size(),prefix)!=0)

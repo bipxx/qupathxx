@@ -39,24 +39,22 @@ Phase: native transport verified; owning SDK source prepared, editor and combine
   biology/license/support choices. Only openly licensed readers/codecs; full
   R4/R5 and R6-R16/milestone exits remain in the canonical queue.
 
-Latest task review (2026-11-05, CLASS1 native editor):
-Outcome/evidence: the existing gui_replay role passes actual class controls for
-parent/raw alpha/absence, ordered/repeated defaults, zero-image save/reopen,
-no-op/stale/refusal guards, explicit image application and image rename/undo.
-Retained editor-alpha.xml records the passing run; installed SDK/runtime and
-new-field integrity/typing checks still need the combined candidate. This does
-not close CLASS1 or any milestone.
-Waste/action: **retain** failed editor-build.log and editor-native/observer XML.
-Removed two obsolete class_key resets after moving state into the shared editor.
-Diagnosed alpha0 after typing128 against the pinned ImGui193 scalar code: values
-commit on deactivation unless live scalar editing is enabled. Fixed the field,
-then passed its actual input check; apply that same setting to RGB fields in
-the combined build. **Reuse** the GUI cache and native authorities; no wheel,
-stubs or install has run yet. Source discovery must read exact returned paths.
-Next: freeze the combined SDK/editor source, build one cached candidate, stage
-it in the existing probe environment with exact source assertions, and exercise
-affected native/Python/integrity/editor/typing paths. Generate/repackage stubs
-once and install once when runtime checks pass. Broaden only for new failures.
+Latest task review (2026-11-05, CLASS1 combined candidate attempt):
+Outcome/evidence: b66ed9cf built in639.17s and passes all seven affected native
+roles. The source-asserted staged run passes319 cases with nine declared desktop
+skips; three legacy tests fail because shared class validation replaced specific
+empty/NUL diagnostics with generic messages. New class SDK/import/snapshot/
+recovery/corruption/failed-write cases pass. Preserve candidate-build-exit.json,
+candidate-native.xml and staged.xml/log; no installed/stub claim yet.
+Waste/action: **retain** the assertions and restore useful compatible diagnostics
+in the existing class validator. **Reuse** the candidate/cache and319 passing
+scopes; this is a private core-header repair, not another public API change.
+Do not repeat the expensive bindings compilation or source capture. Preserve the
+first wheel and build a repaired candidate into a distinct output directory.
+Next: repair empty/NUL/color diagnostics, rebuild affected core/relink with the
+same backend/cache, then rerun failed nodes and the affected class SDK/native
+checks. Generate stubs once and install once after these checks pass. Earlier
+ImGui failures/alpha diagnosis remain in their original logs, not erased.
 
 After every bounded task or failed/stopped attempt, record scoped outcome,
 waste action and changed next step here before continuing or retrying.

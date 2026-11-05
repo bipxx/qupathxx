@@ -175,10 +175,13 @@ def test_desktop_saves_changed_project_metadata(tmp_path,with_image):
     assert report.replay_complete and q.Project.open(str(target)).metadata==RICH
 
 
-def test_empty_project_class_registry_loss_is_explicit(tmp_path):
+def test_empty_project_class_registry_is_retained_without_a_loss(tmp_path):
     path=foreign(tmp_path,'no-images');classes=path.parent/'classifiers/classes.json'
     classes.parent.mkdir(exist_ok=True)
     classes.write_text(json.dumps({'pathClasses':[{'name':'Tumor','color':0xff0000}]}),encoding='utf-8')
-    preview=q.preview_qupath_project(str(path));assert [(i.code,i.count) for i in preview.issues]==[('project_classes_dropped',1)]
-    with pytest.raises(ValueError,match='reported losses'):preview.import_new(str(tmp_path/'not-approved.qpxproj'))
-    project=preview.import_new(str(tmp_path/'approved.qpxproj'),allow_losses=True);assert project.metadata==RICH and project.images==[]
+    preview=q.preview_qupath_project(str(path));assert preview.issues==[]
+    target=tmp_path/'retained.qpxproj';project=preview.import_new(str(target))
+    restored=q.Project.open(str(target))
+    assert project.metadata==restored.metadata==RICH and project.images==restored.images==[]
+    assert project.class_defaults==restored.class_defaults==['Tumor']
+    assert [(c.name,c.parent,c.color_argb) for c in restored.classes]==[('Tumor','',0xff0000)]
