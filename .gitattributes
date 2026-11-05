@@ -822,3 +822,8 @@ tests/fixtures/qupath-project-metadata-0.7.0/** -text -whitespace
 tools/upstream/qupath_project_metadata_reference.groovy -text
 
 docs/benchmarks/project-metadata-r5/** -text -whitespace
+
+tests/fixtures/qupath-class-hierarchy-0.7.0/** -text -whitespace
+tools/upstream/qupath_class_reference.groovy -text
+tools/upstream/qupath_class_readback.groovy -text
+tools/upstream/qupath_class_colors_reference.groovy -text

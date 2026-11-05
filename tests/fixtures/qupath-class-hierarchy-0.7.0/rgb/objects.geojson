@@ -1,0 +1,159 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "0e3b8548-53b9-4548-85a7-95778b0cbac0",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 0",
+        "classification": {
+          "name": "Tumor α",
+          "color": [17, 51, 85]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "b13ca569-1f6b-4b74-a89c-576e600daafc",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 1",
+        "classification": {
+          "names": [
+            "Tumor α",
+            "Positive"
+          ],
+          "color": [170, 34, 17]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "011b59d0-f2dc-4590-a0c2-66829139e197",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 2",
+        "classification": {
+          "names": [
+            "Tumor α",
+            "Negative"
+          ],
+          "color": [68, 119, 170]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "08031a24-2a03-4523-9f33-0bdff167ed28",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 3",
+        "classification": {
+          "names": [
+            "Tumor α",
+            "Positive",
+            "High"
+          ],
+          "color": [119, 136, 153]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70cebd12-cb60-4bc8-9789-6724ce9dbae8",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 4",
+        "classification": {
+          "name": "Cell µ 🚀",
+          "color": [171, 205, 239]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "e1897995-f104-419c-bde4-0d494e2e591c",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgb 5",
+        "classification": {
+          "name": "Marker / label #1",
+          "color": [18, 52, 86]
+        }
+      }
+    }
+  ]
+}

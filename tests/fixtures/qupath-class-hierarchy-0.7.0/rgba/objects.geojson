@@ -1,0 +1,32 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "112d1e93-7b73-4318-b2d8-47dac3e13efd",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "rgba 0",
+        "classification": {
+          "names": [
+            "Tumor α",
+            "Alpha"
+          ],
+          "color": [18, 52, 86, 128]
+        }
+      }
+    }
+  ]
+}

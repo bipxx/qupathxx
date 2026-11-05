@@ -5,7 +5,7 @@ and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. [PROJECTMETA1](benchmarks/project-metadata-r5/README.md)
 is locally verified for its declared project-wide string-map workflow.
 
-Current: **R4/R5-CLASS1 — class ancestry and project defaults** (ready).
+Current: **R4/R5-CLASS1 — class ancestry and project defaults** (in progress).
 
 - Outcome: preserve recognized derived-class parent links and project-default
   classes, inspect/edit and save/reopen exact state, including zero-image projects.
@@ -58,3 +58,42 @@ acceptance, whole-slide resources/speed, hosts and release remain open.
 
 After every bounded task or failed/stopped attempt, record its scoped outcome,
 waste action and changed next step here before continuing or retrying.
+
+CLASS1 inspection review: current ObjectClass is name/RGB only; class registry
+and object links already share native staged history. QuPath PathClass stores
+explicit parent/leaf state and caches by a path, while default leaf names reject
+colon/newline. The guessed standalone PathClassTypeAdapter URL failed and the
+web tool could not open the repository tree API. Waste/action: discover adapter
+locations from the pinned upstream tree rather than guessing more filenames.
+No build or native edit; first settle wire/identity/null-color/reference behavior.
+
+CLASS1 contract checkpoint: GeoJSON has explicit names arrays; project classes
+use a pinned delimited name wire format whose reader calls PathClass.fromString.
+That format-specific decoding is distinct from guessing ancestry in native or
+arbitrary display labels. Palette order/duplicates, NULL sentinel removal and
+nullable/ARGB colors need an actual reference. QuPath interns classes by path,
+so one producer plus a fresh-process readback is necessary to detect cache-biased
+color precedence; this is not a repeated numerical/corpus campaign. Reuse the
+saved ROI/builder with lazy PathIO. No native header/build before these facts.
+
+CLASS1 reference review: producer and fresh readback pass for29 retained files.
+Palette order/repeated entries survive, NULL sentinel is omitted, explicit ARGB
+survives, project palette wins older native/GeoJSON colors, and cleared color
+becomes a generated default on fresh reload. Colorless GeoJSON fails upstream.
+Old408f383e rejects valid duplicate/ARGB/absent-color palettes, flattens four
+ancestry links without defaults and refuses names-array GeoJSON; baseline saved.
+Waste/action: retain these references and both process scopes; no image/math
+recapture or big native build. One small default-color oracle is now necessary
+to match the observed fallback, including UTF16 hashing and parent-dependent
+colors. Implement that shared primitive before freezing class fields/APIs, so
+absence can remain distinct from resolved display color without a later ABI edit.
+
+CLASS1 primitive checkpoint: five capture/identity/semantics tests pass. One small
+extra process supplies38 default-color cases (Unicode UTF16, normalization,
+standard/derived/Tumor/ARGB parent cases and a dark first random triplet), plus
+fresh-cleared-color readback gives a39th native expected value. Implemented one
+internal resolver; public ObjectClass/Project/Document APIs are still unchanged.
+Waste/action: a targeted classes observer build is sufficient for this primitive;
+no wheel/stubs/install or numerical campaign. Next: freeze/run that role, then
+integrate explicit ancestry, raw/resolved colors and ordered project defaults
+through the documented single class/history/import/storage authority.

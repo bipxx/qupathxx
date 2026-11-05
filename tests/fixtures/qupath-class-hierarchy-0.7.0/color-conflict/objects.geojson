@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "0325d96a-a7c4-49e7-83b3-6706390f86ca",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "color-conflict 0",
+        "classification": {
+          "name": "Conflict class",
+          "color": [16, 17, 18]
+        }
+      }
+    }
+  ]
+}

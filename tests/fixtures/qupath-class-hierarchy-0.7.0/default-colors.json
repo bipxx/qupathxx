@@ -1,0 +1,306 @@
+{
+  "dark_input": "Dark candidate 141",
+  "cases": [
+    {
+      "path": [
+        "Positive"
+      ],
+      "parent_argb": null,
+      "argb": -377282
+    },
+    {
+      "path": [
+        "Negative"
+      ],
+      "parent_argb": null,
+      "argb": -9408287
+    },
+    {
+      "path": [
+        "1+"
+      ],
+      "parent_argb": null,
+      "argb": -256
+    },
+    {
+      "path": [
+        "2+"
+      ],
+      "parent_argb": null,
+      "argb": -17602
+    },
+    {
+      "path": [
+        "3+"
+      ],
+      "parent_argb": null,
+      "argb": -377282
+    },
+    {
+      "path": [
+        "Unseen α"
+      ],
+      "parent_argb": null,
+      "argb": -13413725
+    },
+    {
+      "path": [
+        "Class 🚀"
+      ],
+      "parent_argb": null,
+      "argb": -10104659
+    },
+    {
+      "path": [
+        "é"
+      ],
+      "parent_argb": null,
+      "argb": -4479913
+    },
+    {
+      "path": [
+        "é"
+      ],
+      "parent_argb": null,
+      "argb": -3358777
+    },
+    {
+      "path": [
+        "Dark candidate 141"
+      ],
+      "parent_argb": null,
+      "argb": -3371679
+    },
+    {
+      "path": [
+        "Tumor",
+        "1+"
+      ],
+      "parent_argb": 13107200,
+      "argb": -10496
+    },
+    {
+      "path": [
+        "Tumor",
+        "2+"
+      ],
+      "parent_argb": 13107200,
+      "argb": -1993166
+    },
+    {
+      "path": [
+        "Tumor",
+        "3+"
+      ],
+      "parent_argb": 13107200,
+      "argb": -3657166
+    },
+    {
+      "path": [
+        "Tumor",
+        "Positive"
+      ],
+      "parent_argb": 13107200,
+      "argb": -3657166
+    },
+    {
+      "path": [
+        "Tumor",
+        "Negative"
+      ],
+      "parent_argb": 13107200,
+      "argb": -10855756
+    },
+    {
+      "path": [
+        "Tumor",
+        "Unseen child"
+      ],
+      "parent_argb": 13107200,
+      "argb": -2031115
+    },
+    {
+      "path": [
+        "Tumor",
+        "Child 🚀"
+      ],
+      "parent_argb": 13107200,
+      "argb": -2263675
+    },
+    {
+      "path": [
+        "Other base",
+        "1+"
+      ],
+      "parent_argb": 2113664,
+      "argb": -14927501
+    },
+    {
+      "path": [
+        "Other base",
+        "2+"
+      ],
+      "parent_argb": 2113664,
+      "argb": -15522228
+    },
+    {
+      "path": [
+        "Other base",
+        "3+"
+      ],
+      "parent_argb": 2113664,
+      "argb": -15984333
+    },
+    {
+      "path": [
+        "Other base",
+        "Positive"
+      ],
+      "parent_argb": 2113664,
+      "argb": -15191968
+    },
+    {
+      "path": [
+        "Other base",
+        "Negative"
+      ],
+      "parent_argb": 2113664,
+      "argb": -14135136
+    },
+    {
+      "path": [
+        "Other base",
+        "Unseen child"
+      ],
+      "parent_argb": 2113664,
+      "argb": -14967952
+    },
+    {
+      "path": [
+        "Other base",
+        "Child 🚀"
+      ],
+      "parent_argb": 2113664,
+      "argb": -10746004
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "1+"
+      ],
+      "parent_argb": 1056816,
+      "argb": -15852501
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "2+"
+      ],
+      "parent_argb": 1056816,
+      "argb": -16182500
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "3+"
+      ],
+      "parent_argb": 1056816,
+      "argb": -16380909
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "Positive"
+      ],
+      "parent_argb": 1056816,
+      "argb": -15984604
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "Negative"
+      ],
+      "parent_argb": 1056816,
+      "argb": -15456196
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "Unseen child"
+      ],
+      "parent_argb": 1056816,
+      "argb": -11021308
+    },
+    {
+      "path": [
+        "Other base",
+        "Branch",
+        "Child 🚀"
+      ],
+      "parent_argb": 1056816,
+      "argb": -9017092
+    },
+    {
+      "path": [
+        "Alpha base",
+        "1+"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -14927501
+    },
+    {
+      "path": [
+        "Alpha base",
+        "2+"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -15522228
+    },
+    {
+      "path": [
+        "Alpha base",
+        "3+"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -15984333
+    },
+    {
+      "path": [
+        "Alpha base",
+        "Positive"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -15191968
+    },
+    {
+      "path": [
+        "Alpha base",
+        "Negative"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -14135136
+    },
+    {
+      "path": [
+        "Alpha base",
+        "Unseen child"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -1479787
+    },
+    {
+      "path": [
+        "Alpha base",
+        "Child 🚀"
+      ],
+      "parent_argb": -2145369984,
+      "argb": -9225723
+    }
+  ]
+}
