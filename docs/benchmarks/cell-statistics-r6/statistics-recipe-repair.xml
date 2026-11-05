@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-05T05:05:05"
+	>
+	<testcase name="log_cell_recipe" classname="log_cell_recipe" time="0.255323" status="run">
+		<properties/>
+		<system-out>Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,20 @@
+src\qupathxx\_native.pyi:245: error: Argument 1 of "__eq__" is incompatible with supertype "builtins.object"; supertype defines the argument type as "object"  [override]
+src\qupathxx\_native.pyi:245: note: This violates the Liskov substitution principle
+src\qupathxx\_native.pyi:245: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
+src\qupathxx\_native.pyi:245: note: It is recommended for "__eq__" to work with arbitrary objects, for example:
+src\qupathxx\_native.pyi:245: note:     def __eq__(self, other: object) -> bool:
+src\qupathxx\_native.pyi:245: note:         if not isinstance(other, ObjectClass):
+src\qupathxx\_native.pyi:245: note:             return NotImplemented
+src\qupathxx\_native.pyi:245: note:         return <logic to compare two ObjectClass instances>
+src\qupathxx\_native.pyi:259: error: Argument 1 of "__eq__" is incompatible with supertype "builtins.object"; supertype defines the argument type as "object"  [override]
+src\qupathxx\_native.pyi:259: note: This violates the Liskov substitution principle
+src\qupathxx\_native.pyi:259: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
+src\qupathxx\_native.pyi:259: note: It is recommended for "__eq__" to work with arbitrary objects, for example:
+src\qupathxx\_native.pyi:259: note:     def __eq__(self, other: object) -> bool:
+src\qupathxx\_native.pyi:259: note:         if not isinstance(other, ObjectPlane):
+src\qupathxx\_native.pyi:259: note:             return NotImplemented
+src\qupathxx\_native.pyi:259: note:         return <logic to compare two ObjectPlane instances>
+tests\typing\cell_statistics_invalid.py:4: error: Argument 1 to "intensity_statistics" of "CellResult" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\cell_statistics_invalid.py:5: error: Argument 1 to "cell_intensity_statistics" of "ObjectFeatureTable" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\cell_statistics_invalid.py:6: error: Property "intensity_statistics_format" defined in "CellResult" is read-only  [misc]
+Found 5 errors in 2 files (checked 1 source file)

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="8"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-11-05T05:50:25"
+	>
+	<testcase name="object_classifier" classname="object_classifier" time="0.0531702" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="project_batch" classname="project_batch" time="1.24752" status="run">
+		<properties/>
+		<system-out>Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed
+Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed
+Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Nominal cell batch options capture per-ROI bounds, QCL6 checkpoints, hash-only resume and typed CSV passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="cell_tables" classname="cell_tables" time="0.0906134" status="run">
+		<properties/>
+		<system-out>Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed
+QCA5 mixed grid/natural classifier sources and CSV project save/reopen passed
+Grid cell CSV schema 5/6, mixed/manual rows, captured units, QCA5 provenance and upsampled source limits passed
+Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+</system-out>
+	</testcase>
+	<testcase name="cell_records" classname="cell_records" time="0.727321" status="run">
+		<properties/>
+		<system-out>Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 SQLite save, reopen, provenance attachment, replay and second save passed
+QCL5 analytic ellipse, polygon hole and winding-policy geometry persistence passed
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="cells" classname="cells" time="0.838932" status="run">
+		<properties/>
+		<system-out>Cell intensity reducer: six QuPath0.7 numeric references, sample SD n-1/absent singleton, exact compartments, float/byte and double input, finite/background/budget/cancellation checks passed; retained API integration remains open
+Retained intensity statistics: four natural/area/two nominal recipes agree with independent two-pass moments; QCL10/11 canonical replay and six old mean-only recipe replays passed
+Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+Mixed QCA9 classifier origin policies: legacy false/corrected true retained per row after decode
+Nominal exact support: zero false cells/20 or380 samples, QCL9 roundtrip; pinned QCL6 legacy replay and cross-policy refusal passed
+Nominal cell original-coordinate contours, publication, undo/redo and QCA9 classifier origins passed
+QCL9 project save/reopen, source-bound replay, verification and second save passed
+ImageJ c...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cell_calibration" classname="cell_calibration" time="0.0594146" status="run">
+		<properties/>
+		<system-out>Captured anisotropic areas/centroids, legacy unknown, detached lifetime and numerical ranges passed
+</system-out>
+	</testcase>
+	<testcase name="log_cell_recipe" classname="log_cell_recipe" time="0.163829" status="run">
+		<properties/>
+		<system-out>Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.128767" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

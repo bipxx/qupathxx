@@ -1,9 +1,9 @@
 # Retained cell intensity statistics: R6-FEATURE1
 
-Status: production results, replay, QCL10/11, QCA10, owning bindings and opt-in
-export are implemented; native and initial binding checks pass. The final wheel,
-installed consumers and desktop closeout remain open.
-The [current task](current-task.md) owns the next action. This is one ongoing
+Status: [locally verified workflow](benchmarks/cell-statistics-r6/README.md) at
+60a0274e. Production results, replay, QCL10/11, QCA10, owning bindings, CSV/CLI and
+selected ImGui export are delivered. Broader R6/scientific/resource work remains open.
+The [current task](current-task.md) owns the next action. This is one delivered
 vertical workflow, not completion of the R6 feature family.
 
 ## Reference and values
@@ -39,14 +39,13 @@ fluorescence measurements or make different input/sampling recipes equivalent.
   tolerance; use existing float32 versus float64 source precision intentionally.
   This is engineering/statistical correctness, not biological acceptance.
 
-The current private reducer in cpp/cell_intensity_statistics.hpp handles uint8/
+The shared reducer in cpp/cell_intensity_statistics.hpp handles uint8/
 float natural inputs and double grid inputs, all compartments, finite checks and
 explicit extra work-memory admission. Its result and accumulator arrays are
-charged before allocation. Production integration should feed the same moments
-inside the existing pixel accumulation loop; do not read/decode a second time or
-add a second full feature pass just to collect the new values.
+charged before allocation. Both production kernels feed these moments inside their existing pixel
+accumulation loops, with no second read/decode or separate feature pass.
 
-## Settled integration route
+## Delivered API and persistence route
 
 1. Keep CellFeature's existing counts/means and layout intact. Expose the typed
    statistics structures at the native API, and store one contiguous statistics
@@ -86,14 +85,38 @@ add a second full feature pass just to collect the new values.
    generation. Reuse existing environments/readers/masks. Exercise affected
    installed SDK, export/CLI/batch, desktop and save/reopen flows.
 
-## Integration checks still required
+## Verification scope
 
-Native tiny masks must preserve old means while producing independent exact
-compartment expectations and correct availability at n=0/1/2. Compare the pinned
-source/masks with independent NumPy statistics at the correct source precision.
-Check natural, area and both nominal coordinate policies, capture-time channels,
+Native tiny masks preserve old means while producing independent exact
+compartment expectations and correct availability at n=0/1/2. The pinned
+source/masks agree with independent NumPy statistics at the correct source precision.
+Checks cover natural, area and both nominal coordinate policies, capture-time channels,
 empty cytoplasm, selected-row snapshots, mixed QCL/QCA versions, malformed
 statistics refusal, atomic budget/cancellation and zero-cell format roundtrip.
-Old reference archives must stay byte/replay equivalent. Installed export and
-owning nanobind/typing checks close the workflow only after the complete route is
-implemented. Reuse CONTEXT1/SAMPLING1 sampling evidence; no broad qualification.
+Old reference archives retain byte/replay meanings. Installed export, owning
+nanobind and typing checks close the declared route. Exact old grid workspace and
+classifier snapshot quotas are preserved through frozen legacy bookkeeping; new
+measured storage remains fully charged. CONTEXT1/SAMPLING1 sampling evidence is
+reused, with no broad qualification or new biological/host acceptance.
+
+
+## Python inspection and export
+
+```python
+result = q.detect_cells(request)
+if result.cell_count:
+    statistics = result.intensity_statistics(1)
+    if statistics is not None:
+        print(statistics.nucleus.channels.minimum)
+        print(statistics.nucleus.channels.sample_standard_deviation)
+record = document.keep_cells(request, result)
+options = q.CellTableOptions()
+options.include_intensity_statistics = True
+csv = q.cell_measurements_csv(q.CellTableRequest(document, [record], options))
+```
+
+Historical records return None rather than invented statistics. Singleton SD and
+empty cytoplasm are unavailable; a multi-sample constant channel has SD zero.
+ObjectFeatureTable.cell_intensity_statistics(row) inspects captured selected-row
+values when the existing cell_rgb preset captured cell measurements; unknown or
+uncaptured values return None. This adds no new forest feature preset.

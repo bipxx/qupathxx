@@ -2,123 +2,69 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. CLASS1, CLASSHISTORY1,
-[CONTEXT1](benchmarks/cell-context-r6/README.md) and
-[SAMPLING1](benchmarks/cell-pyramid-r6/README.md) are locally verified within their
-recorded scopes. Full R6 and the broader R2-R16 inventory remain open.
+All M0-M7 remain Partial. CLASS1, CLASSHISTORY1, CONTEXT1, SAMPLING1 and
+[FEATURE1](benchmarks/cell-statistics-r6/README.md) are locally verified within
+their recorded scopes. Broader R6 and the remaining R2-R16 inventory stay open.
 
-Current: **R6-FEATURE1 — retained compartment measurements** (native/API complete; installed consumers pending).
+Current: **R6-SPLIT1 — split/merge and feature-domain coverage** (ready for trace).
 
-- Outcome: select and finish one missing nucleus/cell/cytoplasm measurement
-  definition through native results, owning Python inspection, retained records
-  and table/consumer paths, preserving historical output semantics.
-- First action: inspect CellFeature, natural/grid accumulation, archive validation,
-  cell tables and classifier origins against the pinned QuPath/reference feature
-  definitions. The existing native fields retain counts and RGB/channel means;
-  do not recreate those. Identify the concrete missing distribution statistic or
-  feature-domain behavior before adding fields or parameters.
-- Contract before editing: define source values (RGB/OD/stain), masks, population
-  versus sample statistics, units, zero/one-sample behavior, numerical tolerance,
-  ownership and retained identity. Use a small independent expected result and
-  the existing pinned source/segmentation for integration. Do not infer new
-  historical statistics from old means or silently reinterpret old records.
-- Shared route: native accumulation is the authority; nanobind/CLI/ImGui and
-  classifier/table paths consume its retained values. Reuse existing cell jobs,
-  records, contours, schemas and atomic publication. Version persistence only
-  where the selected new data requires it; avoid a parallel measurement model.
-- Checks/stop: complete the selected feature through affected APIs, save/reopen
-  and export with its definition/identity intact; retain legacy replay and exact
-  existing means. Biological acceptance waits only for its actual labels and
-  tolerances. No claim of all features, vendor coverage or whole-slide speed.
-- Cost/dependencies: the trace needs no build/capture/install. Reuse installed
-  faa71c1f, pinned pixels and current build/probe environments. Group interfaces,
-  persistence and consumers before one necessary candidate; generate stubs once
-  only if the Python surface changes. Use openly licensed readers/codecs. Reader,
-  resource and research decisions stay with R2/R12/R1 where actually required.
+- Outcome: finish one demonstrated missing split/merge or feature-domain case
+  through the existing cell request/kernel, retained results and affected consumers.
+  Use declared engineering expectations; biology needs its own labeled evidence.
+- First action: inspect existing QuPath/ImageJ cell/shape references, quantitative
+  and QuPath-mode comparisons, clipped-marker/body-domain and contextual fixtures.
+  Select only an uncovered input/behavior. If compatible evidence already proves
+  a proposed case, link/reuse it and advance; do not recapture/reimplement it.
+- Contract before editing: pin pixels/lattice/units, ROI and domain, recipe,
+  expected labels/markers/count/compartment interpretation and tolerance. Preserve
+  intentional recipe differences and old replay. An upstream comparison alone
+  does not supply biological ground truth or justify weakening a strict failure.
+- Shared route: reuse sampling/support, watershed/expansion, statistics, immutable
+  records, codecs and thin SDK/CLI/ImGui consumers. Reader work uses openly licensed
+  readers/codecs only. Pull an R2 slice forward only for an actual input gap.
+- Checks/stop: one complete missing workflow, independent expected result and
+  affected persistence/consumer checks. Close only that case; broader vendor/
+  context/specimen/resource claims retain their queue entries. If remaining R6
+  science is decision-blocked and no independent engineering gap is ready, take
+  the first ready R7 slice, keeping the dependency and re-entry input explicit.
+- Cost: the trace needs no build, capture, install or general audit. Reuse installed
+  60a0274e and current caches/environments. Group necessary interfaces/consumers
+  before a candidate. For changed quota-sensitive layouts, inspect actual minimums
+  and valid saved old boundary witnesses before packaging. Reuse settled typing
+  config and explicit pytest node selections; inspect source and selection counts.
 
-## Latest task review — FEATURE1 candidate handoff (2026-11-05)
+## Latest task review — FEATURE1 closeout (2026-11-05)
 
-Outcome/evidence: typed per-result statistics and selected-row classifier snapshots
-are implemented, preserving CellFeature layout and canonical means. Both kernels
-fuse moments into their existing accumulation loops. QCL10/11 and QCA10 retain
-new fields while old mean-only replay remains absent. The five affected native
-roles pass; independent moments span four natural, area and two nominal recipes.
-Malformed-statistics checks pass. The old exact workspace boundary now reopens/
-replays unchanged at18212166 bytes.11 initial SDK/ownership/mixed-history checks
-and the repaired boundary pass. Stubs were generated once; positive typing passes
-and negative typing reports exactly the three intended errors.
+Outcome/evidence: [60a0274e](benchmarks/cell-statistics-r6/README.md) retains sampled
+RGB/transformed sum, extrema and sample SD for nucleus/cell/cytoplasm, preserving
+canonical means and historical absence/replay. Native result values, selected
+classifier snapshots, QCL10/11/QCA10, owning nanobind accessors and opt-in CSV13/14,
+CLI and ImGui export are delivered. Eight final native roles pass.69 first-
+candidate cases and three actual ImGui flows retain their unchanged-code scope;
+three repaired shipping and eight final installed checks pass.480 compiler inputs
+and65 wheel/installed members match source/RECORD; typing passes with exactly
+three intended negatives. M0-M7 and broader scientific/resource claims stay open.
 
-Waste/action: **reuse** existing source pixels, masks, caches and environments;
-**merge** field/codecs/bindings/export/UI changes before one packaged candidate.
-Do not repeat the slow public-header binding compilation: it completed once;
-subsequent body/observer fixes only refresh affected objects/links. Preserve the
-stale QCL2 algorithm-coupling observer failure and the32-byte legacy metadata
-regression. The first typing command checked unchanged imported equality stubs;
-a guessed CLI option then failed. Local mypy code/help established the required
-config-only setting. Keep those logs; apply silent-import checking to stubs while
-still demanding all three negative diagnostics. No broad suppression/API change.
+Waste/action: **reuse** retained pixels/results, shared reducers, caches,
+environments and scoped checks; **merge** interface/codec/consumer work before
+packaging. One stub generation and one full binding compilation were needed.
+Two real legacy-budget regressions (32-byte grid metadata and24-byte classifier
+metadata) required scoped repairs; the late classifier witness cost a second
+wheel/install. Preserve first candidate, failures and compressed old witness.
+Do not raise old limits or undercharge new measured data. **Remove** guessed
+APIs/CLI flags/row counts and global pytest filters: inspect actual declarations,
+local tool help/options, valid minimums and terminal selections before execution.
+The typing harness uses config-only stub-import behavior and retains all three
+misuse errors; no broad suppression or unrelated equality API rewrite.
 
-Plan change/next: build one source-identified cached wheel with settled stubs and
-all packaged executables relinked. Run the new shipping SDK/CSV/CLI/legacy and
-selected desktop workflows plus package/stub integrity; install once only after
-those candidate checks. Existing reader/sampling and unchanged numerical cases
-retain their scoped evidence. FEATURE1 remains open until these consumers pass.
-After every bounded task or failed/stopped attempt, update outcome/evidence,
-actual waste/action and the changed next step before continuing/retrying.
+Plan change/next: FEATURE1 enters the reuse index. Layout-sensitive old quota
+witnesses now precede packaging; SPLIT1 first traces existing evidence. No new
+reader/model/corpus/environment or generic qualification/reporting framework was
+added. After each bounded task or failed/stopped attempt, replace this review
+with scoped outcome/evidence, actual waste/action and changed next step before
+continuing/retrying. Update the existing queue row for changed scope/order/
+dependency and coverage only when evidence changes.
 
-Stopped probe review (classifier quota): trying to set the tiny old snapshot's
-budget to its payload size hits the existing1MiB minimum before any fixture is
-written. This is not a demonstrated new-code regression. **Defer** manufacturing
-larger workloads for that hypothetical boundary; the mixed known/unknown row
-snapshot and native quota guards already have scoped checks. No new file,
-resource-policy rewrite or candidate rebuild is justified by this invalid setup.
-Next exercise the completed source-identified wheel at its shipping boundary.
-
-Task review (shipping candidate consumers): source76ad0a2d passes69 SDK/CLI/
-persistence/legacy/stub cases with three explicit desktop skips. Three selected
-actual ImGui cases pass separately (statistics export and both old nominal
-rechecks); project_batch, cell_calibration and project_save native roles pass.
-**Reuse** this wheel and the numerical/source evidence; no repair or second wheel
-was needed after the boundary fix. Next install it once in the existing isolated
-environment, run the changed installed workflow/package boundary, then verify
-wheel/RECORD/source integrity and close the complete FEATURE1 route.
-
-Selection review (installed boundary): the command's global -k nominal selected
-only the intended nominal parameter case and deselected the other13 nodes.
-Preserve statistics-installed.xml as that one pass. **Remove** global substring
-filters from mixed installed-node selections: run the two remaining workflow
-nodes and five public-stub nodes explicitly, without repeating the passed case.
-Inspect terminal selection counts before claiming the installed boundary closed.
-No product change, reinstall or wheel is needed.
-
-Snapshot-compatibility trace review: the private snapshot Data also gained one
-empty vector. Its persisted quota is a compatibility boundary, not a reason to
-change the model schema. The first tiny probe was below the actual1MiB minimum;
-a256-row retained-publication probe measured784785 bytes and was also below it.
-**Remove** guessed row counts: size the allowed baseline from that observation
-and capture/reopen it using the frozen old runtime before deciding whether new
-code has a regression. Reuse existing retained cell results/pixels; no repeated
-detection or new specimen corpus. Do not alter admission without a failing old
-artifact in the new runtime. These stopped probes wrote no fixture.
-
-Compatibility finding (allowed old classifier quota): a sized368-row old snapshot
-uses1126273 bytes, above the1MiB minimum. Frozen faa71c1f captures, archives and
-reopens it; shipping76ad0a2d rejects it at decode. The only added old-path state
-is the24-byte empty statistics vector in Data. **Retain** a compressed old-project
-witness, reusing one retained cell result (no repeated detection/new pixels).
-Freeze the legacy QCA1-9 Data-header charge only; QCA10/known new statistics keep
-full admission. Preserve first wheel/receipt; this real failed artifact justifies
-one second cached candidate/reinstall, not a signature/stub/full-bind rebuild or
-new numerical campaign. Next check the failed old snapshot and the new mixed
-row path, then package the body-only decoder repair with all consumers relinked.
-
-Task review (classifier quota repair): the old1126273-byte snapshot and the new
-mixed known/unknown row path both pass statistics-snapshot-repair.xml; native
-object_classifier passes too. The first installed candidate's failure is retained
-in statistics-snapshot-regression.xml. **Reuse** unchanged numerical, binding,
-CSV/UI and typing evidence. Only the legacy QCA header charge changed, so no new
-stub generation or full binding compilation. Next one cached repackaged repair,
-all consumers relinked, targeted shipping/installed regression and final hashes.
-The late boundary finding costs a second wheel/install; future task contracts
-must include valid old quota witnesses before the first candidate, using actual
-minimums/row counts rather than guessing.
+Cleanup: retired only the redundant uncompressed old classifier probe after its
+SHA256 matched the retained49KiB compressed fixture. Original bytes, first wheel,
+failures and required caches remain available; no source/user data was removed.

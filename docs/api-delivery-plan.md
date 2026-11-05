@@ -23,6 +23,11 @@ link it and proceed. Evidence reuse retains its tested source and scope; it
 does not declare changed code qualified. Widen checks when dependencies, ABI,
 compiler/runtime, fixtures or failures justify it, and record the reason.
 
+For a changed result/snapshot layout that participates in stored quotas, inspect
+the actual minimum/size and check a valid saved old boundary before packaging.
+Preserve legacy bookkeeping explicitly and fully charge new measured storage.
+Do not infer a valid quota case from an invalid tiny snapshot or guess row counts.
+
 Use one concise evidence summary per delivered workflow. Record source,
 configuration, commands and results once; link existing logs and receipts.
 Avoid another receipt/publication cycle for every numerical substep or status
@@ -85,7 +90,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; continue R6-FEATURE1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; continue R6-SPLIT1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -138,6 +143,7 @@ to later code. Only the latest closeout stays in current-task.md.
 
 | Existing authority | Reusable delivered workflow / evidence | Boundary to preserve |
 | --- | --- | --- |
+| R6 measurements | [Retained compartment statistics](benchmarks/cell-statistics-r6/README.md) | Counts/means stay intact; sampled RGB/transformed sum/extrema/sample SD, old/new replay and quota boundaries, selected classifier snapshots, owning SDK and opt-in CSV/CLI/ImGui; no new model preset or biology/speed claim |
 | R6 lossless reader | [TIFF pyramid nominal integration](benchmarks/cell-pyramid-r6/README.md) | Dense/TIFF exact pixels, masks, retained features, calibrated area, native linked replay, CLI checkpoint/resume and selected ImGui; uint8 RGB/Deflate SubIFD scope only |
 | R6 sampling | [Signed nominal support and replay](benchmarks/cell-context-r6/README.md) | New exact-phase support, old QCL6 replay, mixed classifier origins, installed SDK/CLI/batch and selected ImGui flows; broader R6/resource/biology remain open |
 | R2 reader | [SI units](benchmarks/ome-calibration-units-r2/README.md), [BinaryOnly metadata](benchmarks/binaryonly-ome-r2/README.md), [non-SI units](benchmarks/ome-nonsi-r2/README.md), [JPEG TIFF](benchmarks/tiff-jpeg-r2/README.md) | Selected reader/metadata/codecs, not every vendor or whole-slide budget; all readers/codecs must remain openly licensed |
@@ -159,7 +165,7 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R6-FEATURE1 — retained compartment measurements** (integration open; numeric reducer verified).
+Active bounded task: **R6-SPLIT1 — split/merge and feature-domain coverage** (trace existing evidence first).
 [CLASS1](benchmarks/class-hierarchy-r4/README.md#installed-workflow-closeout-2026-11-05)
 and [CLASSHISTORY1](benchmarks/class-history-r4/README.md) are locally verified.
 Reuse their native/SDK/editor authorities. Continue the first ready analysis
@@ -174,7 +180,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-CLASS1, CLASSHISTORY1 and R6-CONTEXT1 are locally verified. Continue R6 compartment features,
+CLASS1, CLASSHISTORY1 and R6-CONTEXT1 are locally verified. Continue R6 split/merge coverage,
 then the remaining R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -189,7 +195,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. CLASSHISTORY1 locally verifies class-only rename field history/admission. Remaining overlapping/nested edit and hierarchy/class work needs a demonstrated missing behavior | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
 | R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 is locally verified for shared ancestry and project-default retention/authoring. Remaining calibration/project properties, versions/builders/records, source races and geometry losses need named fixtures/fault contracts | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
-| R6 | CONTEXT1 is locally verified: exact RGB-phase support, QCL9/QCA9 identities and retained legacy replay. SAMPLING1 locally verifies the declared lossless TIFF SubIFD workflow. FEATURE1 has a [verified numeric reducer](benchmarks/cell-statistics-r6/README.md) and [settled integration contract](cell-intensity-statistics.md); finish retained measurements through codecs/SDK/export/consumers; then broader context/vendor sampling and split/merge cases; representative specimen acceptance | Reuse [CONTEXT1](benchmarks/cell-context-r6/README.md), [lossless pyramid integration](benchmarks/cell-pyramid-r6/README.md) and ordinary context/halo evidence. Inspect existing definitions and pinned reference before adding fields. Extend the shared authority; labels block only biological acceptance |
+| R6 | CONTEXT1 is locally verified: exact RGB-phase support, QCL9/QCA9 identities and retained legacy replay. SAMPLING1 locally verifies the declared lossless TIFF SubIFD workflow. FEATURE1 locally verifies [retained compartment statistics](benchmarks/cell-statistics-r6/README.md), owning SDK, QCL/QCA, CSV/CLI/ImGui and legacy quota compatibility. Next SPLIT1 traces the remaining split/merge and feature-domain cases; then broader context/vendor sampling and representative specimen acceptance | Reuse [CONTEXT1](benchmarks/cell-context-r6/README.md), [lossless pyramid integration](benchmarks/cell-pyramid-r6/README.md) and ordinary context/halo evidence. Inspect existing definitions and pinned reference before adding fields. Extend the shared authority; labels block only biological acceptance |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
 | R9 | Neighborhoods and density; signed distances; tiled aggregation | Extend the existing spatial index and measurement tables one metric at a time, with physical units and independent geometry expectations. Reuse the consumer routes; scaling belongs to R12 |
@@ -271,7 +277,7 @@ The one-time R4/R5 reconciliation is complete and selected project metadata,
 then class ancestry/defaults. Continue the demonstrated gaps against existing
 implementation and receipts; do not repeat that reconciliation, start another
 general import audit or recapture accepted fields. When no independent R4/R5 implementation is ready, advance to
-R6 compartment measurements. Keep any blocked scientific acceptance or owner decision
+R6 split/merge coverage. Keep any blocked scientific acceptance or owner decision
 in its existing row with a concrete re-entry condition.
 
 ### Completion gates and task handoff
@@ -340,13 +346,13 @@ They are evidence to reuse, not another task queue or approval cycle.
 | Wire and project context | Existing binary decoder/common GeoJSON parser retain explicit paths, raw ARGB/absence, palette precedence, repeated order and zero-image registries. Native v1 flat RGB compatibility and v2 ancestry metadata remain distinct; incompatible identities refuse |
 | SDK and editor | Owning ObjectClass/Document/Project surfaces and shared ImGui controls use native commands. Actual controls cover raw alpha/absence, explicit parent, defaults/order, no-op/stale/refusal, image application and rename/undo |
 | Integrity and integration | Seven native roles/all25 older schemas, scoped319 earlier Python passes plus49 diagnostic/class repair passes, eight installed/stub checks, positive/three exact negative typing diagnostics and installed mouse/fresh-process save/reopen are recorded. No general biology/host/speed acceptance is inferred |
-| Handoff | CLASS1 closes locally; existing R4/R5 gaps and dense/resource claims remain open. CLASSHISTORY1 now closes that history-admission concern; CONTEXT1 now closes signed-boundary replay; SAMPLING1 closes the declared lossless pyramid workflow; compartment features follow the dependency order |
+| Handoff | CLASS1 closes locally; existing R4/R5 gaps and dense/resource claims remain open. CLASSHISTORY1 now closes that history-admission concern; CONTEXT1 now closes signed-boundary replay; SAMPLING1 closes the declared lossless pyramid workflow; FEATURE1 now closes retained statistics; split/merge coverage follows the dependency order |
 
 [CLASSHISTORY1](benchmarks/class-history-r4/README.md) now retains administrative
 subtree rename in the existing field journal: the matched installed probe uses
 1419 accounted bytes under16KiB, and the native subtree/property case uses3392.
 Geometry remains immutable/shared; no process-memory or general speed result is
-inferred. Reuse its source-scoped checks. The next ready task is R6-FEATURE1;
+inferred. Reuse its source-scoped checks. The next ready task is R6-SPLIT1;
 other R4/R5 gaps remain in their existing rows with fixture/fault re-entry rules.
 
 Follow the ordered slices above through R6/R7,
@@ -394,6 +400,7 @@ The review changes execution before the next action, using these rules:
 
 | Observed waste | Apply now | Re-entry or verification condition |
 | --- | --- | --- |
+| Changed layout invalidates old stored quotas | Check a valid saved old boundary before the first candidate; preserve old bookkeeping and charge new data explicitly | Use actual minimums/sizes and a pinned old artifact, not a guessed or invalid quota setup |
 | Repeated build, install or test | Reuse the retained compatible result; combine pending changes at the shared authority | Repeat only for changed inputs/configuration or a named unresolved risk; record that reason |
 | Failed command or uncertain live run | Inspect the existing output/session, diagnose and change the failing input | Retry only after the diagnosis and changed action are recorded; retain the first attempt |
 | Duplicate model, decoder or frontend math | Merge into the existing native authority and keep consumers thin | Verify the shared change once plus the affected consumer plumbing |

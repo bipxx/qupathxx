@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______________ test_old_classifier_exact_snapshot_budget_reopens ______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4929/test_old_classifier_exact_snap0')
+
+    def test_old_classifier_exact_snapshot_budget_reopens(tmp_path):
+        from zipfile import ZipFile
+    
+        manifest = json.loads((LEGACY / "legacy-snapshot-budget-manifest.json").read_text())
+        source = LEGACY / manifest["file"]
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest["archive_sha256"]
+        with ZipFile(source) as archive:
+            payload = archive.read(manifest["project"])
+        assert hashlib.sha256(payload).hexdigest() == manifest["project_sha256"]
+        project_file = tmp_path / manifest["project"]
+        project_file.write_bytes(payload)
+>       project = q.Project.open(str(project_file))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: classifier feature archive exceeds snapshot budget
+
+tests\test_cell_intensity_statistics.py:293: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_cell_intensity_statistics.py::test_old_classifier_exact_snapshot_budget_reopens
+1 failed in 0.48s
