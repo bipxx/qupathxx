@@ -81,7 +81,7 @@ def test_invalid_native_values_are_rejected(z,times):
 
 def test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic(tmp_path):
     project,image,doc,source=workspace(tmp_path);path=tmp_path/'saved.qpxproj'
-    doc.create_annotation(q.Rect(1,2,3,4));doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[1,2,3,4]))
+    doc.add_rectangle(q.Rect(1,2,3,4));doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[1,2,3,4]))
     job=q.ProjectSaveJob();assert job.request(project,str(path));doc.set_image_axis_calibration(q.ImageAxisCalibration());assert job.wait().applied
     assert_axes(q.Project.open(str(path)).document(image),4.5,[1,2,3,4])
     with sqlite3.connect(path) as db:
@@ -127,9 +127,9 @@ def test_corrupt_or_noncanonical_store_is_refused(tmp_path,damage):
 def test_source_reduction_checks_retained_undo_and_redo_states(tmp_path):
     project,image,doc,source=workspace(tmp_path);doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[0,1,2,3]));doc.set_image_axis_calibration()
     smaller=tmp_path/'smaller.ome.tif';tifffile.imwrite(smaller,np.zeros((2,3,16,20),dtype='uint16'),ome=True,photometric='minisblack',metadata={'axes':'TZYX'})
-    old=doc.server;revision=project.revision
+    project.save(str(tmp_path/'before-relink.qpxproj'));old=doc.server;revision=doc.revision
     with pytest.raises(ValueError,match='retained calibration'):project.relink(image,str(smaller))
-    assert doc.server is old and project.revision==revision
+    assert doc.server is old and doc.revision==revision and not project.dirty
     assert doc.undo() and doc.undo();assert doc.image_axis_calibration is None
     with pytest.raises(ValueError,match='retained calibration'):project.relink(image,str(smaller))
     doc.clear_history();project.relink(image,str(smaller));assert doc.server.raw_metadata.timepoints==2
@@ -165,3 +165,23 @@ def test_native_value_bound_and_independent_valid_wire_payload(tmp_path):
     project,image,doc,source=workspace(tmp_path);doc.set_image_axis_calibration(q.ImageAxisCalibration());path=tmp_path/'wire.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:db.execute('UPDATE image_axis_calibration SET payload=?',(payload(4.5,[-30,0,45,120]),))
     assert_axes(q.Project.open(str(path)).document(image),4.5,[-30,0,45,120])
+
+
+@pytest.mark.parametrize('case',['missing-time-unit','unknown-time-unit','time-unit-type','time-array-type','time-element-type','time-overflow','too-many-source-times','unknown-z-unit','zero-z'])
+def test_malformed_saved_calibration_is_refused_without_publication(tmp_path,case):
+    path=foreign(tmp_path,'nanoseconds')
+    data=path.parent/'data/1/data.qpdata';raw=data.read_bytes();assert raw[27]==0x74
+    size=struct.unpack('>H',raw[28:30])[0];header=json.loads(raw[30:30+size].decode());cal=header['server']['metadata']['pixelCalibration']
+    if case=='missing-time-unit':del cal['timeUnit']
+    elif case=='unknown-time-unit':cal['timeUnit']='FORTNIGHTS'
+    elif case=='time-unit-type':cal['timeUnit']=1
+    elif case=='time-array-type':cal['timepoints']={}
+    elif case=='time-element-type':cal['timepoints']=['NaN']
+    elif case=='time-overflow':cal['timeUnit']='DAYS';cal['timepoints']=[1e308]
+    elif case=='too-many-source-times':cal['timepoints']=[0]*5
+    elif case=='unknown-z-unit':cal['zSpacing']['unit']='mm'
+    else:cal['zSpacing']['value']=0
+    encoded=json.dumps(header).encode();assert len(encoded)<65536
+    data.write_bytes(raw[:28]+struct.pack('>H',len(encoded))+encoded+raw[30+size:])
+    with pytest.raises(ValueError):q.preview_qupath_project(str(path))
+    assert not list(tmp_path.glob('*.qpxproj'))

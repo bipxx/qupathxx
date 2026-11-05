@@ -138,11 +138,11 @@ void project_contracts(const fs::path& root) {
     const auto bad=root/"bad.qpxproj";fs::copy_file(path,bad);sql(bad,"UPDATE spatial_distance_records SET payload=zeroblob(128)");rejects([&]{Project::open(bad.u8string());});
     fs::remove(bad);fs::copy_file(path,bad);sql(bad,"UPDATE spatial_distance_records SET id='999999'");rejects([&]{Project::open(bad.u8string());});
     fs::remove(bad);fs::copy_file(path,bad);sql(bad,"UPDATE spatial_distance_records SET image_id='999999'");rejects([&]{Project::open(bad.u8string());});
-    std::cout<<"Spatial projects: schema18 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed\n";
+    std::cout<<"Spatial projects: schema22 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed\n";
     // Empty historical projects retain their exact schema until the first save.
     Project empty;const auto empty_image=empty.add_document(std::make_shared<Document>(Image::demo()));const auto base=root/"empty.qpxproj";empty.save(base.u8string());
-    const std::vector<std::pair<int,std::string>> tables={{18,"object_planes"},{16,"object_properties"},{15,"source_verifications"},{14,"spatial_distance_records"},{13,"raw_analysis_records"},{12,"tiff_views"},{11,"tma_cores"},{11,"tma_grids"},{10,"pixel_stream_records"},{9,"pixel_classifier_records"},{8,"classifier_records"},{7,"analysis_provenance"},{6,"cell_feature_links"},{5,"cell_records"},{4,"tissue_records"},{3,"analysis_records"},{2,"views"}};
-    for(int version=1;version<18;++version) {
+    const std::vector<std::pair<int,std::string>> tables={{22,"image_axis_calibration"},{21,"image_data_properties"},{20,"image_analysis_settings"},{19,"image_properties"},{18,"object_planes"},{16,"object_properties"},{15,"source_verifications"},{14,"spatial_distance_records"},{13,"raw_analysis_records"},{12,"tiff_views"},{11,"tma_cores"},{11,"tma_grids"},{10,"pixel_stream_records"},{9,"pixel_classifier_records"},{8,"classifier_records"},{7,"analysis_provenance"},{6,"cell_feature_links"},{5,"cell_records"},{4,"tissue_records"},{3,"analysis_records"},{2,"views"}};
+    for(int version=1;version<22;++version) {
         const auto old=root/("legacy-"+std::to_string(version)+".qpxproj");fs::copy_file(base,old);std::string statement;
         for(const auto& entry:tables) if(entry.first>version) statement+="DROP TABLE "+entry.second+";";
         statement+="PRAGMA user_version="+std::to_string(version);sql(old,statement);const auto original=read(old);

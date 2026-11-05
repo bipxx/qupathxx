@@ -34,21 +34,26 @@ Current: **R5-CALIB1 — saved Z/time calibration** (capture verified; native va
   Biological labels, project license and release support block only their claims.
   Only openly licensed readers and required codecs are eligible.
 
-Latest task review (2026-11-04, CALIB1 candidate preparation):
-Outcome/evidence: shared Document/history/snapshot/store22/native-import/Python/
-raw-inspector implementation is connected.44 initial product test nodes collect;
-retained-record and independent valid-wire/bound controls were added afterward.
-Thirteen fixture/source controls remain the only passing CALIB1-specific evidence.
-Waste/action: **merge** physical-axis access at Document and reuse source raw
-metadata unchanged; **retain** old-format and affected artificial-downgrade checks
-because the sparse table changes schema. Select touched downgrade nodes instead
-of rerunning their entire unrelated numerical suites. No interim product builds.
-Native save-test filename probing failed; existing cache/backend targets were
-reused and actual document-edits target was confirmed from CMake.
-Next: freeze/build one cached candidate including affected native roles, stage
-new/import/state/source and downgrade cohorts, then one stub pass and installed/
-desktop checks. Preserve failures before targeted repair. Source-axis APIs and
-schema22 have not yet been compiled or accepted.
+Latest task review (2026-11-04, CALIB1 first staged results and repair):
+Outcome/evidence: candidate e5d39e44 built in687.96s; staged266 cases yielded
+252 passes/12 declared GUI skips/2 observer failures (guessed create_annotation
+and Project.revision APIs). Malformed header probe refused8/9; absent timeUnit
+with nonempty timestamps was incorrectly interpreted as seconds. Logs/results
+are retained. The native spatial migration witness still omits tables19-22.
+Waste/action: **reuse**252 passing results within candidate1 scope; **remove**
+guessed observer APIs, using existing add_rectangle and saved clean/dirty/source
+state to prove atomic refusal. **Retain** a targeted decoder repair and cached
+rebuild because ambiguous units change behavior. Merge the migration-witness fix
+and its native target into that same rebuild; do not recompile for each observer
+repair or regenerate stubs before the final contract passes.
+Both repaired observer nodes now pass at unchanged candidate1; combined scope
+is254 unique passes/12 skips. Candidate1 source/wheel is preserved separately.
+Nine permanent malformed-header controls and the extended native migration
+witness are ready. No stubs/install have been generated yet.
+Next: freeze the repaired missing-unit refusal and observer/
+legacy controls, freeze one repaired candidate and build from cache. Rerun changed
+state/import/downgrade paths plus new refusal controls at the repaired identity;
+then native/desktop/package/typing acceptance. No CALIB1 acceptance yet.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

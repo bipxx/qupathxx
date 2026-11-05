@@ -523,6 +523,7 @@ public:
             if(calibration.contains("timepoints")) {
                 const auto& values=calibration.at("timepoints");
                 if(!values.is_array() || values.size()>ImageAxisCalibration::max_timepoints)invalid("invalid saved timestamp array");
+                if(!values.empty() && !calibration.contains("timeUnit"))invalid("saved timestamps require an explicit time unit");
                 times.reserve(values.size());
                 for(const auto& value:values) {
                     if(!value.is_number())invalid("invalid saved timestamp");const auto input=value.get<double>(),seconds=input*factor;
