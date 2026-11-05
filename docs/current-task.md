@@ -72,3 +72,14 @@ source is frozen at4a252c6e plus this documentation handoff; no median stub,
 wheel or install has run. The probe/installed runtimes still contain Gaussian
 code and must not be mistaken for the new median product. Resume the same build,
 then stage and verify old unfiltered/Gaussian boundaries before packaging.
+
+Staged verification review:148 SDK/CLI/persistence/stub cases pass with11
+explicit skipped GUI cases. Both new GUI nodes pass when enabled; their capture
+shows Median cleanup(3x3) checked,415 kept pixels and92 components. Strict typing
+passes with exactly three intended invalid assignments. Old unfiltered/Gaussian
+record/table/batch/work boundaries pass on the first attempt, including older
+QTM1/2/3 canonical replay and tight grid/classifier witnesses. The offset-based
+metadata helper avoided another byte-budget repair. No native/runtime failure
+or repeated numerical campaign occurred. One full binding compile and one stub
+generation were used. Next freeze, build/install one wheel, verify source/RECORD
+identity and selected shipping checks; preserve the staged evidence and capture.
