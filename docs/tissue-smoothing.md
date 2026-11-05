@@ -44,7 +44,7 @@ with zero and remain canonical when re-encoded. Saved replay and verification
 include the smoothing parameter. Raw input digests continue to identify the
 captured pixels/lattice; algorithm and parameters identify the processing recipe.
 Batch parameter identity includes a positive sigma so different recipes cannot
-reuse each other's checkpoints. Other batch kinds reject a tissue sigma.
+reuse each other's checkpoints. Other batch kinds reject a nonzero tissue sigma.
 
 Tissue table selections containing smoothed results use tissue-table/2 (or its
 project form), appending smoothing_sigma_sample_px. Mixed unfiltered rows carry
@@ -64,14 +64,14 @@ sizes are also preserved, because archive decoding compacts component capacity.
 
 ## Verification status
 
-The independent native test uses direct 2D weighted convolution, independent
-OD/stain scalar values, crop/ROI/alpha eligibility, noninteger levels, short and
-long kernel paths and multiple decode tile sizes. It also checks QTM3 canonical
-replay, checksum-resigned invalid recipes and work admission. Five affected
-native regression roles pass. tests/test_tissue_smoothing.py adds installed SDK,
-legacy quota, mixed CSV, save/reopen, batch/CLI/resume and actual desktop checks;
-Staged SDK/CLI/persistence and desktop checks pass within their recorded source
-scope; the original old-batch-boundary failure and its repaired single-node pass
-are retained. current-task.md records the remaining packaging checks. Median filtering,
-arbitrary-grid/context semantics, specimen accuracy, other hosts and whole-slide
-resource/speed claims remain in R7/R12 and the wider queue.
+[Local workflow evidence](benchmarks/tissue-smoothing-r7/README.md) binds the final
+installed wheel to code source 7873a3a5. The independent direct 2D native oracle
+covers feature values, support, noninteger levels and tile boundaries; six native
+roles pass. Staged SDK/CLI/persistence, actual desktop, smoothing-phase cancel/
+stale publication and strict typing checks pass within their recorded scope.
+Eight final shipping checks plus two old QTM1/2 canonical replay checks pass.
+Old exact tissue/table/grid/classifier limits and the repaired batch limit retain
+their original bounds. Source/build-input and installed RECORD checks agree.
+
+Median filtering, arbitrary-grid/context semantics, specimen accuracy, other
+hosts and whole-slide resource/speed claims remain in R7/R12 and the wider queue.

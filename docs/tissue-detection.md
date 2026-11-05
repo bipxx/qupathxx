@@ -2,11 +2,14 @@
 
 The first tissue workflow shares one native C++ implementation between Python
 and ImGui. It thresholds an area ROI at a native pyramid level, then labels connected
-components across every decoded tile boundary. Algorithm identity is
+components across every decoded tile boundary. With smoothing disabled, algorithm identity is
 `qpx.threshold-components/1` at level zero and `/2` at nonzero levels when
 cleanup is disabled. Enabling cleanup uses `qpx.threshold-components/3`.
-Native pyramid sampling supports large image regions within a bounded raster;
-arbitrary resampling, contour creation and saved masks remain open.
+Optional [Gaussian smoothing](tissue-smoothing.md) uses algorithm /4 or winding-4
+and runs on the scalar feature before thresholding. Native pyramid sampling
+supports bounded rasters; [contours](tissue-contours.md), [saved masks](tissue-archive.md)
+and [physical filters](tissue-area-limits.md) extend this base workflow.
+Arbitrary-grid/context semantics remain in the remaining-work queue.
 
 ## Numerical contract
 
@@ -45,7 +48,8 @@ excluded pixels as background and never paints them. A rectangular crop touching
 tissue can lose edge pixels during closing because the padding is zero; this
 border rule is intentional and tested. Radii count sampled pixels and therefore
 cover larger level-zero distances at coarser levels. Arbitrary kernels,
-physical radii, Gaussian smoothing and median filtering remain open.
+physical radii and median filtering remain open. Gaussian smoothing uses the
+[separate support/units contract](tissue-smoothing.md).
 
 `fill_holes=True` fills eligible background components that touch neither the
 crop boundary nor an excluded-domain pixel. Background connectivity is the

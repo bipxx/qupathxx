@@ -1,0 +1,61 @@
+{
+  "first_stage_environment": {
+    "app_version": "0.1.0",
+    "cmake_version": "4.4.4",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "git_revision": "2eb092ee6d14d80fabeb79666178b9372cd4c790+dirty",
+    "gui": true,
+    "interchange": true,
+    "openslide_version": "4.0.1",
+    "platform": "Windows AMD64",
+    "python": true,
+    "source_tree_sha256": "99e15fb7cf280feb1cde3c7817520b400631311f5c4215306a26bbf378f4794a",
+    "sqlite_version": "3.54.1"
+  },
+  "repaired_stage_environment": {
+    "app_version": "0.1.0",
+    "cmake_version": "4.4.4",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "git_revision": "3fbd15a21d9e8668a60e1a5a6a6804c0e179ecd3+dirty",
+    "gui": true,
+    "interchange": true,
+    "openslide_version": "4.0.1",
+    "platform": "Windows AMD64",
+    "python": true,
+    "source_tree_sha256": "33cb376d37e3e636ffe3857ae2d04f3467c6d5db173432151b7d65ec61f99d73",
+    "sqlite_version": "3.54.1"
+  },
+  "final_environment": {
+    "app_version": "0.1.0",
+    "cmake_version": "4.4.4",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "git_revision": "7873a3a52380f4f3b5039fceedb766ffaad7a0c8",
+    "gui": true,
+    "interchange": true,
+    "openslide_version": "4.0.1",
+    "platform": "Windows AMD64",
+    "python": true,
+    "source_tree_sha256": "33cb376d37e3e636ffe3857ae2d04f3467c6d5db173432151b7d65ec61f99d73",
+    "sqlite_version": "3.54.1"
+  },
+  "changed_compiler_inputs": {
+    "cpp/project_batch.cpp": {
+      "first_sha256": "831727fab9518fbb5a8950fab2f957e6608bb3555a44f03d4ab861cad86c5c50",
+      "final_sha256": "71aff5ad7e989ee50e6ee4062114af5dda309ccb7d039ae50d0ff6f3fe89fc5e"
+    }
+  },
+  "compiler_input_count": 481,
+  "unchanged_input_count": 480,
+  "reconstructed_first_source_hash_matches": true,
+  "repaired_source_matches_final": true,
+  "reused_passes": 130
+}

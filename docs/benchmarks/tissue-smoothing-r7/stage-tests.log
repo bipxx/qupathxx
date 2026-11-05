@@ -1,0 +1,19 @@
+..................F..ss......................ss......................... [ 51%]
+.....................................................ssss.s.........     [100%]
+================================== FAILURES ===================================
+_______________ test_old_unfiltered_batch_exact_snapshot_budget _______________
+
+    def test_old_unfiltered_batch_exact_snapshot_budget():
+        manifest = json.loads((FIXTURE / 'manifest.json').read_text())
+        project = q.Project.open(str(FIXTURE / 'legacy.qpxproj'))
+        options = q.ProjectBatchOptions()
+        options.kind = q.ProjectBatchKind.TISSUE
+        options.snapshot_budget = manifest['batch_snapshot_bytes']
+>       request = q.ProjectBatchRequest(project, q.StainTransform([[1,0,0],[0,1,0]]), options=options)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: project snapshot exceeds memory budget
+
+tests\test_tissue_smoothing.py:172: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_tissue_smoothing.py::test_old_unfiltered_batch_exact_snapshot_budget
+1 failed, 130 passed, 9 skipped in 4.61s

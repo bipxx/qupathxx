@@ -7,6 +7,7 @@ import math
 import os
 from pathlib import Path
 import subprocess
+import sqlite3
 import time
 
 import numpy as np
@@ -175,6 +176,31 @@ def test_old_unfiltered_batch_exact_snapshot_budget():
     request = q.ProjectBatchRequest(project, q.StainTransform([[1,0,0],[0,1,0]]), options=options)
     assert request.snapshot_bytes == manifest['batch_snapshot_bytes']
     assert len(request.parameters_json.encode()) == manifest['batch_parameters_json_bytes']
+
+
+@pytest.mark.parametrize('winding', [False, True])
+def test_pre_smoothing_qtm_archives_replay_and_encode_canonically(tmp_path, winding):
+    manifest = json.loads((FIXTURE / ('winding-manifest.json' if winding else 'manifest.json')).read_text())
+    source = FIXTURE / (manifest['file'] if winding else 'legacy.qpxproj')
+    expected_hash = manifest['sha256'] if winding else manifest['project_sha256']
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == expected_hash
+    project = q.Project.open(str(source))
+    doc = project.document(manifest['image'])
+    saved = doc.tissue_record(manifest['record']).result
+    replay = q.TissueRequest.replay(doc, manifest['record'])
+    assert replay.parameters.smoothing_sigma == 0.
+    fresh = q.detect_tissue(replay)
+    assert fresh.labels == saved.labels and fresh.input_sha256 == manifest['input_sha256']
+    assert doc.verify_tissue(manifest['record'], replay, fresh)
+    target = tmp_path / 'canonical.qpxproj'
+    project.save(str(target))
+    def blob(path):
+        with sqlite3.connect('file:' + path.resolve().as_posix() + '?mode=ro', uri=True) as db:
+            return db.execute('SELECT mask FROM tissue_records WHERE image_id=? AND id=?',
+                              (str(manifest['image']), str(manifest['record']))).fetchone()[0]
+    original = blob(source)
+    assert original[:4] == (b'QTM\x02' if winding else b'QTM\x01')
+    assert blob(target) == original
 
 
 def test_filtered_workspace_is_admitted_before_execution():

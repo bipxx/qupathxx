@@ -65,7 +65,12 @@ tables, version changes and data together. Background saves and recovery
 snapshots use the same record codec. GeoJSON exports annotation geometry and
 does not contain the mask archive.
 
-The `QTM` version-1 blob uses little-endian integers and IEEE-754 doubles.
+`QTM` versions 1/2 retain unsmoothed recipes (version 2 includes polygon-winding
+policy). Version 3 carries a supported policy and positive smoothing sigma for
+[Gaussian recipes](tissue-smoothing.md); old versions replay with zero sigma and
+remain canonical when saved. No project schema bump is needed for this mask codec.
+
+The `QTM` version-1 base layout uses little-endian integers and IEEE-754 doubles.
 Labels use raw uint32 values or lossless `(run length, label)` uint32 pairs,
 whichever payload is smaller. Component bounds, sample counts and centroids
 are reconstructed from the labels, preserving native level-zero formulas.
