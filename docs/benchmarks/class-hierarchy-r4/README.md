@@ -1,5 +1,9 @@
 # CLASS1 reference and default-color preflight
 
+**Locally verified** for the declared C++/Python/ImGui class workflow at runtime
+8722d96d. Earlier checkpoints retain their tested sources; full R4/R5, M0-M7 and
+performance/biology/host/release support remain open.
+
 CLASS1 remains in progress. This evidence proves captured class facts and one
 internal color primitive; it does not prove public hierarchy/palette support.
 The published product at native408f383e still has the [recorded gaps](baseline.json).
@@ -118,3 +122,49 @@ stops at previously visited classes, avoiding repeated chain walks for dense
 objects; this cleanup was merged into the necessary wire build. Next expose the
 settled native operations to owning Python values and existing editor controls,
 then make the one complete installed candidate with remaining integrity checks.
+
+
+## Installed workflow closeout (2026-11-05)
+
+The [exact source/configuration/package scope](candidate-integrity.json) records
+475 compiler inputs and65 installed hashed members matching wheel/RECORD.
+Runtime source8722d96d retains the native/Python/ImGui class authority; generated
+SDK artifacts change only _native.pyi and RECORD, with native members unchanged.
+The existing probe/install environments were reused with source/path assertions,
+without the root editable import hook.
+
+| Boundary | Evidence and actual scope |
+| --- | --- |
+| Native authority / migrations / controls | [Seven affected roles](repair-native.xml) pass: class definitions/history, native and GeoJSON/project transport, project/save, all25 older schemas and actual ImGui controls. Parent/raw alpha/absence, repeats/order, zero-image save/reopen, no-op/stale/refusal guards, explicit application and image rename/undo pass |
+| Staged Python | [Initial run](staged.xml):319 passed/nine declared desktop skips at b66ed9cf. Three failures exposed lost specific empty/NUL diagnostics, not accepted behavior. [Targeted repair](staged-repair.xml):49 class/failed-node cases pass at8722d96d. Only the validator diagnostic header changed; earlier passing results retain their source scope |
+| New-field integrity | The staged class-registry cases cover owning values, explicit defaults, independent document/project async snapshots, budget refusal, recovery/workspace restoration, malformed graph/raw/cache/default rows and atomic failed writes. Pinned manifest/v1/v2-native/v2-GeoJSON import plumbing retains palettes and raw state |
+| Installed SDK | [Eight installed ownership/recovery/stub checks](installed.xml) pass, including five public-stub checks; [positive typing](typing.log) passes and [negative typing](typing-negative.log) reports exactly the three intended errors |
+| Installed desktop | [Actual mouse authoring](editor-authoring.json), [execution record](author_classes.py) and [fresh-process readback](editor-readback.json) verify select/append/reorder/Ctrl+S/reopen with zero images. Exact repeated defaults, raw alpha/absence, ancestry and clean saved state are retained |
+
+![Installed project classes and ordered defaults after clean readback](installed-class-editor-readback.png)
+
+Public ObjectClass definitions accept signed or unsigned32-bit raw ARGB or None;
+getters expose owning name/parent/leaf/raw/resolved values. Document definition/
+registry/path and subtree-rename/history operations remain native. Project owns
+unique definitions separately from ordered/repeated default keys; applying them
+to an image is explicit. Flat native delimiter keys stay flat. Native transport
+preserves their identity; unrepresentable foreign flat identities are not a
+claim of unrestricted QuPath-format compatibility. Supported pinned source
+paths and declared refusals/losses define this workflow's scope.
+
+Waste review: one639.17s combined candidate followed by a66.08s private-validator
+repair; no repeat binding compilation for the diagnostic change. One stub pass,
+one stub-only repackage and one install. Early GUI compilation caught obsolete
+selection resets. Actual input found ImGui193's deferred scalar commits; enable
+live scalar editing so Save consumes visible RGB/alpha drafts. Preserve those
+failed builds and [input diagnostics](editor-observer.xml). Keep precise empty/
+NUL messages instead of weakening assertions. No extra pixel capture, numerical
+campaign, new decoder/model, host dispatch or overall speed claim.
+
+The native class-definition/color history is sparse, but subtree rename still
+uses annotation patches whose admission charges geometry payloads. That existing
+R4/R12 resource concern is the next bounded probe; it does not claim a dense
+rename budget was measured here. Use the installed candidate once to establish
+whether a class-only rename is rejected by an otherwise reasonable history
+budget, then reuse the existing classification journal if a repair is needed.
+Do not reopen CLASS1 imports or repeat its capture/package campaign.

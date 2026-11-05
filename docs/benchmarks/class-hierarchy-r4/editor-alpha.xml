@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-05T02:18:03"
+	>
+	<testcase name="gui_replay" classname="gui_replay" time="0.228875" status="run">
+		<properties/>
+		<system-out>GUI Unicode scalar input and native undo/redo passed
+Details diagnostic: present=1 description=Description α
+second line tags=3 popup scroll=0 max=0
+Saved tag [z-last]
+Saved tag [a-first]
+Saved tag []
+Entry editor actual ImGui input: metadata add/edit/duplicate refusal, details/order/null/empty, clear/cancel/stale/image removal passed
+Project metadata actual ImGui: zero-image Apply/save/reopen/no-op, image-selection namespace independence, stale refusal, clear and cancel passed
+Class alpha diagnostic: raw=2151801278 expected=2151801278 active=0
+Class editor actual ImGui controls: parent/raw alpha/absence, repeated ordered defaults, zero-image save/reopen, stale/refusal guards, explicit application and image rename/undo passed
+GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed
+gui replay passed
+</system-out>
+	</testcase>
+</testsuite>

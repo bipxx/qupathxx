@@ -85,7 +85,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. The one-time R4/R5 reconciliation is complete; continue CLASS1 while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete; continue the class-only history admission probe while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -157,13 +157,12 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R4/R5-CLASS1, class ancestry and project defaults**.
-[PROJECTMETA1](benchmarks/project-metadata-r5/README.md) locally verifies global
-string retention/editing, zero-image import, schema25 snapshots/recovery and
-installed authoring. Class-parent flattening and empty-project class
-registry loss were demonstrated gaps; native class transport now retains them
-in its recorded scope. Finish thin SDK/editor consumers and the remaining
-integrity/installed checks against the settled authority.
+Active bounded task: **R4-CLASSHISTORY1 — class-only rename history admission**.
+[CLASS1](benchmarks/class-hierarchy-r4/README.md#installed-workflow-closeout-2026-11-05)
+locally verifies ancestry/defaults across native/Python/ImGui imports, edits,
+async/recovery and save/reopen. Probe the remaining geometry charge in a
+class-only rename using the installed8722d96d candidate. Reuse the existing
+classification journal for a demonstrated defect; do not redesign class state.
 
 ## Execution order for finishing the remaining work
 
@@ -174,7 +173,8 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R4/R5-CLASS1, then demonstrated remaining R4/R5 implementation,
+CLASS1 is locally verified. Default remaining order is R4-CLASSHISTORY1, then
+other demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -187,8 +187,8 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | --- | --- | --- |
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
-| R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 next: shared ancestry and project-default registry contracts. Then other calibration/project properties, versions/builders/records, source races and geometry losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R4 | MERGE1 and CLIP1 are locally verified. Next probe class-only rename geometry/history admission (R4-CLASSHISTORY1); then only demonstrated overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 is locally verified for shared ancestry and project-default retention/authoring. Remaining calibration/project properties, versions/builders/records, source races and geometry losses need named fixtures/fault contracts | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -285,56 +285,31 @@ PROJECTMETA1 now retains the separate project map; its receipt and existing
 entry/snapshot/store/editor evidence are reusable within their tested scopes.
 Do not repeat that capture/build or infer class retention from string metadata.
 
-CLASS1 [reference/default-color and native foundation](benchmarks/class-hierarchy-r4/README.md)
-are verified in their scoped roles. Native ancestry/history/schema26 registries
-and ordered defaults now pass affected tests; the complete hierarchy workflow
-still needs import/export, SDK/GUI and installed ownership/fault checks. It confirms explicit
-names-array GeoJSON, format-scoped project path decoding, palette order/repeats,
-ARGB/absence and fresh-process color precedence. Reuse its39-case internal color
-primitive and retained builder/ROI; do not repeat the capture. Reuse the verified
-ObjectClass/Document class-history, project registry/defaults and schema26 store
-foundation in the [settled contract](class-hierarchy.md); do not implement it
-again. Complete its wire and consumer routes while preserving ancestry,
-identity versus display names (including literal delimiters), colors, duplicates,
-rename/remove/undo and project defaults. Change the settled public layout only
-for a demonstrated missing requirement. Do not
-infer parents by splitting display names or silently merge distinct classes.
-Reuse one class authority for Project/Document/imports and thin Python/UI paths;
-no parallel hierarchy model, second decoder or general plugin framework.
-The captured supplement and small default-color oracle now supply those facts.
-Deliver import -> inspect/edit -> save/reopen, including zero-image
-project defaults, with exact parent links and explicit refusal/loss for truly
-unsupported states. Exercise actual native/Python/ImGui consumers and the relevant
-history, snapshot/migration and source guards. Group compatible class/header/
-binding/store/consumer changes before one cached candidate; keep unrelated
-numerical and release campaigns out of this engineering task.
+CLASS1 is [locally verified](benchmarks/class-hierarchy-r4/README.md#installed-workflow-closeout-2026-11-05)
+for explicit native class ancestry/raw colors, project palettes, native/GeoJSON/
+manifest/v1/v2 routes, owning Python and actual ImGui editing, snapshots/recovery
+and schema26 save/reopen, including zero images. Reuse its source-scoped results,
+resolver, retained builder/ROI and settled APIs; do not repeat capture, foundation
+implementation or the package campaign. All M0-M7 and broader R4/R5 stay Partial.
 
-### CLASS1 remaining execution steps
+<a id="class1-remaining-execution-steps"></a>
+### CLASS1 delivered workflow
 
-These steps refine the active R4/R5 task, not a second backlog or four delivery
-campaigns. Reference/color resolution and the native schema26 foundation are
-verified; native GeoJSON v1/v2 transport now also passes its affected checks.
-Step 1 native/GeoJSON/binary and native/v1-assisted project transport now pass
-the retained class cases, palette precedence and synchronous reopen checks.
-Steps 2-4 remain open for this workflow; broader installed route checks follow
-with the combined candidate. Owning SDK surfaces/runtime cases are prepared
-in source but uncompiled; finish the existing editor before that candidate.
-After each bounded step or failed attempt, apply the closeout rule below before
-proceeding.
+These former execution steps are closed within their [recorded scope](benchmarks/class-hierarchy-r4/candidate-integrity.json).
+They are evidence to reuse, not another task queue or approval cycle.
 
-| Order | Missing behavior and easiest existing route | Decisive result / avoidable work |
-| --- | --- | --- |
-| 1. Wire integration | Extend cpp/qupath_saved_data.cpp and cpp/interchange.cpp to retain explicit ancestry, optional raw ARGB and legacy flat identities. Use the same definitions/parser context in cpp/qupath_project.cpp for palette precedence and ordered/repeated defaults, including zero images. Version native extension metadata without changing legacy flat RGB output unnecessarily | Retained pinned native, GeoJSON and project cases recover exact parents, raw/resolved colors and defaults. Include ancestor closure for selected-object export, incompatible identity refusal and old-format compatibility. Remove a loss notice only for behavior now retained. Reuse captures and the color resolver; no second decoder or source preflight |
-| 2. Thin SDK and editor | Expose the existing ObjectClass/Document/Project operations in cpp/bindings.cpp with owning Python values. Extend current ImGui class controls for parent/raw color and project defaults; explicit application uses the native command | A user can inspect/edit ancestry and defaults, apply defaults to an image, undo and save/reopen through Python and the actual editor. Preserve stale-draft, no-op and atomic refusal behavior. No frontend class graph, color resolver or validator |
-| 3. Integration and integrity | Add only uncovered hierarchy-specific snapshot/recovery, malformed-store, budget and failed-write cases to existing suites. Once contracts and consumers settle, make one combined cached candidate, generate stubs once and install once | Run affected native roles, installed import/edit/save/reopen, ownership/typing and editor flows. Link unchanged reference checks; verify changed runtime source. Diagnose a failure and rerun affected cases, rebuilding only when compiler inputs require it. Existing flat-state checks alone cannot prove new class fields |
-| 4. Close and hand off | Reconcile CLASS1 results with its declared contract and update the current card and affected coverage once | Exact ancestry, raw colors, palette repeats/empty projects, compatibility and atomic state changes are evidenced across affected consumers. Any unsupported state has an explicit refusal/loss. Keep full R4/R5 open for their other gaps; choose the next demonstrated ready slice from the existing queue |
+| Shared route | Accepted result / scope |
+| --- | --- |
+| Wire and project context | Existing binary decoder/common GeoJSON parser retain explicit paths, raw ARGB/absence, palette precedence, repeated order and zero-image registries. Native v1 flat RGB compatibility and v2 ancestry metadata remain distinct; incompatible identities refuse |
+| SDK and editor | Owning ObjectClass/Document/Project surfaces and shared ImGui controls use native commands. Actual controls cover raw alpha/absence, explicit parent, defaults/order, no-op/stale/refusal, image application and rename/undo |
+| Integrity and integration | Seven native roles/all25 older schemas, scoped319 earlier Python passes plus49 diagnostic/class repair passes, eight installed/stub checks, positive/three exact negative typing diagnostics and installed mouse/fresh-process save/reopen are recorded. No general biology/host/speed acceptance is inferred |
+| Handoff | CLASS1 closes locally; existing R4/R5 gaps and dense/resource claims remain open. Next R4-CLASSHISTORY1 checks a concrete history-admission concern, then the existing dependency order continues |
 
-A passing native foundation does not close steps 1-3. Do not publish a complete
-CLASS1 claim, start another broad qualification or repeat a wheel/stub/install
-cycle between these steps. If integration exposes a shared API defect, fix it
-at its existing authority and record which evidence is invalidated.
-
-After CLASS1, select the first demonstrated remaining R4/R5 gap.
+Next run R4-CLASSHISTORY1 once against the installed candidate: demonstrate or
+reject the class-only rename geometry/history charge concern before changing code.
+If reproduced, reuse the native classification journal while retaining parent/
+object/probability/undo semantics; add no second journal. If not reproduced, link
+the result and select the next ready slice; do not create a generic class audit.
 Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent

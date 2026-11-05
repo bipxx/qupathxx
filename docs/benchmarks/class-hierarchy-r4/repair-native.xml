@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="7"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="7"
+	timestamp="2026-11-05T02:35:04"
+	>
+	<testcase name="gui_replay" classname="gui_replay" time="0.350289" status="run">
+		<properties/>
+		<system-out>GUI Unicode scalar input and native undo/redo passed
+Details diagnostic: present=1 description=Description α
+second line tags=3 popup scroll=0 max=0
+Saved tag [z-last]
+Saved tag [a-first]
+Saved tag []
+Entry editor actual ImGui input: metadata add/edit/duplicate refusal, details/order/null/empty, clear/cancel/stale/image removal passed
+Project metadata actual ImGui: zero-image Apply/save/reopen/no-op, image-selection namespace independence, stale refusal, clear and cancel passed
+Class alpha diagnostic: raw=2151801278 expected=2151801278 active=0
+Class editor actual ImGui controls: parent/raw alpha/absence, repeated ordered defaults, zero-image save/reopen, stale/refusal guards, explicit application and image rename/undo passed
+GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed
+gui replay passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.443052" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+Native saved TMA grid: identity slots, missing/case state, legacy fallback and membership refusal passed
+Class binary/project corpus: exact ancestry/raw colors, UUID/geometry, native/assisted palette precedence, repeated defaults, empty projects, reopen and refusal passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="5.75327" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema26 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all17 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="classes" classname="classes" time="0.071" status="run">
+		<properties/>
+		<system-out>Independent QuPath default colors:39 cases, UTF16/normalization, parent/ARGB/scaling and dark rejection passed
+Native class ancestry: raw/resolved ARGB, explicit paths, sparse history/subtree rename, atomic refusal and schema26 project/default roundtrips passed
+Class registry, counts, atomic edits and history passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.197818" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.0866957" status="run">
+		<properties/>
+		<system-out>Object editing state: shared facts, exact version2 codec and version1 compatibility refusal passed
+Class interchange: ancestry, raw ARGB/absence, ancestor closure, flat identity, undo and atomic collision/corruption refusal passed
+Object properties: immutable history, special numbers, checksummed codec and lossless GeoJSON round trip passed
+Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native clipboard selection, graph remapping, atomic history and byte refusal passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.12286" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,6 +1,6 @@
 {
   "task": "R4/R5-CLASS1",
-  "status": "in progress; native class/history/schema26 foundation verified; import/export/SDK/GUI pending",
+  "status": "locally verified CLASS1 declared native/Python/ImGui workflow; broader R4/R5 and R12 remain open",
   "primitive_source": "46358eb403975a8c6d6966f0a862298e5d51a2dd",
   "reference_tests": {
     "passed": 5,
@@ -19,10 +19,10 @@
     "fresh process readback to avoid singleton-cache bias",
     "default-color-only oracle after observed missing-color fallback"
   ],
-  "wheels": 0,
-  "stubs": 0,
-  "installs": 0,
-  "remaining": "ObjectClass ancestry/raw+resolved color integration, Document history/rename, ordered Project registry/defaults, native/GeoJSON wire, schema/snapshots/recovery, SDK and actual GUI workflows",
+  "wheels": 2,
+  "stubs": 1,
+  "installs": 1,
+  "remaining": [],
   "native_foundation": {
     "source": "be834edfbc895b09c8c2e97052a820753cbd465a",
     "roles": [
@@ -44,5 +44,24 @@
     "source": "3d5156f21b8e1a74ddc42dd671955c3f4a70bac6",
     "scope": "project-wire-scope.json",
     "status": "three affected native roles pass; installed SDK/editor remains pending"
+  },
+  "preflight_remaining": "ObjectClass ancestry/raw+resolved color integration, Document history/rename, ordered Project registry/defaults, native/GeoJSON wire, schema/snapshots/recovery, SDK and actual GUI workflows",
+  "stub_only_repackages": 1,
+  "installed_workflow": {
+    "source": "8722d96d788a550945e15b7aa3e32e29423b9a54",
+    "integrity": "candidate-integrity.json",
+    "native_roles": 7,
+    "initial_staged": {
+      "passed": 319,
+      "failed_diagnostics": 3,
+      "skipped": 9,
+      "source": "b66ed9cfd91fe9cc88ff0d8b61c9e4c15e52886a"
+    },
+    "targeted_repair_passed": 49,
+    "installed_passed": 8,
+    "typing_negative_errors": 3,
+    "desktop": "editor-authoring.json",
+    "fresh_process_readback": "editor-readback.json",
+    "broader_open_scope": "All M0-M7 Partial; remaining R4/R5 workflows, dense class history resources, biology/performance/hosts/release are not closed"
   }
 }
