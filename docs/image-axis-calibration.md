@@ -1,9 +1,12 @@
-# Saved physical Z/time calibration (CALIB1, implementation in progress)
+# Saved physical Z/time calibration
 
-The native value/codec and Document/history/store/bindings/desktop integration
-are implemented in source; candidate build and product verification are pending. The pinned
-[capture manifest](../tests/fixtures/qupath-axis-calibration-0.7.0/manifest.json)
-and `tests/test_axis_calibration_capture.py` establish inputs, not feature acceptance.
+R5-CALIB1 is [locally verified](benchmarks/axis-calibration-r5/README.md) for
+recognized saved physical axes, owning Document/history/snapshot state, schema22,
+native/direct-v2 import, Python and the quantitative inspector. Broader formats,
+3D/temporal analysis, biological accuracy and supported release remain open.
+The [capture manifest](../tests/fixtures/qupath-axis-calibration-0.7.0/manifest.json)
+binds independent upstream references; the receipt separates original/repaired
+native products and observer-only checks.
 
 The [QuPath0.7 calibration source](https://github.com/qupath/qupath/blob/v0.7.0/qupath-core/src/main/java/qupath/lib/images/servers/PixelCalibration.java)
 stores regular Z spacing and explicit timestamps with a Java TimeUnit. The direct
@@ -19,7 +22,7 @@ reading saved data. `reference.json` retains that observation; only direct
 oracle. Seven valid first-attempt binaries were reused exactly after the NaN
 failure. All executed probes and failures retain their own identities.
 
-| Surface | Contract for integration |
+| Surface | Contract |
 | --- | --- |
 | `ImageAxisCalibration` | Immutable owning value: optional positive finite `z_spacing_um`, finite `timepoints_seconds` vector of at most65536. Negative offsets, repeated/decreasing times and nonuniform spacing are preserved. Zero is canonicalized; a missing timestamp suffix is unknown |
 | `Document.image_axis_calibration` | Optional saved/editable override. Absence means use reader calibration. A present `(None, [])` explicitly means physical axes unknown, even when source calibration exists. Return owning copies |
@@ -32,9 +35,17 @@ failure. All executed probes and failures retain their own identities.
 | Python and desktop | Thin nanobind value/getter/setter wrappers; existing raw-image inspector shows saved/effective physical values and source provenance. Test real import/inspect/save; no separate UI model or sampler |
 | Existing analyses | Reader acquisition metadata and frozen requests/results stay bound to their original source/recipe. This slice does not silently reinterpret historical records or claim new 3D/temporal analysis algorithms |
 
-Implementation order: finish Document staging/history/restore and source-adoption
-compatibility; extend snapshot/accounting and sparse project persistence; connect
-native decode/import, bindings and the existing raw inspector; finish independent
-state/coordinate, refusal, history, round-trip, replacement and actual-consumer
-tests. Settle all interfaces before one cached candidate build. Generate stubs
-once after bindings settle; keep earlier source-bound acceptance unchanged.
+The receipt binds the exact supported contract: direct/v2 imports and malformed
+refusal, immutable values and explicit unknown/source fallback, history budget,
+source-domain replacement including reachable history, snapshots and checked
+save/reopen, schema21 rollback/upgrade, coordinate overflow, missing-source
+inspection, installed Python/stubs/typing and actual desktop inspection/save.
+The initial ambiguous missing-time-unit behavior was repaired; a nonempty saved
+timestamp array now requires an explicit supported unit. Failed evidence remains.
+
+Unchanged state/persistence component checks retain their first-product scope;
+changed decoder imports/refusals run at the repaired source. Two compiler inputs
+changed for that repair. Existing raw acquisition metadata and historical
+analysis records are preserved, with no new 3D/temporal analysis claim. The
+[next task](current-task.md) handles project-entry metadata; version1/GeoJSON
+losses and broader saved-data versions/records remain separately tracked.

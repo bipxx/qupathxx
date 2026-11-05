@@ -356,6 +356,7 @@ from ._native import (
     Annotation as Annotation,
     ObjectPlane as ObjectPlane,
     ObjectProperties as ObjectProperties,
+    ImageAxisCalibration as ImageAxisCalibration,
     ImageAnalysisSettings as ImageAnalysisSettings,
     ImageDataProperties as ImageDataProperties,
     ObjectEdit as ObjectEdit,

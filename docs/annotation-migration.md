@@ -264,3 +264,9 @@ losses. Metadata/project hashes, source guards and transactional publication
 remain shared with the existing importer. Tests in
 `tests/test_qupath_assisted_state.py` bind the six derived producer captures;
 [local route acceptance](benchmarks/assisted-state-r5/README.md) records the candidate, affected tests and explicit remaining limits.
+
+
+Saved physical Z/time calibration now has [scoped native/direct-v2 retention](image-axis-calibration.md),
+including explicit unknown and partial timestamps. The original exchange1 and
+explicit GeoJSON loss contract remains unchanged. Other project metadata and
+unsupported representations still require their existing loss review.

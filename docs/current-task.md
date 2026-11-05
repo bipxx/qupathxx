@@ -2,58 +2,54 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. R5-ASSISTSTATE1 is locally verified in its
-[recorded scope](benchmarks/assisted-state-r5/README.md).
+All M0-M7 remain Partial. R5-CALIB1 is locally verified in its
+[recorded scope](benchmarks/axis-calibration-r5/README.md).
 
-Current: **R5-CALIB1 — saved Z/time calibration** (capture verified; native value/codec drafted; integration pending).
+Current: **R5-ENTRYMETA1 — QuPath project-entry metadata** (contract inspection ready).
 
-- Outcome: retain supported saved physical Z/time calibration without changing
-  source plane indices, explicit analysis recipes or measurement units silently.
-- Entry/evidence: cpp/qupath_saved_data.cpp currently retains saved XY but emits
-  image_settings_dropped for multi-Z/time saved data; cpp/qupath_project.cpp uses
-  source raw metadata for plane compatibility. Existing source-axis adoption,
-  reader units and native/v2 state routes provide the implementation base.
-- First action: integrate the drafted owning ImageAxisCalibration value/codec
-  through Document staging/history/restore, snapshots/store and source adoption;
-  then native import, nanobind and the existing raw inspector. Follow the settled
-  [contract](image-axis-calibration.md); no candidate build until interfaces and
-  affected tests are ready.
-- Contract: units, unknown/nonfinite values, regular/irregular spacing,
-  source versus saved precedence, immutable ownership, replacement compatibility,
-  legacy defaults, loss/refusal and direct/v2 native versus v1/GeoJSON behavior.
-- Reuse: accepted source-axis/unit fixtures, current reader and retained state,
-  source guards/private publication and installed assisted-state25b342fc within
-  its unchanged scope. Capture only missing saved calibration variants; no
-  repeated raw decoder/state/TMA captures or second frontend sampler/model.
-- Checks/stop: independent physical coordinate expectations plus affected native,
-  Python and desktop inspection/use; history/snapshot/save/reopen if state changes;
-  invalid units/values and incompatible replacement refuse atomically. Freeze
-  one candidate after interfaces settle. Stop at the declared supported contract,
-  explicit unsupported limits and evidence/waste handoff; broader R5 stays open.
-- Dependencies: source metadata and calibration contract can be inspected now.
-  Biological labels, project license and release support block only their claims.
-  Only openly licensed readers and required codecs are eligible.
+- Outcome: retain supported per-image project metadata independently of native
+  ImageData properties and historical root/ROI facts, with exact save/reopen.
+- Entry/evidence: cpp/qupath_project.cpp reports image_metadata_dropped for
+  nonempty metadata/tags/description; cpp/include/qupathxx/project.hpp defines
+  ProjectImage, with existing project listing/snapshot/save/restore consumers.
+- First action: inspect those existing entry fields/APIs and the pinned QuPath
+  metadata-map representation. Check current fixtures before capturing missing
+  metadata variants. Keep unsupported tags/description or other representations
+  explicitly tracked rather than claiming the whole metadata family complete.
+- Contract: settle scope/type/UTF8/size limits, owning copies, update semantics,
+  project-versus-document lifecycle, snapshot accounting, old defaults and
+  malformed/source-stale atomic refusal. Use Project as authority; no duplicate
+  ImageData/root-fact encoding or UI model.
+- Reuse: existing project manifest/source binding, ProjectImage/snapshots/store,
+  loss review and inspector/Python consumers. CALIB1 and prior native/assisted
+  state receipts retain their original source and scope. No reader/math recapture.
+- Checks/stop: independent exact metadata values and source-ID binding, immutable
+  listing/capture, failed apply/save preservation and round-trip, actual affected
+  Python/desktop inspection. Settle interfaces before one cached candidate and
+  one necessary stub/install pass. Close only this declared entry-map workflow.
+- Dependencies: contract/engineering can proceed now. Research labels, project
+  license and release support choices block only their affected claims. Only
+  openly licensed readers and required codecs are eligible.
 
-Latest task review (2026-11-04, CALIB1 first staged results and repair):
-Outcome/evidence: candidate e5d39e44 built in687.96s; staged266 cases yielded
-252 passes/12 declared GUI skips/2 observer failures (guessed create_annotation
-and Project.revision APIs). Malformed header probe refused8/9; absent timeUnit
-with nonempty timestamps was incorrectly interpreted as seconds. Logs/results
-are retained. The native spatial migration witness still omits tables19-22.
-Waste/action: **reuse**252 passing results within candidate1 scope; **remove**
-guessed observer APIs, using existing add_rectangle and saved clean/dirty/source
-state to prove atomic refusal. **Retain** a targeted decoder repair and cached
-rebuild because ambiguous units change behavior. Merge the migration-witness fix
-and its native target into that same rebuild; do not recompile for each observer
-repair or regenerate stubs before the final contract passes.
-Both repaired observer nodes now pass at unchanged candidate1; combined scope
-is254 unique passes/12 skips. Candidate1 source/wheel is preserved separately.
-Nine permanent malformed-header controls and the extended native migration
-witness are ready. No stubs/install have been generated yet.
-Next: freeze the repaired missing-unit refusal and observer/
-legacy controls, freeze one repaired candidate and build from cache. Rerun changed
-state/import/downgrade paths plus new refusal controls at the repaired identity;
-then native/desktop/package/typing acceptance. No CALIB1 acceptance yet.
+Latest task review (2026-11-04, CALIB1 closeout):
+Outcome/evidence: saved Z/time state retains all seven units, offsets/irregular/
+nonmonotonic times, partial prefixes and explicit unknown values. First product
+has254 unique staged passes/12 skips after two observer repairs. Final decoder
+cohort117 passes/five skips, six native roles, actual desktop, installed snapshot/
+upgrade plus two coordinate/missing-source controls, five public-stub checks and
+positive/three-negative typing pass. Receipt separates original/repaired source;
+all465 compiler inputs and65 installed hashed members match. Screenshot inspected.
+Waste/action: **reuse** seven successful captures and unchanged component checks;
+**merge** all state at Document/current project/import APIs. One ABI/header build
+687.96s and one targeted missing-unit/witness repair41.08s; one stub pass and one
+uv install. Failed NaN capture, newline edit, builder-substitution reference,
+missing-unit admission and guessed observer APIs remain recorded. Use exact
+symbol discovery and literal normalized edits; no full-corpus replay/campaign,
+parallel state codec or rebuild for stubs/observer limits. Stable provenance
+keeps source acquisition and historical recipe meanings unchanged.
+Next: inspect ENTRYMETA1's actual ProjectImage and upstream metadata contract;
+reuse accepted axis/state routes without widening their claims. All broader
+R5, scientific/resource, host support and release requirements remain queued.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

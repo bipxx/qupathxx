@@ -1,0 +1,4 @@
+tests\typing\image_axis_calibration_invalid.py:2: error: Incompatible types in assignment (expression has type "str", variable has type "ImageAxisCalibration")  [assignment]
+tests\typing\image_axis_calibration_invalid.py:3: error: Property "z_spacing_um" defined in "ImageAxisCalibration" is read-only  [misc]
+tests\typing\image_axis_calibration_invalid.py:4: error: Argument 1 to "set_image_axis_calibration" of "Document" has incompatible type "str"; expected "ImageAxisCalibration | None"  [arg-type]
+Found 3 errors in 1 file (checked 1 source file)

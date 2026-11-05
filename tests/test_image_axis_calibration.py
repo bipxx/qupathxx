@@ -185,3 +185,22 @@ def test_malformed_saved_calibration_is_refused_without_publication(tmp_path,cas
     data.write_bytes(raw[:28]+struct.pack('>H',len(encoded))+encoded+raw[30+size:])
     with pytest.raises(ValueError):q.preview_qupath_project(str(path))
     assert not list(tmp_path.glob('*.qpxproj'))
+
+
+def test_effective_coordinate_overflow_refuses_without_state_change(tmp_path):
+    project,image,doc,source=workspace(tmp_path);doc.set_image_axis_calibration(q.ImageAxisCalibration(1e308))
+    before=doc.revision
+    with pytest.raises(OverflowError):doc.z_position_um(2)
+    assert doc.revision==before and doc.z_spacing_um==1e308
+    huge=tmp_path/'huge-time.ome.tif'
+    tifffile.imwrite(huge,np.zeros((4,16,20),dtype='uint8'),ome=True,photometric='minisblack',metadata={'axes':'TYX','TimeIncrement':1e308,'TimeIncrementUnit':'s'})
+    timed=q.Document(q.open_tiff(str(huge)));assert timed.server.raw_metadata.time_interval_seconds==1e308
+    with pytest.raises(OverflowError):timed.timepoint_seconds(3)
+
+
+def test_missing_source_keeps_saved_calibration_inspectable(tmp_path):
+    project,image,doc,source=workspace(tmp_path);doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[-30,0,45,120]))
+    path=tmp_path/'missing.qpxproj';project.save(str(path));doc.server.close();source.unlink()
+    restored=q.Project.open(str(path)).document(image);value=restored.image_axis_calibration
+    assert value.z_spacing_um==4.5 and value.timepoints_seconds==[-30,0,45,120]
+    assert restored.z_spacing_um==4.5

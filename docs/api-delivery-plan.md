@@ -85,7 +85,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. Continue with remaining saved calibration while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. Continue with project-entry metadata while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -148,17 +148,17 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 ImageData properties | [Portable typed values](benchmarks/image-data-properties-r5/README.md) | Null/bool/exact signed64/binary64/text/list/map values, whole-property loss review, immutable ownership/history/schema21 snapshots/reopen and Python/ImGui inspection; unrecognized Java types remain explicit |
 | R5 native saved TMA | [Recognized binary grids](benchmarks/saved-tma-r5/README.md) | UUID/slot/child retention, missing/case/legacy state and existing TMA history/snapshots/store/GUI; incompatible grids refuse. QPTMA text and assisted state are separate contracts |
 | R5 assisted state | [Explicit native/GeoJSON state routes](benchmarks/assisted-state-r5/README.md) | Exchange1 compatibility, exchange2 native facts/defaults/properties/TMA and mixed routes, source guards and actual Python/desktop import/save; broader calibration/metadata/records remain open |
+| R5 saved physical axes | [Z/time calibration](benchmarks/axis-calibration-r5/README.md) | Recognized native/direct-v2 Z spacing and explicit timestamp units/offsets/order/prefixes, owning history/snapshots/schema22, source compatibility and actual Python/desktop; acquisition metadata/historical recipes remain unchanged |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R5-CALIB1, saved Z/time calibration contract and retention**.
-ASSISTSTATE1 is [locally verified](benchmarks/assisted-state-r5/README.md) for
-explicit exchange/2 native/GeoJSON state routes; reuse that candidate/evidence
-within scope. The native decoder still reports saved Z/time calibration overrides
-as unapplied. Follow the [current task](current-task.md) to inspect existing
-source-axis/calibration authorities and settle units/ownership before coding.
-Other R4/R5 representations, races and losses remain open.
+Active bounded task: **R5-ENTRYMETA1, QuPath project-entry metadata**.
+CALIB1 is [locally verified](benchmarks/axis-calibration-r5/README.md) for saved
+physical Z/time state. Reuse its recorded source/component scope. The importer
+still reports nonempty per-image metadata as image_metadata_dropped; inspect
+existing ProjectImage and project snapshot/store APIs before adding state.
+Other calibration, representations, source/recovery races and losses stay open.
 
 ## Execution order for finishing the remaining work
 
@@ -169,7 +169,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-CALIB1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-ENTRYMETA1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -183,7 +183,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 next: settle and retain saved Z/time calibration through existing authorities. Then uncovered project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 next: retain project-entry metadata through the existing ProjectImage/project authority. Then other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -243,21 +243,17 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active CALIB1 slice, ten saved calibration captures and13 independent
-fixture/source checks are ready. Follow the [settled contract](image-axis-calibration.md)
-to integrate the drafted native value/codec through Document state, history,
-persistence and consumers; no native candidate has been verified yet. Distinguish unknown units,
-regular/irregular Z/time spacing and source-plane indices from physical values.
-Define precedence and compatibility for direct/v2 native versus v1/GeoJSON routes
-before selecting a representation. Reuse the existing reader metadata, immutable
-state, snapshots/store and publication guards where they already express it.
-Capture only missing calibration variants with declared independent values;
-do not repeat the accepted image-state or reader corpus. Then finish affected
-native/Python/desktop retention and save/reopen through one cached candidate,
-with strict invalid-input and source-replacement controls. See the current card
-for the first concrete action and review before each next task/retry.
+For the active ENTRYMETA1 slice, inspect the current per-image metadata loss,
+ProjectImage fields and Project snapshot/store/inspection surfaces. Verify the
+pinned QuPath metadata-map contract and existing captured manifests first. Keep
+entry metadata distinct from ImageData custom properties and historical root/ROI
+facts; extend the existing project authority rather than copying values into
+an unrelated namespace or creating a second UI model. Define value limits,
+ownership, replacement/merge semantics, loss/refusal and legacy defaults before
+one cached candidate. Capture only missing metadata variants and verify exact
+source binding, snapshot/save/reopen and actual Python/desktop inspection.
 
-After CALIB1, select the first demonstrated remaining R4/R5 loss or edit gap
+After ENTRYMETA1, select the first demonstrated remaining R4/R5 loss or edit gap
 from the existing inventory. Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent
