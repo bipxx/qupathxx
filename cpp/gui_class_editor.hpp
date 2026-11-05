@@ -65,7 +65,10 @@ public:
         ImGui::InputTextWithHint("Parent class","Empty for a flat/root class",parent_.data(),parent_.size());
         ImGui::Checkbox("Color specified",&color_present_);
         ImGui::BeginDisabled(!color_present_);
-        ImGui::ColorEdit3("RGB",rgb_);ImGui::InputInt("Alpha byte",&alpha_);
+        // ImGui193 scalar text otherwise commits on deactivation, after an
+        // adjacent Save button can already have consumed the previous value.
+        ImGui::PushItemFlag(ImGuiItemFlags_LiveEditOnInputScalar,true);
+        ImGui::ColorEdit3("RGB",rgb_);ImGui::InputInt("Alpha byte",&alpha_);ImGui::PopItemFlag();
         ImGui::EndDisabled();
         if(!color_present_ && found!=registry.end())ImGui::Text("Resolved RGB: #%06x",found->second.color);
         ImGui::BeginDisabled(!context || !unchanged);

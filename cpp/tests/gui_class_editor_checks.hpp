@@ -30,6 +30,7 @@ inline void run() {
     };
     // Actual controls author project defaults before there are any images.
     text("Class name","Parent");text("Alpha byte","128");activate("Save class");
+    std::cout<<"Class alpha diagnostic: raw="<<project->classes().at("Parent").color_argb().value_or(0)<<" expected="<<0x8041e1beu<<" active="<<ImGui::GetActiveID()<<"\n";
     require(project->classes().at("Parent").color_argb()==0x8041e1be,"GUI raw alpha was lost");
     activate("Append default");
     activate("New class");text("Class name","Parent: Positive");text("Parent class","Parent");activate("Color specified");activate("Save class");

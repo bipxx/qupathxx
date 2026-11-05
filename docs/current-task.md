@@ -39,23 +39,24 @@ Phase: native transport verified; owning SDK source prepared, editor and combine
   biology/license/support choices. Only openly licensed readers/codecs; full
   R4/R5 and R6-R16/milestone exits remain in the canonical queue.
 
-Latest task review (2026-11-05, CLASS1 SDK source preparation):
-Outcome/evidence: bindings now construct owning ObjectClass definitions (signed/
-unsigned32-bit ARGB or None) and expose parent/leaf/raw color, Document definition/
-registry/path commands and owning Project class/default APIs. Runtime cases cover
-ownership, application/no-op/atomic refusal, new-field async snapshots/budgets/
-recovery/failed writes/corrupt rows and manifest/v1/v2 project import plumbing.
-Python syntax/diff inspection passes; these sources are NOT runtime verified.
-The last native import evidence remains [3d5156f2](benchmarks/class-hierarchy-r4/project-wire-scope.json).
-Waste/action: **merge** SDK/editor before the one package/stub/install rather than
-building for each consumer. **Reuse** native class authority and earlier fixtures;
-no Python hierarchy/color model. A source query again guessed nonexistent store
-filenames; change discovery to directory-based content searches with -g filters
-before naming files. Fix the test call to the actual required definitions argument.
-Next: existing ImGui class/default editing, including zero images and stale-draft
-protection. Then build/qualify the combined candidate and run only affected native,
-SDK/typing/editor and new-field integrity cases. Keep SDK source preparation
-separate from acceptance; no installed claim or broader qualification is made.
+Latest task review (2026-11-05, CLASS1 native editor):
+Outcome/evidence: the existing gui_replay role passes actual class controls for
+parent/raw alpha/absence, ordered/repeated defaults, zero-image save/reopen,
+no-op/stale/refusal guards, explicit image application and image rename/undo.
+Retained editor-alpha.xml records the passing run; installed SDK/runtime and
+new-field integrity/typing checks still need the combined candidate. This does
+not close CLASS1 or any milestone.
+Waste/action: **retain** failed editor-build.log and editor-native/observer XML.
+Removed two obsolete class_key resets after moving state into the shared editor.
+Diagnosed alpha0 after typing128 against the pinned ImGui193 scalar code: values
+commit on deactivation unless live scalar editing is enabled. Fixed the field,
+then passed its actual input check; apply that same setting to RGB fields in
+the combined build. **Reuse** the GUI cache and native authorities; no wheel,
+stubs or install has run yet. Source discovery must read exact returned paths.
+Next: freeze the combined SDK/editor source, build one cached candidate, stage
+it in the existing probe environment with exact source assertions, and exercise
+affected native/Python/integrity/editor/typing paths. Generate/repackage stubs
+once and install once when runtime checks pass. Broaden only for new failures.
 
 After every bounded task or failed/stopped attempt, record scoped outcome,
 waste action and changed next step here before continuing or retrying.

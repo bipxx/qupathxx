@@ -724,7 +724,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 active_image=options.project->active_image(); pending_image=pending_remove=0; refresh_active_image=false;
                 restore_view=active_image?options.project->view(active_image):std::nullopt; viewport={}; display=restore_view?restore_view->display:options.display; fit=!restore_view;
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=selected=list_anchor=0;
-                tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
+                tool=previous_tool=0; batch_class.clear(); error.clear(); interchange_status.clear();
                 list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
                 plan={}; overview.reset(); plan_inputs.reset(); published_view_inputs.reset(); overview_center.reset();
                 project_catalog_dirty=true; copy_recovery_path(project_path,options.project->path()); project_error.clear();
@@ -809,7 +809,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     if(info!=project_images.end()) std::memcpy(project_image_name,info->name.c_str(),info->name.size()+1);
                     drawing=false; marquee=false; vertex_dragging=false; active_vertex.reset();
                     draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=0;
-                    tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
+                    tool=previous_tool=0; batch_class.clear(); error.clear(); interchange_status.clear();
                     list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
                     plan={}; overview.reset(); plan_inputs.reset(); overview_center.reset();
                     max_image_switch_ms=std::max(max_image_switch_ms,std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count());
