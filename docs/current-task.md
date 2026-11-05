@@ -2,69 +2,64 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. CLASS1, CLASSHISTORY1, CONTEXT1, SAMPLING1 and
-[FEATURE1](benchmarks/cell-statistics-r6/README.md) are locally verified within
-their recorded scopes. Broader R6 and the remaining R2-R16 inventory stay open.
+All M0-M7 remain Partial. Completed workflows retain their recorded source and
+scope in the delivery plan reuse index. Broader R2-R16 work remains open.
 
-Current: **R6-SPLIT1 — split/merge and feature-domain coverage** (ready for trace).
+Current: **R7-AREA1 — calibrated tissue component area limits** (ready).
 
-- Outcome: finish one demonstrated missing split/merge or feature-domain case
-  through the existing cell request/kernel, retained results and affected consumers.
-  Use declared engineering expectations; biology needs its own labeled evidence.
-- First action: inspect existing QuPath/ImageJ cell/shape references, quantitative
-  and QuPath-mode comparisons, clipped-marker/body-domain and contextual fixtures.
-  Select only an uncovered input/behavior. If compatible evidence already proves
-  a proposed case, link/reuse it and advance; do not recapture/reimplement it.
-- Contract before editing: pin pixels/lattice/units, ROI and domain, recipe,
-  expected labels/markers/count/compartment interpretation and tolerance. Preserve
-  intentional recipe differences and old replay. An upstream comparison alone
-  does not supply biological ground truth or justify weakening a strict failure.
-- Shared route: reuse sampling/support, watershed/expansion, statistics, immutable
-  records, codecs and thin SDK/CLI/ImGui consumers. Reader work uses openly licensed
-  readers/codecs only. Pull an R2 slice forward only for an actual input gap.
-- Checks/stop: one complete missing workflow, independent expected result and
-  affected persistence/consumer checks. Close only that case; broader vendor/
-  context/specimen/resource claims retain their queue entries. If remaining R6
-  science is decision-blocked and no independent engineering gap is ready, take
-  the first ready R7 slice, keeping the dependency and re-entry input explicit.
-- Cost: the trace needs no build, capture, install or general audit. Reuse installed
-  60a0274e and current caches/environments. Group necessary interfaces/consumers
-  before a candidate. For changed quota-sensitive layouts, inspect actual minimums
-  and valid saved old boundary witnesses before packaging. Reuse settled typing
-  config and explicit pytest node selections; inspect source and selection counts.
+- Outcome: a researcher supplies optional inclusive minimum/maximum component
+  areas in square micrometers and gets the same tissue result through native,
+  Python, managed viewer, ImGui and batch/CLI paths, with saved replay/export.
+- First action: settle the physical-bound contract against TissueRequest and
+  CellRequest::with_nucleus_area_limits; inspect affected bindings and consumers
+  before editing. Establish independent component counts/areas on a tiny mask.
+- Easiest route: resolve bounds once using captured per-axis calibration and the
+  chosen level into TissueParameters.min_pixels/max_pixels. Reuse thresholding,
+  morphology, connected components, jobs, retained results and table exports.
+  Level selection currently does not depend on these count filters. Reuse shared
+  calibrated numeric handling; do not copy a second rounding/search algorithm.
+- Contract to settle: absent bounds preserve existing behavior; supplied bounds
+  require known positive calibration and finite nonnegative values; minimum may
+  not exceed maximum. Intersect physical and pixel limits. Define zero maximum,
+  empty intersections, inclusive boundaries, anisotropy and extreme finite
+  calibration explicitly. Capture calibration for stale-publication checks.
+  Prefer the existing frozen count-recipe replay contract; add persistence fields
+  only if a demonstrated requirement cannot use that contract.
+- Checks/stop: independent tiny-array expectations at multiple levels and unequal
+  axes; exact boundary/empty/invalid/unknown-calibration cases; affected stale
+  publication and saved replay; thin owning SDK/typing and actual changed desktop,
+  CLI/batch/managed flows. Close only AREA1. Other R7 features and broader R6
+  vendor/context/specimen claims retain their existing queue entries.
+- Cost: reuse installed 60a0274e for unchanged behavior and existing build caches
+  and isolated environments. Group native API/bindings/consumers before one
+  candidate build/install and one stub generation if the public API changes.
+  Check affected native cases before packaging. Inspect any quota-sensitive
+  layout and valid old boundary fixtures before packaging. No new reader,
+  segmenter, corpus, environment or full platform campaign is planned.
+- Handoff: after this task or any failed/stopped attempt, record outcome, actual
+  waste, action, plan adjustment and concrete next task/retry **before continuing**
+  using the [shared review procedure](api-delivery-plan.md#completion-gates-and-task-handoff).
 
-## Latest task review — FEATURE1 closeout (2026-11-05)
+## Latest task review — SPLIT1 trace and remaining-plan update (2026-11-05)
 
-Outcome/evidence: [60a0274e](benchmarks/cell-statistics-r6/README.md) retains sampled
-RGB/transformed sum, extrema and sample SD for nucleus/cell/cytoplasm, preserving
-canonical means and historical absence/replay. Native result values, selected
-classifier snapshots, QCL10/11/QCA10, owning nanobind accessors and opt-in CSV13/14,
-CLI and ImGui export are delivered. Eight final native roles pass.69 first-
-candidate cases and three actual ImGui flows retain their unchanged-code scope;
-three repaired shipping and eight final installed checks pass.480 compiler inputs
-and65 wheel/installed members match source/RECORD; typing passes with exactly
-three intended negatives. M0-M7 and broader scientific/resource claims stay open.
+Outcome/evidence: existing [nominal reference assertions](../tests/test_qupath_nominal_cells_reference.py),
+[policy-edge assertions](../tests/test_cell_policy_edges.py),
+[body-boundary assertions](../tests/test_qupath_body_boundary_revision.py) and
+[pinned cases](../tests/fixtures/qupath-cells-0.7.0/contract.json) already cover
+split/merge, touching nuclei, clipped ROI/hole behavior and distinct feature
+sampling domains. Reuse the recorded results within their original source and
+fixture scope. This trace adds no runtime acceptance; intentional discrepancies
+and biological/vendor gaps remain explicit. No uncovered engineering case was
+selected, so advance to the demonstrated pixel-only tissue-filter gap.
 
-Waste/action: **reuse** retained pixels/results, shared reducers, caches,
-environments and scoped checks; **merge** interface/codec/consumer work before
-packaging. One stub generation and one full binding compilation were needed.
-Two real legacy-budget regressions (32-byte grid metadata and24-byte classifier
-metadata) required scoped repairs; the late classifier witness cost a second
-wheel/install. Preserve first candidate, failures and compressed old witness.
-Do not raise old limits or undercharge new measured data. **Remove** guessed
-APIs/CLI flags/row counts and global pytest filters: inspect actual declarations,
-local tool help/options, valid minimums and terminal selections before execution.
-The typing harness uses config-only stub-import behavior and retains all three
-misuse errors; no broad suppression or unrelated equality API rewrite.
+Actual waste/action: **reuse** these references instead of inventing another
+split/merge campaign. **Remove** oversized unfiltered document dumps: bounded
+section searches are enough for planning. **Merge** upcoming physical-area API
+and consumer work before packaging. No builds, installs, captures or numerical
+reruns were needed for this documentation task; no artifacts were deleted.
 
-Plan change/next: FEATURE1 enters the reuse index. Layout-sensitive old quota
-witnesses now precede packaging; SPLIT1 first traces existing evidence. No new
-reader/model/corpus/environment or generic qualification/reporting framework was
-added. After each bounded task or failed/stopped attempt, replace this review
-with scoped outcome/evidence, actual waste/action and changed next step before
-continuing/retrying. Update the existing queue row for changed scope/order/
-dependency and coverage only when evidence changes.
-
-Cleanup: retired only the redundant uncompressed old classifier probe after its
-SHA256 matched the retained49KiB compressed fixture. Original bytes, first wheel,
-failures and required caches remain available; no source/user data was removed.
+Plan adjustment: R6 retains named uncovered cases and specimen acceptance; R7
+now starts with AREA1. The existing ordered R0-R16 queue remains authoritative.
+The shared closeout now requires an actual waste decision and changed retry
+reason after every task or failed/stopped attempt, without another report cycle.
+Next: settle AREA1 boundaries and inspect existing consumer APIs before coding.
