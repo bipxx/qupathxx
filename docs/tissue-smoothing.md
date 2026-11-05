@@ -56,7 +56,9 @@ existing component/tile/bookkeeping allocations. Unfiltered 8/9-byte paths retai
 their old estimates. The new parameter's metadata is fully charged for smoothed
 results; unfiltered legacy metadata bookkeeping stays stable within the existing
 fixed allowance, including the three scientific/nominal grid mask estimators.
-The old retained-result and exact table snapshot witness was captured at 40ece8a9
+Unfiltered batch captures also preserve their prior inactive-parameter metadata
+charge; smoothed batches charge the new field fully. The old retained-result,
+exact table and exact batch snapshot witness was captured at 40ece8a9
 and measured after reopen before this implementation. Its original capture
 sizes are also preserved, because archive decoding compacts component capacity.
 
@@ -68,6 +70,8 @@ long kernel paths and multiple decode tile sizes. It also checks QTM3 canonical
 replay, checksum-resigned invalid recipes and work admission. Five affected
 native regression roles pass. tests/test_tissue_smoothing.py adds installed SDK,
 legacy quota, mixed CSV, save/reopen, batch/CLI/resume and actual desktop checks;
-current-task.md records which installed checks remain pending. Median filtering,
+Staged SDK/CLI/persistence and desktop checks pass within their recorded source
+scope; the original old-batch-boundary failure and its repaired single-node pass
+are retained. current-task.md records the remaining packaging checks. Median filtering,
 arbitrary-grid/context semantics, specimen accuracy, other hosts and whole-slide
 resource/speed claims remain in R7/R12 and the wider queue.

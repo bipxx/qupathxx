@@ -72,3 +72,42 @@ both QTM3 sampling policies now have explicit SDK cases. These are not yet run;
 C++ compiler inputs are unchanged. The active binding process was re-polled and
 remains live, so the next turn must resume session91866 and use its terminal
 status before staging. No FILTER1 wheel/install/stub generation has occurred.
+
+Pre-package quota trace: ProjectBatchRequest::Data stores TissueParameters inside
+its options and charges sizeof(Data), so the new double may affect an unfiltered
+batch snapshot too. Pin a valid old batch boundary from the existing reopened
+fixture in the unchanged40ece8a9 runtime, then test it in the staged product.
+Do not speculate a repair or change files while the bindings build is live.
+This is an additional affected-layout check, not another general campaign.
+
+Staged attempt review: 130 checks pass,9 GUI skips and the newly pinned old
+unfiltered batch boundary fails with project snapshot exceeds memory budget.
+Other old tissue/table/grid/classifier limits pass. Preserve stage and first log.
+Measure the batch delta and JSON length, then repair only legacy inactive-parameter
+metadata accounting in ProjectBatchRequest::Data. Fully charge smoothed requests.
+This is a demonstrated product compatibility failure, not an observer correction.
+Reuse all130 passed results; no wheel or second stub generation has run.
+
+Diagnosis/repair: inactive batch capture grew from103012 to103020 bytes while
+recipe JSON stayed1340 bytes. Preserve that8-byte legacy metadata charge inside
+the existing bookkeeping allowance; new smoothed requests still charge sizeof(Data)
+fully. The first481-input stage hash is frozen before editing. Rebuild only the
+changed core body and affected links, then retest the failed node and affected
+native batch role. Exact saved metadata witnesses are explicitly MSVC/x64 scoped;
+portable numerical/recipe tests retain their checks. No quotas were increased.
+
+Repaired-stage review: the old batch boundary and native project_batch role pass.
+Both actual GUI flows and positive/three exact negative typing checks pass.
+Reuse the130 earlier passes; first stage remains immutable. The shared Gaussian
+primitive already checks cancellation propagation; add only caller-phase cancel/
+stale publication checks for the newly exposed smoothing stage, not another
+kernel campaign. Inspect the already captured scrolled controls before packaging.
+
+Pre-wheel handoff: old batch boundary/native batch role, two smoothing-phase
+cancel/stale tests, two actual GUI flows and valid/three exact invalid typing
+checks pass. The scrolled capture shows readable Sigma(px)=1.7, threshold0.66
+and the expected913 kept pixels. One body-only budget repair was needed, caught
+before packaging; no second full binding compilation or stub generation.
+Plan adjustment: inline parameter owners now join the pre-package boundary trace.
+Next freeze this repaired source, build/install one wheel and verify exact source/
+RECORD membership plus selected final shipping checks. Reuse all130 staged passes.

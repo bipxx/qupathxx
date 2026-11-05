@@ -14,5 +14,7 @@
     "result_retained_bytes": 6574,
     "record_payload_bytes": 7099
   },
-  "boundary_state": "reopened immutable record; decoded component capacity differs from original capture"
+  "boundary_state": "reopened immutable record; decoded component capacity differs from original capture",
+  "batch_snapshot_bytes": 103012,
+  "batch_parameters_json_bytes": 1340
 }

@@ -26,6 +26,9 @@ compiler/runtime, fixtures or failures justify it, and record the reason.
 For a changed result/snapshot layout that participates in stored quotas, inspect
 the actual minimum/size and check a valid saved old boundary before packaging.
 Preserve legacy bookkeeping explicitly and fully charge new measured storage.
+Trace inline parameter owners too: a new result parameter can change batch or
+table request metadata even when no archive schema stores that request. Pin their
+valid old boundaries before packaging rather than checking only the result.
 Do not infer a valid quota case from an invalid tiny snapshot or guess row counts.
 
 Use one concise evidence summary per delivered workflow. Record source,

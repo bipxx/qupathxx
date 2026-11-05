@@ -277,7 +277,9 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
     const auto start=Clock::now();if(!has_project()) throw std::runtime_error("project batch requires project storage");options.validate();if(selection.size()>10000 || (selection.empty() && project.entries_.size()>10000)) throw std::length_error("batch exceeds 10000 images");
     const auto& actual_transform=options.kind==ProjectBatchKind::Pixels?options.pixel_model->transform():transform;auto d=std::make_shared<Data>(actual_transform);d->options=options;if(options.kind!=ProjectBatchKind::Pixels) d->options.pixel_model.reset();d->json=parameters(options,actual_transform);d->sha=hash(d->json);auto chosen=selection;if(chosen.empty()) for(const auto& [id,e]:project.entries_) chosen.push_back({id,{}});
     if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
-    std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;std::size_t charge=sizeof(Data)+65536+d->json.capacity()+d->sha.capacity();
+    std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;// Keep legacy unfiltered snapshot accounting inside the existing bookkeeping
+    // allowance; smoothed requests fully charge their new sigma metadata.
+    std::size_t charge=sizeof(Data)-(options.tissue.smoothing_sigma==0?sizeof(double):0)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
     if(raw_classifier_batch(options.kind)) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {

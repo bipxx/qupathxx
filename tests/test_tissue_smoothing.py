@@ -7,6 +7,7 @@ import math
 import os
 from pathlib import Path
 import subprocess
+import time
 
 import numpy as np
 import pytest
@@ -141,6 +142,7 @@ def test_saved_mixed_table_recipe_and_stale_publication(tmp_path, winding):
         doc.keep_tissue(request, result)
 
 
+@pytest.mark.skipif(os.name != "nt", reason="recorded MSVC/x64 metadata boundary")
 def test_old_archive_exact_snapshot_work_and_metadata_boundary():
     manifest = json.loads((FIXTURE / 'manifest.json').read_text())
     source = FIXTURE / 'legacy.qpxproj'
@@ -161,6 +163,18 @@ def test_old_archive_exact_snapshot_work_and_metadata_boundary():
     assert exact.estimated_work_bytes == manifest['work_bytes']
     assert q.detect_tissue(exact).labels == result.labels
     assert result.input_sha256 == manifest['input_sha256']
+
+
+@pytest.mark.skipif(os.name != "nt", reason="recorded MSVC/x64 batch snapshot boundary")
+def test_old_unfiltered_batch_exact_snapshot_budget():
+    manifest = json.loads((FIXTURE / 'manifest.json').read_text())
+    project = q.Project.open(str(FIXTURE / 'legacy.qpxproj'))
+    options = q.ProjectBatchOptions()
+    options.kind = q.ProjectBatchKind.TISSUE
+    options.snapshot_budget = manifest['batch_snapshot_bytes']
+    request = q.ProjectBatchRequest(project, q.StainTransform([[1,0,0],[0,1,0]]), options=options)
+    assert request.snapshot_bytes == manifest['batch_snapshot_bytes']
+    assert len(request.parameters_json.encode()) == manifest['batch_parameters_json_bytes']
 
 
 def test_filtered_workspace_is_admitted_before_execution():
@@ -209,6 +223,32 @@ def test_batch_cli_resume_and_sigma_identity(tmp_path):
     repeated = subprocess.run(command, capture_output=True, text=True, timeout=30)
     assert repeated.returncode == 0 and json.loads(repeated.stdout.splitlines()[-1])['reused'] == 1
     assert subprocess.run(command + ['--kind', 'cells'], capture_output=True, timeout=30).returncode != 0
+
+
+@pytest.mark.parametrize('action', ['cancel', 'stale'])
+def test_gaussian_worker_phase_discards_cancelled_or_stale_output(action):
+    doc = q.Document(q.Image.from_numpy(np.zeros((1024, 1024, 3), dtype=np.uint8)))
+    obj = doc.add_rectangle(q.Rect(0, 0, 1024, 1024))
+    p = q.TissueParameters()
+    p.smoothing_sigma, p.max_components = 16., 1000
+    request = q.TissueRequest(doc, obj, q.StainTransform([[1,0,0],[0,1,0]]), p)
+    job = q.TissueJob()
+    assert job.request(request)
+    deadline = time.monotonic() + 10
+    while True:
+        status = job.poll(doc, obj)
+        if status.phase == 'smoothing':
+            break
+        assert status.state == 'running' and time.monotonic() < deadline, (status.state, status.phase)
+        time.sleep(.0005)
+    if action == 'cancel':
+        job.cancel()
+        expected = 'cancelled'
+    else:
+        doc.rename_annotation(obj, 'Changed during smoothing')
+        expected = 'stale'
+    assert job.wait(doc, obj).state == expected
+    assert job.result is None and not doc.tissue_records
 
 
 @GUI
