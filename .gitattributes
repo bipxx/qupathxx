@@ -841,3 +841,5 @@ docs/benchmarks/cell-pyramid-r6/** -text -whitespace
 tests/fixtures/cell-intensity-statistics-v1/** -text -whitespace
 tools/upstream/qupath_cell_statistics_reference.groovy -text
 docs/benchmarks/cell-statistics-r6/** -text -whitespace
+
+tests/fixtures/stain-model-v1/** -text -whitespace

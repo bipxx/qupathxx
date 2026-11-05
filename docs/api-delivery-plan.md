@@ -285,6 +285,24 @@ After each task **and each failed/stopped attempt**, apply the existing
 The five saved mean-only records and native layout witnesses remain frozen;
 no new reader, sampler, result model or specimen corpus is needed for this slice.
 
+### R7-MODEL1 selected file-reuse workflow
+
+N4 trace found existing native estimation/export, manual Python reload, GUI
+estimate/apply and saved defaults. The missing behavior is direct validated
+model-file reuse in SDK/GUI/CLI without copying vectors. Follow the
+[contract](stain-model-files.md) and [trace](benchmarks/stain-model-r7/README.md).
+Use the current transform/hash, full-basis GUI adoption and batch captured model;
+no new estimator/result/reader/schema. Keep JSON under optional interchange.
+
+| Bounded task | Easiest route | Exit / reuse rule |
+| --- | --- | --- |
+| M1: native model files (focused checks passed) | Settle known public/consumer fields first. Add round-trip JSON/load/save returning StainTransform; reuse strict JSON, from_normalized, model hash and atomic export. Accept own model and existing estimate export formats. | Four focused native suites pass, including exact full-basis/white/hash, old export, malformed/size/atomic-write and disabled-parser checks. Reuse this evidence, estimator math and preserved REGION1 installation. No MODEL1 bindings/package yet. |
+| M2: thin consumers | Bind the native codec once; add CLI model-file input with explicit numeric/image-default conflicts, and GUI path/load/save through existing full-basis adoption. Use loaded transforms with existing managed operations. | Ownership, flags, actual GUI success/error and unchanged-default flows pass; one combined bindings/stub pass after interfaces settle. Do not repeat independent numeric kernels for each frontend. |
+| M3: installed route | One settled wheel/install and open/save/load/apply/retain/export/reopen workflow with member/source identity. | Reuse compatible native/staged receipts. Update only demonstrated file-reuse coverage; broader named registry, QuPath file formats, stain variability/estimator parity remain on R7. |
+
+Apply the existing task/retry waste review before each transition. This refines
+R7's existing remaining queue rather than replacing it with another backlog.
+
 ### Dispatch and finish the remaining queue
 
 Use the ordered rows above until the full inventory is resolved. For each next

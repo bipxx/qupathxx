@@ -16,6 +16,7 @@ struct GuiTextBuffers {
     char project_open_path[32769]{}, project_image_path[32769]{};
     char project_image_name[4097]{}, project_filter[257]{};
     char interchange_path[32769]{};
+    char stain_model_path[32769]{};
     char draft_name[4097]{}, draft_class[4097]{};
 };
 }

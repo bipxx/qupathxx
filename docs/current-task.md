@@ -3,53 +3,58 @@
 Follow the [single queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
 All M0-M7 remain Partial; the full R2-R16 objective remains active.
 
-## State — REGION1 locally verified; N4 trace next
+## Current — R7-MODEL1 M2 thin consumers
 
-[REGION1 installed closeout](benchmarks/region-statistics-r7/README.md#n3-installed-workflow-closeout--2026-11-05)
-finishes the bounded natural RGB/OD/stain sum/extrema/sample-SD workflow. Seven
-installed cases, exact region/app shipping smoke,490 compiler inputs and65 hashed
-wheel/installed members pass. One wheel/install and one stub generation;58 staged
-public/dependency members and490 compiler inputs match the prior staged evidence.
-Native math/fault/legacy bounds and typing/UI evidence retain their original scope.
+[Contract](stain-model-files.md), [trace/native evidence](benchmarks/stain-model-r7/README.md).
+M1 native model codec/load/save and four focused suites pass. Return existing
+StainTransform values; preserve exact basis/white/hash, old estimate-file model
+input, strict malformed/size/file boundaries and atomic writes. JSON import is
+optional interchange; native writers remain available. MODEL1 is not workflow-
+complete. No binding/stub/wheel/install has occurred for MODEL1.
 
-Installed source:16470ac0bed8f1f8292ba8d37ff0cc836ba9c84a, clean package stamp.
-Wheel:build/region-statistics-r7/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl,
-SHA25662c80ced61191a15b03bba3d08b2faab391622e0455953e529866b6a281ccd5f.
-Runtime:build/ci/project-metadata-r5-env now contains REGION1. The prior GRID1
-wheel/stage/receipts remain preserved. Probe points at REGION1 stage; old .pth
-bytes are preserved. Root .venv is build/static only. All known handles terminal.
+## Next bounded task
 
-## Next bounded task — N4 remaining R7 stain workflow trace
+First bind the four functions from stain_model_io.hpp in the existing stain
+binding unit and export them directly from the Python package. Wire CLI
+--stain-model FILE with explicit --white/--stains/--normalized conflicts; no
+CLI image-default flag exists. Batch identity stays the existing transform hash.
 
-First read docs/stain-estimation.md and docs/stain-transforms.md, then the existing
-stain_estimation.hpp/.cpp, stains.hpp/.cpp and their native/Python tests. Compare
-actual parameter/model ownership, estimation/application/save/reload and registry
-routes with the pinned upstream definitions and existing evidence. Reuse supplied
-vectors, bounded reservoirs, model identity and saved image settings; do not
-reimplement a delivered workflow or infer a missing registry from a family label.
+Add async GUI file load/save using the real gui_object_classifier.hpp future/
+owned-result pattern. Known fields are already declared: GuiOptions.stain_model_path,
+GuiReport.stain_model_state/error/sha256, semantic LoadStainModel/SaveStainModel
+targets and session-owned path buffer. Validate before owner-thread adoption;
+failed/stale loads retain the prior model. Use existing estimated_basis/full-
+basis adoption. Save make_transform(true), not the identity basis used by OD
+feature mode. Protect active image-source aliases on saves. GUI batch already
+uses the inspector's transform; no second batch model authority. Keep model
+errors/path/status readable, including long digests.
 
-Exit: identify one demonstrated missing user outcome, its existing API authority,
-fixture/independent expectation, prerequisites, affected consumers and smallest
-implementation/verification path; or close the trace by linking evidence and take
-the next ready R7/R8 slice. Contract precedes new fields or code. Trace needs no
-build/wheel/install/stub generation or new specimen corpus. Labels/tolerances
-block associated biological claims only. Openly licensed readers/codecs only.
-Broader raw/grid/plugin definitions, biology, whole-slide resource/speed, hosts,
-release and all M0-M7 exits remain open.
+M2 exit: owning SDK, explicit CLI conflicts/resume, actual GUI load/save/error/
+apply and unchanged numeric defaults pass; one combined bindings/stub pass after
+interfaces settle, valid/negative typing. Reuse M1 math/format checks. M3 then
+performs one installed save/load/apply/retain/export/reopen route with source/
+member identity. No full campaign/new corpus/new registry schema. Wider named
+registry, QuPath formats/science and all R2-R16/M0-M7 gaps remain active.
 
-## Latest closeout and waste review — N3 / 2026-11-05
+## Reusable product and latest M1 review
 
-- Outcome: one cached wheel and one isolated install pass; seven installed cases,
-  exact RGBA region extraction and empty-app smoke pass. Source/member receipts
-  bind the installed product to16470ac0 and the retained N1/N2 evidence.
-- Actual waste: no failed N3 attempt or duplicate campaign. Inspected actual app
-  flags before smoke rather than guessing a frame-limit flag. Capacity was checked
-  (~3.3GB before packaging), with no recurrence of the earlier full-disk failure.
-- Applied reuse: prior backend settings and isolated runtime; unchanged bindings,
-  stubs,490 inputs and58 dependency/public files. Only provenance/shipping products
-  refreshed. Keep GRID1 artifacts and all earlier failed receipts/screenshots.
-- Plan adjustment: REGION1 coverage marked only within its natural-statistics
-  scope. N4 traces remaining stain workflows before another implementation. The
-  full R2-R16/M0-M7 inventory stays active; local completion is no release/speed claim.
-- Next: perform the bounded document/code/reference trace above, then review actual
-  waste and update this card before the selected implementation task or retry.
+- M1 cached build and four suites pass; actual source/config/product hashes and
+  old installed-export fixture are retained. Disabled-parser TU proves that
+  branch only, not a full minimal-host package. All handles terminal.
+- No failed build/test or redundant bindings/stub/install campaign. One guessed
+  GUI header did not exist; discovered the actual object-classifier I/O owner.
+  Broader model searches were narrowed to owning files/short windows. Check this
+  adjustment at M2 closeout; use atomic UTF-8 edits and actual capacity checks.
+- Plan: M1 marked focused-verified, M2 selected. Known public fields were settled
+  before compilation; avoid another umbrella-header change for already-known data.
+- Preserved installation:REGION1 at16470ac0 in build/ci/project-metadata-r5-env;
+  stage/probe remain separate. Do not overwrite them during M2 native debugging.
+  Active source build/ci/scientific-grid-159; cache build/ci/gridfrontends167-package.
+  Root .venv is build/static only. Readers/codecs must be openly licensed.
+- After each task/failed attempt, review actual waste, apply the correction and
+  update this card before the next task/retry. Preserve source-scoped failures.
+
+Pre-publication fixture review: Git warned about automatic newline conversion
+for the captured old estimate JSON. Added the existing frozen-fixture -text policy
+for stain-model-v1 and verified the original byte SHA256. This metadata-only fix
+needs no native rebuild or fixture recapture; preserve the captured bytes.
