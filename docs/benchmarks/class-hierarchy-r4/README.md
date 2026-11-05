@@ -86,3 +86,35 @@ those routes retain the state. SDK/editor and new-field integrity checks remain
 pending. Fold duplicate per-object ancestor traversal into the next wire edit;
 walk each distinct class chain once rather than adding a separate optimization
 build now. Keep that cleanup within the existing interchange authority.
+
+
+Binary/project integration (source3d5156f2): [three affected native roles](project-wire-native.xml)
+pass on the first build/run. The [recorded inputs/configuration/binaries](project-wire-scope.json)
+retain the dirty-build identity and matching committed inputs. The existing
+bounded binary decoder now retains explicit parent links and complete raw color
+through native version2 class metadata; repeated serialized references use its
+class-ID cache. The project class-list parser preserves an ordered/repeated
+palette separately from unique definitions, including zero images. Only that
+pinned field is decoded as a colon path, with Java-strip whitespace semantics;
+[the pinned PathClass source](https://raw.githubusercontent.com/qupath/qupath/v0.7.0/qupath-core/src/main/java/qupath/lib/objects/classes/PathClass.java)
+provides the fromString/strip contract. No source implementation was copied.
+
+The retained RGB, alpha, cleared-color and conflicting-color binary/GeoJSON
+fixtures retain exact ancestry/raw state, UUID association and ROI area120.
+Native and v1-assisted project imports preserve palette precedence, repeats,
+empty projects and synchronous save/reopen; the conflicting palette wins over
+the older0x101112 value in both routes. Cleared raw state stays absent with
+resolvedRGB0xc81767. Invalid packed colors, conflicting repeated definitions,
+empty path components and flat/derived identity collisions refuse. Unicode
+whitespace normalization and signedARGB match the declared wire policy.
+The old flattening/empty-project class losses are removed only from these
+now-retained routes. This is native engineering coverage, not an installed SDK,
+editor, biological, display, host or broad performance qualification.
+
+Waste review: one combined cached build/three roles; no failed attempt or repair,
+new pixels, upstream capture, wheel, stubs or install. Both import routes share
+the existing GeoJSON parser/context and native definitions. Ancestor export now
+stops at previously visited classes, avoiding repeated chain walks for dense
+objects; this cleanup was merged into the necessary wire build. Next expose the
+settled native operations to owning Python values and existing editor controls,
+then make the one complete installed candidate with remaining integrity checks.

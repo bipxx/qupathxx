@@ -39,5 +39,10 @@
     "source": "de8f988955d8cfbd25eee7e3d393eec39121df05",
     "scope": "wire-scope.json",
     "status": "native affected roles pass; complete CLASS1 remains open"
+  },
+  "binary_project_wire": {
+    "source": "3d5156f21b8e1a74ddc42dd671955c3f4a70bac6",
+    "scope": "project-wire-scope.json",
+    "status": "three affected native roles pass; installed SDK/editor remains pending"
   }
 }

@@ -1,9 +1,9 @@
 # Class ancestry and project defaults
 
-CLASS1 is in progress. The [reference/default-color preflight](benchmarks/class-hierarchy-r4/README.md)
-is verified; the captured reference and default-color primitive do not
-establish native hierarchy/palette support. The current product still flattens
-native ancestry and refuses names-array GeoJSON and several valid class files.
+CLASS1 is in progress. Reference/color resolution, native ancestry/schema26,
+GeoJSON transport and binary/project palette import are verified in their
+[recorded scopes](benchmarks/class-hierarchy-r4/README.md). Python/editor
+integration and hierarchy-specific async/recovery/fault checks remain pending.
 
 Pinned0.7.0 facts from the class-only capture and fresh-process witness:
 
@@ -102,3 +102,13 @@ in metadata while the feature projects a readable resolved color. Native
 metadata disambiguates literal flat keys and delimiter-bearing native leaves.
 Import rejects identity/raw-cache conflicts atomically. Binary/project palette
 integration and Python/editor exposure remain pending.
+
+
+Binary/project substep at3d5156f2 is verified in the [project wire scope](benchmarks/class-hierarchy-r4/project-wire-scope.json).
+The existing binary decoder emits explicit parent/raw definitions through the
+same versioned GeoJSON route. Project palette context overrides older colors
+without changing flat/derived identity. Unique definitions include required
+ancestors; palette keys preserve order/repeats and empty projects. Pinned project
+names alone use colon decoding and Java-strip whitespace. Repeated conflicting
+definitions and incompatible identities refuse. Native and v1-assisted fixture
+imports/save/reopen pass; installed SDK/editor and new-field fault checks remain.

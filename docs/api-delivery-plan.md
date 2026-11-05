@@ -160,9 +160,10 @@ to later code. Only the latest closeout stays in current-task.md.
 Active bounded task: **R4/R5-CLASS1, class ancestry and project defaults**.
 [PROJECTMETA1](benchmarks/project-metadata-r5/README.md) locally verifies global
 string retention/editing, zero-image import, schema25 snapshots/recovery and
-installed authoring. Remaining class-parent flattening and empty-project class
-registry loss are demonstrated gaps. Settle their shared class authority and
-wire/storage/identity contracts together before the next public layout change.
+installed authoring. Class-parent flattening and empty-project class
+registry loss were demonstrated gaps; native class transport now retains them
+in its recorded scope. Finish thin SDK/editor consumers and the remaining
+integrity/installed checks against the settled authority.
 
 ## Execution order for finishing the remaining work
 
@@ -313,8 +314,10 @@ numerical and release campaigns out of this engineering task.
 These steps refine the active R4/R5 task, not a second backlog or four delivery
 campaigns. Reference/color resolution and the native schema26 foundation are
 verified; native GeoJSON v1/v2 transport now also passes its affected checks.
-Step 1 still needs binary decoding and project palette context; steps 2-4 remain
-open for this workflow. After each bounded
+Step 1 native/GeoJSON/binary and native/v1-assisted project transport now pass
+the retained class cases, palette precedence and synchronous reopen checks.
+Steps 2-4 remain open for this workflow; broader installed route checks follow
+with the combined candidate. After each bounded
 step or failed attempt, apply the closeout rule below before proceeding.
 
 | Order | Missing behavior and easiest existing route | Decisive result / avoidable work |

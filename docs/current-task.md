@@ -6,15 +6,14 @@ All M0-M7 remain Partial. CLASS1 remains open; reference/primitive/native founda
 are verified in their [recorded scopes](benchmarks/class-hierarchy-r4/README.md).
 
 Current: **R4/R5-CLASS1 — class ancestry and project defaults** (in progress).
-Phase: native foundation and GeoJSON class transport pass; binary/project context next.
+Phase: native foundation and native/GeoJSON/project class transport pass; SDK/editor next.
 
 - Outcome: import, inspect/edit and save/reopen recognized class ancestry and
   ordered project defaults, including zero images, through the current authority.
-- First action: extend qupath_saved_data.cpp to emit explicit class definitions
-  into the existing versioned GeoJSON route; replace parent flattening only once
-  exact parent/raw-color retention is checked. Add project-context palette
-  precedence in qupath_project.cpp using the same parser/definitions. Legacy native flat keys stay flat; only the pinned
-  project class-list wire has a defined delimiter decoder.
+- First action: expose ObjectClass construction/parent/raw ARGB/leaf, Document
+  definition/registry/path operations and Project classes/defaults/replacement/
+  explicit application through owning nanobind values. Extend the existing
+  ImGui class controls against the same native operations before one candidate.
 - Reuse: [class contract](class-hierarchy.md), retained reference/ROI/builder,
  39-case resolver and new ObjectClass/Document/Project foundation. No new class
   model, decoder, edit journal, pixel capture or repeated source preflight.
@@ -23,8 +22,8 @@ Phase: native foundation and GeoJSON class transport pass; binary/project contex
   class_path and subtree rename; Project classes/class_defaults/atomic replacement
   and explicit image application. Python values/getters must remain owning;
   expose parent/raw ARGB/leaf information with the existing ObjectClass type.
-- Continue: reuse the passing GeoJSON v1/v2 transport and finish binary/project
-  palette integration, then thin nanobind/GUI consumers against
+- Continue: reuse the passing native/GeoJSON/project transport and add thin
+  nanobind/GUI consumers against
   those authorities. Extend existing class controls; drafts are not another
   validator. Keep unique definitions separate from ordered/repeated palette keys.
   Do not silently reinterpret an existing flat root as derived during import.
@@ -39,23 +38,23 @@ Phase: native foundation and GeoJSON class transport pass; binary/project contex
   biology/license/support choices. Only openly licensed readers/codecs; full
   R4/R5 and R6-R16/milestone exits remain in the canonical queue.
 
-Latest task review (2026-11-05, CLASS1 native GeoJSON substep):
-Outcome/evidence: de8f9889 passes the affected classes/interchange roles; see
-[wire results and input scope](benchmarks/class-hierarchy-r4/README.md). Explicit
-ancestry, raw ARGB/absence, selected-export ancestor closure, flat/native leaf
-identity, geometry, undo and atomic conflict/corruption refusal are covered.
-Legacy flat RGB remains version1; richer native metadata uses version2. Binary
-and project imports, SDK/editor and new-field integrity checks remain pending.
-Waste/action: **reuse** captures, native class definitions, resolver and cached
-build; **retain** the first compiler failure and fix with existing C++17 equality.
-The final repeat covered a changed native-leaf parser guard. No wheel/stub/install
-or broad qualification was run. **Merge** ancestor traversal cleanup into the
-next necessary wire edit; do not build separately for that cleanup. Use directory
--g searches on Windows and bounded manifest output to avoid failed/noisy probes.
-Next: finish [CLASS1 step 1](api-delivery-plan.md#class1-remaining-execution-steps)
-with binary ancestry/raw-color definitions and shared project palette precedence,
-including ordered repeats/empty projects. Reuse the verified GeoJSON authority;
-exercise retained native/project fixtures at the affected native boundary.
+Latest task review (2026-11-05, CLASS1 binary/project substep):
+Outcome/evidence:3d5156f2 passes qupath_project/classes/interchange (3/3),
+including retained binary/GeoJSON fixtures, raw ARGB/absence, exact ancestry,
+UUID/ROI geometry, native and v1-assisted project palette precedence,
+ordered/repeated defaults, zero images and synchronous save/reopen. Invalid
+colors/duplicates/paths and identity collisions refuse. See the [scope and
+results](benchmarks/class-hierarchy-r4/README.md). Installed SDK/editor and
+hierarchy-specific async/recovery/fault controls remain pending.
+Waste/action: **reuse** decoder, definitions/resolver, parser/context and retained
+pixels/fixtures. One combined cached build; no failure, capture or package cycle.
+**Merge** ancestor traversal cleanup into this necessary wire edit: stop at
+visited classes rather than walking every object's full chain again. No separate
+optimization benchmark or qualification was needed.
+Next: [CLASS1 step 2](api-delivery-plan.md#class1-remaining-execution-steps), owning
+Python surfaces and existing ImGui class/default controls. Settle both consumers
+before the combined package/stub/install. Add only missing new-field integrity
+cases and affected installed checks; do not repeat source/reference preflight.
 
 After every bounded task or failed/stopped attempt, record scoped outcome,
 waste action and changed next step here before continuing or retrying.
