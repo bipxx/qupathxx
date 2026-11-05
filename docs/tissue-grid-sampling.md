@@ -1,7 +1,8 @@
 # Explicit-grid tissue sampling
 
-GRID1 native analysis, persistence/export and the consumer routes below have
-focused staged verification. Installed product acceptance remains open.
+GRID1 is locally verified for the bounded area-grid workflow below, including
+installed SDK, managed/desktop, batch/CLI, replay/export and legacy limits. Broader
+scientific, whole-slide, host and release claims remain open.
 See the [current task](current-task.md) and [evidence](benchmarks/tissue-grid-r7/README.md).
 
 ## Choose the shortest workflow

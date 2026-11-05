@@ -2,60 +2,64 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. Current: **R7-GRID1 — explicit tissue sampling and
-context**, **in progress**. [G1-G3](benchmarks/tissue-grid-r7/README.md) have native/
-staged verification; [G4 installed closeout](api-delivery-plan.md#r7-grid1-remaining-execution-steps) remains.
+All M0-M7 remain Partial. [GRID1](benchmarks/tissue-grid-r7/README.md) is locally
+verified only for its declared bounded area-RGB grid workflow.
+Current: **R7-REGION1 — retained region intensity features**, **ready for trace**.
 
-## Captured state
+## Next bounded task — identify the first missing retained region feature
 
-- Native scientific area-RGB tissue requests/factories, core/context cleanup,
-  grid digest, QTM5 provenance/geometry/replay/status and CSV4 are implemented.
-- Owning Python sampling/options/descriptors, managed exact/count capture,
-  ImGui controls/per-axis reports, batch snapshot/identity and CLI --tissue-grid
-  NX NY CX CY are implemented. See the [API/workflow contract](tissue-grid-sampling.md).
-- One combined cached binding/native/CLI/app build and one stub generation.
-  Three affected native suites,95 staged non-GUI cases and six GUI cases pass
-  across retained runs. Fourteen optional skips in the initial non-GUI run are
-  not passes. All three pre-grid MSVC/x64 witnesses remain exact. Controls were
-  visually inspected at their actual scroll position; PNG/equality proof retained.
-- [Candidate identity](benchmarks/tissue-grid-r7/g3-candidate-identity.json):485
-  compiler inputs match the module source hash; three products/two stubs match.
-  Runtime probe points at build/tissue-grid-r7/stage. Prior MEDIAN1 installed env
-  is untouched. Root .venv is build/static only. No build is live.
-- No GRID1 wheel/install. All wider science/host/resource/speed/release gaps and
-  owner decisions remain open. Readers/codecs must remain openly licensed.
+Outcome: a selected ROI's declared RGB/OD/stain intensity features can be computed,
+retained, reopened/replayed and exported through one shared native authority.
+First action: inspect current AnalysisRequest/AnalysisResult, raw/scientific region
+statistics, shared cell moments and measurement-table definitions. Compare their
+scope/evidence with the pinned QuPath region feature contract; identify one
+actually missing feature/domain route before adding fields. If an existing route
+already satisfies it, reuse that evidence and advance instead of duplicating it.
 
-## Next bounded task — G4 frozen package/install
+Before coding: pin channel/transform identity, eligible ROI/alpha/plane support,
+sampling lattice, feature definitions/units (including sample versus population
+variance), empty/singleton behavior, finite/range policy and independent tiny
+expected values. Separate sampling or semantic differences from implementation
+bugs. Reuse existing capture, moments, jobs, records and tables; keep consumers
+thin. Reader/codecs must remain openly licensed.
 
-First action: freeze reviewed G3 code, then adapt the existing median backend/
-shipping helpers to the grid workflow. Reuse the current cache and passing staged
-products when native inputs/configuration match. Include the region executable
-in shipping. A revision-stamp refresh is distinct metadata, not a reason for a
-second full binding compile/stub pass or a repeated staged matrix.
+Cost/stop: trace needs no new build, install, stub generation or specimen corpus.
+Reuse the GRID1 installed product and caches. Settle known result/options/report
+layouts and old record/table/batch quotas before the first native build. Select
+only the decisive changed-path checks. Stop with a concrete missing workflow and
+implementation/check plan, or a scoped reuse conclusion, then review waste before
+implementation/next trace. Wider R2-R16 and science/release decisions remain open.
 
-Build one wheel and install once into the isolated installed env. Verify native
-source/configuration, wheel/RECORD/product/stub identities and a small installed
-open -> grid tissue -> retain/export -> save/reopen/replay workflow, including
-old exact quota witnesses. Check changed package members and required CLI/GUI
-shipping entry points; reuse staged numerical/GUI results within their scope.
-Update tissue coverage/reuse index only after this complete route passes, then
-select the next ready gap from the existing R queue. Do not close the full goal.
+## Reusable product state
 
-## Latest task review — G3 staged consumers (2026-11-05)
+- GRID1 final code f72c1992; installed metadata f72c1992+dirty reflects docs-only
+  pre-package changes.485 compiler inputs match the module/source;65 wheel/RECORD/
+  installed members match.58 dependency/public files and relevant configuration
+  match the staged candidate. Seven installed checks and region/app entrypoints
+  pass; older staged95/six-GUI results keep their own source/metadata identities.
+- One full binding compile, one stub generation, one wheel and one isolated
+  install across G3/G4. Root .venv is build/static only. Runtime installed env:
+  build/ci/project-metadata-r5-env; probe still uses build/tissue-grid-r7/stage.
+  Wheel, source receipts, failed attempts, PNG/equality proof and caches retained.
+  All known processes/handles are terminal. No global speed/biology/host claim.
 
-Outcome/evidence: [commands, logs, source identity and controls](benchmarks/tissue-grid-r7/README.md).
-SDK ownership, managed owner capture, direct/GUI batch/CLI checkpoint identity,
-QTM5/CSV4, preview/report/retention and valid/three-negative typing pass. No product
-compiler/runtime fix or package attempt. Two observer digest assumptions failed
-(CLI default basis; GUI OD branch); retained logs and corrected only failed nodes.
+## Latest task review — G4 installed closeout (2026-11-05)
 
-Waste/action: one live bindings build awaited through confirmed compiler activity;
-no replacement. One stub generation; no wheel/install or full qualification.
-Use directory plus -g searches and bounded declaration output after guessed-path/
-wildcard/enum mistakes. Use longer polls. Derive transform identity from the actual
-consumer request branch before assertions. Reuse passing checks after observer
-changes. Removed only the verified redundant control PPM; kept PNG/failure evidence.
+Outcome/evidence: [shipping closeout](benchmarks/tissue-grid-r7/README.md#g4-installed-workflow-closeout--2026-11-05).
+Installed open/grid/retain/export/save/reopen/replay, SDK ownership, managed/GUI,
+batch/CLI resume and old quota groups pass. Region RGBA extraction and empty-app
+smoke pass. Source/configuration/member checks justify scoped staged-evidence reuse.
 
-Plan adjustment/next: G3 has scoped staged verification; G4 is next as above.
-The wider queue is unchanged. After each task or failed/stopped attempt, record
-outcome/evidence, actual waste/action, plan change and next action before continuing.
+Waste/action: reused packaging/integrity helpers, four shipping targets and one
+wheel/install; no compiler failure, repair/retry, second binding/stub pass or full
+staged/qualification repeat. Final provenance refresh is distinct metadata.
+For the next task, settle known public option/result/report layouts before the
+first native build: G1/G3 separate umbrella-header changes caused broad dependency
+recompilation. Keep focused necessary iterations; avoid speculative header surgery.
+
+Plan adjustment/next: GRID1 enters the reuse index/tissue coverage within scope.
+R7-REGION1 starts with the trace above; other sampling, feature/stain/specimen,
+resource/host/release work remains in its existing rows. After every bounded task
+or failed/stopped attempt, record evidence, actual waste/action, plan change and
+next action before continuing. A consistency check removed stale GRID1 progress labels and replaced the duplicate
+active-status line with a link to this card. The full objective remains active.

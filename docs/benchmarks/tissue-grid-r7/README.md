@@ -163,20 +163,70 @@ node reran after its observer correction. The additional
 used no-incremental/strict with follow_imports=silent and
 follow_imports_for_stubs=True; its positive/negative logs are linked above.
 
-## Remaining and waste review
+## G4 installed workflow closeout — 2026-11-05
 
-G4 must package/install one frozen candidate and verify shipping identities and
-the installed grid workflow/legacy witnesses. G1-G3 do not close broader R6/R7/R12
-or M0-M7. No GRID1 wheel or install has run. The prior MEDIAN1 installed product
-remains available; the isolated probe now points at build/tissue-grid-r7/stage.
+GRID1 is locally verified for its declared bounded level-zero RGBA8 area-grid
+workflow. [Seven installed cases pass](g4-installed-first.log): exact/ROI SDK,
+owning options/NumPy lifetime, retained QTM5 replay/CSV4, batch/CLI checkpoint
+identity/resume, the three old exact quota groups, managed owner capture, GUI
+preview/report/retention and desktop batch. Installed [region extraction and
+empty-app smoke](g4-entrypoints.json) also pass, including exact RGBA bytes.
 
-G1/G2 failures above remain evidence. G3 reused native authorities and artifacts,
-settled coupled consumers before one binding build and generated stubs once.
-Wrong guessed paths/Windows filename wildcards and oversized enum output were
-observed during inspection: use directory searches with -g filters, discover
-names first and bound substrings for long declarations. Short repetitive polls
-were unhelpful; changed to20-second polls and verified actual compiler ownership.
-No replacement build, full campaign, reader/model, environment or new job system.
-Use actual transform branches for identity assertions; reuse passing unaffected
-checks after observer corrections. Next apply the existing package/source/member
-checks once, rather than repeating this staged numerical/GUI matrix.
+The final wheel is built from f72c1992+dirty (the pre-package card was a docs-only
+change). Its [integrity receipt](shipping-integrity.json) matches485 raw native
+inputs and all65 hashed wheel/RECORD/installed members, including both stubs and
+shipping executables. Its SHA256 is
+e11f92ca3a0aadb9f66453325b949fe8757af891a0c573284087f058582c5499.
+The [reuse proof](g4-reuse-proof.json) compares all485 native inputs and relevant
+compiler/configuration fields with G3;58 dependency/public files also match
+byte-for-byte. Final provenance/linked-product identities are distinct from the
+staged a8956989+dirty products. No staged result is relabeled as the final binary.
+
+One [wheel build](g4-wheel-build.log) refreshed provenance.cpp and linked shipping
+products; it did not compile a binding translation unit. One [isolated install](g4-install.log)
+replaced MEDIAN1 in project-metadata-r5-env, with no dependency reinstall. One full
+binding compile and one stub generation were used across G3/G4. No G4 failure,
+repair/retry, second wheel/install, new environment or repeated staged95/six-GUI
+matrix occurred. Native53/65-style full qualifications were not rerun.
+
+Commands used the retained backend and shipping helpers:
+
+```powershell
+& 'C:/Users/HEQ/Projects/qupathxx/.venv/Scripts/python.exe' -X utf8 'C:/Users/HEQ/Projects/qupathxx/build/ci/tissue_grid_r7_backend.py'
+& 'C:/Users/HEQ/.local/bin/uv.exe' pip install --python 'C:/Users/HEQ/Projects/qupathxx/build/ci/project-metadata-r5-env/Scripts/python.exe' --no-deps --force-reinstall 'C:/Users/HEQ/Projects/qupathxx/build/tissue-grid-r7/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl'
+$installed = 'C:/Users/HEQ/Projects/qupathxx/build/ci/project-metadata-r5-env/Scripts/python.exe'
+& $installed -X utf8 'C:/Users/HEQ/Projects/qupathxx/build/tissue-grid-r7/verify_shipping.py'
+$env:QUPATHXX_TEST_GUI = '1'
+& $installed -m pytest tests/test_tissue_grid.py -q --tb=short
+```
+
+The backend reuses gridfrontends167-package and the same Python/GUI/GEOS/OpenSlide/
+TIFF/project/training/tests/interchange settings as G3. It builds only _native,
+qupathxx_region, qupathxx_batch and qupathxx_app. Stubs come from the reviewed
+source; no regeneration. The entrypoint receipt retains exact command outputs;
+the region input/output are synthetic files under build/tissue-grid-r7.
+
+## Scope and waste review
+
+This closes only GRID1's selected area-grid route. Nominal/other sampling contracts,
+additional vendor/context/feature/stain/specimen comparisons, large-slide tiled
+resources/seams, supported host/release scope and speed superiority remain open.
+All M0-M7 remain Partial. Next R7-REGION1 traces retained region intensity features
+against existing analysis/raw/statistics/table authorities before adding any API.
+
+G1/G2 failures above remain evidence. G3 reused native authorities/artifacts,
+settled consumers before one binding build and generated stubs once. Wrong guessed
+paths/Windows filename wildcards and oversized enum output were observed: use
+directory searches with -g filters, discover names first and bound long declarations.
+Short repetitive polls were unhelpful; changed to20-second polls and verified
+compiler ownership. Use actual transform branches for identity assertions and
+reuse passing checks after observer corrections.
+
+G4 reused the tested source/configuration/dependencies and the existing packaging/
+member-check helpers. No material new waste or failure occurred. Improvement for
+the next workflow: settle known option/report/result metadata layouts during the
+contract stage. G1 and G3 changed umbrella public headers separately; deferring
+known report geometry fields forced broad native dependency recompilation. Keep
+necessary focused numerical iterations, but group known header changes rather
+than discover settled frontend fields only at the bindings stage. Do not start
+a broad header refactor as part of this completed scientific workflow.

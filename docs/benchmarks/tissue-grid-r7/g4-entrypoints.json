@@ -1,0 +1,18 @@
+{
+  "source": "installed wheel",
+  "results": [
+    {
+      "entrypoint": "qupathxx_region.exe",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "entrypoint": "qupathxx_app.exe",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "region_exact_rgba": true
+}
