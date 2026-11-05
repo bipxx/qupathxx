@@ -1,0 +1,26 @@
+{
+  "source": "db90985d59c8b50635a6445d1a45f680ee64a047",
+  "cases": [
+    {
+      "case": "rich",
+      "issues": [
+        [
+          "project_metadata_dropped",
+          9
+        ]
+      ],
+      "empty_import_refusal": null
+    },
+    {
+      "case": "no-images",
+      "issues": [
+        [
+          "project_metadata_dropped",
+          9
+        ]
+      ],
+      "empty_import_refusal": "QuPath import has no available supported images"
+    }
+  ],
+  "no_project_metadata_api": true
+}

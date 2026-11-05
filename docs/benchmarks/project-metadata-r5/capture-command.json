@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-entry-metadata-0.7.0\\project\\project.qpproj",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_project_metadata_reference.groovy"
+  ],
+  "returncode": 0,
+  "seconds": 2.771016900194809,
+  "probe_sha256": "19d84dad40183e8833aeb003af24194940eaed6cf8dd03cbd9f4d3473c0dd74f"
+}

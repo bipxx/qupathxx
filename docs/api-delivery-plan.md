@@ -85,7 +85,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. Reconcile remaining R4/R5 gaps once while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. The one-time R4/R5 reconciliation is complete; continue CLASS1 while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -150,18 +150,19 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 assisted state | [Explicit native/GeoJSON state routes](benchmarks/assisted-state-r5/README.md) | Exchange1 compatibility, exchange2 native facts/defaults/properties/TMA and mixed routes, source guards and actual Python/desktop import/save; broader calibration/metadata/records remain open |
 | R5 saved physical axes | [Z/time calibration](benchmarks/axis-calibration-r5/README.md) | Recognized native/direct-v2 Z spacing and explicit timestamp units/offsets/order/prefixes, owning history/snapshots/schema22, source compatibility and actual Python/desktop; acquisition metadata/historical recipes remain unchanged |
 | R5 project-entry maps | [Owning metadata strings](benchmarks/entry-metadata-r5/README.md) | ProjectImage/Project replacement/getters, exact UTF8/bounds, source binding, actual saved-geometry routes, snapshot/schema23/SDK/inspector; tags/description/global metadata remain separate |
-| R5 entry tags/description | [Nullable descriptions/ordered tags](benchmarks/entry-details-r5/README.md) | Atomic native/Python pair editing, exact null/empty/insertion order, snapshots/schema24, actual import geometry and read-only inspector; authoring is separately covered below, global metadata remains open |
+| R5 entry tags/description | [Nullable descriptions/ordered tags](benchmarks/entry-details-r5/README.md) | Atomic native/Python pair editing, exact null/empty/insertion order, snapshots/schema24, actual import geometry and read-only inspector; authoring and global metadata are separately covered below |
 | R5 entry authoring | [Draft-based ImGui editing](benchmarks/entry-editor-r5/README.md) | Existing native setters, bounded drafts, stale/refusal guards, actual ImGui text/Tab and installed mouse/Apply/save/reopen; broader dense/display/host behavior stays R3 |
+| R5 global metadata | [Project-wide string maps](benchmarks/project-metadata-r5/README.md) | Owning/atomic native-Python state, source-bound manifest/actual v1/v2 routes, schema25/snapshots/recovery, shared editor and zero-image workflow; class defaults remain separate |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R5-PROJECTMETA1, project-level string metadata**.
-The one-time R4/R5 reconciliation is complete: cpp/qupath_project.cpp still
-reports nonempty data/metadata.json as project_metadata_dropped, while pinned
-DefaultProject stores a separate Map<String,String>. Entry maps/details/editor
-are already covered and must not be recaptured. Retain global metadata through
-existing Project snapshots/store and expose owning Python/GUI editing.
+Active bounded task: **R4/R5-CLASS1, class ancestry and project defaults**.
+[PROJECTMETA1](benchmarks/project-metadata-r5/README.md) locally verifies global
+string retention/editing, zero-image import, schema25 snapshots/recovery and
+installed authoring. Remaining class-parent flattening and empty-project class
+registry loss are demonstrated gaps. Settle their shared class authority and
+wire/storage/identity contracts together before the next public layout change.
 
 ## Execution order for finishing the remaining work
 
@@ -172,7 +173,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-PROJECTMETA1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R4/R5-CLASS1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -186,7 +187,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. Reconciliation selects PROJECTMETA1 next: preserve/edit project-level string maps through the existing authorities. Then other calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 next: shared ancestry and project-default registry contracts. Then other calibration/project properties, versions/builders/records, source races and geometry losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -228,10 +229,10 @@ that can justify skipping a necessary check. Before repeating an expensive
 operation, identify the changed input or unresolved failure and update the card.
 Do not add a timer, reporting framework or separate cost ledger for this rule.
 
-Now reconcile the remaining R4/R5 inventory once against the
-existing implementation and receipts. Select the first demonstrated gap with a
-bounded outcome; do not start another general import audit or recapture already
-accepted fields. When no independent R4/R5 implementation is ready, advance to
+The one-time R4/R5 reconciliation is complete and selected project metadata,
+then class ancestry/defaults. Continue the demonstrated gaps against existing
+implementation and receipts; do not repeat that reconciliation, start another
+general import audit or recapture accepted fields. When no independent R4/R5 implementation is ready, advance to
 R6 context/halo replay. Keep any blocked scientific acceptance or owner decision
 in its existing row with a concrete re-entry condition.
 
@@ -279,18 +280,27 @@ file versions, Java-typed records and replacement/network/power-loss guarantees
 need a named fixture or fault contract before implementation; existing explicit
 refusals do not establish support. Keep these in their existing R4/R5 rows.
 
-For PROJECTMETA1, reuse the captured builder for one project-only save/reload
-supplement, without pixels/ROIs. Keep project and entry metadata independent;
-reuse the bounded UTF8/string-map rules and native transaction/snapshot budget.
-Expose an owning getter plus atomic replacement/clear/no-op setter, including
-empty projects, and extend the existing draft editor rather than copying it.
-Verify manifest and actual assisted geometry routes, stale source-file guards,
-malformed stored/input maps, owning snapshots and failed-write preservation.
-Group native/header/binding/consumer changes before a cached candidate, generate
-stubs once and install once unless a concrete failure changes the inputs. No
-unrelated numerical or full platform campaign is needed.
+PROJECTMETA1 now retains the separate project map; its receipt and existing
+entry/snapshot/store/editor evidence are reusable within their tested scopes.
+Do not repeat that capture/build or infer class retention from string metadata.
 
-After PROJECTMETA1, select the first demonstrated remaining R4/R5 gap.
+For CLASS1, first inspect ObjectClass/Document class commands/history and the
+existing saved-data classification decoder, project class-list parser and
+GeoJSON wire contract against pinned PathClass behavior. Resolve ancestry,
+identity versus display names (including literal delimiters), colors, duplicates,
+rename/remove/undo and project defaults before changing public layouts. Do not
+infer parents by splitting display names or silently merge distinct classes.
+Reuse one class authority for Project/Document/imports and thin Python/UI paths;
+no parallel hierarchy model, second decoder or general plugin framework.
+Capture only missing class facts against retained geometry/builders in one
+supplement. Deliver import -> inspect/edit -> save/reopen, including zero-image
+project defaults, with exact parent links and explicit refusal/loss for truly
+unsupported states. Exercise actual native/Python/ImGui consumers and the relevant
+history, snapshot/migration and source guards. Group compatible class/header/
+binding/store/consumer changes before one cached candidate; keep unrelated
+numerical and release campaigns out of this engineering task.
+
+After CLASS1, select the first demonstrated remaining R4/R5 gap.
 Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent

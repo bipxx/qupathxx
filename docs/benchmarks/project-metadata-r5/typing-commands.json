@@ -1,0 +1,47 @@
+{
+  "typing": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-metadata-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/project_metadata_valid.py"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 2.4181728998664767
+  },
+  "typing-negative": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-metadata-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/project_metadata_invalid.py"
+    ],
+    "returncode": 1,
+    "elapsed_seconds": 2.2478589001111686
+  },
+  "public-stubs": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-metadata-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_public_stubs.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5\\public-stubs.xml",
+      "--basetemp",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5\\public-stubs-temp"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 0.6637821001932025
+  }
+}

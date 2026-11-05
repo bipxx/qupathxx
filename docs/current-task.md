@@ -2,83 +2,59 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial; [ENTRYEDIT1](benchmarks/entry-editor-r5/README.md) is
-locally verified within its stated GUI-authoring scope.
+All M0-M7 remain Partial. [PROJECTMETA1](benchmarks/project-metadata-r5/README.md)
+is locally verified for its declared project-wide string-map workflow.
 
-Current: **R5-PROJECTMETA1 — project-level string metadata** (in progress).
+Current: **R4/R5-CLASS1 — class ancestry and project defaults** (ready).
 
-- Outcome: import, inspect/edit, save/reopen a project-wide string map independent
-  of entry metadata, descriptions/tags and image/ROI facts, including zero images.
-- Evidence/first action: cpp/qupath_project.cpp156 explicitly drops nonempty
-  data/metadata.json. Pinned QuPath DefaultProject owns Map<String,String>, saves
-  it with syncChanges and reloads separately. Capture one project-only supplement
-  with the retained builder; no server, pixel or ROI recapture.
-- Contract: owning Project.metadata getter and atomic set_metadata replacement/
-  default clear; no-op leaves dirty state unchanged, edits affect Project only.
-  Reuse exact UTF8/4096-byte strings,4096 pairs and1MiB estimated-map limits from
-  entry metadata. No implicit typed conversion, Unicode normalization or namespace
-  merging. Legacy absence defaults to empty; malformed values refuse atomically.
-- Route: existing Project state/snapshot/budget/normalized SQLite migration,
-  common manifest/assisted import source guards, thin nanobind exposure, existing
-  draft editor extended for project mode (metadata only), usable without images.
-- Checks/stop: pinned exact save/reload reference; actual manifest/v1/v2 geometry
-  routes; namespace separation/owning copies/no-op/clear/refusal; empty project;
-  snapshot ownership/budget/failed-write preservation; old schema migration and
-  malformed rows; actual GUI draft/stale/Apply/save/reopen; installed SDK/typing.
-  Close only this vertical workflow and hand off the next demonstrated gap.
-- Cost: group header/binding/store/consumer contracts before one cached candidate;
-  one stub generation/install after APIs settle. Reuse entry fixtures, validators,
-  store/snapshot/editor and unchanged numerics. Repeat only for changed inputs or
-  an unresolved failure, recording its cause before retry.
-- Dependencies: ready independently of biology/license/support decisions. Only
-  openly licensed readers/codecs. Broader R4/R5 and R6-R16 remain scheduled.
+- Outcome: preserve recognized derived-class parent links and project-default
+  classes, inspect/edit and save/reopen exact state, including zero-image projects.
+- Evidence: qupath_saved_data.cpp emits classification_hierarchy_flattened;
+  qupath_project.cpp emits project_classes_dropped when class defaults have no
+  image to receive them. Entry/global metadata do not represent a class registry.
+- First action: inspect ObjectClass/Document class commands/history, current
+  saved-data classification and project class-list/GeoJSON wire contracts against
+  pinned PathClass APIs. Establish identity versus display name, parent links,
+  colors, duplicate/collision handling and rename/remove/undo before API changes.
+  Never infer topology by splitting a display name or merge ambiguous classes.
+- Route/reuse: extend the current class authority, importer and native history;
+  expose thin owning Python/UI paths and normalized storage/snapshots. Settle
+  compatible ancestry/default-registry contracts together before another public
+  layout/binding edit. No parallel hierarchy model or second decoder.
+- Missing reference: one class-only supplement using retained builders/geometry,
+  with parent/sibling/deep chains, literal delimiters/Unicode and project defaults
+  with zero images. Existing pixel/geometry/math evidence retains its scope.
+- Checks/stop: exact class identity/parent/color and object association through
+  import/edit/undo/save/reopen, project/entry boundaries, invalid cycles/orphans/
+  collisions/refusals, owning state/snapshots/migration and affected actual GUI/SDK
+  flow. Stop after this declared vertical workflow and hand off remaining gaps.
+- Cost/dependencies: settle interfaces/consumers first, one grouped cached build,
+  one stub/install after APIs settle; repeat only for changed input or unresolved
+  risk with a recorded diagnosis. Engineering is ready independently of biology,
+  license and support choices. Only openly licensed readers/codecs are eligible.
+  Broader R4/R5 and R6-R16/milestone exits remain queued.
 
-Latest task review (2026-11-05, one-time R4/R5 reconciliation):
-Outcome/evidence: source confirms a separate project string map is dropped;
-derived class-parent semantics are flattened in qupath_saved_data.cpp. Existing
-entry/facts/defaults/properties/TMA/geometry/recovery/source workflows retain
-scoped receipts. Additional builders/versions/Java records and network/power-loss
-claims need specific fixtures/fault contracts, not a new general audit.
-Waste/action: **reuse** current implementation/receipts and source-only review;
-**remove** another broad import audit, build or recapture of accepted fields.
-A guessed project_snapshot.hpp path was absent; inspect known project.cpp and
-project.hpp, using discovered paths only. No build/install was run for review.
-Next: PROJECTMETA1 supplement capture, then grouped native/consumer implementation.
+Latest task review (2026-11-05, PROJECTMETA1 closeout):
+Outcome/evidence: source408f383e retains project maps with owning/atomic SDK,
+shared validation, schema25, budgets, recovery/adoption and project-mode editor.
+249 unique affected non-GUI cases pass with nine declared GUI skips; five native
+roles/all24 older schemas, two actual desktop flows, two installed ownership/
+budget/recovery/namespace checks and five stubs/typing controls pass. Installed
+mouse remove/Apply/close/Ctrl+S/reopen verifies exact zero-image state; screenshot
+inspected. All467 compiler inputs/65 installed hashed members match. Final Python
+observer and SDK hashes remain separate; see the linked receipt/failures.
+Waste/action: **reuse** one project-only2.77s capture, existing builder/source,
+string validation, snapshot/store/editor, old affected selection and passed cases.
+One557.16s grouped build, one stub pass and one install; no native repair. Fix
+only failed observer setup/expectations: absent classifiers directory, correct
+.qpxrecover suffix, held TIFF replaced by an absent manifest URI, exact
+missing_image issue. Retain first failures; rerun only failed nodes. Avoid guessed
+paths, spacing-sensitive bulk edits without preflight and repeated short compiler
+polls; use discovered APIs and bounded live-session waits. No numerical/full
+qualification campaign or alternate model/codec/editor was added.
+Next: CLASS1 contract/reference inspection above; group related class contracts
+before another expensive public-header/binding build. Full parity, biological
+acceptance, whole-slide resources/speed, hosts and release remain open.
 
-After every bounded task or failed/stopped attempt, record the scoped outcome,
+After every bounded task or failed/stopped attempt, record its scoped outcome,
 waste action and changed next step here before continuing or retrying.
-
-PROJECTMETA1 capture review: one2.77s project-only QuPath process saved/reloaded
-rich, empty and zero-image projects; nine captured files reuse the old builder
-and source identity. Installed db90985d baseline confirms nine global pairs are
-reported as dropped and zero-image import is refused even after loss approval.
-Waste/action: reuse that baseline/runtime/source; no pixels/ROI/biology capture.
-Implement genuine empty-project import without permitting all-unavailable image
-projects, and group global map/store/snapshot/editor changes before building.
-
-PROJECTMETA1 edit-attempt review: bulk patch stopped on a schema-constant spacing
-assertion before binding/import/editor edits. Header/native map/schema25 changes
-are present; Python schema constant is CURRENT_SCHEMA_VERSION=24 without spaces.
-Waste/action: preserve this diagnosis and resume only the unapplied edits against
-observed source. No build/retry/capture/install occurred; keep grouped candidate
-pending until APIs, consumer and meaningful tests are complete.
-
-PROJECTMETA1 legacy-helper review: first replacement matched no downgrade helpers
-because they use separate db.execute calls rather than SQL semicolon batches.
-Updated the observed execute-call form in19 modules, keeping corruption tests
-intact. Another nonexistent optional test-path lookup was attempted; subsequent
-searches must target the tests directory with filename globs, not guessed files.
-No build has started. Next: focused project-metadata contracts, then grouped GUI
-observer extension and one cached candidate after interfaces/tests settle.
-
-PROJECTMETA1 pre-build review:48 focused cases (two opt-in desktop), existing
-entry/affected project controls, five native roles including actual GUI and all
-24 older schemas are selected. New capture identity test passes on the old safe
-environment; functional changes remain unverified until candidate execution.
-Grouped native map/schema25/snapshot/recovery adoption, owning SDK and shared
-editor project mode are settled. Empty-source import retains metadata; all-
-unavailable nonempty projects still refuse. Zero-image project class definitions
-receive an explicit loss notice, since the registry is a separate remaining gap.
-Waste/action: reuse source/capture/validators/editor and old affected selection;
-no numerical campaign or new observer framework. Next: freeze and run the cached
-candidate once, preserve and diagnose any failures before retrying.

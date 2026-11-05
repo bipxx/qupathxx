@@ -275,4 +275,4 @@ unsupported representations still require their existing loss review.
 Short project-entry metadata maps now have [scoped retention](project-entry-metadata.md)
 through ProjectImage/Project and manifest/exchange1/2 imports, including actual
 saved geometry routes. [Tags and description](project-entry-details.md) also have scoped retention
-through their project authority. Global project metadata remains a distinct loss.
+through their project authority. [Project-wide metadata](benchmarks/project-metadata-r5/README.md) now has its separate schema25/import/edit/snapshot/recovery workflow. Derived class ancestry and zero-image project class defaults remain distinct gaps.

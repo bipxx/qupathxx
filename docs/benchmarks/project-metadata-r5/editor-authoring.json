@@ -1,0 +1,12 @@
+{
+  "source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "replay_complete": true,
+  "frames": 70,
+  "images": 0,
+  "removed_keys": [
+    ""
+  ],
+  "remaining_pairs": 8,
+  "saved_metadata_sha256": "dd8b466e9c68261ec9134520ca0ca9018eca052badf2683a642d5f6bf1d51b10",
+  "purpose": "Installed actual mouse remove/Apply/close/Ctrl+S/reopen on zero-image project; exact map verified"
+}

@@ -1,0 +1,61 @@
+native source 408f383e78e7f235ec2d444c3a7d2488a81c5d64
+......................F..................F...ss......................... [ 27%]
+...............s...................................s.................... [ 55%]
+ss.......................................................ss............. [ 83%]
+..................s.......................                               [100%]
+================================== FAILURES ===================================
+_____________ test_snapshot_budget_ownership_and_recovery_restore _____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-metadata-r5/staged-temp/test_snapshot_budget_ownership0')
+
+    def test_snapshot_budget_ownership_and_recovery_restore(tmp_path):
+        project=q.Project();path=tmp_path/'snapshot.qpxproj';job=q.ProjectSaveJob(100000);assert job.request(project,str(path)) and job.wait().applied
+        project.set_metadata(RICH);job=q.ProjectSaveJob();assert job.request(project,str(path));project.set_metadata({'later':'live'});assert job.wait().applied
+        assert q.Project.open(str(path)).metadata==RICH and project.dirty
+        project.set_metadata({str(i):'x'*3000 for i in range(200)});before=path.read_bytes()
+        with pytest.raises((ValueError,RuntimeError),match='budget'):q.ProjectSaveJob(100000).request(project,str(path))
+        assert path.read_bytes()==before
+>       project.set_metadata(RICH);recovery=tmp_path/'recovery.qpxrec';writer=q.ProjectAutosave();assert writer.request(project,str(recovery));assert writer.wait().state=='ready'
+                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: recovery destination must use .qpxrecover
+
+tests\test_project_metadata.py:88: ValueError
+__________ test_global_file_stale_guard_and_all_unavailable_refusal ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-metadata-r5/staged-temp/test_global_file_stale_guard_a0')
+
+    def test_global_file_stale_guard_and_all_unavailable_refusal(tmp_path):
+        path=foreign(tmp_path);preview=q.preview_qupath_project(str(path));(path.parent/'data/metadata.json').write_text('{}',encoding='utf-8')
+        with pytest.raises(RuntimeError,match='changed'):preview.import_new(str(tmp_path/'changed.qpxproj'))
+        assert not preview.consumed
+>       (path.parent/'source.ome.tif').unlink();preview=q.preview_qupath_project(str(path));assert any(i.code=='unavailable_image' for i in preview.issues)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_project_metadata.py:145: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-metadata-r5/staged-temp/test_global_file_stale_guard_a0/foreign/source.ome.tif')
+missing_ok = False
+
+    def unlink(self, missing_ok=False):
+        """
+        Remove this file or link.
+        If the path is a directory, use rmdir() instead.
+        """
+        try:
+>           os.unlink(self)
+E           PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5\\staged-temp\\test_global_file_stale_guard_a0\\foreign\\source.ome.tif'
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:1342: PermissionError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_project_metadata.py::test_snapshot_budget_ownership_and_recovery_restore
+FAILED tests/test_project_metadata.py::test_global_file_stale_guard_and_all_unavailable_refusal
+2 failed, 247 passed, 9 skipped, 2 warnings in 14.93s

@@ -47,6 +47,6 @@ Compiled and observer/stub identities remain separate.
 One grouped ABI/header candidate, one stub generation and one install were used.
 This retention receipt covers native/Python authoring and the read-only inspector.
 Subsequent [GUI authoring](benchmarks/entry-editor-r5/README.md) uses these settled
-APIs, with separate tested source and scope. Global metadata/formats/
-research/resources/support/release remain queued; this receipt establishes no
+APIs, with separate tested source and scope. Project-wide metadata is [separately verified](benchmarks/project-metadata-r5/README.md).
+Broader class/formats/research/resources/support/release remain queued; this receipt establishes no
 full QuPath parity or general speed claim.

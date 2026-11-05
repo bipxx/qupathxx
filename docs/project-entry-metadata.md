@@ -47,5 +47,5 @@ legacy defaults. Final observer hashes are distinct from compiled product inputs
 One cached candidate and one stub/install pass were used. This closes the short
 entry-map engineering workflow only. Tags/description have their separate receipt. Subsequent
 [GUI authoring](benchmarks/entry-editor-r5/README.md) uses the settled map/pair
-setters with bounded drafts and stale/refusal guards. Global project metadata,
-broader R5 formats/records/races and release/scientific/resource work remain open.
+setters with bounded drafts and stale/refusal guards. [Project-wide metadata](benchmarks/project-metadata-r5/README.md) has separate
+retention/editing evidence. Broader R5 class/formats/records/races and release/scientific/resource work remain open.

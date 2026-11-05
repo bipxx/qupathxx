@@ -85,7 +85,7 @@ def test_snapshot_budget_ownership_and_recovery_restore(tmp_path):
     project.set_metadata({str(i):'x'*3000 for i in range(200)});before=path.read_bytes()
     with pytest.raises((ValueError,RuntimeError),match='budget'):q.ProjectSaveJob(100000).request(project,str(path))
     assert path.read_bytes()==before
-    project.set_metadata(RICH);recovery=tmp_path/'recovery.qpxrec';writer=q.ProjectAutosave();assert writer.request(project,str(recovery));assert writer.wait().state=='ready'
+    project.set_metadata(RICH);recovery=tmp_path/'recovery.qpxrecover';writer=q.ProjectAutosave();assert writer.request(project,str(recovery));assert writer.wait().state=='ready'
     assert q.Project.recover(str(recovery)).metadata==RICH
     project.set_metadata({'later':'discard'});project.restore_recovery(str(recovery));assert project.metadata==RICH
 
@@ -142,7 +142,8 @@ def test_global_file_stale_guard_and_all_unavailable_refusal(tmp_path):
     path=foreign(tmp_path);preview=q.preview_qupath_project(str(path));(path.parent/'data/metadata.json').write_text('{}',encoding='utf-8')
     with pytest.raises(RuntimeError,match='changed'):preview.import_new(str(tmp_path/'changed.qpxproj'))
     assert not preview.consumed
-    (path.parent/'source.ome.tif').unlink();preview=q.preview_qupath_project(str(path));assert any(i.code=='unavailable_image' for i in preview.issues)
+    data=json.loads(path.read_bytes());data['images'][0]['serverBuilder']['uri']=(path.parent/'absent.ome.tif').as_uri();path.write_text(json.dumps(data),encoding='utf-8')
+    preview=q.preview_qupath_project(str(path));assert [i.code for i in preview.issues]==['missing_image']
     with pytest.raises(ValueError,match='no available supported images'):preview.import_new(str(tmp_path/'unavailable.qpxproj'),allow_losses=True)
 
 
@@ -176,6 +177,7 @@ def test_desktop_saves_changed_project_metadata(tmp_path,with_image):
 
 def test_empty_project_class_registry_loss_is_explicit(tmp_path):
     path=foreign(tmp_path,'no-images');classes=path.parent/'classifiers/classes.json'
+    classes.parent.mkdir(exist_ok=True)
     classes.write_text(json.dumps({'pathClasses':[{'name':'Tumor','color':0xff0000}]}),encoding='utf-8')
     preview=q.preview_qupath_project(str(path));assert [(i.code,i.count) for i in preview.issues]==[('project_classes_dropped',1)]
     with pytest.raises(ValueError,match='reported losses'):preview.import_new(str(tmp_path/'not-approved.qpxproj'))
