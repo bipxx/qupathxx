@@ -69,7 +69,11 @@ def main():
     software = args.work/'software-python/python.exe'
     fixtures = json.loads((ROOT/'tests/fixtures/manifest.json').read_text())
     fixture = next(x for x in fixtures['downloads'] if x['filename']=='CMU-1.svs')
-    slide = assets.download(fixture, args.work/'fixtures')
+    # Use the authenticated mirrored fixture; consumer validation must not depend
+    # on the specimen host's DNS availability on the runner.
+    slide = args.input/fixture['filename']
+    if not slide.is_file() or slide.stat().st_size != fixture['bytes'] or sha(slide) != fixture['sha256']:
+        raise ValueError('missing or changed pinned candidate fixture')
     sdk = args.work/'sdk'
     run([software, '-I', ROOT/'examples/region_workflow.py', slide, sdk,
          '--roi', '29185', '2048', '512', '512'], args.work/'sdk.log', env)

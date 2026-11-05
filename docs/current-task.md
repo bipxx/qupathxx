@@ -26,6 +26,10 @@ does not change the candidate; a new hosted job is necessary because the old
 runner is terminal. Source collection now supplies12 pinned dependency archives,
 including the OpenSlide source distribution and robin-map within nanobind.
 
+Job42099581064 passed install and test renderer setup, then the external CMU
+fixture host failed DNS resolution. Mirror the already pinned CC0 fixture in the
+draft and require its exact size/SHA256; do not change data or numerical checks.
+
 ## Delivered — selected Windows research workflow checkpoint
 
 The [selected checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)

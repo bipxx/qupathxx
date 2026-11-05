@@ -150,7 +150,7 @@ jobs:
           CANDIDATE_TAG: ${{ inputs.candidate_release_tag }}
         shell: pwsh
         run: |
-          gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip'
+          gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
           if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
       - name: Fresh host frozen install and user workflow
         shell: powershell
