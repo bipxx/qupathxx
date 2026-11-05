@@ -1,4 +1,8 @@
 #include "../cell_intensity_statistics.hpp"
+#include "../cell_archive.hpp"
+#include "../cell_statistics_codec.hpp"
+#include "qupathxx/project.hpp"
+#include "qupathxx/scientific_sampling.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -75,5 +79,92 @@ void check_cell_intensity_statistics() {
     refuses<std::runtime_error>([&]{measure_cell_intensity_statistics(rgb,channels,nuclei,bodies,1,budget,&cancelled);});
     auto extreme=channels;extreme[0]=std::numeric_limits<double>::max();extreme[3]=-std::numeric_limits<double>::max();
     refuses<std::overflow_error>([&]{measure_cell_intensity_statistics(rgb,extreme,nuclei,bodies,1,budget);});
+    qpx::CellFeature feature;feature.label=1;feature.nucleus_pixels=1;feature.cell_pixels=3;
+    feature.nucleus_rgb={1,10,100};feature.cell_rgb={13./3,130./3,185};
+    feature.nucleus_channels={2,20,-1};feature.cell_channels={14./3,140./3,1};
+    feature.cytoplasm_rgb=qpx::ColorVector{6,60,227.5};feature.cytoplasm_channels=qpx::ColorVector{6,60,2};
+    validate_cell_statistics(result,feature);
+    auto invalid=result;invalid.cell.rgb.minimum[0]=256;
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;invalid.cell.channels.sum[0]+=1;
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;(*invalid.cell.rgb.sample_standard_deviation)[0]=-1;
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;invalid.nucleus.rgb.sample_standard_deviation=qpx::ColorVector{};
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;invalid.cytoplasm.reset();
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;invalid.nucleus.samples=2;
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
+    invalid=result;invalid.cell.rgb.sum[0]=std::numeric_limits<double>::quiet_NaN();
+    refuses<std::invalid_argument>([&]{validate_cell_statistics(invalid,feature);});
     std::cout<<"Cell intensity reducer: six QuPath0.7 numeric references, sample SD n-1/absent singleton, exact compartments, float/byte and double input, finite/background/budget/cancellation checks passed; retained API integration remains open\n";
+}
+
+
+void check_cell_intensity_results() {
+    using namespace qpx;
+    std::ifstream input(std::filesystem::path(QPX_NOMINAL_CELL_FIXTURE)/"source.rgb",std::ios::binary);
+    std::vector<std::uint8_t> bytes{std::istreambuf_iterator<char>(input),std::istreambuf_iterator<char>()};check(bytes.size()==256*192*3);
+    Document document(Image(256,192,bytes));document.set_calibration(.5,.5);
+    const auto object=document.add_rectangle({0,0,256,192});const StainTransform transform({{1,0,0},{0,1,0}});
+    auto verify=[&](const CellRequest& request,const std::vector<double>& rgb,bool float_channels) {
+        const auto result=detect_cells(request);check(!result->features().empty());
+        check(result->intensity_statistics_format()==std::optional<std::string>("qpx.cell-intensity-statistics/1"));
+        const auto& nuclei=result->nuclei()->labels();const auto& bodies=result->cells()->labels();check(3*nuclei.size()==rgb.size());
+        for(const auto& feature:result->features()) {
+            const auto statistics=*result->intensity_statistics(feature.label);
+            for(int compartment=0;compartment<3;++compartment) {
+                std::vector<std::size_t> samples;
+                for(std::size_t i=0;i<nuclei.size();++i) if(compartment==0?nuclei[i]==feature.label:compartment==1?bodies[i]==feature.label:bodies[i]==feature.label && !nuclei[i]) samples.push_back(i);
+                const auto* actual=compartment==0?&statistics.nucleus:compartment==1?&statistics.cell:statistics.cytoplasm?&*statistics.cytoplasm:nullptr;
+                if(samples.empty()) {check(!actual);continue;}check(actual && actual->samples==samples.size());
+                for(bool transformed:{false,true}) for(std::size_t c=0;c<3;++c) {
+                    auto value=[&](std::size_t i) {double v=rgb[3*i+c];if(transformed) {v=std::max(0.,std::log10(255./std::max(1.,v)));if(float_channels) v=double(float(v));}return v;};
+                    long double sum=0;double lo=value(samples[0]),hi=lo;
+                    for(auto i:samples) {const auto v=value(i);sum+=v;lo=std::min(lo,v);hi=std::max(hi,v);}
+                    const auto& measured=transformed?actual->channels:actual->rgb;
+                    close(measured.sum[c],double(sum));close(measured.minimum[c],lo);close(measured.maximum[c],hi);
+                    if(samples.size()<2) check(!measured.sample_standard_deviation);
+                    else {long double squared=0,mean=sum/samples.size();for(auto i:samples) {const auto delta=static_cast<long double>(value(i))-mean;squared+=delta*delta;}
+                        close((*measured.sample_standard_deviation)[c],std::sqrt(double(squared/(samples.size()-1))));}
+                }
+            }
+        }
+        const auto encoded=CellArchiveCodec::encode(*result);check(encoded[3]==(result->grid_parameters()?11:10));
+        const auto restored=CellArchiveCodec::decode(encoded.data(),encoded.size(),request.roi(),document.metadata());
+        check(restored->intensity_statistics_format()==result->intensity_statistics_format());
+        for(const auto& feature:result->features()) check(restored->intensity_statistics(feature.label)==result->intensity_statistics(feature.label));
+        check(CellArchiveCodec::encode(*restored)==encoded);
+        const auto record=document.keep_cells(request,result);const auto replay=CellRequest::replay(document,record);
+        check(document.verify_cells(record,replay,*detect_cells(replay)));
+    };
+    const std::vector<double> original(bytes.begin(),bytes.end());
+    for(auto algorithm:{CellAlgorithm::DistanceWatershed,CellAlgorithm::LogWatershed,CellAlgorithm::LogWatershedBodies,CellAlgorithm::SampledLogWatershedBodies}) {
+        CellParameters p(algorithm);p.threshold=.4;p.sigma=1;p.min_nucleus_pixels=16;p.max_nucleus_pixels=512;p.contours.work_bytes=1024*1024;
+        verify(CellRequest(document,object,transform,p),original,true);
+    }
+    GridCellParameters parameters;parameters.threshold=.4;parameters.sigma=1;parameters.min_nucleus_area=16;parameters.max_nucleus_area=512;parameters.contours.work_bytes=1024*1024;
+    const ScientificGrid grid(256,192,{0,256,171,0},{0,192,128,0});
+    verify(CellRequest(document,object,transform,grid,parameters),read_scientific_rgb(*document.server(),grid).values(),false);
+    for(auto coordinates:{RgbNominalSampling::IntegerOrigin,RgbNominalSampling::AffineInverse}) {
+        const RgbNominalRequest source(0,0,256,192,1.5,coordinates);const auto processed=read_rgb_nominal_region(*document.server(),source);
+        std::vector<double> rgb;for(std::size_t i=0;i<processed.bytes().size();i+=4) for(std::size_t c=0;c<3;++c) rgb.push_back(processed.bytes()[i+c]);
+        verify(CellRequest(document,object,transform,NominalCellSampling(source,0,0),parameters),rgb,false);
+    }
+    const auto old=Project::open((std::filesystem::path(QPX_CELL_STATISTICS_FIXTURE)/"legacy-project.qpxproj").u8string());const auto legacy=old->document(1);
+    check(legacy->cell_records().size()==6);
+    for(const auto& record:legacy->cell_records()) {
+        const auto result=record->result;check(!result->intensity_statistics_format());
+        if(!result->features().empty()) check(!result->intensity_statistics(1));
+        const auto encoded=CellArchiveCodec::encode(*result);const auto replay=CellRequest::replay(*legacy,record->id);
+        const auto rerun=detect_cells(replay);check(!rerun->intensity_statistics_format());
+        check(legacy->verify_cells(record->id,replay,*rerun));check(CellArchiveCodec::encode(*result)==encoded);
+    }
+    const auto tight=Project::open((std::filesystem::path(QPX_CELL_STATISTICS_FIXTURE)/"legacy-tight-grid.qpxproj").u8string());
+    const auto tight_doc=tight->document(1);const auto tight_record=tight_doc->cell_records().back();
+    const auto tight_request=CellRequest::replay(*tight_doc,tight_record->id);
+    check(tight_request.estimated_work_bytes()==tight_record->result->grid_parameters()->work_bytes);
+    check(tight_doc->verify_cells(tight_record->id,tight_request,*detect_cells(tight_request)));
+    std::cout<<"Retained intensity statistics: four natural/area/two nominal recipes agree with independent two-pass moments; QCL10/11 canonical replay and six old mean-only recipe replays passed\n";
 }

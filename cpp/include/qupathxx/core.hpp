@@ -871,6 +871,7 @@ struct GuiOptions {
     std::size_t cell_table_byte_limit=256*1024*1024,cell_table_snapshot_budget=256*1024*1024;
     bool cell_table_published_objects=false;
     bool cell_table_capture_calibration=false;
+    bool cell_table_intensity_statistics=false;
     std::string file_fingerprint_path,file_fingerprint_output;
     std::uint64_t file_fingerprint_byte_limit=std::uint64_t(1)<<40;
     std::size_t file_fingerprint_buffer_bytes=1024*1024;

@@ -165,7 +165,7 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        const auto version=std::to_string(request.data_->sampling_parameters?(request.data_->options.include_capture_calibration?12:11):request.data_->processing_parameters?(request.data_->options.include_capture_calibration?10:9):request.data_->nominal_parameters?(request.data_->options.include_capture_calibration?8:7):request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
+        const auto version=std::to_string(request.data_->options.include_intensity_statistics?(request.data_->options.include_capture_calibration?14:13):request.data_->sampling_parameters?(request.data_->options.include_capture_calibration?12:11):request.data_->processing_parameters?(request.data_->options.include_capture_calibration?10:9):request.data_->nominal_parameters?(request.data_->options.include_capture_calibration?8:7):request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
             (request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
         if(request.data_->options.published_objects) return std::string(request.data_->project?"qpx.project-cell-object-table/":"qpx.cell-object-table/")+version;
         return std::string(request.data_->project?"qpx.project-cell-table/":"qpx.cell-table/")+version;
@@ -248,6 +248,20 @@ struct CellTableWriter {
             }
         }
     }
+    static void statistics(Row& row,const CellResult* result,std::uint32_t label,bool enabled) {
+        if(!enabled) return;
+        if(!result || !result->intensity_statistics_format()) {for(int i=0;i<91;++i) row.separator();return;}
+        row.string(*result->intensity_statistics_format());const auto value=result->intensity_statistics(label);
+        if(!value) throw std::logic_error("declared cell intensity statistics are unavailable");
+        for(const auto* compartment:{&value->nucleus,&value->cell,value->cytoplasm?&*value->cytoplasm:nullptr}) {
+            if(!compartment) {for(int i=0;i<30;++i) row.separator();continue;}
+            for(const auto* channel:{&compartment->rgb,&compartment->channels}) {
+                row.vector(channel->sum);row.vector(channel->minimum);row.vector(channel->maximum);
+                ColorVector range;for(std::size_t i=0;i<3;++i) range[i]=channel->maximum[i]-channel->minimum[i];
+                row.vector(range);row.optional(channel->sample_standard_deviation);
+            }
+        }
+    }
     static void optional(Row& row,std::optional<double> value) {if(value) row.real(*value);else row.separator();}
     static double area(double value,double x,double y) {
         auto result=value*x*y;
@@ -280,6 +294,15 @@ struct CellTableWriter {
         }
         if(request.data_->detector_parameters) {columns.resize(columns.size()-2);columns+=",detector_mode,log_peak_prominence,context_padding_sample_px\r\n";}
         if(request.data_->grid_parameters) {columns.resize(columns.size()-2);for(const auto* name:grid_columns()) {columns+=',';columns+=name;}if(request.data_->processing_parameters) columns+=",processing_policy";if(request.data_->sampling_parameters) columns+=",sampling_algorithm";columns+="\r\n";}
+        if(request.data_->options.include_intensity_statistics) {
+            columns.resize(columns.size()-2);columns+=",intensity_statistics_format";
+            for(const auto* compartment:{"nucleus","cell","cytoplasm"}) for(bool channels:{false,true})
+                for(const auto* statistic:{"sum","minimum","maximum","range","sample_stddev"}) for(std::size_t c=0;c<3;++c) {
+                    columns+=',';columns+=compartment;columns+='_';columns+=statistic;columns+='_';
+                    columns+=channels?"channel_"+std::to_string(c+1):std::string(1,"rgb"[c]);
+                }
+            columns+="\r\n";
+        }
         sink(columns);std::uint64_t done=0;
         if(request.data_->options.published_objects) {
             const auto missing=std::numeric_limits<std::size_t>::max();std::size_t cached=missing;Row saved_prefix;
@@ -313,7 +336,7 @@ struct CellTableWriter {
                         if(request.data_->options.include_capture_calibration) for(int column=0;column<9;++column) row.separator();
                     }
                     const auto result=a.cell_feature_link && entry!=missing?request.data_->entries[entry].record->result.get():nullptr;
-                    object(row,a,status,image);detector(row,request,result);grid(row,request,result);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                    object(row,a,status,image);detector(row,request,result);grid(row,request,result);statistics(row,result,a.cell_feature_link?a.cell_feature_link->label:0,request.data_->options.include_intensity_statistics);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
                 }
             }
         } else for(const auto& entry:request.data_->entries) {
@@ -321,7 +344,7 @@ struct CellTableWriter {
             const auto saved_prefix=prefix(request,entry);
             for(const auto& f:entry.record->result->features()) {
                 export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label,request.data_->options.include_capture_calibration);
-                detector(row,request,entry.record->result.get());grid(row,request,entry.record->result.get());sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                detector(row,request,entry.record->result.get());grid(row,request,entry.record->result.get());statistics(row,entry.record->result.get(),f.label,request.data_->options.include_intensity_statistics);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }
         if(done!=request.row_count()) throw std::logic_error("cell table row count mismatch");

@@ -86,7 +86,7 @@ void check_grid_cell_consumers() {
     const auto bytes=ObjectClassifierArchiveCodec::encode(record,nullptr);
     // QCR envelope: id, name, applied, vote threshold, changed-ID count, artifact blob.
     const auto blob=4+8+8+record.name.size()+8+8+8;const auto artifact=blob+8,artifact_size=std::size_t(integer(bytes,blob));
-    require(std::string(bytes.begin()+artifact,bytes.begin()+artifact+4)==std::string("QCA\5",4));
+    require(std::string(bytes.begin()+artifact,bytes.begin()+artifact+4)==std::string("QCA\12",4));
     const auto restored=ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),doc->metadata(),nullptr);require(ObjectClassifierArchiveCodec::encode(*restored,nullptr)==bytes);
     require(restored->archive->table()->sha256()==archive->table()->sha256() && restored->archive->result()->predictions().size()==selection.size());
     bool saw_grid=false,saw_legacy=false,saw_upsampling=false;

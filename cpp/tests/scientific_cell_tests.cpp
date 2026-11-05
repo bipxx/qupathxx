@@ -81,7 +81,7 @@ void check_scientific_cells() {
     require(calibrated.nucleus_centroid_um->x==1.5 && calibrated.nucleus_centroid_um->y==1.125);
     require(result->nuclei()->input_sha256()==result->cells()->input_sha256());
     const auto hash=input_sha256(request);require(hash==result->nuclei()->input_sha256() && reader->reads==2);
-    const auto encoded=CellArchiveCodec::encode(*result);require(encoded[3]==5);
+    const auto encoded=CellArchiveCodec::encode(*result);require(encoded[3]==11);
     const auto decoded=CellArchiveCodec::decode(encoded.data(),encoded.size(),request.roi(),doc.metadata());
     require(decoded->cells()->labels()==result->cells()->labels() && decoded->calibrated_feature(1).cell_sample_area_um2==3.75);
     require(reader->reads==2);const auto saved=doc.keep_cells(request,result);require(doc.cell_status(saved)=="current");

@@ -30,7 +30,7 @@ bool same_grid_request(const CellResult& a,const CellResult& b) {
         resolved(*a.resolved_grid_parameters())==resolved(*b.resolved_grid_parameters()) && x->effective_pixel_width_um==y->effective_pixel_width_um && x->effective_pixel_height_um==y->effective_pixel_height_um;
 }
 bool same_request(const CellResult& a,const CellResult& b) {
-    return a.nuclei()->object_id()==b.nuclei()->object_id() && a.nuclei()->object_revision()==b.nuclei()->object_revision() &&
+    return a.intensity_statistics_format()==b.intensity_statistics_format() && a.nuclei()->object_id()==b.nuclei()->object_id() && a.nuclei()->object_revision()==b.nuclei()->object_revision() &&
         a.nuclei()->roi().equals(b.nuclei()->roi()) &&
         a.nuclei()->white()==b.nuclei()->white() && a.nuclei()->stains()==b.nuclei()->stains() &&
         a.nuclei()->level()==b.nuclei()->level() &&
@@ -41,7 +41,7 @@ bool equivalent(const CellResult& a,const CellResult& b) {
     if(!same_request(a,b) || std::string(a.algorithm())!=b.algorithm() || a.nuclei()->input_sha256()!=b.nuclei()->input_sha256() || a.nuclei()->samples()!=b.nuclei()->samples() ||
        a.nuclei()->threshold_pixels()!=b.nuclei()->threshold_pixels() || a.nuclei()->labels()!=b.nuclei()->labels() || a.cells()->labels()!=b.cells()->labels() ||
        a.raw_peaks()!=b.raw_peaks() || a.features().size()!=b.features().size() || a.markers().size()!=b.markers().size()) return false;
-    for(std::size_t i=0;i<a.features().size();++i) if(feature(a.features()[i])!=feature(b.features()[i])) return false;
+    for(std::size_t i=0;i<a.features().size();++i) if(feature(a.features()[i])!=feature(b.features()[i]) || a.intensity_statistics(a.features()[i].label)!=b.intensity_statistics(b.features()[i].label)) return false;
     for(std::size_t i=0;i<a.markers().size();++i) if(marker(a.markers()[i])!=marker(b.markers()[i])) return false;
     return true;
 }
@@ -145,15 +145,15 @@ CellRequest CellRequest::replay(const Document& document,std::uint64_t id) {
     if(record->result->grid_parameters()) {
         if((!r.scientific_grid() && !r.nominal_sampling()) || !r.provenance()) throw std::invalid_argument("saved grid cell geometry or provenance is missing");
         const auto transform=StainTransform::from_normalized(r.stains(),r.white());
-        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,CellSamplingGrid(document.metadata().width,document.metadata().height,*r.nominal_sampling(),CellSamplingGrid::exact_support_for(*r.nominal_sampling(),r.input_format())),*record->result->grid_parameters()):
-            CellRequest(document,r.object_id(),transform,*r.scientific_grid(),*record->result->grid_parameters());
+        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,CellSamplingGrid(document.metadata().width,document.metadata().height,*r.nominal_sampling(),CellSamplingGrid::exact_support_for(*r.nominal_sampling(),r.input_format())),*record->result->grid_parameters(),record->result->intensity_statistics_format().has_value()):
+            CellRequest(document,r.object_id(),transform,CellSamplingGrid(*r.scientific_grid()),*record->result->grid_parameters(),record->result->intensity_statistics_format().has_value());
         const auto& p=request.scientific_->source.provenance();
         if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) ||
            p->effective_pixel_width_um!=r.provenance()->effective_pixel_width_um || p->effective_pixel_height_um!=r.provenance()->effective_pixel_height_um ||
            resolved(*request.resolved_grid_parameters())!=resolved(*record->result->resolved_grid_parameters())) throw std::invalid_argument("saved grid cell object, calibration or resolved geometry changed");
         return request;
     }
-    CellRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),record->result->parameters());
+    CellRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),record->result->parameters(),record->result->intensity_statistics_format().has_value());
     if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) || request.level()!=r.level() || request.downsample()!=r.downsample())
         throw std::invalid_argument("saved cell object or pyramid has changed");
     return request;

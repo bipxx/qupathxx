@@ -1,7 +1,8 @@
 # Retained cell intensity statistics: R6-FEATURE1
 
-Status: numeric definition and shared private reducer verified; production
-results, persistence, bindings, export and consumer integration remain open.
+Status: production results, replay, QCL10/11, QCA10, owning bindings and opt-in
+export are implemented; native and initial binding checks pass. The final wheel,
+installed consumers and desktop closeout remain open.
 The [current task](current-task.md) owns the next action. This is one ongoing
 vertical workflow, not completion of the R6 feature family.
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "cell_intensity_statistics.hpp"
 #include "qupathxx/cells.hpp"
 #include <algorithm>
 #include <limits>
@@ -37,10 +38,10 @@ inline Rect processing_grid(Rect roi,const ImageLevel& level,const CellParameter
     const auto left=std::max<std::int64_t>(0,x-padding),top=std::max<std::int64_t>(0,y-padding);
     return {double(left),double(top),double(right+std::min(padding,level.width-right)-left),double(bottom+std::min(padding,level.height-bottom)-top)};
 }
-inline std::uint64_t work_base(Rect grid,const CellParameters& p) {
+inline std::uint64_t work_base(Rect grid,const CellParameters& p,bool statistics=false) {
     const auto width=static_cast<std::uint64_t>(grid.width),height=static_cast<std::uint64_t>(grid.height);
     if(!width || !height || width>std::numeric_limits<std::uint32_t>::max()/height) throw std::length_error("cell context grid exceeds index range");
     const auto n=width*height;
-    return (p.algorithm!=CellAlgorithm::DistanceWatershed?160ull:80ull)*n+40ull*std::max(width,height)+1024ull*std::min<std::uint64_t>(n,p.max_cells)+16ull*p.tile_size*p.tile_size+65536;
+    return (p.algorithm!=CellAlgorithm::DistanceWatershed?160ull:80ull)*n+40ull*std::max(width,height)+(1024ull+(statistics?cell_intensity_statistics_work_bytes(1):0))*std::min<std::uint64_t>(n,p.max_cells)+16ull*p.tile_size*p.tile_size+65536;
 }
 }

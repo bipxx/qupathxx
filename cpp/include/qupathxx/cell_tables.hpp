@@ -6,6 +6,7 @@ struct CellTableOptions {
     std::size_t byte_limit=256*1024*1024,snapshot_budget=256*1024*1024;
     bool published_objects=false;
     bool include_capture_calibration=false;
+    bool include_intensity_statistics=false;
     void validate() const;
 };
 class CellTableRequest {

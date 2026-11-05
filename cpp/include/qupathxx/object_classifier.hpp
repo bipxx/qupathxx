@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/classifier.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/cell_statistics.hpp"
 #include "qupathxx/provenance.hpp"
 
 namespace qpx {
@@ -54,6 +55,7 @@ public:
     std::optional<Roi> nucleus_roi(std::size_t row) const;
     std::optional<ObjectFeatureCellOrigin> cell_origin(std::size_t row) const;
     std::optional<CellFeature> cell_feature(std::size_t row) const;
+    std::optional<CellIntensityStatistics> cell_intensity_statistics(std::size_t row) const;
 private:
     ObjectFeatureTable()=default;
     std::shared_ptr<const ObjectFeatureRequest::Data> snapshot_;

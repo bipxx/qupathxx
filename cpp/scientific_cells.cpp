@@ -1,4 +1,5 @@
 #include "scientific_cells.hpp"
+#include "cell_intensity_statistics.hpp"
 #include "roi_scientific_grid.hpp"
 #include "scientific_raster.hpp"
 #include "scientific_cell_recipe.hpp"
@@ -37,7 +38,7 @@ ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid& 
     return {metric.x_um(),metric.y_um(),sigmas.first,sigmas.second,minimum>maximum?n+1:minimum,minimum>maximum?0:maximum};
 }
 std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellParameters& p,const ResolvedGridCellParameters& r,
-    const Roi& roi,const AnalysisProvenance& source,const ImageMetadata& m,const std::atomic<bool>* cancelled) {
+    const Roi& roi,const AnalysisProvenance& source,const ImageMetadata& m,const std::atomic<bool>* cancelled,bool statistics) {
     if(p.processing!=CellProcessingPolicy::Quantitative && !grid.nominal)
         throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
     if(m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
@@ -58,9 +59,13 @@ std::size_t grid_cell_work_bytes(const CellSamplingGrid& grid,const GridCellPara
     const auto b=grid.read_bounds(cancelled);
     if(p.contours.work_bytes<65536ULL+2ULL*roi.payload_bytes())
         throw std::length_error("grid cell contours cannot fit their base geometry budget");
-    const auto bytes=(grid.nominal?260ULL:256ULL)*n+1024*std::min<std::uint64_t>(n,p.max_cells)+40ULL*std::max(width,height)+
+    const auto bytes=(grid.nominal?260ULL:256ULL)*n+(1024ULL+(statistics?cell_detail::cell_intensity_statistics_work_bytes(1):0))*std::min<std::uint64_t>(n,p.max_cells)+40ULL*std::max(width,height)+
         8ULL*(2*rx+2*ry+2)+4ULL*b.width*b.height+2ULL*p.contours.work_bytes+
-        source.payload_bytes()+4ULL*roi.payload_bytes()+sizeof(CellResult)+65536;
+        source.payload_bytes()+4ULL*roi.payload_bytes()+sizeof(CellResult)-
+        (statistics?0:sizeof(std::vector<CellIntensityStatistics>)+alignof(std::vector<CellIntensityStatistics>))+65536;
+    // Old mean-only recipes retain their original result-metadata charge. The
+    // added empty statistics metadata fits the fixed65536 bookkeeping allowance;
+    // measured recipes charge full metadata and all new arrays explicitly.
     cell_detail::scientific_cell_budget(bytes,p.work_bytes);
     return std::size_t(bytes);
 }
@@ -97,8 +102,8 @@ CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransfo
     CellRequest(doc,id,transform,CellSamplingGrid(std::move(grid)),std::move(p)) {}
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,NominalCellSampling sampling,GridCellParameters p):
     CellRequest(doc,id,transform,CellSamplingGrid(doc.metadata().width,doc.metadata().height,std::move(sampling),true),std::move(p)) {}
-CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellSamplingGrid grid,GridCellParameters p):
-    reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
+CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellSamplingGrid grid,GridCellParameters p,bool statistics):
+    measure_intensity_(statistics),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
     p.validate();
     if(p.processing!=CellProcessingPolicy::Quantitative && !grid.nominal)
         throw std::invalid_argument("ImageJ processing requires nominal RGB cell sampling");
@@ -109,7 +114,7 @@ CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransfo
     auto resolved=resolve_grid_cell_parameters(grid,p,*source.provenance());
     auto context=std::make_shared<ScientificCellContext>(ScientificCellContext{std::move(source),grid,p,resolved});
     if(reader_->closed()) throw std::invalid_argument("grid cells require an open source");
-    work_=grid_cell_work_bytes(grid,p,resolved,context->source.roi(),*context->source.provenance(),reader_->metadata());
+    work_=grid_cell_work_bytes(grid,p,resolved,context->source.roi(),*context->source.provenance(),reader_->metadata(),nullptr,statistics);
     scientific_=std::move(context);physical_calibration_revision_=doc.calibration_revision();
     // Internal common contour budget only; legacy sampled parameters are not
     // exposed as a false representation of the typed grid recipe.
@@ -216,7 +221,7 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     std::vector<std::uint32_t> dense(detected.count+1);std::uint32_t count=0;
     for(std::size_t i=1;i<counts.size();++i) if(counts[i]>=r.min_nucleus_samples && (!r.max_nucleus_samples || counts[i]<=r.max_nucleus_samples)) dense[i]=++count;
     for(auto& label:detected.labels) label=dense[label];
-    auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=request.parameters_;result->grid_parameters_=p;result->resolved_grid_parameters_=r;
+    auto result=std::shared_ptr<CellResult>(new CellResult());result->measure_intensity_=request.measure_intensity_;result->parameters_=request.parameters_;result->grid_parameters_=p;result->resolved_grid_parameters_=r;
     result->ticket_=request.ticket_;result->algorithm_=grid.algorithm(p.processing);
     for(const auto& peak:detected.peaks) {
         if(peak.radius>=p.min_peak_radius) ++result->raw_peaks_;if(!peak.selected) continue;
@@ -229,17 +234,29 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
         cell_detail::expand_cells_watershed(detected.labels,domain,width,height,p.cell_expansion/r.step_x,p.work_bytes,cancelled,true,p.processing==CellProcessingPolicy::QuPath070V2).labels:
         cell_detail::expand_grid_cells(detected.labels,domain,width,height,metric,p.cell_expansion,p.work_bytes,cancelled).labels;
     struct Sums {ColorVector nr{},br{},nc{},bc{},cr{},cc{},nrerr{},brerr{},ncerr{},bcerr{},crerr{},ccerr{};};
+    std::vector<cell_detail::intensity_detail::Cell> statistics(result->measure_intensity_?count:0);
+    if(result->measure_intensity_) result->intensity_statistics_.resize(count);
     std::vector<Sums> sums(count);result->features_.resize(count);
     auto add=[](double value,double& sum,double& error){const auto adjusted=value-error,next=sum+adjusted;error=(next-sum)-adjusted;sum=next;};
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);const auto a=detected.labels[i],b=bodies[i];if(a && a!=b) throw std::logic_error("grid expansion lost a nucleus");
         if(a) ++result->features_[a-1].nucleus_pixels;if(b) ++result->features_[b-1].cell_pixels;
+        if(result->measure_intensity_ && b) {
+            ColorVector colors,transformed;for(std::size_t c=0;c<3;++c) {colors[c]=rgb.values()[3*i+c];transformed[c]=channels[3*i+c];}
+            auto& stats=statistics[b-1];stats.cell.add(colors,transformed);
+            if(a) stats.nucleus.add(colors,transformed);else stats.cytoplasm.add(colors,transformed);
+        }
         for(std::size_t channel=0;channel<3;++channel) {
             const auto v=rgb.values()[3*i+channel],w=channels[3*i+channel];
             if(a) {auto& s=sums[a-1];add(v,s.nr[channel],s.nrerr[channel]);add(w,s.nc[channel],s.ncerr[channel]);}
             if(b) {auto& s=sums[b-1];add(v,s.br[channel],s.brerr[channel]);add(w,s.bc[channel],s.bcerr[channel]);
                 if(!a) {add(v,s.cr[channel],s.crerr[channel]);add(w,s.cc[channel],s.ccerr[channel]);}}
         }
+    }
+    for(std::size_t i=0;i<statistics.size();++i) {
+        checkpoint(cancelled);auto& output=result->intensity_statistics_[i];const auto& stats=statistics[i];
+        output.nucleus=stats.nucleus.finish();output.cell=stats.cell.finish();
+        if(stats.cytoplasm.count) output.cytoplasm=stats.cytoplasm.finish();
     }
     for(std::size_t i=0;i<count;++i) {
         auto& f=result->features_[i];const auto& s=sums[i];f.label=std::uint32_t(i+1);const auto cytoplasm=f.cell_pixels-f.nucleus_pixels;

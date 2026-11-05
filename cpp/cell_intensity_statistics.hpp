@@ -1,5 +1,5 @@
 #pragma once
-#include "qupathxx/stains.hpp"
+#include "qupathxx/cell_statistics.hpp"
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -13,18 +13,6 @@
 namespace qpx::cell_detail {
 // Shared reducer only. Public result/codec/consumer integration is version-gated;
 // legacy means keep their existing accumulation and remain independently stored.
-struct ChannelIntensityStatistics {
-    ColorVector sum{},minimum{},maximum{};
-    std::optional<ColorVector> sample_standard_deviation;
-};
-struct CompartmentIntensityStatistics {
-    std::uint64_t samples=0;
-    ChannelIntensityStatistics rgb,channels;
-};
-struct CellIntensityStatistics {
-    CompartmentIntensityStatistics nucleus,cell;
-    std::optional<CompartmentIntensityStatistics> cytoplasm;
-};
 namespace intensity_detail {
 inline void checkpoint(const std::atomic<bool>* cancel) {
     if(cancel && cancel->load(std::memory_order_relaxed)) throw std::runtime_error("cell intensity statistics cancelled");

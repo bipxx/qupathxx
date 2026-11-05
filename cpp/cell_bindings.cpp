@@ -70,6 +70,19 @@ void bind_cells(nb::module_& m) {
         .def_prop_ro("total_tiles",&CellRequest::total_tiles).def_prop_ro("estimated_work_bytes",&CellRequest::estimated_work_bytes);
     nb::class_<CellMarker>(m,"CellMarker").def_ro("label",&CellMarker::label).def_ro("result_label",&CellMarker::result_label)
         .def_ro("pixel_index",&CellMarker::pixel_index).def_prop_ro("center",[](const CellMarker& m){return m.center;}).def_ro("radius",&CellMarker::radius);
+    nb::class_<ChannelIntensityStatistics>(m,"ChannelIntensityStatistics")
+        .def_prop_ro("sum",[](const ChannelIntensityStatistics& s){return s.sum;})
+        .def_prop_ro("minimum",[](const ChannelIntensityStatistics& s){return s.minimum;})
+        .def_prop_ro("maximum",[](const ChannelIntensityStatistics& s){return s.maximum;})
+        .def_prop_ro("sample_standard_deviation",[](const ChannelIntensityStatistics& s){return s.sample_standard_deviation;});
+    nb::class_<CompartmentIntensityStatistics>(m,"CompartmentIntensityStatistics")
+        .def_ro("samples",&CompartmentIntensityStatistics::samples)
+        .def_prop_ro("rgb",[](const CompartmentIntensityStatistics& s){return s.rgb;})
+        .def_prop_ro("channels",[](const CompartmentIntensityStatistics& s){return s.channels;});
+    nb::class_<CellIntensityStatistics>(m,"CellIntensityStatistics")
+        .def_prop_ro("nucleus",[](const CellIntensityStatistics& s){return s.nucleus;})
+        .def_prop_ro("cell",[](const CellIntensityStatistics& s){return s.cell;})
+        .def_prop_ro("cytoplasm",[](const CellIntensityStatistics& s){return s.cytoplasm;});
     nb::class_<CellFeature>(m,"CellFeature").def_ro("label",&CellFeature::label).def_ro("nucleus_pixels",&CellFeature::nucleus_pixels).def_ro("cell_pixels",&CellFeature::cell_pixels)
         .def_ro("nucleus_rgb",&CellFeature::nucleus_rgb).def_ro("cell_rgb",&CellFeature::cell_rgb).def_ro("cytoplasm_rgb",&CellFeature::cytoplasm_rgb)
         .def_ro("nucleus_channels",&CellFeature::nucleus_channels).def_ro("cell_channels",&CellFeature::cell_channels).def_ro("cytoplasm_channels",&CellFeature::cytoplasm_channels);
@@ -86,6 +99,8 @@ void bind_cells(nb::module_& m) {
         .def_prop_ro("grid_parameters",[](const CellResult& r){return r.grid_parameters()?std::optional<GridCellParameters>(*r.grid_parameters()):std::nullopt;})
         .def_prop_ro("resolved_grid_parameters",[](const CellResult& r){return r.resolved_grid_parameters()?std::optional<ResolvedGridCellParameters>(*r.resolved_grid_parameters()):std::nullopt;})
         .def("calibrated_feature",&CellResult::calibrated_feature,"label"_a)
+        .def("intensity_statistics",&CellResult::intensity_statistics,"label"_a)
+        .def_prop_ro("intensity_statistics_format",&CellResult::intensity_statistics_format)
         .def_prop_ro("nuclei",&CellResult::nuclei).def_prop_ro("cells",&CellResult::cells)
         .def_prop_ro("nucleus_contours",&CellResult::nucleus_contours).def_prop_ro("cell_contours",&CellResult::cell_contours)
         .def_prop_ro("features",[](const CellResult& r){return r.features();}).def_prop_ro("markers",[](const CellResult& r){return r.markers();})

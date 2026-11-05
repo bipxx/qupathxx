@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace qpx;
 void check_cell_intensity_statistics();
+void check_cell_intensity_results();
 void check_scientific_cells();
 void check_nominal_cells();
 void check(bool v) {if(!v) throw std::runtime_error("cell check failed");}
@@ -26,6 +27,7 @@ public:
 int main() {
  try {
     check_cell_intensity_statistics();
+    check_cell_intensity_results();
     check_scientific_cells();
     check_nominal_cells();
     std::vector<double> tiny_sigma_values{1,2,3,4};

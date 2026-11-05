@@ -17,18 +17,18 @@
 namespace qpx {
 namespace {
 using cell_detail::checkpoint;
-std::size_t estimate(const TissueRequest& request,const CellParameters& p) {
+std::size_t estimate(const TissueRequest& request,const CellParameters& p,bool statistics) {
     const auto b=cell_detail::processing_grid(request.level_bounds(),request.provenance()->source.levels.at(request.level()),p);
-    const auto bytes=cell_detail::work_base(b,p)+(has_geos()?2ull*p.contours.work_bytes:0);
+    const auto bytes=cell_detail::work_base(b,p,statistics)+(has_geos()?2ull*p.contours.work_bytes:0);
     if(bytes>p.work_bytes) throw std::length_error("cell raster/contours exceed work budget; select a coarser level or smaller ROI");return static_cast<std::size_t>(bytes);
 }
-TissueRequest choose(const Document& doc,std::uint64_t id,const StainTransform& transform,const CellParameters& p) {
+TissueRequest choose(const Document& doc,std::uint64_t id,const StainTransform& transform,const CellParameters& p,bool statistics) {
     p.validate();TissueParameters t;t.feature=p.feature;t.threshold=p.threshold;t.tile_size=p.tile_size;t.max_components=p.max_cells;t.work_bytes=p.work_bytes;
-    if(p.level>=0) {t.level=p.level;TissueRequest r(doc,id,transform,t);estimate(r,p);return r;}
+    if(p.level>=0) {t.level=p.level;TissueRequest r(doc,id,transform,t);estimate(r,p,statistics);return r;}
     std::optional<TissueRequest> best;
     for(std::size_t i=0;i<doc.metadata().levels.size();++i) {
         t.level=static_cast<std::int32_t>(i);
-        try {TissueRequest r(doc,id,transform,t);estimate(r,p);if(!best || r.downsample()<best->downsample()) best=std::move(r);}
+        try {TissueRequest r(doc,id,transform,t);estimate(r,p,statistics);if(!best || r.downsample()<best->downsample()) best=std::move(r);}
         catch(const std::length_error&) {} // Try a coarser native level, never arbitrary resampling.
         catch(const std::invalid_argument& e) {if(std::string(e.what()).find("ROI contains no pixel centers")==std::string::npos) throw;}
     }
@@ -115,8 +115,10 @@ void CellParameters::validate() const {
     contours.validate();if(!contours.clip_to_roi) throw std::invalid_argument("cell contours must clip to their source ROI");
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p):
-    source_(std::make_shared<TissueRequest>(choose(doc,id,transform,p))),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
-    processing_grid_=cell_detail::processing_grid(source_->level_bounds(),reader_->metadata().levels.at(level()),p);work_=estimate(*source_,p);
+    CellRequest(doc,id,transform,std::move(p),true) {}
+CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p,bool statistics):
+    measure_intensity_(statistics),source_(std::make_shared<TissueRequest>(choose(doc,id,transform,p,statistics))),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
+    processing_grid_=cell_detail::processing_grid(source_->level_bounds(),reader_->metadata().levels.at(level()),p);work_=estimate(*source_,p,statistics);
 }
 CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint64_t id,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,CellParameters p) {
@@ -153,6 +155,10 @@ CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint6
     }
     request.parameters_.validate();return request;
 }
+std::optional<CellIntensityStatistics> CellResult::intensity_statistics(std::uint32_t label) const {
+    if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
+    if(!measure_intensity_) return {};return intensity_statistics_.at(label-1);
+}
 CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const {
     if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
     CalibratedCellFeature value;value.label=label;
@@ -172,7 +178,7 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
     value.cell_centroid_um=Point{product({b.x,x}),product({b.y,y})};
     return value;
 }
-std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+domain_bits_.capacity()+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
+std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+intensity_statistics_.capacity()*sizeof(CellIntensityStatistics)+domain_bits_.capacity()+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_->provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
@@ -220,7 +226,7 @@ struct CellKernel {
         if(request.scientific_) return ScientificCellKernel::run(request,cancelled,completed,phase);
         checkpoint(cancelled);const auto began=std::chrono::steady_clock::now();const auto& p=request.parameters_;const auto grid=request.level_bounds();
         const auto width=static_cast<std::size_t>(grid.width),height=static_cast<std::size_t>(grid.height),n=width*height;const auto scale=request.downsample();
-        auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=p;result->ticket_=request.ticket_;result->algorithm_=cell_detail::algorithm_id(p.algorithm);
+        auto result=std::shared_ptr<CellResult>(new CellResult());result->measure_intensity_=request.measure_intensity_;result->parameters_=p;result->ticket_=request.ticket_;result->algorithm_=cell_detail::algorithm_id(p.algorithm);
         std::vector<float> channels(n*3);std::vector<std::uint8_t> rgb(n*3),domain(n),mask(n);std::vector<double> smooth(n);
         Sha256 digest;const std::string format=cell_detail::input_format(p.algorithm,request.level()!=0);digest.update(format.data(),format.size());const auto& metadata=request.reader_->metadata();
         digest.integer(metadata.width);digest.integer(metadata.height);
@@ -293,13 +299,25 @@ struct CellKernel {
             for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);if(domain[i] && distance[i]<=radius && nearest[i]!=std::numeric_limits<std::uint32_t>::max()) bodies[i]=nuclei[nearest[i]];}
         } else bodies=nuclei;
         std::vector<double>().swap(distance);
+        std::vector<cell_detail::intensity_detail::Cell> statistics(result->measure_intensity_?count:0);
+        if(result->measure_intensity_) result->intensity_statistics_.resize(count);
         result->features_.resize(count);std::vector<ColorVector> nrgb(count),brgb(count),nch(count),bch(count),cytoch(count),ncorr(count),bcorr(count),cytocorr(count);
         auto add=[](double v,double& sum,double& correction) {const auto adjusted=v-correction,next=sum+adjusted;correction=(next-sum)-adjusted;sum=next;};
         for(std::size_t i=0;i<n;++i) {
             if((i&4095)==0) checkpoint(cancelled);
             const auto a=nuclei[i],b=bodies[i];if(a && a!=b) throw std::logic_error("cell expansion lost a nucleus pixel");
+            if(result->measure_intensity_ && b) {
+                ColorVector colors,transformed;for(std::size_t c=0;c<3;++c) {colors[c]=rgb[3*i+c];transformed[c]=channels[3*i+c];}
+                auto& stats=statistics[b-1];stats.cell.add(colors,transformed);
+                if(a) stats.nucleus.add(colors,transformed);else stats.cytoplasm.add(colors,transformed);
+            }
             if(a) {auto& f=result->features_[a-1];++f.nucleus_pixels;for(int c=0;c<3;++c) {nrgb[a-1][c]+=rgb[i*3+c];add(channels[i*3+c],nch[a-1][c],ncorr[a-1][c]);}}
             if(b) {auto& f=result->features_[b-1];++f.cell_pixels;for(int c=0;c<3;++c) {brgb[b-1][c]+=rgb[i*3+c];add(channels[i*3+c],bch[b-1][c],bcorr[b-1][c]);if(!a) add(channels[i*3+c],cytoch[b-1][c],cytocorr[b-1][c]);}}
+        }
+        for(std::size_t i=0;i<statistics.size();++i) {
+            checkpoint(cancelled);auto& output=result->intensity_statistics_[i];const auto& stats=statistics[i];
+            output.nucleus=stats.nucleus.finish();output.cell=stats.cell.finish();
+            if(stats.cytoplasm.count) output.cytoplasm=stats.cytoplasm.finish();
         }
         for(std::size_t i=0;i<count;++i) {auto& f=result->features_[i];f.label=static_cast<std::uint32_t>(i+1);const auto cyto=f.cell_pixels-f.nucleus_pixels;
             if(cyto) {f.cytoplasm_rgb=ColorVector{};f.cytoplasm_channels=ColorVector{};}

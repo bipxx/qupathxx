@@ -63,7 +63,7 @@ void check_nominal_cells() {
         const auto result=detect_cells(input);
         verify(result->features().empty() && result->nuclei()->samples()==(step==1.6?20:380));
         verify(std::string(result->nuclei()->input_format())=="qpx.nominal-cell-rgb/2");
-        const auto bytes=CellArchiveCodec::encode(*result);verify(bytes[3]==9);
+        const auto bytes=CellArchiveCodec::encode(*result);verify(bytes[3]==11);
         const auto restored=CellArchiveCodec::decode(bytes.data(),bytes.size(),input.roi(),white.metadata());
         verify(CellArchiveCodec::encode(*restored)==bytes);
         const auto kept=white.keep_cells(input,result);const auto replay=CellRequest::replay(white,kept);
@@ -150,7 +150,7 @@ void check_nominal_cells() {
             verify(std::abs(f.cell_channels[c]-od[c]/double(count))<1e-6);
         }
     }
-    const auto bytes=CellArchiveCodec::encode(*result);verify(bytes[3]==9);
+    const auto bytes=CellArchiveCodec::encode(*result);verify(bytes[3]==11);
     auto load=[&](const auto& packet){return CellArchiveCodec::decode(packet.data(),packet.size(),request.roi(),doc.metadata());};
     const auto historical=load(bytes);verify(reader->reads==3);
     verify(CellArchiveCodec::encode(*historical)==bytes && historical->cells()->labels()==result->cells()->labels());
@@ -159,7 +159,7 @@ void check_nominal_cells() {
     auto changed_provenance=std::make_shared<AnalysisProvenance>(*result->nuclei()->provenance());++changed_provenance->captured_unix_ms;
     rejects<std::invalid_argument>([&]{ProvenanceCodec::attach(historical->nuclei(),changed_provenance);});
     rejects<std::invalid_argument>([&]{ProvenanceCodec::attach(historical->nuclei(),{});});
-    Counter prefix;cell_detail::grid_parameters_write(prefix,p,true);const auto geometry_at=4+prefix.bytes;
+    Counter prefix;cell_detail::grid_parameters_write(prefix,p,true);const auto geometry_at=12+prefix.bytes;
     for(const auto offset:{geometry_at,geometry_at+16,geometry_at+32,geometry_at+48,geometry_at+56}) {
         auto bad=bytes;for(unsigned i=0;i<8;++i) bad[offset+i]=255;sign(bad,request.roi());rejects<std::exception>([&]{load(bad);});
     }
@@ -230,7 +230,7 @@ void check_nominal_cells() {
         const auto captured=CellRequest(doc,id,transform,sampling,compatible);const auto detected=detect_cells(captured);
         verify(std::string(detected->algorithm())=="qpx.nominal-rgb-imagej154p-log-watershed-bodies/1");
         verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
-        const auto packet=CellArchiveCodec::encode(*detected);verify(packet[3]==9);
+        const auto packet=CellArchiveCodec::encode(*detected);verify(packet[3]==11);
         const auto historical=load(packet);verify(historical->grid_parameters()->processing==CellProcessingPolicy::ImageJ154p && CellArchiveCodec::encode(*historical)==packet);
         const auto kept=doc.keep_cells(captured,detected);const auto replayed=CellRequest::replay(doc,kept);
         verify(replayed.grid_parameters()->processing==CellProcessingPolicy::ImageJ154p && doc.verify_cells(kept,replayed,*detect_cells(replayed)));
@@ -265,7 +265,7 @@ void check_nominal_cells() {
         verify(detected->features().size()==3 && detected->nuclei()->foreground_pixels()==379 && detected->cells()->foreground_pixels()==825);
         const auto packet=CellArchiveCodec::encode(*detected);
         const bool extended=coordinates==RgbNominalSampling::AffineInverse || cell_detail::qupath_processing(policy);
-        verify(packet[3]==9);
+        verify(packet[3]==11);
         const auto restored=CellArchiveCodec::decode(packet.data(),packet.size(),captured.roi(),fresh.metadata());
         verify(restored->grid_parameters()->processing==policy && restored->nuclei()->nominal_sampling()->source_request().sampling==coordinates);
         verify(CellArchiveCodec::encode(*restored)==packet);
@@ -276,7 +276,7 @@ void check_nominal_cells() {
             const auto csv=cell_measurements_csv(CellTableRequest(fresh,{kept}));
             verify(csv.find("qpx.cell-table/11")!=std::string::npos && csv.find("sampling_algorithm")!=std::string::npos && csv.find("qpx.rgb-nominal-affine/1")!=std::string::npos);
             Counter fields;cell_detail::grid_parameters_write(fields,parameters,true);
-            auto corrupt=packet;corrupt[4+fields.bytes+72]=2;sign(corrupt,captured.roi());
+            auto corrupt=packet;corrupt[12+fields.bytes+72]=2;sign(corrupt,captured.roi());
             rejects<std::invalid_argument>([&]{CellArchiveCodec::decode(corrupt.data(),corrupt.size(),captured.roi(),fresh.metadata());});
         }
         if(has_geos()) {

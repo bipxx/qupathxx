@@ -31,25 +31,25 @@ int main() {
         bool clipped_seed=false;
         for(const auto& marker:result->markers()) if(marker.result_label && !result->nuclei()->labels()[marker.pixel_index]) clipped_seed=true;
         require(clipped_seed);
-        const auto bytes=CellArchiveCodec::encode(*result);require(bytes[3]==2);
+        const auto bytes=CellArchiveCodec::encode(*result);require(bytes[3]==10);
         const auto restored=CellArchiveCodec::decode(bytes.data(),bytes.size(),request.roi(),doc.metadata());
         require(restored->parameters().algorithm==p.algorithm && restored->parameters().context_padding==32);
         require(restored->nuclei()->labels()==result->nuclei()->labels() && restored->cells()->labels()==result->cells()->labels());
         const auto record=doc.keep_cells(request,result);const auto replay=CellRequest::replay(doc,record);
         const auto repeated=detect_cells(replay);require(doc.verify_cells(record,replay,*repeated));
         for(auto version:{0,3}) {auto bad=bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),request.roi(),doc.metadata());});}
-        for(auto algorithm:{0,2}) {auto bad=bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),request.roi(),doc.metadata());});}
+        for(auto algorithm:{0,4,9}) {auto bad=bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),request.roi(),doc.metadata());});}
         auto different=p;different.log_prominence=.75;CellRequest altered(doc,object,transform,different);
         rejects([&]{doc.verify_cells(record,altered,*detect_cells(altered));});
         CellParameters inactive;inactive.context_padding=33;rejects([&]{inactive.validate();});
         CellParameters invalid;invalid.algorithm=static_cast<CellAlgorithm>(9);rejects([&]{invalid.validate();});
-        const auto legacy=detect_cells(CellRequest(doc,object,transform,{}));require(CellArchiveCodec::encode(*legacy)[3]==1);
+        const auto legacy=detect_cells(CellRequest(doc,object,transform,{}));require(CellArchiveCodec::encode(*legacy)[3]==10);
         auto body_parameters=p;body_parameters.algorithm=CellAlgorithm::LogWatershedBodies;
         const CellRequest body_request(doc,object,transform,body_parameters);const auto body_result=detect_cells(body_request);
         require(std::string(body_result->algorithm())=="qpx.log-watershed-bodies/1");
         require(body_result->nuclei()->labels()==result->nuclei()->labels());
         require(input_sha256(body_request)==body_result->nuclei()->input_sha256() && input_sha256(body_request)!=input_sha256(request));
-        const auto body_bytes=CellArchiveCodec::encode(*body_result);require(body_bytes[3]==3);
+        const auto body_bytes=CellArchiveCodec::encode(*body_result);require(body_bytes[3]==10);
         const auto body_restored=CellArchiveCodec::decode(body_bytes.data(),body_bytes.size(),body_request.roi(),doc.metadata());
         require(body_restored->parameters().algorithm==body_parameters.algorithm && body_restored->cells()->labels()==body_result->cells()->labels());
         const auto body_record=doc.keep_cells(body_request,body_result);const auto body_replay=CellRequest::replay(doc,body_record);
@@ -62,7 +62,7 @@ int main() {
         require(std::string(sampled_result->algorithm())=="qpx.sampled-log-watershed-bodies/1");
         require(sampled_result->features().size()==2 && sampled_result->nuclei()->input_format()==std::string("qpx.sampled-log-rgba-tiles/1"));
         require(input_sha256(sampled_request)==sampled_result->nuclei()->input_sha256() && input_sha256(sampled_request)!=input_sha256(body_request));
-        const auto sampled_bytes=CellArchiveCodec::encode(*sampled_result);require(sampled_bytes[3]==4);
+        const auto sampled_bytes=CellArchiveCodec::encode(*sampled_result);require(sampled_bytes[3]==10);
         const auto sampled_restored=CellArchiveCodec::decode(sampled_bytes.data(),sampled_bytes.size(),sampled_request.roi(),doc.metadata());
         require(sampled_restored->nuclei()->labels()==sampled_result->nuclei()->labels() && sampled_restored->cells()->labels()==sampled_result->cells()->labels());
         require(std::any_of(sampled_result->markers().begin(),sampled_result->markers().end(),[](const auto& marker){return marker.result_label==0;}));

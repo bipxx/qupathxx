@@ -6,11 +6,12 @@
 namespace qpx::detail {
 std::optional<int> cell_table_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2 || args[1]!="--export-cell-table") return {};
-    if(args.size()<4) throw std::invalid_argument("usage: --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]");
+    if(args.size()<4) throw std::invalid_argument("usage: --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--intensity-statistics] [--published] [--require-current]");
     CellTableOptions options;
     for(std::size_t i=4;i<args.size();++i) {
         const auto& flag=args[i];
         if(flag=="--capture-calibration") {if(options.include_capture_calibration) throw std::invalid_argument("duplicate capture-calibration option");options.include_capture_calibration=true;}
+        else if(flag=="--intensity-statistics") {if(options.include_intensity_statistics) throw std::invalid_argument("duplicate intensity-statistics option");options.include_intensity_statistics=true;}
         else if(flag=="--published") {if(options.published_objects) throw std::invalid_argument("duplicate published option");options.published_objects=true;}
         else if(flag=="--require-current") {if(options.require_current) throw std::invalid_argument("duplicate require-current option");options.require_current=true;}
         else throw std::invalid_argument("unknown cell table export option: "+flag);

@@ -25,7 +25,8 @@ void bind_object_classifier_archives(nb::module_& m) {
     nb::borrow<nb::class_<ObjectFeatureTable>>(m.attr("ObjectFeatureTable"))
         .def("body_roi",&ObjectFeatureTable::body_roi,"row"_a,nb::rv_policy::copy)
         .def("nucleus_roi",&ObjectFeatureTable::nucleus_roi,"row"_a)
-        .def("cell_origin",&ObjectFeatureTable::cell_origin,"row"_a).def("cell_feature",&ObjectFeatureTable::cell_feature,"row"_a);
+        .def("cell_origin",&ObjectFeatureTable::cell_origin,"row"_a).def("cell_feature",&ObjectFeatureTable::cell_feature,"row"_a)
+        .def("cell_intensity_statistics",&ObjectFeatureTable::cell_intensity_statistics,"row"_a);
     nb::class_<ObjectClassifierArchive>(m,"ObjectClassifierArchive")
         .def_prop_ro("table",&ObjectClassifierArchive::table).def_prop_ro("model",&ObjectClassifierArchive::model)
         .def_prop_ro("result",&ObjectClassifierArchive::result).def_prop_ro("purpose",&ObjectClassifierArchive::purpose)

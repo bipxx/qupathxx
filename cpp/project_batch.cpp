@@ -156,6 +156,7 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     }
     if(c.algorithm!=CellAlgorithm::DistanceWatershed)
         s<<",\"cell_algorithm\":"<<static_cast<int>(c.algorithm)<<",\"cell_log_prominence\":"<<c.log_prominence<<",\"cell_context_padding\":"<<c.context_padding;
+    if(o.kind==ProjectBatchKind::Cells) s<<",\"cell_intensity_statistics_format\":\"qpx.cell-intensity-statistics/1\"";
     if(o.cell_grid || o.cell_nominal) {
         const auto& gp=o.grid_cells;
         if(o.cell_nominal) {

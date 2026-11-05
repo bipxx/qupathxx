@@ -6,7 +6,7 @@
 namespace qpx {
 struct AnalysisProvenance;
 ResolvedGridCellParameters resolve_grid_cell_parameters(const CellSamplingGrid&,const GridCellParameters&,const AnalysisProvenance&);
-std::size_t grid_cell_work_bytes(const CellSamplingGrid&,const GridCellParameters&,const ResolvedGridCellParameters&,const Roi&,const AnalysisProvenance&,const ImageMetadata&,const std::atomic<bool>* cancelled=nullptr);
+std::size_t grid_cell_work_bytes(const CellSamplingGrid&,const GridCellParameters&,const ResolvedGridCellParameters&,const Roi&,const AnalysisProvenance&,const ImageMetadata&,const std::atomic<bool>* cancelled=nullptr,bool statistics=false);
 struct ScientificCellContext {
     AnalysisRequest source;
     CellSamplingGrid grid;

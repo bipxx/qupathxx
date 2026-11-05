@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
+#include "qupathxx/cell_statistics.hpp"
 #include "qupathxx/nominal_cell_sampling.hpp"
 namespace qpx {
 enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
@@ -79,7 +80,9 @@ public:
     static CellRequest with_nucleus_area_limits(const Document&,std::uint64_t,const StainTransform&,
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={});
 private:
-    CellRequest(const Document&,std::uint64_t,const StainTransform&,CellSamplingGrid,GridCellParameters);
+    CellRequest(const Document&,std::uint64_t,const StainTransform&,CellSamplingGrid,GridCellParameters,bool measure_intensity=true);
+    CellRequest(const Document&,std::uint64_t,const StainTransform&,CellParameters,bool measure_intensity);
+    bool measure_intensity_=true;
     friend struct CellKernel;
     friend struct ScientificCellKernel;
     friend struct InputDigestKernel;
@@ -129,6 +132,8 @@ public:
     const std::vector<CellFeature>& features() const {return features_;}
     // O(1), capture-time sampling geometry; never consults a live Document.
     CalibratedCellFeature calibrated_feature(std::uint32_t label) const;
+    std::optional<CellIntensityStatistics> intensity_statistics(std::uint32_t label) const;
+    std::optional<std::string> intensity_statistics_format() const {return measure_intensity_?std::optional<std::string>("qpx.cell-intensity-statistics/1"):std::nullopt;}
     const std::vector<CellMarker>& markers() const {return markers_;}
     std::size_t raw_peaks() const {return raw_peaks_;}
     double elapsed_ms() const {return elapsed_ms_;}
@@ -147,6 +152,8 @@ private:
     std::shared_ptr<const TissueResult> nuclei_,cells_;
     std::shared_ptr<const TissueContours> nucleus_contours_,cell_contours_;
     std::vector<CellFeature> features_;
+    bool measure_intensity_=false;
+    std::vector<CellIntensityStatistics> intensity_statistics_;
     std::vector<CellMarker> markers_;
     std::vector<std::uint8_t> domain_bits_; // QCL4 historical opaque ROI samples, packed least-significant bit first.
     std::size_t raw_peaks_=0;

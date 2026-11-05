@@ -7,7 +7,7 @@ All M0-M7 remain Partial. CLASS1, CLASSHISTORY1,
 [SAMPLING1](benchmarks/cell-pyramid-r6/README.md) are locally verified within their
 recorded scopes. Full R6 and the broader R2-R16 inventory remain open.
 
-Current: **R6-FEATURE1 — retained compartment measurements** (in progress: definition and shared reducer).
+Current: **R6-FEATURE1 — retained compartment measurements** (native/API complete; installed consumers pending).
 
 - Outcome: select and finish one missing nucleus/cell/cytoplasm measurement
   definition through native results, owning Python inspection, retained records
@@ -36,31 +36,32 @@ Current: **R6-FEATURE1 — retained compartment measurements** (in progress: def
   only if the Python surface changes. Use openly licensed readers/codecs. Reader,
   resource and research decisions stay with R2/R12/R1 where actually required.
 
-## Latest task review — FEATURE1 numeric foundation (2026-11-05)
+## Latest task review — FEATURE1 candidate handoff (2026-11-05)
 
-Outcome/evidence: cached QuPath0.7 RunningStatistics generated six pinned scalar
-vectors, establishing sample SD n-1 and unavailable singleton SD. The shared
-private reducer [passes the cells native role](benchmarks/cell-statistics-r6/README.md), including those references,
-independent compartment values, byte/float and double input, large offsets,
-background/nonfinite rejection, exact budget admission and cancellation.
-Production behavior remains unchanged: no retained fields, archives, SDK or CSV
-integration is complete. The [measurement contract](cell-intensity-statistics.md)
-settles the native result/vector, replay, QCL10/11, QCA10 and opt-in CSV13/14 route.
+Outcome/evidence: typed per-result statistics and selected-row classifier snapshots
+are implemented, preserving CellFeature layout and canonical means. Both kernels
+fuse moments into their existing accumulation loops. QCL10/11 and QCA10 retain
+new fields while old mean-only replay remains absent. The five affected native
+roles pass; independent moments span four natural, area and two nominal recipes.
+Malformed-statistics checks pass. The old exact workspace boundary now reopens/
+replays unchanged at18212166 bytes.11 initial SDK/ownership/mixed-history checks
+and the repaired boundary pass. Stubs were generated once; positive typing passes
+and negative typing reports exactly the three intended errors.
 
-Waste/action: **reuse** existing decoded samples/labels, runtime and cached build;
-**merge** public API, persistence and consumers before a wheel/stub/install cycle.
-The first reference script used an unavailable Groovy JSON module; preserve its
-failure and use existing GsonTools, with no extra dependency. Web cache misses
-and older cell94 source do not prove current definitions: use actual0.7 runtime
-and pinned detector. Search actual filenames/API calls before writing observers.
-No new pixel corpus, second reducer/model or product install was needed here.
+Waste/action: **reuse** existing source pixels, masks, caches and environments;
+**merge** field/codecs/bindings/export/UI changes before one packaged candidate.
+Do not repeat the slow public-header binding compilation: it completed once;
+subsequent body/observer fixes only refresh affected objects/links. Preserve the
+stale QCL2 algorithm-coupling observer failure and the32-byte legacy metadata
+regression. The first typing command checked unchanged imported equality stubs;
+a guessed CLI option then failed. Local mypy code/help established the required
+config-only setting. Keep those logs; apply silent-import checking to stubs while
+still demanding all three negative diagnostics. No broad suppression/API change.
 
-Plan change/next: expose typed result statistics in a compact per-result vector,
-fuse the moments into existing accumulation without changing canonical means,
-and include the recorded measurement policy in saved replay/verification. Then
-complete the versioned codecs and consumers in the same FEATURE1 workflow. Keep
-legacy mean-only records small; do not insert a large empty optional statistics
-aggregate into every CellFeature. Do not close FEATURE1 or repeat sampling/host
-campaigns merely because the reducer passes. After each bounded task or failed/
-stopped attempt, record outcome/evidence, actual waste/action and next step here
-before continuing/retrying.
+Plan change/next: build one source-identified cached wheel with settled stubs and
+all packaged executables relinked. Run the new shipping SDK/CSV/CLI/legacy and
+selected desktop workflows plus package/stub integrity; install once only after
+those candidate checks. Existing reader/sampling and unchanged numerical cases
+retain their scoped evidence. FEATURE1 remains open until these consumers pass.
+After every bounded task or failed/stopped attempt, update outcome/evidence,
+actual waste/action and the changed next step before continuing/retrying.

@@ -1,4 +1,5 @@
 #include "cell_archive.hpp"
+#include "cell_statistics_codec.hpp"
 #include "scientific_cells.hpp"
 #include "scientific_raster.hpp"
 #include "scientific_cell_recipe.hpp"
@@ -15,10 +16,10 @@ namespace {
 using cell_detail::checkpoint;
 constexpr std::size_t limit=256ULL*1024*1024;
 constexpr std::uint64_t work_limit=512ULL*1024*1024;
-std::uint64_t archive_work(std::size_t n,std::size_t count,std::size_t markers,std::size_t provenance,std::size_t geometry,std::size_t contours,std::size_t encoded) {
+std::uint64_t archive_work(std::size_t n,std::size_t count,std::size_t markers,std::size_t provenance,std::size_t geometry,std::size_t contours,std::size_t encoded,bool statistics=false) {
     // Historical decoding/canonicalization has its own fixed cap, distinct
     // from the captured detector's work limit and Document retention quota.
-    return 128ULL*n+1024ULL*count+sizeof(CellMarker)*markers+2ULL*provenance+4ULL*geometry+2ULL*contours+4ULL*encoded+65536;
+    return 128ULL*n+(1024ULL+(statistics?sizeof(CellIntensityStatistics):0))*count+sizeof(CellMarker)*markers+2ULL*provenance+4ULL*geometry+2ULL*contours+4ULL*encoded+65536;
 }
 bool hex(const std::string& s) {return s.size()==64 && std::all_of(s.begin(),s.end(),[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');});}
 struct Writer {
@@ -89,17 +90,19 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
     checkpoint(cancelled);const auto& p=*r.grid_parameters();p.validate();
     if(!r.nuclei() || !r.cells() || !r.nuclei()->provenance() ||
        (!r.nuclei()->scientific_grid() && !r.nuclei()->nominal_sampling())) throw std::invalid_argument("missing grid cell archive snapshot");
+    const bool statistics=r.measure_intensity_;
+    if(r.intensity_statistics_.size()!=(statistics?r.features().size():0)) throw std::invalid_argument("grid statistics vector differs from declared format");
     const auto& n=*r.nuclei();const CellSamplingGrid grid=n.nominal_sampling()?CellSamplingGrid(n.provenance()->source.width,n.provenance()->source.height,*n.nominal_sampling(),CellSamplingGrid::exact_support_for(*n.nominal_sampling(),n.input_format())):CellSamplingGrid(*n.scientific_grid());
     if(std::string(r.algorithm())!=grid.algorithm(p.processing)) throw std::invalid_argument("grid cell archive algorithm differs");
     const auto provenance=ProvenanceCodec::encode(*n.provenance());
     if(r.domain_bits_.size()!=(n.labels().size()+7)/8 || !hex(n.input_sha256()) || n.input_sha256()!=r.cells()->input_sha256() || r.elapsed_ms()<0)
         throw std::invalid_argument("invalid grid cell archive snapshot");
-    const auto encoded_bound=8ULL*n.labels().size()+160ULL*r.features().size()+20ULL*r.markers().size()+r.domain_bits_.size()+provenance.size()+4096;
-    if(encoded_bound>limit || archive_work(n.labels().size(),r.features().size(),r.markers().size(),n.provenance()->payload_bytes(),n.roi().payload_bytes(),p.contours.work_bytes,std::size_t(encoded_bound))>work_limit)
+    const auto encoded_bound=8ULL*n.labels().size()+(160ULL+(statistics?sizeof(CellIntensityStatistics):0))*r.features().size()+20ULL*r.markers().size()+r.domain_bits_.size()+provenance.size()+4096;
+    if(encoded_bound>limit || archive_work(n.labels().size(),r.features().size(),r.markers().size(),n.provenance()->payload_bytes(),n.roi().payload_bytes(),p.contours.work_bytes,std::size_t(encoded_bound),statistics)>work_limit)
         throw std::length_error("grid cell archive exceeds encoded byte limit");
     const bool processing=p.processing!=CellProcessingPolicy::Quantitative;
-    const bool extended=bool(grid.exact_support_phase) || grid.affine() || cell_detail::qupath_processing(p.processing);
-    Writer w;w.bytes[3]=grid.exact_support_phase?9:extended?8:processing?7:grid.nominal?6:5;parameters(w,p,processing || extended);cell_grid_write(w,grid,extended);
+    const bool extended=statistics || bool(grid.exact_support_phase) || grid.affine() || cell_detail::qupath_processing(p.processing);
+    Writer w;w.bytes[3]=statistics?11:grid.exact_support_phase?9:extended?8:processing?7:grid.nominal?6:5;parameters(w,p,processing || extended);if(statistics) w.integer(grid.nominal?(grid.exact_support_phase?2:1):0);cell_grid_write(w,grid,extended);
     w.blob(provenance);for(auto v:n.white()) w.real(v);for(const auto& row:n.stains()) for(auto v:row) w.real(v);
     const auto& q=*r.resolved_grid_parameters();for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) w.real(v);w.integer(q.min_nucleus_samples);w.integer(q.max_nucleus_samples);
     for(auto v:{n.samples(),n.threshold_pixels(),std::uint64_t(r.raw_peaks()),std::uint64_t(r.markers().size()),std::uint64_t(r.features().size())}) w.integer(v);
@@ -109,6 +112,7 @@ std::vector<std::uint8_t> CellArchiveCodec::encode_grid(const CellResult& r,cons
         checkpoint(cancelled);w.integer(f.nucleus_pixels);w.integer(f.cell_pixels);
         for(const auto& row:{f.nucleus_rgb,f.cell_rgb,f.nucleus_channels,f.cell_channels}) for(auto v:row) w.real(v);
         if(f.cytoplasm_rgb) {for(auto v:*f.cytoplasm_rgb) w.real(v);for(auto v:*f.cytoplasm_channels) w.real(v);}
+        if(statistics) cell_detail::write_cell_statistics(w,r.intensity_statistics_[f.label-1],f);
     }
     w.labels(n.labels(),cancelled);w.labels(r.cells()->labels(),cancelled);w.blob(r.domain_bits_);
     const auto digest=checksum(w.bytes.data(),w.bytes.size(),n.roi(),cancelled);w.bytes.insert(w.bytes.end(),digest.begin(),digest.end());
@@ -118,7 +122,9 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     checkpoint(cancelled);if(!data || size<512 || size>limit) throw std::invalid_argument("invalid grid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("grid cell archive checksum mismatch");
-    Reader d{data+4,size-68};const auto p=parameters(d,data[3]>=7,data[3]>=8);const auto grid=cell_grid_read(d,data[3]>=6,p.work_bytes,data[3]>=8,data[3]>=9);
+    Reader d{data+4,size-68};const bool statistics=data[3]==11;const auto p=parameters(d,data[3]>=7,data[3]>=8);
+    const auto kind=statistics?d.integer(2):std::uint64_t(0);
+    const auto grid=cell_grid_read(d,statistics?kind!=0:data[3]>=6,p.work_bytes,data[3]>=8,statistics?kind==2:data[3]>=9);
     if(grid.image_width()!=metadata.width || grid.image_height()!=metadata.height || !roi.is_area()) throw std::invalid_argument("grid cell archive image or ROI mismatch");
     const auto b=roi.bounds();if(b.x<0 || b.y<0 || b.x+b.width>metadata.width || b.y+b.height>metadata.height) throw std::invalid_argument("grid cell archive ROI exceeds image");
     const auto blob=d.blob(4ULL*1024*1024);const auto provenance=ProvenanceCodec::decode(blob.first,blob.second);
@@ -126,12 +132,12 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     ColorVector white;std::array<ColorVector,3> stains;for(auto& v:white) v=d.real();for(auto& row:stains) for(auto& v:row) v=d.real();StainTransform::validate_normalized(stains,white);
     ResolvedGridCellParameters q;q.step_x=d.real();q.step_y=d.real();q.sigma_x=d.real();q.sigma_y=d.real();q.min_nucleus_samples=d.integer();q.max_nucleus_samples=d.integer();
     if(resolved(q)!=resolved(resolve_grid_cell_parameters(grid,p,*provenance))) throw std::invalid_argument("grid cell archive resolved units or area differ");
-    grid_cell_work_bytes(grid,p,q,roi,*provenance,provenance->source,cancelled);
+    grid_cell_work_bytes(grid,p,q,roi,*provenance,provenance->source,cancelled,statistics);
     const auto n=std::size_t(grid.width()*grid.height());
     const auto samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
-    if(!samples || archive_work(n,std::size_t(count),std::size_t(markers),provenance->payload_bytes(),roi.payload_bytes(),p.contours.work_bytes,size)>work_limit)
+    if(!samples || archive_work(n,std::size_t(count),std::size_t(markers),provenance->payload_bytes(),roi.payload_bytes(),p.contours.work_bytes,size,statistics)>work_limit)
         throw std::invalid_argument("grid cell archive exceeds decoded budget");
-    auto result=std::shared_ptr<CellResult>(new CellResult());result->algorithm_=grid.algorithm(p.processing);result->grid_parameters_=p;result->resolved_grid_parameters_=q;
+    auto result=std::shared_ptr<CellResult>(new CellResult());result->measure_intensity_=statistics;result->algorithm_=grid.algorithm(p.processing);result->grid_parameters_=p;result->resolved_grid_parameters_=q;
     result->parameters_.algorithm=CellAlgorithm::GridLogWatershedBodies;result->parameters_.max_cells=p.max_cells;result->parameters_.work_bytes=p.work_bytes;result->parameters_.contours=p.contours;
     result->raw_peaks_=std::size_t(raw);result->elapsed_ms_=d.real();if(result->elapsed_ms_<0 || d.left<64) throw std::invalid_argument("invalid grid cell elapsed time or digest");
     const std::string input(reinterpret_cast<const char*>(d.p),64);d.p+=64;d.left-=64;if(!hex(input)) throw std::invalid_argument("invalid grid cell input digest");
@@ -147,12 +153,14 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     }
     for(std::size_t i=1;i<=count;++i) if(!owners[i]) throw std::invalid_argument("grid cell component has no marker");
     result->features_.resize(std::size_t(count));
+    if(statistics) result->intensity_statistics_.reserve(std::size_t(count));
     for(std::size_t i=0;i<count;++i) {
         checkpoint(cancelled);auto& f=result->features_[i];f.label=std::uint32_t(i+1);f.nucleus_pixels=d.integer(samples);f.cell_pixels=d.integer(samples);
         if(f.nucleus_pixels<q.min_nucleus_samples || (q.max_nucleus_samples && f.nucleus_pixels>q.max_nucleus_samples) || f.cell_pixels<f.nucleus_pixels) throw std::invalid_argument("invalid grid cell feature counts");
         for(auto* row:{&f.nucleus_rgb,&f.cell_rgb,&f.nucleus_channels,&f.cell_channels}) for(auto& v:*row) v=d.real();
         if(f.cell_pixels>f.nucleus_pixels) {f.cytoplasm_rgb=ColorVector{};f.cytoplasm_channels=ColorVector{};for(auto& v:*f.cytoplasm_rgb) v=d.real();for(auto& v:*f.cytoplasm_channels) v=d.real();}
         feature_means(f);
+        if(statistics) result->intensity_statistics_.push_back(cell_detail::read_cell_statistics(d,f));
     }
     auto nuclei=d.labels(n,std::size_t(count),cancelled),bodies=d.labels(n,std::size_t(count),cancelled);
     const auto bits=d.blob((n+7)/8);if(bits.second!=(n+7)/8) throw std::invalid_argument("invalid grid cell domain length");

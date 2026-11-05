@@ -34,8 +34,8 @@ void check_scientific_cell_archive() {
     const auto object=live->add_rectangle({0,0,6,9});const ScientificGrid grid(6,9,{0,6,3,1},{0,9,3,1});
     GridCellParameters p;p.units=GridCellUnits::Micrometres;p.sigma=0;p.log_prominence=.2;p.min_nucleus_area=.75;p.cell_expansion=.9;p.contours.work_bytes=1024*1024;
     const CellRequest request(*live,object,transform,grid,p);const auto result=detect_cells(request);require(result->features().size()==1);
-    const auto bytes=CellArchiveCodec::encode(*result);require(std::string(bytes.begin(),bytes.begin()+4)==std::string("QCL\5",4));
-    require(integer(bytes,4)==4 && integer(bytes,12)==1 && integer(bytes,156)==6 && integer(bytes,164)==9); // independent fixed header offsets
+    const auto bytes=CellArchiveCodec::encode(*result);require(std::string(bytes.begin(),bytes.begin()+4)==std::string("QCL\13",4));
+    require(integer(bytes,4)==4 && integer(bytes,12)==1 && integer(bytes,164)==0 && integer(bytes,172)==6 && integer(bytes,180)==9); // independent fixed header offsets
     auto load=[&](const auto& packet) {return CellArchiveCodec::decode(packet.data(),packet.size(),request.roi(),live->metadata());};
     const auto restored=load(bytes);require(CellArchiveCodec::encode(*restored)==bytes);
     require(restored->nuclei()->labels()==result->nuclei()->labels() && restored->cells()->labels()==result->cells()->labels());
@@ -47,11 +47,11 @@ void check_scientific_cell_archive() {
     rejects([&]{ProvenanceCodec::attach(restored->nuclei(),other);});rejects([&]{ProvenanceCodec::attach(restored->nuclei(),{});});
     for(const auto length:{std::size_t(0),std::size_t(4),std::size_t(511),bytes.size()-1}) rejects([&]{CellArchiveCodec::decode(bytes.data(),length,request.roi(),live->metadata());});
     auto bad=bytes;bad[bad.size()/2]^=1;rejects([&]{load(bad);});
-    for(auto at:{std::size_t(4),std::size_t(12),std::size_t(28),std::size_t(108),std::size_t(156),std::size_t(204),std::size_t(220)}) {
+    for(auto at:{std::size_t(4),std::size_t(12),std::size_t(28),std::size_t(108),std::size_t(164),std::size_t(220),std::size_t(236)}) {
         bad=bytes;integer(bad,at,std::numeric_limits<std::uint64_t>::max());sign(bad,request.roi());rejects([&]{load(bad);});
     }
     bad=bytes;bad[3]=6;sign(bad,request.roi());rejects([&]{load(bad);});
-    const auto provenance_size=std::size_t(integer(bytes,236)),q=244+provenance_size+96;
+    const auto provenance_size=std::size_t(integer(bytes,252)),q=260+provenance_size+96;
     bad=bytes;bad[q]^=1;sign(bad,request.roi());rejects([&]{load(bad);}); // resolved step differs
     bad=bytes;integer(bad,q+32,0);sign(bad,request.roi());rejects([&]{load(bad);}); // resolved minimum differs
     const auto stats=q+48,markers=std::size_t(integer(bytes,stats+24)),count=std::size_t(integer(bytes,stats+32));
@@ -60,7 +60,9 @@ void check_scientific_cell_archive() {
     bad=bytes;bad[marker]=0;sign(bad,request.roi());rejects([&]{load(bad);});
     bad=bytes;integer(bad,feature,0);sign(bad,request.roi());rejects([&]{load(bad);});
     auto block=[&](std::size_t at) {return at+16+std::size_t(integer(bytes,at+8))*(integer(bytes,at)?8:4);};
-    const auto nucleus=feature+160,body=block(nucleus),domain=block(body);require(integer(bytes,domain)==4);
+    const auto np=integer(bytes,feature),cp=integer(bytes,feature+8),cyto=cp-np;
+    const auto statistics_bytes=(np>1?192:144)+(cp>1?192:144)+(cyto?(cyto>1?192:144):0);
+    const auto nucleus=feature+160+statistics_bytes,body=block(nucleus),domain=block(body);require(integer(bytes,domain)==4);
     bad=bytes;bad[domain+8]|=1;sign(bad,request.roi());rejects([&]{load(bad);}); // context cannot become eligible
     bad=bytes;bad[domain+8+3]|=128;sign(bad,request.roi());rejects([&]{load(bad);}); // domain padding
     bad=bytes;bad[body+16+(integer(bytes,body)?4:0)]=1;sign(bad,request.roi());rejects([&]{load(bad);});

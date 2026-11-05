@@ -67,6 +67,7 @@ ObjectFeatureRequest::ObjectFeatureRequest(const Document& doc,const std::vector
             if(options.cytoplasm_rgb && !cell.cytoplasm_rgb) throw std::invalid_argument("cell has no cytoplasm measurements");
             data->cells.push_back(std::move(cell));
             const auto& link=*a.cell_feature_link;auto found=source_runs.find(link.record_id);
+            if(auto statistics=doc.cell_record(link.record_id)->result->intensity_statistics(link.label)) data->store_statistics(data->cells.size()-1,std::move(*statistics));
             if(found==source_runs.end()) {
                 const auto record=doc.cell_record(link.record_id);const auto& result=*record->result;const auto& nucleus=*result.nuclei();
                 auto run=std::make_shared<ObjectCellFeatureSource>();run->record_id=link.record_id;run->object_id=nucleus.object_id();run->object_revision=nucleus.object_revision();run->document_revision=nucleus.document_revision();run->cell_count=result.features().size();run->producer=record->producer;run->algorithm=result.algorithm();run->input_sha256=nucleus.input_sha256();run->roi=nucleus.roi();run->level=nucleus.level();run->white=nucleus.white();run->stains=nucleus.stains();run->provenance=nucleus.provenance();
@@ -101,6 +102,12 @@ const Roi& ObjectFeatureTable::body_roi(std::size_t row) const {return snapshot_
 std::optional<Roi> ObjectFeatureTable::nucleus_roi(std::size_t row) const {return snapshot_->rows.at(row).nucleus;}
 std::optional<ObjectFeatureCellOrigin> ObjectFeatureTable::cell_origin(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->origins.empty()) return {};return snapshot_->origins.at(row);}
 std::optional<CellFeature> ObjectFeatureTable::cell_feature(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->cells.empty()) return {};return snapshot_->cells.at(row);}
+std::optional<CellIntensityStatistics> ObjectFeatureTable::cell_intensity_statistics(std::size_t row) const {
+    (void)snapshot_->rows.at(row);const auto& stats=snapshot_->statistics;
+    const auto it=std::lower_bound(stats.begin(),stats.end(),row,[](const auto& entry,std::size_t value){return entry.first<value;});
+    if(it==stats.end() || it->first!=row) return {};return it->second;
+}
+
 
 
 struct ObjectClassifierKernel {
