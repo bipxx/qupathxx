@@ -359,8 +359,13 @@ foundation, not equivalence with QuPath.
 References: [QuPath features](https://qupath.readthedocs.io/en/stable/docs/intro/about.html),
 [nanobind builds](https://nanobind.readthedocs.io/en/latest/building.html),
 [Dear ImGui](https://github.com/ocornut/imgui), [GLFW](https://www.glfw.org/).
-Downloaded dependencies retain their upstream licenses. A project license has
-not yet been selected.
+QuPathxx's own code is licensed under the GNU Affero General Public License,
+version 3 only (`AGPL-3.0-only`); see [LICENSE](LICENSE). Downloaded dependencies
+retain their separate upstream licenses and bundled notices.
+
+For the bounded Windows engineering candidate, see the
+[installed research workflow guide](docs/windows-workflow.md) for standalone
+and Python commands, supported inputs, outputs and known limits.
 
 The [geometry and spatial-query contract](docs/geometry-spatial.md) covers optional
 GEOS setup, immutable shapes, hole masks, index behavior and benchmark scope.

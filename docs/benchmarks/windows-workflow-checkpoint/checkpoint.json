@@ -1,0 +1,69 @@
+{
+  "scope": "selected local Windows engineering checkpoint; public release/clean-machine/parity not claimed",
+  "native_source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+  "source_tree_sha256": "432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "sdk": {
+    "source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+    "source_tree_sha256": "432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892",
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-1.svs",
+    "image_id": 1,
+    "object_id": 1,
+    "roi": [
+      29185,
+      2048,
+      512,
+      512
+    ],
+    "pixel_width_um": 0.499,
+    "pixel_height_um": 0.499,
+    "samples": 262144,
+    "tissue_foreground_pixels": 246394,
+    "tissue_components": 11,
+    "analysis_record": 2,
+    "tissue_record": 3,
+    "independent_rgb_statistics": true,
+    "saved_replay": true
+  },
+  "desktop": {
+    "replay_complete": true,
+    "analysis_state": "ready",
+    "analysis_error": "",
+    "tissue_state": "ready",
+    "tissue_error": "",
+    "project_error": "",
+    "measurement_table_state": "succeeded",
+    "measurement_table_error": "",
+    "measurement_table_rows": 1,
+    "ui_overflow_items": 0,
+    "source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+    "object_count": 1,
+    "analysis_records": 1,
+    "tissue_records": 1,
+    "saved_replay": true,
+    "standalone_project_exit": 0,
+    "standalone_stderr": ""
+  },
+  "package": {
+    "project_license": "AGPL-3.0-only",
+    "native_archive_sha256": "d8f8816f8cb2093d5c27a0310470f44d92f9d6d1f1e8111f31024469480bfc80",
+    "licensed_wheel_sha256": "1f7584f3d038d62c0479af095b9820bce7a09197083728b4f471ed9d9c2abe87",
+    "source_archive_sha256": "81fbe85aa1716e8730ef9ba7337483dfa57bbff872f828aa3722b8eb3b8f2eec",
+    "record_members_verified": 72,
+    "source_inputs_verified": 495
+  },
+  "gates": {
+    "real_calibrated_slide": true,
+    "python_analysis_export_saved_replay": true,
+    "imgui_authorship_analysis_export_save": true,
+    "standalone_project_reopen": true,
+    "isolated_install_and_record": true,
+    "static_dependency_closure": true,
+    "project_license_and_dependency_notices": true,
+    "exact_compiled_source_bundle": true,
+    "run_and_removal_guide": true,
+    "known_limits_and_original_backlog_preserved": true
+  },
+  "native_rebuilds": 0,
+  "stub_generations": 0
+}

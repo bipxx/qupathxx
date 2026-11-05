@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 project(qupathxx VERSION 0.1.0 LANGUAGES C CXX)
+install(FILES LICENSE DESTINATION qupathxx/licenses/qupathxx)
 if(APPLE)
   # Apple ld can fold functions with different typed exception handlers. The
   # original arm64 test object reproduces this; retain distinct catch tables

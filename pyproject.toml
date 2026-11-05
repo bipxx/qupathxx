@@ -7,6 +7,7 @@ name = "qupathxx"
 version = "0.1.0"
 description = "C++ bioimage analysis foundation with nanobind and Dear ImGui"
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.11"
 
 [project.optional-dependencies]

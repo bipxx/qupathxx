@@ -6,6 +6,12 @@ Current status is maintained only in the [current task](current-task.md). Follow
 
 Use the [delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for ordering and the current task for pending work. Historical campaign tables and superseded instructions have moved to history. All M0-M7 remain Partial; the requirements below are unchanged. Each bounded task ends with the [waste review and plan handoff](api-delivery-plan.md#completion-gates-and-task-handoff) before the next task or retry. The delivery plan owns that procedure; do not duplicate task lists here.
 
+The next delivery is the [Windows research-workflow checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow), using existing supported
+slide/ROI/tissue/statistics/export/save paths in ImGui and nanobind Python.
+Its blockers take priority over new parity features. The full M0-M7/R0-R16
+requirements remain the long-term target; they do not all gate this narrower
+engineering candidate or establish its biological or performance claims.
+
 ## Scope and release boundaries
 
 Reader scope is limited to open-source-licensed implementations and decoder

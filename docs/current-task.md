@@ -1,58 +1,89 @@
 # Current implementation task
 
-Follow the [single queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
-All M0-M7 remain Partial; the full R2-R16 objective remains active.
+## In progress — bounded Windows release handoff
 
-## State — MODEL1 locally verified; next named-profile trace
+The local workflow checkpoint below is delivered. Current user continuation
+selects the next handoff: verify frozen candidate installation/run/removal on one
+fresh Windows hosted runner, finish dependency/source availability inventory,
+commit/push the handoff and prepare the candidate publication. No optional
+PRESET1 work, engine rebuild or full platform campaign. Local Windows Sandbox
+is unavailable; the remote job must record its actual Windows/Mesa/MSVC scope
+rather than claim a pristine consumer machine without evidence. Parked native
+edits stay outside the release commit. Publication remains a candidate, with
+no broader scientific/performance/support claims.
 
-[Installed closeout](benchmarks/stain-model-r7/README.md#m3-installed-file-reuse-closeout--2026-11-05)
-finishes exact model-file reuse through native/SDK/async GUI/CLI/batch/managed
-routes. Ten installed cases, exact region/app smoke,495 compiler inputs and65
-hashed wheel/installed members pass. One wheel/install/stub generation. M2's495
-inputs and58 staged public/dependency files match; native format/guard/typing/UI
-evidence is reused at its original scope. Wider registry/science/hosts remain open.
+## Delivered — selected Windows research workflow checkpoint
 
-Installed source:6219a08f1713d641633156e70f12b3fd70331d82, clean package stamp.
-Runtime:build/ci/project-metadata-r5-env now contains MODEL1; earlier REGION1/GRID1
-wheels/stages/receipts remain preserved. Wheel:build/stain-model-r7/wheel/
-qupathxx-0.1.0-cp312-cp312-win_amd64.whl,
-SHA2562883d4807575f0ebf1849f0db47668d6cb532f6ff0a8864b3fb3615667bc4302.
-Probe uses the separate MODEL1 stage; previous .pth bytes are retained. Root .venv
-is build/static only. All known handles terminal. Active source is
-build/ci/scientific-grid-159; native cache build/ci/gridfrontends167-package.
+The [selected checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)
+has a local engineering candidate. Follow the [run guide](windows-workflow.md)
+and [one evidence summary](benchmarks/windows-workflow-checkpoint/README.md).
+Stop here as planned; do not automatically begin optional parity work or a public
+release. The full M0-M7/R0-R16 target remains open for its actual requirements.
 
-## Next bounded task — remaining R7 named profile/preset trace
+Delivered: real CMU-1.svs -> bounded calibrated ROI -> retained tissue and region
+statistics -> CSV -> saved replay, through installed Python and actual ImGui
+input; the standalone executable reopens the resulting projects. Updated existing
+examples/region_workflow.py with explicit ROI coordinates, retained statistics/
+tissue, component-aware exports and independent integer pixel moments. Existing
+output and invalid-ROI refusal checks pass without changing output files.
 
-First read docs/image-analysis-settings.md and the existing ImageAnalysisSettings
-header/implementation/bindings/tests. Compare named image types, channel/profile
-names, constructor/adoption/authoring and saved-default behavior with pinned
-ColorDeconvolutionStains.java/StainVector.java defaults and current GUI/SDK routes.
-Verify the cached reference identity before deriving new acceptance expectations;
-the upstream tree.json runtime fingerprint is not a Git-tree response.
+Native source is frozen MODEL1 at6219a08f, tree
+432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892.
+The owner selected AGPL; project code is AGPL-3.0-only. Licensed wheel build-tag1
+changes metadata/RECORD/notices and preserves63 original members. Original65
+shipping members matched before preparing the standalone archive. No native
+rebuild or stub generation. A matching source archive preserves all495 recorded
+compiler-input hashes. The source worktree also has parked PRESET1 changes;
+those are not installed or included in the frozen-source candidate.
 
-Exit: identify one concrete missing researcher action (or reuse already delivered
-behavior), existing native authority, fixture/expectation, affected consumers and
-smallest complete path. Do not assume a general registry framework is required
-from a family label. Named catalogue/library/profile and QuPath file-format gaps
-remain visible until evidence resolves them. Trace needs no build, stub, wheel,
-install or new specimen corpus. Then update this card before implementation or
-take the next ready R7/R8 slice if no named-profile gap is demonstrated.
+Final artifacts and package/install receipts:
+build/windows-workflow-checkpoint/delivery-agpl. Isolated licensed installation:
+build/windows-workflow-checkpoint/clean-install. SDK example results:
+build/windows-workflow-checkpoint/sdk-final. Desktop capture/report/project:
+build/windows-workflow-checkpoint/desktop-viewport. Paths are relative to the
+main workspace, not this nested checkout. Do not delete these candidate products.
 
-Broader stain/feature definitions, specimen acceptance, resources/speed, supported
-hosts/release and all other R2-R16/M0-M7 exits remain active. Openly licensed reader/
-codec dependencies only. No release or overall speed claim follows from MODEL1.
+The seed runtime remains build/ci/project-metadata-r5-env and native cache is
+build/ci/gridfrontends167-package. The old project-metadata-r5-probe-env imports
+an older dirty stage and must not be used to verify this candidate. Root .venv
+was removed; recreate build/static tools only when a future task requires them.
+Readers and required codecs remain openly licensed.
 
-## Latest M3 closeout / waste review
+## Remaining scope
 
-- Outcome: one cached wheel/install at6219a08f passes10 installed workflows and
-  standalone smoke. Source/member/stub/RECORD and staged reuse checks match.
-- Actual waste: no failed M3 build/test/observer or duplicate campaign. Capacity
-  checked (~1.4GB before packaging); reused backend/runtime and known app flags.
-- Applied reuse: unchanged binding sources, the single stub pass,495 inputs and58
-  public/dependency members. Only shipping/provenance products refreshed. Earlier
-  failure logs/screenshots, canonical fixtures and old installations' wheels remain.
-- Plan adjustment: only exact file reuse is marked locally verified. Next trace
-  verifies actual preset/profile behavior before any new model registry/API.
-- Next action: the bounded existing-code/reference trace above. Review actual
-  waste and update this card before every task/retry; retain atomic UTF-8 writes,
-  actual Python-export checks, phase-specific capture paths and inspected layouts.
+This is an isolated install/extraction and real desktop workflow on the current
+Windows host. A genuinely clean-machine walkthrough, public support/release
+checkpoint, broader distribution review, biological/specimen acceptance and
+matched end-to-end speed claims remain outside this engineering checkpoint.
+AGPL selection is resolved; it is no longer an owner blocker. R2-R13 remain12
+broad workstreams and R14-R16 retain3 later parity workstreams;23 Partial inventory
+rows are broader scope, not remaining checkpoint jobs or a completion percentage.
+
+PRESET1 P1 native checks passed; P2/P3 and its exact import-identity decision
+remain parked. Retained build/stain-presets-r7/normalization-observation.json
+already records the successful round-trip observation. Do not rerun it or weaken
+identity assertions. Only main and this active source checkout remain; archived
+commits/dirty snapshots are preserved under build/storage-cleanup-20261105.
+
+## Latest closeout and waste review
+
+Checks: real-slide262,144 samples/0.499um calibration,246,394 tissue samples and11
+component CSV rows; independent RGB moments and native saved replay; real ImGui
+ROI/analysis/tissue/export/save with zero reported UI overflow; source-independent
+standalone reopen; final licensed install's72 RECORD members; native/wheel static
+closure; preserved outputs and invalid ROI refusal. Native kernel/legacy/fault/
+typing checks retain their original MODEL1/REGION1/GRID1 scope.
+
+Waste found: assumed request argument order, metadata/CSV/state APIs and viewport
+semantics caused observer failures. Inspected actual APIs and captured a short
+blank-view diagnostic; corrected screen translation instead of adding waits or
+patching product code. Finished a successful desktop session's artifact checks
+without replaying it. Added optional NumPy once; repackaged only when the owner's
+license decision changed package inputs. Failures remain at original paths.
+No qualification308/platform/corpus campaign, new estimator or registry was run.
+
+Cleanup exception: automatic approval review rejected both guarded and literal
+deletion of the superseded pre-license archive in
+build/windows-workflow-checkpoint/delivery (only reason: blocked by policy).
+It remains as an earlier attempt, not the selected candidate. Final supported
+artifact paths for this local checkpoint are exclusively delivery-agpl above.

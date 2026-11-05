@@ -2,6 +2,78 @@
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
+## Next delivery checkpoint: Windows research workflow
+
+Current continuation selects one release handoff after the delivered local
+checkpoint: one fresh Windows install/run/uninstall job on the frozen packages,
+dependency and corresponding-source availability review, then commit/push and
+candidate publication within the resulting support statement. Reuse installed
+analysis evidence; add only the missing deployment checks. No broad platform
+matrix or optional parity extension belongs to this handoff.
+
+The local engineering checkpoint is delivered; see the
+[workflow guide](windows-workflow.md) and [evidence summary](benchmarks/windows-workflow-checkpoint/README.md).
+The owner selected AGPL, applied as AGPL-3.0-only. Native source remains6219a08f;
+licensed packaging is a separate overlay. Public supported release, clean-machine
+qualification and broader parity remain open. Do not automatically expand into
+them after this checkpoint; the stop condition below still applies.
+
+This checkpoint controls the next delivery; R0-R16 remains the long-term backlog.
+Finish one usable Windows x64 workflow before selecting more parity features.
+This is an engineering candidate, not full QuPath parity, biological acceptance,
+speed superiority or public release. Existing milestone requirements remain in
+force for their broader claims.
+
+Freeze the seed at the retained MODEL1 installation (source6219a08f), its native
+cache and recorded dependencies. Active source contains later uninstalled
+PRESET1 work; do not describe it as part of the seed. Do not rebuild the seed for
+a status update. If a demonstrated blocker requires code changes, preserve the
+seed and qualify the resulting candidate under its own source identity.
+
+Scope: Windows x64 standalone ImGui and nanobind Python; pinned CMU-1.svs Aperio
+brightfield through the existing openly licensed reader; one bounded calibrated
+RGB8 ROI; existing tissue-mask and retained region statistics; CSV export and
+project save/reopen. Use existing supplied stain vectors or MODEL1 files, native
+requests, jobs and storage. Keep display transforms separate from measurements.
+Python creates/processes/saves a project that standalone ImGui reopens; the UI
+also authors/runs that workflow. Reuse fixture hashes, recipes and expected
+results from existing evidence. Other readers retain their recorded support;
+they are not new checkpoint prerequisites. Do not extend an ROI result into a
+whole-slide or specimen-accuracy claim.
+
+| Ordered action | Existing authority / easiest path | Close condition |
+| --- | --- | --- |
+| Identify actual checkpoint gaps | Read MODEL1/REGION1/tissue/project receipts and installed APIs once; map only this workflow in current-task.md | Each step has reusable source-scoped evidence or one named missing behavior/check. No general inventory or corpus audit |
+| Fix demonstrated blockers | Use existing R2/R3/R5/R7/R11 native owners; combine missing consumer plumbing after interfaces settle | Open -> ROI -> tissue/statistics -> CSV -> save/reopen works through both claimed interfaces; changed failure/lifetime behavior has focused coverage |
+| Deliver one settled candidate | Reuse the unchanged seed, or one combined cached build/install/stub pass where changed inputs require it | One candidate identity and applicable changed-member/runtime checks; no packaging per intermediate substep |
+| Verify the installed outcome once | Run missing installed route checks; reuse compatible numerical tests at their native authority | Slide/calibration, ROI, results and CSV agree; Python project reopens in ImGui. Reuse unchanged failure/cancel evidence |
+| Close the support statement | R13 notices/license/dependency inventory, install/run steps and known limits for this candidate | Declared Windows package routes are usable and redistributable. Unresolved owner license/support/publication decisions block their actual claims; public release still follows its applicable checkpoint |
+
+Stop after these outcomes and report the candidate's supported workflow and
+remaining gaps. The broader R2-R13 families do not all need closure before this
+engineering checkpoint. R14-R16, additional biology/vendor cases, new spatial or
+classifier features, integrations, distributed workers and speed optimization
+are outside it unless a demonstrated failure blocks this workflow. Full M0-M7
+completion is still required before claiming the entire project done.
+
+PRESET1 P1 has passing native checks. Park P2/P3 and its import-identity decision
+in R7 unless named presets are required for this workflow. The retained round-
+trip observation already distinguishes upstream parsing from native import.
+Decide any required exact-identity/replay rule once from that evidence; a roughly
+1e-16 discrepancy alone does not establish a biological failure. Do not weaken
+persisted-identity assertions or rerun a capture that already answers the question.
+
+Execution limits: one active integration checkout/cache/runtime, one in-progress
+user outcome and only necessary temporary comparisons. Settle known consumer
+interfaces before compilation. Record changed behavior, its decisive check and
+next action in the current card. Waste review is a few lines in that closeout,
+not a new audit. New findings enter their existing R row unless they block this
+checkpoint. No repeated qualification308, platform matrix, corpus capture or
+packaging without changed inputs or concrete risk. Retire disposable products and
+temporary checkouts after handoff; preserve source state and durable evidence.
+Measure progress by closed user outcomes and checkpoint blockers, not worktrees,
+packets or passing-test totals.
+
 ## Validation and build policy
 
 Select checks from the changed behavior and dependency path. This section is
@@ -90,10 +162,11 @@ and task closeout. The repository owner decides the supported release matrix,
 project license and publication; research decisions need an identified corpus,
 metric and tolerance. Root prepares concrete proposals and continues work that
 does not depend on an unanswered decision. Do not infer a narrower final scope
-from the work already delivered.
+from the work already delivered. The Windows checkpoint above is the selected
+next delivery scope; it does not reduce the long-term target.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; R6-SPLIT1 trace reuses existing split/merge and feature-domain evidence; R7-AREA1 is locally verified for physical tissue filters; FILTER1 is locally verified for pre-threshold Gaussian smoothing; MEDIAN1 is locally verified for fixed binary cleanup; R7-GRID1 is locally verified for its bounded area-grid workflow; R7-REGION1 is locally verified; next trace remaining stain-estimation/model-registry gaps while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. R5-ASSISTSTATE1 is locally verified for explicit native/GeoJSON assisted state. R5-CALIB1 is locally verified for saved physical Z/time calibration. R5-ENTRYMETA1 is locally verified for per-entry string maps. R5-ENTRYDETAILS1 is locally verified for tags/description retention. R5-ENTRYEDIT1 is locally verified for GUI authoring through those APIs. R5-PROJECTMETA1 is locally verified for project string maps and empty-project authoring. R4/R5-CLASS1 is locally verified for native/Python/ImGui ancestry/defaults. The one-time R4/R5 reconciliation is complete. R4-CLASSHISTORY1 is locally verified; R6-CONTEXT1 is locally verified for signed nominal support and versioned replay; R6-SAMPLING1 is locally verified for the declared lossless TIFF pyramid workflow; R6-FEATURE1 is locally verified for retained compartment statistics and legacy quota compatibility; R6-SPLIT1 trace reuses existing split/merge and feature-domain evidence; R7-AREA1 is locally verified for physical tissue filters; FILTER1 is locally verified for pre-threshold Gaussian smoothing; MEDIAN1 is locally verified for fixed binary cleanup; R7-GRID1 is locally verified for its bounded area-grid workflow; R7-REGION1 is locally verified; remaining stain-estimation/model-registry gaps stay on R7 while owner decisions remain open. Select the next task from the Windows checkpoint blockers. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -180,6 +253,10 @@ slice; do not restart R4/R5 reconciliation or import/resource campaigns.
 
 ## Execution order for finishing the remaining work
 
+First finish the selected Windows checkpoint above. The family order in this
+section schedules subsequent parity expansion and must not pull optional
+features into that candidate. The current task owns its actual blocker list.
+
 The R0-R16 table above remains the only backlog. The slices below refine those
 same rows; they are not additional milestones. Execute left to right within a
 row, selecting one missing outcome at a time. Before coding, inspect the named
@@ -189,7 +266,7 @@ to its existing R row, with its dependency and next action.
 
 CLASS1, CLASSHISTORY1 and R6-CONTEXT1 are locally verified. R6-SPLIT1 trace
 reuses existing engineering cases without a new campaign. R7-AREA1 is locally
-verified; FILTER1/MEDIAN1 locally verify Gaussian and binary median. GRID1 locally verifies its bounded area-grid workflow. REGION1 is locally verified. Trace remaining stain-estimation/model-registry gaps next, then
+verified; FILTER1/MEDIAN1 locally verify Gaussian and binary median. GRID1 locally verifies its bounded area-grid workflow. REGION1 is locally verified. After the Windows checkpoint, trace remaining stain-estimation/model-registry gaps, then
 remaining ready R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -308,7 +385,31 @@ ImageAnalysisSettings and pinned upstream defaults, selecting a demonstrated gap
 Apply the existing waste review after each task/retry. This refines R7's existing
 remaining queue rather than replacing it with another backlog.
 
+### R7-PRESET1 selected named-default workflow
+
+This selected R7 extension is now parked behind the Windows checkpoint unless
+that workflow requires named presets. P1 native checks passed; the import-
+identity decision and P2/P3 remain open. These rows do not direct the next task.
+
+Trace verified two pinned standard profiles already present in saved-import
+fixtures, but no native named factory or GUI creation action. Follow the
+[contract](stain-presets.md) and [trace](benchmarks/stain-presets-r7/README.md).
+Reuse ImageAnalysisSettings, exact captured bases, document history/schema20,
+model-file APIs and batch transforms. Preserve all old implicit defaults.
+
+| Task | Easiest path | Exit and cost control |
+| --- | --- | --- |
+| P1 native profiles | Separate factory header/source and fixed table returning existing owning settings; exact external-fixture hashes/names/white/residual and unknown-type checks. | Focused native checks; no common layout/schema/reader change, new capture, bindings/wheel yet. |
+| P2 SDK/GUI/CLI | Bind only the owning factory, add local inspector Save/Clear through the current setter and explicit CLI preset selection/conflicts through the existing transform argument. | Owning/exact identity, real history/adoption/reopen/export and CLI match/resume pass; one settled binding/stub pass. No new GUI public state or mutable registry. |
+| P3 installed | One settled wheel/install and exact source/member checks plus installed named-profile user routes. | Reuse compatible native/staged proof; close only two-profile selection/authoring. Broader registry/format/science/resource/host/release gaps remain. |
+
+Apply the existing task/retry waste review after each task before continuing.
+
 ### Dispatch and finish the remaining queue
+
+For the next delivery, select only blockers of the Windows checkpoint above.
+The full-family order below applies to later expansion; it is not a prerequisite
+to delivering that candidate. PRESET1 P2/P3 remain parked unless needed there.
 
 Use the ordered rows above until the full inventory is resolved. For each next
 slice, write a concrete action and expected result in current-task.md; a family
@@ -376,7 +477,8 @@ The one-time R4/R5 reconciliation is complete and selected project metadata,
 then class ancestry/defaults. Continue the demonstrated gaps against existing
 implementation and receipts; do not repeat that reconciliation, start another
 general import audit or recapture accepted fields. When no independent R4/R5 implementation is ready, advance to
-the next ready R6/R7 slice (currently R7-REGION1). Keep any blocked scientific acceptance or owner decision
+the next ready slice only when it blocks the Windows checkpoint. REGION1 and
+MODEL1 are already delivered within their recorded scopes. Keep any blocked scientific acceptance or owner decision
 in its existing row with a concrete re-entry condition.
 
 ### Completion gates and task handoff
