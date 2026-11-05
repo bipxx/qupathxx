@@ -1,21 +1,21 @@
 # Binary tissue median cleanup
 
-TissueParameters.median_cleanup adds optional fixed3x3 median cleanup of the
+TissueParameters.median_cleanup adds optional fixed 3x3 median cleanup of the
 binary threshold mask. It defaults to false. Filtering order is scalar feature,
 optional Gaussian smoothing, inclusive threshold, binary median, opening,
 closing, hole filling, components and pixel/physical size limits.
 
-The pinned [QuPath0.7.0 tissue plugin](https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core-processing/src/main/java/qupath/imagej/detect/tissue/SimpleTissueDetection2.java)
-uses post-threshold ImageJ radius1 median. [ImageJ1.54p RankFilters](https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/RankFilters.java)
-constructs a full3x3 neighborhood at that radius and replicates cropped image
-borders.524 captured rectangular-mask outputs, including all512 three-by-three
+The pinned [QuPath 0.7.0 tissue plugin](https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core-processing/src/main/java/qupath/imagej/detect/tissue/SimpleTissueDetection2.java)
+uses post-threshold ImageJ radius 1 median. [ImageJ 1.54p RankFilters](https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/RankFilters.java)
+constructs a full 3x3 neighborhood at that radius and replicates cropped image
+borders. 524 captured rectangular-mask outputs, including all 512 three-by-three
 patterns, match independent nine-point majority calculations. The capture uses
 the retained QuPath runtime and recorded source hashes, not a new dependency.
 
 ## Native support and ordering
 
 For each eligible center, at least five of the nine binary neighborhood values
-must be foreground. Crop edges repeat the closest border sample;1x1 and narrow
+must be foreground. Crop edges repeat the closest border sample; 1x1 and narrow
 rasters use the same rule. Excluded ROI/alpha samples contribute background and
 never become output. Thresholding already applies native ROI-center and opaque
 eligibility, so the median also receives a clipped mask. This native support
@@ -51,18 +51,21 @@ selection carry their actual sigma and zero median flag. Gaussian-only selection
 keep CSV2, and unsmoothed selections keep CSV1. No project schema bump is needed.
 
 The shared TissueParameters field is exposed to Python, managed viewer and SDK
-batch callers. GuiOptions.tissue_median_cleanup and a visible3x3 checkbox use
+batch callers. GuiOptions.tissue_median_cleanup and a visible 3x3 checkbox use
 the same request. Native CLI --tissue-median enables cleanup for --kind tissue;
 other kinds reject an enabled tissue median.
 
-The ordinary cleanup9-byte raster estimate covers labels, scratch and domain.
-Gaussian+median keeps the existing Gaussian41-byte estimate; scratch is reused.
+The ordinary cleanup 9-byte raster estimate covers labels, scratch and domain.
+Gaussian+median keeps the existing Gaussian 41-byte estimate; scratch is reused.
 A shared offset-based metadata policy replaces scattered hardcoded deductions.
 Inactive extensions remain in the existing allowance; enabled Gaussian/median
 groups charge aligned storage fully. Old unfiltered and Gaussian record/table/
 batch/work boundaries were captured before editing, including compact decoded
 component capacity. Exact byte witnesses are MSVC/x64 scoped.
 
-Verification status lives in current-task.md until closeout. Median at other
-radii, arbitrary-grid/context semantics, specimen comparisons, whole-slide
-resources and broader hosts/release support remain in the project queue.
+[Local evidence](benchmarks/tissue-median-r7/README.md) binds this workflow to
+code source 34704c24. All seven native roles, 148 staged cases, two actual desktop
+flows, typing and eight installed shipping checks pass. 482 build inputs and 65
+wheel members match. No metadata compatibility repair was needed. This evidence
+does not establish general median radii or outside-crop contexts. Remaining
+sampling/context, specimen, resource and host/release work stays in the queue.

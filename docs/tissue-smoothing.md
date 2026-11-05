@@ -14,7 +14,7 @@ of the three float32 optical densities, or one float32 stain concentration.
 For positive sigma, it applies the existing masked Gaussian with radius
 ceil(3*sigma), separable exp(-0.5*(distance/sigma)^2) coefficients and final
 normalization by eligible support. The inclusive threshold is applied to the
-smoothed scalar, followed by existing opening, closing, hole filling, connected
+smoothed scalar, followed by optional [binary median cleanup](tissue-median.md), opening, closing, hole filling, connected
 components and pixel/physical component limits, in that order.
 
 Only fully opaque finite nominal ROI-center samples contribute. Excluded
@@ -38,7 +38,7 @@ their existing meanings. elapsed_ms includes filtering, cleanup_ms only morpholo
 
 ## Retention, versions and budgets
 
-Positive sigma uses qpx.threshold-components/4 (or winding-4), with QTM3 carrying
+With median disabled, positive sigma uses qpx.threshold-components/4 (or winding-4), with QTM3 carrying
 sampling policy and sigma. QTM3 requires a positive supported sigma; QTM1/2 decode
 with zero and remain canonical when re-encoded. Saved replay and verification
 include the smoothing parameter. Raw input digests continue to identify the
@@ -46,7 +46,7 @@ captured pixels/lattice; algorithm and parameters identify the processing recipe
 Batch parameter identity includes a positive sigma so different recipes cannot
 reuse each other's checkpoints. Other batch kinds reject a nonzero tissue sigma.
 
-Tissue table selections containing smoothed results use tissue-table/2 (or its
+Tissue table selections containing smoothed results and no median use tissue-table/2 (or its
 project form), appending smoothing_sigma_sample_px. Mixed unfiltered rows carry
 zero. Selections with no smoothing retain the original table1 header and values.
 
@@ -73,5 +73,6 @@ Eight final shipping checks plus two old QTM1/2 canonical replay checks pass.
 Old exact tissue/table/grid/classifier limits and the repaired batch limit retain
 their original bounds. Source/build-input and installed RECORD checks agree.
 
-Median filtering, arbitrary-grid/context semantics, specimen accuracy, other
+Fixed binary median is [locally verified](benchmarks/tissue-median-r7/README.md).
+Arbitrary-grid/context semantics, specimen accuracy, other
 hosts and whole-slide resource/speed claims remain in R7/R12 and the wider queue.

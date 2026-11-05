@@ -1,0 +1,13 @@
+{
+  "qupath_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "qupath_source_url": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core-processing/src/main/java/qupath/imagej/detect/tissue/SimpleTissueDetection2.java",
+  "qupath_source_sha256": "d72212e5b9d0147dd4603eba29d46473330df89b55de3af843519b57e5d674aa",
+  "imagej_version": "1.54p",
+  "imagej_source_url": "https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/RankFilters.java",
+  "imagej_source_sha256": "284e7647e6619a3cc62887c57992056ccfd1dd99661868571fff005afff7d6b7",
+  "imagej_jar_sha256": "2e1a09961dfb41cee66ddc821b2577a41a072566ce45a49bae69267099741e20",
+  "producer": "tools/upstream/qupath_tissue_median_reference.groovy",
+  "cases": 524,
+  "contract_semantic_sha256": "3cf3ca8a6e45b4824c5b1cfd80d249360cc1616305f8aaea454dfe0e8d1abbbd",
+  "reference_semantic_sha256": "12b618b7958f0beb5b8e80c1f2302abdc41f27041cb5895174a84ab6cc2c9e2a"
+}

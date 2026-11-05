@@ -1,0 +1,4 @@
+tests\typing\tissue_median_invalid.py:4: error: Incompatible types in assignment (expression has type "str", variable has type "bool")  [assignment]
+tests\typing\tissue_median_invalid.py:6: error: Incompatible types in assignment (expression has type "list[bool]", variable has type "bool")  [assignment]
+tests\typing\tissue_median_invalid.py:7: error: Incompatible types in assignment (expression has type "None", variable has type "bool")  [assignment]
+Found 3 errors in 1 file (checked 1 source file)

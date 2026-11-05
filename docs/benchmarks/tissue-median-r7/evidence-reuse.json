@@ -1,0 +1,38 @@
+{
+  "stage_environment": {
+    "app_version": "0.1.0",
+    "cmake_version": "4.4.4",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "git_revision": "336f688b4778819da655969336cf9f0c4d9ac921+dirty",
+    "gui": true,
+    "interchange": true,
+    "openslide_version": "4.0.1",
+    "platform": "Windows AMD64",
+    "python": true,
+    "source_tree_sha256": "6fee2046b8e98c76835390be4558e60805b04c5496f0f8e553f3f5c54ee485e2",
+    "sqlite_version": "3.54.1"
+  },
+  "final_environment": {
+    "app_version": "0.1.0",
+    "cmake_version": "4.4.4",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "git_revision": "34704c24ac7fc0f2087fe36140a285976986a24d",
+    "gui": true,
+    "interchange": true,
+    "openslide_version": "4.0.1",
+    "platform": "Windows AMD64",
+    "python": true,
+    "source_tree_sha256": "6fee2046b8e98c76835390be4558e60805b04c5496f0f8e553f3f5c54ee485e2",
+    "sqlite_version": "3.54.1"
+  },
+  "same_source_and_configuration_except_revision": true,
+  "compiler_inputs": 482,
+  "staged_passes": 148,
+  "native_product_repairs": 0
+}

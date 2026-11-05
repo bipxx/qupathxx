@@ -68,7 +68,9 @@ does not contain the mask archive.
 `QTM` versions 1/2 retain unsmoothed recipes (version 2 includes polygon-winding
 policy). Version 3 carries a supported policy and positive smoothing sigma for
 [Gaussian recipes](tissue-smoothing.md); old versions replay with zero sigma and
-remain canonical when saved. No project schema bump is needed for this mask codec.
+remain canonical when saved. Version 4 retains enabled [binary median cleanup](tissue-median.md)
+and its optional Gaussian sigma; disabled median keeps versions 1/2/3 canonical.
+No project schema bump is needed for these mask codecs.
 
 The `QTM` version-1 base layout uses little-endian integers and IEEE-754 doubles.
 Labels use raw uint32 values or lossless `(run length, label)` uint32 pairs,

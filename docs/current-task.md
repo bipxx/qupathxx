@@ -2,84 +2,72 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. FILTER1 is locally verified; MEDIAN1 is in progress.
-The full R2-R16 inventory remains active.
+All M0-M7 remain Partial. [MEDIAN1](benchmarks/tissue-median-r7/README.md) is
+locally verified in its recorded scope; broader R2-R16 work stays active.
 
-Current: **R7-MEDIAN1 — post-threshold binary median cleanup**
-(native implementation verified; installed verification pending).
+Current: **R7-GRID1 — explicit tissue sampling and context contract**
+(ready for trace).
 
-- Outcome: optional median_cleanup in TissueParameters, shared by native, owning
-  Python, managed viewer, ImGui and SDK batch/CLI, with retained/replayed/exported
-  state. [Contract](tissue-median.md) pins units, order, support and versions.
-- Contract: fixed3x3 binary median (five of nine foreground), replicated crop
-  borders, excluded ROI/alpha values are background and output stays in domain.
-  Runs after scalar/Gaussian thresholding and before opening/closing/hole fill.
-  The primitive matches pinned ImageJ radius1 on full opaque rectangular masks;
-  upstream ROI-clear/preprocessing/context semantics remain distinct.
-- Implemented: two vote passes using existing queue scratch and cancellation;
-  QTM4/algorithm5/winding-5, CSV3 with sigma/median flags; old QTM1/2/3 behavior
-  remains when disabled. All consumers are wired. One offset-based helper now
-  handles inactive metadata for masks, grid estimators and batch requests.
-- Evidence:524 captured ImageJ1.54p cases match an independent majority oracle.
-  Native tissue_median, tissue_smoothing, tissue, tissue_records,
-  measurement_tables, project_batch and cell_calibration all pass. Logs live in
-  build/tissue-median-r7/reference-capture.log and native-tests.log.
-- First next action: resume the live bindings/region build in session58426
-  (confirmed live; cl CPU advancing, no errors reported). Do not launch a
-  replacement build. It uses the existing gridfrontends167-package cache.
-  After terminal success, stage once into build/tissue-median-r7/stage,
-  copy facades and use the existing isolated probe environment. Assert actual
-  module/source identity, generate stubs once, then run selected SDK/CLI, old
-  format/metadata and typing checks. Enable the two new GUI nodes explicitly and
-  inspect the scrolled checkbox before packaging. Root .venv is backend/static
-  tooling only; never use its editable hook for runtime tests.
-- Pre-package compatibility: pre-median.qpxproj and manifest in
-  tests/fixtures/tissue-median-v1 pin7873a3a5 unfiltered/Gaussian result, table,
-  batch and work limits after reopen. Check both recipes, plus existing old
-  QTM1/2/3 and tight grid/classifier witnesses. Preserve bounds, not raised limits.
-- Stop: the complete selected median workflow passes installed verification,
-  then close only MEDIAN1. Arbitrary radius/grid/context, measurements/stains/
-  models/specimens and whole-slide resources remain in R7/R12 and the wider queue.
-- Cost: one cached native build is done; no median wheel/install/stub generation
-  has run. Group all native/consumer fields before the one full binding compile.
-  Reuse compatible passed evidence; fix any observer/budget issue before packaging.
+- Outcome: finish one demonstrated missing tissue sampling/context workflow
+  through the existing native raster, retained results and thin consumers.
+- First action: inspect TissueRequest's native-level capture, scientific/nominal
+  raster APIs, shared support/lattice descriptors, cell grid requests and mask
+  archive restrictions. Compare their existing evidence with the R7 user outcome.
+  Reuse a delivered route if it already satisfies that outcome; do not add another
+  reader, sampler or result model. Pin the actual missing behavior before coding.
+- Contract before editing: define requested origin/extent/spacing/counts, units,
+  source plane/reader, ROI and opaque support, context/halo, threshold/filter
+  sampling domains, edge ownership, calibration, errors and replay identity.
+  Establish an independent tiny expected mask and declared tolerance. Preserve
+  intentional native/nominal/grid recipe distinctions and old archives.
+- Easiest route: reuse ScientificGrid/scientific raster, nominal support, tissue
+  cleanup/filters, jobs, persistence and tables where compatible. Add only missing
+  factory/descriptor/codec plumbing, then affected SDK/managed/ImGui/batch/CLI.
+  Reader/codecs must remain openly licensed. Pull R2 forward only for a real gap.
+- Checks/stop: one full selected workflow, exact lattice/pixel/mask and relevant
+  seam/domain/calibration expectations, save/replay/export and changed consumer/
+  cancel/stale/resource checks. Close only that slice; broader context, feature/
+  stain/model/specimen and whole-slide work stays in R7/R12 and the wider queue.
+- Cost: trace requires no build/install/capture. Reuse final34704c24, existing
+  stages/caches and isolated environments. Settle coupled contract/interface
+  fields before compilation; trace all inline quota owners and valid old bounds.
+  Inspect actual scrolled controls before packaging. Reuse tests by source and
+  configuration; no status-driven campaign or duplicate filter/reader work.
+  Root .venv is build/static tooling only, not the runtime editable environment.
 
-## Latest task review — MEDIAN1 native foundation (2026-11-05)
+## Latest task review — MEDIAN1 closeout (2026-11-05)
 
-Outcome: pinned QuPath tissue code and ImageJ1.54p establish a binary cleanup
-stage, avoiding an incorrectly placed scalar median.524 actual primitive outputs,
-including every3x3 binary pattern, agree with independent edge replication and
-rank calculations. The native implementation and seven affected roles pass;
-SDK/desktop/typing, old exact byte limits and packaging remain pending.
+Outcome/evidence: [final34704c24](benchmarks/tissue-median-r7/README.md) delivers
+fixed3x3 post-threshold binary cleanup across native, owning SDK, managed viewer,
+ImGui and batch/CLI.524 actual ImageJ outputs match independent rank/edge logic.
+Seven native suites,148 staged cases, two actual GUI flows, strict typing with
+three intended invalid assignments and eight installed shipping checks pass.
+Old unfiltered/Gaussian record/table/batch/work limits and QTM1/2/3 replay remain
+unchanged; QTM4/CSV3 retain enabled median.482 build inputs and65 installed/wheel
+members match. Stage and final source/configuration agree, except revision stamp.
+Other skipped checks and wider science/host/resource/speed claims stay unclaimed.
 
-Waste/action: **reuse** the current mask/cleanup pipeline, queue scratch, jobs,
-archives, table layer and consumer parameter routes. **Consolidate** repeated
-hardcoded metadata deductions using actual parameter offsets/aligned tails, with
-both old unfiltered and active Gaussian witnesses captured before editing.
-A web source read had a cache miss; fetching only the pinned file into the
-existing cache resolved it without another checkout. The cached Java runtime
-produced the reference once; no new corpus/reader/model/environment or generic
-framework was added. No native failures or retries occurred.
+Waste/action: **reuse** existing mask/cleanup/jobs/archives/tables/parameter routes
+and queue scratch. **Consolidate** five scattered size deductions into one shared
+parameter-offset policy; pin both prior parameter groups before editing. No
+native/staged/installed failure, byte repair or retry occurred. One full binding
+compile, one stub generation, one wheel and one install were needed. The live
+build was polled rather than restarted. A web cache miss was resolved by fetching
+only the pinned source into the existing cache; no extra checkout. Scrolled
+controls were inspected before the wheel, and existing RGB capture was converted
+unchanged for viewing. No new specimen corpus, reader/model/environment or
+reporting framework was introduced.
 
-Plan adjustment/next: MEDIAN1 is native-verified in the existing R7 row; coverage
-acceptance stays pending installed evidence. Finish bindings, verify all promised
-old formats/owners and inspect visible controls before one package. After every
-bounded task or failed/stopped attempt, review actual waste and update this card/
-queue before the next task or retry. Keep broader M0-M7 scope intact.
+Plan adjustment/next: MEDIAN1 enters the reuse index and tissue coverage row.
+GRID1 first traces existing sampling/retention authorities. Group coupled
+contract/interface work when it is ready to avoid a build per parameter; do not
+invent unsettled APIs. After every bounded task or failed/stopped attempt,
+record actual outcome, waste/action, plan change and next task/retry before
+continuing. Keep all unfinished M0-M7 and the wider queue intact.
 
-Live handoff: binding session58426 was re-polled and is still running. Native
-source is frozen at4a252c6e plus this documentation handoff; no median stub,
-wheel or install has run. The probe/installed runtimes still contain Gaussian
-code and must not be mistaken for the new median product. Resume the same build,
-then stage and verify old unfiltered/Gaussian boundaries before packaging.
-
-Staged verification review:148 SDK/CLI/persistence/stub cases pass with11
-explicit skipped GUI cases. Both new GUI nodes pass when enabled; their capture
-shows Median cleanup(3x3) checked,415 kept pixels and92 components. Strict typing
-passes with exactly three intended invalid assignments. Old unfiltered/Gaussian
-record/table/batch/work boundaries pass on the first attempt, including older
-QTM1/2/3 canonical replay and tight grid/classifier witnesses. The offset-based
-metadata helper avoided another byte-budget repair. No native/runtime failure
-or repeated numerical campaign occurred. One full binding compile and one stub
-generation were used. Next freeze, build/install one wheel, verify source/RECORD
-identity and selected shipping checks; preserve the staged evidence and capture.
+Cleanup review: redundant build PPM bytes matched the retained PNG's decoded RGB
+before removal. A PowerShell parent-path guard used an unsupported Split-Path
+parameter combination; the resolved single named PPM was removed, and no recursive
+operation occurred. Verify its fixed parent with System.IO.Path and its absence;
+do not repeat deletion. Preserve the equality manifest/PNG and all source/fixtures/
+logs/caches. Use one supported path API for future cleanup guards.
