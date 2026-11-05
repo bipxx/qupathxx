@@ -1,0 +1,49 @@
+.....................Fss................................................ [ 55%]
+...........................................ssss.s........                [100%]
+================================== FAILURES ===================================
+_________________ test_batch_recipe_resume_csv_and_native_cli _________________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4934/test_batch_recipe_resume_csv_a0')
+
+    def test_batch_recipe_resume_csv_and_native_cli(tmp_path):
+        doc, obj, transform = scene()
+        project = q.Project()
+        image = project.add_document(doc)
+        source = tmp_path / 'input.qpxproj'
+        project.save(str(source))
+        options = q.ProjectBatchOptions()
+        options.kind = q.ProjectBatchKind.TISSUE
+        options.tissue_min_component_area_um2 = .25
+        options.tissue_max_component_area_um2 = .25
+        request = q.ProjectBatchRequest(project, transform, options=options)
+        assert json.loads(request.parameters_json)['tissue_area_limits'] == {'minimum_um2': .25, 'maximum_um2': .25}
+        output = tmp_path / 'sdk'
+        first = q.run_project_batch(request, str(output))
+        assert first.state == 'succeeded' and first.saved == 1
+        again = q.run_project_batch(request, str(output))
+        assert again.reused == 1 and again.saved == 0
+        result = q.Project.open(first.images[0].path).document(image).latest_tissue(obj).result
+        assert result.foreground_pixels == 2 and result.parameters.min_pixels == 2
+        rows = list(csv.DictReader(io.StringIO(q.batch_checkpoint_csv(first.images[0].path))))
+        assert len(rows) == 1 and float(rows[0]['component_area_um2']) == .25
+        options.tissue_max_component_area_um2 = .5
+        changed = q.ProjectBatchRequest(project, transform, options=options)
+        assert changed.parameters_sha256 != request.parameters_sha256
+        changed_result = q.run_project_batch(changed, str(output))
+        assert changed_result.state == 'succeeded' and changed_result.saved == 1 and changed_result.reused == 0
+        cli = Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
+        command = [str(cli), str(source), str(tmp_path / 'cli'), '--kind', 'tissue',
+                   '--tissue-min-area-um2', '.25', '--tissue-max-area-um2', '.25']
+        done = subprocess.run(command, capture_output=True, text=True, timeout=30)
+        assert done.returncode == 0, done.stdout + done.stderr
+        terminal = json.loads(done.stdout.splitlines()[-1])
+        assert terminal['saved'] == 1
+        checkpoints = list((tmp_path / 'cli').glob('*.qpxproj'))
+>       assert len(checkpoints) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_tissue_area_limits.py:165: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_tissue_area_limits.py::test_batch_recipe_resume_csv_and_native_cli
+1 failed, 121 passed, 7 skipped in 5.53s

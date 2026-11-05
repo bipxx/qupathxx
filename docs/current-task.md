@@ -2,157 +2,64 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. Completed workflows retain their recorded source and
-scope in the delivery plan reuse index. Broader R2-R16 work remains open.
+All M0-M7 remain Partial. [R7-AREA1](benchmarks/tissue-area-r7/README.md) is locally
+verified within its recorded scope. Broader R2-R16 and R6/R7 science remain open.
 
-Current: **R7-AREA1 — calibrated tissue component area limits** (in progress).
+Current: **R7-FILTER1 — pre-threshold tissue filtering and grid/halo contract**
+(ready for trace).
 
-- Outcome: a researcher supplies optional inclusive minimum/maximum component
-  areas in square micrometers and gets the same tissue result through native,
-  Python, managed viewer, ImGui and batch/CLI paths, with saved replay/export.
-- First action: settle the physical-bound contract against TissueRequest and
-  CellRequest::with_nucleus_area_limits; inspect affected bindings and consumers
-  before editing. Establish independent component counts/areas on a tiny mask.
-- Easiest route: resolve bounds once using captured per-axis calibration and the
-  chosen level into TissueParameters.min_pixels/max_pixels. Reuse thresholding,
-  morphology, connected components, jobs, retained results and table exports.
-  Level selection currently does not depend on these count filters. Reuse shared
-  calibrated numeric handling; do not copy a second rounding/search algorithm.
-- Contract to settle: absent bounds preserve existing behavior; supplied bounds
-  require known positive calibration and finite nonnegative values; minimum may
-  not exceed maximum. Intersect physical and pixel limits. Define zero maximum,
-  empty intersections, inclusive boundaries, anisotropy and extreme finite
-  calibration explicitly. Capture calibration for stale-publication checks.
-  Prefer the existing frozen count-recipe replay contract; add persistence fields
-  only if a demonstrated requirement cannot use that contract.
-- Checks/stop: independent tiny-array expectations at multiple levels and unequal
-  axes; exact boundary/empty/invalid/unknown-calibration cases; affected stale
-  publication and saved replay; thin owning SDK/typing and actual changed desktop,
-  CLI/batch/managed flows. Close only AREA1. Other R7 features and broader R6
-  vendor/context/specimen claims retain their existing queue entries.
-- Cost: reuse installed 60a0274e for unchanged behavior and existing build caches
-  and isolated environments. Group native API/bindings/consumers before one
-  candidate build/install and one stub generation if the public API changes.
-  Check affected native cases before packaging. Inspect any quota-sensitive
-  layout and valid old boundary fixtures before packaging. No new reader,
-  segmenter, corpus, environment or full platform campaign is planned.
-- Handoff: after this task or any failed/stopped attempt, record outcome, actual
-  waste, action, plan adjustment and concrete next task/retry **before continuing**
-  using the [shared review procedure](api-delivery-plan.md#completion-gates-and-task-handoff).
+- Outcome: finish one demonstrated missing tissue smoothing/median workflow
+  through the existing request, native kernel, retained result and thin consumers.
+- First action: inspect TissueParameters/TissueKernel, cell/shared filters,
+  cleanup/eligibility, sampling/grid routes and existing independent tissue
+  references. Select only a missing behavior. If existing evidence proves the
+  proposed outcome, link it and advance without new code or another campaign.
+- Contract before editing: pin the threshold feature and units, sampled lattice,
+  filtering order, neighborhood/radius, halo, ROI/image-edge and alpha/finite
+  eligibility, memory admission and cancellation. Establish a tiny independent
+  expected mask before specimen comparisons. Preserve old unfiltered replay;
+  version a changed recipe only where semantics require it.
+- Shared route: reuse existing filters/samplers where compatible, tissue morphology,
+  connected components, jobs, archives and tables. Implement affected Python,
+  managed viewer, ImGui and CLI/batch paths through that native authority.
+  Readers/codecs must remain openly licensed; pull R2 forward only for a real gap.
+- Checks/stop: one complete selected filter workflow, independent tiny-array and
+  edge/halo expectations, affected persistence/consumer checks and resource or
+  stale/cancel checks justified by changes. Close only that slice; broader grid,
+  stain/specimen and whole-slide seams remain explicit in R7/R12.
+- Cost: trace needs no build/install/capture. Reuse final40ece8a9 where inputs are
+  unchanged and the existing caches/isolated environments. Settle interfaces and
+  affected consumers before packaging; generate stubs once if the API changes.
+  Inspect actual old quota boundaries before changing charged layouts. Inspect
+  scrolled UI controls before the wheel. Use discovered paths/fields, raw compiler
+  bytes and explicit test nodes; do not guess layouts or repeat passed campaigns.
 
-## Latest task review — SPLIT1 trace and remaining-plan update (2026-11-05)
+## Latest task review — AREA1 closeout (2026-11-05)
 
-Outcome/evidence: existing [nominal reference assertions](../tests/test_qupath_nominal_cells_reference.py),
-[policy-edge assertions](../tests/test_cell_policy_edges.py),
-[body-boundary assertions](../tests/test_qupath_body_boundary_revision.py) and
-[pinned cases](../tests/fixtures/qupath-cells-0.7.0/contract.json) already cover
-split/merge, touching nuclei, clipped ROI/hole behavior and distinct feature
-sampling domains. Reuse the recorded results within their original source and
-fixture scope. This trace adds no runtime acceptance; intentional discrepancies
-and biological/vendor gaps remain explicit. No uncovered engineering case was
-selected, so advance to the demonstrated pixel-only tissue-filter gap.
+Outcome/evidence: [final40ece8a9](benchmarks/tissue-area-r7/README.md) delivers
+inclusive physical tissue component bounds across native, owning nanobind,
+managed viewer, ImGui, SDK batch and CLI. Shared cell/tissue conversion handles
+anisotropic/level/extreme calibration and empty/intersected bounds. Calibration
+stamps reject stale publication; retained count-recipe replay stays unchanged.
+Three native roles pass.121 staged passes, the repaired single CLI node and two
+actual GUI nodes pass; five unrelated GUI skips remain unclaimed. Strict typing
+passes with exactly three intended negative errors. Seven first-wheel shipping
+checks pass; final CLI and readable-control capture pass.480 build inputs and
+65 wheel/installed members match; only the GUI heading differs from staged code.
 
-Actual waste/action: **reuse** these references instead of inventing another
-split/merge campaign. **Remove** oversized unfiltered document dumps: bounded
-section searches are enough for planning. **Merge** upcoming physical-area API
-and consumer work before packaging. No builds, installs, captures or numerical
-reruns were needed for this documentation task; no artifacts were deleted.
+Waste/action: **reuse** the segmenter, count recipe, samplers, caches and passed
+checks; **merge** API/consumer changes before the one full binding compilation
+and one stub generation. Two wheels/installs were needed because late scrolled
+inspection exposed a clipped header. **Move** visible-control review before
+packaging. Read-only filename/tool/field guesses and a checkpoint-folder guess
+cost observer repairs; use discovered declarations and emitted paths. A reuse
+comparison needed raw CRLF bytes rather than Git-normalized bytes. Failures,
+first wheel/capture and both source-scoped stages remain retained; no limits or
+assertions were weakened, and no source/user data was deleted.
 
-Plan adjustment: R6 retains named uncovered cases and specimen acceptance; R7
-now starts with AREA1. The existing ordered R0-R16 queue remains authoritative.
-The shared closeout now requires an actual waste decision and changed retry
-reason after every task or failed/stopped attempt, without another report cycle.
-Next: settle AREA1 boundaries and inspect existing consumer APIs before coding.
-
-Implementation attempt review: one read-only search used a Windows wildcard as
-an explicit filename and failed; no build or product changed. Remove that form:
-search the cpp directory with -g globs. The authoritative cell implementation
-already rejects a zero physical maximum under underflow; reuse that behavior
-rather than adding a speculative repair. Next extract the shared count resolver
-and add the tissue factory and stale-calibration guard before consumer changes.
-
-Trace correction before implementation: a second read guessed a nonexistent
-cell_sampling.cpp path. The valid companion search still returned the needed
-field, but future filename discovery must use rg --files before explicit reads.
-No runtime attempt was made. Shared resolver extraction preserves the already
-implemented cell zero-bound policy; tissue uses the same resolver and existing
-count recipe, with an ephemeral calibration revision only.
-
-Native/consumer implementation review: shared resolver extracted without changing
-cell count-recipe semantics; tissue factory and all native/SDK/desktop/viewer/
-batch entry points are wired. No new persisted result fields or codecs were
-added; only ephemeral TissueRequest calibration state changed, and source search
-found no sizeof(TissueRequest) quota charge. Tiny-mask checks use independently
-known 1/2/4-pixel components. Reuse existing cell regressions for the extraction.
-Next run affected native builds and inspect failures before any retry; bindings,
-stubs and installed flows follow after native contracts pass. No wheel/install
-has run. Keep bounded search output to avoid repeated truncation.
-
-Static-read attempt review: a nonexistent tissue_tables.cpp path was included in
-a search alongside the real measurement_tables.cpp; no product/build failed.
-That is a repeated filename-guessing error, so subsequent reads use only discovered
-paths and narrow line ranges. The SDK tests now cover batch resume/recipe identity,
-CSV, CLI and both desktop routes as well as physical conversion and saved replay.
-The running native build is reused; no replacement build or install was started.
-
-Native foundation review: the cached native build completed successfully,
-including app/batch consumers. Tissue, cell_calibration and project_batch native
-roles pass (3/3, native-tests.log). The shared cell resolver retains existing
-boundary behavior. A helper-discovery search also passed PowerShell-only syntax
-to rg; it failed read-only and is removed, with direct discovered paths used
-instead. No failed build or numerical retry occurred. Next build the settled
-bindings and region target in the same cache, stage once, generate stubs once,
-and run the selected installed workflow. Preserve the first successful native
-logs; no full qualification or new environment is needed.
-
-Binding-stage review: native numerical gates passed; binding compilation remains
-live in session 53853 (observed cl process CPU advancing), so no restart is
-justified. Source tests now also include async calibration-stale rejection.
-Plan adjustment: stage and verify the native product before making the single
-wheel, so observer/setup corrections do not force another package. Reuse the
-probe environment and preserve the final60a baseline in its existing stage.
-
-Stage smoke attempt review: the binding build and CMake install succeeded and
-the isolated probe imported the intended new-stage native module. The observer
-then asked for a nonexistent BuildEnvironment.revision field; this is a harness
-error, not a product failure. Inspect the exposed environment fields before the
-corrected identity check. Reuse this stage/build; do not recompile or reinstall.
-
-Stage verification attempt review: 121 checks passed, 7 GUI cases skipped and
-one new CLI observer failed after a successful CLI save. It guessed checkpoint
-files lived directly in the output root; the product uses a nested layout.
-Inspect the existing CLI result/path contract and use that authoritative path
-before retrying only the failed node. Keep all 121 passed results and the first
-log; no native edit, rebuild, stub generation or install is justified. Then run
-the two new actual desktop nodes explicitly with GUI enabled.
-
-Staged workflow review: the corrected single CLI node passes using the emitted
-report image path; 121 earlier passes are retained. Both new actual GUI nodes
-pass with GUI explicitly enabled. Strict typing passes the positive fixture and
-reports exactly the three intended invalid calls. One stub generation completed.
-Waste/action: remove guessed checkpoint layouts and environment field names;
-use observed API/report fields. Reuse the staged build and earlier passed checks.
-Next freeze stubs/tests, create one cached wheel and install once; compare the
-compiler-input identity and packaged members, then run only shipping checks
-covering the final product. Broader skipped GUI cases remain unclaimed.
-
-Visual observer attempt review: the image viewer cannot decode the retained PPM
-capture. No rendering test failed. Convert its unchanged RGB bytes to PNG with
-the standard library for inspection; preserve the original and do not rerun GUI.
-The wheel build remains live in its original session 30043.
-
-Visual review: retained screenshot confirms the filtered two-pixel overlay and
-calibration, but the new inspector controls are below the visible scroll area.
-That is a concrete remaining UI inspection gap, so add a scoped scroll/capture
-check using discovered replay APIs. A search included another guessed nonexistent
-GUI test file; remove that guess and discover filenames from the tests directory.
-The wheel build succeeded; reuse it, since the remaining work changes observers.
-
-Shipping/UI review: first wheel built and installed once; seven final-package
-checks pass. Scrolled capture exposes a clipped physical-filter header despite
-correct values/result. Shorten it to Physical component area and rebuild only
-affected GUI consumers plus provenance. Preserve the first wheel/logs/capture.
-Actual waste: visible-control inspection happened after packaging, costing a
-second package/install. Move scrolled-control inspection before packaging for
-future UI tasks. No new numerical/API/stub comparison is needed for this one
-label change; final GUI capture and package integrity cover the changed risk.
+Plan adjustment/next: AREA1 enters the reuse index and only the tissue inventory
+row changes coverage. FILTER1 first traces existing filtering/halo evidence;
+other R7 and R2-R16 requirements remain in the same queue. After every bounded
+task or failed/stopped attempt, record outcome, actual waste/action, plan change
+and concrete next task/retry before continuing. No generic reporting framework,
+new reader/model/environment or full platform campaign was added.
