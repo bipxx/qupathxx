@@ -114,3 +114,29 @@ tab-input support with explicit metadata-stale/clear and native aggregate-budget
 refusal controls before final packaging; reuse existing SDK/store/numerical
 results. Next: one frozen cached wheel/observer build, install once and inspect
 installed UI. No new stubs or capture required.
+
+ENTRYEDIT1 inspection-tool review: Computer Use node_repl failed to initialize
+(kernel assets path missing) before any app action. Do not retry initialization
+or add a UI automation framework. Waste/action: use the existing installed
+q.show replay/capture path for visual inspection; the native observer already
+exercises real ImGui activation and text events. Keep that tool failure recorded.
+Final cached build remains live in session84773; poll it rather than restart.
+
+ENTRYEDIT1 final observer preflight: bd4cc76e wheel build and its sole isolated
+install passed; final observer failed the new tab assertion. ImGui deliberately
+skips tab characters from AddInputCharactersUTF8 and accepts the Tab key instead
+(imgui_widgets.cpp5193/AllowTabInput). This is a test-input mismatch, not missing
+native state or a product refusal. Preserve native-attempt5.log/xml; fix the
+observer to send actual Tab key events between UTF8 segments. Rebuild that
+observer only, retaining installed wheel/native bytes and recording observer
+provenance separately. No second install/stub pass is required.
+
+ENTRYEDIT1 integration finding: installed screenshot shows the sidebar button
+highlighted but no modal. Headless widget checks passed because open/draw shared
+a parent ID stack. In the full sidebar, OpenPopup ran inside the source tree,
+while BeginPopupModal ran outside it; ImGui resolved different popup IDs. Preserve
+attempt1-installed-editor.png and replay. Fix by queuing open and calling
+OpenPopup alongside BeginPopupModal in draw. This concrete GUI input change
+requires a new cached candidate/install; retain the prior wheel/failed capture.
+Waste/action: retain the installed integration check, which caught a real wiring
+gap that widget-only input cannot prove. Reuse unchanged API/store/science checks.

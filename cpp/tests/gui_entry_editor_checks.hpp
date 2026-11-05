@@ -18,7 +18,7 @@ inline void run() {
     qpx::detail::EntryEditor editor;bool opening=true;
     auto frame=[&] {
         ImGui::NewFrame();ImGui::Begin("Host");
-        if(opening){editor.open(project,active);opening=false;}
+        if(opening){ImGui::PushID("Source tree");editor.open(project,active);ImGui::PopID();opening=false;}
         editor.draw(project,active);ImGui::End();ImGui::Render();
     };
     frame();frame();
@@ -37,7 +37,13 @@ inline void run() {
         io.AddKeyEvent(ImGuiMod_Ctrl,true);io.AddKeyEvent(ImGuiKey_A,true);frame();
         io.AddKeyEvent(ImGuiKey_A,false);io.AddKeyEvent(ImGuiMod_Ctrl,false);frame();
         io.AddKeyEvent(ImGuiKey_Backspace,true);frame();io.AddKeyEvent(ImGuiKey_Backspace,false);frame();
-        io.AddInputCharactersUTF8(value);frame();
+        const std::string input=value;std::size_t start=0;
+        for(;;) {
+            const auto end=input.find('\t',start);
+            io.AddInputCharactersUTF8(input.substr(start,end==std::string::npos?end:end-start).c_str());frame();
+            if(end==std::string::npos)break;
+            io.AddKeyEvent(ImGuiKey_Tab,true);frame();io.AddKeyEvent(ImGuiKey_Tab,false);frame();start=end+1;
+        }
     };
     activate("Add metadata","Metadata");text("Key",u8"Research \u03b1","Metadata");text("Value","value\nsecond\tline","Metadata");
     require(project->image_metadata(image).empty(),"Draft leaked into live metadata");

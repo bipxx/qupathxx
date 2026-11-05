@@ -18,7 +18,7 @@ class EntryEditor {
     std::vector<std::pair<std::string,std::string>> metadata_;
     std::vector<std::string> tags_;
     std::vector<char> description_;
-    bool has_description_{};
+    bool has_description_{},open_requested_{};
     int metadata_row_{-1},tag_row_{-1};
     std::array<char,4097> key_{},value_{},tag_{};
     std::string error_;
@@ -46,11 +46,13 @@ class EntryEditor {
     }
 public:
     void open(const std::shared_ptr<Project>& project,std::uint64_t image) {
-        load(project,image);ImGui::OpenPopup("Edit project entry");
+        load(project,image);open_requested_=true;
     }
     // Return true only when a native setter succeeded (including an exact no-op).
     bool draw(const std::shared_ptr<Project>& project,std::uint64_t image) {
         bool applied=false;
+        // Resolve popup IDs in the draw scope, independent of the sidebar tree.
+        if(open_requested_) {ImGui::OpenPopup("Edit project entry");open_requested_=false;}
         ImGui::SetNextWindowSize({640,660},ImGuiCond_FirstUseEver);
         if(!ImGui::BeginPopupModal("Edit project entry",nullptr,ImGuiWindowFlags_NoSavedSettings))return false;
         const bool same=project==owner_ && image==image_;
