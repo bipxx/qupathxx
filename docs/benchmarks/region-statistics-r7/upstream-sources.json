@@ -1,0 +1,27 @@
+{
+  "commit": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "tree_sha": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "sources": [
+    {
+      "file": "IntensityFeaturesPlugin.java",
+      "path": "qupath-core-processing/src/main/java/qupath/lib/algorithms/IntensityFeaturesPlugin.java",
+      "blob_sha": "1bdfd7952e56b1ae3a936d2933d2941c6da3ab60",
+      "sha256": "c4d0ddf414d31db31ab5c2f87876f448a7742489278b98715fcd1b5c80570304",
+      "url": "https://raw.githubusercontent.com/qupath/qupath/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core-processing/src/main/java/qupath/lib/algorithms/IntensityFeaturesPlugin.java"
+    },
+    {
+      "file": "RunningStatistics.java",
+      "path": "qupath-core/src/main/java/qupath/lib/analysis/stats/RunningStatistics.java",
+      "blob_sha": "edba504f5fdc0a7bc07b74c808afa472c9d7d4ae",
+      "sha256": "c4c5867257eaeceeb333bd1c901ecf61de0c348a4b16b72b48fd50e14c4415ce",
+      "url": "https://raw.githubusercontent.com/qupath/qupath/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core/src/main/java/qupath/lib/analysis/stats/RunningStatistics.java"
+    },
+    {
+      "file": "StatisticsHelper.java",
+      "path": "qupath-core/src/main/java/qupath/lib/analysis/stats/StatisticsHelper.java",
+      "blob_sha": "af9639633692bf03c3cb5535cc6b6a76e8c1b5e1",
+      "sha256": "4f99629ccd244141d55755638dfb4fc121c6c001cbb192d914f14bd08db3ed30",
+      "url": "https://raw.githubusercontent.com/qupath/qupath/04ccfa4fb7d43e9b566393e08e83690b72248d44/qupath-core/src/main/java/qupath/lib/analysis/stats/StatisticsHelper.java"
+    }
+  ]
+}

@@ -2,64 +2,73 @@
 
 Follow the [single remaining queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. [GRID1](benchmarks/tissue-grid-r7/README.md) is locally
-verified only for its declared bounded area-RGB grid workflow.
-Current: **R7-REGION1 — retained region intensity features**, **ready for trace**.
+All M0-M7 remain Partial. GRID1 is locally verified in its bounded area-grid scope.
+Current: **R7-REGION1 — retained natural region intensity statistics**,
+**contract and pre-layout witness complete; production implementation next**.
 
-## Next bounded task — identify the first missing retained region feature
+## Contract and captured compatibility evidence
 
-Outcome: a selected ROI's declared RGB/OD/stain intensity features can be computed,
-retained, reopened/replayed and exported through one shared native authority.
-First action: inspect current AnalysisRequest/AnalysisResult, raw/scientific region
-statistics, shared cell moments and measurement-table definitions. Compare their
-scope/evidence with the pinned QuPath region feature contract; identify one
-actually missing feature/domain route before adding fields. If an existing route
-already satisfies it, reuse that evidence and advance instead of duplicating it.
+[Contract](region-intensity-statistics.md), [trace/witness](benchmarks/region-statistics-r7/README.md):
+reuse the existing cell compensated moments and analysis capture/loop/jobs/records/
+tables. Add opt-in RGB/transformed sum/extrema/sample SD, preserving existing
+float32 input values, old mean accumulation, source/ROI/alpha/plane/transform rules.
+Use absent singleton SD and the existing empty-support error. No second source
+read, reader adapter, detection wrapper or whole-plugin parity claim.
 
-Before coding: pin channel/transform identity, eligible ROI/alpha/plane support,
-sampling lattice, feature definitions/units (including sample versus population
-variance), empty/singleton behavior, finite/range policy and independent tiny
-expected values. Separate sampling or semantic differences from implementation
-bugs. Reuse existing capture, moments, jobs, records and tables; keep consumers
-thin. Reader/codecs must remain openly licensed.
+The [five mean-only records](../tests/fixtures/region-intensity-v1/manifest.json)
+cover OD/stain, geometry/winding and singleton cases, signed channels and independent
+moments. All old means reopen/replay/verify. [Native sizes](../tests/fixtures/region-intensity-v1/native-boundaries.json)
+were captured against unchanged production headers: result256/request24824/record288,
+channel stats104/compartment216 bytes. Old payload2141/2149, table67948/67956 and
+batch111105/111137 bounds are pinned. Values are MSVC/x64; do not assume other ABIs.
+Use lazy immutable statistics ownership instead of inlining216 bytes into all
+mean-only records; charge enabled storage explicitly and preserve old defaults.
 
-Cost/stop: trace needs no new build, install, stub generation or specimen corpus.
-Reuse the GRID1 installed product and caches. Settle known result/options/report
-layouts and old record/table/batch quotas before the first native build. Select
-only the decisive changed-path checks. Stop with a concrete missing workflow and
-implementation/check plan, or a scoped reuse conclusion, then review waste before
-implementation/next trace. Wider R2-R16 and science/release decisions remain open.
+## Next bounded task — settle owners/storage and implement native route
+
+First action: trace AnalysisResult/AnalysisRecord inline owners, snapshot/project
+formats, classifier mean consumers and table/batch byte accounting using discovered
+paths. Existing analysis SQL has fixed mean fields. Choose a versioned optional
+statistics payload through current persistence; measured records must reject
+missing/inconsistent payloads. Keep old-only replay and CSV unchanged.
+
+Settle known request/result, GUI option/report and batch metadata layouts together
+before the first production build. Then share the cell moments at a neutral
+internal boundary, add explicit AnalysisRequest.with_intensity_statistics capture
+and reduce accepted RGB/existing transformed samples in the same loop. Do not
+change old mean sums/order or introduce another result/sampler/reader authority.
+Use the contract's tiny expectations, alpha/nonrectangular eligibility, singleton/
+empty/cancel/stale cases and the captured old bounds. Build only affected native
+targets while debugging; one bindings/stub pass after all consumers settle.
+Stop with the complete native retained/replay/export route verified before staged
+thin-consumer closeout. Preserve failures and update this review before each retry.
+No new wheel/install/stub generation for the native implementation step.
 
 ## Reusable product state
 
-- GRID1 final code f72c1992; installed metadata f72c1992+dirty reflects docs-only
-  pre-package changes.485 compiler inputs match the module/source;65 wheel/RECORD/
-  installed members match.58 dependency/public files and relevant configuration
-  match the staged candidate. Seven installed checks and region/app entrypoints
-  pass; older staged95/six-GUI results keep their own source/metadata identities.
-- One full binding compile, one stub generation, one wheel and one isolated
-  install across G3/G4. Root .venv is build/static only. Runtime installed env:
-  build/ci/project-metadata-r5-env; probe still uses build/tissue-grid-r7/stage.
-  Wheel, source receipts, failed attempts, PNG/equality proof and caches retained.
-  All known processes/handles are terminal. No global speed/biology/host claim.
+GRID1 installed f72c1992+dirty remains frozen (docs-only package stamp).485 native
+inputs/65 installed members match, with staged evidence reused by explicit source/
+configuration proof. Runtime: build/ci/project-metadata-r5-env; probe uses
+build/tissue-grid-r7/stage. Root .venv is build/static only. The new observer target
+used the existing cache and refreshed its own provenance; it did not replace the
+installed wheel. All known handles are terminal. Openly licensed readers/codecs
+only; wider research/resources/hosts/release and all M0-M7 remain open.
 
-## Latest task review — G4 installed closeout (2026-11-05)
+## Latest task review — pre-layout native witness (2026-11-05)
 
-Outcome/evidence: [shipping closeout](benchmarks/tissue-grid-r7/README.md#g4-installed-workflow-closeout--2026-11-05).
-Installed open/grid/retain/export/save/reopen/replay, SDK ownership, managed/GUI,
-batch/CLI resume and old quota groups pass. Region RGBA extraction and empty-app
-smoke pass. Source/configuration/member checks justify scoped staged-evidence reuse.
+Outcome: actual C++ record/request/result/statistics sizes and payloads captured;
+four header hashes equal the frozen production headers, all five table bounds
+match, and the saved archive hash is unchanged. No production layout change.
 
-Waste/action: reused packaging/integrity helpers, four shipping targets and one
-wheel/install; no compiler failure, repair/retry, second binding/stub pass or full
-staged/qualification repeat. Final provenance refresh is distinct metadata.
-For the next task, settle known public option/result/report layouts before the
-first native build: G1/G3 separate umbrella-header changes caused broad dependency
-recompilation. Keep focused necessary iterations; avoid speculative header surgery.
+Waste/action: first observer compile assumed pointer records, but the API returns
+AnalysisRecord values. Read the signature, used explicit const AnalysisRecord&
+and rebuilt only that target. Keep both build logs and the run. Earlier Python
+capture's unbound-method failure and preserved/resumed archive remain documented.
+Inspect actual C++ return ownership and Python bindings before observers; no
+copying conventions from neighboring APIs. No binding/wheel/install/stub campaign.
 
-Plan adjustment/next: GRID1 enters the reuse index/tissue coverage within scope.
-R7-REGION1 starts with the trace above; other sampling, feature/stain/specimen,
-resource/host/release work remains in its existing rows. After every bounded task
-or failed/stopped attempt, record evidence, actual waste/action, plan change and
-next action before continuing. A consistency check removed stale GRID1 progress labels and replaced the duplicate
-active-status line with a link to this card. The full objective remains active.
+Plan adjustment/next: the necessary C++ witness is complete. Use its216-byte DTO
+measurement to choose lazy stats ownership and settle all known umbrella-header
+fields before production compilation. Next action is the owner/storage trace
+above. Review actual waste and update the plan before each next task/retry; the
+full objective remains active.
