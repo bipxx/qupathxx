@@ -122,7 +122,7 @@ def test_project_roundtrip_and_schema10_upgrade(tmp_path):
     doc.clear_tma_grid()
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('DROP TABLE spatial_distance_records');db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
+        db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('DROP TABLE spatial_distance_records');db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
         db.execute('DROP TABLE tma_grids')
         db.execute('PRAGMA user_version=10')
     legacy = q.Project.open(str(path))

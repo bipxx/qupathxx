@@ -251,7 +251,13 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 for(const auto& warning:item.at("issues")) state->issue("image_settings_dropped",info.name+": "+text(warning));
             }
         }
-        for(const auto key:{"metadata","tags","description"}) if(image.contains(key) && !image[key].empty()) state->issue("image_metadata_dropped",info.name+": "+key+" is not represented");
+        if(image.contains("metadata") && !image.at("metadata").is_null()) {
+            const auto& values=image.at("metadata");if(!values.is_object() || values.size()>4096)throw std::invalid_argument("invalid project-entry metadata map");
+            std::map<std::string,std::string> metadata;
+            for(const auto& item:values.items())metadata.emplace(item.key(),text(item.value()));
+            state->project->set_image_metadata(info.native_id,std::move(metadata));
+        }
+        for(const auto key:{"tags","description"}) if(image.contains(key) && !image[key].empty()) state->issue("image_metadata_dropped",info.name+": "+key+" is not represented");
         doc->clear_history();info.objects=doc->object_count();info.available=true;state->images.push_back(std::move(info));
     }
     state->verify(cancelled);return std::shared_ptr<const QuPathProjectPreview>(new QuPathProjectPreview(std::move(state)));

@@ -234,7 +234,7 @@ def test_schema17_default_plane_upgrade_rolls_back_without_modifying_old_project
     doc,_,_=scene(tmp_path);obj=doc.add_rectangle(q.Rect(1,2,5,6));project=q.Project();image=project.add_document(doc);path=tmp_path/'legacy17.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
         assert db.execute('SELECT count(*) FROM object_planes').fetchone()[0]==0
-        db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=17')
+        db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=17')
         db.execute("CREATE TRIGGER fail_plane_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'plane upgrade failed'); END")
     baseline=path.read_bytes();loaded=q.Project.open(str(path));current=loaded.document(image)
     assert path.read_bytes()==baseline and plane_tuple(current.annotation(obj).plane)==(-1,0,0)

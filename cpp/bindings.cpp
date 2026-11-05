@@ -255,7 +255,7 @@ NB_MODULE(_native, m) {
         .def_ro("id",&ProjectImage::id).def_ro("name",&ProjectImage::name)
         .def_ro("source_path",&ProjectImage::source_path).def_ro("reader",&ProjectImage::reader)
         .def_ro("width",&ProjectImage::width).def_ro("height",&ProjectImage::height)
-        .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available);
+        .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available).def_ro("metadata",&ProjectImage::metadata);
     nb::class_<ProjectView>(m,"ProjectView").def(nb::init<>()).def_rw("center",&ProjectView::center)
         .def_rw("zoom",&ProjectView::zoom).def_rw("display",&ProjectView::display).def("validate",&ProjectView::validate);
     nb::class_<RecoveryInfo>(m,"RecoveryInfo").def_ro("path",&RecoveryInfo::path).def_ro("identity",&RecoveryInfo::identity)
@@ -306,6 +306,8 @@ NB_MODULE(_native, m) {
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
         .def("document",&Project::document).def_prop_ro("images",&Project::images)
         .def("remove_image",&Project::remove_image).def("relink",&Project::relink).def("rename_image",&Project::rename_image)
+        .def("image_metadata",&Project::image_metadata,"id"_a)
+        .def("set_image_metadata",&Project::set_image_metadata,"id"_a,"metadata"_a=std::map<std::string,std::string>{})
         .def("view",&Project::view).def("set_view",&Project::set_view).def("clear_view",&Project::clear_view)
         .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
         .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)

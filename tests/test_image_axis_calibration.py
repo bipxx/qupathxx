@@ -85,7 +85,7 @@ def test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic(tmp_path):
     job=q.ProjectSaveJob();assert job.request(project,str(path));doc.set_image_axis_calibration(q.ImageAxisCalibration());assert job.wait().applied
     assert_axes(q.Project.open(str(path)).document(image),4.5,[1,2,3,4])
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE image_axis_calibration');db.execute('PRAGMA user_version=21');db.execute("CREATE TRIGGER fail_axis BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'axis fault'); END")
+        db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('PRAGMA user_version=21');db.execute("CREATE TRIGGER fail_axis BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'axis fault'); END")
     legacy=q.Project.open(str(path));restored=legacy.document(image);assert restored.image_axis_calibration is None
     restored.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[1,2,3,4]))
     with pytest.raises(RuntimeError,match='axis fault'):legacy.save(str(path))

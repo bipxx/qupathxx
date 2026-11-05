@@ -805,3 +805,6 @@ tools/upstream/qupath_axis_calibration_reference.groovy -text
 tools/upstream/read_qupath_axis_calibration.groovy -text
 
 docs/benchmarks/axis-calibration-r5/** -text -whitespace
+
+tests/fixtures/qupath-entry-metadata-0.7.0/** -text -whitespace
+tools/upstream/qupath_entry_metadata_reference.groovy -text

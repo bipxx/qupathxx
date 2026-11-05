@@ -36,6 +36,7 @@ struct ProjectImage {
     std::string name,source_path,reader;
     std::int64_t width=0,height=0;
     bool embedded=false,available=false;
+    std::map<std::string,std::string> metadata;
 };
 struct ProjectView {
     Point center;
@@ -80,6 +81,8 @@ public:
     std::vector<ProjectImage> images() const;
     void remove_image(std::uint64_t id);
     void rename_image(std::uint64_t id,std::string name);
+    std::map<std::string,std::string> image_metadata(std::uint64_t id) const;
+    void set_image_metadata(std::uint64_t id,std::map<std::string,std::string> metadata={});
     void relink(std::uint64_t id,const std::string& path);
     std::shared_ptr<const SourceFileAssociation> source_verification(std::uint64_t id) const;
     std::shared_ptr<ProjectSourceReview> review_source_verification(std::uint64_t id,const FileFingerprint&) const;

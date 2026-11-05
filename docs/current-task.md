@@ -31,25 +31,22 @@ Current: **R5-ENTRYMETA1 — QuPath project-entry metadata** (contract inspectio
   license and release support choices block only their affected claims. Only
   openly licensed readers and required codecs are eligible.
 
-Latest task review (2026-11-04, CALIB1 closeout):
-Outcome/evidence: saved Z/time state retains all seven units, offsets/irregular/
-nonmonotonic times, partial prefixes and explicit unknown values. First product
-has254 unique staged passes/12 skips after two observer repairs. Final decoder
-cohort117 passes/five skips, six native roles, actual desktop, installed snapshot/
-upgrade plus two coordinate/missing-source controls, five public-stub checks and
-positive/three-negative typing pass. Receipt separates original/repaired source;
-all465 compiler inputs and65 installed hashed members match. Screenshot inspected.
-Waste/action: **reuse** seven successful captures and unchanged component checks;
-**merge** all state at Document/current project/import APIs. One ABI/header build
-687.96s and one targeted missing-unit/witness repair41.08s; one stub pass and one
-uv install. Failed NaN capture, newline edit, builder-substitution reference,
-missing-unit admission and guessed observer APIs remain recorded. Use exact
-symbol discovery and literal normalized edits; no full-corpus replay/campaign,
-parallel state codec or rebuild for stubs/observer limits. Stable provenance
-keeps source acquisition and historical recipe meanings unchanged.
-Next: inspect ENTRYMETA1's actual ProjectImage and upstream metadata contract;
-reuse accepted axis/state routes without widening their claims. All broader
-R5, scientific/resource, host support and release requirements remain queued.
+Latest task review (2026-11-04, ENTRYMETA1 candidate preparation):
+Outcome/evidence: pinned map/probe/parent identities and independent values pass;
+old installed5c179651 reports the four metadata/tag/description losses and lacks
+the new entry-map API. The selected cohort collects161 tests; four boundary/
+missing-source controls were added afterward. Source now connects ProjectImage,
+atomic Project getter/replacement, snapshot accounting, sparse schema23 rows,
+common importer and clipped existing inspector. No native acceptance yet.
+Waste/action: **reuse** one parent source/probe runtime and current project/native
+state authorities. No binary codec or new model/reader. **Retain** real changed
+metadata in the GUI save check so reopening cannot pass on the original import.
+Inspect actual symbols/fixtures and combine changes before one cached build;
+all legacy fixture downgrades remove schema23 state and the native witness now
+covers22 older schemas. No raw saved-data recapture or broad numerical replay.
+Next: freeze/build one candidate, then new/affected project/import/store/legacy
+checks, native roles and actual inspector. Generate stubs/repackage/install once
+after behavior settles, with typing and exact source/member identity checks.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,
