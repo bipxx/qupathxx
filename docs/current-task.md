@@ -24,8 +24,10 @@ Current: **R7-MEDIAN1 — post-threshold binary median cleanup**
   Native tissue_median, tissue_smoothing, tissue, tissue_records,
   measurement_tables, project_batch and cell_calibration all pass. Logs live in
   build/tissue-median-r7/reference-capture.log and native-tests.log.
-- First next action: build the settled bindings and region target in the existing
-  gridfrontends167-package cache. Stage once into build/tissue-median-r7/stage,
+- First next action: resume the live bindings/region build in session58426
+  (confirmed live; cl CPU advancing, no errors reported). Do not launch a
+  replacement build. It uses the existing gridfrontends167-package cache.
+  After terminal success, stage once into build/tissue-median-r7/stage,
   copy facades and use the existing isolated probe environment. Assert actual
   module/source identity, generate stubs once, then run selected SDK/CLI, old
   format/metadata and typing checks. Enable the two new GUI nodes explicitly and
@@ -64,3 +66,9 @@ acceptance stays pending installed evidence. Finish bindings, verify all promise
 old formats/owners and inspect visible controls before one package. After every
 bounded task or failed/stopped attempt, review actual waste and update this card/
 queue before the next task or retry. Keep broader M0-M7 scope intact.
+
+Live handoff: binding session58426 was re-polled and is still running. Native
+source is frozen at4a252c6e plus this documentation handoff; no median stub,
+wheel or install has run. The probe/installed runtimes still contain Gaussian
+code and must not be mistaken for the new median product. Resume the same build,
+then stage and verify old unfiltered/Gaussian boundaries before packaging.
