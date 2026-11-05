@@ -1,6 +1,7 @@
 #include "qupathxx/core.hpp"
 #include "class_color_checks.hpp"
 #include "class_registry_checks.hpp"
+#include "class_history_checks.hpp"
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
@@ -9,6 +10,7 @@ int main() {
     try {
         class_color_checks::run();
         class_registry_checks::run();
+        class_history_checks::run();
         Document d(Image::demo());
         auto cell=d.add_cell(Roi::rectangle({0,0,20,20}),Roi::rectangle({1,1,2,2}),"Cell",0,"Tumor");
         check(d.classes().size()==1 && d.class_count("Tumor")==1);

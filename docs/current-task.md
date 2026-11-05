@@ -5,7 +5,7 @@ and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. CLASS1 is [locally verified](benchmarks/class-hierarchy-r4/README.md#installed-workflow-closeout-2026-11-05);
 full R4/R5 and the long-term R2-R16 backlog remain open.
 
-Current: **R4-CLASSHISTORY1 — class-only rename history admission** (ready).
+Current: **R4-CLASSHISTORY1 — class-only rename history admission** (in progress).
 
 - Outcome: a class-only subtree rename and undo retain IDs, parent/class links,
   geometry and reported probability without unnecessary geometry charges in
@@ -31,26 +31,21 @@ Current: **R4-CLASSHISTORY1 — class-only rename history admission** (ready).
   retain current evidence scopes. No biological labels, release license or
   support decision blocks this engineering probe. Only openly licensed readers.
 
-Latest task review (2026-11-05, CLASS1 installed closeout):
-Outcome/evidence: runtime8722d96d and [integrity/results](benchmarks/class-hierarchy-r4/candidate-integrity.json)
-verify native/Python/ImGui ancestry/raw colors and project defaults through
-imports, explicit editing/application, snapshots/budgets/recovery/failed writes,
-corrupt rows and save/reopen, including zero images. Seven native roles pass;
-319 earlier staged passes retain b66ed9cf scope,49 diagnostic/class repair cases
-and eight installed/stub cases pass at8722d96d. Positive typing/three expected
-negative errors and actual installed mouse reorder/save/fresh-process readback
-pass. All65 hashed installed members match wheel/RECORD.
-Waste/action: **reuse** captures/authorities/cache and existing environments.
-One639.17s combined candidate plus a66.08s private diagnostic repair; one stub
-pass, repackage and install. Keep precise empty/NUL diagnostics and assertions.
-Early GUI checks caught obsolete resets and ImGui193 deferred scalar commits;
-use live scalar drafts so Save sees visible RGB/alpha. Preserve failed logs;
-no new decoder/model, numerical campaign, host matrix or speed claim. The
-remaining geometry charge is a concrete source concern, not a measured failure.
-Removed25.2MB of redundant PPMs after pixel-equivalent PNG verification; the
-first cleanup attempt used a Python without Pillow and changed nothing, so the
-existing verified image-capable environment completed it without installs/builds.
-Next: the single installed admission probe above, then replan from its result.
+Latest task review (2026-11-05, CLASSHISTORY1 native field journal):
+Outcome/evidence: classes/object_classifier roles pass. A2000-vertex polygon,
+subtree/raw-color metadata and4000-byte immutable properties now rename in one
+3392-byte history record under16KiB. Parent/default-color resolution, probability/
+property identity, geometry/nucleus/index, snapshot save/reopen, independent copy/
+undo/redo, overlapping keys, unused classes, unrecorded edits and atomic collision/
+budget refusal pass. Actual reclassification still clears reported probability.
+Waste/action: **merge** preparation/count/class patches into the existing field
+transaction and atomic toggle; no second history system or geometry journal.
+Public headers/SDK signatures are unchanged. **Reuse** core/GUI/bindings caches
+and the installed8722d96d baseline; no capture or stub work is needed.
+Next: freeze this private implementation, build one cached consumer candidate,
+and rerun the exact installed admission probe plus focused class/ownership/GUI
+checks. Verify retained stubs/native identity, then install once; do not repeat
+CLASS1's broad import/schema/numerical campaign.
 
 After every bounded task or failed/stopped attempt, record scoped outcome,
 waste action and changed next step here before continuing or retrying.

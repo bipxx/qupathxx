@@ -341,26 +341,6 @@ void Document::remove_class(const std::string& name) {
     object_class(name); Staging staged(*this); staged.write_class(name,std::nullopt);
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Remove class");
 }
-void Document::rename_class(const std::string& old_name,std::string new_name) {
-    const auto current=object_class(old_name);if(old_name==new_name)return;
-    auto renamed=current;renamed.name=new_name;detail::validate_class_definition(renamed);
-    std::map<std::string,std::string> names;
-    for(const auto& [name,value]:classes_) {
-        const auto chain=detail::class_chain(value,[&](const std::string& key)->const ObjectClass* {const auto at=classes_.find(key);return at==classes_.end()?nullptr:&at->second;});
-        if(std::any_of(chain.begin(),chain.end(),[&](const auto* node){return node->name==old_name;}))names.emplace(name,new_name+name.substr(old_name.size()));
-    }
-    for(const auto& [before,after]:names)if(classes_.count(after) && !names.count(after))throw std::invalid_argument("class name already exists");
-    Staging staged(*this);for(const auto& [before,after]:names)staged.write_class(before,std::nullopt);
-    for(const auto& [before,after]:names) {
-        auto value=object_class(before);value.name=after;
-        if(const auto parent=names.find(value.parent);parent!=names.end())value.parent=parent->second;
-        staged.write_class(after,std::move(value));
-    }
-    for(const auto& [id,object]:objects_)if(const auto name=names.find(object.class_name);name!=names.end()) {
-        auto value=object;value.class_name=name->second;staged.write(id,std::move(value));
-    }
-    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Rename class");
-}
 void Document::classify_objects(const std::vector<std::uint64_t>& ids,std::string classification) {
     text(classification); Staging staged(*this);
     for(auto id:ids) { auto value=find(id); value.class_name=classification;value.properties=detail::reclassified_properties(value.properties,!classification.empty()); staged.write(id,std::move(value)); }

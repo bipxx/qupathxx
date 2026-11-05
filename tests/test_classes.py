@@ -148,3 +148,22 @@ def test_repeated_replacements_count_only_final_class_and_preserve_noop():
     assert [c.name for c in doc.classes] == ["A", "C"]
     assert doc.class_count("C") == 1 and doc.class_count("B") == 0
     assert doc.undo() and doc.class_count("A") == 1 and doc.class_count("C") == 0
+
+
+@pytest.mark.skipif(not q.has_geos, reason="polygon topology")
+def test_dense_class_only_rename_fits_field_history_budget():
+    import math
+    doc = q.Document(q.Image.demo())
+    geometry = q.Roi.polygon([q.Point(200 + 100 * math.cos(i * math.tau / 2000),
+                                    180 + 100 * math.sin(i * math.tau / 2000)) for i in range(2000)])
+    obj = doc.add_detection(geometry, class_name="Root")
+    before = doc.annotation(obj)
+    doc.clear_history(); doc.set_history_limits(128, 16384)
+    doc.pick(q.Point(200, 180)); builds = doc.spatial_stats.builds
+    doc.rename_class("Root", "Renamed")
+    assert 0 < doc.history_bytes < 16384 and doc.annotation(obj).class_name == "Renamed"
+    assert doc.annotation(obj).geometry.equals(before.geometry)
+    doc.pick(q.Point(200, 180))
+    assert doc.spatial_stats.builds == builds and doc.spatial_stats.dirty_entries == 0
+    assert doc.undo() and doc.annotation(obj).class_name == "Root"
+    assert doc.redo() and doc.annotation(obj).class_name == "Renamed"
