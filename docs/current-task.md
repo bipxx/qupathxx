@@ -23,8 +23,9 @@ Current: **R7-FILTER1 — pre-threshold tissue Gaussian smoothing**
   tissue_records, measurement_tables, cell_calibration and project_batch pass
   (six roles). Raw logs: build/tissue-smoothing-r7/native-smoothing-tests.log and
   native-regressions.log. App/batch native compilation completed successfully.
-- First next action: build settled bindings and region executable in the existing
-  gridfrontends167-package cache. Stage once, copy facade, reuse isolated probe
+- First next action: resume the existing bindings/region build in live session
+  91866 (cl CPU advancing, no errors reported). Do not start a replacement build.
+  It uses the existing gridfrontends167-package cache. Stage once, copy facade, reuse isolated probe
   environment, assert actual module/source identity and generate stubs once.
   Run selected SDK/CLI/persistence/typing cases and explicitly enabled GUI nodes.
   Inspect the scrolled Sigma control before packaging. Root .venv is backend/
@@ -65,3 +66,9 @@ verification in the existing R7 row; no coverage acceptance changes yet. Next
 build bindings, then stage/verify old budgets and actual scrolled controls before
 packaging. After each bounded task or failed/stopped attempt, record outcome,
 actual waste/action, plan adjustment and changed next task/retry before proceeding.
+
+Pending-test refinement: negative stain features, maximum/subnormal sigma and
+both QTM3 sampling policies now have explicit SDK cases. These are not yet run;
+C++ compiler inputs are unchanged. The active binding process was re-polled and
+remains live, so the next turn must resume session91866 and use its terminal
+status before staging. No FILTER1 wheel/install/stub generation has occurred.

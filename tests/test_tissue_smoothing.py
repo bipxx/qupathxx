@@ -64,6 +64,37 @@ def test_direct_two_dimensional_reference_and_decode_seams(sigma, tile):
     assert request.parameters.smoothing_sigma == sigma
 
 
+def test_negative_stain_features_are_filtered_without_clamping():
+    yy, xx = np.indices((11, 17))
+    rgb = np.empty((11, 17, 3), dtype=np.uint8)
+    rgb[:] = [20, 225, 225]
+    rgb[(xx % 7 < 3) | (yy % 5 < 2)] = [225, 20, 225]
+    doc = q.Document(q.Image.from_numpy(rgb))
+    obj = doc.add_rectangle(q.Rect(0, 0, 17, 11))
+    transform = q.StainTransform([[1, 0, 0], [1, 1, 0]])
+    p = q.TissueParameters()
+    p.feature, p.threshold, p.smoothing_sigma = q.TissueFeature.STAIN_1, -.1, 1.7
+    od = -np.log10(rgb.astype(float) / 255.)
+    feature = (od[..., 0] - od[..., 1]).astype(np.float32).astype(float)
+    assert feature.min() < 0 < feature.max()
+    expected = direct_gaussian(feature, np.ones(feature.shape, bool), p.smoothing_sigma) >= p.threshold
+    result = q.detect_tissue(q.TissueRequest(doc, obj, transform, p))
+    np.testing.assert_array_equal(np.frombuffer(result.labels, dtype=np.uint32).reshape(feature.shape) != 0, expected)
+
+
+def test_largest_sigma_and_subnormal_sigma_on_small_crops():
+    doc = q.Document(q.Image(3, 3, [0] * 27))
+    obj = doc.add_rectangle(q.Rect(0, 0, 3, 3))
+    transform = q.StainTransform([[1, 0, 0], [0, 1, 0]])
+    p = q.TissueParameters()
+    for sigma in (16., math.nextafter(0., 1.)):
+        p.smoothing_sigma = sigma
+        assert q.detect_tissue(q.TissueRequest(doc, obj, transform, p)).foreground_pixels == 9
+        p.threshold = 8.
+        assert q.detect_tissue(q.TissueRequest(doc, obj, transform, p)).foreground_pixels == 0
+        p.threshold = .3
+
+
 @pytest.mark.parametrize('sigma', [-1., 17., math.nan, math.inf])
 def test_invalid_smoothing(sigma):
     doc, obj, transform, p, _ = scene()
