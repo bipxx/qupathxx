@@ -792,3 +792,5 @@ docs/benchmarks/image-data-properties-r5/** -text -whitespace
 
 tests/fixtures/qupath-saved-tma-0.7.0/** -text -whitespace
 tools/upstream/qupath_saved_tma_reference.groovy -text
+
+docs/benchmarks/saved-tma-r5/** -text -whitespace

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^qupath_project$",
+    "--output-on-failure",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\saved-tma-r5\\native-observer.xml"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.2000671001151204,
+  "scope": "Repaired standalone witness with regenerated observer provenance; product remains original9627e545."
+}

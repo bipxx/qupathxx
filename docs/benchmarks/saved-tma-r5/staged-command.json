@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\saved-tma-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='9627e54507b400a676f3599041e8535e15768635';assert q.has_project and q.has_interchange and q.has_tiff;print('native source',q.build_environment().git_revision,flush=True);import pytest;raise SystemExit(pytest.main(['tests/test_qupath_saved_tma.py', 'tests/test_qupath_saved_data.py', 'tests/test_qupath_project.py', 'tests/test_image_properties.py::test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen', 'tests/test_object_edit_state.py::test_pinned_saved_color_lock_and_scalar_probability_remain_native', 'tests/test_image_analysis_settings.py::test_pinned_types_stains_names_white_and_residual_are_retained', 'tests/test_image_data_properties.py::test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly', 'tests/test_image_data_properties.py::test_unknown_or_cyclic_values_require_review_and_drop_whole_properties', 'tests/test_object_planes.py::test_import_view_mask_analysis_restart_and_export_use_exact_plane', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\saved-tma-r5\\\\staged.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\saved-tma-r5\\\\staged-temp']))"
+  ],
+  "returncode": 0,
+  "source": "9627e54507b400a676f3599041e8535e15768635",
+  "product_installed": false,
+  "elapsed_seconds": 5.099724699975923
+}

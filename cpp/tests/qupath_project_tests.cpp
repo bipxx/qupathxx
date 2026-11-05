@@ -25,7 +25,7 @@ int main() {
         auto saved=[&](int entry) {std::ifstream f(tma_fixture/std::to_string(entry)/"data.qpdata",std::ios::binary);check(bool(f));return std::string(std::istreambuf_iterator<char>(f),{});};
         const auto tma=detail::decode_qupath_saved_data(saved(1));check(tma.issues.empty() && tma.tma_cores.size()==6);
         std::size_t missing=0;for(const auto& [uuid,core]:tma.tma_cores) {check(uuid.size()==36 && core->grid_info()->rows()==2 && core->grid_info()->columns()==3);missing+=core->missing();}check(missing==2);
-        const auto legacy=detail::decode_qupath_saved_data(saved(2));bool legacy_case=false;for(const auto& [uuid,core]:legacy.tma_cores)legacy_case|=core->case_id()==u8"legacy α";check(legacy_case);
+        const auto legacy=detail::decode_qupath_saved_data(saved(2));bool legacy_case=false;for(const auto& [uuid,core]:legacy.tma_cores)legacy_case|=core->case_id()==u8"legacy \u03b1";check(legacy_case);
         for(int entry=3;entry<=8;++entry)rejects([&]{detail::decode_qupath_saved_data(saved(entry));});
         std::cout<<"Native saved TMA grid: identity slots, missing/case state, legacy fallback and membership refusal passed\n";
         const auto root=std::filesystem::temp_directory_path()/("qpx-import-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

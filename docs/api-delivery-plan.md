@@ -34,6 +34,13 @@ locally and assign it once. A returned STL container may be a copy; appending to
 that copy does not change C++ options. Check actual APIs/ownership before
 adjusting replay timing or writing a consumer around an assumed method.
 
+A C++ observer edit participates in CMake's recorded configure dependencies and
+can refresh provenance.cpp and the core archive. Do not assume an observer-target
+build leaves that archive byte-identical. Keep the passing product frozen, compare
+runtime inputs/configuration, and record the observer's distinct source/metadata
+and tested scope. An observer repair alone does not justify another wheel or stub
+generation, and its identity must never be relabeled as the original product.
+
 Keep one short current-task file. Workflow coverage belongs in feature-matrix;
 requirements belong in project-plan; this file owns scheduling and validation.
 Historical records are references, never instructions to replay old campaigns.
@@ -78,7 +85,7 @@ does not depend on an unanswered decision. Do not infer a narrower final scope
 from the work already delivered.
 
 R0 is complete. R1 inventory reconciliation is recorded in the workflow inventory;
-R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. Continue with the native saved-data TMA-grid loss while owner decisions remain open. Follow dependencies below;
+R2-SI1, R2-META1, R2-UNIT2 and R2-CODEC1 are locally verified. R5 source verification, object properties/editing state and recovery reconciliation are closed within their recorded scopes. R5-PLANE1 is locally verified for its declared workflow. R5-SOURCEAXES1 is locally verified for retained-plane source adoption. R4-CLIP1 is locally verified. R5-ROOT1 is locally verified for historical image facts and shared fact ownership/storage repairs. R5-SETTINGS1 is locally verified for saved image analysis defaults. R5-DATAPROP1 is locally verified for portable typed ImageData properties. R5-TMASAVED1 is locally verified for recognized native grids. Continue with assisted saved-state retention while owner decisions remain open. Follow dependencies below;
 within a ready task, finish one complete user workflow before the next. Existing
 implementations are the starting point: inspect their evidence and implement
 only the missing behavior. Use the detailed API routes below for entry points.
@@ -139,17 +146,18 @@ to later code. Only the latest closeout stays in current-task.md.
 | R5 image facts | [Root metadata/measurements](benchmarks/root-facts-r5/README.md) | Native import/Python/ImGui/history/schema19 snapshot/reopen; common native shared ownership and borrowed BLOB lifetime fixes. ImageData defaults/properties remain separate |
 | R5 saved defaults | [Image type/stain defaults](benchmarks/image-settings-r5/README.md) | Recognized pinned types/profiles, native values/history/schema20 snapshots/reopen and explicit Python/ImGui use; RGB8 application limits are explicit. Other ImageData properties remain separate |
 | R5 ImageData properties | [Portable typed values](benchmarks/image-data-properties-r5/README.md) | Null/bool/exact signed64/binary64/text/list/map values, whole-property loss review, immutable ownership/history/schema21 snapshots/reopen and Python/ImGui inspection; unrecognized Java types remain explicit |
+| R5 native saved TMA | [Recognized binary grids](benchmarks/saved-tma-r5/README.md) | UUID/slot/child retention, missing/case/legacy state and existing TMA history/snapshots/store/GUI; incompatible grids refuse. QPTMA text and assisted state are separate contracts |
 | R5 planes | [Native plane workflow](benchmarks/object-planes-r5/README.md) | Selected single-series plane import/view/analysis/publication/storage/export; explicit channel/2D/QPTMA limits; source-axis adoption is covered separately below |
 | R5 source-axis adoption | [Retained-plane compatibility](benchmarks/source-plane-replacement-r5/README.md) | Current plane/undo edits, atomic refusal, compatible reduction and no-op/move semantics; no new review/store or reader reopen |
 | R5 recovery | [Covered fault assertions/results](project-storage.md#recovery-gap-reconciliation-2026-11-04) and [cross-session rescue](recovery-work-cleanup.md#evidence-and-remaining-scope) | Killed-writer/marked-debris scope is delivered; no new generic crash campaign. Power loss, network storage and wider pressure bounds are distinct claims |
 
-Active bounded task: **R5-TMASAVED1, native saved-data TMA grids**.
-DATAPROP1 is locally verified in its [recorded scope](benchmarks/image-data-properties-r5/README.md).
-The saved-data decoder still reports TMA-grid structure as dropped and lacks
-TMA-core retention. Existing QPTMA fixtures cover text exchange, not .qpdata.
-Follow the [current task](current-task.md) for pinned grid/core contract preparation;
-reuse the delivered TMA model, commands, consumers and store. Other records,
-formats and editing gaps remain in their existing R4/R5 rows.
+Active bounded task: **R5-ASSISTSTATE1, assisted saved-state retention**.
+TMASAVED1 is locally verified in its [recorded scope](benchmarks/saved-tma-r5/README.md).
+The assisted exporter still reports recognized image defaults/properties as
+unmigrated, and its importer carries GeoJSON/XY without the delivered native
+state authorities. Follow the [current task](current-task.md) to define route/
+bundle compatibility and a single state authority, avoiding duplicate geometry
+decoding or parallel models. Other R4/R5 representations and losses remain open.
 
 ## Execution order for finishing the remaining work
 
@@ -160,7 +168,7 @@ implementation and existing evidence: if a slice is already satisfied, link that
 evidence and advance without reimplementing it. A newly discovered gap returns
 to its existing R row, with its dependency and next action.
 
-Default remaining order is R5-TMASAVED1, then demonstrated remaining R4/R5 implementation,
+Default remaining order is R5-ASSISTSTATE1, then demonstrated remaining R4/R5 implementation,
 R6/R7, R8-R10, R11, R3 completion, R12 and R13. Pull an uncovered eligible R2
 reader/axis/damage slice forward when its consumer needs it; reconcile remaining
 R2 inventory before closing M1. Prepare R1 decisions and release
@@ -174,7 +182,7 @@ R14-R16 follow the applicable stable contracts and remain part of the full targe
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
 | R2 | UNIT2 and CODEC1 are locally verified. Remaining work: compare the pinned eligible-format inventory with actual adapter capabilities and select one missing vendor/partial-OME representation; follow with its damaged-input and axis/mapping behavior | Finish each selected format through the existing reader and affected consumers. Record unsupported formats explicitly; do not add a decoder without confirming the reader and required codec licenses |
 | R4 | MERGE1 and CLIP1 are locally verified. Continue only demonstrated remaining overlapping/nested edit and hierarchy/class gaps | Reuse the delivered clipboard contract, fresh-ID/hierarchy/state handling, native history and actual desktop evidence. Do not repeat clipboard implementation or checks without a changed input or concrete concern |
-| R5 | ROOT1, SETTINGS1 and DATAPROP1 are locally verified. TMASAVED1 next: retain a recognized native saved-data TMA grid/core hierarchy through existing TMA state. Then uncovered project properties, versions/builders/records, source races and geometry losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
+| R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 next: carry those state authorities through compatible assisted exchange. Then uncovered calibration/project properties, versions/builders/records, source races and geometry/class losses | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | Context/halo sampling and replay; vendor/pyramid equivalence; missing compartment features and split/merge cases; representative specimen acceptance | Extend the current V2 sampling/kernel authority while preserving V1 replay. Fix a discrepancy once in the shared path; biological acceptance waits only for its declared labels/tolerances |
 | R7 | Physical tissue filters and smoothing/median/grid behavior; missing measurement definitions; stain estimation/model registry and specimen comparisons | Reuse requests, retained records and table/export paths. Establish tiny-array/mask/feature expectations before specimen comparisons; consume R6 sampling fixes where needed |
 | R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
@@ -234,14 +242,15 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active TMASAVED1 slice, inspect pinned hierarchy/grid/core serialization
-and existing TMA creation/adoption APIs first. Capture only the missing native
-saved-data contract; reuse the QPTMA geometry/label/missing/case expectations and
-native TMA editor/store mechanisms. Settle identity/order/child mapping, review
-and atomic publication before a combined cached candidate. Prefer existing TMA
-state over another document field/header change when it already suffices.
+For the active ASSISTSTATE1 slice, inspect bundle version/source guards and route
+priority before choosing representation. Reuse delivered native image/TMA state,
+existing captured inputs and import publication. Establish compatibility with old
+bundles and unsupported native records. Prefer reuse of recognized saved-state
+parsing over a second model/codec, without decoding geometry twice or silently
+changing which source/representation owns an imported value. Capture only the
+missing assisted workflow and verify every affected consumer before closeout.
 
-After TMASAVED1, select the first demonstrated remaining R4/R5 loss or edit gap
+After ASSISTSTATE1, select the first demonstrated remaining R4/R5 loss or edit gap
 from the existing inventory. Follow the ordered slices above through R6/R7,
 R8-R10, R11, R3, R12/R13 and applicable R14-R16. A dependency blocks only its
 affected slice. Keep owner decisions in R1/R13 and continue the first independent

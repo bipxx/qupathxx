@@ -1,0 +1,11 @@
+[
+  "tests/test_qupath_saved_tma.py",
+  "tests/test_qupath_saved_data.py",
+  "tests/test_qupath_project.py",
+  "tests/test_image_properties.py::test_captured_root_facts_import_without_loss_or_fake_roi_then_reopen",
+  "tests/test_object_edit_state.py::test_pinned_saved_color_lock_and_scalar_probability_remain_native",
+  "tests/test_image_analysis_settings.py::test_pinned_types_stains_names_white_and_residual_are_retained",
+  "tests/test_image_data_properties.py::test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly",
+  "tests/test_image_data_properties.py::test_unknown_or_cyclic_values_require_review_and_drop_whole_properties",
+  "tests/test_object_planes.py::test_import_view_mask_analysis_restart_and_export_use_exact_plane"
+]

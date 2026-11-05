@@ -1,0 +1,18 @@
+{
+  "cpp/tests/qupath_project_tests.cpp": "5d182a2fb9a84254899b87907900a141960ecc9a191cb3eb41db375daccdc7c3",
+  "tests/test_gui_replay.py": "7f75968a0d0c9c65cba6136f5cea04622a8bd99751710d6c6c1240854e510138",
+  "tests/test_gui_tiles.py": "8d5d8257b249ba9b0f6053c6b852123bc5027b440367cb870ad6fc5683392069",
+  "tests/test_gui_tma.py": "04b4f023bc0501a43f04f9cb671bd71f5f28badeb3ebc30c78df354d516e7eff",
+  "tests/test_image_analysis_settings.py": "5f06cdc44f592ce6c7365fe1743df896f9319e9cbc8487cd3662deeb253f8a1e",
+  "tests/test_image_data_properties.py": "96626b740c6d0667690bf1a2ad46ff8b051936513d56c31b3c874bbaa069e65b",
+  "tests/test_image_properties.py": "d760a7958136e23a0742b01d8247c9e587793a089338c98a851007596017be23",
+  "tests/test_object_edit_state.py": "c7dafc4fa74516c6abd8f89a663cd2ada689c32186e64d322e3b3bebbc8849d9",
+  "tests/test_object_planes.py": "1b2d7a08bc861983ca291745ba5168326eca5e78059448f2bbe2dd2deaf4e7fa",
+  "tests/test_public_stubs.py": "b58201e8778b5bfb9a5b080551cea3e3573c77ec8be26c0221a413d02a2774f0",
+  "tests/test_qupath_project.py": "4f13f8d517d11d515c6744e83975a7f2ba4bb4c86c5873136e40a70ce0da576a",
+  "tests/test_qupath_saved_data.py": "485552a66a17058539a7a39e48e8ef775d52d4f44dd9c6de976038c7f398ae07",
+  "tests/test_qupath_saved_tma.py": "7bed388d5d928e5b8dcdbc90e48cd0153eaa9c847788cca41658d1a9c7788e28",
+  "tests/test_tma.py": "65963f02fa7aaea1d640fcbed53694d6cf4b831d4ca7218273f9cd09825f04ad",
+  "tests/test_tma_case_summary.py": "085292c4a8393318a1b3c98b4057d96ceb5ee70fe9fe702358fc374b8e005eb8",
+  "tests/test_viewer_session.py": "3bdab62dc3e219e6f06e96b1041746f650e5ca0a05fc56e2a4b7011fd7ae4fc8"
+}

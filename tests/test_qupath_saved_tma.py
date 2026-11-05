@@ -134,6 +134,21 @@ def test_saved_grid_source_guard_preserves_destination_and_preview(tmp_path):
     assert not preview.consumed and not output.exists()
 
 
+def test_multiple_saved_grids_keep_image_namespaces_and_case_pooling(tmp_path):
+    source=foreign(tmp_path);data=json.loads((FIXTURE/'project/project.qpproj').read_bytes())
+    data['images']=[r for r in data['images'] if r['imageName'] in ['grid','legacy-case']]
+    for row in data['images']:row['serverBuilder']['uri']=(source.parent.parent/'source.ome.tif').as_uri()
+    source.write_text(json.dumps(data),encoding='utf-8');preview=q.preview_qupath_project(str(source));assert preview.issues==[] and len(preview.images)==2
+    path=tmp_path/'cohort.qpxproj';project=preview.import_new(str(path));cohort={}
+    for info in preview.images:
+        mapping=dict(zip(info.source_object_ids,info.imported_object_ids,strict=True));doc=project.document(info.native_id)
+        assert_document(doc,mapping,info.name);assert_document(q.Project.open(str(path)).document(info.native_id),mapping,info.name)
+        cohort[info.native_id]=doc.tma_grid()
+    rows=list(csv.DictReader(io.StringIO(q.tma_cohort_case_summary_csv(cohort))))
+    case=next(r for r in rows if r['case_id']=='case-one');assert [case[k] for k in ['cores','present_cores','missing_cores']]==['4','2','2']
+    assert len([r for r in rows if not r['case_id']])==3
+
+
 @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in saved-grid desktop')
 def test_desktop_uses_imported_grid_exports_metadata_and_saves(tmp_path):
     from test_gui_tma import click

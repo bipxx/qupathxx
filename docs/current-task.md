@@ -2,50 +2,59 @@
 
 Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
-All M0-M7 remain Partial. R5-DATAPROP1 is locally verified in its recorded scope.
+All M0-M7 remain Partial. R5-TMASAVED1 is locally verified in its recorded scope.
 
-Current: **R5-TMASAVED1 — native saved-data TMA grids** (contract settled; capture/implementation preparation).
+Current: **R5-ASSISTSTATE1 — assisted saved-state retention** (ready for contract preparation).
 
-- Outcome: retain a recognized pinned saved-data TMA grid, its core identities,
-  geometry, ordering, missing/case state and supported child hierarchy through
-  native project import, existing Python/ImGui TMA use and saved reopen. Preserve
-  explicit losses/refusals for unsupported representations; do not substitute
-  annotation-only or image-only import for retained grid semantics.
-- Entry/evidence: cpp/qupath_saved_data.cpp still emits tma_grid_dropped and its
-  object decoder admits root/annotation/detection/cell classes, with no TMA-core
-  retention route. Existing QPTMA0.7 fixture/probe covers text exchange, not native
-  .qpdata. Reuse the accepted TMA native model, geometry, commands and store.
-- Next action: inspect pinned hierarchy/grid/core serialization and current TMA
-  creation/adoption APIs before choosing a decoder mapping. Capture one synthetic
-  saved-data grid covering fractional geometry, missing/case labels and children,
-  reading it back for reference. Do not recapture/reimplement the QPTMA codec.
-- Dependencies/reuse: pinned runtime and project fixture source, existing stream/
-  ROI/identity parsing, loss-aware import publication, TMA editor/batch/store and
-  native ownership. Prefer existing TMA state to another document field or model.
-  Record actual unsupported variants before freezing one coherent candidate.
-- Checks/stop: independent core count/order/IDs/geometry/missing/case/child
-  expectations; guarded preview and atomic refusal; actual inspect/use and
-  save/reopen retain the same grid. Add only uncovered migration/ownership faults
-  and affected consumers. No new detector, biological TMA acceptance, wide reader
-  campaign or repeated text-codec qualification is implied. Other R4/R5 losses,
-  source races, R6-R16 and owner research/license/release decisions remain open.
+- Outcome: carry recognized image facts, analysis defaults, portable ImageData
+  properties and TMA state through the existing assisted-exchange route as well
+  as direct native import. Preserve source/geometry/ID binding and explicit losses
+  for unsupported values; do not silently change existing bundle behavior.
+- Entry/evidence: tools/upstream/export_qupath_project.groovy still reports image
+  type/stain/custom properties as not migrated, with no TMA-state handling. The
+  assisted branch in cpp/qupath_project.cpp imports GeoJSON and XY calibration
+  only. The four native state authorities are now delivered and reusable.
+- Next action: trace assisted bundle version, source/hash guards, geometry/type
+  normalization and route priority. Define a single state authority for each
+  supported route before adding serialization or decoding. Prefer reusing pinned
+  native saved-state parsing where correct; avoid decoding geometry twice or
+  inventing parallel state/codec models. Inspect compatibility with old bundles
+  and unsupported saved-data records before choosing the smallest correct route.
+- Dependencies/reuse: existing export script, pinned runtime, captured native
+  fixtures and assisted import evidence; native image facts/settings/properties,
+  TmaCodec/commands, private preview publication and current store. Capture only
+  the missing assisted workflow using those sources; no detector/math recapture.
+- Checks/stop: source-bound route/bundle compatibility, retained state/IDs/children
+  and round-trip, explicit unsupported/refusal behavior, atomic failed apply, and
+  actual Python/desktop consumers. Settle interfaces before one cached candidate;
+  avoid API/schema changes when existing state suffices. Z/time calibration
+  overrides, other geometry/classes/versions/builders and source races remain R5;
+  R4/R6-R16 and owner research/license/release decisions stay in the same queue.
 
-Latest task review (2026-11-04, TMASAVED1 contract/capture/baseline):
-Outcome/evidence: corrected capture succeeds with eight grid/membership variants,
-including reversed hierarchy order, duplicate names, legacy cases and children.
-Fixture/probe hashes pass. Previous installed product reproduces unsupported
-TMA-core failure. All affected public cases collect; the new module has21 cases.
-Decoder/import drafts use one grid layout and map UUIDs to existing native IDs,
-then attach metadata with one staged edit inside the private preview.
-Waste/action: **reuse** native TMA state/commands/store and shared stream/list/
-ROI/fact/plane parsing. **Remove** nested ternaries next to Groovy list literals;
-two failed parse probes are retained before the successful conditional form.
-Use zero-prefixed decimals. No new public API, document field or schema was
-needed; keep existing stubs and avoid broad binding recompilation or a detector/
-text-codec/scientific campaign. Preserve the failing installed baseline.
-Next: freeze four affected compiler files for one cached build; run new TMA and
-shared import regressions, four native roles and one actual TMA export/save flow.
-Then install once, check unchanged packaged stubs/RECORD and close only this route.
+Latest closeout (2026-11-04, R5-TMASAVED1):
+Outcome/evidence: [native saved TMA grids](benchmarks/saved-tma-r5/README.md)
+retain core slots/identities, analytic bounds, missing/case and legacy fallback,
+facts/planes and child annotation/detection/cell/nucleus hierarchy through native
+import, TMA edits/history, immutable snapshots, store/reopen and ImGui export.
+Native9627e545:64 staged passes/four declared skips (20 new headless), one desktop,
+one additional installed multi-image namespace/case-pooling case and five
+packaged-stub checks. Three native roles pass on original products; repaired
+QuPath native witness passes with its distinct regenerated dirty provenance.
+All product source inputs/65 hashed installed members match; only the C++ witness
+source differs. Both source manifests and scope boundaries are recorded.
+Waste/action: **reuse** TmaCodec/native metadata edits rather than new state/API/
+schema. One46.05s product build, one install, zero stub generation. **Retain** two
+Groovy parse failures, old installed refusal and the native Unicode witness/
+identity-postcheck failures. **Fix** ternary/list ambiguity and zero-prefix
+literals; use an ASCII Unicode escape in the C++ test. Rebuild only that witness;
+CMake refreshes provenance after test edits, so record its distinct identity
+instead of claiming an unchanged archive. Do not rebuild the passing product.
+Read actual headings/paths before documentation edits; corrected a stopped
+heading-context patch without another build. No math/text-codec campaign.
+Plan change/next: TMASAVED1 closes for declared recognized grids; unsupported
+representations refuse. Prepare ASSISTSTATE1 above to carry the delivered state
+across the other import route. Broader interchange, science/resources/platforms,
+speed and release remain open. No milestone or overall-goal completion claimed.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

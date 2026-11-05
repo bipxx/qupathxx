@@ -145,8 +145,10 @@ use [typed ImageData properties](image-data-properties.md); unsupported whole
 properties and executable workflow history report losses before apply.
 Derived classifications retain their full display name/color
 with a class-hierarchy flattening notice. Saved workflows are never executed.
-TMA-grid metadata is not migrated by this decoder. Unsupported top-level records
-fail, rather than being treated as an empty hierarchy.
+Recognized native [saved TMA grids](qupath-saved-tma.md) retain core identities,
+slots, missing/case state and children through the existing TMA model. Invalid or
+unsupported grids and top-level records fail rather than becoming an empty
+hierarchy. Assisted exchange remains a distinct state-retention contract.
 
 The stream reader limits input to256 MiB, one million serialized values,
 128 nesting levels, eight million array elements,16 MiB per serialized string and

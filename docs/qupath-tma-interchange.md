@@ -1,5 +1,9 @@
 # QuPath TMA grid interchange
 
+For direct native `.qpdata` grid import, see the separate
+[saved-data TMA contract](qupath-saved-tma.md). This page describes QPTMA text
+exchange; its precision and representational limits remain unchanged.
+
 This work targets direct grid exchange using QuPath 0.7.0 `.qptma` text files,
 through the native model, Python, standalone project commands and the ImGui TMA
 panel. The bounded native codec, protected file IO and atomic document import
