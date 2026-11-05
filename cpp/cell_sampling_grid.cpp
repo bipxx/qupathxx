@@ -113,6 +113,6 @@ std::string cell_raster_input_sha256(const AnalysisRequest& source,const CellRgb
 std::uint64_t cell_raster_work_bytes(const CellSamplingGrid& grid,std::uint32_t count,const Roi& roi,const AnalysisProvenance& source) {
     if(grid.area) return scientific_raster_work_bytes(*grid.area,count,roi,source);
     return 29ULL*grid.width()*grid.height()+std::uint64_t(count)*(7*sizeof(std::uint64_t)+sizeof(TissueComponent))+
-        source.payload_bytes()+2ULL*roi.payload_bytes()+(sizeof(TissueResult)-sizeof(double)) /* unfiltered legacy mask metadata */+sizeof(NominalCellSampling)+65536;
+        source.payload_bytes()+2ULL*roi.payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+sizeof(NominalCellSampling)+65536;
 }
 }

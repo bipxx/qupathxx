@@ -166,6 +166,7 @@ struct TissueKernel {
         }
         if(cleanup) {
             if(phase) phase->store(4);const auto began=std::chrono::steady_clock::now();
+            if(p.median_cleanup) tissue_detail::median(labels,queue,domain,width,height,cancelled);
             if(p.open_radius) {
                 tissue_detail::square(labels,queue,domain,width,height,p.open_radius,false,cancelled);
                 tissue_detail::square(labels,queue,domain,width,height,p.open_radius,true,cancelled);

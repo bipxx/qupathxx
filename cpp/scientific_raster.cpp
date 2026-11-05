@@ -67,7 +67,7 @@ bool scientific_sample_eligible(const AnalysisRequest& source,const ScientificRg
 }
 std::uint64_t scientific_raster_work_bytes(const ScientificGrid& grid,std::uint32_t count,const Roi& roi,const AnalysisProvenance& source) {
     return 29ULL*grid.width()*grid.height()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
-        source.payload_bytes()+2ULL*roi.payload_bytes()+(sizeof(TissueResult)-sizeof(double)) /* unfiltered legacy mask metadata */+65536;
+        source.payload_bytes()+2ULL*roi.payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+65536;
 }
 std::vector<TissueComponent> scientific_raster_components(const ScientificGrid& grid,const std::vector<std::uint32_t>& labels,
     std::uint32_t count,const std::atomic<bool>* cancelled) {
@@ -176,7 +176,7 @@ std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisR
     if(!samples || spec.threshold_pixels>samples || spec.raw_components<count || spec.raw_components>p.max_components || (!spec.body && foreground>spec.threshold_pixels))
         throw std::invalid_argument("nominal cell raster counters differ");
     const auto charge=29ULL*labels.size()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
-        source.provenance()->payload_bytes()+2ULL*source.roi().payload_bytes()+(sizeof(TissueResult)-sizeof(double)) /* unfiltered legacy mask metadata */+sizeof(NominalCellSampling)+65536;
+        source.provenance()->payload_bytes()+2ULL*source.roi().payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+sizeof(NominalCellSampling)+65536;
     if(charge>p.work_bytes) throw std::length_error("nominal cell raster exceeds work budget");
     const auto digest=cell_raster_input_sha256(source,input,cancelled);
     if(!spec.input_sha256.empty() && spec.input_sha256!=digest) throw std::invalid_argument("nominal cell raster input differs");

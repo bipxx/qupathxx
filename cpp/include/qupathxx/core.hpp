@@ -855,7 +855,7 @@ struct GuiOptions {
     double tissue_threshold=.3,tissue_smoothing_sigma=0;
     std::uint64_t tissue_min_pixels=1,tissue_max_pixels=0;
     int tissue_open_radius=0,tissue_close_radius=0;
-    bool tissue_fill_holes=false;
+    bool tissue_fill_holes=false,tissue_median_cleanup=false;
     std::uint64_t tissue_max_hole_pixels=0;
     std::int32_t tissue_level=-1;
     double replay_timeout_seconds=5;

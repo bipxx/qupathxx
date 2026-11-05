@@ -6,13 +6,15 @@
 #include <limits>
 #include <stdexcept>
 namespace qpx::tissue_detail {
-inline bool enabled(const TissueParameters& p) {return p.open_radius || p.close_radius || p.fill_holes;}
+inline bool enabled(const TissueParameters& p) {return p.median_cleanup || p.open_radius || p.close_radius || p.fill_holes;}
 inline std::uint64_t work_bytes(std::uint64_t count,std::uint64_t capacity,const TissueParameters& p) {
     const bool smooth=p.smoothing_sigma>0;
     const auto kernel=smooth?std::uint64_t(2*std::ceil(3*p.smoothing_sigma)+1)*sizeof(double):0;
     return count*(smooth?41:enabled(p)?9:8)+capacity*sizeof(TissueComponent)+16ull*p.tile_size*p.tile_size+65536+kernel;
 }
 inline const char* algorithm(const TissueParameters& p,std::int32_t level) {
+    if(p.median_cleanup) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?
+        "qpx.threshold-components/winding-5":"qpx.threshold-components/5";
     if(p.smoothing_sigma>0) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?
         "qpx.threshold-components/winding-4":"qpx.threshold-components/4";
     if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding)
@@ -23,6 +25,34 @@ inline void checkpoint(const std::atomic<bool>* cancelled) {
     if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("tissue detection cancelled");
 }
 constexpr auto foreground=std::numeric_limits<std::uint32_t>::max();
+// Binary ImageJ radius-1 footprint: full 3x3, majority of nine. Crop edges
+// replicate the thresholded border; excluded ROI/alpha samples stay background.
+// Reuse the reserved flood-fill queue, never allocating a second scratch raster.
+inline void median(std::vector<std::uint32_t>& labels,std::vector<std::uint32_t>& workspace,
+    const std::vector<std::uint8_t>& domain,std::int64_t width,std::int64_t height,const std::atomic<bool>* cancelled) {
+    workspace.resize(labels.size());
+    for(std::int64_t y=0;y<height;++y) {
+        checkpoint(cancelled);
+        for(std::int64_t x=0;x<width;++x) {
+            if((x&4095)==0) checkpoint(cancelled);unsigned votes=0;
+            for(int dx=-1;dx<=1;++dx) {
+                const auto xx=std::clamp<std::int64_t>(x+dx,0,width-1);const auto at=static_cast<std::size_t>(y*width+xx);
+                votes+=domain[at] && labels[at]!=0;
+            }
+            workspace[static_cast<std::size_t>(y*width+x)]=votes;
+        }
+    }
+    // Sum horizontal votes across three replicated rows: a full nine-point rank.
+    for(std::int64_t y=0;y<height;++y) {
+        checkpoint(cancelled);const auto above=std::max<std::int64_t>(0,y-1),below=std::min(height-1,y+1);
+        for(std::int64_t x=0;x<width;++x) {
+            if((x&4095)==0) checkpoint(cancelled);const auto at=static_cast<std::size_t>(y*width+x);
+            const auto votes=workspace[static_cast<std::size_t>(above*width+x)]+workspace[at]+workspace[static_cast<std::size_t>(below*width+x)];
+            labels[at]=domain[at] && votes>=5?foreground:0;
+        }
+    }
+    workspace.clear();
+}
 // One exact square primitive: separable sliding counts, constant-zero padding.
 // Workspace is the same reserved uint32 buffer later used by flood filling.
 inline void square(std::vector<std::uint32_t>& labels,std::vector<std::uint32_t>& workspace,

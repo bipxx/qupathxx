@@ -440,6 +440,7 @@ NB_MODULE(_native, m) {
         .def_rw("roi_sampling_policy",&GuiOptions::roi_sampling_policy).def_rw("tissue_sampling_policy",&GuiOptions::tissue_sampling_policy)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
+        .def_rw("tissue_median_cleanup",&GuiOptions::tissue_median_cleanup)
         .def_rw("tissue_smoothing_sigma",&GuiOptions::tissue_smoothing_sigma)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
         .def_rw("tissue_min_component_area_um2",&GuiOptions::tissue_min_component_area_um2)

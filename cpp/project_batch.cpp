@@ -147,6 +147,7 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<batch_json_quote(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
     s<<",\"tissue\":{\"feature\":"<<int(p.feature)<<",\"threshold\":"<<p.threshold<<",\"connectivity\":"<<p.connectivity<<",\"level\":"<<p.level<<",\"open_radius\":"<<p.open_radius<<",\"close_radius\":"<<p.close_radius<<",\"fill_holes\":"<<(p.fill_holes?"true":"false")<<",\"max_hole_pixels\":"<<p.max_hole_pixels<<",\"min_pixels\":"<<p.min_pixels<<",\"max_pixels\":"<<p.max_pixels<<",\"tile_size\":"<<p.tile_size<<",\"max_components\":"<<p.max_components<<",\"work_bytes\":"<<p.work_bytes<<'}';
     s<<",\"cells\":{\"feature\":"<<int(c.feature)<<",\"threshold\":"<<c.threshold<<",\"sigma\":"<<c.sigma<<",\"min_peak_radius\":"<<c.min_peak_radius<<",\"min_seed_distance\":"<<c.min_seed_distance<<",\"cell_expansion\":"<<c.cell_expansion<<",\"min_nucleus_pixels\":"<<c.min_nucleus_pixels<<",\"max_nucleus_pixels\":"<<c.max_nucleus_pixels<<",\"connectivity\":"<<c.connectivity<<",\"level\":"<<c.level<<",\"tile_size\":"<<c.tile_size<<",\"max_cells\":"<<c.max_cells<<",\"work_bytes\":"<<c.work_bytes<<",\"contours\":{\"clip_to_roi\":"<<(c.contours.clip_to_roi?"true":"false")<<",\"max_components\":"<<c.contours.max_components<<",\"max_edges\":"<<c.contours.max_edges<<",\"max_vertices\":"<<c.contours.max_vertices<<",\"work_bytes\":"<<c.contours.work_bytes<<"}}";
+    if(p.median_cleanup) s<<",\"tissue_median_cleanup\":true";
     if(p.smoothing_sigma>0) s<<",\"tissue_smoothing_sigma\":"<<p.smoothing_sigma;
     if(o.tissue_min_component_area_um2 || o.tissue_max_component_area_um2) {
         s<<",\"tissue_area_limits\":{\"minimum_um2\":";
@@ -242,6 +243,7 @@ void ProjectBatchOptions::validate() const {
         throw std::invalid_argument("LoG detector requires a cell batch");
     if(kind!=ProjectBatchKind::Roi && roi_sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
         throw std::invalid_argument("ROI sampling policy requires an ROI batch");
+    if(kind!=ProjectBatchKind::Tissue && tissue.median_cleanup) throw std::invalid_argument("tissue median cleanup requires a tissue batch");
     if(kind!=ProjectBatchKind::Tissue && tissue.smoothing_sigma!=0) throw std::invalid_argument("tissue smoothing requires a tissue batch");
     if(kind!=ProjectBatchKind::Tissue && tissue.sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
         throw std::invalid_argument("tissue sampling policy requires a tissue batch");
@@ -279,7 +281,7 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
     if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;// Keep legacy unfiltered snapshot accounting inside the existing bookkeeping
     // allowance; smoothed requests fully charge their new sigma metadata.
-    std::size_t charge=sizeof(Data)-(options.tissue.smoothing_sigma==0?sizeof(double):0)+65536+d->json.capacity()+d->sha.capacity();
+    std::size_t charge=sizeof(Data)-detail::inactive_tissue_parameter_bytes(options.tissue)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
     if(raw_classifier_batch(options.kind)) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {

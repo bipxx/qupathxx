@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/analysis.hpp"
+#include <cstddef>
 #include "qupathxx/scientific_grid.hpp"
 #include "qupathxx/nominal_cell_sampling.hpp"
 namespace qpx {
@@ -16,8 +17,18 @@ struct TissueParameters {
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     double smoothing_sigma=0; // Gaussian sigma in sampled pixels; 0 preserves raw thresholding.
+    bool median_cleanup=false; // Binary 3x3 median after threshold; replicated crop edges.
     void validate() const;
 };
+namespace detail {
+// Keep inactive recipe extensions in the existing metadata allowance. The first
+// extension starts at sigma; active groups charge their actual aligned storage.
+inline constexpr std::size_t tissue_parameter_extension_bytes=sizeof(TissueParameters)-offsetof(TissueParameters,smoothing_sigma);
+inline std::size_t inactive_tissue_parameter_bytes(const TissueParameters& p) {
+    return (p.smoothing_sigma==0?sizeof(p.smoothing_sigma):0)+
+        (!p.median_cleanup?sizeof(TissueParameters)-offsetof(TissueParameters,median_cleanup):0);
+}
+}
 class TissueRequest {
 public:
     TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool nucleus=false);
@@ -110,7 +121,7 @@ public:
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
-    std::size_t retained_bytes() const {return sizeof(TissueResult)-(parameters_.smoothing_sigma==0?sizeof(double):0)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
+    std::size_t retained_bytes() const {return sizeof(TissueResult)-detail::inactive_tissue_parameter_bytes(parameters_)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
 private:
     friend struct TissueKernel;
     friend class Document;
