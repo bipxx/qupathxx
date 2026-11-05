@@ -263,4 +263,4 @@ GeoJSON entries bind saved data, exported geometry, XY calibration and explicit
 losses. Metadata/project hashes, source guards and transactional publication
 remain shared with the existing importer. Tests in
 `tests/test_qupath_assisted_state.py` bind the six derived producer captures;
-product acceptance is pending until its candidate checks complete.
+[local route acceptance](benchmarks/assisted-state-r5/README.md) records the candidate, affected tests and explicit remaining limits.

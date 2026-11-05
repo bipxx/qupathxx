@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\assisted-state-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='25b342fc1346e4220398c2966b18a6325aed54b4';assert q.has_project and q.has_interchange and q.has_tiff;print('native source',q.build_environment().git_revision,flush=True);import pytest;raise SystemExit(pytest.main(['tests/test_qupath_assisted_state.py', 'tests/test_qupath_project.py', 'tests/test_qupath_saved_data.py', 'tests/test_qupath_saved_tma.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\assisted-state-r5\\\\staged.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\assisted-state-r5\\\\staged-temp']))"
+  ],
+  "returncode": 1,
+  "source": "25b342fc1346e4220398c2966b18a6325aed54b4",
+  "product_installed": false,
+  "elapsed_seconds": 5.760919899912551
+}

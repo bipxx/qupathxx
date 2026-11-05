@@ -119,9 +119,10 @@ def test_native_entry_refuses_ambiguous_stale_or_bad_stream_without_fallback(tmp
 @pytest.mark.parametrize('member',['project.qpproj','qupathxx-exchange/index.json','data/1/data.qpdata','classifiers/classes.json','../source.ome.tif'])
 def test_reviewed_native_bundle_changes_preserve_destination_and_preview(tmp_path,member):
     path,index=foreign(tmp_path,'facts');preview=q.preview_qupath_project(str(path))
-    changed=path.parent/member;changed.write_bytes(changed.read_bytes()+b' ')
+    changed=path.parent/member;existed=changed.exists();changed.parent.mkdir(parents=True,exist_ok=True)
+    changed.write_bytes(changed.read_bytes()+b' ' if existed else b'{}')
     target=tmp_path/'changed.qpxproj'
-    with pytest.raises(RuntimeError,match='changed'):preview.import_new(str(target))
+    with pytest.raises(RuntimeError,match='changed' if existed else 'appeared since review'):preview.import_new(str(target))
     assert not preview.consumed and not target.exists()
 
 

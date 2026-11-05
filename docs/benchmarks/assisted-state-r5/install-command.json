@@ -1,0 +1,1 @@
+{"argv": ["C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe", "-m", "pip", "--python", "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\assisted-state-r5-env\\Scripts\\python.exe", "install", "--no-deps", "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"], "returncode": 1, "seconds": 0.06349200010299683}

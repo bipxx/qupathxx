@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="0.383" timestamp="2026-11-04T21:21:46.798380-05:00" hostname="HEQPC"><testcase classname="tests.test_qupath_assisted_state" name="test_reviewed_native_bundle_changes_preserve_destination_and_preview[project.qpproj]" time="0.052" /><testcase classname="tests.test_qupath_assisted_state" name="test_reviewed_native_bundle_changes_preserve_destination_and_preview[qupathxx-exchange/index.json]" time="0.050" /><testcase classname="tests.test_qupath_assisted_state" name="test_reviewed_native_bundle_changes_preserve_destination_and_preview[data/1/data.qpdata]" time="0.036" /><testcase classname="tests.test_qupath_assisted_state" name="test_reviewed_native_bundle_changes_preserve_destination_and_preview[classifiers/classes.json]" time="0.039"><failure message="AssertionError: Regex pattern did not match.&#10;  Expected regex: 'changed'&#10;  Actual message: 'QuPath import input appeared since review: C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\observer-repair-temp\\test_reviewed_native_bundle_ch3\\facts\\project\\classifiers/classes.json'">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/assisted-state-r5/observer-repair-temp/test_reviewed_native_bundle_ch3')
+member = 'classifiers/classes.json'
+
+    @pytest.mark.parametrize('member',['project.qpproj','qupathxx-exchange/index.json','data/1/data.qpdata','classifiers/classes.json','../source.ome.tif'])
+    def test_reviewed_native_bundle_changes_preserve_destination_and_preview(tmp_path,member):
+        path,index=foreign(tmp_path,'facts');preview=q.preview_qupath_project(str(path))
+        changed=path.parent/member;changed.parent.mkdir(parents=True,exist_ok=True)
+        changed.write_bytes(changed.read_bytes()+b' ' if changed.exists() else b'{}')
+        target=tmp_path/'changed.qpxproj'
+&gt;       with pytest.raises(RuntimeError,match='changed'):preview.import_new(str(target))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'changed'
+E         Actual message: 'QuPath import input appeared since review: C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\observer-repair-temp\\test_reviewed_native_bundle_ch3\\facts\\project\\classifiers/classes.json'
+
+tests\test_qupath_assisted_state.py:125: AssertionError</failure></testcase><testcase classname="tests.test_qupath_assisted_state" name="test_reviewed_native_bundle_changes_preserve_destination_and_preview[../source.ome.tif]" time="0.049" /></testsuite></testsuites>
