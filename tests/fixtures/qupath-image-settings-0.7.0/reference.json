@@ -1,0 +1,192 @@
+[
+  {
+    "name": "BRIGHTFIELD_H_DAB",
+    "image_type": "BRIGHTFIELD_H_DAB",
+    "stains": {
+      "name": "H-DAB default",
+      "names": [
+        "Hematoxylin",
+        "DAB",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2691668720495607,
+          0.5682411743268503,
+          0.7775931859209531
+        ],
+        [
+          0.6330435387995862,
+          -0.7128599030296364,
+          0.30180562724487753
+        ]
+      ],
+      "white": [
+        255.0,
+        255.0,
+        255.0
+      ],
+      "residual": true
+    }
+  },
+  {
+    "name": "BRIGHTFIELD_H_E",
+    "image_type": "BRIGHTFIELD_H_E",
+    "stains": {
+      "name": "H\u0026E default",
+      "names": [
+        "Hematoxylin",
+        "Eosin",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2158989356208711,
+          0.8011960501132094,
+          0.5580972485873468
+        ],
+        [
+          0.315510575173205,
+          -0.5981592020094376,
+          0.736653681186286
+        ]
+      ],
+      "white": [
+        255.0,
+        255.0,
+        255.0
+      ],
+      "residual": true
+    }
+  },
+  {
+    "name": "BRIGHTFIELD_OTHER",
+    "image_type": "BRIGHTFIELD_OTHER",
+    "stains": {
+      "name": "H-DAB default",
+      "names": [
+        "Hematoxylin",
+        "DAB",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2691668720495607,
+          0.5682411743268503,
+          0.7775931859209531
+        ],
+        [
+          0.6330435387995862,
+          -0.7128599030296364,
+          0.30180562724487753
+        ]
+      ],
+      "white": [
+        255.0,
+        255.0,
+        255.0
+      ],
+      "residual": true
+    }
+  },
+  {
+    "name": "FLUORESCENCE",
+    "image_type": "FLUORESCENCE",
+    "stains": null
+  },
+  {
+    "name": "OTHER",
+    "image_type": "OTHER",
+    "stains": null
+  },
+  {
+    "name": "UNSET",
+    "image_type": "UNSET",
+    "stains": null
+  },
+  {
+    "name": "custom-three",
+    "image_type": "BRIGHTFIELD_OTHER",
+    "stains": {
+      "name": "Custom α",
+      "names": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "basis": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "white": [
+        240.0,
+        245.0,
+        250.0
+      ],
+      "residual": false
+    }
+  },
+  {
+    "name": "wide-white",
+    "image_type": "BRIGHTFIELD_H_E",
+    "stains": {
+      "name": "Quantitative reference",
+      "names": [
+        "A",
+        "B",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2691668720495607,
+          0.5682411743268503,
+          0.7775931859209531
+        ],
+        [
+          0.6330435387995862,
+          -0.7128599030296364,
+          0.30180562724487753
+        ]
+      ],
+      "white": [
+        65535.0,
+        65534.0,
+        65533.0
+      ],
+      "residual": true
+    }
+  }
+]

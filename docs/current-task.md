@@ -51,21 +51,18 @@ Current: **R5-SETTINGS1 — saved image analysis defaults** (contract settled; i
   ImageData/project properties, versions/builders/records, remaining R4/R5 gaps
   and R6-R16 stay in the queue. SETTINGS1 will not close all interchange or M4.
 
-Latest task review (2026-11-04, completion-plan update):
-Outcome/evidence: the [delivery queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
-retains all remaining R families and now makes contract, implementation,
-verification and replan gates explicit. SETTINGS1 remains unverified; this
-documentation task does not close implementation, research or release gaps.
-Waste/action: **merge** execution and closeout rules into the single delivery
-plan; **reuse** the existing inventory and scoped ROOT1 evidence; **remove**
-any automatic rebuild/full qualification for this plan edit. No new reviewer,
-benchmark, duplicated backlog or timing instrumentation is needed. The link
-check found one pre-existing recovery anchor with no matching heading; it was
-corrected to the existing evidence section before repeating the link check.
-Next: complete the SETTINGS1 boundary review above, then one cached candidate
-and affected checks. Reuse the pinned capture/runtime, existing stain authority
-and build cache; do not inherit ROOT1 acceptance for changed compiler inputs.
-After this slice, select the first demonstrated R4/R5 gap in the same queue.
+Latest task review (2026-11-04, SETTINGS1 boundary/baseline):
+Outcome/evidence: owning values, nested optional clear/history, snapshot copying/
+charging and named borrowed SQL buffers reviewed. New tests collect26 public
+cases. The prior installed ROOT1 product reproduces custom-three default loss;
+fixture/probe hashes pass (build/image-settings-r5/baseline.log).
+Waste/action: **reuse** the pinned capture, cached dependencies and stain kernel;
+**retain** the failing baseline as evidence of the missing behavior. **Merge**
+API/store/UI changes into one candidate; no build per consumer or new decoder.
+The baseline failure is expected: the old decoder reports dropped settings.
+Next: freeze candidate compiler inputs, one cached build, then staged affected
+contracts with an identity-checked interpreter/.pth that also covers -I children.
+Only real failures or changed inputs justify another build. No acceptance yet.
 
 Reusable implementation evidence: [R5-ROOT1 historical image facts](benchmarks/root-facts-r5/README.md). Its source/configuration and limits remain unchanged.
 

@@ -193,6 +193,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 if(saved.contains("pixelType")) {auto type=text(saved["pixelType"]);detail::ascii_lower_in_place(type);if(type!=(raw?sample_name(raw->sample_type):"uint8"))throw std::invalid_argument("saved image sample type differs from source");}
                 const auto imported=import_geojson(*doc,decoded.geojson,true,true);
                 doc->set_image_properties(decoded.image_properties);
+                doc->set_image_analysis_settings(decoded.image_settings);
                 info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
                 for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
                 for(auto issue:decoded.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}

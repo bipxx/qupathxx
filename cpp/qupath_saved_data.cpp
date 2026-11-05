@@ -12,6 +12,8 @@
 #include <set>
 #include <stdexcept>
 #include <string_view>
+#include <sstream>
+#include <locale>
 
 // Data-only reader for the pinned QuPath ObjectOutputStream representation.
 // Oracle serialization protocol chapter 6 defines the framing/handles. No Java
@@ -362,6 +364,22 @@ class Decoder {
         if(cell) {const auto nucleus=d.object();if(nucleus)out["nucleusGeometry"]=geometry(nucleus);}
         d.finish();return out;
     }
+    ImageAnalysisSettings stain_settings(const std::string& type,const std::string& input) const {
+        bounded_utf8(input,32768);StrictJson strict("saved stain settings");Json::sax_parse(input,&strict);const auto root=Json::parse(input);
+        if(!root.is_object())invalid("saved stains must be a string map");
+        for(const auto& item:root.items()) {
+            if(item.key()!="Name" && item.key()!="Background" && item.key()!="Stain 1" && item.key()!="Stain 2" && item.key()!="Stain 3" && item.key()!="Values 1" && item.key()!="Values 2" && item.key()!="Values 3")invalid("unsupported saved stain setting: "+item.key());
+            if(!item.value().is_string())invalid("saved stain values must be strings");
+        }
+        auto vector=[&](const std::string& key) {
+            const auto value=root.at(key).get<std::string>();std::istringstream in(value);in.imbue(std::locale::classic());ImageAnalysisSettings::Vector out{};
+            if(!(in>>out[0]>>out[1]>>out[2]))invalid("saved stain setting requires three numeric components");in>>std::ws;if(!in.eof())invalid("trailing saved stain components");return out;
+        };
+        const bool third=root.contains("Stain 3");if(third!=root.contains("Values 3"))invalid("incomplete third stain");
+        std::vector<ImageAnalysisSettings::Vector> basis;std::vector<std::string> names;
+        for(int i=1;i<=(third?3:2);++i) {basis.push_back(vector("Values "+std::to_string(i)));names.push_back(root.at("Stain "+std::to_string(i)).get<std::string>());}
+        return ImageAnalysisSettings(type,basis,vector("Background"),root.at("Name").get<std::string>(),std::move(names));
+    }
     void properties(Id id) {
         if(stream.name(id)!="java.util.HashMap")invalid("unsupported image properties map");
         Data d(stream,extra(id));d.integer(4);const auto n=d.integer(4);if(n>1000000)invalid("too many image properties");
@@ -383,12 +401,12 @@ public:
             result.pixel_width_um=axis("pixelWidth");result.pixel_height_um=axis("pixelHeight");
         }
         if(metadata.value("sizeZ",1)>1 || metadata.value("sizeT",1)>1)issue("image_settings_dropped","Source Z/time calibration is retained; saved ImageData calibration overrides are not applied");
-        bool hierarchy=false,eof=false;
+        bool hierarchy=false,eof=false,type_seen=false,stains_seen=false;std::string image_type="UNSET",stains_text;
         for(std::size_t i=2;i<values.size();++i) {
             const auto id=values[i];if(!id)continue;const auto name=stream.name(id);
             if(at(id).kind==Node::Text && at(id).text=="EOF") {if(i+1!=values.size())invalid("trailing data after EOF");eof=true;break;}
             if(name=="java.util.Locale")continue;
-            if(name=="qupath.lib.images.ImageData$ImageType") {if(at(id).text!="UNSET")issue("image_settings_dropped","Image type/analysis defaults are not migrated");}
+            if(name=="qupath.lib.images.ImageData$ImageType") {if(type_seen)invalid("duplicate saved image type");type_seen=true;image_type=at(id).text;ImageAnalysisSettings validate(image_type);}
             else if(name=="qupath.lib.plugins.workflow.Workflow") {Data d(stream,extra(id));if(d.integer(4)!=1)invalid("unsupported workflow version");const auto count=d.integer(4);if(count>1000000)invalid("too many workflow steps");for(std::size_t n=0;n<count;++n)d.object();d.finish();if(count)issue("workflow_dropped","Saved workflow history is not executable in the native project");}
             else if(name=="qupath.lib.objects.hierarchy.PathObjectHierarchy") {
                 if(hierarchy)invalid("multiple hierarchies");hierarchy=true;
@@ -396,10 +414,13 @@ public:
                 Json collection={{"type","FeatureCollection"},{"features",object(field(id,"rootObject"),0,true)}};
                 result.geojson=collection.dump();if(result.geojson.size()>256ull*1024*1024)invalid("decoded geometry exceeds 256 MiB");
             } else if(name=="java.util.HashMap")properties(id);
-            else if(name=="qupath.lib.color.ColorDeconvolutionStains")issue("image_settings_dropped","Image stain defaults are not migrated");
+            else if(name=="qupath.lib.color.ColorDeconvolutionStains") {
+                if(stains_seen)invalid("duplicate saved stain settings");stains_seen=true;Data d(stream,extra(id));if(d.integer(4)!=1)invalid("unsupported stain settings version");const auto text_id=d.object();if(at(text_id).kind!=Node::Text)invalid("saved stains must contain text");stains_text=at(text_id).text;d.finish();
+            }
             else invalid("unsupported top-level saved record: "+name);
         }
-        if(!hierarchy || !eof)invalid("missing hierarchy or terminal EOF record");return std::move(result);
+        if(!hierarchy || !eof)invalid("missing hierarchy or terminal EOF record");
+        auto settings=stains_seen?stain_settings(image_type,stains_text):ImageAnalysisSettings(image_type);if(!settings.empty())result.image_settings=std::move(settings);return std::move(result);
     }
 };
 }

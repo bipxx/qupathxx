@@ -8,6 +8,7 @@
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
 
 namespace qpx {
 namespace {
@@ -65,6 +66,7 @@ struct Document::Staging {
     ObjectPatch before,after;
     ClassPatch before_classes,after_classes;
     std::optional<std::shared_ptr<const ObjectProperties>> image_properties;
+    std::optional<std::optional<ImageAnalysisSettings>> image_settings;
     std::map<std::string,std::size_t> counts;
     std::map<std::uint64_t,std::set<std::uint64_t>> child_sets;
     explicit Staging(Document& d) : document(d) {}
@@ -223,13 +225,13 @@ std::size_t Document::object_payload(const Annotation& a) {
 }
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
-    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties) {
+    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties,std::optional<ImageAnalysisSettings> image_settings) {
     if(!next_id || (x && (!std::isfinite(*x) || *x<=0)) || (y && (!std::isfinite(*y) || *y<=0)))
         throw std::invalid_argument("invalid persisted calibration or next object ID");
     // The candidate is private until all validation succeeds. Build canonical
     // nodes once instead of allocating before/after edit patches and committing
     // a synthetic edit just to reconstruct an unpublished document.
-    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;result->image_properties_=normalize_image_properties(std::move(image_properties));
+    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;result->image_properties_=normalize_image_properties(std::move(image_properties));if(image_settings && !image_settings->empty())result->image_analysis_settings_=std::move(image_settings);
     for(const auto& c:classes) {
         text(c.name);
         if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
@@ -405,6 +407,8 @@ void Document::commit(Staging& staged,Calibration calibration) {
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
     if(staged.image_properties)image_properties_=*staged.image_properties;
+    static_assert(std::is_nothrow_move_assignable_v<std::optional<ImageAnalysisSettings>>);
+    if(staged.image_settings)image_analysis_settings_=std::move(*staged.image_settings);
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;if(render_changed)render_revision_=revision_;
     if(tma_changed) tma_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
@@ -424,8 +428,9 @@ void Document::set_history_limits(std::size_t steps,std::size_t bytes) {
 }
 void Document::save_edit(Staging& staged,Calibration calibration,std::string label) {
     text(label); staged.normalize();
-    if (!staged.image_properties && staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
+    if (!staged.image_settings && !staged.image_properties && staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
+    if(staged.image_settings)bytes+=sizeof(ImageSettingsHistory)+(image_analysis_settings_?image_analysis_settings_->payload_bytes()-sizeof(ImageAnalysisSettings):0)+(*staged.image_settings?(*staged.image_settings)->payload_bytes()-sizeof(ImageAnalysisSettings):0);
     if(staged.image_properties)bytes+=sizeof(ImagePropertiesHistory)+(image_properties_?image_properties_->payload_bytes():0)+(*staged.image_properties?(*staged.image_properties)->payload_bytes():0);
     std::set<const TmaGridInfo*> tma_layouts;
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch) {
@@ -441,6 +446,7 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
         record={staged.before,staged.after,{pixel_width_um_,pixel_height_um_},calibration,
             staged.before_classes,staged.after_classes,std::move(label),bytes};
         if(staged.image_properties)record.image_properties=std::make_shared<const ImagePropertiesHistory>(ImagePropertiesHistory{image_properties_,*staged.image_properties});
+        if(staged.image_settings)record.image_settings=std::make_shared<const ImageSettingsHistory>(ImageSettingsHistory{image_analysis_settings_,*staged.image_settings});
         undo_.reserve(undo_.size()+1);
     }
     commit(staged,calibration);
@@ -648,6 +654,11 @@ void Document::set_image_properties(std::shared_ptr<const ObjectProperties> valu
     Staging staged(*this);staged.image_properties=std::move(value);
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image properties");
 }
+void Document::set_image_analysis_settings(std::optional<ImageAnalysisSettings> value) {
+    if(value && value->empty())value.reset();
+    if(bool(value)==bool(image_analysis_settings_) && (!value || value->equals(*image_analysis_settings_)))return;
+    Staging staged(*this);staged.image_settings=std::move(value);save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image analysis defaults");
+}
 void Document::set_calibration(double x,double y) {
     if (!std::isfinite(x) || !std::isfinite(y) || x<=0 || y<=0) throw std::invalid_argument("calibration must be finite and positive");
     Staging staged(*this); save_edit(staged,{{x},{y}},"Set calibration");
@@ -657,6 +668,7 @@ void Document::apply_record(const EditRecord& record,bool forward) {
     if(record.classifications.value) {toggle_classifications(*record.classifications.value);return;}
     Staging staged(*this); const auto& patch=forward?record.after:record.before;
     if(record.image_properties)staged.image_properties=forward?record.image_properties->after:record.image_properties->before;
+    if(record.image_settings)staged.image_settings=forward?record.image_settings->after:record.image_settings->before;
     for (const auto& [id,value]:patch) staged.write(id,value);
     for(const auto& [name,value]:(forward?record.after_classes:record.before_classes)) staged.write_class(name,value);
     commit(staged,forward?record.after_calibration:record.before_calibration);

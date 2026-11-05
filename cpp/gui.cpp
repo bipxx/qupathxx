@@ -433,6 +433,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     bool clipboard_descendants=false;
     std::size_t clipboard_copies=0,clipboard_pastes=0,clipboard_copied_objects=0,clipboard_pasted_objects=0;
     std::array<Rect,3> clipboard_bounds{};
+    Rect image_stains_bounds{};
     std::uint64_t editor_id=0,editor_revision=0;
     auto& draft_name=text_buffers->draft_name;
     auto& draft_class=text_buffers->draft_class;
@@ -450,7 +451,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::PasteCurrentPlane)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::UseImageStains)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -941,6 +942,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target==GuiInputTarget::UseImageStains) {origin={float(image_stains_bounds.x),float(image_stains_bounds.y)};extent={float(image_stains_bounds.width),float(image_stains_bounds.height)};}
             if(event.target>=GuiInputTarget::CopyObjects && event.target<=GuiInputTarget::PasteCurrentPlane) {
                 const auto& bounds=clipboard_bounds[std::size_t(event.target)-std::size_t(GuiInputTarget::CopyObjects)];origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};
             }
@@ -1530,6 +1532,23 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(!interchange_status.empty()) ImGui::TextWrapped("%s",interchange_status.c_str());
         }
+        if(const auto& settings=document.image_analysis_settings();settings && ImGui::CollapsingHeader("Saved analysis defaults",ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::TextUnformatted(settings->image_type().c_str());
+            if(settings->has_stains()) {
+                ImGui::TextUnformatted(settings->profile_name().c_str());
+                for(std::size_t i=0;i<3;++i)ImGui::Text("%s: %.8g %.8g %.8g",settings->stain_names()[i].c_str(),settings->basis()[i][0],settings->basis()[i][1],settings->basis()[i][2]);
+                ImGui::Text("White: %.8g %.8g %.8g",settings->white()[0],settings->white()[1],settings->white()[2]);
+                ImGui::BeginDisabled(!settings->rgb8_supported());
+                if(ui::Button("Use saved stains for analysis")) {
+                    estimated_basis=settings->basis();estimated_white=settings->white();analysis_kind=1;
+                    for(std::size_t c=0;c<3;++c) {analysis_vectors[c]=settings->basis()[0][c];analysis_vectors[c+3]=settings->basis()[1][c];analysis_white[c]=settings->white()[c];}
+                    pixel_classifier.invalidate_training();analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;error.clear();
+                }
+                const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();image_stains_bounds={a.x,a.y,b.x-a.x,b.y-a.y};mark_target(GuiInputTarget::UseImageStains);ImGui::EndDisabled();
+                if(!settings->rgb8_supported())ImGui::TextWrapped("White reference retained. Native RGB8 stain application requires each white channel in 1..255.");
+                ImGui::TextWrapped("Applied only on request. Existing recipes and historical results stay unchanged.");
+            }
+        }
         if(const auto facts=document.image_properties();facts && ImGui::CollapsingHeader("Image facts (historical)",ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::TextWrapped("Imported image values; not recomputed ROI or live image measurements.");
             if(ImGui::BeginChild("image historical facts",{0,180*ui_scale.logical},ImGuiChildFlags_Borders,ImGuiWindowFlags_HorizontalScrollbar)) {
@@ -1829,7 +1848,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(analysis_kind==1) {
                 analysis_changed=ui::InputScalarN("Stain 1",ImGuiDataType_Double,analysis_vectors.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
                 analysis_changed=ui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
-                ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
+                ImGui::TextWrapped("Supply validated OD directions. An imported complete basis is retained until a vector/white edit; otherwise channel 3 is a signed residual.");
             }
             if(analysis_changed) {pixel_classifier.invalidate_training();analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
             if(ImGui::CollapsingHeader("Stain estimation settings")) {
@@ -1879,7 +1898,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(const auto result=analysis.result()) {
                 const char* od_labels[]={"Mean OD R","Mean OD G","Mean OD B"};
-                const char* stain_labels[]={"Mean stain 1","Mean stain 2","Mean residual"};
+                const char* stain_labels[]={"Mean stain 1","Mean stain 2","Mean stain 3"};
                 for(std::size_t c=0;c<3;++c) ImGui::Text("%s: %.6g",analysis_kind==0?od_labels[c]:stain_labels[c],result->means[c]);
                 ImGui::Text("%llu samples / %.3f ms",static_cast<unsigned long long>(result->samples),result->elapsed_ms);
             }
