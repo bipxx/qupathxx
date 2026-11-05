@@ -1,0 +1,84 @@
+{
+  "reference": "QuPath 0.7.0 RunningStatistics",
+  "cases": [
+    {
+      "name": "empty",
+      "values": [],
+      "count": 0,
+      "sum": 0.0
+    },
+    {
+      "name": "singleton",
+      "values": [
+        7.0
+      ],
+      "count": 1,
+      "sum": 7.0,
+      "mean": 7.0,
+      "minimum": 7.0,
+      "maximum": 7.0
+    },
+    {
+      "name": "pair",
+      "values": [
+        2.0,
+        4.0
+      ],
+      "count": 2,
+      "sum": 6.0,
+      "mean": 3.0,
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "sample_standard_deviation": 1.4142135623730951
+    },
+    {
+      "name": "classic",
+      "values": [
+        2.0,
+        4.0,
+        4.0,
+        4.0,
+        5.0,
+        5.0,
+        7.0,
+        9.0
+      ],
+      "count": 8,
+      "sum": 40.0,
+      "mean": 5.0,
+      "minimum": 2.0,
+      "maximum": 9.0,
+      "sample_standard_deviation": 2.138089935299395
+    },
+    {
+      "name": "constant",
+      "values": [
+        5.0,
+        5.0,
+        5.0
+      ],
+      "count": 3,
+      "sum": 15.0,
+      "mean": 5.0,
+      "minimum": 5.0,
+      "maximum": 5.0,
+      "sample_standard_deviation": 0.0
+    },
+    {
+      "name": "offset",
+      "values": [
+        1.0E12,
+        1.000000000001E12,
+        1.000000000002E12,
+        1.000000000003E12,
+        1.000000000004E12
+      ],
+      "count": 5,
+      "sum": 5.00000000001E12,
+      "mean": 1.000000000002E12,
+      "minimum": 1.0E12,
+      "maximum": 1.000000000004E12,
+      "sample_standard_deviation": 1.5811388300841898
+    }
+  ]
+}

@@ -837,3 +837,7 @@ tests/fixtures/cell-context-legacy-v1/** -text -whitespace
 docs/benchmarks/cell-context-r6/** -text -whitespace
 
 docs/benchmarks/cell-pyramid-r6/** -text -whitespace
+
+tests/fixtures/cell-intensity-statistics-v1/** -text -whitespace
+tools/upstream/qupath_cell_statistics_reference.groovy -text
+docs/benchmarks/cell-statistics-r6/** -text -whitespace

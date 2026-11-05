@@ -7,7 +7,7 @@ All M0-M7 remain Partial. CLASS1, CLASSHISTORY1,
 [SAMPLING1](benchmarks/cell-pyramid-r6/README.md) are locally verified within their
 recorded scopes. Full R6 and the broader R2-R16 inventory remain open.
 
-Current: **R6-FEATURE1 — retained compartment measurements** (ready for trace).
+Current: **R6-FEATURE1 — retained compartment measurements** (in progress: definition and shared reducer).
 
 - Outcome: select and finish one missing nucleus/cell/cytoplasm measurement
   definition through native results, owning Python inspection, retained records
@@ -36,27 +36,31 @@ Current: **R6-FEATURE1 — retained compartment measurements** (ready for trace)
   only if the Python surface changes. Use openly licensed readers/codecs. Reader,
   resource and research decisions stay with R2/R12/R1 where actually required.
 
-## Latest task review — SAMPLING1 closeout (2026-11-05)
+## Latest task review — FEATURE1 numeric foundation (2026-11-05)
 
-Outcome/evidence: [installed lossless TIFF integration](benchmarks/cell-pyramid-r6/README.md)
-passes10 SDK/CLI cases plus one actual desktop case at unchanged faa71c1f.
-Contiguous/separate tiled Deflate pyramids, IntegerOrigin/AffineInverse and
-context0/3-4 match dense RGB, exact nuclei/bodies, retained compartment values and
-calibrated sample areas. A white coarse level proves the original-source path
-cannot silently substitute preview pixels. Native TIFF links, save/reopen/replay
-and CLI fresh checkpoint/resume remain correct. Broader R6 remains open.
+Outcome/evidence: cached QuPath0.7 RunningStatistics generated six pinned scalar
+vectors, establishing sample SD n-1 and unavailable singleton SD. The shared
+private reducer [passes the cells native role](benchmarks/cell-statistics-r6/README.md), including those references,
+independent compartment values, byte/float and double input, large offsets,
+background/nonfinite rejection, exact budget admission and cancellation.
+Production behavior remains unchanged: no retained fields, archives, SDK or CSV
+integration is complete. The [measurement contract](cell-intensity-statistics.md)
+settles the native result/vector, replay, QCL10/11, QCA10 and opt-in CSV13/14 route.
 
-Waste/action: **reuse** existing source pixels, sampler/reader, expected masks,
-installed runtime and package integrity. No native fix, new decoder/corpus,
-build, wheel, stub work or install was needed. The initial integration observer
-failed after numerical/save checks at a guessed ImageServer.reader property;
-use actual tiff_view/metadata and ProjectImage.reader. Preserve its failed log.
-Use existing GUI options and CLI terminal-JSON parsing. Test files generate
-short-lived TIFF/project inputs instead of duplicating the image corpus.
+Waste/action: **reuse** existing decoded samples/labels, runtime and cached build;
+**merge** public API, persistence and consumers before a wheel/stub/install cycle.
+The first reference script used an unavailable Groovy JSON module; preserve its
+failure and use existing GsonTools, with no extra dependency. Web cache misses
+and older cell94 source do not prove current definitions: use actual0.7 runtime
+and pinned detector. Search actual filenames/API calls before writing observers.
+No new pixel corpus, second reducer/model or product install was needed here.
 
-Plan change/next: SAMPLING1 enters the reuse index; FEATURE1 first traces existing
-compartment fields and reference definitions. Only the selected missing contract
-justifies implementation. After every bounded task or failed/stopped attempt,
-replace this review with scoped outcome/evidence, actual waste/action and changed
-next step before continuing/retrying. Update existing queue rows for changed
-scope/order/dependency and coverage only for changed evidence.
+Plan change/next: expose typed result statistics in a compact per-result vector,
+fuse the moments into existing accumulation without changing canonical means,
+and include the recorded measurement policy in saved replay/verification. Then
+complete the versioned codecs and consumers in the same FEATURE1 workflow. Keep
+legacy mean-only records small; do not insert a large empty optional statistics
+aggregate into every CellFeature. Do not close FEATURE1 or repeat sampling/host
+campaigns merely because the reducer passes. After each bounded task or failed/
+stopped attempt, record outcome/evidence, actual waste/action and next step here
+before continuing/retrying.
