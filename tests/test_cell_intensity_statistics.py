@@ -276,3 +276,28 @@ def test_legacy_exact_grid_budget_still_reopens_and_replays():
     assert result.intensity_statistics_format is None
     assert result.nuclei.input_sha256 == manifest["input_sha256"]
     assert doc.verify_cells(record, request, result)
+
+
+
+def test_old_classifier_exact_snapshot_budget_reopens(tmp_path):
+    from zipfile import ZipFile
+
+    manifest = json.loads((LEGACY / "legacy-snapshot-budget-manifest.json").read_text())
+    source = LEGACY / manifest["file"]
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest["archive_sha256"]
+    with ZipFile(source) as archive:
+        payload = archive.read(manifest["project"])
+    assert hashlib.sha256(payload).hexdigest() == manifest["project_sha256"]
+    project_file = tmp_path / manifest["project"]
+    project_file.write_bytes(payload)
+    project = q.Project.open(str(project_file))
+    doc = project.document(manifest["image_id"])
+    archive = doc.classifier_record(manifest["classifier_id"]).archive
+    assert archive.table.sha256 == manifest["table_sha256"]
+    assert archive.table.options.snapshot_bytes == manifest["snapshot_bytes"]
+    assert len(archive.table.object_ids) == manifest["rows"]
+    assert archive.table.cell_intensity_statistics(0) is None
+    digest = archive.sha256
+    again = tmp_path / "old-budget-again.qpxproj"
+    project.save(str(again))
+    assert q.Project.open(str(again)).document(manifest["image_id"]).classifier_record(manifest["classifier_id"]).archive.sha256 == digest
