@@ -80,7 +80,7 @@ using Json=nlohmann::json;
 Json parse(const std::string& bytes) {detail::StrictJson strict("QuPath project");Json::sax_parse(bytes,&strict);return Json::parse(bytes);}
 std::string hash(const std::string& bytes) {Sha256 sha;sha.update(bytes.data(),bytes.size());return sha.finish();}
 std::string absolute(const std::string& path) {detail::bounded_utf8(path,32768);if(path.empty()) throw std::invalid_argument("empty QuPath project path");return fs::absolute(fs::u8path(path)).lexically_normal().u8string();}
-std::string text(const Json& value) {auto s=value.get<std::string>();detail::bounded_utf8(s,4096);return s;}
+std::string text(const Json& value,std::size_t maximum=4096) {auto s=value.get<std::string>();detail::bounded_utf8(s,maximum);return s;}
 std::string entry_id(const Json& value) {if(!value.is_number_unsigned() || !value.get<std::uint64_t>()) throw std::invalid_argument("QuPath entryID must be a positive integer");return std::to_string(value.get<std::uint64_t>());}
 std::string uri_path(std::string uri,const fs::path& base) {
     if(uri.find_first_of("?#")!=std::string::npos) throw std::invalid_argument("unsupported image URI query/fragment");
@@ -257,7 +257,13 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
             for(const auto& item:values.items())metadata.emplace(item.key(),text(item.value()));
             state->project->set_image_metadata(info.native_id,std::move(metadata));
         }
-        for(const auto key:{"tags","description"}) if(image.contains(key) && !image[key].empty()) state->issue("image_metadata_dropped",info.name+": "+key+" is not represented");
+        std::optional<std::string> description;std::vector<std::string> tags;
+        if(image.contains("description") && !image.at("description").is_null())description=text(image.at("description"),1024*1024);
+        if(image.contains("tags") && !image.at("tags").is_null()) {
+            const auto& values=image.at("tags");if(!values.is_array() || values.size()>4096)throw std::invalid_argument("invalid project-entry tags");
+            tags.reserve(values.size());for(const auto& tag:values)tags.push_back(text(tag));
+        }
+        state->project->set_image_details(info.native_id,std::move(description),std::move(tags));
         doc->clear_history();info.objects=doc->object_count();info.available=true;state->images.push_back(std::move(info));
     }
     state->verify(cancelled);return std::shared_ptr<const QuPathProjectPreview>(new QuPathProjectPreview(std::move(state)));

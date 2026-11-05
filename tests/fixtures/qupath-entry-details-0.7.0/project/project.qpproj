@@ -1,0 +1,217 @@
+{
+  "version": "0.7.0",
+  "createTimestamp": 1793851226022,
+  "modifyTimestamp": 1793851226022,
+  "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/entry-details-r5/project/project.qpproj",
+  "lastID": 3,
+  "images": [
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/entry-metadata-r5/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 64,
+          "height": 48,
+          "sizeZ": 1,
+          "sizeT": 1,
+          "channelType": "DEFAULT",
+          "isRGB": true,
+          "pixelType": "UINT8",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 64,
+              "height": 48
+            }
+          ],
+          "channels": [
+            {
+              "name": "Red",
+              "color": -65536
+            },
+            {
+              "name": "Green",
+              "color": -16711936
+            },
+            {
+              "name": "Blue",
+              "color": -16776961
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.0,
+              "unit": "z-slice"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": []
+          },
+          "preferredTileWidth": 64,
+          "preferredTileHeight": 48
+        }
+      },
+      "entryID": 1,
+      "randomizedName": "5f42eea4-99c5-41b2-b87d-4d6bc174b708",
+      "imageName": "null-description",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/entry-metadata-r5/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 64,
+          "height": 48,
+          "sizeZ": 1,
+          "sizeT": 1,
+          "channelType": "DEFAULT",
+          "isRGB": true,
+          "pixelType": "UINT8",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 64,
+              "height": 48
+            }
+          ],
+          "channels": [
+            {
+              "name": "Red",
+              "color": -65536
+            },
+            {
+              "name": "Green",
+              "color": -16711936
+            },
+            {
+              "name": "Blue",
+              "color": -16776961
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.0,
+              "unit": "z-slice"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": []
+          },
+          "preferredTileWidth": 64,
+          "preferredTileHeight": 48
+        }
+      },
+      "entryID": 2,
+      "randomizedName": "ec34d4ea-6a35-468b-a4d1-9599645f4691",
+      "imageName": "empty-description",
+      "description": "",
+      "metadata": {},
+      "tags": [
+        "z-last",
+        "a-first",
+        "",
+        "µ",
+        "α"
+      ]
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/entry-metadata-r5/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 64,
+          "height": 48,
+          "sizeZ": 1,
+          "sizeT": 1,
+          "channelType": "DEFAULT",
+          "isRGB": true,
+          "pixelType": "UINT8",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 64,
+              "height": 48
+            }
+          ],
+          "channels": [
+            {
+              "name": "Red",
+              "color": -65536
+            },
+            {
+              "name": "Green",
+              "color": -16711936
+            },
+            {
+              "name": "Blue",
+              "color": -16776961
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.0,
+              "unit": "z-slice"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": []
+          },
+          "preferredTileWidth": 64,
+          "preferredTileHeight": 48
+        }
+      },
+      "entryID": 3,
+      "randomizedName": "28e7a5df-c95d-4b6f-91e0-9b4a2a2627f8",
+      "imageName": "unicode-description",
+      "description": "Description α 🚀\nSecond line\t\"quoted\"",
+      "metadata": {},
+      "tags": [
+        "Tumor",
+        "tumor",
+        "é",
+        "é"
+      ]
+    }
+  ]
+}

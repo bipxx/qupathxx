@@ -61,6 +61,18 @@ void validate_image_metadata(const std::map<std::string,std::string>& metadata) 
     std::size_t bytes=sizeof(metadata);
     for(const auto& [key,value]:metadata) {bytes+=validate_image_metadata_item(key,value);if(bytes>1024*1024)throw std::invalid_argument("image metadata exceeds 1MiB payload");}
 }
+std::vector<std::string> normalize_image_tags(std::vector<std::string> tags) {
+    if(tags.size()>4096)throw std::invalid_argument("image tags exceed 4096 inputs");
+    std::set<std::string> seen;std::vector<std::string> result;std::size_t bytes=0;
+    for(auto& tag:tags) {
+        detail::bounded_utf8(tag,4096);
+        if(seen.insert(tag).second) {
+            bytes+=64+tag.size();if(bytes>1024*1024)throw std::invalid_argument("image tags exceed 1MiB payload");
+            result.push_back(std::move(tag));
+        }
+    }
+    return result;
+}
 std::string absolute(const std::string& path) {
     text(path,32768); if(path.empty()) throw std::invalid_argument("project/image path must not be empty");
     return fs::absolute(fs::u8path(path)).lexically_normal().u8string();
@@ -173,6 +185,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         if(selected && !selected->count(id)) continue;
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         add(image_metadata_bytes(e.info.metadata)-sizeof(e.info.metadata));
+        if(e.info.description)add(e.info.description->size());
+        for(const auto& tag:e.info.tags)add(64+tag.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
         if(e.document->server()->tiff_view()) add(sizeof(TiffView)+1024);
@@ -389,6 +403,13 @@ void Project::set_image_metadata(std::uint64_t id,std::map<std::string,std::stri
     const auto& old=entry(id);validate_image_metadata(metadata);if(old.info.metadata==metadata)return;
     advance(revision_);entries_.at(id).info.metadata.swap(metadata);++revision_;
 }
+std::optional<std::string> Project::image_description(std::uint64_t id) const {return entry(id).info.description;}
+std::vector<std::string> Project::image_tags(std::uint64_t id) const {return entry(id).info.tags;}
+void Project::set_image_details(std::uint64_t id,std::optional<std::string> description,std::vector<std::string> tags) {
+    const auto& old=entry(id);if(description)detail::bounded_utf8(*description,1024*1024);tags=normalize_image_tags(std::move(tags));
+    if(old.info.description==description && old.info.tags==tags)return;
+    advance(revision_);auto& info=entries_.at(id).info;info.description.swap(description);info.tags.swap(tags);++revision_;
+}
 void Project::relink(std::uint64_t id,const std::string& path) {
     if(source_verification(id))throw std::invalid_argument("saved source verification requires reviewed source replacement");
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
@@ -554,6 +575,7 @@ struct Statement {
     ~Statement() { if(stmt) sqlite3_finalize(stmt); }
     void check(int code) { if(code!=SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(owner.db)); }
     void string(int i,const std::string& s) { check(sqlite3_bind_text64(stmt,i,s.data(),s.size(),SQLITE_TRANSIENT,SQLITE_UTF8)); }
+    void null(int i) {check(sqlite3_bind_null(stmt,i));}
     void integer(int i,std::int64_t v) { check(sqlite3_bind_int64(stmt,i,v)); }
     void real(int i,double v) { check(sqlite3_bind_double(stmt,i,v)); }
     void optional(int i,std::optional<double> v) { if(v) real(i,*v); else check(sqlite3_bind_null(stmt,i)); }
@@ -563,9 +585,9 @@ struct Statement {
     bool row() { auto code=sqlite3_step(stmt); if(code==SQLITE_ROW) return true; if(code==SQLITE_DONE) return false; throw std::runtime_error(sqlite3_errmsg(owner.db)); }
     void done() { if(row()) throw std::runtime_error("unexpected SQLite row"); check(sqlite3_reset(stmt)); check(sqlite3_clear_bindings(stmt)); }
     int type(int i) const { return sqlite3_column_type(stmt,i); }
-    std::string string(int i) const {
+    std::string string(int i,std::size_t maximum=32768) const {
         if(type(i)!=SQLITE_TEXT) throw std::invalid_argument("project text column has invalid type");
-        auto bytes=sqlite3_column_bytes(stmt,i); if(bytes>32768) throw std::length_error("project text too large");
+        auto bytes=sqlite3_column_bytes(stmt,i); if(bytes<0 || static_cast<std::size_t>(bytes)>maximum) throw std::length_error("project text too large");
         auto* p=sqlite3_column_text(stmt,i); return std::string(reinterpret_cast<const char*>(p),static_cast<std::size_t>(bytes));
     }
     std::int64_t integer(int i) const { if(type(i)!=SQLITE_INTEGER) throw std::invalid_argument("invalid project integer"); return sqlite3_column_int64(stmt,i); }
@@ -629,6 +651,9 @@ void create_spatial(Database& db) {
 }
 void create_image_analysis_settings(Database& db) {
     db.exec("CREATE TABLE image_analysis_settings(image_id TEXT PRIMARY KEY REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=20;");
+}
+void create_image_details(Database& db) {
+    db.exec("CREATE TABLE image_details(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),description TEXT) STRICT; CREATE TABLE image_tags(image_id TEXT NOT NULL REFERENCES image_details(image_id),position INTEGER NOT NULL CHECK(position>=0 AND position<4096),tag TEXT NOT NULL,PRIMARY KEY(image_id,position),UNIQUE(image_id,tag)) STRICT; PRAGMA user_version=24;");
 }
 void create_image_metadata(Database& db) {
     db.exec("CREATE TABLE image_metadata(image_id TEXT NOT NULL REFERENCES images(id),metadata_key TEXT NOT NULL,metadata_value TEXT NOT NULL,PRIMARY KEY(image_id,metadata_key)) STRICT; PRAGMA user_version=23;");
@@ -782,9 +807,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<21)create_image_data_properties(db);
         if(version<22)create_image_axis_calibration(db);
         if(version<23)create_image_metadata(db);
+        if(version<24)create_image_details(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);}
-    db.exec("DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);}
+    db.exec("DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -799,6 +825,8 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement plane_row(db,"INSERT INTO object_planes VALUES(?,?,?,?,?)");
     Statement properties_row(db,"INSERT INTO object_properties VALUES(?,?,?)");
     Statement image_properties_row(db,"INSERT INTO image_properties VALUES(?,?)");
+    Statement details_row(db,"INSERT INTO image_details VALUES(?,?)");
+    Statement tag_row(db,"INSERT INTO image_tags VALUES(?,?,?)");
     Statement metadata_row(db,"INSERT INTO image_metadata VALUES(?,?,?)");
     Statement axis_row(db,"INSERT INTO image_axis_calibration VALUES(?,?)");
     Statement image_settings_row(db,"INSERT INTO image_analysis_settings VALUES(?,?)");
@@ -826,6 +854,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
         for(const auto& [name,value]:e.info.metadata) {metadata_row.string(1,key);metadata_row.string(2,name);metadata_row.string(3,value);metadata_row.done();}
+        if(e.info.description || !e.info.tags.empty()) {
+            details_row.string(1,key);if(e.info.description)details_row.string(2,*e.info.description);else details_row.null(2);details_row.done();
+            for(std::size_t i=0;i<e.info.tags.size();++i) {tag_row.string(1,key);tag_row.integer(2,static_cast<std::int64_t>(i));tag_row.string(3,e.info.tags[i]);tag_row.done();}
+        }
         if(doc.image_axis_calibration_) {const auto bytes=detail::encode_image_axis_calibration(*doc.image_axis_calibration_);axis_row.string(1,key);axis_row.blob(2,bytes);axis_row.done();}
         if(doc.image_data_properties_) {const auto bytes=detail::encode_image_data_properties(*doc.image_data_properties_);data_properties_row.string(1,key);data_properties_row.blob(2,bytes);data_properties_row.done();}
         if(doc.image_analysis_settings_) {const auto bytes=detail::encode_image_analysis_settings(*doc.image_analysis_settings_);image_settings_row.string(1,key);image_settings_row.blob(2,bytes);image_settings_row.done();}
@@ -1096,6 +1128,18 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
                 if(!info.metadata.emplace(std::move(name),std::move(value)).second)throw std::invalid_argument("duplicate persisted image metadata key");
             }
         }
+        if(version>=24) {
+            Statement row(db,"SELECT description FROM image_details WHERE image_id=?");row.string(1,key);const bool present=row.row();
+            if(present) {if(row.type(0)!=SQLITE_NULL) {info.description=row.string(0,1024*1024);detail::bounded_utf8(*info.description,1024*1024);}if(row.row())throw std::invalid_argument("duplicate persisted image details");}
+            Statement tags(db,"SELECT position,tag FROM image_tags WHERE image_id=? ORDER BY position");tags.string(1,key);
+            std::set<std::string> seen;std::size_t bytes=0;
+            while(tags.row()) {
+                if(!present || info.tags.size()>=4096 || tags.integer(0)!=static_cast<std::int64_t>(info.tags.size()))throw std::invalid_argument("invalid persisted image tag sequence");
+                auto tag=tags.string(1);detail::bounded_utf8(tag,4096);bytes+=64+tag.size();
+                if(bytes>1024*1024 || !seen.insert(tag).second)throw std::invalid_argument("invalid persisted image tag set");
+                info.tags.push_back(std::move(tag));
+            }
+        }
         std::optional<ImageAxisCalibration> axis_calibration;
         if(version>=22) {
             Statement row(db,"SELECT payload FROM image_axis_calibration WHERE image_id=?");row.string(1,key);
@@ -1244,6 +1288,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=24 && (scalar(db,"SELECT count(*) FROM image_details d WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=d.image_id)") || scalar(db,"SELECT count(*) FROM image_tags t WHERE NOT EXISTS (SELECT 1 FROM image_details d WHERE d.image_id=t.image_id)")))throw std::invalid_argument("orphaned image details or tags");
     if(version>=23 && scalar(db,"SELECT count(*) FROM image_metadata p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image metadata");
     if(version>=22 && scalar(db,"SELECT count(*) FROM image_axis_calibration p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned image axis calibration");
     if(version>=21 && scalar(db,"SELECT count(*) FROM image_data_properties p WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=p.image_id)"))throw std::invalid_argument("orphaned ImageData properties");

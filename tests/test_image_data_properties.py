@@ -165,7 +165,7 @@ assert q.Project.open(sys.argv[1]).document(image).image_data_properties.values[
 def test_schema20_defaults_and_failed_upgrade_are_atomic(tmp_path):
     project,image,doc,obj,path=workspace(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('DROP TABLE image_data_properties');db.execute('PRAGMA user_version=20');db.execute("CREATE TRIGGER fail_property BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property fault'); END")
+        db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('DROP TABLE image_axis_calibration');db.execute('DROP TABLE image_data_properties');db.execute('PRAGMA user_version=20');db.execute("CREATE TRIGGER fail_property BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property fault'); END")
     legacy=q.Project.open(str(path));assert legacy.document(image).image_data_properties is None;legacy.document(image).set_image_data_properties(properties())
     with pytest.raises(RuntimeError,match='property fault'):legacy.save(str(path))
     with sqlite3.connect(path) as db:

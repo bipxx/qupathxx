@@ -1392,19 +1392,36 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0");
                     if(ui::Button("Add image (F8)")) add_image=true;
                     auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+                    auto entry_line=[](std::string text) {for(auto& c:text)if(c=='\n' || c=='\r' || c=='\t')c=' ';return text;};
                     if(current!=project_images.end() && !current->metadata.empty() && ImGui::CollapsingHeader("Project entry metadata",ImGuiTreeNodeFlags_DefaultOpen)) {
                         if(ImGui::BeginChild("##Entry metadata",{0,180},ImGuiChildFlags_Borders)) {
                             ImGuiListClipper rows;rows.Begin(static_cast<int>(current->metadata.size()));
                             auto item=current->metadata.begin();int at=0;
-                            auto line=[](std::string text) {for(auto& c:text)if(c=='\n' || c=='\r' || c=='\t')c=' ';return text;};
                             while(rows.Step()) {
                                 std::advance(item,rows.DisplayStart-at);
                                 for(int row=rows.DisplayStart;row<rows.DisplayEnd;++row,++item) {
-                                    const auto key=line(item->first),value=line(item->second);
+                                    const auto key=entry_line(item->first),value=entry_line(item->second);
                                     ImGui::Text("%s: %s",key.empty()?"<empty key>":key.c_str(),value.empty()?"(empty)":value.c_str());
                                     if(ImGui::IsItemHovered()) {ImGui::BeginTooltip();ImGui::TextUnformatted(item->first.c_str());ImGui::Separator();ImGui::TextUnformatted(item->second.c_str());ImGui::EndTooltip();}
                                 }
                                 at=rows.DisplayEnd;
+                            }
+                        }
+                        ImGui::EndChild();
+                    }
+                    if(current!=project_images.end() && current->description && ImGui::CollapsingHeader("Entry description",ImGuiTreeNodeFlags_DefaultOpen)) {
+                        if(ImGui::BeginChild("##Entry description",{0,100},ImGuiChildFlags_Borders,ImGuiWindowFlags_HorizontalScrollbar)) {
+                            ImGui::TextUnformatted(current->description->empty()?"(empty description)":current->description->c_str());
+                        }
+                        ImGui::EndChild();
+                    }
+                    if(current!=project_images.end() && !current->tags.empty() && ImGui::CollapsingHeader("Entry tags",ImGuiTreeNodeFlags_DefaultOpen)) {
+                        if(ImGui::BeginChild("##Entry tags",{0,100},ImGuiChildFlags_Borders)) {
+                            ImGuiListClipper rows;rows.Begin(static_cast<int>(current->tags.size()));
+                            while(rows.Step())for(int row=rows.DisplayStart;row<rows.DisplayEnd;++row) {
+                                const auto& tag=current->tags[static_cast<std::size_t>(row)];const auto preview=entry_line(tag);
+                                ImGui::TextUnformatted(preview.empty()?"<empty tag>":preview.c_str());
+                                if(ImGui::IsItemHovered()) {ImGui::BeginTooltip();ImGui::TextUnformatted(tag.c_str());ImGui::EndTooltip();}
                             }
                         }
                         ImGui::EndChild();

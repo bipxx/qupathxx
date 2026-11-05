@@ -103,7 +103,7 @@ def test_version1_property_payload_and_schema16_upgrade_rollback(tmp_path):
     project=q.Project();image=project.add_document(doc);path=tmp_path/'legacy.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
         payload=db.execute('SELECT payload FROM object_properties').fetchone()[0];assert payload[:4]==b'QOP\x01'
-        db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=16');db.execute("CREATE TRIGGER fail_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'editing upgrade failed'); END")
+        db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('PRAGMA user_version=16');db.execute("CREATE TRIGGER fail_upgrade BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'editing upgrade failed'); END")
     restored=q.Project.open(str(path));value=restored.document(image);value.set_object_edit_state(obj,True,0x123456,.875)
     with pytest.raises(RuntimeError,match='editing upgrade failed'):restored.save(str(path))
     with sqlite3.connect(path) as db:

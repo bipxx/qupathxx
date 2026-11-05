@@ -121,7 +121,7 @@ def test_invalid_verification_rows_are_refused(tmp_path,failure):
 
 def test_schema14_migration_and_rollback_preserve_old_database(tmp_path):
     p,image,doc,obj,source,path=scene(tmp_path)
-    with sqlite3.connect(path) as db:db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('PRAGMA user_version=14');db.execute("CREATE TRIGGER fail_migration BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'source migration failed'); END")
+    with sqlite3.connect(path) as db:db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('PRAGMA user_version=14');db.execute("CREATE TRIGGER fail_migration BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'source migration failed'); END")
     restored=q.Project.open(str(path));assert restored.source_verification(image) is None
     retain(restored,image,source)
     with pytest.raises(RuntimeError,match='source migration failed'):restored.save(str(path))

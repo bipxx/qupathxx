@@ -31,24 +31,20 @@ Current: **R5-ENTRYDETAILS1 — project-entry tags and description** (contract i
   and release support decisions block only their claims. Only openly licensed
   readers and required codecs are eligible. Broader R4/R5 and R6-R16 stay queued.
 
-Latest task review (2026-11-04, ENTRYMETA1 closeout):
-Outcome/evidence:155 staged passes/six declared GUI skips, four native roles,
-actual changed-metadata inspector/save, installed snapshot/budget, five public
-stubs and positive/three-negative typing pass. Two optional-map and three actual
-v1-GeoJSON/v2-GeoJSON/v2-native geometry controls pass on the same product. Exact
-maps, namespaces, ownership/bounds/faults/missing-source and schema23 persist.
-All465 compiler inputs and65 installed hashed members match; screenshot inspected.
-Waste/action: **reuse** one parent TIFF and capture, plus current project authority;
-**remove** codec/model duplication and interim product builds. One553.51s cached
-ABI build, one stub generation and one uv install. Two inherited native targets
-were unneeded: executed backend retained and future target list trimmed. A
-closeout audit found empty-bundle tests too narrow for saved geometry; only the
-three missing routes were added, without repeating the passing cohort/build.
-**Merge** upcoming tags/description contracts before one public-header edit and
-reuse their captured case, avoiding separate capture/build cycles per attribute.
-Next: inspect ENTRYDETAILS1's upstream defaults/set semantics and settle both
-attributes before implementation. This closes only the entry-map engineering
-slice, not the full R5, scientific/resource/host/release scope.
+Latest task review (2026-11-04, ENTRYDETAILS1 candidate preparation):
+Outcome/evidence: source integration and44 new product controls are ready;
+selected new/affected project/import/legacy tests collect with bounded semantic
+IDs. Pinned references/parent/probe identity pass. Old b4abea1b reports four losses,
+including empty description, and lacks the pair API. No product build/run yet.
+Waste/action: **merge** both attributes before one header edit; **reuse** captured
+builder/source and current Project authority/snapshot/store/inspector. A baseline
+count assumption and glob matching its own receipt were corrected without any
+native or capture retry; diagnostics retained. Short IDs prevent1MiB payloads
+inflating logs. Reuse the trimmed backend's four selected native roles.
+Next: freeze/build once, execute the selected metadata/details/import/store/
+legacy cohort, four native roles and actual changed-state inspector/save. Then
+one stub/repackage/install/typing pass and exact native/member identity checks.
+No new model/codec, raw geometry/math recapture or per-attribute build cycle.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

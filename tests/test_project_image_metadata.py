@@ -50,15 +50,15 @@ def test_capture_parent_probe_and_independent_metadata_values():
 @pytest.mark.parametrize('exchange',[None,'1','2'],ids=['manifest','v1','v2'])
 def test_manifest_metadata_namespaces_and_save_reopen(tmp_path,exchange):
     path=foreign(tmp_path,exchange=exchange);preview=q.preview_qupath_project(str(path))
-    assert len(preview.issues)==2 and all(i.code=='image_metadata_dropped' and any(k in i.message for k in ['tags','description']) for i in preview.issues)
+    assert preview.issues==[]
     target=tmp_path/'import.qpxproj'
-    with pytest.raises(ValueError,match='loss'):preview.import_new(str(target))
-    assert not target.exists() and not preview.consumed
-    project=preview.import_new(str(target),allow_losses=True);reopened=q.Project.open(str(target))
+    project=preview.import_new(str(target));reopened=q.Project.open(str(target))
     for info in preview.images:
         expected=REFERENCE[info.name]['metadata'];assert project.image_metadata(info.native_id)==expected
         assert next(i for i in project.images if i.id==info.native_id).metadata==expected
         assert reopened.image_metadata(info.native_id)==expected
+        assert reopened.image_description(info.native_id)==REFERENCE[info.name]['description']
+        assert reopened.image_tags(info.native_id)==REFERENCE[info.name]['tags']
         doc=reopened.document(info.native_id);assert doc.object_count==0 and doc.image_properties is None and doc.image_data_properties is None
     with sqlite3.connect(target) as db:
         assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
@@ -96,7 +96,7 @@ def test_snapshot_owns_map_and_metadata_counts_toward_budget(tmp_path):
 
 def test_schema22_default_and_failed_upgrade_preserve_original(tmp_path):
     project,image,doc,source=workspace(tmp_path);project.set_image_metadata(image,RICH);path=tmp_path/'legacy.qpxproj';project.save(str(path))
-    with sqlite3.connect(path) as db:db.execute('DROP TABLE image_metadata');db.execute('PRAGMA user_version=22')
+    with sqlite3.connect(path) as db:db.execute('DROP TABLE IF EXISTS image_tags');db.execute('DROP TABLE IF EXISTS image_details');db.execute('DROP TABLE image_metadata');db.execute('PRAGMA user_version=22')
     legacy=q.Project.open(str(path));assert legacy.image_metadata(image)=={}
     legacy.set_image_metadata(image,RICH)
     with sqlite3.connect(path) as db:db.execute("CREATE TRIGGER fail_metadata BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'metadata fault'); END")
