@@ -1,0 +1,8 @@
+{
+  "source": "db90985d59c8b50635a6445d1a45f680ee64a047",
+  "compiler_inputs_unchanged": 467,
+  "installed_hashed_members_matching_wheel_and_record": 65,
+  "wheel_sha256": "71ab5acb6d9259ecf69bbc7d055585ad4c9c8513e03c6e1e225e1aff09d777ac",
+  "stubs": "unchanged; current tracked native stub matches wheel",
+  "gui_observer_sha256": "231ec6de8050a9cc5a0c971a711eb9e363a92fea8641154356d2a62eca9dadfb"
+}

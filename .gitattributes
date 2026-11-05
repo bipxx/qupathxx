@@ -815,3 +815,5 @@ tests/fixtures/qupath-entry-details-0.7.0/** -text -whitespace
 tools/upstream/qupath_entry_details_reference.groovy -text
 
 docs/benchmarks/entry-details-r5/** -text -whitespace
+
+docs/benchmarks/entry-editor-r5/** -text -whitespace

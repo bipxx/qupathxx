@@ -1,0 +1,6 @@
+GUI Unicode scalar input and native undo/redo passed
+Details diagnostic: present=1 description=Description α
+second line tags=2 popup scroll=0 max=0
+Saved tag [z-last]
+Saved tag [a-first]
+Details apply lost nullable/order state

@@ -1,0 +1,12 @@
+{
+  "source": "db90985d59c8b50635a6445d1a45f680ee64a047",
+  "frames": 45,
+  "replay_complete": true,
+  "click": {
+    "x": 140,
+    "y": 565,
+    "width": 1500,
+    "height": 1400
+  },
+  "purpose": "Open editor from observed installed sidebar; visual capture, no field editing"
+}

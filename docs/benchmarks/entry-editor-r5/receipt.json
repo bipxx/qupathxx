@@ -1,0 +1,46 @@
+{
+  "task": "R5-ENTRYEDIT1",
+  "status": "locally verified within declared GUI authoring scope",
+  "source": "db90985d59c8b50635a6445d1a45f680ee64a047",
+  "native_gui_replay": "pass; actual ImGui activation/text/Tab, stale/refusal and save/reopen; includes different-parent popup scope",
+  "installed_authoring": "pass; observed-coordinate mouse removal/Apply/close/Ctrl+S/reopen exact map and independent details",
+  "visual_inspection": [
+    "installed-editor.png",
+    "installed-editor-details.png"
+  ],
+  "inherited_sdk_store_science": "Reuse entry-details-r5 only within unchanged authority scope; no general release/speed/parity claim",
+  "product_builds": {
+    "initial_gui": "pass; tag cache bug diagnosed by observer",
+    "first_wheel": {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entryedit_r5_backend.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 66.22576049994677
+    },
+    "corrected_wheel": {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entryedit_r5_backend.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 80.79261190001853
+    },
+    "wheel_installs": 2,
+    "stub_generations": 0
+  },
+  "failures_preserved": [
+    "observer-attempt1.log",
+    "observer-attempt2.log",
+    "observer-attempt3.log",
+    "native-attempt5.log",
+    "attempt1-installed-editor.png",
+    "tab-attempt1-installed-editor-details.png"
+  ],
+  "next": "One-time R4/R5 inventory reconciliation, then the next demonstrated ready gap or R6 context/halo"
+}

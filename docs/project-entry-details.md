@@ -45,7 +45,8 @@ metadata/details UI save, installed SDK/stubs/typing and native project migratio
 Compiled and observer/stub identities remain separate.
 
 One grouped ABI/header candidate, one stub generation and one install were used.
-Native/Python authoring and read-only inspector are delivered; GUI authoring is the
-[next task](current-task.md), reusing these settled APIs. Global metadata/formats/
+This retention receipt covers native/Python authoring and the read-only inspector.
+Subsequent [GUI authoring](benchmarks/entry-editor-r5/README.md) uses these settled
+APIs, with separate tested source and scope. Global metadata/formats/
 research/resources/support/release remain queued; this receipt establishes no
 full QuPath parity or general speed claim.

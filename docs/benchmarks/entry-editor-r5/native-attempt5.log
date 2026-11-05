@@ -1,0 +1,14 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 35: gui_replay
+1/1 Test #35: gui_replay .......................***Failed    0.16 sec
+GUI Unicode scalar input and native undo/redo passed
+Metadata apply lost text
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.22 sec
+
+The following tests FAILED:
+	 35 - gui_replay (Failed)
+Errors while running CTest

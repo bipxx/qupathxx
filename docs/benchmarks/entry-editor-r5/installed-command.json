@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entry-edit-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='bd4cc76e12346dd668efddb35c027d7ed0124899';print('installed identity',q.build_environment().git_revision,flush=True);import pytest;raise SystemExit(pytest.main(['tests/test_project_entry_details.py::test_desktop_inspects_changed_attributes_and_saves','-q','--junitxml='+'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\entry-edit-r5\\\\installed.xml','--basetemp','C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\entry-edit-r5\\\\installed-temp']))"
+  ],
+  "source": "bd4cc76e12346dd668efddb35c027d7ed0124899",
+  "returncode": 0,
+  "elapsed_seconds": 2.114612399833277
+}
