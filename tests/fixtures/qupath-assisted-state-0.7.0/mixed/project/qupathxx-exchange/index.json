@@ -1,0 +1,26 @@
+{
+  "schema": "qpx.qupath-project-exchange/2",
+  "qupath_version": "0.7.0",
+  "project_sha256": "4cdd58ee8d72265254a5bb115c5c2e551f04a236c31359a11fb16715d0e9060f",
+  "files": {
+    "classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+    "data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  "images": [
+    {
+      "entry_id": "1",
+      "qpdata_sha256": "68fd318143de13d25836e14b37ac39ffa2ffe524d78aa4d6201424d78cd00829",
+      "representation": "native-saved-data"
+    },
+    {
+      "entry_id": "2",
+      "qpdata_sha256": "bd5be53111ee9559c2fbe328714849bcb681779207051619b8a0ca65a9e2c6c9",
+      "representation": "geojson",
+      "file": "2.geojson",
+      "sha256": "477ad80ef989fe8f99984c1069a47ad297c1a082cd45c943f37e006d6ddf06b5",
+      "pixel_width_um": 0.7,
+      "pixel_height_um": 0.8,
+      "issues": []
+    }
+  ]
+}

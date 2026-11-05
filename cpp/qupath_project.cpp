@@ -112,13 +112,34 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
     for(const auto& image:root.at("images")) if(!ids.insert(entry_id(image.at("entryID"))).second) throw std::invalid_argument("duplicate QuPath project entryID");
     for(const auto& [id,path]:overrides) if(!ids.count(id)) throw std::invalid_argument("source override has unknown entry ID");
     auto index_path=(exchange.empty()?base/"qupathxx-exchange":fs::u8path(absolute(exchange)))/"index.json";
-    std::map<std::string,Json> entries;Json bundle_files;
+    std::map<std::string,Json> entries;Json bundle_files;bool exchange_v2=false;
     if(state->exists(index_path.u8string())) {
         const auto index=parse(state->read(index_path.u8string(),4*1024*1024,cancelled));
-        if(index.at("schema")!="qpx.qupath-project-exchange/1" || index.at("qupath_version")!="0.7.0" || index.at("project_sha256")!=hash(bytes)) throw std::invalid_argument("exchange does not match this QuPath project");
+        exchange_v2=index.at("schema")=="qpx.qupath-project-exchange/2";
+        if((!exchange_v2 && index.at("schema")!="qpx.qupath-project-exchange/1") || index.at("qupath_version")!="0.7.0" || index.at("project_sha256")!=hash(bytes)) throw std::invalid_argument("exchange does not match this QuPath project");
+        if(exchange_v2)for(const auto& field:index.items())if(field.key()!="schema" && field.key()!="qupath_version" && field.key()!="project_sha256" && field.key()!="files" && field.key()!="images")throw std::invalid_argument("unsupported version2 exchange field");
         bundle_files=index.at("files");if(!bundle_files.is_object() || bundle_files.size()!=2 || !bundle_files.contains("classifiers/classes.json") || !bundle_files.contains("data/metadata.json")) throw std::invalid_argument("invalid exchange metadata bindings");
         if(!index.at("images").is_array() || index.at("images").size()>1024) throw std::invalid_argument("invalid exchange image list");
-        for(const auto& item:index.at("images")) {const auto id=text(item.at("entry_id"));if(!entries.emplace(id,item).second) throw std::invalid_argument("duplicate exchange entry ID");}
+        for(const auto& item:index.at("images")) {
+            if(exchange_v2) {
+                if(!item.is_object() || !item.contains("entry_id") || !item.contains("representation") || !item.at("representation").is_string() || !item.contains("qpdata_sha256") || !item.at("qpdata_sha256").is_string())throw std::invalid_argument("invalid version2 exchange entry");
+                const auto mode=text(item.at("representation")),digest=text(item.at("qpdata_sha256"));
+                if(digest.size()!=64 || digest.find_first_not_of("0123456789abcdef")!=std::string::npos)throw std::invalid_argument("invalid version2 saved-data hash");
+                if(mode!="native-saved-data" && mode!="geojson")throw std::invalid_argument("unsupported exchange representation");
+                const std::set<std::string> native_fields{"entry_id","representation","qpdata_sha256"};
+                const std::set<std::string> geo_fields{"entry_id","representation","qpdata_sha256","file","sha256","pixel_width_um","pixel_height_um","issues"};
+                const auto& fields=mode=="native-saved-data"?native_fields:geo_fields;
+                if(item.size()!=fields.size())throw std::invalid_argument("incomplete or ambiguous version2 exchange entry");
+                for(const auto& field:item.items())if(!fields.count(field.key()))throw std::invalid_argument("unsupported version2 representation field");
+                if(mode=="geojson") {
+                    if(!item.at("file").is_string() || !item.at("sha256").is_string() || !item.at("issues").is_array())throw std::invalid_argument("invalid version2 GeoJSON fields");
+                    const auto sha=text(item.at("sha256"));if(sha.size()!=64 || sha.find_first_not_of("0123456789abcdef")!=std::string::npos)throw std::invalid_argument("invalid version2 GeoJSON hash");
+                    for(const auto& issue:item.at("issues"))if(!issue.is_string())throw std::invalid_argument("invalid version2 GeoJSON issue");
+                    for(const auto key:{"pixel_width_um","pixel_height_um"})if(!item.at(key).is_null() && !item.at(key).is_number())throw std::invalid_argument("invalid version2 calibration field");
+                }
+            }
+            const auto id=text(item.at("entry_id"));if(!entries.emplace(id,item).second) throw std::invalid_argument("duplicate exchange entry ID");
+        }
     }
     auto bound_read=[&](const std::string& relative,std::size_t limit)->std::optional<Json> {
         const auto name=(base/fs::u8path(relative)).u8string();const bool present=state->exists(name);
@@ -183,8 +204,10 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
         }
         if(has_data) {
             const auto entry=entries.find(info.source_id);
-            if(entry==entries.end()) {
-                const auto decoded=detail::decode_qupath_saved_data(state->read(data_path,256ull*1024*1024,cancelled),cancelled);
+            if(entry==entries.end() || (exchange_v2 && entry->second.at("representation")=="native-saved-data")) {
+                const auto contents=state->read(data_path,256ull*1024*1024,cancelled);
+                if(entry!=entries.end() && entry->second.at("qpdata_sha256")!=hash(contents))throw std::invalid_argument("exchange image data is stale");
+                const auto decoded=detail::decode_qupath_saved_data(contents,cancelled);
                 const auto saved=parse(decoded.server_metadata);const auto& actual=doc->metadata();
                 if(saved.at("width")!=actual.width || saved.at("height")!=actual.height)throw std::invalid_argument("saved image dimensions differ from source");
                 const auto raw=doc->server()->raw_metadata(cancelled);

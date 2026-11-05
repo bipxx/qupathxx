@@ -1,0 +1,21 @@
+{
+  "schema": "qpx.qupath-project-exchange/2",
+  "qupath_version": "0.7.0",
+  "project_sha256": "89d172f0653296fe2a4112737dfea5239183c4490a38733dfd03cc586afbf197",
+  "files": {
+    "classifiers/classes.json": null,
+    "data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  "images": [
+    {
+      "entry_id": "1",
+      "qpdata_sha256": "757f2082b1588264b2ff83675403b76e8f59bfc233a293ae37cb5d454e6d438b",
+      "representation": "native-saved-data"
+    },
+    {
+      "entry_id": "2",
+      "qpdata_sha256": "985aa04ddd4c95a710c97bef461a2a17556ca2bb355b954c36c86eaf3207e793",
+      "representation": "native-saved-data"
+    }
+  ]
+}

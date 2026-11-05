@@ -242,13 +242,27 @@ Apply these gates to each selected slice, without creating a separate campaign:
    first concrete action before continuing. A failed attempt returns here before
    retry, with its diagnosis and changed input rather than another identical run.
 
-For the active ASSISTSTATE1 slice, inspect bundle version/source guards and route
-priority before choosing representation. Reuse delivered native image/TMA state,
-existing captured inputs and import publication. Establish compatibility with old
-bundles and unsupported native records. Prefer reuse of recognized saved-state
-parsing over a second model/codec, without decoding geometry twice or silently
-changing which source/representation owns an imported value. Capture only the
-missing assisted workflow and verify every affected consumer before closeout.
+For the active ASSISTSTATE1 slice, the schema2 contract and importer/producer
+changes are drafted. Six producer captures (facts, settings, properties, TMA,
+explicit GeoJSON and mixed representation) have succeeded; this is capture
+evidence, not native importer acceptance. Continue in this order:
+
+1. Bind those retained outputs to their exact producer, parent fixture and input
+   hashes. Mark filtered/URI-remapped projects and the synthetic mixed-producer
+   header explicitly. Preserve the version1 exporter and captured bytes. Do not
+   recapture successful datasets to create the fixture/provenance record.
+2. Finish route tests before freezing the candidate: version1 compatibility;
+   version2 native, explicit GeoJSON and mixed entries; all four retained state
+   groups; source/ID/child binding; save/reopen; stale/ambiguous entries; malformed
+   native data with no silent fallback; atomic refusal. Use existing independent
+   state references and the common native importer, not another state codec.
+3. Freeze one candidate and use the cached build for affected native tests,
+   Python import/save/reopen and the actual desktop bundle-open path. Check the
+   installed product identity. No new public API currently requires stub
+   generation; widen checks only if the implementation changes that assumption.
+4. Close with one scoped evidence record and the waste review. Record remaining
+   losses under R5, then select the next demonstrated R4/R5 gap. A capture alone
+   cannot close ASSISTSTATE1 or advance its coverage claim.
 
 After ASSISTSTATE1, select the first demonstrated remaining R4/R5 loss or edit gap
 from the existing inventory. Follow the ordered slices above through R6/R7,
@@ -287,9 +301,26 @@ waste recurs, change the execution step that allowed it before the next attempt.
 Use this short handoff in the current card:
 
 > Outcome/evidence: scoped result, unresolved failures and evidence location.
-> Waste/action: observed cost and remove/merge/reuse/defer/retain decision applied.
+> Waste/action: observed cost, its cause and the remove/merge/reuse/defer/retain
+> decision actually applied. State the remaining risk if a check is retained.
 > Next: one ready outcome and first action, dependencies, reused product/source
-> scope, and the checks needed for the remaining risk.
+> scope, minimum checks and stop condition.
+
+The review changes execution before the next action, using these rules:
+
+| Observed waste | Apply now | Re-entry or verification condition |
+| --- | --- | --- |
+| Repeated build, install or test | Reuse the retained compatible result; combine pending changes at the shared authority | Repeat only for changed inputs/configuration or a named unresolved risk; record that reason |
+| Failed command or uncertain live run | Inspect the existing output/session, diagnose and change the failing input | Retry only after the diagnosis and changed action are recorded; retain the first attempt |
+| Duplicate model, decoder or frontend math | Merge into the existing native authority and keep consumers thin | Verify the shared change once plus the affected consumer plumbing |
+| Repeated corpus capture or copied reports | Bind retained inputs/outputs and link their original evidence | Recapture only missing or invalidated cases, with the provenance difference stated |
+| Blocked research, license or support choice | Defer only the dependent claim and select the first independent ready slice | Name the owner/dependency and the decision or input that resumes it |
+| Unused build output or excessive logs | Keep required products, failures and provenance; stop generating unused output | Remove temporary artifacts only after verifying their paths and that the next task does not need them |
+
+Keep this review in the existing card; it creates no separate approval, auditor,
+benchmark or recurring review task. If a larger fix is necessary, put it once in
+its existing R row with its dependency and trigger; finish the current bounded
+outcome or record the block before switching scope.
 
 No material waste is a valid finding. Do not manufacture optimization tasks,
 weaken assertions, remove failure evidence or rerun passing checks to demonstrate

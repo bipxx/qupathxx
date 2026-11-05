@@ -4,7 +4,7 @@ Follow the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-qu
 and [validation policy](api-delivery-plan.md#validation-and-build-policy).
 All M0-M7 remain Partial. R5-TMASAVED1 is locally verified in its recorded scope.
 
-Current: **R5-ASSISTSTATE1 — assisted saved-state retention** (ready for contract preparation).
+Current: **R5-ASSISTSTATE1 — assisted saved-state retention** (implementation drafted; six captures complete; importer acceptance pending).
 
 - Outcome: carry recognized image facts, analysis defaults, portable ImageData
   properties and TMA state through the existing assisted-exchange route as well
@@ -14,12 +14,22 @@ Current: **R5-ASSISTSTATE1 — assisted saved-state retention** (ready for contr
   type/stain/custom properties as not migrated, with no TMA-state handling. The
   assisted branch in cpp/qupath_project.cpp imports GeoJSON and XY calibration
   only. The four native state authorities are now delivered and reusable.
-- Next action: trace assisted bundle version, source/hash guards, geometry/type
-  normalization and route priority. Define a single state authority for each
-  supported route before adding serialization or decoding. Prefer reusing pinned
-  native saved-state parsing where correct; avoid decoding geometry twice or
-  inventing parallel state/codec models. Inspect compatibility with old bundles
-  and unsupported saved-data records before choosing the smallest correct route.
+- Contract: new exchange schema2 explicitly selects native-saved-data or GeoJSON
+  per entry. Recognized pinned native entries use one complete native geometry/
+  state authority and bind the exact .qpdata hash; they carry no alternate file,
+  calibration or loss fields. No automatic fallback after a native decode error.
+  Schema1 keeps its current GeoJSON behavior; schema2 GeoJSON retains that route
+  with explicit representation. Existing version1 exporter/probe bytes stay frozen.
+- Producer: add a version2 exporter that identifies supported producer/header
+  versions with a bounded data-only probe. Native entries emit bindings rather
+  than redundant geometry/state serialization. Auto/native/geojson modes and an
+  optional separate output directory are explicit; unknown legacy producers use
+  GeoJSON through the existing QuPath APIs and retain reported state losses.
+- Next action: bind the six successful captures to exact producer/parent/input
+  hashes and explicit derived/synthetic provenance; add affected route/state/
+  refusal tests. Freeze one candidate, build from cache and verify Python and
+  actual desktop import/save/reopen. Do not replay successful producer captures.
+  No native build or importer acceptance has been recorded for this draft.
 - Dependencies/reuse: existing export script, pinned runtime, captured native
   fixtures and assisted import evidence; native image facts/settings/properties,
   TmaCodec/commands, private preview publication and current store. Capture only
@@ -31,30 +41,19 @@ Current: **R5-ASSISTSTATE1 — assisted saved-state retention** (ready for contr
   overrides, other geometry/classes/versions/builders and source races remain R5;
   R4/R6-R16 and owner research/license/release decisions stay in the same queue.
 
-Latest closeout (2026-11-04, R5-TMASAVED1):
-Outcome/evidence: [native saved TMA grids](benchmarks/saved-tma-r5/README.md)
-retain core slots/identities, analytic bounds, missing/case and legacy fallback,
-facts/planes and child annotation/detection/cell/nucleus hierarchy through native
-import, TMA edits/history, immutable snapshots, store/reopen and ImGui export.
-Native9627e545:64 staged passes/four declared skips (20 new headless), one desktop,
-one additional installed multi-image namespace/case-pooling case and five
-packaged-stub checks. Three native roles pass on original products; repaired
-QuPath native witness passes with its distinct regenerated dirty provenance.
-All product source inputs/65 hashed installed members match; only the C++ witness
-source differs. Both source manifests and scope boundaries are recorded.
-Waste/action: **reuse** TmaCodec/native metadata edits rather than new state/API/
-schema. One46.05s product build, one install, zero stub generation. **Retain** two
-Groovy parse failures, old installed refusal and the native Unicode witness/
-identity-postcheck failures. **Fix** ternary/list ambiguity and zero-prefix
-literals; use an ASCII Unicode escape in the C++ test. Rebuild only that witness;
-CMake refreshes provenance after test edits, so record its distinct identity
-instead of claiming an unchanged archive. Do not rebuild the passing product.
-Read actual headings/paths before documentation edits; corrected a stopped
-heading-context patch without another build. No math/text-codec campaign.
-Plan change/next: TMASAVED1 closes for declared recognized grids; unsupported
-representations refuse. Prepare ASSISTSTATE1 above to carry the delivered state
-across the other import route. Broader interchange, science/resources/platforms,
-speed and release remain open. No milestone or overall-goal completion claimed.
+Latest task review (2026-11-04, ASSISTSTATE1 candidate preparation):
+Outcome/evidence: all retained capture/producer/parent hashes and six fixture
+materializations pass; native9627 rejects schema2 as expected.26 public nodes
+collect, including independent state checks, strict native refusal, reviewed
+source changes, unused alternate geometry and actual desktop bundle open/save.
+Waste/action: **reuse** parent binaries/references and one cached native build;
+**retain** compatibility/source/state/refusal and consumer checks because route
+selection changed. No new binding/model/store schema or stub generation. The
+failed nested quoting and wildcard-path probes were repaired without rebuilding.
+Next: freeze the candidate, build once from cache, run new headless and affected
+legacy native-import cohorts, native project/save roles and actual desktop flow.
+Retain failures and update this review before any repair/retry. Product acceptance
+and feature-branch publication are pending; all M0-M7 remain Partial.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

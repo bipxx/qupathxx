@@ -238,3 +238,29 @@ Outputs must be new directories. The GUI-input mode records the checker engine;
 its producer identity belongs in the originating capture receipt. The current
 receipt binds both to the same installed module. This comparison qualifies the
 committed object corpus, not arbitrary geometry, research workflows or releases.
+
+
+## Assisted project exchange version2
+
+`tools/upstream/export_qupath_project_state.groovy` is the separate exchange/2
+producer for QuPath0.7.0. Its arguments are project path, optional mode
+(`auto`, `native`, `geojson`) and optional new output directory. Pass script
+arguments with repeated `--args` on the QuPath console. Existing output is refused.
+The original exchange/1 exporter and bundle behavior are unchanged.
+
+Each v2 image explicitly selects `native-saved-data` or `geojson`. Native entries
+contain only `entry_id`, `representation` and `qpdata_sha256`; the current pinned
+native reader supplies complete supported geometry and image state once. The
+producer recognizes the saved-data header without opening a server or exporting
+alternate geometry. A native decoder failure refuses import; it never switches
+to GeoJSON. An unrelated GeoJSON file is not an import authority for that entry.
+
+Auto mode selects GeoJSON for an unrecognized producer/header. Explicit GeoJSON
+uses the existing QuPath API and reports image facts, defaults and properties it
+cannot retain; a TMA grid refuses this representation. Forced native mode refuses
+an unrecognized header. Header recognition is not full-stream validation.
+GeoJSON entries bind saved data, exported geometry, XY calibration and explicit
+losses. Metadata/project hashes, source guards and transactional publication
+remain shared with the existing importer. Tests in
+`tests/test_qupath_assisted_state.py` bind the six derived producer captures;
+product acceptance is pending until its candidate checks complete.
