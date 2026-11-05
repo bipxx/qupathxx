@@ -11,7 +11,10 @@ V from_python(nb::handle h,std::set<PyObject*>& active,std::size_t& nodes,std::s
     if(depth>P::max_depth || ++nodes>P::max_nodes)throw std::invalid_argument("ImageData properties exceed depth/node limit");
     if(h.is_none())return {};
     if(PyBool_Check(h.ptr()))return V{h.ptr()==Py_True};
-    if(PyLong_Check(h.ptr()))return V{nb::cast<std::int64_t>(h)};
+    if(PyLong_Check(h.ptr())) {
+        const auto value=PyLong_AsLongLong(h.ptr());if(PyErr_Occurred())throw nb::python_error();
+        return V{std::int64_t(value)};
+    }
     if(PyFloat_Check(h.ptr()))return V{nb::cast<double>(h)};
     if(PyUnicode_Check(h.ptr()))return V{nb::cast<std::string>(h)};
     if(!PyList_Check(h.ptr()) && !PyDict_Check(h.ptr()))throw std::invalid_argument("ImageData values require null/bool/int64/float/str/list/string-keyed dict");

@@ -95,8 +95,11 @@ def test_excessive_saved_values_refuse_without_publication(tmp_path,label):
 def test_immutable_deep_copies_typed_noops_history_and_fact_separation():
     doc=q.Document(q.Image.demo());obj=doc.add_rectangle(q.Rect(1,2,8,9));doc.clear_history();selection=q.ObjectSelection(doc);selection.replace([obj])
     doc.set_image_properties(q.ObjectProperties({'text':'root fact'}));doc.set_image_analysis_settings(q.ImageAnalysisSettings('FLUORESCENCE'))
+    request=q.AnalysisRequest(doc,obj,q.StainTransform([[1,0,0],[0,1,0]],[230,231,232]));analysis=q.analyze(request)
     before=doc.revision;roi_revision=doc.annotation(obj).revision;value=properties();doc.set_image_data_properties(value)
     assert doc.revision==before+1 and doc.undo_label=='Set ImageData properties' and doc.annotation(obj).revision==roi_revision and selection.ids==[obj]
+    assert request.matches(doc,obj)
+    after=q.analyze(request);assert after.input_sha256==analysis.input_sha256 and after.means==analysis.means and after.white==analysis.white
     doc.set_image_data_properties(properties());assert doc.revision==before+1
     changed=doc.image_data_properties.values;changed['typed'][3]=0;changed['nested']['score']=0
     assert doc.image_data_properties.values['typed'][3]==9007199254740993 and doc.image_data_properties.values['nested']['score']==3.5
@@ -120,15 +123,18 @@ def test_immutable_deep_copies_typed_noops_history_and_fact_separation():
     {str(i):'x'*4000 for i in range(256)},
 ])
 def test_invalid_python_values_refuse_at_the_boundary(values):
-    with pytest.raises((ValueError,TypeError,OverflowError)):q.ImageDataProperties(values)
+    error=OverflowError if 'int' in values else (ValueError,TypeError)
+    with pytest.raises(error):q.ImageDataProperties(values)
 
 
 def test_python_cycles_depth_empty_null_and_history_budget():
     cycle=[];cycle.append(cycle)
     with pytest.raises(ValueError,match='cyclic'):q.ImageDataProperties({'cycle':cycle})
     deep=0
-    for _ in range(17):deep=[deep]
-    with pytest.raises(ValueError,match='depth'):q.ImageDataProperties({'deep':deep})
+    for _ in range(15):deep=[deep]
+    assert signature(q.ImageDataProperties({'deep':deep}).values)==signature({'deep':deep})
+    with pytest.raises(ValueError,match='depth'):q.ImageDataProperties({'deep':[deep]})
+    assert len(q.ImageDataProperties({'many':[None]*4096}).values['many'])==4096
     doc=q.Document(q.Image.demo());doc.set_image_data_properties(q.ImageDataProperties());assert doc.image_data_properties is None and not doc.can_undo
     doc.set_image_data_properties(q.ImageDataProperties({'null':None}));assert doc.image_data_properties.values=={'null':None}
     doc.clear_history();doc.set_history_limits(128,1);before=doc.revision

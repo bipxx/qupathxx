@@ -1,13 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 20 stores canonical object state,
+source descriptors. SQLite schema version 21 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
 stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
 [spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
-[source verification](reader-source-association.md#project-verification-and-reviewed-replacement), historical image facts and saved analysis defaults. Schemas 1–19
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement), historical image facts, saved analysis defaults and typed ImageData properties. Schemas 1–20
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -99,6 +99,21 @@ later edits remain dirty. Settings do not rewrite explicit analysis requests or
 retained recipes. See [saved defaults](image-analysis-settings.md) for Python,
 import, GUI adoption and RGB8 application limits.
 
+## Saved ImageData properties
+
+Schema21 adds sparse `image_data_properties(image_id, payload)` rows for portable
+typed null/bool/int64/binary64/text/list/map values. Native immutable shared
+construction and snapshots retain exact integers, nonfinite reals and nested
+values independently of Python wrappers. Property-only edits use normal history
+and leave ROI/render state, facts, defaults and explicit recipes unchanged.
+
+The bounded `QDP1` encoding uses sorted keys, typed values and the existing SHA-256
+authority. Loading checks checksum, canonical form, types, depth/count/payload
+bounds, duplicate keys/rows and owning image before publication. Schemas1-20
+default empty; table creation and writes share the existing migration transaction.
+Encoded SQL buffers stay alive through statement completion. See the
+[typed-property API/import policy](image-data-properties.md).
+
 ## Transactions and save conflicts
 
 Saves use one `BEGIN IMMEDIATE` transaction with `synchronous=FULL`. Prepared
@@ -108,7 +123,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 20. Schemas 1–19 migrate
+The application ID is `0x51505858` and new `user_version` is 21. Schemas 1–20 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.

@@ -20,7 +20,7 @@ Current: **R5-DATAPROP1 — saved ImageData properties** (contract settled; impl
   defaults and recipes stay separate. Unknown/cyclic/non-string-map Java values
   drop their whole top-level property only with explicit loss review; malformed
   framing/duplicates or exceeded limits refuse before publication.
-- Bounds/API:4096 entries per collection,16384 total nodes,16 container levels,
+- Bounds/API:4096 entries per collection,16384 total nodes,root depth0/values through16,
  4096 UTF-8 bytes per key/text and1 MiB retained payload. Native-owned immutable
   shared values reuse the established worker-safe factory pattern. Python gets
   independent recursive dict/list copies; staged set/clear has ordinary history.
@@ -42,21 +42,21 @@ Current: **R5-DATAPROP1 — saved ImageData properties** (contract settled; impl
   Close only the declared property route; other R4/R5 formats/records/races and
   R6-R16 remain in the same queue.
 
-Latest task review (2026-11-04, DATAPROP1 contract/baseline):
-Outcome/evidence: pinned uncovered-type capture succeeds; fixture/probe hashes
-pass. Previous SETTINGS1 installed product reproduces portable property loss.
-All312 selected public cases collect, including41 new property cases. Native
-factory/shared ownership, staged no-op/clear/history, snapshot charges and named
-borrowed SQL buffers reviewed. Implementation remains unbuilt/unverified.
-Waste/action: **reuse** the existing string fixture, parser/list helpers, native
-factory pattern, cache and source/config evidence. **Retain** expected baseline
-failure. **Merge** native/binding/store/UI into one candidate. A stopped draft
-edit was repaired in place after inspecting actual exports and replacement
-scope; do not rerun successful edits or use unscoped multi-match replacements.
-Next: freeze compiler inputs for one cached build, then staged affected contracts
-with a dedicated interpreter/.pth inherited by isolated children. Exercise only
-new inspector flow, four affected native roles and installed typing/package
-integrity. No numerical kernel, broad science or release campaign is needed.
+Latest task review (2026-11-04, DATAPROP1 integer-overflow failure):
+Outcome/evidence: native3d272074 builds in679.95s; four affected native suites
+pass. Staged312 cases finish296 pass/14 skips/two failures. Both failures are
+Python integers outside signed64: nb::cast rejects with generic RuntimeError
+bad cast. Captured portable imports, whole-property loss review, checksum/type
+refusals, history, snapshots and worker final release pass in that candidate.
+Waste/action: **retain** the first candidate/logs. **Fix** the integer boundary
+using checked PyLong_AsLongLong and propagate Python's explicit OverflowError;
+do not weaken the test to accept bad cast. **Reuse** unchanged native algorithms,
+store and legacy consumer evidence in actual scope. One binding-file repair
+needs a cached incremental build, not another full campaign or early install.
+Next: freeze only that compiler-input change, rebuild once, then rerun the new
+property module (all conversion/lifetime paths) and actual inspector flow.
+Generate stubs/install only after these pass; reconcile unchanged legacy evidence
+with the source difference instead of rerunning every accepted case.
 
 After each bounded task or failed/stopped attempt, perform the
 [waste review](api-delivery-plan.md#task-closeout-and-waste-review) and update state,

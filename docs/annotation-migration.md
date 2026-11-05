@@ -140,8 +140,9 @@ unknown. Source dimensions, axis/channel counts and sample type must match.
 Supported object metadata, measurements, lock/color and reported class probability
 are retained through [object properties](object-properties.md). Root historical
 facts use [image properties](image-properties.md); recognized image types and stain
-profiles use [saved defaults](image-analysis-settings.md). Unsupported custom
-ImageData properties and executable workflow history report losses before apply.
+profiles use [saved defaults](image-analysis-settings.md). Supported custom values
+use [typed ImageData properties](image-data-properties.md); unsupported whole
+properties and executable workflow history report losses before apply.
 Derived classifications retain their full display name/color
 with a class-hierarchy flattening notice. Saved workflows are never executed.
 TMA-grid metadata is not migrated by this decoder. Unsupported top-level records
