@@ -160,3 +160,39 @@ checking capacity; reuse native, migration, typing and GUI evidence by exact
 source/configuration. Verify installed save/reopen/replay/export and package
 members/runtime smoke. No full campaign, extra stub pass or new sampling/model
 authority. Broader R7/R12/research/hosts/release and M0-M7 remain open.
+
+## N3 installed workflow closeout — 2026-11-05
+
+One [cached wheel build](n3-wheel.log) and one [isolated install](n3-install.log)
+completed at source16470ac0bed8f1f8292ba8d37ff0cc836ba9c84a. The old GRID1 wheel,
+stage and receipts remain preserved; the reused runtime environment now contains
+REGION1. No second environment, binding-source compile, stub pass or full
+qualification campaign was needed for N3. The wheel refreshed provenance and
+shipping products from the existing cache.
+
+All [seven installed REGION1 tests](n3-installed.log) pass: owning SDK values,
+legacy default absence, singleton SD absence, retain/CSV/reopen/replay, SDK/CLI
+batch/resume/refusal, managed save, actual GUI keep/reopen and GUI batch/resume.
+[Standalone shipping smoke](n3-standalone-smoke.json) additionally checks exact
+RGBA region extraction and successful empty-app smoke with the installed products.
+
+[Shipping integrity](shipping-integrity.json) verifies all490 actual source inputs
+against the loaded source-tree hash and all65 hashed wheel/RECORD/installed members,
+including the source stubs. [Reuse proof](n3-reuse-proof.json) confirms N2's490
+compiler inputs and58 staged public/dependency members remain byte-identical.
+Only the four shipping binaries are excluded from that member comparison for
+provenance refresh/current region-product delivery. Keep earlier native/math/
+fault/typing/UI evidence at its original scope. Wheel SHA256 is recorded in the
+shipping receipt. The installed revision is16470ac0, not the earlier dirty stage.
+
+Waste review: no failed N3 attempt or duplicate build/install/stub campaign.
+Capacity was checked against the actual earlier full-disk failure (~3.3GB free
+before packaging). Reused the prior backend settings, runtime env and evidence.
+N2's fixture helper, atomic-write and actual expanded-text corrections remain
+applied; no recurrence occurred. Retain source/configuration-specific identities.
+
+REGION1 is locally verified for natural retained RGB/OD/stain sum/extrema/sample
+SD through the declared user routes. Broad raw/grid/plugin definitions, specimen
+acceptance, resource/speed, supported hosts and release remain open. N4 next traces
+remaining stain-estimation/model-registry behavior against existing native APIs
+and pinned definitions; no new implementation or campaign is inferred yet.

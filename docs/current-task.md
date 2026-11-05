@@ -1,59 +1,55 @@
 # Current implementation task
 
-Follow the [single queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
-and [REGION1 steps](api-delivery-plan.md#r7-region1-remaining-delivery-steps).
+Follow the [single queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work).
 All M0-M7 remain Partial; the full R2-R16 objective remains active.
 
-## State — N1/N2 complete; N3 installed closeout next
+## State — REGION1 locally verified; N4 trace next
 
-Native/shared moments, optional immutable retention, schema27/replay/ROI CSV2 and
-all Python/managed/ImGui/batch/CLI consumers are implemented and staged-verified.
-[Evidence and retained failures](benchmarks/region-statistics-r7/README.md#n2-staged-consumer-closeout--2026-11-05)
-include seven native suites, six SQL faults, project suite,57 first-run Python
-passes plus21 corrected migration cases, GUI cases, typing and14 stub checks.
-No REGION1 wheel/install has occurred. REGION1 is not yet workflow-complete.
+[REGION1 installed closeout](benchmarks/region-statistics-r7/README.md#n3-installed-workflow-closeout--2026-11-05)
+finishes the bounded natural RGB/OD/stain sum/extrema/sample-SD workflow. Seven
+installed cases, exact region/app shipping smoke,490 compiler inputs and65 hashed
+wheel/installed members pass. One wheel/install and one stub generation;58 staged
+public/dependency members and490 compiler inputs match the prior staged evidence.
+Native math/fault/legacy bounds and typing/UI evidence retain their original scope.
 
-Active source: build/ci/scientific-grid-159; cache: build/ci/gridfrontends167-package.
-Stage: build/region-statistics-r7/stage, loaded by the existing project-metadata-r5
-probe env via a plain .pth. Its old .pth is preserved. Root .venv is build/static
-only. Frozen installed GRID1 and its stage remain unchanged. All handles terminal.
-N2 source-tree SHA256 f8120edbdce5f7b69f3f8260c2529d0533a4dd04c7c167d4223ba98130b59cdd
-matches490 current compiler inputs; preserve original dirty source/product identity.
+Installed source:16470ac0bed8f1f8292ba8d37ff0cc836ba9c84a, clean package stamp.
+Wheel:build/region-statistics-r7/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl,
+SHA25662c80ced61191a15b03bba3d08b2faab391622e0455953e529866b6a281ccd5f.
+Runtime:build/ci/project-metadata-r5-env now contains REGION1. The prior GRID1
+wheel/stage/receipts remain preserved. Probe points at REGION1 stage; old .pth
+bytes are preserved. Root .venv is build/static only. All known handles terminal.
 
-## Next bounded task — N3
+## Next bounded task — N4 remaining R7 stain workflow trace
 
-First check current free capacity and the existing cached wheel backend. Prepare
-one REGION1 wheel using retained compatible products and a distinct output path.
-Build only required shipping targets if source/configuration or provenance needs
-it; no binding-source recompile/stub generation for unchanged interfaces. Use the
-existing isolated runtime env for one install after preserving its GRID1 receipt.
-Run installed region-statistics save/reopen/replay/export and affected CLI/GUI
-smoke, verify package members/RECORD, stubs and actual source/configuration scope.
-Reuse N1/N2 numerical, fault, typing and control evidence; no full campaign.
+First read docs/stain-estimation.md and docs/stain-transforms.md, then the existing
+stain_estimation.hpp/.cpp, stains.hpp/.cpp and their native/Python tests. Compare
+actual parameter/model ownership, estimation/application/save/reload and registry
+routes with the pinned upstream definitions and existing evidence. Reuse supplied
+vectors, bounded reservoirs, model identity and saved image settings; do not
+reimplement a delivered workflow or infer a missing registry from a family label.
 
-Exit: installed user route and shipping members agree with the settled source.
-Update coverage only for that bounded REGION1 route. N4 then chooses the next
-missing region/stain workflow from the existing R7 queue. All broader sampling,
-biology, whole-slide resource/speed, supported hosts and release exits stay open.
-Only openly licensed readers/codecs are eligible.
+Exit: identify one demonstrated missing user outcome, its existing API authority,
+fixture/independent expectation, prerequisites, affected consumers and smallest
+implementation/verification path; or close the trace by linking evidence and take
+the next ready R7/R8 slice. Contract precedes new fields or code. Trace needs no
+build/wheel/install/stub generation or new specimen corpus. Labels/tolerances
+block associated biological claims only. Openly licensed readers/codecs only.
+Broader raw/grid/plugin definitions, biology, whole-slide resource/speed, hosts,
+release and all M0-M7 exits remain open.
 
-## Latest closeout and waste review — N2 / 2026-11-05
+## Latest closeout and waste review — N3 / 2026-11-05
 
-- Outcome: combined build/stage, SDK/CLI,21 corrected legacy migration cases,
-  managed/GUI/batch flows, one stub pass, typing and public-stub checks pass.
-  Actual checkbox click retained statistics. Eight affected GUI cases pass after
-  the visual repair; the expanded saved summary is readable.
-- Actual waste: synthetic downgrade builders retained a new table; one Markdown
-  write hit full disk; shallow capture missed the control; raw summary text was
-  clipped despite zero reported overflow. One compiler belonged to imagejxx.
-- Applied action: shared versioned table-removal helper for19 legacy builders;
-  atomic UTF-8 writes; verified duplicate cleanup (~551MB, canonical files kept);
-  actual scrolled/expanded visual inspection; split min/max presentation lines;
-  observe only the confirmed project build. Preserve all failures and receipts.
-- Reuse/removal: original bindings build was resumed, never restarted. UI repair
-  compiled GUI and relinked products; unchanged stubs/typing/math were reused.
-  Do not repeat57 passing tests to repair one fixture. No new campaign or result
-  authority. Source/configuration scope is explicit in the N2 identity receipt.
-- Plan adjustment: N2 marked staged-verified; N3 first checks actual capacity.
-  The queue's UI rule now includes expanded raw text. Check whether these applied
-  corrections prevent recurrence at N3 closeout; update before any retry.
+- Outcome: one cached wheel and one isolated install pass; seven installed cases,
+  exact RGBA region extraction and empty-app smoke pass. Source/member receipts
+  bind the installed product to16470ac0 and the retained N1/N2 evidence.
+- Actual waste: no failed N3 attempt or duplicate campaign. Inspected actual app
+  flags before smoke rather than guessing a frame-limit flag. Capacity was checked
+  (~3.3GB before packaging), with no recurrence of the earlier full-disk failure.
+- Applied reuse: prior backend settings and isolated runtime; unchanged bindings,
+  stubs,490 inputs and58 dependency/public files. Only provenance/shipping products
+  refreshed. Keep GRID1 artifacts and all earlier failed receipts/screenshots.
+- Plan adjustment: REGION1 coverage marked only within its natural-statistics
+  scope. N4 traces remaining stain workflows before another implementation. The
+  full R2-R16/M0-M7 inventory stays active; local completion is no release/speed claim.
+- Next: perform the bounded document/code/reference trace above, then review actual
+  waste and update this card before the selected implementation task or retry.
