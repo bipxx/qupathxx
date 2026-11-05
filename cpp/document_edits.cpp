@@ -557,7 +557,7 @@ std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation
     }
     for(const auto& c:classes) {
         auto existing=staged.get_class(c.name);
-        if(existing && existing->color!=c.color) throw std::invalid_argument("import class color conflicts with existing definition");
+        if(existing && !(*existing==c)) throw std::invalid_argument("import class conflicts with existing definition");
         if(!existing) staged.write_class(c.name,c);
     }
     for(const auto& a:objects) {

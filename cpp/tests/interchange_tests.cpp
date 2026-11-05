@@ -26,6 +26,41 @@ int main() {
             rejected=false;try {import_geojson(source,"{}",true,true,true);} catch(const std::runtime_error&) {rejected=true;}
             check(rejected); return 0;
         }
+        {
+            Document hierarchy(Image::demo());
+            hierarchy.set_class_definition(ObjectClass::definition("Root",0x80123456));
+            hierarchy.set_class_definition(ObjectClass::definition("Root: Leaf",std::nullopt,"Root"));
+            hierarchy.set_class_definition(ObjectClass::definition("Root: Leaf: High",0xffabcdef,"Root: Leaf"));
+            hierarchy.set_class_definition(ObjectClass::definition("Literal: Flat",0x345678));
+            hierarchy.set_class_definition(ObjectClass::definition("Root: Literal: Leaf",0x345678,"Root"));
+            const auto object=hierarchy.add_detection(Roi::rectangle({1,2,3,4}),"Derived",0,"Root: Leaf: High");
+            const auto text=export_geojson(hierarchy,{object}).text;
+            check(text.find("\"version\":2")!=std::string::npos && text.find("\"names\":[\"Root\",\"Leaf\",\"High\"]")!=std::string::npos);
+            Document restored(Image::demo());const auto report=import_geojson(restored,text);
+            check(report.issues.empty() && restored.classes().size()==3 && restored.class_path("Root: Leaf: High")==std::vector<std::string>({"Root","Leaf","High"}));
+            for(const auto& [name,value]:restored.classes())check(value==hierarchy.object_class(name));
+            check(!restored.object_class("Root: Leaf").color_argb() && restored.object_class("Root").color_argb()==0x80123456);
+            check(restored.annotation(report.imported_ids.at(0)).geometry.area()==12);
+            check(restored.undo() && restored.classes().empty() && restored.object_count()==0 && restored.redo());
+            const auto all=export_geojson(hierarchy).text;Document all_restored(Image::demo());import_geojson(all_restored,all);
+            check(all_restored.class_path("Literal: Flat")==std::vector<std::string>({"Literal: Flat"}));
+            check(all_restored.class_path("Root: Literal: Leaf")==std::vector<std::string>({"Root","Literal: Leaf"}));
+            Document collision(Image::demo());collision.set_class("Root: Leaf",hierarchy.object_class("Root: Leaf").color);
+            const auto rev=collision.revision();bool refused=false;
+            try {import_geojson(collision,text);}catch(const std::invalid_argument&){refused=true;}
+            check(refused && collision.revision()==rev && collision.object_count()==0 && collision.classes().size()==1);
+            auto corrupt=text;const auto pos=corrupt.find("2148676694");check(pos!=std::string::npos);corrupt.replace(pos,10,"2148676695");
+            refused=false;try {import_geojson(collision,corrupt);}catch(const std::invalid_argument&){refused=true;}check(refused && collision.revision()==rev);
+            Document legacy(Image::demo());legacy.set_class("Legacy: Flat",0x123456);
+            check(export_geojson(legacy).text.find("\"version\":1")!=std::string::npos);
+            const std::string derived=R"({"type":"Feature","geometry":{"type":"Point","coordinates":[1,2]},"properties":{"classification":{"names":["Foreign","Child"],"color":[18,52,86,128]}}})";
+            Document foreign_classes(Image::demo());import_geojson(foreign_classes,derived,true);
+            check(foreign_classes.class_path("Foreign: Child")==std::vector<std::string>({"Foreign","Child"}) && foreign_classes.object_class("Foreign: Child").color_argb()==0x80123456);
+            check(!foreign_classes.object_class("Foreign").color_argb());
+            const auto foreign_text=export_geojson(foreign_classes).text;Document foreign_restored(Image::demo());import_geojson(foreign_restored,foreign_text);
+            check(foreign_restored.classes()==foreign_classes.classes());
+            std::cout<<"Class interchange: ancestry, raw ARGB/absence, ancestor closure, flat identity, undo and atomic collision/corruption refusal passed\n";
+        }
         const std::string foreign=R"({"type":"Feature","geometry":{"type":"Polygon","isEllipse":true,"coordinates":[[[1.123,2.234],[3.987,2.234],[3.987,5.876],[1.123,5.876],[1.123,2.234]]]},"properties":{}})";
         Document precision(Image::demo());bool precision_rejected=false;
         if(has_geos()) {
