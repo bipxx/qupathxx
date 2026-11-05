@@ -1,5 +1,6 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupath_saved_data.hpp"
+#include "qupathxx/image_data_properties.hpp"
 #include <stdexcept>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
 #include "strict_json.hpp"
@@ -380,10 +381,81 @@ class Decoder {
         for(int i=1;i<=(third?3:2);++i) {basis.push_back(vector("Values "+std::to_string(i)));names.push_back(root.at("Stain "+std::to_string(i)).get<std::string>());}
         return ImageAnalysisSettings(type,basis,vector("Background"),root.at("Name").get<std::string>(),std::move(names));
     }
+    struct UnsupportedProperty : std::runtime_error {using std::runtime_error::runtime_error;};
+    using Property=ImageDataValue;
+    std::vector<std::pair<Id,Id>> property_map(Id id) const {
+        const auto name=stream.name(id);std::vector<std::pair<Id,Id>> out;
+        if(name=="java.util.Collections$EmptyMap")return out;
+        if(name=="java.util.Collections$SingletonMap")return {{field(id,"k"),field(id,"v")}};
+        const std::vector<Id>* values=nullptr;bool collser=false;
+        if(name=="java.util.HashMap" || name=="java.util.LinkedHashMap") {
+            const auto found=at(id).extras.find("java.util.HashMap");if(found==at(id).extras.end())invalid("missing property map data");values=&found->second;
+        } else if(name=="java.util.CollSer" && int_field(id,"tag")==3) {values=&extra(id);collser=true;}
+        else throw UnsupportedProperty("unsupported map class "+name);
+        Data d(stream,*values);if(!collser)d.integer(4);const auto count=d.integer(4);
+        if(collser && count%2)invalid("odd immutable property map entry count");const auto n=collser?count/2:count;
+        if(n>ImageDataProperties::max_entries)invalid("ImageData map exceeds 4096 entries");
+        for(std::size_t i=0;i<n;++i) {const auto key=d.object(),value=d.object();out.emplace_back(key,value);}d.finish();return out;
+    }
+    Property property_scalar(char type,std::uint64_t bits) const {
+        if(type=='Z') {if(bits>1)invalid("invalid property boolean");return Property{bool(bits)};}
+        if(type=='F' || type=='D')return Property{floating(bits,type=='F')};
+        if(type=='C') {
+            if(bits>=0xd800 && bits<=0xdfff)throw UnsupportedProperty("isolated UTF-16 character surrogate");
+            std::string s;if(bits<128)s+=char(bits);else if(bits<2048) {s+=char(0xc0|(bits>>6));s+=char(0x80|(bits&63));}
+            else {s+=char(0xe0|(bits>>12));s+=char(0x80|((bits>>6)&63));s+=char(0x80|(bits&63));}return Property{std::move(s)};
+        }
+        std::int64_t value=0;
+        if(type=='J')std::memcpy(&value,&bits,8);
+        else {const unsigned width=type=='B'?8:type=='S'?16:32;value=std::int64_t(bits);if(bits&(std::uint64_t(1)<<(width-1)))value-=(std::int64_t(1)<<width);}
+        return Property{value};
+    }
+    Property property_value(Id id,std::set<Id>& active,std::size_t& nodes,std::size_t depth) const {
+        if(depth>ImageDataProperties::max_depth || ++nodes>ImageDataProperties::max_nodes)invalid("ImageData property depth/node limit exceeded");
+        if(!id)return {};
+        if(at(id).kind==Node::Text)return Property{text(id)};
+        if(!active.insert(id).second)throw UnsupportedProperty("cyclic value");
+        struct Pop {std::set<Id>& active;Id id;~Pop(){active.erase(id);}} pop{active,id};
+        const auto name=stream.name(id);
+        static const std::pair<const char*,char> wrappers[]={{"Boolean",'Z'},{"Byte",'B'},{"Short",'S'},{"Integer",'I'},{"Long",'J'},{"Float",'F'},{"Double",'D'},{"Character",'C'}};
+        for(const auto& item:wrappers)
+            if(name==std::string("java.lang.")+item.first)return property_scalar(item.second,number(field(id,"value"),item.second));
+        if(name=="java.util.Collections$UnmodifiableMap")return property_value(field(id,"m"),active,nodes,depth);
+        if(name=="java.util.Collections$UnmodifiableList" || name=="java.util.Collections$UnmodifiableRandomAccessList")return property_value(field(id,"list"),active,nodes,depth);
+        if(at(id).kind==Node::Array) {
+            Property::List out;
+            if(name.size()<2 || name[0]!='[')invalid("invalid property array");
+            if(name[1]=='L' || name[1]=='[') {if(at(id).values.size()>ImageDataProperties::max_entries)invalid("ImageData array exceeds 4096 entries");for(auto item:at(id).values)out.push_back(property_value(item,active,nodes,depth+1));}
+            else {
+                const unsigned width=(name[1]=='B' || name[1]=='Z')?1:(name[1]=='S' || name[1]=='C')?2:(name[1]=='F' || name[1]=='I')?4:8;
+                const auto& bytes=at(id).bytes;if(bytes.size()/width>ImageDataProperties::max_entries)invalid("ImageData array exceeds 4096 entries");
+                for(std::size_t i=0;i<bytes.size();i+=width) {if(depth+1>ImageDataProperties::max_depth || ++nodes>ImageDataProperties::max_nodes)invalid("ImageData property depth/node limit exceeded");std::uint64_t b=0;for(unsigned j=0;j<width;++j)b=(b<<8)|static_cast<unsigned char>(bytes[i+j]);out.push_back(property_scalar(name[1],b));}
+            }
+            return Property{std::move(out)};
+        }
+        if(name=="java.util.ArrayList" || name=="java.util.Arrays$ArrayList" || name=="java.util.Collections$SingletonList" || name=="java.util.Collections$EmptyList" || name=="java.util.LinkedList" || (name=="java.util.CollSer" && (int_field(id,"tag")==1 || int_field(id,"tag")==4))) {
+            std::vector<Id> items;
+            if(name=="java.util.Collections$SingletonList")items.push_back(field(id,"element"));
+            else if(name=="java.util.Collections$EmptyList") {}
+            else if(name=="java.util.LinkedList" || (name=="java.util.CollSer" && int_field(id,"tag")==4)) {Data d(stream,extra(id));const auto n=d.integer(4);if(n>ImageDataProperties::max_entries)invalid("ImageData list exceeds 4096 entries");for(std::size_t i=0;i<n;++i)items.push_back(d.object());d.finish();}
+            else items=list(id);
+            Property::List out;for(auto item:items)out.push_back(property_value(item,active,nodes,depth+1));return Property{std::move(out)};
+        }
+        if(name=="java.util.HashMap" || name=="java.util.LinkedHashMap" || name=="java.util.Collections$EmptyMap" || name=="java.util.Collections$SingletonMap" || (name=="java.util.CollSer" && int_field(id,"tag")==3)) {
+            const auto items=property_map(id);std::set<std::string> keys;
+            for(const auto& [k,v]:items) {if(at(k).kind!=Node::Text)throw UnsupportedProperty("non-string map key");if(!keys.insert(text(k)).second)invalid("duplicate property map key");}
+            Property::Map out;for(const auto& [k,v]:items)out.emplace(text(k),property_value(v,active,nodes,depth+1));return Property{std::move(out)};
+        }
+        throw UnsupportedProperty("unsupported class "+name);
+    }
     void properties(Id id) {
-        if(stream.name(id)!="java.util.HashMap")invalid("unsupported image properties map");
-        Data d(stream,extra(id));d.integer(4);const auto n=d.integer(4);if(n>1000000)invalid("too many image properties");
-        for(std::size_t i=0;i<n;++i) {auto key=text(d.object());d.object();if(key!="PROJECT_ENTRY_ID")issue("image_settings_dropped","ImageData properties are not migrated");}d.finish();
+        Property::Map out;std::set<std::string> keys;std::size_t nodes=1;
+        for(const auto& [k,v]:property_map(id)) {
+            const auto key=text(k);if(!keys.insert(key).second)invalid("duplicate ImageData property key");if(key=="PROJECT_ENTRY_ID")continue;
+            std::set<Id> active{id};try {out.emplace(key,property_value(v,active,nodes,1));}
+            catch(const UnsupportedProperty& e) {issue("image_property_dropped","ImageData property '"+key+"' is not migrated: "+e.what());}
+        }
+        if(!out.empty())result.data_properties=std::make_shared<const ImageDataProperties>(std::move(out));
     }
 public:
     explicit Decoder(const Stream& s):stream(s) {}
@@ -401,7 +473,7 @@ public:
             result.pixel_width_um=axis("pixelWidth");result.pixel_height_um=axis("pixelHeight");
         }
         if(metadata.value("sizeZ",1)>1 || metadata.value("sizeT",1)>1)issue("image_settings_dropped","Source Z/time calibration is retained; saved ImageData calibration overrides are not applied");
-        bool hierarchy=false,eof=false,type_seen=false,stains_seen=false;std::string image_type="UNSET",stains_text;
+        bool hierarchy=false,eof=false,type_seen=false,stains_seen=false,properties_seen=false;std::string image_type="UNSET",stains_text;
         for(std::size_t i=2;i<values.size();++i) {
             const auto id=values[i];if(!id)continue;const auto name=stream.name(id);
             if(at(id).kind==Node::Text && at(id).text=="EOF") {if(i+1!=values.size())invalid("trailing data after EOF");eof=true;break;}
@@ -413,7 +485,7 @@ public:
                 if(field(id,"tmaGrid"))issue("tma_grid_dropped","Saved TMA grid structure is not migrated by this decoder");
                 Json collection={{"type","FeatureCollection"},{"features",object(field(id,"rootObject"),0,true)}};
                 result.geojson=collection.dump();if(result.geojson.size()>256ull*1024*1024)invalid("decoded geometry exceeds 256 MiB");
-            } else if(name=="java.util.HashMap")properties(id);
+            } else if(name=="java.util.HashMap") {if(properties_seen)invalid("duplicate ImageData property map");properties_seen=true;properties(id);}
             else if(name=="qupath.lib.color.ColorDeconvolutionStains") {
                 if(stains_seen)invalid("duplicate saved stain settings");stains_seen=true;Data d(stream,extra(id));if(d.integer(4)!=1)invalid("unsupported stain settings version");const auto text_id=d.object();if(at(text_id).kind!=Node::Text)invalid("saved stains must contain text");stains_text=at(text_id).text;d.finish();
             }

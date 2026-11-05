@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/object_properties.hpp"
+#include "qupathxx/image_data_properties.hpp"
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
@@ -59,6 +60,12 @@ int main() {
         check(facts.undo() && !facts.image_analysis_settings() && facts.redo() && facts.image_analysis_settings()->equals(defaults));
         facts.set_image_analysis_settings({});check(!facts.image_analysis_settings() && facts.undo() && facts.image_analysis_settings()->equals(defaults));
         std::cout<<"Native image defaults: owned values, history, clear and unchanged ROI/render authority passed\n";
+        auto data=std::make_shared<const ImageDataProperties>(ImageDataValue::Map{{"exact",ImageDataValue{std::int64_t(9007199254740993LL)}},{"nested",ImageDataValue{ImageDataValue::List{ImageDataValue{true},ImageDataValue{}}}}});
+        const auto data_render=facts.render_revision(),data_structure=facts.structure_revision();facts.set_image_data_properties(data);
+        check(facts.image_data_properties()==data && facts.render_revision()==data_render && facts.structure_revision()==data_structure);
+        check(facts.undo() && !facts.image_data_properties() && facts.redo() && facts.image_data_properties()==data);
+        facts.set_image_data_properties({});check(!facts.image_data_properties() && facts.undo() && facts.image_data_properties()==data);
+        std::cout<<"Native ImageData properties: typed values, immutable history, clear and unchanged render/ROI authority passed\n";
         std::cout<<"Atomic edits, subtree restore, calibration and bounded undo passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

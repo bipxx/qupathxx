@@ -151,7 +151,7 @@ def test_schema5_upgrade_is_transactional(tmp_path):
     doc,_,_,_,_=setup();project=q.Project();project.add_document(doc)
     path=tmp_path/"v5.qpxproj";project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links");db.execute("PRAGMA user_version=5")
         db.execute("CREATE TRIGGER fail_links BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'injected link migration'); END")
     loaded=q.Project.open(str(path));before=path.read_bytes()

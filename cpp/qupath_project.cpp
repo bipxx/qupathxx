@@ -194,6 +194,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 const auto imported=import_geojson(*doc,decoded.geojson,true,true);
                 doc->set_image_properties(decoded.image_properties);
                 doc->set_image_analysis_settings(decoded.image_settings);
+                doc->set_image_data_properties(decoded.data_properties);
                 info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
                 for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
                 for(auto issue:decoded.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}

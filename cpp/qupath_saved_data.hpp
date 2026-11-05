@@ -9,6 +9,7 @@ struct QuPathSavedData {
     std::vector<InterchangeIssue> issues;
     std::shared_ptr<const ObjectProperties> image_properties;
     std::optional<ImageAnalysisSettings> image_settings;
+    std::shared_ptr<const ImageDataProperties> data_properties;
 };
 QuPathSavedData decode_qupath_saved_data(const std::string&,const std::atomic<bool>* cancelled=nullptr);
 }

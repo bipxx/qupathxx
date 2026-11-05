@@ -15,6 +15,7 @@
 #include "qupathxx/image_analysis_settings.hpp"
 
 namespace qpx {
+class ImageDataProperties;
 namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;class SpatialFrontend;struct TmaIndex;}
 class RawAnalysisRequest;class RawAnalysisResult;struct RawAnalysisRecord;
 struct TmaGridOptions;
@@ -203,6 +204,8 @@ public:
     void set_image_properties(std::shared_ptr<const ObjectProperties> properties={});
     const std::optional<ImageAnalysisSettings>& image_analysis_settings() const {return image_analysis_settings_;}
     void set_image_analysis_settings(std::optional<ImageAnalysisSettings> settings={});
+    std::shared_ptr<const ImageDataProperties> image_data_properties() const {return image_data_properties_;}
+    void set_image_data_properties(std::shared_ptr<const ImageDataProperties> properties={});
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
@@ -491,7 +494,7 @@ private:
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
         std::optional<double> pixel_width,std::optional<double> pixel_height,
-        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={},std::optional<ImageAnalysisSettings> image_settings={});
+        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={},std::optional<ImageAnalysisSettings> image_settings={},std::shared_ptr<const ImageDataProperties> data_properties={});
     const Annotation& find(std::uint64_t id) const;
     void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
@@ -509,6 +512,7 @@ private:
         std::shared_ptr<const ObjectProperties> before,after;
     };
     static std::shared_ptr<const ObjectProperties> normalize_image_properties(std::shared_ptr<const ObjectProperties>);
+    struct ImageDataPropertiesHistory {std::shared_ptr<const ImageDataProperties> before,after;};
     struct ImageSettingsHistory {std::optional<ImageAnalysisSettings> before,after;};
     struct EditRecord {
         ObjectPatch before,after;
@@ -519,6 +523,7 @@ private:
         ClassificationHistory classifications{};
         std::shared_ptr<const ImagePropertiesHistory> image_properties;
         std::shared_ptr<const ImageSettingsHistory> image_settings;
+        std::shared_ptr<const ImageDataPropertiesHistory> data_properties;
     };
     struct Staging;
     std::shared_ptr<const detail::TmaIndex> tma_index_;
@@ -537,6 +542,7 @@ private:
     std::map<std::uint64_t,Annotation> objects_;
     std::shared_ptr<const ObjectProperties> image_properties_;
     std::optional<ImageAnalysisSettings> image_analysis_settings_;
+    std::shared_ptr<const ImageDataProperties> image_data_properties_;
     struct ObjectBlock;
     // Published blocks are immutable. Captures copy block handles, never live
     // map nodes; edits prepare replacements before committing canonical state.

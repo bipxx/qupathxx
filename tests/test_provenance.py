@@ -104,7 +104,7 @@ def test_all_three_archives_preserve_capture_facts_after_save_reopen_and_recheck
 def test_schema6_legacy_archives_remain_explicitly_unknown_and_migrate_transactionally(tmp_path):
     doc,_,ids,_=results();project=q.Project();image=project.add_document(doc);path=tmp_path/"legacy.qpxproj";project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("PRAGMA user_version=6")
         db.execute("CREATE TRIGGER fail_provenance BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'injected provenance migration'); END")
     loaded=q.Project.open(str(path));legacy=loaded.document(image)

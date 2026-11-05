@@ -55,12 +55,15 @@ def test_saved_settings_losses_require_review_and_explicit_admission(tmp_path):
     path=corpus(tmp_path,'losses');preview=q.preview_qupath_project(str(path))
     codes={issue.code for issue in preview.issues}
     assert not {'object_metadata_dropped','object_measurements_dropped','object_color_dropped','object_lock_dropped'} & codes
-    assert {'classification_hierarchy_flattened','workflow_dropped','image_settings_dropped'}<=codes
+    assert {'classification_hierarchy_flattened','workflow_dropped'}<=codes
+    assert not {'image_settings_dropped','image_property_dropped'} & codes
     output=tmp_path/'loss.qpxproj'
     with pytest.raises(ValueError,match='loss'):preview.import_new(str(output))
     assert not output.exists() and not preview.consumed
     preview.import_new(str(output),allow_losses=True)
-    obj=q.Project.open(str(output)).document(preview.images[0].native_id).annotations[0]
+    doc=q.Project.open(str(output)).document(preview.images[0].native_id)
+    assert doc.image_data_properties.values=={'synthetic':'value'}
+    obj=doc.annotations[0]
     assert obj.locked and obj.color_rgb==0x123456
     assert obj.properties.metadata=={'note':'saved note'} and obj.properties.measurements=={'Synthetic':3.5}
     assert obj.name=='Lossy' and obj.class_name=='Tumor: Positive'

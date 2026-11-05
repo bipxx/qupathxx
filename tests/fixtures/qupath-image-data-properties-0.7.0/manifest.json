@@ -1,0 +1,40 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "files": {
+    "project/data/1/data.qpdata": "757f2082b1588264b2ff83675403b76e8f59bfc233a293ae37cb5d454e6d438b",
+    "project/data/1/server.json": "79cb2362387cda1ece157b706ef0f06858fb2aed6283f183b8e78f35abf48271",
+    "project/data/1/summary.json": "0d6e13d1bec4954f145b9acd97ad2c9c37e99dfce6836c03bf280a6a1759fdc4",
+    "project/data/2/data.qpdata": "985aa04ddd4c95a710c97bef461a2a17556ca2bb355b954c36c86eaf3207e793",
+    "project/data/2/server.json": "79cb2362387cda1ece157b706ef0f06858fb2aed6283f183b8e78f35abf48271",
+    "project/data/2/summary.json": "ab590854a41588a9b44b4af64a73b919d10c4a12a6c1bf73fc7596e03bf6838e",
+    "project/data/3/data.qpdata": "33c49006911f72511e45e50e62e53afc58adc9a569daff00468d9a567009f438",
+    "project/data/3/server.json": "79cb2362387cda1ece157b706ef0f06858fb2aed6283f183b8e78f35abf48271",
+    "project/data/3/summary.json": "6065242751e29462ebe9d40bfa5bc7c8df71bd6146dc60e66eb7236be073386b",
+    "project/data/4/data.qpdata": "e568a8c56d1b01a2104c4c37b8fe2cfb517c2e3fe64caed762fa207bb4572e52",
+    "project/data/4/server.json": "79cb2362387cda1ece157b706ef0f06858fb2aed6283f183b8e78f35abf48271",
+    "project/data/4/summary.json": "7081b1a1e80bd26cf65f87a926889b147c6f55f9effcc3507e8df143e5321bef",
+    "project/data/5/data.qpdata": "f88b22866df6124f5bd8a31aeb9affd53fe954e8e8786c70f63b1d7c15508703",
+    "project/data/5/server.json": "79cb2362387cda1ece157b706ef0f06858fb2aed6283f183b8e78f35abf48271",
+    "project/data/5/summary.json": "3298cacafd95171ff5904de526da479c73bc3ad19c530fd2190dfe5a26f8589e",
+    "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "project/project.qpproj": "77fd7513bcaa6921eb31a6ec6879bfba119db7a3b9e434fb1dfbc926ae33b375",
+    "reference.json": "61e5978db24014cd03072499234a4e307374805b01fc3491e5bcc3add0299f68",
+    "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc"
+  },
+  "probes": {
+    "tools/upstream/qupath_image_data_properties_reference.groovy": "22f1bf285c9c52550aa4b84a4cc34ec696284acb423a9c8292909d3823d59a91"
+  }
+}

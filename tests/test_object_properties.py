@@ -100,7 +100,7 @@ def test_project_snapshot_isolation_and_exact_reopen(tmp_path):
 @pytest.mark.skipif(not q.has_project,reason='project')
 def test_schema15_migration_rollback_and_property_insert_fault(tmp_path):
     p,image,doc,obj,path=workspace(tmp_path)
-    with sqlite3.connect(path) as db:db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('PRAGMA user_version=15');db.execute("CREATE TRIGGER fail_insert BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property migration failed'); END")
+    with sqlite3.connect(path) as db:db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('PRAGMA user_version=15');db.execute("CREATE TRIGGER fail_insert BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'property migration failed'); END")
     restored=q.Project.open(str(path));target=restored.document(image);assert target.annotation(obj).properties is None
     target.set_object_properties(obj,q.ObjectProperties({'note':'retained'},{'Area':3.5}))
     with pytest.raises(RuntimeError,match='property migration failed'):restored.save(str(path))
@@ -125,7 +125,7 @@ def test_bad_property_rows_reject_before_publication(tmp_path,kind):
         elif kind=='orphan_object':db.execute("UPDATE object_properties SET object_id='999'")
         elif kind=='orphan_image':db.execute("UPDATE object_properties SET image_id='999'")
         elif kind=='oversized':db.execute('UPDATE object_properties SET payload=zeroblob(2097153)')
-        else:db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('CREATE TABLE object_properties(image_id TEXT,object_id TEXT,payload)');db.execute("INSERT INTO object_properties VALUES('1','1',3)")
+        else:db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('CREATE TABLE object_properties(image_id TEXT,object_id TEXT,payload)');db.execute("INSERT INTO object_properties VALUES('1','1',3)")
     with pytest.raises((ValueError,RuntimeError)):q.Project.open(str(path))
 
 

@@ -1,4 +1,5 @@
 #include "qupathxx/object_properties.hpp"
+#include "qupathxx/image_data_properties.hpp"
 #include "qupathxx/qupath_project.hpp"
 #include "qupathxx/project_source.hpp"
 #include "ascii_case.hpp"
@@ -56,6 +57,28 @@
 namespace qpx {
 namespace {
 std::mutex viewer_mutex;
+void image_data_value(const std::string& key,const ImageDataValue& v) {
+    ImGui::PushID(key.c_str());const char* label=key.empty()?"(empty key)":key.c_str();
+    const auto* list=std::get_if<ImageDataValue::List>(&v.value);const auto* map=std::get_if<ImageDataValue::Map>(&v.value);
+    if(list || map) {
+        const auto size=list?list->size():map->size();
+        if(ImGui::TreeNodeEx("value",size<=8?ImGuiTreeNodeFlags_DefaultOpen:0,"%s (%s, %zu)",label,list?"list":"map",size)) {
+            if(list)for(std::size_t i=0;i<list->size();++i)image_data_value(std::to_string(i),(*list)[i]);
+            else for(const auto& [k,item]:*map)image_data_value(k,item);
+            ImGui::TreePop();
+        }
+    } else {
+        ImGui::TextUnformatted(label);ImGui::SameLine();
+        switch(v.value.index()) {
+            case 0:ImGui::TextUnformatted("null");break;
+            case 1:ImGui::Text("bool: %s",std::get<bool>(v.value)?"true":"false");break;
+            case 2:ImGui::Text("integer: %lld",static_cast<long long>(std::get<std::int64_t>(v.value)));break;
+            case 3:ImGui::Text("real: %.17g",std::get<double>(v.value));break;
+            case 4:ImGui::TextUnformatted("text:");ImGui::SameLine();ImGui::TextUnformatted(std::get<std::string>(v.value).c_str());break;
+        }
+    }
+    ImGui::PopID();
+}
 std::string recovery_label(const RecoveryInfo& info) {
     if(!info.error.empty()) return "Unreadable recovery";
     auto seconds=static_cast<std::time_t>(info.created_unix_ms/1000); std::tm utc{};
@@ -1531,6 +1554,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             if(!interchange_status.empty()) ImGui::TextWrapped("%s",interchange_status.c_str());
+        }
+        if(const auto properties=document.image_data_properties();properties && ImGui::CollapsingHeader("ImageData properties (historical)",ImGuiTreeNodeFlags_DefaultOpen)) {
+            if(ImGui::BeginChild("image data properties",{0,200*ui_scale.logical},ImGuiChildFlags_Borders,ImGuiWindowFlags_HorizontalScrollbar))
+                for(const auto& [key,value]:properties->values())image_data_value(key,value);
+            ImGui::EndChild();
         }
         if(const auto& settings=document.image_analysis_settings();settings && ImGui::CollapsingHeader("Saved analysis defaults",ImGuiTreeNodeFlags_DefaultOpen)) {
             ImGui::TextUnformatted(settings->image_type().c_str());

@@ -124,7 +124,7 @@ def test_complete_different_valid_file_is_rejected_for_saved_link(tmp_path):
 @pytest.mark.parametrize('version',range(1,CURRENT_SCHEMA_VERSION))
 def test_legacy_schemas_load_and_transactionally_upgrade_to_schema18(tmp_path,version):
     project,image,doc,_,_=scene(tmp_path);source=tmp_path/'legacy.qpxproj';project.save(str(source))
-    tables=[(20,'image_analysis_settings'),(19,'image_properties'),(18,'object_planes'),(16,'object_properties'),(15,'source_verifications'),(14,'spatial_distance_records'),(13,'raw_analysis_records'),(12,'tiff_views'),(11,'tma_cores'),(11,'tma_grids'),(10,'pixel_stream_records'),(9,'pixel_classifier_records'),(8,'classifier_records'),(7,'analysis_provenance'),(6,'cell_feature_links'),(5,'cell_records'),(4,'tissue_records'),(3,'analysis_records'),(2,'views')]
+    tables=[(21,'image_data_properties'),(20,'image_analysis_settings'),(19,'image_properties'),(18,'object_planes'),(16,'object_properties'),(15,'source_verifications'),(14,'spatial_distance_records'),(13,'raw_analysis_records'),(12,'tiff_views'),(11,'tma_cores'),(11,'tma_grids'),(10,'pixel_stream_records'),(9,'pixel_classifier_records'),(8,'classifier_records'),(7,'analysis_provenance'),(6,'cell_feature_links'),(5,'cell_records'),(4,'tissue_records'),(3,'analysis_records'),(2,'views')]
     with sqlite3.connect(source) as db:
         for added,name in tables:
             if added>version:db.execute('DROP TABLE '+name)
@@ -138,7 +138,7 @@ def test_legacy_schemas_load_and_transactionally_upgrade_to_schema18(tmp_path,ve
 def test_schema9_migration_rolls_back_with_the_original_bytes_intact(tmp_path):
     project,_,_,_,_=scene(tmp_path);source=tmp_path/'legacy.qpxproj';project.save(str(source))
     with sqlite3.connect(source) as db:
-        db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute('DROP TABLE pixel_stream_records');db.execute('PRAGMA user_version=9')
         db.execute("CREATE TRIGGER fail_stream_migration BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected stream migration'); END")
     loaded=q.Project.open(str(source));before=source.read_bytes()

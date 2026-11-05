@@ -1,0 +1,442 @@
+[
+  {
+    "name": "portable-values",
+    "properties": {
+      "": {
+        "kind": "text",
+        "value": "empty key"
+      },
+      "array-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "bool",
+            "value": true
+          },
+          {
+            "kind": "null"
+          },
+          {
+            "kind": "integer",
+            "value": "9007199254740993"
+          },
+          {
+            "kind": "text",
+            "value": "共享"
+          }
+        ]
+      },
+      "arrays-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "a"
+          },
+          {
+            "kind": "text",
+            "value": "b"
+          }
+        ]
+      },
+      "beyond-double": {
+        "kind": "integer",
+        "value": "9007199254740993"
+      },
+      "bool": {
+        "kind": "bool",
+        "value": true
+      },
+      "booleans": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "bool",
+            "value": true
+          },
+          {
+            "kind": "bool",
+            "value": false
+          }
+        ]
+      },
+      "byte": {
+        "kind": "integer",
+        "value": "-128"
+      },
+      "bytes": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "integer",
+            "value": "-128"
+          },
+          {
+            "kind": "integer",
+            "value": "0"
+          },
+          {
+            "kind": "integer",
+            "value": "127"
+          }
+        ]
+      },
+      "character": {
+        "kind": "text",
+        "value": "α"
+      },
+      "chars": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "A"
+          },
+          {
+            "kind": "text",
+            "value": "α"
+          }
+        ]
+      },
+      "double": {
+        "kind": "real",
+        "value": "0x1.3c0ca428c59fbp0"
+      },
+      "doubles": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "real",
+            "value": "NaN"
+          },
+          {
+            "kind": "real",
+            "value": "Infinity"
+          },
+          {
+            "kind": "real",
+            "value": "-0x0.0p0"
+          },
+          {
+            "kind": "real",
+            "value": "0x1.4p0"
+          }
+        ]
+      },
+      "empty-list": {
+        "kind": "list",
+        "value": []
+      },
+      "empty-map": {
+        "kind": "map",
+        "value": {}
+      },
+      "float": {
+        "kind": "real",
+        "value": "0x1.4p0"
+      },
+      "floats": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "real",
+            "value": "NaN"
+          },
+          {
+            "kind": "real",
+            "value": "-Infinity"
+          },
+          {
+            "kind": "real",
+            "value": "-0x0.0p0"
+          },
+          {
+            "kind": "real",
+            "value": "0x1.4p0"
+          }
+        ]
+      },
+      "hash-map": {
+        "kind": "map",
+        "value": {
+          "nested": {
+            "kind": "list",
+            "value": [
+              {
+                "kind": "bool",
+                "value": false
+              },
+              {
+                "kind": "null"
+              },
+              {
+                "kind": "integer",
+                "value": "42"
+              }
+            ]
+          }
+        }
+      },
+      "immutable-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "a"
+          },
+          {
+            "kind": "text",
+            "value": "b"
+          }
+        ]
+      },
+      "immutable-map": {
+        "kind": "map",
+        "value": {
+          "a": {
+            "kind": "integer",
+            "value": "1"
+          },
+          "b": {
+            "kind": "bool",
+            "value": false
+          }
+        }
+      },
+      "int": {
+        "kind": "integer",
+        "value": "-2147483648"
+      },
+      "ints": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "integer",
+            "value": "-2147483648"
+          },
+          {
+            "kind": "integer",
+            "value": "2147483647"
+          }
+        ]
+      },
+      "linked-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "linked"
+          },
+          {
+            "kind": "bool",
+            "value": false
+          }
+        ]
+      },
+      "linked-map": {
+        "kind": "map",
+        "value": {
+          "a": {
+            "kind": "text",
+            "value": "first"
+          },
+          "z": {
+            "kind": "integer",
+            "value": "1"
+          }
+        }
+      },
+      "longs": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "integer",
+            "value": "-9223372036854775808"
+          },
+          {
+            "kind": "integer",
+            "value": "9223372036854775807"
+          }
+        ]
+      },
+      "max-long": {
+        "kind": "integer",
+        "value": "9223372036854775807"
+      },
+      "min-long": {
+        "kind": "integer",
+        "value": "-9223372036854775808"
+      },
+      "nan": {
+        "kind": "real",
+        "value": "NaN"
+      },
+      "negative-infinity": {
+        "kind": "real",
+        "value": "-Infinity"
+      },
+      "negative-zero": {
+        "kind": "real",
+        "value": "-0x0.0p0"
+      },
+      "null": {
+        "kind": "null"
+      },
+      "nullable-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "null"
+          },
+          {
+            "kind": "text",
+            "value": "x"
+          }
+        ]
+      },
+      "objects": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "array"
+          },
+          {
+            "kind": "null"
+          },
+          {
+            "kind": "bool",
+            "value": true
+          },
+          {
+            "kind": "integer",
+            "value": "7"
+          }
+        ]
+      },
+      "positive-infinity": {
+        "kind": "real",
+        "value": "Infinity"
+      },
+      "shared-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "bool",
+            "value": true
+          },
+          {
+            "kind": "null"
+          },
+          {
+            "kind": "integer",
+            "value": "9007199254740993"
+          },
+          {
+            "kind": "text",
+            "value": "共享"
+          }
+        ]
+      },
+      "short": {
+        "kind": "integer",
+        "value": "-32768"
+      },
+      "shorts": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "integer",
+            "value": "-32768"
+          },
+          {
+            "kind": "integer",
+            "value": "32767"
+          }
+        ]
+      },
+      "singleton-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "text",
+            "value": "one"
+          }
+        ]
+      },
+      "singleton-map": {
+        "kind": "map",
+        "value": {
+          "only": {
+            "kind": "text",
+            "value": "one"
+          }
+        }
+      },
+      "unicode": {
+        "kind": "text",
+        "value": "Ω α 🧬"
+      },
+      "unmodifiable-map": {
+        "kind": "map",
+        "value": {
+          "a": {
+            "kind": "bool",
+            "value": false
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "unsupported-values",
+    "properties": {
+      "cycle": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "unsupported",
+            "type": "cycle"
+          }
+        ]
+      },
+      "non-string-map": {
+        "kind": "unsupported",
+        "type": "non-string-map"
+      },
+      "retained": {
+        "kind": "text",
+        "value": "safe"
+      },
+      "unknown-in-list": {
+        "kind": "list",
+        "value": [
+          {
+            "kind": "integer",
+            "value": "1"
+          },
+          {
+            "kind": "unsupported",
+            "type": "java.util.UUID"
+          }
+        ]
+      },
+      "uuid": {
+        "kind": "unsupported",
+        "type": "java.util.UUID"
+      }
+    }
+  },
+  {
+    "name": "depth-limit",
+    "properties": {}
+  },
+  {
+    "name": "text-limit",
+    "properties": {}
+  },
+  {
+    "name": "count-limit",
+    "properties": {}
+  }
+]

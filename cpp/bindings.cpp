@@ -31,6 +31,7 @@ void bind_raw_analysis(nb::module_&);
 void bind_arrays(nb::module_&);
 void bind_object_properties(nb::module_&);
 void bind_image_analysis_settings(nb::module_&);
+void bind_image_data_properties(nb::module_&);
 void bind_clipboard(nb::module_&);
 void bind_thumbnails(nb::module_&);
 void bind_scientific_grid(nb::module_&);
@@ -471,6 +472,7 @@ NB_MODULE(_native, m) {
     bind_provenance(m);
     bind_object_properties(m);
     bind_image_analysis_settings(m);
+    bind_image_data_properties(m);
     bind_clipboard(m);
     bind_file_fingerprint(m);
     bind_tma(m);
