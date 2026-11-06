@@ -7,6 +7,11 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Tissue-aware cell density, radius neighborhoods and nearest-centroid distances
+  share native kernels across Python, CLI and ImGui. See the
+  [density guide](docs/benchmarks/density-workflow/README.md) and
+  [Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4).
+
 - Native tissue microarray grids support undoable core edits, missing flags,
   case IDs, project persistence, per-core analysis and CSV exports through
   Python and ImGui; see [tissue microarrays](docs/tissue-microarrays.md).

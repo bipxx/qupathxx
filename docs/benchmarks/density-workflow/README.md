@@ -2,10 +2,34 @@
 
 Measure selected Cell centroids per mm² of valid tissue inside each selected ROI.
 The C++ kernel owns geometry, calibration, counting, retention and CSV; Python,
-CLI and ImGui use that authority. Local native evidence is in [native.json](native.json)
-and [native-tests.log](native-tests.log). Consumers and the shipping candidate are
-still being checked; see the [current task](../../current-task.md) and
-[coverage checklist](../../density-coverage.md).
+CLI and ImGui use that authority. [Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4)
+is public with19 verified assets and all40 selected requirements closed. See the
+[delivery receipt](delivery.md), [installed workflow](installed-workflow.json),
+[installation identity](installation.json) and [coverage checklist](../../density-coverage.md).
+Native source is cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2; compiler-input tree
+5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e.
+
+## Install and open the example
+
+Use CPython3.12 x64 and a new environment; candidate wheels share version0.1.0.
+
+```powershell
+py -3.12 -m venv C:/data/qupathxx-candidate4-env
+C:/data/qupathxx-candidate4-env/Scripts/python.exe -m pip install "C:/downloads/qupathxx-0.1.0-4-cp312-cp312-win_amd64.whl[arrays]"
+```
+
+For standalone use, extract the entire native ZIP and keep EXEs, DLLs, fonts and
+licenses together. Native EXEs do not need Python. Desktop use requires a Microsoft
+Visual C++ x64 runtime and an OpenGL3.2 desktop/driver.
+
+```powershell
+qupathxx_app.exe --project C:/data/density-example.qpxproj
+```
+
+Spatial... -> Tissue cell density -> record17 -> Inspect. The example embeds its
+256x256 crop and506 imported reference Cells. Its tissue/holes/exclusions are
+declared synthetic geometry, not biological ground truth. Counts are289,121,168,0;
+valid areas are40576,17536,23040,0 pixels. The last density is Undefined.
 
 ## Scientific contract
 
@@ -118,6 +142,6 @@ styling differences from QuPath are outside the parity target.
   the next save upgrades transactionally. Existing QSD1/QSN1 payloads are preserved.
 - Selected local support remains Windows x64, CPython3.12, MSVC runtime and an
   OpenGL3.2 desktop for ImGui. The project uses AGPL-3.0-only and openly licensed
-  readers/codecs. Delivery-specific install/assets/source identity will be linked
-  here after the candidate is verified. This phase makes no speed-superiority,
+  readers/codecs. Matching raw application/dependency sources and runtime/install
+  receipts accompany the candidate. This phase makes no speed-superiority,
   full QuPath parity, additional-platform or biological validation claim.

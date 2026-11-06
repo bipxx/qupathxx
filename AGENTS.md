@@ -31,9 +31,9 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
 
 - Keep one in-progress user outcome. For the selected checkpoint, finish open
   the workflow named in current-task.md using existing native authorities.
-  Candidates2/3 are delivered and remain frozen. The current density phase is
-  selected by the owner's continuation; do not replay earlier delivery campaigns
-  or automatically select every R9 extension.
+  Candidates2/3/4 are delivered and remain frozen. The density phase is closed;
+  do not replay delivery campaigns or start an unselected R9 extension without
+  a new owner need.
 - Pull new work into that outcome only for a demonstrated blocker, correctness
   failure or invalidated evidence. Put other findings in their existing R row.
   Park optional PRESET1 consumers unless this workflow requires named presets.
@@ -55,6 +55,9 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
   binding/stub generation and install where changes require them. Do not package
   each intermediate substep. Keep SDK, UI and CLI thin over the same native logic.
 - Follow the [validation policy](docs/api-delivery-plan.md#validation-and-build-policy).
+  Order cheap changed CLI/frontend targets before the large binding target in
+  a combined cached build. Preserve passing binding objects for later consumer
+  repairs; rebuild/relink only affected inputs.
   Documentation needs link/diff checks, not product builds. Use affected native
   tests for changed kernels and missing installed-route checks for consumers.
   Full platform/corpus/qualification runs require a release checkpoint or named

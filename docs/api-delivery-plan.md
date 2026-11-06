@@ -26,7 +26,9 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Next phase: tissue-aware ROI cell density
 
-Implementation selected by the owner's continuation after candidate3. The
+[Delivered in Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4).
+All40 selected requirements are closed; see the
+[delivery receipt](benchmarks/density-workflow/delivery.md). No further phase is selected. The
 [current card](current-task.md) defines the scientific contract and ordered
 T1-T5 delivery. [Density coverage](density-coverage.md) owns requirement/evidence
 tracking; the completed neighborhood checklist is preserved separately.
@@ -45,8 +47,8 @@ candidate and matching public sources; reuse unchanged dependency inventories.
 [Delivered in Windows candidate3](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3).
 The [coverage checklist](neighborhood-coverage.md) closes all50 requirements;
 [delivery evidence](benchmarks/neighborhood-workflow/delivery.md) records the
-exact source/support. No further neighborhood work is selected; the density phase
-above is now active.
+exact source/support. Neighborhood and density additions are delivered; no
+further extension is selected.
 
 Selected implementation scope:answer "How many selected target cells are within radius R of
 each selected source cell?" through C++/nanobind Python and Windows ImGui, retain

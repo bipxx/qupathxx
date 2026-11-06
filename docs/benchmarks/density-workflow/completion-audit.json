@@ -1,0 +1,298 @@
+{
+  "scope": "All40 selected tissue-density requirements only; broader QuPath catalogue remains optional",
+  "source_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "requirements_closed": 40,
+  "requirements": {
+    "D01": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D02": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D03": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D04": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D05": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D06": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D07": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D08": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D09": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D10": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D11": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D12": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D13": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D14": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D15": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D16": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D17": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D18": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D19": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D20": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D21": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D22": {
+      "state": "verified",
+      "evidence": [
+        "native.json",
+        "native-tests.log"
+      ]
+    },
+    "D23": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D24": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D25": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D26": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D27": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D28": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "native.json",
+        "installed-workflow.json"
+      ]
+    },
+    "D29": {
+      "state": "verified",
+      "evidence": [
+        "installed-workflow.json",
+        "t3-gui-cancel.log",
+        "native-tests.log"
+      ]
+    },
+    "D30": {
+      "state": "verified",
+      "evidence": [
+        "installed-desktop.png",
+        "installed-workflow.json"
+      ]
+    },
+    "D31": {
+      "state": "verified",
+      "evidence": [
+        "consumers.json",
+        "delivery.md"
+      ]
+    },
+    "D32": {
+      "state": "verified",
+      "evidence": [
+        "installed-workflow.json"
+      ]
+    },
+    "D33": {
+      "state": "verified",
+      "evidence": [
+        "installation.json",
+        "candidate.json"
+      ]
+    },
+    "D34": {
+      "state": "verified",
+      "evidence": [
+        "installed-workflow.json"
+      ]
+    },
+    "D35": {
+      "state": "verified",
+      "evidence": [
+        "resources.json"
+      ]
+    },
+    "D36": {
+      "state": "verified",
+      "evidence": [
+        "candidate.json",
+        "installation.json"
+      ]
+    },
+    "D37": {
+      "state": "verified",
+      "evidence": [
+        "README.md",
+        "delivery.md"
+      ]
+    },
+    "D38": {
+      "state": "verified",
+      "evidence": [
+        "published-release.json",
+        "uploaded-assets.json"
+      ]
+    },
+    "D39": {
+      "state": "verified",
+      "evidence": [
+        "delivery.md"
+      ]
+    },
+    "D40": {
+      "state": "verified",
+      "evidence": [
+        "delivery.md"
+      ]
+    }
+  },
+  "published_assets_verified": 19,
+  "immutable_installed_members_verified": 67,
+  "source_inputs_verified": 515,
+  "dependency_archives_verified": 12,
+  "one_frozen_wheel": true,
+  "one_isolated_install": true,
+  "final_tools_runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\density-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "stop": "Selected T1-T5 outcome delivered. No new phase or validation campaign selected."
+}
