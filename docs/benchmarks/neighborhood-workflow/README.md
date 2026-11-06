@@ -3,8 +3,9 @@
 The new native operation counts selected target centroids within a chosen
 radius of each selected source centroid. C++, nanobind Python, the batch CLI
 and Windows ImGui share the same immutable capture, indexed kernel and native
-retention/export path. Candidate2 remains available separately; neighborhood
-delivery is pending the final frozen candidate/install and publication.
+retention/export path. The final locally installed candidate is frozen at native
+source618b0dd0; [package/install evidence](delivery.md) is complete and publication
+is pending. Candidate2 remains available separately.
 See the [live coverage checklist](../../neighborhood-coverage.md).
 
 ## Contract and limits
@@ -41,7 +42,19 @@ See the [live coverage checklist](../../neighborhood-coverage.md).
 The final Windows package requires CPython3.12 x64 for Python, the Microsoft
 Visual C++ x64 runtime, and an OpenGL3.2 desktop/driver for ImGui. Reader/codecs
 remain openly licensed; the project license is AGPL-3.0-only. Install the new
-wheel build tag3 when delivered; candidate2 does not expose this operation.
+wheel build tag3; candidate2 does not expose this operation. Use a new environment
+(the package version remains0.1.0 and candidate packages differ by build tag):
+
+```powershell
+py -3.12 -m venv C:/data/qupathxx-candidate3-env
+C:/data/qupathxx-candidate3-env/Scripts/python.exe -m pip install "C:/downloads/qupathxx-0.1.0-3-cp312-cp312-win_amd64.whl[arrays]"
+```
+
+Extract the entire native ZIP for standalone use; keep DLLs/fonts/licenses next
+to its EXEs. Open the supplied example with
+`qupathxx_app.exe --project neighborhood-example.qpxproj`, then Spatial... ->
+Radius count -> record3 -> Inspect. The sample embeds the captured crop and
+existing imported cells, so it needs no external slide file.
 
 Use existing objects in a native project:
 
@@ -132,4 +145,4 @@ The workflow reuses the repository's captured cells and crop. Its optional
 `--input-project`/`--expected` arguments reuse that prepared scene and passing
 count oracle for a final build whose native source tree is unchanged. Native
 source identities remain attached to the actual observed builds; final delivery
-will record its own clean revision and installed member/runtime checks.
+records its own clean revision and installed member/runtime checks in [the delivery receipt](delivery.md).

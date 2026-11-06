@@ -18,34 +18,36 @@ API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.
 
 Coverage is maintained in the [detailed checklist](neighborhood-coverage.md):
 requirements and source-scoped evidence, with the execution queue kept here.
-T1-T3 complete; coverage40/50 verified,10 pending final install/publication.
-Native radius/QSN1/project/CSV, Python/CLI, generated stubs/typing and actual ImGui
-run/keep/verify/export/save/reopen pass. The existing506-cell NDPI capture is
-imported into its256x256 crop with original calibration and translated geometry;
-no segmentation rerun. All506 count rows match an independent exhaustive oracle,
-Python/GUI CSV bytes agree, and standalone opens the Python project. The capture
-shows readable counts/radius/units and registered cell overlays with0 overflow.
-Actual20000-object GUI cancellation/retry passes. A separate20000-cell coincident
-case gives19999 neighbors each,399980000 distance tests,12.49 MB estimated native
-work and68.60 MB observed process peak; Python advances191 observer ticks during
-native wait. This is one local worst-case observation, not speed superiority.
+T1-T4 complete; coverage48/50 verified,2 pending publication/final closeout.
+Frozen native source618b0dd0a6f39cc062941c6ea524ac22cb863bc5, tree
+b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95.
+One cached wheel build (tag3) refreshed only provenance/linking and one isolated
+installation passes the506-cell Python/CLI/ImGui/CSV/verify/save/reopen route and
+standalone reopening. All67 immutable wheel members match the install; mapped
+GEOS/OpenSlide DLLs come from its package. Wheel/native runtime inspections pass;
+all506 raw compiler inputs match the source archive;12 unchanged dependency
+archives verify. The source tree matches the tested stage, so native oracle,
+quota/cancel/stale/legacy and dense/GIL evidence is reused within that scope.
+The20000-cell coincident observation has399980000 comparisons and68.60MB process
+peak, without a dense matrix or speed/RSS guarantee. Both inspected GUI captures
+show readable counts/radius/units and registered cell overlays,0 overflow.
 
-Next action:T4 freezes this settled source, builds one wheel/native candidate
-with build tag3 in the existing cache, installs once and checks final installed
-origin/member/runtime closure plus the changed506-cell route. Reuse the same
-source-tree-scoped native/count/resource evidence when only provenance changes.
-T5 ships matching raw-byte sources/notices and publishes the frozen assets;
-no additional API, parity, segmentation or platform campaign is selected.
+Next action:T5 publishes the frozen candidate assets after remote size/digest
+checks, then closes the checklist and support statement. No further build/API/
+segmentation/parity/platform campaign is selected. Detailed [delivery receipt](benchmarks/neighborhood-workflow/delivery.md)
+records support and disposable-state disposition. Final packages/runtime live in
+main build/neighborhood-workflow/delivery and build/neighborhood-workflow/installed.
 
-Waste review:T2's historical-schema generator omitted27/28 tables; only that
-test target was corrected/rerun. The T3 combined build finished production
-bindings/app/CLIs before the CLI test's missing header stopped it. Its include
-and two hidden GUI target flags were corrected; the repair compiled only the
-test, provenance and GUI, then reused binding objects. The Python run passed86
-cases; one stub checker incorrectly required a class definition for a genuine
-TypeAlias. The correction verifies runtime alias identity and canonical class
-members, passes its single rerun and both typing directions; no native rebuild.
-Original failed logs and corrected results are retained in the checklist links.
+Waste review:T2's schema generator omitted27/28 tables; only that test target
+was corrected/rerun. T3's missing CLI-test header and hidden GUI target flags
+needed only test/provenance/GUI compilation and relinks, reusing binding objects.
+The genuine TypeAlias required a stricter identity/canonical-member check, not a
+native rebuild. Package assembly's blanket embedded-build-identity assertion
+incorrectly covered the region-only utility, which does not link that authority;
+its exact cache/wheel/installed bytes are checked, while the app/batch/module
+embed the clean revision/tree. The partial draft/log is preserved; no binary
+changed and the final wheel was not rebuilt/reinstalled. Native/package/compiler
+and corresponding-source checks are complete; only publication remains.
 Keep candidate2 frozen and
 PRESET1 parked. After each task/failure, record the result, decisive check, waste
 and next task here; do not create another ledger or recurring review campaign.

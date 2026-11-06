@@ -11,8 +11,8 @@ decisive check outstanding; **Verified** = linked passing source-scoped evidence
 **Blocked** = named external constraint. A failure remains visible until its
 cause/correction and decisive rerun are recorded. Check boxes mean Verified.
 
-Current coverage:40/50 requirements verified;10 pending final package/install/
-publication. This is requirement coverage, not a time estimate or overall project
+Current coverage:48/50 requirements verified;2 pending publication and final
+closeout. This is requirement coverage, not a time estimate or overall project
 completion percentage.
 
 ## T1 — contract, capture, radius traversal and jobs
@@ -72,10 +72,10 @@ completion percentage.
 | Done | ID | Required behavior | State / evidence |
 | --- | --- | --- | --- |
 | [x] | N38 | Bounded calibrated scene uses existing retained/imported cell objects; no segmentation rewrite/requalification | Verified — [pinned 506-cell import and translated crop](benchmarks/neighborhood-workflow/scene.json), [workflow](benchmarks/neighborhood-workflow/staged-workflow.json); no segmentation rerun |
-| [ ] | N39 | Frozen candidate wheel/native source identity; one final isolated install and exact installed-member checks | Pending |
-| [ ] | N40 | Installed Python compute/inspect/keep/CSV/save/reopen/replay matches known counts | Pending |
-| [ ] | N41 | Installed ImGui compute/inspect/keep/CSV/save/reopen and standalone opening of Python project pass | Pending |
-| [ ] | N42 | One packaged CLI workflow passes; reuse native numerical evidence across wrappers | Pending |
+| [x] | N39 | Frozen candidate wheel/native source identity; one final isolated install and exact installed-member checks | Verified — [final installed identity/members](benchmarks/neighborhood-workflow/installation.json), [506-cell installed route](benchmarks/neighborhood-workflow/installed-workflow.json) |
+| [x] | N40 | Installed Python compute/inspect/keep/CSV/save/reopen/replay matches known counts | Verified — [final installed identity/members](benchmarks/neighborhood-workflow/installation.json), [506-cell installed route](benchmarks/neighborhood-workflow/installed-workflow.json) |
+| [x] | N41 | Installed ImGui compute/inspect/keep/CSV/save/reopen and standalone opening of Python project pass | Verified — [final installed identity/members](benchmarks/neighborhood-workflow/installation.json), [506-cell installed route](benchmarks/neighborhood-workflow/installed-workflow.json) and [inspected installed UI](benchmarks/neighborhood-workflow/installed-desktop.png) |
+| [x] | N42 | One packaged CLI workflow passes; reuse native numerical evidence across wrappers | Verified — [final installed identity/members](benchmarks/neighborhood-workflow/installation.json), [506-cell installed route](benchmarks/neighborhood-workflow/installed-workflow.json) |
 | [x] | N43 | Representative dense cohort records size, comparisons and resource observations; bounded/cancellable behavior; no unmeasured speed claim | Verified — [20000 coincident cells,399980000 comparisons,68.6 MB process peak](benchmarks/neighborhood-workflow/resources.json); stage source scoped; no general speed/RSS claim |
 | [x] | N44 | Changed-source cancellation/stale and old-nearest compatibility concerns covered by focused evidence, not full qualification replay | Verified — [T2 cancellation/stale/legacy evidence](benchmarks/neighborhood-workflow/t2-native.json), [T3 shared-mode regressions](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log), [actual GUI cancellation](benchmarks/neighborhood-workflow/t3-gui-cancel.log) |
 
@@ -83,12 +83,12 @@ completion percentage.
 
 | Done | ID | Required behavior | State / evidence |
 | --- | --- | --- | --- |
-| [ ] | N45 | Frozen Windows wheel/native package with runtime/archive/notices/license checks; AGPL project license, openly licensed readers/codecs | Pending |
-| [ ] | N46 | Matching raw-byte application source inputs and authenticated unchanged dependency sources accompany delivery | Pending |
-| [ ] | N47 | Example/install/run guide explains cohorts, centroid semantics, radius/units, budgets, cancellation and saved-result limits | Pending |
+| [x] | N45 | Frozen Windows wheel/native package with runtime/archive/notices/license checks; AGPL project license, openly licensed readers/codecs | Verified — [frozen package/source inventory](benchmarks/neighborhood-workflow/candidate.json), [installed runtime origins](benchmarks/neighborhood-workflow/installation.json); wheel/native static runtime inspection and standalone ZIP reopen pass |
+| [x] | N46 | Matching raw-byte application source inputs and authenticated unchanged dependency sources accompany delivery | Verified — [frozen package/source inventory](benchmarks/neighborhood-workflow/candidate.json), [installed runtime origins](benchmarks/neighborhood-workflow/installation.json); wheel/native static runtime inspection and standalone ZIP reopen pass |
+| [x] | N47 | Example/install/run guide explains cohorts, centroid semantics, radius/units, budgets, cancellation and saved-result limits | Verified — [install/run/API/limits guide](benchmarks/neighborhood-workflow/README.md), [working example](../examples/neighborhood_workflow.py), [actual installed route](benchmarks/neighborhood-workflow/installed-workflow.json) |
 | [ ] | N48 | Public candidate assets and remote SHA256/size match local frozen artifacts; prior candidate remains available | Pending |
 | [ ] | N49 | Current card, coverage checklist and support statement close against actual evidence; no full-parity/platform/biology/speed claim | Pending |
-| [ ] | N50 | Disposable-state disposition documented; preserve fixtures/source/cache/failures, respect existing cleanup-policy rejection | Pending |
+| [x] | N50 | Disposable-state disposition documented; preserve fixtures/source/cache/failures, respect existing cleanup-policy rejection | Verified — [disposition in delivery receipt](benchmarks/neighborhood-workflow/delivery.md); final products/cache/fixtures/failures preserved, no repeat of blocked recursive cleanup |
 
 ## Deferred scope
 
