@@ -1,0 +1,86 @@
+{
+  "source": "6219a08f1713d641633156e70f12b3fd70331d82",
+  "runs": [
+    {
+      "tile_size": 256,
+      "level": 2,
+      "width": 2875,
+      "height": 2057,
+      "samples": 5913870,
+      "foreground": 1084267,
+      "components": 684,
+      "native_work_bytes": 54825112,
+      "input_sha256": "bb018ac53ace32682e6a4ad970553780716ff6713ec539e5938694a55cded78b",
+      "labels_sha256": "b567483b1adc2a06168145119cdd1464e362976c302e3706befd09bb96d55420",
+      "elapsed_seconds": 0.42199999978765845
+    },
+    {
+      "tile_size": 512,
+      "level": 2,
+      "width": 2875,
+      "height": 2057,
+      "samples": 5913871,
+      "foreground": 1084255,
+      "components": 692,
+      "native_work_bytes": 57970840,
+      "input_sha256": "47bc3bdf75a4aeb37dc5a64d6f58d1952abd22af8da569114e0ed6e99fb6e329",
+      "labels_sha256": "55f5ea97c5730116ddb06427e2a42b7b6c2e4ba6ff67a156a2fdf2e74bffd4f1",
+      "elapsed_seconds": 0.3910000000614673
+    }
+  ],
+  "label_differences": 556505,
+  "foreground_differences": 456,
+  "first_foreground_differences": [
+    [
+      75,
+      1850
+    ],
+    [
+      93,
+      1816
+    ],
+    [
+      103,
+      1876
+    ],
+    [
+      105,
+      1851
+    ],
+    [
+      145,
+      2366
+    ],
+    [
+      149,
+      2373
+    ],
+    [
+      162,
+      1884
+    ],
+    [
+      169,
+      1852
+    ],
+    [
+      178,
+      841
+    ],
+    [
+      183,
+      1825
+    ],
+    [
+      192,
+      1880
+    ],
+    [
+      206,
+      1931
+    ]
+  ],
+  "cancellation_state": "cancelled",
+  "cancelled_result_absent": true,
+  "retained_records_after_cancel": 0
+}

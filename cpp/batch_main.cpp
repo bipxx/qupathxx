@@ -76,6 +76,7 @@ int execute(const std::vector<std::string>& args) {
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "Tissue grid: --tissue-grid NX NY CX CY (ROI counts, sampled context per axis)\n"
             "Tissue median: --tissue-median (3x3 binary cleanup after threshold)\n"
+            "Tissue snapshot: --tissue-canonical-pyramid --level N --tissue-work-bytes N (explicit level above zero)\n"
             "Tissue Gaussian: --tissue-sigma NUMBER (sampled pixels, 0..16)\n"
             "Tissue area: --tissue-min-area-um2 NUMBER --tissue-max-area-um2 NUMBER (inclusive)\n"
             "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
@@ -256,6 +257,8 @@ int execute(const std::vector<std::string>& args) {
                 options.tissue_grid=std::make_shared<const TissueGridSampling>(sampling);
             }
             else if(flag=="--tissue-median") options.tissue.median_cleanup=true;
+            else if(flag=="--tissue-canonical-pyramid") options.tissue.canonical_pyramid=true;
+            else if(flag=="--tissue-work-bytes") {const auto n=integer(value());if(!n || n>512ULL*1024*1024) throw std::invalid_argument("tissue work budget must be 1 byte..512 MiB");options.tissue.work_bytes=static_cast<std::size_t>(n);}
             else if(flag=="--tissue-sigma") options.tissue.smoothing_sigma=real(value());
             else if(flag=="--tissue-min-area-um2") options.tissue_min_component_area_um2=real(value());
             else if(flag=="--tissue-max-area-um2") options.tissue_max_component_area_um2=real(value());

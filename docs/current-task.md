@@ -7,7 +7,49 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Delivered — Windows candidate handoff
+## Selected next outcome — representative large-slide tissue workflow
+
+R12 continuation delivers whole-slide tissue at an explicit native pyramid
+level while high-resolution ROI statistics remain bounded. The new opt-in
+`canonical_pyramid` reads the selected level once at origin zero; this fixes
+OpenSlide decoder-phase differences across processing tile sizes without
+changing legacy recipes. SDK, CLI and ImGui share the native implementation.
+QTM6 retains the new recipe; QTM1-5 and inactive legacy memory charges remain.
+
+Local changed-source evidence passes:7 affected native suites;120 focused
+Python cases initially passed,8 skipped, and the sole failing case passed after
+a test correction. Snapshot accounting includes project-path bytes: both old
+and new engines charge11512 at the same relocated fixture path. The test now
+accounts for relocation and retains exact-budget admission and budget-minus-one
+rejection. No native compatibility change was needed.
+
+CMU-1.svs level2 (2875x2057) produces identical labels/input hashes at tile256
+and512 and zero differences against the independent threshold oracle. There
+are5913875 supported samples,1083798 foreground samples and688 components.
+Cancellation leaves no result/retained record. Native estimate102136112 bytes
+at tile256; measured observer peak271642624 bytes includes Python oracle and
+reader caches. This is pyramid tissue, not level-zero cell analysis or a speed
+superiority claim. Python ROI statistics/CSV/QTM6 saved replay and ImGui tissue
+CSV/save/replay pass; standalone opens the combined Python project. The captured
+overlay aligns with tissue, scale is visible and the UI reports zero overflow.
+See [evidence and commands](benchmarks/large-slide-workflow/README.md).
+
+Remaining delivery:freeze this source, build one wheel with build tag2 using the
+existing cache, install it once and verify the changed installed route and
+identity; ship corresponding sources/notices and publish the scoped candidate.
+Do not repeat the accepted full qualification, old fresh-host campaign or add
+optional parity work. Changes to packaging/provenance require member/runtime
+checks, not another binding/API rebuild.
+
+Waste review:the first native test used a Python alias; it was corrected and only
+that target retried. The snapshot test confused fixture relocation with native
+layout change; a same-path old/new comparison resolved it before touching code.
+One combined bindings/UI/CLI build was reused for all consumers. Required build
+tools were restored for the demonstrated decoder defect. Optional PRESET1 source
+is preserved byte-exact in build/stain-presets-r7/parked-source and Git stash
+88f1eba9fe33025dd696ef3fbf6e8c7e55c6363f; keep it parked.
+
+## Delivered baseline — Windows candidate handoff
 
 The selected [Windows workflow](windows-workflow.md) and its targeted fresh-host
 handoff pass. [One evidence summary](benchmarks/windows-workflow-checkpoint/README.md)

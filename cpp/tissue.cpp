@@ -6,6 +6,7 @@
 #include "scientific_raster.hpp"
 #include "scientific_channel_values.hpp"
 #include "roi_scientific_grid.hpp"
+#include "pyramid_snapshot.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -31,6 +32,7 @@ std::int64_t read_origin(std::int64_t index,double scale) {
 }
 }
 void TissueParameters::validate() const {
+    if(canonical_pyramid && level<=0) throw std::invalid_argument("canonical pyramid requires an explicit level above zero");
     validate_sampling_policy(sampling_policy);
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
         throw std::invalid_argument("invalid tissue feature");
@@ -63,7 +65,10 @@ TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const Sta
         const auto w=static_cast<std::uint64_t>(x1-x0),h=static_cast<std::uint64_t>(y1-y0);
         if(w>std::numeric_limits<std::uint32_t>::max()/h) continue;
         const auto count=w*h,capacity=std::min<std::uint64_t>(count,parameters.max_components);
-        const auto estimate=tissue_detail::work_bytes(count,capacity,parameters);
+        const auto snapshot=parameters.canonical_pyramid?detail::pyramid_snapshot_work_bytes(metadata,static_cast<std::int32_t>(i)):0;
+        const auto base_estimate=tissue_detail::work_bytes(count,capacity,parameters);
+        if(snapshot>std::numeric_limits<std::uint64_t>::max()-base_estimate) continue;
+        const auto estimate=base_estimate+snapshot;
         if(estimate>parameters.work_bytes || (found && l.downsample>=downsample_)) continue;
         // Validate the furthest nominal tile before the worker allocates/decodes.
         const auto step=static_cast<std::int64_t>(parameters.tile_size);
@@ -196,15 +201,23 @@ struct TissueKernel {
             }
             if(completed) completed->store(1,std::memory_order_relaxed);
         } else {
+        std::optional<PixelBuffer> snapshot;
+        if(p.canonical_pyramid) {
+            snapshot.emplace(detail::read_pyramid_snapshot(*source.source_,request.level_,cancelled));
+            output->input_sha256_=detail::pyramid_snapshot_sha256(source.source_->metadata(),request.level_,*snapshot,
+                request.x0_,request.y0_,request.x1_,request.y1_,cancelled);
+        }
         for(auto y=request.y0_;y<request.y1_;) {
             const auto h=std::min<std::int64_t>(p.tile_size,request.y1_-y);
             for(auto x=request.x0_;x<request.x1_;) {
                 check_cancelled(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,request.x1_-x);
                 const auto rx=read_origin(x,scale),ry=read_origin(y,scale);
-                const auto pixels=source.source_->read_region({rx,ry,request.level_,w,h});
+                const auto pixels=snapshot?detail::pyramid_snapshot_tile(*snapshot,x,y,w,h):source.source_->read_region({rx,ry,request.level_,w,h});
                 if(pixels.width()!=w || pixels.height()!=h) throw std::runtime_error("reader returned incorrect tissue tile dimensions");
-                if(request.level_!=0) {digest.integer(x);digest.integer(y);}
-                for(auto value:{rx,ry,w,h}) digest.integer(static_cast<std::uint64_t>(value));digest.update(pixels.bytes().data(),pixels.bytes().size());
+                if(!snapshot) {
+                    if(request.level_!=0) {digest.integer(x);digest.integer(y);}
+                    for(auto value:{rx,ry,w,h}) digest.integer(static_cast<std::uint64_t>(value));digest.update(pixels.bytes().data(),pixels.bytes().size());
+                }
                 const auto values=stain_feature(p.feature)?source.transform_.deconvolve(pixels,cancelled):source.transform_.optical_densities(pixels,cancelled);
                 const auto& data=values.values();
                 for(std::int64_t row=0;row<h;++row) {
@@ -302,7 +315,7 @@ struct TissueKernel {
                 {(double(request.x0_)+double(sum_x)/double(n)+.5)*scale,(double(request.y0_)+double(sum_y)/double(n)+.5)*scale}});
             }
         }
-        check_cancelled(cancelled);if(!grid) output->input_sha256_=digest.finish();
+        check_cancelled(cancelled);if(!grid && !p.canonical_pyramid) output->input_sha256_=digest.finish();
         output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();if(phase) phase->store(3);
         return output;
     }

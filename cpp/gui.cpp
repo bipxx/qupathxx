@@ -206,6 +206,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     tissue_parameters.level=options.tissue_level;tissue_parameters.open_radius=options.tissue_open_radius;tissue_parameters.close_radius=options.tissue_close_radius;
     detail::validate_tissue_area_limits(options.tissue_min_component_area_um2,options.tissue_max_component_area_um2);
     auto tissue_min_area=options.tissue_min_component_area_um2,tissue_max_area=options.tissue_max_component_area_um2;
+    tissue_parameters.canonical_pyramid=options.tissue_canonical_pyramid;tissue_parameters.work_bytes=options.tissue_work_bytes;
     tissue_parameters.median_cleanup=options.tissue_median_cleanup;tissue_parameters.fill_holes=options.tissue_fill_holes;tissue_parameters.max_hole_pixels=options.tissue_max_hole_pixels;tissue_parameters.validate();
     auto tissue_grid=options.tissue_grid?std::make_shared<const TissueGridSampling>(*options.tissue_grid):nullptr;
     if(tissue_grid) {
@@ -2098,6 +2099,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             tissue_changed=ui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
             tissue_changed=ui::InputScalar("Max (0=off)",ImGuiDataType_U64,&tissue_parameters.max_pixels) || tissue_changed;
             tissue_changed=ui::Checkbox("Median cleanup (3x3)",&tissue_parameters.median_cleanup) || tissue_changed;
+            tissue_changed=ui::Checkbox("Stable pyramid snapshot",&tissue_parameters.canonical_pyramid) || tissue_changed;
+            if(tissue_parameters.canonical_pyramid) ImGui::TextWrapped("Choose a level above zero. Reads that pyramid once for consistent samples.");
+            std::uint64_t tissue_work_mib=tissue_parameters.work_bytes/(1024u*1024u);
+            if(ui::InputScalar("Tissue memory (MiB)",ImGuiDataType_U64,&tissue_work_mib)) {
+                tissue_parameters.work_bytes=static_cast<std::size_t>(std::clamp<std::uint64_t>(tissue_work_mib,1,512)*1024u*1024u);tissue_changed=true;
+            }
             tissue_changed=ui::InputInt("Opening radius",&tissue_parameters.open_radius) || tissue_changed;
             tissue_changed=ui::InputInt("Closing radius",&tissue_parameters.close_radius) || tissue_changed;
             tissue_changed=ui::Checkbox("Fill enclosed holes",&tissue_parameters.fill_holes) || tissue_changed;

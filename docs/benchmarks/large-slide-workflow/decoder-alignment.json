@@ -1,0 +1,46 @@
+{
+  "level": 2,
+  "downsample": 16.00048614487117,
+  "reads": [
+    {
+      "tile": 256,
+      "origin": [
+        1792,
+        0
+      ],
+      "differing_pixels": 2830,
+      "sample_rgba": [
+        206,
+        196,
+        208,
+        255
+      ],
+      "origin_zero_rgba": [
+        206,
+        196,
+        208,
+        255
+      ]
+    },
+    {
+      "tile": 512,
+      "origin": [
+        1536,
+        0
+      ],
+      "differing_pixels": 44289,
+      "sample_rgba": [
+        205,
+        195,
+        207,
+        255
+      ],
+      "origin_zero_rgba": [
+        206,
+        196,
+        208,
+        255
+      ]
+    }
+  ]
+}

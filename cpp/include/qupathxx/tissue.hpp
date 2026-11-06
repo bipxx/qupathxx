@@ -18,6 +18,7 @@ struct TissueParameters {
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     double smoothing_sigma=0; // Gaussian sigma in sampled pixels; 0 preserves raw thresholding.
     bool median_cleanup=false; // Binary 3x3 median after threshold; replicated crop edges.
+    bool canonical_pyramid=false; // Explicit native level snapshot; processing tiles share one decode phase.
     void validate() const;
 };
 namespace detail {
@@ -26,7 +27,7 @@ namespace detail {
 inline constexpr std::size_t tissue_parameter_extension_bytes=sizeof(TissueParameters)-offsetof(TissueParameters,smoothing_sigma);
 inline std::size_t inactive_tissue_parameter_bytes(const TissueParameters& p) {
     return (p.smoothing_sigma==0?sizeof(p.smoothing_sigma):0)+
-        (!p.median_cleanup?sizeof(TissueParameters)-offsetof(TissueParameters,median_cleanup):0);
+        (!p.median_cleanup && !p.canonical_pyramid?sizeof(TissueParameters)-offsetof(TissueParameters,median_cleanup):0);
 }
 }
 struct TissueGridSampling {
@@ -119,7 +120,7 @@ public:
         if(y<0 || y>height()) throw std::out_of_range("raster Y edge outside grid");
         return nominal_sampling_?nominal_sampling_->edge_y(y):scientific_grid_?scientific_grid_->y().edge(y+scientific_grid_->y().first_index()).binary64():bounds_.y+double(y)*downsample_;
     }
-    const char* input_format() const {return input_format_override_.empty()?analysis_input_format(parameters_.sampling_policy,level_!=0):input_format_override_.c_str();}
+    const char* input_format() const {return parameters_.canonical_pyramid?"qpx.rgba-pyramid-origin-zero/1":input_format_override_.empty()?analysis_input_format(parameters_.sampling_policy,level_!=0):input_format_override_.c_str();}
     const Roi& roi() const {return roi_;}
     Rect image_bounds() const {return image_bounds_;}
     const std::vector<std::uint32_t>& labels() const {return labels_;}

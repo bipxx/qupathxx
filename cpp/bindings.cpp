@@ -445,6 +445,8 @@ NB_MODULE(_native, m) {
         .def_prop_rw("tissue_grid",[](const GuiOptions& o)->std::optional<TissueGridSampling> {return o.tissue_grid?std::optional<TissueGridSampling>(*o.tissue_grid):std::nullopt;},
             [](GuiOptions& o,std::optional<TissueGridSampling> v) {o.tissue_grid=v?std::make_shared<const TissueGridSampling>(*v):nullptr;})
         .def_rw("tissue_median_cleanup",&GuiOptions::tissue_median_cleanup)
+        .def_rw("tissue_canonical_pyramid",&GuiOptions::tissue_canonical_pyramid)
+        .def_rw("tissue_work_bytes",&GuiOptions::tissue_work_bytes)
         .def_rw("tissue_smoothing_sigma",&GuiOptions::tissue_smoothing_sigma)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
         .def_rw("tissue_min_component_area_um2",&GuiOptions::tissue_min_component_area_um2)

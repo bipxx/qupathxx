@@ -4,6 +4,7 @@
 #include "scientific_grid_codec.hpp"
 #include "scientific_raster.hpp"
 #include "provenance_codec.hpp"
+#include "pyramid_snapshot.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -48,7 +49,9 @@ std::vector<std::uint8_t> TissueArchiveCodec::encode(const TissueResult& r,const
     if(grid && !r.provenance_) throw std::invalid_argument("grid tissue requires captured provenance");
     stopped(cancelled);Writer w;const auto& p=r.parameters_;
     p.validate();
-    if(grid) {w.bytes[3]=5;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);w.u64(p.median_cleanup);}
+    if(grid && p.canonical_pyramid) throw std::invalid_argument("canonical pyramid cannot use an explicit area grid");
+    if(p.canonical_pyramid) {w.bytes[3]=6;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);w.u64(p.median_cleanup);}
+    else if(grid) {w.bytes[3]=5;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);w.u64(p.median_cleanup);}
     else if(p.median_cleanup) {w.bytes[3]=4;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);w.u64(1);}
     else if(p.smoothing_sigma>0) {w.bytes[3]=3;w.u64(static_cast<std::uint64_t>(p.sampling_policy));w.real(p.smoothing_sigma);}
     else if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding) {w.bytes[3]=2;w.u64(1);}
@@ -88,7 +91,7 @@ std::shared_ptr<const TissueResult> TissueArchiveCodec::decode(const std::uint8_
     const std::string checksum(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(checksum) || digest(data,size-64,roi,cancelled)!=checksum) throw std::invalid_argument("tissue mask checksum mismatch");
     Reader d{data,size-64};if(d.byte()!='Q' || d.byte()!='T' || d.byte()!='M') throw std::invalid_argument("unsupported tissue mask encoding");
-    const auto version=d.byte();if(version!=1 && version!=2 && version!=3 && version!=4 && version!=5) throw std::invalid_argument("unsupported tissue mask encoding");
+    const auto version=d.byte();if(version<1 || version>6) throw std::invalid_argument("unsupported tissue mask encoding");
     const auto policy=version>=2?d.u64():0;
     const auto sigma=version>=3?d.real():0.;
     const auto median=version>=4?d.limited(1):0;
@@ -99,7 +102,7 @@ std::shared_ptr<const TissueResult> TissueArchiveCodec::decode(const std::uint8_
     auto r=std::shared_ptr<TissueResult>(new TissueResult());r->roi_=std::move(roi);r->image_bounds_={0,0,double(metadata.width),double(metadata.height)};
     r->object_id_=d.u64();r->object_revision_=d.u64();r->document_revision_=d.u64();r->nucleus_=d.limited(1)!=0;
     if(!r->object_id_ || r->object_revision_>r->document_revision_) throw std::invalid_argument("invalid tissue mask identity");
-    auto& p=r->parameters_;p.smoothing_sigma=sigma;p.median_cleanup=median!=0;p.sampling_policy=static_cast<RoiSamplingPolicy>(policy);p.feature=static_cast<TissueFeature>(d.limited(3));p.threshold=d.real();p.connectivity=static_cast<int>(d.limited(8));
+    auto& p=r->parameters_;p.canonical_pyramid=version==6;p.smoothing_sigma=sigma;p.median_cleanup=median!=0;p.sampling_policy=static_cast<RoiSamplingPolicy>(policy);p.feature=static_cast<TissueFeature>(d.limited(3));p.threshold=d.real();p.connectivity=static_cast<int>(d.limited(8));
     p.level=static_cast<std::int32_t>(std::int64_t(d.limited(std::uint64_t(std::numeric_limits<std::int32_t>::max())+1))-1);
     p.open_radius=static_cast<int>(d.limited(256));p.close_radius=static_cast<int>(d.limited(256));p.fill_holes=d.limited(1)!=0;
     p.max_hole_pixels=d.u64();p.min_pixels=d.u64();p.max_pixels=d.u64();p.tile_size=static_cast<std::size_t>(d.limited(1024));p.max_components=static_cast<std::size_t>(d.limited(1000000));p.work_bytes=static_cast<std::size_t>(d.limited(512u*1024u*1024u));p.validate();
@@ -144,7 +147,10 @@ std::shared_ptr<const TissueResult> TissueArchiveCodec::decode(const std::uint8_
     if(r->cleanup_ms_<0 || r->elapsed_ms_<r->cleanup_ms_ || (!tissue_detail::enabled(p) && (r->cleaned_pixels_!=r->threshold_pixels_ || r->filled_pixels_ || r->cleanup_ms_)) ||
        (!p.fill_holes && r->filled_pixels_) || (components==0)!=(r->foreground_pixels_==0)) throw std::invalid_argument("invalid tissue mask statistics");
     const auto capacity=std::min<std::uint64_t>(count,p.max_components);
-    const auto estimate=grid?tissue_detail::grid_work_bytes(*r->scientific_grid_,p,r->roi_,*r->provenance_):tissue_detail::work_bytes(count,capacity,p);
+    const auto base_estimate=grid?tissue_detail::grid_work_bytes(*r->scientific_grid_,p,r->roi_,*r->provenance_):tissue_detail::work_bytes(count,capacity,p);
+    const auto snapshot=p.canonical_pyramid?detail::pyramid_snapshot_work_bytes(metadata,r->level_):0;
+    if(snapshot>std::numeric_limits<std::uint64_t>::max()-base_estimate) throw std::invalid_argument("tissue snapshot estimate overflow");
+    const auto estimate=base_estimate+snapshot;
     // Producer bookkeeping can differ across standard-library ABIs. Retain its
     // recorded estimate, but independently admit this decoder's actual layout.
     // Legacy natural recipes keep their original exact estimate contract.

@@ -21,6 +21,7 @@ inline std::uint64_t grid_work_bytes(const ScientificGrid& g,const TissueParamet
         capacity*sizeof(TissueComponent)+source.payload_bytes()+2ULL*roi.payload_bytes()+sizeof(TissueResult)+sizeof(TissueRequest)+65536+kernel;
 }
 inline const char* algorithm(const TissueParameters& p,std::int32_t level) {
+    if(p.canonical_pyramid) return "qpx.pyramid-threshold-components/1";
     if(p.median_cleanup) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?
         "qpx.threshold-components/winding-5":"qpx.threshold-components/5";
     if(p.smoothing_sigma>0) return p.sampling_policy==RoiSamplingPolicy::PolygonWinding?

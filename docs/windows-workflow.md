@@ -1,5 +1,9 @@
 # Windows research workflow candidate
 
+The next source candidate adds [whole-slide pyramid tissue](benchmarks/large-slide-workflow/README.md)
+alongside bounded high-resolution ROI statistics. Its opt-in mode requires the
+updated build; the published candidate1 described below remains the ROI baseline.
+
 This engineering candidate opens an Aperio brightfield slide, authors a
 bounded calibrated rectangle, retains tissue and region-intensity measurements,
 exports CSV and saves a project that reopens in ImGui or Python. The native code

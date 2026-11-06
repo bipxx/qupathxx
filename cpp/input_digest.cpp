@@ -3,6 +3,7 @@
 #include "cell_recipe.hpp"
 #include "scientific_cells.hpp"
 #include "scientific_raster.hpp"
+#include "pyramid_snapshot.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -28,6 +29,10 @@ struct InputDigestKernel {
         return run(r,0,1,r.x0_,r.y0_,r.x1_,r.y1_,c);
     }
     static std::string run(const TissueRequest& r,const std::atomic<bool>* c) {
+        if(r.parameters_.canonical_pyramid) {
+            const auto pixels=detail::read_pyramid_snapshot(*r.source_.source_,r.level_,c);
+            return detail::pyramid_snapshot_sha256(r.source_.source_->metadata(),r.level_,pixels,r.x0_,r.y0_,r.x1_,r.y1_,c);
+        }
         if(r.grid_) {
             const auto input=read_scientific_rgb(*r.source_.source_,*r.grid_,c);
             return scientific_raster_input_sha256(r.source_,input,c);

@@ -26,6 +26,12 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Next delivery checkpoint: Windows research workflow
 
+Current selected continuation is the representative large-slide tissue workflow
+in current-task.md: existing native pyramid tissue over CMU-1.svs plus bounded
+high-resolution statistics, tile consistency, cancellation and retained replay.
+The prior candidate/handoff below is delivered evidence, not work to repeat.
+Do not expand this slice into every R12 budget or optional parity feature.
+
 Current continuation selects one release handoff after the delivered local
 checkpoint: one fresh Windows install/run/uninstall job on the frozen packages,
 dependency and corresponding-source availability review, then commit/push and

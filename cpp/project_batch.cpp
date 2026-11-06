@@ -152,6 +152,7 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         const auto& g=*o.tissue_grid;s<<",\"tissue_grid\":{\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y<<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y<<'}';
     }
     if(p.median_cleanup) s<<",\"tissue_median_cleanup\":true";
+    if(p.canonical_pyramid) s<<",\"tissue_canonical_pyramid\":true";
     if(p.smoothing_sigma>0) s<<",\"tissue_smoothing_sigma\":"<<p.smoothing_sigma;
     if(o.tissue_min_component_area_um2 || o.tissue_max_component_area_um2) {
         s<<",\"tissue_area_limits\":{\"minimum_um2\":";
@@ -248,6 +249,7 @@ void ProjectBatchOptions::validate() const {
     if(kind!=ProjectBatchKind::Roi && roi_sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
         throw std::invalid_argument("ROI sampling policy requires an ROI batch");
     if(kind!=ProjectBatchKind::Tissue && tissue.median_cleanup) throw std::invalid_argument("tissue median cleanup requires a tissue batch");
+    if(kind!=ProjectBatchKind::Tissue && tissue.canonical_pyramid) throw std::invalid_argument("canonical pyramid requires a tissue batch");
     if(kind!=ProjectBatchKind::Tissue && tissue.smoothing_sigma!=0) throw std::invalid_argument("tissue smoothing requires a tissue batch");
     if(kind!=ProjectBatchKind::Tissue && tissue.sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
         throw std::invalid_argument("tissue sampling policy requires a tissue batch");

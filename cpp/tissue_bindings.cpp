@@ -15,6 +15,7 @@ void bind_tissue(nb::module_& m) {
     nb::class_<TissueParameters>(m,"TissueParameters").def(nb::init<>()).def_rw("feature",&TissueParameters::feature)
         .def_rw("sampling_policy",&TissueParameters::sampling_policy)
         .def_rw("median_cleanup",&TissueParameters::median_cleanup)
+        .def_rw("canonical_pyramid",&TissueParameters::canonical_pyramid)
         .def_rw("smoothing_sigma",&TissueParameters::smoothing_sigma)
         .def_rw("threshold",&TissueParameters::threshold).def_rw("connectivity",&TissueParameters::connectivity)
         .def_rw("level",&TissueParameters::level)
