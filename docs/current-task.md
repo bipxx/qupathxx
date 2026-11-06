@@ -7,19 +7,30 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Planned next phase — radius-based cell neighborhoods
+## Active phase — radius-based cell neighborhoods
 
-Planning requested after candidate2. Recommended next useful addition: for each
+Implementation requested after candidate2. Selected addition: for each
 selected source cell/object, count selected target centroids within an explicit
 radius, inspect the table, export CSV and save/reopen/replay. This adds the missing
 R9 neighborhood operation; existing cell detection/measurements and nearest
-spatial distances are reused. Implementation has not started. Detailed contract,
+spatial distances are reused. T1 native implementation and focused checks pass. Detailed contract,
 API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.md#next-phase-radius-based-spatial-neighborhoods).
 
-Next implementation action:T1 settles the additive contract and bounded native
-radius-count traversal, with a small independent exhaustive oracle. No build,
-package, new reader, new segmentation algorithm, density/edge correction or full
-qualification is needed for this planning change. Keep candidate2 frozen and
+Coverage is maintained in the [detailed checklist](neighborhood-coverage.md):
+requirements and source-scoped evidence, with the execution queue kept here.
+T1 result:radius-count traversal and immutable capture/result/job APIs pass the
+independent oracle plus existing spatial/nearest regression suites (3/3). The
+[coverage checklist](neighborhood-coverage.md) marks16/50 requirements verified;
+N14 still needs cancellation after observed running progress, beyond pre-cancel
+and immediate job cancellation. No binding/package build was run.
+Next action:T2 adds native retained records, distinct versioned payload/project
+table, atomic CSV and replay. Preserve exact legacy inactive snapshot accounting.
+The next focused native build checks round trips/corrupt data, save rollback,
+stale/clone/history and legacy nearest/snapshot compatibility after T2 settles.
+Waste review:the new request delegates to the existing centroid capture directly,
+so no geometry/sampling duplicate or general spatial framework was added. The
+first focused build passed; there was no retry or configuration recreation.
+Keep candidate2 frozen and
 PRESET1 parked. After each task/failure, record the result, decisive check, waste
 and next task here; do not create another ledger or recurring review campaign.
 

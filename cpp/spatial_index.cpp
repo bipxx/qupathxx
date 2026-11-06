@@ -108,6 +108,43 @@ std::optional<SpatialNeighbor> SpatialIndex::nearest_point(Point point,double sx
     if(best && !std::isfinite(best->distance)) throw std::overflow_error("nearest point distance exceeds numeric range");
     return best;
 }
+std::uint64_t SpatialIndex::count_points_within(Point point,double radius,double sx,double sy,
+    std::optional<std::uint64_t> exclude,const std::atomic<bool>* cancelled,std::uint64_t* remaining) const {
+    if(!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(radius) || radius<=0 ||
+       !std::isfinite(sx) || !std::isfinite(sy) || sx<=0 || sy<=0)
+        throw std::invalid_argument("radius query requires finite coordinates, positive finite radius and scales");
+    if(!points_only_) throw std::invalid_argument("radius query requires a point-only spatial index");
+    auto checkpoint=[&] {if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("spatial radius query cancelled");};
+    auto delta=[](double a,double b,double scale) {
+        const auto difference=a-b;
+        return std::abs(std::isfinite(difference)?difference*scale:a*scale-b*scale);
+    };
+    // Coordinate extrema are actual stored values. L-infinity pruning uses the
+    // same per-axis arithmetic as final hypot, without rounded squared radii or
+    // an inward-rounded reconstructed max bound.
+    auto outside=[&](const Node& n) {
+        const auto x=point.x<n.bounds.x?delta(n.bounds.x,point.x,sx):point.x>n.max_x?delta(point.x,n.max_x,sx):0.;
+        const auto y=point.y<n.bounds.y?delta(n.bounds.y,point.y,sy):point.y>n.max_y?delta(point.y,n.max_y,sy):0.;
+        return std::max(x,y)>radius;
+    };
+    checkpoint();if(nodes_.empty()) return 0;
+    std::array<std::size_t,std::numeric_limits<std::size_t>::digits+1> work{};
+    std::size_t used=0;work[used++]=0;std::uint64_t count=0;
+    while(used) {
+        checkpoint();const auto& node=nodes_[work[--used]];if(outside(node)) continue;
+        if(node.end-node.begin<=8) {
+            for(auto i=node.begin;i<node.end;++i) {
+                checkpoint();const auto& e=entries_[i];if(exclude && e.id==*exclude) continue;
+                if(remaining) {if(!*remaining) throw std::length_error("spatial radius distance-test budget exceeded");--*remaining;}
+                if(std::hypot(delta(e.bounds.x,point.x,sx),delta(e.bounds.y,point.y,sy))<=radius) ++count;
+            }
+        } else {
+            if(used+2>work.size()) throw std::length_error("spatial radius traversal exceeds address depth");
+            work[used++]=node.right;work[used++]=node.left;
+        }
+    }
+    checkpoint();return count;
+}
 void Document::refresh_spatial() const {
     if(!spatial_rebuild_ && spatial_) return;
     std::vector<SpatialEntry> entries; entries.reserve(objects_.size());

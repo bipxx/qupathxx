@@ -20,6 +20,11 @@ public:
     std::optional<SpatialNeighbor> nearest_point(Point,double x_scale=1,double y_scale=1,
         std::optional<std::uint64_t> exclude_id={},const std::atomic<bool>* cancelled=nullptr,
         std::uint64_t* remaining_distance_tests=nullptr) const;
+    // Count point entries at inclusive calibrated Euclidean radius, with no
+    // neighbor list. Exclusion is by ID; distinct coincident points still count.
+    std::uint64_t count_points_within(Point,double radius,double x_scale=1,double y_scale=1,
+        std::optional<std::uint64_t> exclude_id={},const std::atomic<bool>* cancelled=nullptr,
+        std::uint64_t* remaining_distance_tests=nullptr) const;
     std::size_t size() const { return entries_.size(); }
     // Owned vector payload, not allocator/process overhead. The estimate assumes
     // an input vector reserved to its size; check actual payload after building.

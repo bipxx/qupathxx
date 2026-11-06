@@ -1,0 +1,12 @@
+{
+  "source_revision_at_build": "3fcecd3cb487c034a09f70690e37dff3feb58a7c+dirty",
+  "source_tree_sha256": "086387cc5735042a8c5384b0138f4db8b44c59bf5b5e72dd65cca96a88b23741",
+  "suites": [
+    "spatial_neighborhood",
+    "spatial",
+    "spatial_analysis"
+  ],
+  "passed": 3,
+  "failed": 0,
+  "scope": "Native radius counts and existing nearest-distance regressions; no installed consumers or persistence yet"
+}

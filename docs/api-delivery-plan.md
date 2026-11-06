@@ -26,12 +26,14 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Next phase: radius-based spatial neighborhoods
 
-Planning scope:answer "How many selected target cells are within radius R of
+Selected implementation scope:answer "How many selected target cells are within radius R of
 each selected source cell?" through C++/nanobind Python and Windows ImGui, retain
 the table, export CSV and save/reopen/replay. Cell detection and nearest-centroid
 distances already exist. This phase adds one R9 operation using those objects;
 it does not select all remaining spatial or QuPath features. Implementation is
-not started. Candidate2 remains the supported baseline during development.
+active under the owner's request. Candidate2 remains the supported baseline
+during development. The [coverage checklist](neighborhood-coverage.md) records
+each required behavior/evidence; current-task.md owns sequencing and waste review.
 
 ### Contract to implement
 
