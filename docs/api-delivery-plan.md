@@ -24,12 +24,29 @@ Releases close against their declared workflow/support scope, not every QuPath
 feature. Review visual checks for their purpose before execution; keep tests
 that establish meaningful display/interaction behavior rather than exact styling.
 
+## Next phase: tissue-aware ROI cell density
+
+Implementation selected by the owner's continuation after candidate3. The
+[current card](current-task.md) defines the scientific contract and ordered
+T1-T5 delivery. [Density coverage](density-coverage.md) owns requirement/evidence
+tracking; the completed neighborhood checklist is preserved separately.
+
+User outcome:select ROI windows, tissue regions, exclusion regions and Cell IDs;
+calculate valid area and cells/mm2; inspect/retain/export/save/reopen through C++,
+nanobind Python, CLI and Windows ImGui. Reuse centroid capture, GEOS Boolean
+geometry, indexed candidates, the typed SpatialFrontend lifecycle and atomic
+export/project conventions. Declare curve approximation, boundaries and empty
+area explicitly. No density map, new segmentation, stain registry, reader or
+platform expansion is automatically selected. Finish one frozen installed
+candidate and matching public sources; reuse unchanged dependency inventories.
+
 ## Next phase: radius-based spatial neighborhoods
 
 [Delivered in Windows candidate3](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3).
 The [coverage checklist](neighborhood-coverage.md) closes all50 requirements;
 [delivery evidence](benchmarks/neighborhood-workflow/delivery.md) records the
-exact source/support. No further outcome is selected.
+exact source/support. No further neighborhood work is selected; the density phase
+above is now active.
 
 Selected implementation scope:answer "How many selected target cells are within radius R of
 each selected source cell?" through C++/nanobind Python and Windows ImGui, retain

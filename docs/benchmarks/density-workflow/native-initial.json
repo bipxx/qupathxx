@@ -1,0 +1,42 @@
+{
+  "scope": "T1 native density kernel/jobs and T2 retained records/CSV/schema29; consumers and shipping delivery pending",
+  "date": "2026-11-06",
+  "configuration": "Windows x64 MSVC Release; existing gridfrontends167-package cache",
+  "tests": [
+    "geometry",
+    "spatial_neighborhood_records",
+    "spatial_density_records",
+    "spatial_density",
+    "spatial_neighborhood",
+    "spatial",
+    "spatial_records"
+  ],
+  "passed": 7,
+  "test_log": "native-initial-tests.log",
+  "test_log_sha256": "cf8299d5108ad7dd7dd500ad769ef953a35bc342ea752370680e76ebeea43145",
+  "source_sha256": {
+    "CMakeLists.txt": "e7f5563443e915e95c9efa488daf779c8ded9de0baf916c22614ef159725340c",
+    "cpp/include/qupathxx/core.hpp": "0731433bfa99bd7816991f558c8c7206b613e282d5a4d8b406b56e7c56df4ef6",
+    "cpp/include/qupathxx/spatial_analysis.hpp": "b975906e7a9566cc2bec63fe32525f72cbd391d5ff49e8809b7251cbbc6ca28b",
+    "cpp/include/qupathxx/spatial_density.hpp": "ecc7d4b5c5567e958021c83e1d77c09900e0703f7653ac5d478650e303f9935c",
+    "cpp/density_snapshot.hpp": "8deb9efefa6df0c18fdc4d09fc3d01b572bd9c068305cc1eb285bd398f47d434",
+    "cpp/spatial_density.cpp": "401acce6e985c4b438a5d26d847842ed38480faff096778f9d9675c3f6bdaa1b",
+    "cpp/density_archive.hpp": "4c03fac8c69faa2429dbf81a0a7be28c40722a40625c6ea03fe93bdf67faa1c0",
+    "cpp/density_archive.cpp": "f30ab910c86359cd0136f93ea99827feaeb97146f199b918889e083f7d36c4a3",
+    "cpp/density_records.cpp": "1f6d97671d3c660c30d9cfe249132b617d804b74ca5de7afd0266fbbb67f37b0",
+    "cpp/density_export.cpp": "381f3bf51ec83c157fb9643ced4a0298b080762be613b1171dd0b7f399c79dd6",
+    "cpp/project.cpp": "42463f58e5dfeda3907c64e246009bdea9047649cdcdb5da6d92f627942b40b8",
+    "cpp/project_schema.hpp": "136712580ae807073dadf3f6c8649da29d25b3c86ef08851bb3547d9dc4eae92",
+    "cpp/spatial_analysis.cpp": "4ba17198318ff9b35365f7a690b9f8eb148c6ed25eebfe8519ec327ea061d9b7",
+    "cpp/neighborhood_records.cpp": "4155eaae18128494964ad747434e6a5f6fe2a32e977f5a1b77425e93192fb551",
+    "cpp/tests/density_tests.cpp": "d968e9e5854f11a4a0c3be995308fdc66aaf9a136df9231b847e9f540ca42684",
+    "cpp/tests/density_record_tests.cpp": "884b1efb2c819734eae9f611613c14d6689470be15af28ad4f66bd51446ac55a",
+    "cpp/tests/spatial_record_tests.cpp": "11e4af7ccfebb4df3c72cb223863fa001d3aeead92ad0238f3dda2e97228396f",
+    "cpp/tests/neighborhood_record_tests.cpp": "eec4fecb7c20ba5bded8b1ace4d00e2d6a6f848dadd0f18bb36c1e9b954cf20a"
+  },
+  "limits": [
+    "Planned native payload budgets are not process RSS guarantees; GEOS scratch is opaque.",
+    "One GEOS operation is synchronous; cancellation is checked before and after.",
+    "No installed consumer, speed-superiority, full parity or biological validation claim."
+  ]
+}

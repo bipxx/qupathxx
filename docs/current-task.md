@@ -7,6 +7,65 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active phase — tissue-aware ROI cell density
+
+Owner continued the recommended density phase. Deliver selected cell centroid
+counts per mm2 of valid tissue for each selected ROI, with explicit tissue and
+exclusion cohorts, calibrated area, CSV, retention/replay and shared Python/CLI/
+ImGui consumers. Candidate3 stays frozen. This is per-ROI tissue density; radius
+maps, smoothing, segmentation, new readers and additional platforms are outside
+this selected phase. The previous50/50 neighborhood checklist remains closed;
+[density coverage](density-coverage.md) tracks this phase separately.
+
+Contract:valid footprint=(ROI intersect image bounds intersect union(tissue))
+minus union(exclusions). Count each explicitly selected Cell ID once per ROI if
+its chosen centroid covers that footprint and does not cover an explicit
+exclusion (including its boundary). Use existing closed geometry coverage;
+hole interiors are out and hole boundaries follow that established coverage.
+Overlapping ROIs produce independent rows, never an implied pooled total. Area
+is pixel area*calibration_x*calibration_y/1e6. Positive finite calibration is
+mandatory; empty area yields count0 and undefined density. A zero count with
+positive area has density0. Rectangles/polygons/multipart are exact linear
+inputs; ellipses require explicit polygonize_curves acceptance and use the
+existing512-segment polygon for BOTH membership and area, captured in identity.
+
+T1-T3 complete locally (2026-11-06):density capture/kernel/jobs, retained QDN1
+records/schema29/CSV and thin shared frontend/Python/CLI/ImGui. All9 affected
+native checks pass, including closed-edge regressions, nearest/neighborhood and
+legacy migration/snapshot budgets. Python/API/stubs:25 passed;16 existing opt-in
+GUI cases skipped. New actual density cancellation/retry passes separately;
+positive typing passes and negative typing has3 expected errors.
+[Native receipt](benchmarks/density-workflow/native.json),
+[consumer receipt](benchmarks/density-workflow/consumers.json) and
+[506-cell staged workflow](benchmarks/density-workflow/staged-workflow.json)
+record source scope. The4 ROI rows match independent area/count oracles:
+40576px2/289 cells,17536/121,23040/168 and empty0/undefined. SDK/CLI/GUI CSV bytes,
+keep/verify/save/reopen and standalone reopening agree. Inspected desktop shows
+readable values/units/status and registered overlays,0 UI overflow.
+
+One bounded observation:20000 coincident Cells in500 overlapping ROIs,10M
+predicates/1000 Boolean operations,27.46MB planned work,69.10MB process peak and
+119 Python observer ticks during released-GIL wait. This is diagnostic evidence,
+not speed superiority or an RSS guarantee. Geometry calls remain synchronous.
+
+T4 next:freeze the settled source and build ONE candidate4 wheel using the same
+cache, then ONE isolated install. Reuse unchanged T1-T3 evidence within its
+recorded source scope and run the installed506-cell SDK/CLI/GUI route. That
+required route now adds the actual Inspect button; do not replay the staged
+campaign just for this harness addition. T5 then checks runtime/source/license
+identity and public assets. Candidates2/3 remain frozen; PRESET1 stays parked.
+
+Waste review:first fixture was outside allowed image bounds; translated it
+without changing its oracle and retained the failure. Removed quadratic payload
+rescans. Grouped Document fields into one shared-header rebuild. The large main
+binding unit used>16 CPU minutes; order cheap changed CLI/frontend targets first
+in future combined builds. Its pass was preserved when a later MSVC CLI lambda
+failed; one cached repair reused all binding objects. That repair also fixed
+GUI target-array/mode guards and true closed-edge index bounds, and charged
+candidate capacity/growth. All follow-up native/Python/desktop checks pass.
+Durable lessons are appended to compilexx's canonical notebook. No intermediate
+wheel/install, broad corpus/platform campaign or additional feature is selected.
+
 ## Delivered phase — radius-based cell neighborhoods
 
 Implementation requested after candidate2. Selected addition: for each

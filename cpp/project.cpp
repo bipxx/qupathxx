@@ -30,6 +30,7 @@
 #include "project_schema.hpp"
 #include "spatial_archive.hpp"
 #include "neighborhood_archive.hpp"
+#include "density_archive.hpp"
 #include <algorithm>
 #include <array>
 #include <fstream>
@@ -197,7 +198,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     add(project_class_bytes(class_registry_,class_defaults_));
     for(const auto& [id,e]:entries_) {
         if(selected && !selected->count(id)) continue;
-        add(sizeof(Entry)+sizeof(Document)-e.document->inactive_neighborhood_metadata_bytes()+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
+        add(sizeof(Entry)+sizeof(Document)-e.document->inactive_neighborhood_metadata_bytes()-e.document->inactive_density_metadata_bytes()+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         add(string_metadata_bytes(e.info.metadata)-sizeof(e.info.metadata));
         if(e.info.description)add(e.info.description->size());
         for(const auto& tag:e.info.tags)add(64+tag.size());
@@ -219,6 +220,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->raw_analysis_blocks_.values.size()*sizeof(std::shared_ptr<const Document::RawAnalysisBlock>));
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
+        add(e.document->density_bytes_);
+        add(e.document->density_records_.size()*sizeof(std::shared_ptr<const SpatialDensityRecord>));
         add(e.document->neighborhood_bytes_);
         add(e.document->neighborhood_records_.size()*sizeof(std::shared_ptr<const SpatialNeighborhoodRecord>));
         add(e.document->spatial_bytes_);
@@ -287,6 +290,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->neighborhood_snapshot_.reserve(e.document->neighborhood_records_.size());
         for(const auto& entry:e.document->neighborhood_records_) doc->neighborhood_snapshot_.push_back(entry.second.value);
         doc->neighborhood_bytes_=e.document->neighborhood_bytes_;
+        doc->density_snapshot_.reserve(e.document->density_records_.size());
+        for(const auto& entry:e.document->density_records_) doc->density_snapshot_.push_back(entry.second.value);
+        doc->density_bytes_=e.document->density_bytes_;
         doc->classifiers_snapshot_.reserve(e.document->classifiers_.size());
         for(const auto& entry:e.document->classifiers_) doc->classifiers_snapshot_.push_back(entry.second);
         doc->classifiers_bytes_=e.document->classifiers_bytes_;
@@ -697,6 +703,9 @@ void create_raw_analysis(Database& db) {
 void create_spatial(Database& db) {
     db.exec("CREATE TABLE spatial_distance_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=14;");
 }
+void create_densities(Database& db) {
+    db.exec("CREATE TABLE spatial_density_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=29;");
+}
 void create_neighborhoods(Database& db) {
     db.exec("CREATE TABLE spatial_neighborhood_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=28;");
 }
@@ -872,9 +881,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<26)create_class_registries(db);
         if(version<27)create_analysis_statistics(db);
         if(version<28)create_neighborhoods(db);
+        if(version<29)create_densities(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);create_analysis_statistics(db);create_neighborhoods(db);}
-    db.exec("DELETE FROM analysis_statistics; DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_neighborhood_records; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);create_analysis_statistics(db);create_neighborhoods(db);create_densities(db);}
+    db.exec("DELETE FROM analysis_statistics; DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_density_records; DELETE FROM spatial_neighborhood_records; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement global_metadata(db,"INSERT INTO project_metadata VALUES(?,?)");
@@ -914,6 +924,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement streams(db,"INSERT INTO pixel_stream_records VALUES(?,?,?)");
     Statement raw_records(db,"INSERT INTO raw_analysis_records VALUES(?,?,?)");
     Statement spatial_records(db,"INSERT INTO spatial_distance_records VALUES(?,?,?)");
+    Statement density_records(db,"INSERT INTO spatial_density_records VALUES(?,?,?)");
     Statement neighborhood_records(db,"INSERT INTO spatial_neighborhood_records VALUES(?,?,?)");
     Statement verification(db,"INSERT INTO source_verifications VALUES(?,?)");
     Statement analysis_statistics(db,"INSERT INTO analysis_statistics VALUES(?,?,?)");
@@ -1050,6 +1061,12 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       };
       for(const auto& entry:e.document->neighborhood_records_) write_neighborhood(*entry.second.value);
       for(const auto& record:e.document->neighborhood_snapshot_) write_neighborhood(*record);
+      auto write_density=[&](const SpatialDensityRecord& record) {
+          const auto bytes=SpatialDensityArchiveCodec::encode(record,cancelled);
+          density_records.string(1,std::to_string(image_id));density_records.string(2,std::to_string(record.id));density_records.blob(3,bytes);density_records.done();
+      };
+      for(const auto& entry:e.document->density_records_) write_density(*entry.second.value);
+      for(const auto& record:e.document->density_snapshot_) write_density(*record);
       for(const auto& entry:e.document->spatial_records_) write_spatial(*entry.second.value);
       for(const auto& record:e.document->spatial_snapshot_) write_spatial(*record);
       for(const auto& entry:e.document->raw_analysis_) write_raw(*entry.second.value);
@@ -1425,6 +1442,17 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024*1024) throw std::invalid_argument("invalid spatial neighborhood blob");
             const auto record=SpatialNeighborhoodArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("neighborhood record identity mismatch");image->second.document->restore_neighborhood(record);
+        }
+    }
+    if(version>=29) {
+        Statement rows(db,"SELECT image_id,id,payload FROM spatial_density_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();const auto image=project->entries_.find(number(rows.string(0)));
+            if(image==project->entries_.end()) throw std::invalid_argument("orphaned spatial density record");
+            const auto size=sqlite3_column_bytes(rows.stmt,2);
+            if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024*1024) throw std::invalid_argument("invalid spatial density blob");
+            const auto record=SpatialDensityArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),progress?progress->cancellation():nullptr);
+            if(record->id!=number(rows.string(1))) throw std::invalid_argument("density record identity mismatch");image->second.document->restore_density(record);
         }
     }
     if(version>=15) {

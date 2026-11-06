@@ -52,7 +52,10 @@ std::vector<std::uint64_t> SpatialIndex::query(Rect bounds) const {
     std::vector<std::size_t> work{0};
     while(!work.empty()) {
         auto i=work.back(); work.pop_back(); const auto& node=nodes_[i];
-        if(!bounds_intersect(node.bounds,bounds)) continue;
+        // Preserve true stored extrema: origin + extent can round inward and
+        // drop a point exactly on the query's closed edge.
+        if(node.bounds.x>bounds.x+bounds.width || bounds.x>node.max_x ||
+           node.bounds.y>bounds.y+bounds.height || bounds.y>node.max_y) continue;
         if(node.end-node.begin<=8) {
             for(auto e=node.begin;e<node.end;++e) if(bounds_intersect(entries_[e].bounds,bounds)) result.push_back(entries_[e].id);
         } else { work.push_back(node.left); work.push_back(node.right); }

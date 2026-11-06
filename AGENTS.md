@@ -31,9 +31,9 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
 
 - Keep one in-progress user outcome. For the selected checkpoint, finish open
   the workflow named in current-task.md using existing native authorities.
-  Candidate2's slide/ROI/tissue/statistics workflow is delivered. The next-phase
-  neighborhood plan is planning scope until implementation is requested; do not
-  replay candidate2 or automatically select every R9 extension.
+  Candidates2/3 are delivered and remain frozen. The current density phase is
+  selected by the owner's continuation; do not replay earlier delivery campaigns
+  or automatically select every R9 extension.
 - Pull new work into that outcome only for a demonstrated blocker, correctness
   failure or invalidated evidence. Put other findings in their existing R row.
   Park optional PRESET1 consumers unless this workflow requires named presets.

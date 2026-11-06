@@ -104,7 +104,7 @@ void projects(const fs::path& root) {
     ProjectSaveJob short_by_one(budget-1);rejects([&] {short_by_one.request(legacy,old.u8string());});
     check(Project::open(old.u8string())->document(1)->tissue_record_count()==1);
     // Recreate a pre-extension schema; open is read-only, save upgrades atomically.
-    auto older=root/"schema27.qpxproj";fs::copy_file(old,older);sql(older,"DROP TABLE spatial_neighborhood_records; PRAGMA user_version=27;");
+    auto older=root/"schema27.qpxproj";fs::copy_file(old,older);sql(older,"DROP TABLE spatial_density_records; DROP TABLE spatial_neighborhood_records; PRAGMA user_version=27;");
     const auto prior=read(older);auto upgrade=Project::open(older.u8string());check(read(older)==prior);
     upgrade->save(older.u8string());check(Project::open(older.u8string())->document(1)->neighborhood_record_count()==0);
     auto damaged=root/"bad-record.qpxproj";fs::copy_file(path,damaged);sql(damaged,"UPDATE spatial_neighborhood_records SET payload=X'51534E01';");

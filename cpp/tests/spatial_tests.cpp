@@ -26,6 +26,10 @@ void nearest_oracle(const SpatialIndex& index,const std::vector<SpatialEntry>& e
     check(std::abs(actual->distance-distance)<=1e-9+distance*1e-12);
 }
 void nearest_contracts() {
+    const double a=5.903720019708988,b=62.638935451312285;
+    check(a+(b-a)<b);
+    SpatialIndex closed_edge({{1,{a,10,0,0}},{2,{b,10,0,0}}});
+    check(closed_edge.query({b,10,0,0})==std::vector<std::uint64_t>{2});
     SpatialIndex empty({});check(!empty.nearest_point({0,0}));
     SpatialIndex one({{1,{0,0,0,0}}});check(!one.nearest_point({0,0},1,1,1));
     SpatialIndex overlap({{1,{0,0,0,0}},{4,{0,0,0,0}},{2,{3,4,0,0}}});

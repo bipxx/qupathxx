@@ -57,6 +57,20 @@ int main() {try {
     frontend.inspect_neighborhood(neighborhood_doc,neighborhood_id);check(neighborhood_doc.remove_neighborhood(neighborhood_id));frontend.poll(neighborhood_doc);check(frontend.report().record_status=="removed" && frontend.report().neighborhood_result);
     frontend.measure(neighborhood_doc,{na},{nb});frontend.finish(neighborhood_doc,true);check(frontend.report().operation==SpatialOperation::NearestDistance && frontend.report().result && !frontend.report().neighborhood_result);
     GuiSpatialOptions neighborhood_gui;neighborhood_gui.operation=SpatialOperation::RadiusCount;neighborhood_gui.radius=0;rejects([&]{neighborhood_gui.validate();});
+    const auto window=neighborhood_doc.add_rectangle({0,0,100,100}),tissue=neighborhood_doc.add_rectangle({20,20,40,40}),excluded=neighborhood_doc.add_rectangle({30,30,2,2});
+    frontend.measure_density(neighborhood_doc,{window},{tissue},{excluded},{na,nb});frontend.finish(neighborhood_doc,true);
+    const auto density=frontend.report();check(density.state=="ready" && density.operation==SpatialOperation::TissueDensity && density.density_result && !density.result && !density.neighborhood_result);
+    check(density.rows==1 && density.sources==1 && density.targets==2 && density.density_result->rows()[0].count==1 && density.density_result->rows()[0].area_pixels==1596);
+    check(density.density_analysis.completed_rows==1 && density.density_analysis.membership_tests>0 && density.analysis.distance_tests==0);
+    const auto density_id=frontend.keep(neighborhood_doc);frontend.poll(neighborhood_doc);check(frontend.report().record_status=="current");
+    frontend.export_csv(neighborhood_doc,(root/"density.csv").u8string(),65536);frontend.finish(neighborhood_doc,true);
+    check(frontend.report().export_state=="saved" && read(root/"density.csv")==spatial_density_csv(*density.density_result));
+    frontend.inspect_density(neighborhood_doc,density_id);frontend.verify_density(neighborhood_doc,density_id);frontend.finish(neighborhood_doc,true);check(frontend.report().state=="verified");
+    frontend.measure_density(neighborhood_doc,{window},{tissue},{excluded},{na});frontend.cancel();frontend.finish(neighborhood_doc,true);check(frontend.report().state=="cancelled" && !frontend.report().density_result);
+    frontend.measure_density(neighborhood_doc,{window},{tissue},{excluded},{na});neighborhood_doc.rename_annotation(tissue,"changed tissue");frontend.finish(neighborhood_doc,true);check(frontend.report().state=="stale" && !frontend.report().density_result);
+    frontend.inspect_density(neighborhood_doc,density_id);check(neighborhood_doc.remove_density(density_id));frontend.poll(neighborhood_doc);check(frontend.report().record_status=="removed" && frontend.report().density_result);
+    frontend.measure(neighborhood_doc,{na},{nb});frontend.finish(neighborhood_doc,true);check(frontend.report().result && !frontend.report().density_result && !frontend.report().neighborhood_result);
+    GuiSpatialOptions density_gui;density_gui.operation=SpatialOperation::TissueDensity;density_gui.run=true;density_gui.sources={window};rejects([&]{density_gui.validate();});density_gui.tissue={tissue};density_gui.validate();
     fs::remove_all(root);
     {detail::SpatialFrontend shutdown;shutdown.measure(*doc,{a},{b});} // Joins before captured native state retires.
     std::cout<<"Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed\n";

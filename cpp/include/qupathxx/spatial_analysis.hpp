@@ -56,6 +56,8 @@ private:
     friend struct SpatialDistanceArchiveCodec;
     friend class SpatialNeighborhoodRequest;
     friend struct SpatialNeighborhoodArchiveCodec;
+    friend struct SpatialDensityArchiveCodec;
+    friend class SpatialDensityRequest;
     friend class Document;
 };
 struct SpatialDistanceRow {

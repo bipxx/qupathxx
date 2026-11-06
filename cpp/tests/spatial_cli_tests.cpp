@@ -1,4 +1,5 @@
 #include "qupathxx/spatial_neighborhood.hpp"
+#include "qupathxx/spatial_density.hpp"
 #include "qupathxx/project.hpp"
 #include "spatial_cli.hpp"
 #include <algorithm>
@@ -77,6 +78,28 @@ int main() {try {
     for(const auto& value:{"0","-1","nan","inf","3junk"}) {auto bad=count_measure;bad.back()=value;rejects([&]{detail::spatial_cli(bad,cancelled);});}
     auto no_radius=count_measure;no_radius.resize(no_radius.size()-2);rejects([&]{detail::spatial_cli(no_radius,cancelled);});
     auto wrong_mode=measure;wrong_mode.insert(wrong_mode.end(),{"--radius","3"});rejects([&]{detail::spatial_cli(wrong_mode,cancelled);});
+    auto density_doc=std::make_shared<Document>(Image::demo());density_doc->set_calibration(2,.5);
+    const auto window=density_doc->add_rectangle({0,0,20,20}),t1=density_doc->add_rectangle({0,0,10,10}),t2=density_doc->add_rectangle({5,0,10,10}),excluded=density_doc->add_rectangle({4,0,2,10});
+    const auto ca=density_doc->add_cell(Roi::rectangle({1,1,2,2})),cb=density_doc->add_cell(Roi::rectangle({4,4,2,2})),cc=density_doc->add_cell(Roi::rectangle({7,7,2,2}));
+    Project density_project;const auto di=density_project.add_document(density_doc,"Density missing image",(root/"density-absent.ppm").u8string(),"ppm");
+    const auto density_source=root/"density-source.qpxproj",density_output=root/"density.qpxproj";density_project.save(density_source.u8string());
+    auto ids=[&](const char* name,const std::vector<std::uint64_t>& cohort) {std::ofstream out(root/name);for(auto value:cohort)out<<value<<'\n';};
+    ids("windows.ids",{window});ids("tissue.ids",{t2,t1});ids("excluded.ids",{excluded});ids("cells.ids",{cc,cb,ca});
+    const auto expected_density=measure_spatial_density(SpatialDensityRequest(*density_doc,{window},{t1,t2},{excluded},{ca,cb,cc}));
+    std::vector<std::string> density_measure={"batch","--measure-spatial",density_source.u8string(),density_output.u8string(),"--image",std::to_string(di),"--operation","tissue-density","--source-ids",(root/"windows.ids").u8string(),"--target-ids",(root/"cells.ids").u8string(),"--tissue-ids",(root/"tissue.ids").u8string(),"--exclude-ids",(root/"excluded.ids").u8string()};
+    {Capture log;check(detail::spatial_cli(density_measure,cancelled)==0);check(log.out.str().find("qpx.spatial-density-cli/1")!=std::string::npos && log.out.str().find("cells/mm2")!=std::string::npos);}
+    const auto density_loaded=Project::open(density_output.u8string())->document(di);const auto density_record=density_loaded->density_records().front();
+    check(density_record->result->sha256()==expected_density->sha256() && density_record->result->rows()[0].count==2 && density_record->result->rows()[0].area_pixels==130);
+    std::vector<std::string> density_export={"batch","--export-spatial",density_output.u8string(),(root/"density.csv").u8string(),"--image",std::to_string(di),"--record",std::to_string(density_record->id),"--operation","tissue-density"};
+    {Capture log;check(detail::spatial_cli(density_export,cancelled)==0);}check(read(root/"density.csv")==spatial_density_csv(*expected_density));
+    std::vector<std::string> density_verify={"batch","--verify-spatial",density_output.u8string(),"--image",std::to_string(di),"--record",std::to_string(density_record->id),"--operation","tissue-density"};
+    const auto density_saved=read(density_output);{Capture log;check(detail::spatial_cli(density_verify,cancelled)==0);}check(read(density_output)==density_saved && !fs::exists(root/"density-absent.ppm"));
+    for(const auto& extra:std::vector<std::vector<std::string>>{{"--units","px"},{"--include-self"},{"--radius","2"},{"--max-distance-tests","10"},{"--tissue",std::to_string(t1)}}) {
+        auto bad=density_measure;bad.insert(bad.end(),extra.begin(),extra.end());rejects([&]{detail::spatial_cli(bad,cancelled);});
+    }
+    auto budget_density=density_measure;budget_density[3]=(root/"density-limited.qpxproj").u8string();budget_density.insert(budget_density.end(),{"--max-membership-tests","1"});
+    {Capture log;check(detail::spatial_cli(budget_density,cancelled)==1);}check(!fs::exists(root/"density-limited.qpxproj"));
+    auto wrong_density_mode=measure;wrong_density_mode.insert(wrong_density_mode.end(),{"--tissue",std::to_string(t1)});rejects([&]{detail::spatial_cli(wrong_density_mode,cancelled);});
     fs::remove_all(root);
     std::cout<<"Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed\n";
 }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}

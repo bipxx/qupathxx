@@ -1,0 +1,52 @@
+{
+  "scope": "T1/T2 density plus T3 shared native frontend/CLI, including corrected closed edges and candidate-growth admission; installed candidate pending",
+  "date": "2026-11-06",
+  "configuration": "Windows x64 MSVC Release; existing gridfrontends167-package cache",
+  "tests": [
+    "geometry",
+    "spatial_neighborhood_records",
+    "spatial_density_records",
+    "spatial_density",
+    "spatial_neighborhood",
+    "spatial",
+    "spatial_records",
+    "spatial_frontend",
+    "spatial_cli"
+  ],
+  "passed": 9,
+  "test_log": "native-tests.log",
+  "test_log_sha256": "6d009e21a4ab59a843b11871039cde59382a707227b1d92b82152e28a7a8dde7",
+  "source_sha256": {
+    "CMakeLists.txt": "e7f5563443e915e95c9efa488daf779c8ded9de0baf916c22614ef159725340c",
+    "cpp/include/qupathxx/core.hpp": "0731433bfa99bd7816991f558c8c7206b613e282d5a4d8b406b56e7c56df4ef6",
+    "cpp/include/qupathxx/spatial_analysis.hpp": "b975906e7a9566cc2bec63fe32525f72cbd391d5ff49e8809b7251cbbc6ca28b",
+    "cpp/include/qupathxx/spatial_density.hpp": "ecc7d4b5c5567e958021c83e1d77c09900e0703f7653ac5d478650e303f9935c",
+    "cpp/density_snapshot.hpp": "8deb9efefa6df0c18fdc4d09fc3d01b572bd9c068305cc1eb285bd398f47d434",
+    "cpp/spatial_density.cpp": "0ceaeddfddf5bcfc9b89cc002b7fa4349e01f5b7fda6388889a9e7fb17571073",
+    "cpp/density_archive.hpp": "4c03fac8c69faa2429dbf81a0a7be28c40722a40625c6ea03fe93bdf67faa1c0",
+    "cpp/density_archive.cpp": "ff6d505a0eaa739e8c98c4978e2daf57d38cea863a8d7c6c52d098cf4a9f073f",
+    "cpp/density_records.cpp": "1f6d97671d3c660c30d9cfe249132b617d804b74ca5de7afd0266fbbb67f37b0",
+    "cpp/density_export.cpp": "381f3bf51ec83c157fb9643ced4a0298b080762be613b1171dd0b7f399c79dd6",
+    "cpp/project.cpp": "42463f58e5dfeda3907c64e246009bdea9047649cdcdb5da6d92f627942b40b8",
+    "cpp/project_schema.hpp": "136712580ae807073dadf3f6c8649da29d25b3c86ef08851bb3547d9dc4eae92",
+    "cpp/spatial_analysis.cpp": "4ba17198318ff9b35365f7a690b9f8eb148c6ed25eebfe8519ec327ea061d9b7",
+    "cpp/neighborhood_records.cpp": "4155eaae18128494964ad747434e6a5f6fe2a32e977f5a1b77425e93192fb551",
+    "cpp/tests/density_tests.cpp": "fa5740d55a71767229163385a9be3bdd703eb1eb1e2fbebee54603374bcb79e5",
+    "cpp/tests/density_record_tests.cpp": "884b1efb2c819734eae9f611613c14d6689470be15af28ad4f66bd51446ac55a",
+    "cpp/tests/spatial_record_tests.cpp": "11e4af7ccfebb4df3c72cb223863fa001d3aeead92ad0238f3dda2e97228396f",
+    "cpp/tests/neighborhood_record_tests.cpp": "eec4fecb7c20ba5bded8b1ace4d00e2d6a6f848dadd0f18bb36c1e9b954cf20a",
+    "cpp/spatial_index.cpp": "76c5a805182b1f8d8d99ad8166087465e4b54161bfe0a721e40465f3042a6099",
+    "cpp/tests/spatial_tests.cpp": "c81c289808719e899c68aca6a1126861666bf39e5f33e4cbea1fc563c9696a93",
+    "cpp/spatial_frontend.cpp": "953650a181377fc17705d1846a8ed3afaad3ff4c6b8864ae203f028ee60d7d19",
+    "cpp/include/qupathxx/spatial_frontend.hpp": "51e738c15fdd969ba7ba789b0fe87571bc8c078f7fdf6073af2469da39fb7771",
+    "cpp/spatial_cli.cpp": "e4a50ea2330262c39dc48ad47d8696561f230fccb2fecc69dbc783bc189c88c5",
+    "cpp/tests/spatial_frontend_tests.cpp": "81b52108b63fa25be7a6f25714a3a8e8bb4428874544c29c52a90cd72e285871",
+    "cpp/tests/spatial_cli_tests.cpp": "8e052aeeda879f506aac9f09c97243a92158a38811e676d48b14805213d2a605"
+  },
+  "limits": [
+    "Planned native payload budgets are not process RSS guarantees; GEOS scratch is opaque.",
+    "One GEOS operation is synchronous; cancellation is checked before and after.",
+    "No installed consumer, speed-superiority, full parity or biological validation claim."
+  ],
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e"
+}

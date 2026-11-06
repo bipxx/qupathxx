@@ -497,7 +497,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::SaveStainModel)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::SpatialExclusions)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -941,7 +941,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto record=document.latest_cells(selected);
                 return record && (event.wait_for==GuiInputWait::CellsArchived || (!cell_job.busy() && !verifying_cells && document.cell_status(record->id)=="current"));
             }
-            if(event.wait_for==GuiInputWait::SpatialReady) {const auto r=spatial.report();return !r.busy && r.state=="ready" && (bool(r.result) || bool(r.neighborhood_result));}
+            if(event.wait_for==GuiInputWait::SpatialReady) {const auto r=spatial.report();return !r.busy && r.state=="ready" && (bool(r.result) || bool(r.neighborhood_result) || bool(r.density_result));}
             if(event.wait_for==GuiInputWait::SpatialKept) return spatial.report().record_id!=0;
             if(event.wait_for==GuiInputWait::SpatialVerified) {const auto r=spatial.report();return !r.busy && r.state=="verified" && r.record_status=="current";}
             if(event.wait_for==GuiInputWait::SpatialExported) return spatial.report().export_state=="saved";

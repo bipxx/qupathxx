@@ -1,0 +1,27 @@
+{
+  "scope": "Staged local T3, before clean source freeze/wheel/isolated installed route",
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "python_passed": 25,
+  "python_skipped": "16 opt-in existing GUI cases; new actual density cancellation/retry ran separately",
+  "typing_positive": "passed",
+  "typing_negative": "3 expected errors",
+  "desktop_cancel_retry": "passed; active predicates observed, no partial record",
+  "desktop_workflow": "staged-workflow.json",
+  "visual": "desktop.png inspected: all4 table rows/units/status readable, overlays registered to captured tissue; no cosmetic matching gate",
+  "resource_observation": "resources.json",
+  "source_sha256": {
+    "cpp/gui.cpp": "b6e15c83e31179b7fc90678942b9eea3457eaa3894205ddb2864a12ec2756ed5",
+    "cpp/gui_spatial.hpp": "50a3521b182fdb799942b9d7ef7d03259a07ea9062b48683d0d53c8fe2ed8643",
+    "cpp/gui_replay.hpp": "946923e92762bc57a44e95d9c6b436c321068f9ca43f57362c04e2b86b0dc70b",
+    "cpp/bindings.cpp": "d205fb72a7c66c8d847e2ca340a1d303a4d8792f386b309271c66dd277c14eca",
+    "cpp/spatial_bindings.cpp": "fa2760f443d1eeede155d81fcb26324f66bf20af96031b73cc49a30de4a05e9f",
+    "src/qupathxx/__init__.py": "d16c00268b4d9114e8ba785b934d1326eefa92eb5422810ff8e93adfb8c95cfc",
+    "src/qupathxx/_native.pyi": "f523e025a4ef2c042dbe3a8a63372703e97d062413e33e48a0aea4c697673963",
+    "src/qupathxx/__init__.pyi": "f9ff3dd63aa4619acc39d70d108579478df43e40c6428e50bcdd5f303528fe83",
+    "tests/test_spatial_density.py": "45f0a2be9c3fb5fbdaed5999cb2eaae3ceb5ef97cd5632e576dd702e1dd69226",
+    "tests/test_spatial_density_gui.py": "08c7f5d71fe2474198ceff35918ad5a54736e477b56a8d9f7dea97c9ca09dbdb",
+    "tests/typing/density_valid.py": "65ee3ad096e8238bb9753ecb30154bd0446bd2b59ceedbf5fb2c096147b74766",
+    "tests/typing/density_invalid.py": "5d769339357b1b3a22d86280da1c74a7713e8479bb8ce2a2ed7359cff4181387"
+  },
+  "build_correction": "Initial CLI nested constexpr lambda failed on MSVC; direct branch repair plus GUI visibility-array/mode guards, index closed edges and vector-growth accounting reused every compiled binding object."
+}

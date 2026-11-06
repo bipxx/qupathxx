@@ -11,8 +11,11 @@
 namespace qpx {
 void GuiSpatialOptions::validate() const {
     analysis.validate();detail::bounded_utf8(csv_path,32768);
-    if(operation!=SpatialOperation::NearestDistance && operation!=SpatialOperation::RadiusCount) throw std::invalid_argument("invalid spatial operation");
+    if(operation!=SpatialOperation::NearestDistance && operation!=SpatialOperation::RadiusCount && operation!=SpatialOperation::TissueDensity) throw std::invalid_argument("invalid spatial operation");
     if(operation==SpatialOperation::RadiusCount) {SpatialNeighborhoodOptions o;static_cast<SpatialDistanceOptions&>(o)=analysis;o.radius=radius;o.validate();}
+    if(operation==SpatialOperation::TissueDensity) {
+        density.validate();if(sources.size()>10000 || tissue.size()>10000 || excluded.size()>10000 || (run && tissue.empty())) throw std::invalid_argument("invalid density viewer cohorts");
+    }
     if(sources.size()>100000 || targets.size()>100000 || (run && (sources.empty() || record_id)) || !csv_bytes || csv_bytes>1024u*1024*1024)
         throw std::invalid_argument("invalid spatial viewer options");
 }
@@ -33,10 +36,10 @@ std::vector<std::string> spatial_project_paths(const Project* project,const std:
     for(const auto& image:*catalog) if(!image.embedded) add_path(paths,bytes,image.source_path,limit);return paths;
 }
 namespace {
-// Two typed operation states share one publication/export/lifecycle controller.
+// Typed operation states share one publication/export/lifecycle controller.
 // No frontend computes centroids, distances or counts itself.
-template<class Request,class Result,class Record,class Job,bool Neighborhood> struct SpatialMode {
-    static constexpr bool neighborhood=Neighborhood;
+template<class Request,class Result,class Record,class Job,SpatialOperation Operation> struct SpatialMode {
+    static constexpr bool neighborhood=Operation==SpatialOperation::RadiusCount,density=Operation==SpatialOperation::TissueDensity;
     using RequestType=Request;using RecordType=Record;using JobType=Job;
     std::unique_ptr<Job> job=std::make_unique<Job>();
     std::optional<Request> request;
@@ -44,18 +47,19 @@ template<class Request,class Result,class Record,class Job,bool Neighborhood> st
     std::shared_ptr<const Result> result;
     bool verifying=false;
 };
-using DistanceMode=SpatialMode<SpatialDistanceRequest,SpatialDistanceResult,SpatialDistanceRecord,SpatialDistanceJob,false>;
-using NeighborhoodMode=SpatialMode<SpatialNeighborhoodRequest,SpatialNeighborhoodResult,SpatialNeighborhoodRecord,SpatialNeighborhoodJob,true>;
+using DistanceMode=SpatialMode<SpatialDistanceRequest,SpatialDistanceResult,SpatialDistanceRecord,SpatialDistanceJob,SpatialOperation::NearestDistance>;
+using NeighborhoodMode=SpatialMode<SpatialNeighborhoodRequest,SpatialNeighborhoodResult,SpatialNeighborhoodRecord,SpatialNeighborhoodJob,SpatialOperation::RadiusCount>;
+using DensityMode=SpatialMode<SpatialDensityRequest,SpatialDensityResult,SpatialDensityRecord,SpatialDensityJob,SpatialOperation::TissueDensity>;
 template<class Mode> auto saved_record(const Document& doc,std::uint64_t id) {
-    if constexpr(Mode::neighborhood) return doc.neighborhood_record(id);else return doc.spatial_record(id);
+    if constexpr(Mode::density) return doc.density_record(id);else if constexpr(Mode::neighborhood) return doc.neighborhood_record(id);else return doc.spatial_record(id);
 }
 template<class Mode,class ResultPtr> bool verify_record(Document& doc,std::uint64_t id,const typename Mode::RequestType& request,const ResultPtr& result) {
-    if constexpr(Mode::neighborhood) return doc.verify_neighborhood(id,request,result);else return doc.verify_spatial(id,request,result);
+    if constexpr(Mode::density) return doc.verify_density(id,request,result);else if constexpr(Mode::neighborhood) return doc.verify_neighborhood(id,request,result);else return doc.verify_spatial(id,request,result);
 }
 }
 struct SpatialFrontend::Impl {
     const std::thread::id owner=std::this_thread::get_id();
-    std::variant<DistanceMode,NeighborhoodMode> mode;
+    std::variant<DistanceMode,NeighborhoodMode,DensityMode> mode;
     std::shared_ptr<const char> identity;
     GuiSpatialReport view;
     struct Export {bool committed=false;std::string error;std::size_t bytes=0;};
@@ -65,7 +69,7 @@ struct SpatialFrontend::Impl {
     bool busy() const {return std::visit([](const auto& m){return m.job->busy();},mode) || future.valid();}
     void idle() const {on_owner();if(busy()) throw std::runtime_error("a spatial operation is already running");}
     GuiSpatialReport fresh_view(const std::string& state) const {
-        auto next=view;next.state=state;next.error.clear();next.record_status.clear();next.result.reset();next.neighborhood_result.reset();
+        auto next=view;next.state=state;next.error.clear();next.record_status.clear();next.result.reset();next.neighborhood_result.reset();next.density_result.reset();next.analysis={};next.density_analysis={};
         next.export_state="idle";next.export_error.clear();next.export_committed=false;next.export_rows=next.export_bytes=0;next.path.clear();return next;
     }
     template<class Mode> void start(const Document& doc,typename Mode::RequestType capture,std::shared_ptr<const typename Mode::RecordType> retained={}) {
@@ -89,6 +93,14 @@ void SpatialFrontend::measure(const Document& doc,const std::vector<std::uint64_
 void SpatialFrontend::measure_neighborhood(const Document& doc,const std::vector<std::uint64_t>& sources,const std::vector<std::uint64_t>& targets,SpatialNeighborhoodOptions options) {
     impl_->idle();impl_->start<NeighborhoodMode>(doc,SpatialNeighborhoodRequest(doc,sources,targets,options));
 }
+void SpatialFrontend::measure_density(const Document& doc,const std::vector<std::uint64_t>& windows,const std::vector<std::uint64_t>& tissue,
+    const std::vector<std::uint64_t>& excluded,const std::vector<std::uint64_t>& cells,SpatialDensityOptions options) {
+    impl_->idle();impl_->start<DensityMode>(doc,SpatialDensityRequest(doc,windows,tissue,excluded,cells,options));
+}
+void SpatialFrontend::inspect_density(const Document& doc,std::uint64_t id) {impl_->inspect<DensityMode>(doc,id);}
+void SpatialFrontend::verify_density(const Document& doc,std::uint64_t id) {
+    impl_->idle();impl_->start<DensityMode>(doc,SpatialDensityRequest::replay(doc,id),doc.density_record(id));
+}
 void SpatialFrontend::inspect(const Document& doc,std::uint64_t id) {impl_->inspect<DistanceMode>(doc,id);}
 void SpatialFrontend::inspect_neighborhood(const Document& doc,std::uint64_t id) {impl_->inspect<NeighborhoodMode>(doc,id);}
 void SpatialFrontend::verify(const Document& doc,std::uint64_t id) {
@@ -102,7 +114,8 @@ std::uint64_t SpatialFrontend::keep(Document& doc,std::string name) {
         using Mode=std::decay_t<decltype(m)>;
         if(!m.request || !m.result || m.verifying) throw std::invalid_argument("no current spatial preview to retain");
         auto next_view=s.view;next_view.state="historical";auto next_job=std::make_unique<typename Mode::JobType>();std::uint64_t id;
-        if constexpr(Mode::neighborhood) {if(name=="Spatial distances") name="Spatial neighborhoods";id=doc.keep_neighborhood(*m.request,m.result,std::move(name));}
+        if constexpr(Mode::density) {if(name=="Spatial distances") name="Tissue cell density";id=doc.keep_density(*m.request,m.result,std::move(name));}
+        else if constexpr(Mode::neighborhood) {if(name=="Spatial distances") name="Spatial neighborhoods";id=doc.keep_neighborhood(*m.request,m.result,std::move(name));}
         else id=doc.keep_spatial(*m.request,m.result,std::move(name));
         m.record=saved_record<Mode>(doc,id);m.job=std::move(next_job);m.request.reset();s.view=std::move(next_view);s.status_revision=UINT64_MAX;return id;
     },s.mode);
@@ -126,7 +139,8 @@ void SpatialFrontend::export_csv(const Document& doc,const std::string& path,std
         auto future=std::async(std::launch::async,[result,paths=std::move(paths),destination,limit,&s] {
             Impl::Export e;try {
                 auto guard=[&]{for(const auto& input:paths) protect_spatial_path(input,"",destination);};
-                if constexpr(Mode::neighborhood) e.bytes=save_spatial_neighborhood_csv(*result,destination,limit,false,&s.cancelled,guard);
+                if constexpr(Mode::density) e.bytes=save_spatial_density_csv(*result,destination,limit,false,&s.cancelled,guard);
+                else if constexpr(Mode::neighborhood) e.bytes=save_spatial_neighborhood_csv(*result,destination,limit,false,&s.cancelled,guard);
                 else e.bytes=save_spatial_distance_csv(*result,destination,limit,false,&s.cancelled,guard);
                 e.committed=true;
             }catch(const std::exception& error) {e.error=error.what();}return e;
@@ -144,7 +158,8 @@ void SpatialFrontend::poll(Document& doc) {
     std::visit([&](auto& m) {
         using Mode=std::decay_t<decltype(m)>;
         if(m.request) {
-            s.view.analysis=m.job->poll(doc);s.view.state=s.view.analysis.state;s.view.error=s.view.analysis.error;
+            const auto stats=m.job->poll(doc);s.view.state=stats.state;s.view.error=stats.error;
+            if constexpr(Mode::density) s.view.density_analysis=stats;else s.view.analysis=stats;
             if(!m.job->busy()) {
                 const auto result=m.job->result();
                 if(result && m.verifying) {
@@ -156,7 +171,7 @@ void SpatialFrontend::poll(Document& doc) {
             }
         }
         if(m.record && s.status_revision!=doc.revision()) {
-            try {if constexpr(Mode::neighborhood) s.view.record_status=doc.neighborhood_status(m.record->id);else s.view.record_status=doc.spatial_status(m.record->id);}
+            try {if constexpr(Mode::density) s.view.record_status=doc.density_status(m.record->id);else if constexpr(Mode::neighborhood) s.view.record_status=doc.neighborhood_status(m.record->id);else s.view.record_status=doc.spatial_status(m.record->id);}
             catch(const std::out_of_range&) {s.view.record_status="removed";}
             s.status_revision=doc.revision();if(s.view.state=="verified" && s.view.record_status!="current") s.view.state="historical";
         } else if(!m.record) s.view.record_status.clear();
@@ -172,12 +187,16 @@ void SpatialFrontend::finish(Document& doc,bool wait) {
     impl_->on_owner();if(!wait) cancel();std::visit([](auto& m){m.job->wait_work();},impl_->mode);if(impl_->future.valid()) impl_->future.wait();poll(doc);
 }
 GuiSpatialReport SpatialFrontend::report() const {
-    const auto& s=*impl_;s.on_owner();auto out=s.view;out.busy=s.busy();out.result.reset();out.neighborhood_result.reset();
+    const auto& s=*impl_;s.on_owner();auto out=s.view;out.busy=s.busy();out.result.reset();out.neighborhood_result.reset();out.density_result.reset();
     std::visit([&](const auto& m) {
         using Mode=std::decay_t<decltype(m)>;out.record_id=m.record?m.record->id:0;
-        if constexpr(Mode::neighborhood) {out.operation=SpatialOperation::RadiusCount;out.neighborhood_result=m.result;}
+        if constexpr(Mode::density) {out.operation=SpatialOperation::TissueDensity;out.density_result=m.result;}
+        else if constexpr(Mode::neighborhood) {out.operation=SpatialOperation::RadiusCount;out.neighborhood_result=m.result;}
         else {out.operation=SpatialOperation::NearestDistance;out.result=m.result;}
-        if(m.result) {out.rows=m.result->rows().size();out.sources=m.result->source_count();out.targets=m.result->target_count();}
+        if(m.result) {out.rows=m.result->rows().size();
+            if constexpr(Mode::density) {out.sources=m.result->window_count();out.targets=m.result->cell_count();}
+            else {out.sources=m.result->source_count();out.targets=m.result->target_count();}
+        }
     },s.mode);return out;
 }
 }
