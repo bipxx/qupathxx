@@ -7,7 +7,7 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected next outcome — representative large-slide tissue workflow
+## Delivered outcome — representative large-slide tissue workflow
 
 R12 continuation delivers whole-slide tissue at an explicit native pyramid
 level while high-resolution ROI statistics remain bounded. The new opt-in
@@ -34,17 +34,29 @@ CSV/save/replay pass; standalone opens the combined Python project. The captured
 overlay aligns with tissue, scale is visible and the UI reports zero overflow.
 See [evidence and commands](benchmarks/large-slide-workflow/README.md).
 
-Remaining delivery:freeze this source, build one wheel with build tag2 using the
-existing cache, install it once and verify the changed installed route and
-identity; ship corresponding sources/notices and publish the scoped candidate.
-Do not repeat the accepted full qualification, old fresh-host campaign or add
-optional parity work. Changes to packaging/provenance require member/runtime
-checks, not another binding/API rebuild.
+Delivery complete: [Windows candidate2](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.2)
+is published with16 assets, each remote size/SHA256 verified. Native source is
+`bee4736f2ad0aeffc9907542c873f06efd335cc7`, tree
+`b52fa9b85799b7ce0b68780a84f2c95ff993c69b848ce7b24a9b74d54215e8f7`.
+The cached wheel build refreshed provenance/linking, reused settled bindings and
+produced build tag2 with AGPL SPDX metadata/license. One isolated installation
+passes Python and ImGui large-slide/CSV/QTM6 replay, all3 focused installed tests,
+and standalone reopen. All63 installed package members match the wheel; wheel
+and native runtime inspections pass; all497 raw compiler inputs match the source
+archive, and12 unchanged dependency archives authenticate. No fresh-host result
+is claimed for candidate2. Final packages:main build/large-slide-workflow/delivery;
+installed runtime:main build/large-slide-workflow/installed. The selected outcome
+is closed; no new parity extension is selected. Automatic approval review blocked
+retirement of superseded stage/test directories; they remain intact outside the
+selected delivery. See the [delivery receipt](benchmarks/large-slide-workflow/delivery.md).
 
 Waste review:the first native test used a Python alias; it was corrected and only
 that target retried. The snapshot test confused fixture relocation with native
 layout change; a same-path old/new comparison resolved it before touching code.
-One combined bindings/UI/CLI build was reused for all consumers. Required build
+One combined bindings/UI/CLI build was reused for all consumers. The restored
+build environment lacked pip; invoking the installed backend directly avoided
+an unnecessary installation. An identical duplicate license and the native
+archive basename were corrected before publication, without changing binaries. Required build
 tools were restored for the demonstrated decoder defect. Optional PRESET1 source
 is preserved byte-exact in build/stain-presets-r7/parked-source and Git stash
 88f1eba9fe33025dd696ef3fbf6e8c7e55c6363f; keep it parked.

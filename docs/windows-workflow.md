@@ -1,8 +1,13 @@
 # Windows research workflow candidate
 
-The next source candidate adds [whole-slide pyramid tissue](benchmarks/large-slide-workflow/README.md)
-alongside bounded high-resolution ROI statistics. Its opt-in mode requires the
-updated build; the published candidate1 described below remains the ROI baseline.
+[Windows candidate2](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.2)
+adds [whole-slide pyramid tissue](benchmarks/large-slide-workflow/README.md)
+alongside bounded high-resolution ROI statistics. Download its build-tag2 wheel
+or native ZIP and follow the linked large-slide guide. It is locally verified;
+see the [delivery receipt](benchmarks/large-slide-workflow/delivery.md).
+
+The candidate1 instructions and fresh-host evidence below describe the previous
+ROI baseline, which remains available separately.
 
 This engineering candidate opens an Aperio brightfield slide, authors a
 bounded calibrated rectangle, retains tissue and region-intensity measurements,

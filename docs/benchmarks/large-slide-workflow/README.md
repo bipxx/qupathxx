@@ -2,7 +2,7 @@
 
 Local implementation evidence uses source `6da9917c+dirty` containing the
 canonical-pyramid changes committed with this directory. The final installed
-candidate's identity and package checks are recorded separately at handoff.
+candidate's identity and package checks are recorded in [the delivery receipt](delivery.md).
 The old published candidate1 does not provide this mode.
 
 ## Result and boundary
