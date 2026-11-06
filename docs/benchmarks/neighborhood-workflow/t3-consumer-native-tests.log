@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 58: spatial_frontend
+1/2 Test #58: spatial_frontend .................   Passed    0.11 sec
+    Start 59: spatial_cli
+2/2 Test #59: spatial_cli ......................   Passed    0.48 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.69 sec

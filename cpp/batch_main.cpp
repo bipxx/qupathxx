@@ -38,6 +38,7 @@ int execute(const std::vector<std::string>& args) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
+            "       spatial options: --operation nearest-distance|radius-count; radius-count measure requires --radius R (uses --units px|um)\n"
             "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
             "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
             "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"

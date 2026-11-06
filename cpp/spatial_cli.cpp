@@ -1,5 +1,5 @@
 #include "spatial_cli.hpp"
-#include "qupathxx/spatial_analysis.hpp"
+#include "qupathxx/spatial_neighborhood.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
@@ -8,9 +8,11 @@
 #include "batch_checkpoint.hpp"
 #include "utf8_text.hpp"
 #include <charconv>
+#include <cmath>
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <set>
 namespace qpx::detail {
@@ -39,6 +41,7 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
     if(args.size()<positional) throw std::invalid_argument("spatial commands require PROJECT and, for measure/export, a new OUTPUT; see --help");
     std::uint64_t image=0,record_id=0,project_bytes=1024ull*1024*1024;
     std::size_t save_bytes=512ull*1024*1024,csv_bytes=64u*1024*1024,ids_bytes=4u*1024*1024;
+    bool neighborhood=false;std::optional<double> radius;
     SpatialDistanceOptions options;std::vector<std::uint64_t> sources,targets;std::set<std::string> seen;std::string name="Spatial distances",source_ids_file,target_ids_file;
     for(std::size_t i=positional;i<args.size();++i) {
         const auto flag=args[i];
@@ -46,9 +49,15 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         if(measure && (flag=="--body" || flag=="--include-self")) {if(flag=="--body") options.prefer_nucleus=false;else options.exclude_self=false;continue;}
         const bool number=flag=="--image" || (!measure && flag=="--record") ||
             (measure && (flag=="--source" || flag=="--target" || flag=="--snapshot-bytes" || flag=="--work-bytes" || flag=="--max-distance-tests" || flag=="--save-snapshot-bytes" || flag=="--project-bytes" || flag=="--ids-bytes")) || (!measure && !verify && flag=="--csv-bytes");
-        if(!number && !(measure && (flag=="--units" || flag=="--name" || flag=="--source-ids" || flag=="--target-ids"))) throw std::invalid_argument("unknown spatial option: "+flag);
+        if(!number && flag!="--operation" && !(measure && (flag=="--radius" || flag=="--units" || flag=="--name" || flag=="--source-ids" || flag=="--target-ids"))) throw std::invalid_argument("unknown spatial option: "+flag);
         if(++i==args.size()) throw std::invalid_argument("missing value for spatial option: "+flag);
         const auto& value=args[i];
+        if(flag=="--operation") {if(value=="nearest-distance")neighborhood=false;else if(value=="radius-count")neighborhood=true;else throw std::invalid_argument("spatial operation must be nearest-distance or radius-count");continue;}
+        if(flag=="--radius") {
+            double v=0;const auto parsed=std::from_chars(value.data(),value.data()+value.size(),v);
+            if(parsed.ec!=std::errc{} || parsed.ptr!=value.data()+value.size() || !std::isfinite(v) || v<=0) throw std::invalid_argument("spatial radius must be positive and finite");
+            radius=v;continue;
+        }
         if(flag=="--units") {if(value=="px") options.units=SpatialDistanceUnits::Pixels;else if(value=="um") options.units=SpatialDistanceUnits::Micrometres;else throw std::invalid_argument("spatial units must be px or um");continue;}
         if(flag=="--name") {bounded_utf8(value,256);if(value.empty()) throw std::invalid_argument("spatial record name is empty");name=value;continue;}
         if(flag=="--source-ids" || flag=="--target-ids") {if(value.empty()) throw std::invalid_argument("spatial ID file path is empty");(flag=="--source-ids"?source_ids_file:target_ids_file)=value;continue;}
@@ -69,6 +78,9 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
     if((!source_ids_file.empty() && !sources.empty()) || (!target_ids_file.empty() && !targets.empty())) throw std::invalid_argument("each spatial cohort uses repeated IDs or one ID file, not both");
     for(auto* ids:{&sources,&targets}) {std::sort(ids->begin(),ids->end());if(std::adjacent_find(ids->begin(),ids->end())!=ids->end()) throw std::invalid_argument("duplicate spatial cohort ID");}
     options.validate();
+    if(radius && !neighborhood) throw std::invalid_argument("--radius requires --operation radius-count");
+    if(neighborhood && measure && !radius) throw std::invalid_argument("radius-count measurement requires --radius");
+    if(neighborhood && !seen.count("--name")) name="Spatial neighborhoods";
     try {
         export_checkpoint(&cancelled);const auto source=export_path(args[2]);const auto output=verify?std::string{}:export_path(args[3]);
         ReaderFileGuard observed(source);
@@ -78,37 +90,54 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         if(!target_ids_file.empty()) {target_ids_guard=std::make_unique<ReaderFileGuard>(export_path(target_ids_file));targets=read_ids(*target_ids_guard,ids_bytes,cancelled);}
         const auto project=Project::open_without_journal_recovery(source);const auto document=project->document(image);const auto images=project->images();
         std::shared_ptr<const SpatialDistanceResult> result;
+        std::shared_ptr<const SpatialNeighborhoodResult> neighborhood_result;
+        std::shared_ptr<const AnalysisProvenance> provenance;
         auto protect=[&] {
             observed.verify();export_checkpoint(&cancelled);if(verify) return;
             protect_spatial_path(source,observed.version()->identity,output);
             for(const auto* guard:{source_ids_guard.get(),target_ids_guard.get()}) if(guard) {guard->verify();protect_spatial_path(guard->version()->path,guard->version()->identity,output);}
             for(const auto* suffix:{"-journal","-wal","-shm"}) protect_spatial_path(source+suffix,"",output);
             for(const auto& entry:images) if(!entry.embedded && !entry.source_path.empty()) protect_spatial_path(export_path(entry.source_path),"",output);
-            if(result && result->provenance()->reader_source) {
-                const auto& files=*result->provenance()->reader_source;
+            if(provenance && provenance->reader_source) {
+                const auto& files=*provenance->reader_source;
                 if(files.primary) protect_spatial_path(files.primary->path,files.primary->identity,output);
                 for(const auto& file:files.companions) protect_spatial_path(file.path,file.identity,output);
             }
         };
         protect();std::size_t bytes=0;
-        if(measure) {
-            SpatialDistanceRequest request(*document,sources,targets,options);result=measure_spatial_distances(request,&cancelled);
+        if(neighborhood) {
+            if(measure) {
+                SpatialNeighborhoodOptions parameters;static_cast<SpatialDistanceOptions&>(parameters)=options;parameters.radius=*radius;
+                SpatialNeighborhoodRequest request(*document,sources,targets,parameters);neighborhood_result=measure_spatial_neighborhoods(request,&cancelled);provenance=neighborhood_result->provenance();
+                export_checkpoint(&cancelled);record_id=document->keep_neighborhood(request,neighborhood_result,name);protect();
+                project->save_new(output,save_bytes,project_bytes,&cancelled,protect);
+            } else {
+                neighborhood_result=document->neighborhood_record(record_id)->result;provenance=neighborhood_result->provenance();
+                if(verify) {const auto request=SpatialNeighborhoodRequest::replay(*document,record_id);const auto fresh=measure_spatial_neighborhoods(request,&cancelled);if(!document->verify_neighborhood(record_id,request,fresh)) throw std::runtime_error("neighborhood verification differs from saved result");protect();}
+                else bytes=save_spatial_neighborhood_csv(*neighborhood_result,output,csv_bytes,false,&cancelled,protect);
+            }
+        } else if(measure) {
+            SpatialDistanceRequest request(*document,sources,targets,options);result=measure_spatial_distances(request,&cancelled);provenance=result->provenance();
             export_checkpoint(&cancelled);record_id=document->keep_spatial(request,result,name);protect();
             project->save_new(output,save_bytes,project_bytes,&cancelled,protect);
         } else {
-            result=document->spatial_record(record_id)->result;
+            result=document->spatial_record(record_id)->result;provenance=result->provenance();
             if(verify) {const auto request=SpatialDistanceRequest::replay(*document,record_id);const auto fresh=measure_spatial_distances(request,&cancelled);if(!document->verify_spatial(record_id,request,fresh)) throw std::runtime_error("spatial verification differs from the saved result");protect();}
             else bytes=save_spatial_distance_csv(*result,output,csv_bytes,false,&cancelled,protect);
         }
-        std::cout<<"{\"schema\":\"qpx.spatial-cli/1\",\"command\":"<<batch_json_quote(measure?"measure":verify?"verify":"export")
+        auto print_result=[&](const auto& result) {
+        std::cout<<"{\"schema\":"<<batch_json_quote(neighborhood?"qpx.spatial-neighborhood-cli/1":"qpx.spatial-cli/1")<<",\"command\":"<<batch_json_quote(measure?"measure":verify?"verify":"export")
             <<",\"state\":"<<batch_json_quote(verify?"verified":"saved")<<",\"image_id\":"<<image<<",\"record_id\":"<<record_id
             <<",\"rows\":"<<result->rows().size()<<",\"sources\":"<<result->source_count()<<",\"targets\":"<<result->target_count()
             <<",\"units\":"<<batch_json_quote(result->options().units==SpatialDistanceUnits::Pixels?"px":"um")
             <<",\"algorithm\":"<<batch_json_quote(result->algorithm())<<",\"input_sha256\":"<<batch_json_quote(result->input_sha256())
             <<",\"result_sha256\":"<<batch_json_quote(result->sha256())<<",\"historical\":"<<(!measure && !verify?"true":"false");
+        if(neighborhood) std::cout<<std::setprecision(17)<<",\"operation\":\"radius-count\",\"radius\":"<<neighborhood_result->options().radius;
         if(!verify) std::cout<<",\"output\":"<<batch_json_quote(output);
         if(!measure && !verify) std::cout<<",\"bytes\":"<<bytes;
-        std::cout<<"}\n";return 0;
+        std::cout<<"}\n";
+        };
+        if(neighborhood)print_result(neighborhood_result);else print_result(result);return 0;
     }catch(const std::exception& e) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(e.what())<<"}\n";return cancelled.load()?130:1;}
 }
 }

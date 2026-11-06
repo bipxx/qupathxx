@@ -22,7 +22,15 @@ def test_native_stub_covers_public_classes_members_functions_and_constants():
         if name.startswith('_'):continue
         assert name in top,name
         if isinstance(value,type) and value.__module__=='qupathxx._native':
-            node=top[name];assert isinstance(node,ast.ClassDef)
+            node=top[name]
+            if isinstance(node,ast.AnnAssign):
+                # An exported class alias must resolve to the identical native
+                # class, whose full member surface is still checked below.
+                assert isinstance(node.annotation,ast.Name) and node.annotation.id=='TypeAlias',name
+                assert isinstance(node.value,ast.Name),name
+                assert getattr(_native,node.value.id) is value,name
+                node=top[node.value.id]
+            assert isinstance(node,ast.ClassDef),name
             members={n.name for n in node.body if isinstance(n,ast.FunctionDef)}
             members.update(n.target.id for n in node.body if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name))
             members.update(t.id for n in node.body if isinstance(n,ast.Assign) for t in n.targets if isinstance(t,ast.Name))

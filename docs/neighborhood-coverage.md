@@ -11,8 +11,9 @@ decisive check outstanding; **Verified** = linked passing source-scoped evidence
 **Blocked** = named external constraint. A failure remains visible until its
 cause/correction and decisive rerun are recorded. Check boxes mean Verified.
 
-Coverage at T2 closeout:27/50 requirements verified;23 pending. This is
-requirement coverage, not a time estimate or overall project completion percentage.
+Current coverage:40/50 requirements verified;10 pending final package/install/
+publication. This is requirement coverage, not a time estimate or overall project
+completion percentage.
 
 ## T1 — contract, capture, radius traversal and jobs
 
@@ -55,28 +56,28 @@ requirement coverage, not a time estimate or overall project completion percenta
 
 | Done | ID | Required behavior | State / evidence |
 | --- | --- | --- | --- |
-| [ ] | N28 | Nanobind options/request/result/rows/job and retained-record APIs; no independent Python computation | Pending |
-| [ ] | N29 | Python direct/job parity, result lifetime/owner shutdown and wait/GIL behavior | Pending |
-| [ ] | N30 | Generated public stubs expose settled names/options; focused positive/negative typing/signature checks | Pending |
-| [ ] | N31 | CLI supports explicit source/target cohorts, operation/radius/units, save/export/reverify and clear invalid-input errors | Pending |
-| [ ] | N32 | Packaged CLI results/counts/CSV agree with the native/Python contract | Pending |
-| [ ] | N33 | Shared SpatialFrontend supports neighborhood run/poll/cancel/retry/keep/history/export without duplicate kernels | Pending |
-| [ ] | N34 | ImGui operation/radius/units and cohort controls are usable; count output visibly distinct from nearest distances | Pending |
-| [ ] | N35 | ImGui run/cancel/retry, inspect/keep, export and save/reopen through actual interactions | Pending |
-| [ ] | N36 | Radius/units/counts/errors readable; no misleading scale/geometry or hidden failures; no cosmetic-equivalence requirement | Pending |
-| [ ] | N37 | Settle consumer fields before one combined cached build and one stub generation; record any necessary corrective rebuild | Pending |
+| [x] | N28 | Nanobind options/request/result/rows/job and retained-record APIs; no independent Python computation | Verified — [Python/CLI run](benchmarks/neighborhood-workflow/t3-python-tests.log), [alias correction](benchmarks/neighborhood-workflow/t3-stub-alias-repair.log) |
+| [x] | N29 | Python direct/job parity, result lifetime/owner shutdown and wait/GIL behavior | Verified — [direct/job/lifetime checks](benchmarks/neighborhood-workflow/t3-python-tests.log), [observed GIL release](benchmarks/neighborhood-workflow/resources.json) |
+| [x] | N30 | Generated public stubs expose settled names/options; focused positive/negative typing/signature checks | Verified — [alias/member correction](benchmarks/neighborhood-workflow/t3-stub-alias-repair.log), [valid typing](benchmarks/neighborhood-workflow/t3-typing-valid.log), [3 invalid forms rejected](benchmarks/neighborhood-workflow/t3-typing-invalid.log) |
+| [x] | N31 | CLI supports explicit source/target cohorts, operation/radius/units, save/export/reverify and clear invalid-input errors | Verified — [Python/CLI run](benchmarks/neighborhood-workflow/t3-python-tests.log), [alias correction](benchmarks/neighborhood-workflow/t3-stub-alias-repair.log) |
+| [x] | N32 | Packaged CLI results/counts/CSV agree with the native/Python contract | Verified — [Python/CLI run](benchmarks/neighborhood-workflow/t3-python-tests.log), [alias correction](benchmarks/neighborhood-workflow/t3-stub-alias-repair.log) |
+| [x] | N33 | Shared SpatialFrontend supports neighborhood run/poll/cancel/retry/keep/history/export without duplicate kernels | Verified — [native frontend/CLI suites](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log); one combined binding build plus targeted include/GUI-flag repair |
+| [x] | N34 | ImGui operation/radius/units and cohort controls are usable; count output visibly distinct from nearest distances | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
+| [x] | N35 | ImGui run/cancel/retry, inspect/keep, export and save/reopen through actual interactions | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
+| [x] | N36 | Radius/units/counts/errors readable; no misleading scale/geometry or hidden failures; no cosmetic-equivalence requirement | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
+| [x] | N37 | Settle consumer fields before one combined cached build and one stub generation; record any necessary corrective rebuild | Verified — [native frontend/CLI suites](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log); one combined binding build plus targeted include/GUI-flag repair |
 
 ## T4 — installed workflow and bounded resource observations
 
 | Done | ID | Required behavior | State / evidence |
 | --- | --- | --- | --- |
-| [ ] | N38 | Bounded calibrated scene uses existing retained/imported cell objects; no segmentation rewrite/requalification | Pending |
+| [x] | N38 | Bounded calibrated scene uses existing retained/imported cell objects; no segmentation rewrite/requalification | Verified — [pinned 506-cell import and translated crop](benchmarks/neighborhood-workflow/scene.json), [workflow](benchmarks/neighborhood-workflow/staged-workflow.json); no segmentation rerun |
 | [ ] | N39 | Frozen candidate wheel/native source identity; one final isolated install and exact installed-member checks | Pending |
 | [ ] | N40 | Installed Python compute/inspect/keep/CSV/save/reopen/replay matches known counts | Pending |
 | [ ] | N41 | Installed ImGui compute/inspect/keep/CSV/save/reopen and standalone opening of Python project pass | Pending |
 | [ ] | N42 | One packaged CLI workflow passes; reuse native numerical evidence across wrappers | Pending |
-| [ ] | N43 | Representative dense cohort records size, comparisons and resource observations; bounded/cancellable behavior; no unmeasured speed claim | Pending |
-| [ ] | N44 | Changed-source cancellation/stale and old-nearest compatibility concerns covered by focused evidence, not full qualification replay | Pending |
+| [x] | N43 | Representative dense cohort records size, comparisons and resource observations; bounded/cancellable behavior; no unmeasured speed claim | Verified — [20000 coincident cells,399980000 comparisons,68.6 MB process peak](benchmarks/neighborhood-workflow/resources.json); stage source scoped; no general speed/RSS claim |
+| [x] | N44 | Changed-source cancellation/stale and old-nearest compatibility concerns covered by focused evidence, not full qualification replay | Verified — [T2 cancellation/stale/legacy evidence](benchmarks/neighborhood-workflow/t2-native.json), [T3 shared-mode regressions](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log), [actual GUI cancellation](benchmarks/neighborhood-workflow/t3-gui-cancel.log) |
 
 ## T5 — source-matched Windows candidate handoff
 

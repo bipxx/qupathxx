@@ -1,7 +1,8 @@
 #pragma once
-#include "qupathxx/spatial_analysis.hpp"
+#include "qupathxx/spatial_neighborhood.hpp"
 #include "qupathxx/project.hpp"
 namespace qpx {
+enum class SpatialOperation { NearestDistance, RadiusCount };
 struct GuiSpatialOptions {
     bool open=false,run=false;
     std::vector<std::uint64_t> sources,targets;
@@ -9,6 +10,8 @@ struct GuiSpatialOptions {
     std::uint64_t record_id=0;
     std::string csv_path;
     std::size_t csv_bytes=64u*1024*1024;
+    SpatialOperation operation=SpatialOperation::NearestDistance;
+    double radius=50;
     void validate() const;
 };
 struct GuiSpatialReport {
@@ -18,6 +21,8 @@ struct GuiSpatialReport {
     std::size_t rows=0,sources=0,targets=0,export_bytes=0,export_rows=0;
     SpatialDistanceStats analysis;
     std::shared_ptr<const SpatialDistanceResult> result;
+    SpatialOperation operation=SpatialOperation::NearestDistance;
+    std::shared_ptr<const SpatialNeighborhoodResult> neighborhood_result;
 };
 namespace detail {
 // One owner, one operation, immutable worker inputs. Desktop and queued viewer
@@ -28,8 +33,11 @@ public:
     SpatialFrontend(const SpatialFrontend&)=delete;
     bool busy() const;bool same_document(const Document&) const;
     void measure(const Document&,const std::vector<std::uint64_t>&,const std::vector<std::uint64_t>&,SpatialDistanceOptions={});
+    void measure_neighborhood(const Document&,const std::vector<std::uint64_t>&,const std::vector<std::uint64_t>&,SpatialNeighborhoodOptions={});
     void inspect(const Document&,std::uint64_t);
     void verify(const Document&,std::uint64_t);
+    void inspect_neighborhood(const Document&,std::uint64_t);
+    void verify_neighborhood(const Document&,std::uint64_t);
     std::uint64_t keep(Document&,std::string name="Spatial distances");
     void export_csv(const Document&,const std::string&,std::size_t byte_limit,
         const std::vector<std::string>& protected_paths={},std::size_t snapshot_bytes=16u*1024*1024);

@@ -941,7 +941,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto record=document.latest_cells(selected);
                 return record && (event.wait_for==GuiInputWait::CellsArchived || (!cell_job.busy() && !verifying_cells && document.cell_status(record->id)=="current"));
             }
-            if(event.wait_for==GuiInputWait::SpatialReady) {const auto r=spatial.report();return !r.busy && r.state=="ready" && bool(r.result);}
+            if(event.wait_for==GuiInputWait::SpatialReady) {const auto r=spatial.report();return !r.busy && r.state=="ready" && (bool(r.result) || bool(r.neighborhood_result));}
             if(event.wait_for==GuiInputWait::SpatialKept) return spatial.report().record_id!=0;
             if(event.wait_for==GuiInputWait::SpatialVerified) {const auto r=spatial.report();return !r.busy && r.state=="verified" && r.record_status=="current";}
             if(event.wait_for==GuiInputWait::SpatialExported) return spatial.report().export_state=="saved";

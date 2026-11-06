@@ -71,15 +71,72 @@ void bind_spatial(nb::module_& m) {
         .def_ro("total_rows",&SpatialDistanceStats::total_rows).def_ro("distance_tests",&SpatialDistanceStats::distance_tests)
         .def_ro("snapshot_bytes",&SpatialDistanceStats::snapshot_bytes).def_ro("work_bytes",&SpatialDistanceStats::work_bytes)
         .def_ro("capture_ms",&SpatialDistanceStats::capture_ms).def_ro("elapsed_ms",&SpatialDistanceStats::elapsed_ms);
+    nb::class_<SpatialNeighborhoodOptions,SpatialDistanceOptions>(m,"SpatialNeighborhoodOptions").def(nb::init<>())
+        .def_rw("radius",&SpatialNeighborhoodOptions::radius).def("validate",&SpatialNeighborhoodOptions::validate);
+    nb::class_<SpatialNeighborhoodRequest>(m,"SpatialNeighborhoodRequest")
+        .def(nb::init<const Document&,const std::vector<std::uint64_t>&,const std::vector<std::uint64_t>&,SpatialNeighborhoodOptions>(),
+            "document"_a,"sources"_a,"targets"_a,"options"_a=SpatialNeighborhoodOptions{})
+        .def_static("replay",&SpatialNeighborhoodRequest::replay,"document"_a,"record_id"_a)
+        .def("matches",&SpatialNeighborhoodRequest::matches,"document"_a)
+        .def_prop_ro("source_count",&SpatialNeighborhoodRequest::source_count).def_prop_ro("target_count",&SpatialNeighborhoodRequest::target_count)
+        .def("source_object",[](const SpatialNeighborhoodRequest& r,std::size_t i){return SpatialObjectSnapshot(r.source_object(i));},"index"_a)
+        .def("target_object",[](const SpatialNeighborhoodRequest& r,std::size_t i){return SpatialObjectSnapshot(r.target_object(i));},"index"_a)
+        .def_prop_ro("snapshot_bytes",&SpatialNeighborhoodRequest::snapshot_bytes).def_prop_ro("required_work_bytes",&SpatialNeighborhoodRequest::required_work_bytes)
+        .def_prop_ro("document_revision",&SpatialNeighborhoodRequest::document_revision).def_prop_ro("capture_ms",&SpatialNeighborhoodRequest::capture_ms)
+        .def_prop_ro("x_scale",&SpatialNeighborhoodRequest::x_scale).def_prop_ro("y_scale",&SpatialNeighborhoodRequest::y_scale)
+        .def_prop_ro("options",&SpatialNeighborhoodRequest::options).def_prop_ro("input_sha256",&SpatialNeighborhoodRequest::input_sha256)
+        .def_prop_ro("provenance",&SpatialNeighborhoodRequest::provenance);
+    nb::class_<SpatialNeighborhoodRow>(m,"SpatialNeighborhoodRow")
+        .def_ro("source_id",&SpatialNeighborhoodRow::source_id).def_ro("source_revision",&SpatialNeighborhoodRow::source_revision)
+        .def_prop_ro("source_centroid",[](const SpatialNeighborhoodRow& r){return r.source_centroid;})
+        .def_ro("source_kind",&SpatialNeighborhoodRow::source_kind).def_ro("source_nucleus",&SpatialNeighborhoodRow::source_nucleus)
+        .def_ro("count",&SpatialNeighborhoodRow::count);
+    nb::class_<SpatialNeighborhoodResult>(m,"SpatialNeighborhoodResult")
+        .def_prop_ro("row_count",[](const SpatialNeighborhoodResult& r){return r.rows().size();})
+        .def("row",[](const SpatialNeighborhoodResult& r,std::size_t i){return SpatialNeighborhoodRow(r.rows().at(i));},"index"_a)
+        .def("rows",[](const SpatialNeighborhoodResult& r,std::size_t start,std::size_t limit) {
+            if(!limit || limit>4096) throw std::invalid_argument("spatial row page limit must be 1..4096");
+            if(start>r.rows().size()) throw std::out_of_range("spatial row page starts after the table");
+            const auto count=std::min(limit,r.rows().size()-start);
+            return std::vector<SpatialNeighborhoodRow>(r.rows().begin()+start,r.rows().begin()+start+count);
+        },"start"_a=0,"limit"_a=256)
+        .def_prop_ro("algorithm",&SpatialNeighborhoodResult::algorithm).def_prop_ro("input_sha256",&SpatialNeighborhoodResult::input_sha256)
+        .def_prop_ro("sha256",&SpatialNeighborhoodResult::sha256).def_prop_ro("options",&SpatialNeighborhoodResult::options)
+        .def_prop_ro("source_count",&SpatialNeighborhoodResult::source_count).def_prop_ro("target_count",&SpatialNeighborhoodResult::target_count)
+        .def("source_object",[](const SpatialNeighborhoodResult& r,std::size_t i){return SpatialObjectSnapshot(r.source_object(i));},"index"_a)
+        .def("target_object",[](const SpatialNeighborhoodResult& r,std::size_t i){return SpatialObjectSnapshot(r.target_object(i));},"index"_a)
+        .def_prop_ro("x_scale",&SpatialNeighborhoodResult::x_scale).def_prop_ro("y_scale",&SpatialNeighborhoodResult::y_scale)
+        .def_prop_ro("document_revision",&SpatialNeighborhoodResult::document_revision).def_prop_ro("distance_tests",&SpatialNeighborhoodResult::distance_tests)
+        .def_prop_ro("payload_bytes",&SpatialNeighborhoodResult::payload_bytes).def_prop_ro("elapsed_ms",&SpatialNeighborhoodResult::elapsed_ms)
+        .def_prop_ro("provenance",&SpatialNeighborhoodResult::provenance).def("belongs_to",&SpatialNeighborhoodResult::belongs_to,"request"_a);
+    nb::class_<SpatialNeighborhoodRecord>(m,"SpatialNeighborhoodRecord")
+        .def_ro("id",&SpatialNeighborhoodRecord::id).def_ro("captured_next_id",&SpatialNeighborhoodRecord::captured_next_id)
+        .def_ro("name",&SpatialNeighborhoodRecord::name).def_ro("producer",&SpatialNeighborhoodRecord::producer)
+        .def_ro("result",&SpatialNeighborhoodRecord::result).def_prop_ro("payload_bytes",&SpatialNeighborhoodRecord::payload_bytes);
+    nb::class_<SpatialNeighborhoodJob>(m,"SpatialNeighborhoodJob").def(nb::init<>())
+        .def("request",&SpatialNeighborhoodJob::request,"request"_a).def("poll",&SpatialNeighborhoodJob::poll,"document"_a)
+        .def("wait",[](SpatialNeighborhoodJob& job,const Document& doc) {
+            job.poll(doc);
+            {nb::gil_scoped_release release;job.wait_work();}
+            return job.poll(doc);
+        },"document"_a)
+        .def("cancel",&SpatialNeighborhoodJob::cancel).def_prop_ro("busy",&SpatialNeighborhoodJob::busy).def_prop_ro("result",&SpatialNeighborhoodJob::result);
+    m.def("measure_spatial_neighborhoods",[](const SpatialNeighborhoodRequest& r){return measure_spatial_neighborhoods(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("spatial_neighborhood_csv",[](const SpatialNeighborhoodResult& r,std::size_t limit){return spatial_neighborhood_csv(r,limit);},"result"_a,"byte_limit"_a=64u*1024*1024,nb::call_guard<nb::gil_scoped_release>());
+    m.def("save_spatial_neighborhood_csv",[](const SpatialNeighborhoodResult& r,const std::string& path,std::size_t limit,bool replace){return save_spatial_neighborhood_csv(r,path,limit,replace);},"result"_a,"path"_a,"byte_limit"_a=64u*1024*1024,"replace"_a=false,nb::call_guard<nb::gil_scoped_release>());
+    m.attr("SpatialNeighborhoodStats")=m.attr("SpatialDistanceStats");
+    nb::enum_<SpatialOperation>(m,"SpatialOperation")
+        .value("NEAREST_DISTANCE",SpatialOperation::NearestDistance).value("RADIUS_COUNT",SpatialOperation::RadiusCount);
     nb::class_<GuiSpatialOptions>(m,"GuiSpatialOptions").def(nb::init<>())
         .def_rw("open",&GuiSpatialOptions::open).def_rw("run",&GuiSpatialOptions::run)
         .def_rw("sources",&GuiSpatialOptions::sources).def_rw("targets",&GuiSpatialOptions::targets)
-        .def_rw("analysis",&GuiSpatialOptions::analysis).def_rw("record_id",&GuiSpatialOptions::record_id)
+        .def_rw("analysis",&GuiSpatialOptions::analysis).def_rw("operation",&GuiSpatialOptions::operation).def_rw("radius",&GuiSpatialOptions::radius).def_rw("record_id",&GuiSpatialOptions::record_id)
         .def_rw("csv_path",&GuiSpatialOptions::csv_path).def_rw("csv_bytes",&GuiSpatialOptions::csv_bytes).def("validate",&GuiSpatialOptions::validate);
     nb::class_<GuiSpatialReport>(m,"GuiSpatialReport")
         .def_ro("state",&GuiSpatialReport::state).def_ro("error",&GuiSpatialReport::error).def_ro("record_status",&GuiSpatialReport::record_status)
         .def_ro("busy",&GuiSpatialReport::busy).def_ro("record_id",&GuiSpatialReport::record_id).def_ro("rows",&GuiSpatialReport::rows)
         .def_ro("sources",&GuiSpatialReport::sources).def_ro("targets",&GuiSpatialReport::targets).def_ro("result",&GuiSpatialReport::result)
+        .def_ro("operation",&GuiSpatialReport::operation).def_ro("neighborhood_result",&GuiSpatialReport::neighborhood_result)
         .def_ro("analysis",&GuiSpatialReport::analysis).def_ro("export_state",&GuiSpatialReport::export_state).def_ro("export_error",&GuiSpatialReport::export_error)
         .def_ro("export_committed",&GuiSpatialReport::export_committed).def_ro("export_rows",&GuiSpatialReport::export_rows).def_ro("export_bytes",&GuiSpatialReport::export_bytes).def_ro("path",&GuiSpatialReport::path);
     auto gui_options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));

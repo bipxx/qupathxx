@@ -18,22 +18,34 @@ API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.
 
 Coverage is maintained in the [detailed checklist](neighborhood-coverage.md):
 requirements and source-scoped evidence, with the execution queue kept here.
-T1/T2 complete:the native radius-count and retained-record/QSN1/CSV/project paths
-pass. Coverage is27/50 verified,23 pending. Evidence links are in the checklist;
-source identities are extracted from the actual test executables. The original
-T2 run passed4/5 suites; the failing legacy spatial fixture generator omitted
-schema27/28 tables. Its corrected single-target rerun passes all27 historical
-schema upgrades. No kernel/format code changed for that correction. Running-
-progress cancellation and exact legacy inactive snapshot limits pass.
+T1-T3 complete; coverage40/50 verified,10 pending final install/publication.
+Native radius/QSN1/project/CSV, Python/CLI, generated stubs/typing and actual ImGui
+run/keep/verify/export/save/reopen pass. The existing506-cell NDPI capture is
+imported into its256x256 crop with original calibration and translated geometry;
+no segmentation rerun. All506 count rows match an independent exhaustive oracle,
+Python/GUI CSV bytes agree, and standalone opens the Python project. The capture
+shows readable counts/radius/units and registered cell overlays with0 overflow.
+Actual20000-object GUI cancellation/retry passes. A separate20000-cell coincident
+case gives19999 neighbors each,399980000 distance tests,12.49 MB estimated native
+work and68.60 MB observed process peak; Python advances191 observer ticks during
+native wait. This is one local worst-case observation, not speed superiority.
 
-Next action:T3 settles Python/CLI/ImGui operation/radius/result fields and shared
-frontend integration, then one combined cached consumer build and generated
-stubs. Use the existing explicit cohort controls and export guards. Do not build
-packages until those interfaces and affected consumer checks settle.
-Waste review:centroid capture and atomic CSV were reused directly; no new
-sampling framework or kernel per frontend. T2's stale fixture-generator failure
-was diagnosed before retry; only that target rebuilt (provenance/link plus test)
-and reran. Passing native kernel suites were reused.
+Next action:T4 freezes this settled source, builds one wheel/native candidate
+with build tag3 in the existing cache, installs once and checks final installed
+origin/member/runtime closure plus the changed506-cell route. Reuse the same
+source-tree-scoped native/count/resource evidence when only provenance changes.
+T5 ships matching raw-byte sources/notices and publishes the frozen assets;
+no additional API, parity, segmentation or platform campaign is selected.
+
+Waste review:T2's historical-schema generator omitted27/28 tables; only that
+test target was corrected/rerun. The T3 combined build finished production
+bindings/app/CLIs before the CLI test's missing header stopped it. Its include
+and two hidden GUI target flags were corrected; the repair compiled only the
+test, provenance and GUI, then reused binding objects. The Python run passed86
+cases; one stub checker incorrectly required a class definition for a genuine
+TypeAlias. The correction verifies runtime alias identity and canonical class
+members, passes its single rerun and both typing directions; no native rebuild.
+Original failed logs and corrected results are retained in the checklist links.
 Keep candidate2 frozen and
 PRESET1 parked. After each task/failure, record the result, decisive check, waste
 and next task here; do not create another ledger or recurring review campaign.

@@ -1,4 +1,4 @@
-#include "qupathxx/spatial_analysis.hpp"
+#include "qupathxx/spatial_neighborhood.hpp"
 #include "qupathxx/project.hpp"
 #include "spatial_cli.hpp"
 #include <algorithm>
@@ -59,6 +59,24 @@ int main() {try {
     rejects([&]{detail::spatial_cli({"batch","--verify-spatial",output.u8string(),"--image",std::to_string(image)},cancelled);});
     computed->remove_annotation(c);restored->save((root/"changed.qpxproj").u8string());verify[2]=(root/"changed.qpxproj").u8string();{Capture log;check(detail::spatial_cli(verify,cancelled)==1);}
     for(const auto& item:fs::directory_iterator(root)) check(item.path().filename().u8string().find(".qpx-tmp-")==std::string::npos && item.path().filename().u8string().rfind(".qpx-save-new-",0)!=0);
-    check(read(source)==original);fs::remove_all(root);
+    check(read(source)==original);
+    const auto counts_path=root/"neighborhood.qpxproj";
+    auto count_measure=measure;count_measure[3]=counts_path.u8string();count_measure.insert(count_measure.end(),{"--operation","radius-count","--radius","3"});
+    {Capture log;check(detail::spatial_cli(count_measure,cancelled)==0);check(log.out.str().find("qpx.spatial-neighborhood-cli/1")!=std::string::npos);}
+    const auto count_project=Project::open(counts_path.u8string());const auto count_doc=count_project->document(image);
+    check(count_doc->neighborhood_record_count()==1 && count_doc->spatial_record_count()==0);
+    const auto count_record=count_doc->neighborhood_records().front();
+    SpatialNeighborhoodOptions p;p.units=SpatialDistanceUnits::Micrometres;p.radius=3;
+    const auto expected=measure_spatial_neighborhoods(SpatialNeighborhoodRequest(*doc,{b,a},{c},p));
+    check(count_record->result->sha256()==expected->sha256());
+    std::vector<std::string> count_export={"batch","--export-spatial",counts_path.u8string(),(root/"neighborhood.csv").u8string(),"--image",std::to_string(image),"--record",std::to_string(count_record->id),"--operation","radius-count"};
+    {Capture log;check(detail::spatial_cli(count_export,cancelled)==0);}
+    check(read(root/"neighborhood.csv")==spatial_neighborhood_csv(*expected));
+    std::vector<std::string> count_verify={"batch","--verify-spatial",counts_path.u8string(),"--image",std::to_string(image),"--record",std::to_string(count_record->id),"--operation","radius-count"};
+    {Capture log;check(detail::spatial_cli(count_verify,cancelled)==0);}
+    for(const auto& value:{"0","-1","nan","inf","3junk"}) {auto bad=count_measure;bad.back()=value;rejects([&]{detail::spatial_cli(bad,cancelled);});}
+    auto no_radius=count_measure;no_radius.resize(no_radius.size()-2);rejects([&]{detail::spatial_cli(no_radius,cancelled);});
+    auto wrong_mode=measure;wrong_mode.insert(wrong_mode.end(),{"--radius","3"});rejects([&]{detail::spatial_cli(wrong_mode,cancelled);});
+    fs::remove_all(root);
     std::cout<<"Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed\n";
 }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}
