@@ -24,13 +24,83 @@ Releases close against their declared workflow/support scope, not every QuPath
 feature. Review visual checks for their purpose before execution; keep tests
 that establish meaningful display/interaction behavior rather than exact styling.
 
+## Next phase: radius-based spatial neighborhoods
+
+Planning scope:answer "How many selected target cells are within radius R of
+each selected source cell?" through C++/nanobind Python and Windows ImGui, retain
+the table, export CSV and save/reopen/replay. Cell detection and nearest-centroid
+distances already exist. This phase adds one R9 operation using those objects;
+it does not select all remaining spatial or QuPath features. Implementation is
+not started. Candidate2 remains the supported baseline during development.
+
+### Contract to implement
+
+- Explicit source/target ID cohorts, each sorted canonically with duplicates
+  rejected, following SpatialDistanceRequest. Keep its1..100000 source and
+  0..100000 target admission limits, subject to actual snapshot/work budgets.
+  Class-based selection resolves to explicit IDs before capture; it is not a
+  live query that silently changes when classes/objects change.
+- Positive finite radius and explicit pixel or micrometre units. Capture nucleus
+  preference and per-axis calibration using existing centroid rules. Micrometre
+  mode requires valid positive X/Y calibration; no assumed/fallback units.
+- Count a target when hypot((tx-sx)*x_scale,(ty-sy)*y_scale)<=radius, using the
+  declared binary64 metric. Exclude identical object IDs by default. Distinct
+  coincident objects count. Empty targets give zero; one row per source, ordered
+  by ID. These are centroid counts, not cell-boundary or density measurements.
+- Capture immutable IDs, revisions, geometry hashes, scale, cohorts and recipe
+  identity. Workers perform zero pixel IO and never consult a live Document.
+  Record validation/replay follows existing spatial currentness rules; new
+  objects outside an explicit saved cohort do not silently join it.
+- Return counts only, avoiding dense pair matrices or unbounded neighbor lists.
+  Bound snapshot, index/worker payload and actual distance comparisons; include
+  cancellation during traversal. Budget exhaustion fails the whole operation,
+  with no partial retained result or CSV publication. Memory allowances are
+  native planned-payload budgets, not total RSS claims.
+- Proposed additive names:SpatialNeighborhoodOptions/Request/Row/Result/Job,
+  measure_spatial_neighborhoods, and Document keep/replay/verify/remove hooks.
+  Freeze exact names/schema in T1 before consumers. Preserve the existing
+  SpatialDistance APIs, QSD1 rows/hashes and old project behavior unchanged.
+
+### Ordered implementation and easiest API paths
+
+| Task | Work and existing authority | Decisive completion evidence |
+| --- | --- | --- |
+| T1 — native radius counts | Use spatial_analysis.hpp/spatial_snapshot.hpp owner-capture and immutable job conventions. Add a point-radius-count traversal to SpatialIndex with calibrated bounds pruning and exact final distance checks; share narrowly scoped capture helpers where semantics match. Avoid a spatial-framework rewrite or N-by-M matrix. Freeze options, row/result schema and identity before adapters | Independent exhaustive oracle on small scenes:inside/on/outside radius, anisotropic units, identical-ID exclusion, distinct coincident objects, empty targets, sorted/duplicate cohorts and nucleus fallback. Changed traversal rejects invalid inputs and honors snapshot/work/comparison limits, cancellation and stale publication; nearest-distance regression stays unchanged |
+| T2 — retain, export and replay | Follow existing spatial_archive.cpp, native retained-record and project transaction patterns. Use a distinct versioned neighborhood payload/table; add transactional schema support only where needed. Reuse guarded atomic CSV writing. One row includes source identity/centroid, count, radius and units, with captured cohort/calibration/recipe identity in the native record | Save/reopen preserves exact counts/identity; replay verifies current geometry/calibration and reports stale changes. Old QSD1/project fixtures retain their prior behavior. Corrupt payload, invalid counts/IDs, budget failure and interrupted export leave prior data intact |
+| T3 — thin Python, CLI and ImGui consumers | Extend spatial_bindings.cpp, spatial_cli.cpp, SpatialFrontend and GuiSpatial. Reuse source/target selection, run/cancel/result/keep/history/export controls with an operation selector and radius/units inputs. Python direct/job and CLI request options delegate to the same native authority. Settle all fields, then one combined cached build and one stub generation | Direct/job/CLI results agree with native expected rows; typing exposes the settled API. ImGui can select cohorts, display radius/units/counts, cancel/retry, keep and export without hidden errors or clipped values. Keep count output distinct from existing nearest distances |
+| T4 — one installed research workflow | Use existing retained/imported cell objects in a bounded calibrated scene; do not add or requalify segmentation. Freeze settled source/provenance, create one wheel/native package from the existing cache, and install the final wheel once. Run Python and ImGui neighborhood inspection/CSV/save/reopen, plus one packaged CLI route. Use a representative dense cohort only to expose concrete indexing/memory risks | Installed identity/members match the package; known counts and CSV rows agree, replay works and changed-source cancellation/stale behavior is covered. Record declared cohort size and actual resource observations. No universal biology or speed claim |
+| T5 — scoped candidate handoff | Ship the frozen T4 packages with matching raw-byte sources/notices using the existing delivery process; do not rebuild or repackage accepted binaries. Reuse authenticated unchanged dependency sources. Publish within existing authorization with exact support/limits and remote asset checksums. Retire only safe disposable artifacts, respecting the existing cleanup-policy rejection | Usable Windows candidate exposes the complete neighborhood workflow in Python/ImGui/CLI; archive/runtime/license/source and uploaded hashes are checked. Close the current card and stop; additional R9 features require a separately selected outcome |
+
+### Cost controls and stop condition
+
+Run focused changed native tests while T1/T2 settle, then combine T3 consumers
+before the expensive binding pass and stub generation. T4 freezes provenance,
+packages once, installs once and checks final installed origin plus the changed
+route. T5 publishes those artifacts, reusing compatible kernel/runtime evidence. Do not rerun the same full
+workflow under every wrapper or build a wheel per task. Preserve failures;
+diagnose and change the action before retry. After each task, update the existing
+current card with result/check/waste/next action in a few lines.
+
+No full platform/corpus/qualification308 campaign is selected. Old nearest
+spatial evidence remains scoped to its old source; use focused regressions for
+shared changes. New support/platform claims would need their own actual checks.
+A broad stale instruction in the historical SPAT1 section does not force a full
+campaign for this bounded phase; the current validation policy controls.
+
+Stop when a user can compute, inspect, retain, export and replay correct radius
+counts through the claimed installed interfaces, with declared budgets/limits
+and a delivered source-matched candidate. Density/edge correction, signed
+distances, k-nearest graphs, per-class matrices, tiled aggregation, new readers,
+fluorescence, integrations, distributed workers and cosmetic parity are deferred.
+Choose a later phase from a concrete user need; they are not automatic follow-ons.
+
 ## Next delivery checkpoint: Windows research workflow
 
 The representative large-slide tissue workflow is delivered in
 [Windows candidate2](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.2):
 canonical native pyramid tissue over CMU-1.svs plus bounded high-resolution
 statistics, tile consistency, cancellation and retained replay. See current-task.md
-and its delivery receipt for exact source/support. No further outcome is selected.
+and its delivery receipt for exact source/support. The next-phase neighborhood plan above is not implemented yet.
 The prior candidate1/handoff below is historical delivered evidence, not work to
 repeat. Do not expand this slice into every R12 budget or optional parity feature.
 

@@ -30,8 +30,10 @@ inventory records optional expansion opportunities. Historical packets and recei
 evidence, not instructions to replay campaigns. Follow newer user steering.
 
 - Keep one in-progress user outcome. For the selected checkpoint, finish open
-  slide -> calibrated ROI -> tissue/region statistics -> CSV -> save/reopen in
-  Windows ImGui and nanobind Python using existing native authorities.
+  the workflow named in current-task.md using existing native authorities.
+  Candidate2's slide/ROI/tissue/statistics workflow is delivered. The next-phase
+  neighborhood plan is planning scope until implementation is requested; do not
+  replay candidate2 or automatically select every R9 extension.
 - Pull new work into that outcome only for a demonstrated blocker, correctness
   failure or invalidated evidence. Put other findings in their existing R row.
   Park optional PRESET1 consumers unless this workflow requires named presets.

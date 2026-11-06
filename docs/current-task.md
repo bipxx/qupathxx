@@ -7,6 +7,28 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Planned next phase — radius-based cell neighborhoods
+
+Planning requested after candidate2. Recommended next useful addition: for each
+selected source cell/object, count selected target centroids within an explicit
+radius, inspect the table, export CSV and save/reopen/replay. This adds the missing
+R9 neighborhood operation; existing cell detection/measurements and nearest
+spatial distances are reused. Implementation has not started. Detailed contract,
+API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.md#next-phase-radius-based-spatial-neighborhoods).
+
+Next implementation action:T1 settles the additive contract and bounded native
+radius-count traversal, with a small independent exhaustive oracle. No build,
+package, new reader, new segmentation algorithm, density/edge correction or full
+qualification is needed for this planning change. Keep candidate2 frozen and
+PRESET1 parked. After each task/failure, record the result, decisive check, waste
+and next task here; do not create another ledger or recurring review campaign.
+
+Planning waste review:the earlier suggestion to add a generic cell-analysis
+workflow duplicated existing capabilities. Reading the actual spatial headers
+identified radius counts as a real missing operation. Reuse owner capture,
+calibration, indexed centroids, jobs and native persistence/export patterns;
+settle all known SDK/CLI/ImGui fields before one combined consumer build.
+
 ## Delivered outcome — representative large-slide tissue workflow
 
 R12 continuation delivers whole-slide tissue at an explicit native pyramid

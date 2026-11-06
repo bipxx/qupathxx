@@ -1,5 +1,10 @@
 # Spatial analysis delivery contract
 
+The [next-phase radius-neighborhood plan](api-delivery-plan.md#next-phase-radius-based-spatial-neighborhoods)
+adds a distinct operation alongside the delivered nearest-distance workflow. It
+is planned, not implemented. Its bounded delivery/validation scope supersedes
+historical full-campaign instructions for that future addition.
+
 SPAT1 is the current SCI1-B spatial workflow: measure each selected object's
 centroid distance to a selected target cohort, inspect the immutable table,
 export it and save/reopen it. The [native geometry/query foundation](benchmarks/spatial-native-263/receipt.json)
