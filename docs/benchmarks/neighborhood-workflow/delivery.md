@@ -1,6 +1,7 @@
 # Neighborhood candidate delivery
 
-Publication is pending. Final artifacts are frozen in main workspace
+[Windows candidate3 is published](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3)
+with18 assets. Final artifacts are frozen in main workspace
 `build/neighborhood-workflow/delivery`; the isolated installed runtime is
 `build/neighborhood-workflow/installed`.
 
@@ -54,3 +55,16 @@ no repeat deletion/workaround was attempted. The build-tools environment's
 package pointer now resolves to the final installed runtime, preventing an
 accidental import of the superseded dirty stage. Previous candidates remain
 available and unchanged. No additional implementation outcome is selected.
+
+[Uploaded asset identities](uploaded-assets.json) were compared with every local
+file before publication. The receipt intentionally records draft state; the
+[publication receipt](published-release.json) confirms public prerelease status,
+18 assets and the frozen618b0dd0 target. No asset was overwritten or reuploaded.
+[Coverage](../../neighborhood-coverage.md) closes all50 selected-phase requirements
+against implementation/installed/artifact evidence. The broader R0-R16 inventory
+remains optional; no additional outcome is selected.
+
+The [completion audit](completion-audit.json) checks the actual installed/native
+identity, source ZIP inputs, focused receipts, final workflow, runtime origins,
+public release/assets and all50 checklist links. It does not infer completion
+from checked boxes alone.

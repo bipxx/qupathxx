@@ -7,18 +7,20 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active phase — radius-based cell neighborhoods
+## Delivered phase — radius-based cell neighborhoods
 
 Implementation requested after candidate2. Selected addition: for each
 selected source cell/object, count selected target centroids within an explicit
 radius, inspect the table, export CSV and save/reopen/replay. This adds the missing
 R9 neighborhood operation; existing cell detection/measurements and nearest
-spatial distances are reused. T1 native implementation and focused checks pass. Detailed contract,
+spatial distances are reused. All five planned tasks are delivered. Detailed contract,
 API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.md#next-phase-radius-based-spatial-neighborhoods).
 
 Coverage is maintained in the [detailed checklist](neighborhood-coverage.md):
 requirements and source-scoped evidence, with the execution queue kept here.
-T1-T4 complete; coverage48/50 verified,2 pending publication/final closeout.
+T1-T5 complete; coverage50/50 selected-phase requirements verified.
+[Windows candidate3](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3)
+is published with18 assets, each remote size/SHA256 matched before publication.
 Frozen native source618b0dd0a6f39cc062941c6ea524ac22cb863bc5, tree
 b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95.
 One cached wheel build (tag3) refreshed only provenance/linking and one isolated
@@ -32,11 +34,13 @@ The20000-cell coincident observation has399980000 comparisons and68.60MB process
 peak, without a dense matrix or speed/RSS guarantee. Both inspected GUI captures
 show readable counts/radius/units and registered cell overlays,0 overflow.
 
-Next action:T5 publishes the frozen candidate assets after remote size/digest
-checks, then closes the checklist and support statement. No further build/API/
-segmentation/parity/platform campaign is selected. Detailed [delivery receipt](benchmarks/neighborhood-workflow/delivery.md)
-records support and disposable-state disposition. Final packages/runtime live in
-main build/neighborhood-workflow/delivery and build/neighborhood-workflow/installed.
+The selected outcome is closed. No further build/API/segmentation/parity/platform
+campaign is selected. The [delivery receipt](benchmarks/neighborhood-workflow/delivery.md)
+records public state, support and disposable-state disposition. Final packages/
+runtime live in main build/neighborhood-workflow/delivery and
+build/neighborhood-workflow/installed. The native cache and all previous
+candidates remain preserved; the tools interpreter resolves the final installed
+candidate rather than the superseded dirty stage.
 
 Waste review:T2's schema generator omitted27/28 tables; only that test target
 was corrected/rerun. T3's missing CLI-test header and hidden GUI target flags
@@ -47,7 +51,8 @@ incorrectly covered the region-only utility, which does not link that authority;
 its exact cache/wheel/installed bytes are checked, while the app/batch/module
 embed the clean revision/tree. The partial draft/log is preserved; no binary
 changed and the final wheel was not rebuilt/reinstalled. Native/package/compiler
-and corresponding-source checks are complete; only publication remains.
+and corresponding-source checks pass; publication and final requirement-to-evidence
+closeout are complete.
 Keep candidate2 frozen and
 PRESET1 parked. After each task/failure, record the result, decisive check, waste
 and next task here; do not create another ledger or recurring review campaign.

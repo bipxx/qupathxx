@@ -11,8 +11,8 @@ decisive check outstanding; **Verified** = linked passing source-scoped evidence
 **Blocked** = named external constraint. A failure remains visible until its
 cause/correction and decisive rerun are recorded. Check boxes mean Verified.
 
-Current coverage:48/50 requirements verified;2 pending publication and final
-closeout. This is requirement coverage, not a time estimate or overall project
+Final coverage:50/50 selected-phase requirements verified. This is coverage of
+the radius-neighborhood workflow, not all QuPath features or an overall project
 completion percentage.
 
 ## T1 — contract, capture, radius traversal and jobs
@@ -65,7 +65,7 @@ completion percentage.
 | [x] | N34 | ImGui operation/radius/units and cohort controls are usable; count output visibly distinct from nearest distances | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
 | [x] | N35 | ImGui run/cancel/retry, inspect/keep, export and save/reopen through actual interactions | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
 | [x] | N36 | Radius/units/counts/errors readable; no misleading scale/geometry or hidden failures; no cosmetic-equivalence requirement | Verified — [506-cell GUI/CSV/replay](benchmarks/neighborhood-workflow/staged-workflow.json), [actual cancellation/retry](benchmarks/neighborhood-workflow/t3-gui-cancel.log), [inspected capture](benchmarks/neighborhood-workflow/desktop.png) |
-| [x] | N37 | Settle consumer fields before one combined cached build and one stub generation; record any necessary corrective rebuild | Verified — [native frontend/CLI suites](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log); one combined binding build plus targeted include/GUI-flag repair |
+| [x] | N37 | Settle consumer fields before one combined cached build and one stub generation; record any necessary corrective rebuild | Verified — [native frontend/CLI suites](benchmarks/neighborhood-workflow/t3-consumer-native-tests.log); [combined build/corrective scope](benchmarks/neighborhood-workflow/t3-build-correction.txt) |
 
 ## T4 — installed workflow and bounded resource observations
 
@@ -86,8 +86,8 @@ completion percentage.
 | [x] | N45 | Frozen Windows wheel/native package with runtime/archive/notices/license checks; AGPL project license, openly licensed readers/codecs | Verified — [frozen package/source inventory](benchmarks/neighborhood-workflow/candidate.json), [installed runtime origins](benchmarks/neighborhood-workflow/installation.json); wheel/native static runtime inspection and standalone ZIP reopen pass |
 | [x] | N46 | Matching raw-byte application source inputs and authenticated unchanged dependency sources accompany delivery | Verified — [frozen package/source inventory](benchmarks/neighborhood-workflow/candidate.json), [installed runtime origins](benchmarks/neighborhood-workflow/installation.json); wheel/native static runtime inspection and standalone ZIP reopen pass |
 | [x] | N47 | Example/install/run guide explains cohorts, centroid semantics, radius/units, budgets, cancellation and saved-result limits | Verified — [install/run/API/limits guide](benchmarks/neighborhood-workflow/README.md), [working example](../examples/neighborhood_workflow.py), [actual installed route](benchmarks/neighborhood-workflow/installed-workflow.json) |
-| [ ] | N48 | Public candidate assets and remote SHA256/size match local frozen artifacts; prior candidate remains available | Pending |
-| [ ] | N49 | Current card, coverage checklist and support statement close against actual evidence; no full-parity/platform/biology/speed claim | Pending |
+| [x] | N48 | Public candidate assets and remote SHA256/size match local frozen artifacts; prior candidate remains available | Verified — [18 uploaded size/SHA256 matches](benchmarks/neighborhood-workflow/uploaded-assets.json), [public prerelease at frozen source](benchmarks/neighborhood-workflow/published-release.json) |
+| [x] | N49 | Current card, coverage checklist and support statement close against actual evidence; no full-parity/platform/biology/speed claim | Verified — [final delivery/support receipt](benchmarks/neighborhood-workflow/delivery.md), [completion audit](benchmarks/neighborhood-workflow/completion-audit.json), current card closeout, source-scoped checks above; broader claims remain excluded |
 | [x] | N50 | Disposable-state disposition documented; preserve fixtures/source/cache/failures, respect existing cleanup-policy rejection | Verified — [disposition in delivery receipt](benchmarks/neighborhood-workflow/delivery.md); final products/cache/fixtures/failures preserved, no repeat of blocked recursive cleanup |
 
 ## Deferred scope

@@ -1,0 +1,10 @@
+Original combined build stopped in the CLI test because its neighborhood header was missing.
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\spatial_cli_tests.cpp(69,5): error C2065: 'SpatialNeighborhoodOptions': undeclared identifier [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_spatial_cli_tests.vcxproj]
+
+Correction added spatial_neighborhood.hpp to that test and cleared enabled flags for hidden new GUI controls.
+The corrective build compiled these translation units (binding objects reused):
+provenance.cpp
+spatial_cli_tests.cpp
+gui.cpp
+
+Full logs remain at main build/neighborhood-workflow/t3-consumers-build.log and t3-corrective-build.log.

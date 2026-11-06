@@ -26,13 +26,17 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Next phase: radius-based spatial neighborhoods
 
+[Delivered in Windows candidate3](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3).
+The [coverage checklist](neighborhood-coverage.md) closes all50 requirements;
+[delivery evidence](benchmarks/neighborhood-workflow/delivery.md) records the
+exact source/support. No further outcome is selected.
+
 Selected implementation scope:answer "How many selected target cells are within radius R of
 each selected source cell?" through C++/nanobind Python and Windows ImGui, retain
 the table, export CSV and save/reopen/replay. Cell detection and nearest-centroid
 distances already exist. This phase adds one R9 operation using those objects;
-it does not select all remaining spatial or QuPath features. Implementation is
-active under the owner's request. Candidate2 remains the supported baseline
-during development. The [coverage checklist](neighborhood-coverage.md) records
+it does not select all remaining spatial or QuPath features. Implementation and
+scoped candidate3 delivery are complete. Candidate2 remains separately available. The [coverage checklist](neighborhood-coverage.md) records
 each required behavior/evidence; current-task.md owns sequencing and waste review.
 
 ### Contract to implement

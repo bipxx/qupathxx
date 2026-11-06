@@ -4,8 +4,9 @@ The new native operation counts selected target centroids within a chosen
 radius of each selected source centroid. C++, nanobind Python, the batch CLI
 and Windows ImGui share the same immutable capture, indexed kernel and native
 retention/export path. The final locally installed candidate is frozen at native
-source618b0dd0; [package/install evidence](delivery.md) is complete and publication
-is pending. Candidate2 remains available separately.
+[source618b0dd0](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.3);
+[package/install/publication evidence](delivery.md) and all50 selected-phase
+coverage requirements are complete. Candidate2 remains available separately.
 See the [live coverage checklist](../../neighborhood-coverage.md).
 
 ## Contract and limits

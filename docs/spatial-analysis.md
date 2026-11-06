@@ -2,8 +2,8 @@
 
 The [next-phase radius-neighborhood plan](api-delivery-plan.md#next-phase-radius-based-spatial-neighborhoods)
 adds a distinct operation alongside the delivered nearest-distance workflow.
-Its native/Python/CLI/ImGui paths are locally verified; final installed candidate
-delivery is pending. See the [workflow/evidence](benchmarks/neighborhood-workflow/README.md)
+Its native/Python/CLI/ImGui paths and final installed candidate3 delivery are
+complete within the declared local Windows engineering scope. See the [workflow/evidence](benchmarks/neighborhood-workflow/README.md)
 and [coverage checklist](neighborhood-coverage.md). Its bounded validation scope
 supersedes historical full-campaign instructions for this addition.
 
