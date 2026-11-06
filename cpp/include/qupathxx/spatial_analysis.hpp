@@ -46,6 +46,7 @@ public:
 private:
     struct Data;
     std::shared_ptr<const Data> data_;
+    explicit SpatialDistanceRequest(std::shared_ptr<const Data> data):data_(std::move(data)),owner_(std::this_thread::get_id()) {}
     std::shared_ptr<const char> identity_;
     std::thread::id owner_;
     void on_owner() const;
@@ -53,6 +54,8 @@ private:
     friend class SpatialDistanceResult;
     friend class SpatialDistanceJob;
     friend struct SpatialDistanceArchiveCodec;
+    friend class SpatialNeighborhoodRequest;
+    friend struct SpatialNeighborhoodArchiveCodec;
     friend class Document;
 };
 struct SpatialDistanceRow {

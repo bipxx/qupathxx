@@ -104,6 +104,12 @@ void lifecycle_and_budgets() {
     auto wrong=std::async(std::launch::async,[&] {rejects<std::runtime_error>([&] {job.busy();});});wrong.get();
     auto cancel=std::async(std::launch::async,[&] {job.cancel();});cancel.get();check(!job.result() && job.poll(d).state=="cancelled" && held->rows().size()==ids.size());
     check(job.request(request));job.cancel();check(job.wait(d).state=="cancelled" && !job.result());
+    p.radius=5000;SpatialNeighborhoodRequest dense(d,ids,ids,p);check(job.request(dense));
+    auto running=job.poll(d);
+    while(running.state=="running" && !running.completed_rows) {std::this_thread::yield();running=job.poll(d);}
+    check(running.state=="running" && running.completed_rows>0 && running.completed_rows<running.total_rows);
+    job.cancel();check(job.wait(d).state=="cancelled" && !job.result());
+    p.radius=10;
     check(job.request(request));d.rename_annotation(ids.front(),"during work");check(job.wait(d).state=="stale" && !job.result());
     SpatialNeighborhoodRequest fresh(d,ids,ids,p);check(job.request(fresh) && job.wait(d).state=="ready");
     d.set_calibration(.5,.5);check(job.poll(d).state=="stale" && !job.result());

@@ -18,18 +18,22 @@ API paths and five ordered tasks are in the [next-phase plan](api-delivery-plan.
 
 Coverage is maintained in the [detailed checklist](neighborhood-coverage.md):
 requirements and source-scoped evidence, with the execution queue kept here.
-T1 result:radius-count traversal and immutable capture/result/job APIs pass the
-independent oracle plus existing spatial/nearest regression suites (3/3). The
-[coverage checklist](neighborhood-coverage.md) marks16/50 requirements verified;
-N14 still needs cancellation after observed running progress, beyond pre-cancel
-and immediate job cancellation. No binding/package build was run.
-Next action:T2 adds native retained records, distinct versioned payload/project
-table, atomic CSV and replay. Preserve exact legacy inactive snapshot accounting.
-The next focused native build checks round trips/corrupt data, save rollback,
-stale/clone/history and legacy nearest/snapshot compatibility after T2 settles.
-Waste review:the new request delegates to the existing centroid capture directly,
-so no geometry/sampling duplicate or general spatial framework was added. The
-first focused build passed; there was no retry or configuration recreation.
+T1/T2 complete:the native radius-count and retained-record/QSN1/CSV/project paths
+pass. Coverage is27/50 verified,23 pending. Evidence links are in the checklist;
+source identities are extracted from the actual test executables. The original
+T2 run passed4/5 suites; the failing legacy spatial fixture generator omitted
+schema27/28 tables. Its corrected single-target rerun passes all27 historical
+schema upgrades. No kernel/format code changed for that correction. Running-
+progress cancellation and exact legacy inactive snapshot limits pass.
+
+Next action:T3 settles Python/CLI/ImGui operation/radius/result fields and shared
+frontend integration, then one combined cached consumer build and generated
+stubs. Use the existing explicit cohort controls and export guards. Do not build
+packages until those interfaces and affected consumer checks settle.
+Waste review:centroid capture and atomic CSV were reused directly; no new
+sampling framework or kernel per frontend. T2's stale fixture-generator failure
+was diagnosed before retry; only that target rebuilt (provenance/link plus test)
+and reran. Passing native kernel suites were reused.
 Keep candidate2 frozen and
 PRESET1 parked. After each task/failure, record the result, decisive check, waste
 and next task here; do not create another ledger or recurring review campaign.

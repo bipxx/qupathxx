@@ -126,7 +126,7 @@ void Document::restore_spatial(std::shared_ptr<const SpatialDistanceRecord> reco
     if(d.provenance->source.width!=metadata().width || d.provenance->source.height!=metadata().height) throw std::invalid_argument("spatial record image dimensions mismatch");
     for(const auto& a:d.objects) if(a.id>=record->captured_next_id) throw std::invalid_argument("spatial record exceeds captured object identity bounds");
     const auto id=record->id;
-    if(spatial_records_.count(id) || analysis_.count(id) || raw_analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || raw_pixels_.count(id) || streams_.count(id) || raw_streams_.count(id)) throw std::invalid_argument("duplicate spatial record ID");
+    if(spatial_records_.count(id) || neighborhood_records_.count(id) || analysis_.count(id) || raw_analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || raw_pixels_.count(id) || streams_.count(id) || raw_streams_.count(id)) throw std::invalid_argument("duplicate spatial record ID");
     const auto bytes=record->payload_bytes();if(spatial_records_.size()>=10000 || bytes>256u*1024*1024-spatial_bytes_) throw std::length_error("spatial records exceed 10000-record/256 MiB retained limit");
     spatial_records_.emplace(id,StoredSpatial{std::move(record),{},false});spatial_bytes_+=bytes;
 }

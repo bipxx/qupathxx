@@ -11,9 +11,8 @@ decisive check outstanding; **Verified** = linked passing source-scoped evidence
 **Blocked** = named external constraint. A failure remains visible until its
 cause/correction and decisive rerun are recorded. Check boxes mean Verified.
 
-Coverage at T1 closeout:16/50 requirements verified;1 implemented with an
-additional cancellation observation pending;33 pending. This is requirement
-coverage, not a time estimate or overall project completion percentage.
+Coverage at T2 closeout:27/50 requirements verified;23 pending. This is
+requirement coverage, not a time estimate or overall project completion percentage.
 
 ## T1 — contract, capture, radius traversal and jobs
 
@@ -32,7 +31,7 @@ coverage, not a time estimate or overall project completion percentage.
 | [x] | N11 | Exhaustive independent small-scene count oracle agrees across several radii/scales and index split boundaries | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
 | [x] | N12 | Snapshot and worker/index/result payload admitted before work; actual retained allocation checked; limits described as native allowances | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
 | [x] | N13 | Actual distance comparisons bounded; exhaustion fails without a partial result | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
-| [ ] | N14 | Direct-call cancellation before/during traversal; no publishable partial result | Implemented; pre-cancel and job cancellation pass; deterministic cancellation after observed running progress remains to check |
+| [x] | N14 | Direct-call cancellation before/during traversal; no publishable partial result | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
 | [x] | N15 | Job run/poll/wait/cancel/retry, one outstanding request, owner-thread guards, GIL-ready wait_work and joining shutdown | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
 | [x] | N16 | Object/calibration/owner mutation refuses stale job publication; direct and job results agree | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
 | [x] | N17 | Existing spatial index/nearest-distance behavior and identity pass affected regression checks | Verified — [T1 native suites](benchmarks/neighborhood-workflow/t1-tests.log), [source identity/scope](benchmarks/neighborhood-workflow/t1-native.json) |
@@ -41,16 +40,16 @@ coverage, not a time estimate or overall project completion percentage.
 
 | Done | ID | Required behavior | State / evidence |
 | --- | --- | --- | --- |
-| [ ] | N18 | Native keep/list/get/status/verify/remove; bounded retained-record count/bytes and stable IDs | Pending |
-| [ ] | N19 | Distinct versioned neighborhood payload/table; preserve QSD1 distance rows/hashes and old project behavior | Pending |
-| [ ] | N20 | Save/reopen retains exact counts, cohorts, radius/units, geometry/calibration and recipe/input/result identity | Pending |
-| [ ] | N21 | Transactional schema upgrade when needed; failed write preserves prior project | Pending |
-| [ ] | N22 | Replay verifies saved inputs; geometry/calibration changes report stale; unrelated new objects do not join explicit cohorts | Pending |
-| [ ] | N23 | Historical results remain inspectable/exportable without claiming current verification | Pending |
-| [ ] | N24 | Corrupt/truncated/checksum-invalid payload, invalid IDs/counts/scales and allocation limits rejected | Pending |
-| [ ] | N25 | Native locale-independent CSV:one row/source with identity/centroid, count, radius, units and recipe hashes | Pending |
-| [ ] | N26 | Bounded atomic CSV export; cancellation/failure preserves existing output and removes temporary publication state | Pending |
-| [ ] | N27 | Project snapshot/save accounting includes new records; exact old inactive snapshot limits preserved | Pending |
+| [x] | N18 | Native keep/list/get/status/verify/remove; bounded retained-record count/bytes and stable IDs | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N19 | Distinct versioned neighborhood payload/table; preserve QSD1 distance rows/hashes and old project behavior | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N20 | Save/reopen retains exact counts, cohorts, radius/units, geometry/calibration and recipe/input/result identity | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N21 | Transactional schema upgrade when needed; failed write preserves prior project | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N22 | Replay verifies saved inputs; geometry/calibration changes report stale; unrelated new objects do not join explicit cohorts | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N23 | Historical results remain inspectable/exportable without claiming current verification | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N24 | Corrupt/truncated/checksum-invalid payload, invalid IDs/counts/scales and allocation limits rejected | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N25 | Native locale-independent CSV:one row/source with identity/centroid, count, radius, units and recipe hashes | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N26 | Bounded atomic CSV export; cancellation/failure preserves existing output and removes temporary publication state | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
+| [x] | N27 | Project snapshot/save accounting includes new records; exact old inactive snapshot limits preserved | Verified — [T2 source/scope](benchmarks/neighborhood-workflow/t2-native.json), [initial results](benchmarks/neighborhood-workflow/t2-tests.log), [legacy-generator correction](benchmarks/neighborhood-workflow/t2-legacy-test-repair.log) |
 
 ## T3 — shared Python, CLI and ImGui consumers
 

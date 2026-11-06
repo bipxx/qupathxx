@@ -85,6 +85,11 @@ struct SpatialNeighborhoodRecord {
 };
 std::shared_ptr<const SpatialNeighborhoodResult> measure_spatial_neighborhoods(
     const SpatialNeighborhoodRequest&,const std::atomic<bool>* cancelled=nullptr);
+std::string spatial_neighborhood_csv(const SpatialNeighborhoodResult&,std::size_t byte_limit=64u*1024*1024,
+    const std::atomic<bool>* cancelled=nullptr);
+std::size_t save_spatial_neighborhood_csv(const SpatialNeighborhoodResult&,const std::string& path,
+    std::size_t byte_limit=64u*1024*1024,bool replace=false,const std::atomic<bool>* cancelled=nullptr,
+    const std::function<void()>& publication_guard={});
 using SpatialNeighborhoodStats=SpatialDistanceStats;
 class SpatialNeighborhoodJob {
 public:

@@ -61,6 +61,9 @@ class ObjectFeatureRequest;
 class SpatialDistanceRequest;
 class SpatialDistanceResult;
 struct SpatialDistanceRecord;
+class SpatialNeighborhoodRequest;
+class SpatialNeighborhoodResult;
+struct SpatialNeighborhoodRecord;
 struct ObjectClassifierRecord;
 struct CellParameters;
 struct GridCellSampling;
@@ -298,6 +301,13 @@ public:
     bool verify_spatial(std::uint64_t,const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>);
     std::string spatial_status(std::uint64_t) const;
     bool remove_spatial(std::uint64_t);
+    std::vector<std::shared_ptr<const SpatialNeighborhoodRecord>> neighborhood_records() const;
+    std::shared_ptr<const SpatialNeighborhoodRecord> neighborhood_record(std::uint64_t) const;
+    std::size_t neighborhood_record_count() const {return neighborhood_records_.size()+neighborhood_snapshot_.size();}
+    std::uint64_t keep_neighborhood(const SpatialNeighborhoodRequest&,std::shared_ptr<const SpatialNeighborhoodResult>,std::string name="Spatial neighborhoods");
+    bool verify_neighborhood(std::uint64_t,const SpatialNeighborhoodRequest&,std::shared_ptr<const SpatialNeighborhoodResult>);
+    std::string neighborhood_status(std::uint64_t) const;
+    bool remove_neighborhood(std::uint64_t);
     std::vector<AnalysisRecord> analysis_records() const;
     std::size_t analysis_record_count() const {return analysis_.size()+analysis_snapshot_count_;}
     AnalysisRecord analysis_record(std::uint64_t id) const;
@@ -398,6 +408,20 @@ private:
     std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_snapshot_;
     std::size_t spatial_bytes_=0;
     void restore_spatial(std::shared_ptr<const SpatialDistanceRecord>);
+    struct StoredNeighborhood {
+        std::shared_ptr<const SpatialNeighborhoodRecord> value;
+        std::shared_ptr<const char> identity;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredNeighborhood> neighborhood_records_;
+    std::vector<std::shared_ptr<const SpatialNeighborhoodRecord>> neighborhood_snapshot_;
+    std::size_t neighborhood_bytes_=0;
+    // Inactive additive metadata fits the existing snapshot metadata allowance,
+    // preserving exact legacy budgets when no neighborhood records are present.
+    std::size_t inactive_neighborhood_metadata_bytes() const {
+        return neighborhood_record_count()?0:sizeof(neighborhood_records_)+sizeof(neighborhood_snapshot_)+sizeof(neighborhood_bytes_);
+    }
+    void restore_neighborhood(std::shared_ptr<const SpatialNeighborhoodRecord>);
     struct StoredRawAnalysis {
         std::shared_ptr<const RawAnalysisRecord> value;
         std::shared_ptr<const char> identity;
