@@ -1,0 +1,76 @@
+{
+  "dataset": "NuCLS corrected single-rater",
+  "license": "CC0-1.0",
+  "license_source": "https://sites.google.com/view/nucls/single-rater",
+  "calibration_um": [
+    0.2,
+    0.2
+  ],
+  "calibration_source": "https://sites.google.com/view/nucls/data-format",
+  "citation": "Amgad et al. NuCLS: A scalable crowdsourcing approach and dataset for nucleus classification and segmentation in breast cancer. GigaScience 2022. doi:10.1093/gigascience/giac037",
+  "official_download_folder": "https://drive.google.com/drive/folders/1eGlF9Dgu3WMEik4fqj0wJ13LKVufsfZ0",
+  "selection": "First available common RGB/CSV fields in sorted names from two distinct TCGA cases in the first official folder listing page; no selection based on results.",
+  "cases": [
+    {
+      "name": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671",
+      "google_drive_ids": {
+        "rgb": "1avtCBunnZhiU8s71_7BorUXPM6-hCxVo",
+        "csv": "1PU-m7BUVz0lPIkYVHINcR9OYFvYXn4qE",
+        "mask": "1mMvWjjgpdc34vCUd6WiLWvCzdw5uHy51"
+      }
+    },
+    {
+      "name": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364",
+      "google_drive_ids": {
+        "rgb": "1yjLjDKOCDEQEROhNvy4bIoBWW2_bTslo",
+        "csv": "18gMAh0VPoNLKD8vMlIROQYjF4cNSoWte",
+        "mask": "10RikPO5RBsT7GCAYC9ypZ2F1adjXaRtC"
+      }
+    }
+  ],
+  "files": [
+    {
+      "name": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.png",
+      "url": "https://drive.usercontent.google.com/download?id=1avtCBunnZhiU8s71_7BorUXPM6-hCxVo&export=download",
+      "bytes": 188099,
+      "sha256": "a0136a49776ad05b3444ed21d79f01e24d78dfd826c4f5ff5223d3bfc958559d"
+    },
+    {
+      "name": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.csv",
+      "url": "https://drive.usercontent.google.com/download?id=1PU-m7BUVz0lPIkYVHINcR9OYFvYXn4qE&export=download",
+      "bytes": 4945,
+      "sha256": "4473f27e274520b0d64e69dd1f893413aee916cc1767095d511ba93fe51eb607"
+    },
+    {
+      "name": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671-mask.png",
+      "url": "https://drive.usercontent.google.com/download?id=1mMvWjjgpdc34vCUd6WiLWvCzdw5uHy51&export=download",
+      "bytes": 3727,
+      "sha256": "d38d832a7c9cafcb38b687a5a30a8a2aa87583aa56ad6fc7c3fa12a7167af247"
+    },
+    {
+      "name": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.png",
+      "url": "https://drive.usercontent.google.com/download?id=1yjLjDKOCDEQEROhNvy4bIoBWW2_bTslo&export=download",
+      "bytes": 192720,
+      "sha256": "b6e27885e5c8def287f501182a1d8af981c192d75eb6cc6689c57a854fd8c746"
+    },
+    {
+      "name": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.csv",
+      "url": "https://drive.usercontent.google.com/download?id=18gMAh0VPoNLKD8vMlIROQYjF4cNSoWte&export=download",
+      "bytes": 3988,
+      "sha256": "6118f9dcac74472864bda0d761e2de475c7f1b5d965dd767f08436fd392d9698"
+    },
+    {
+      "name": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364-mask.png",
+      "url": "https://drive.usercontent.google.com/download?id=10RikPO5RBsT7GCAYC9ypZ2F1adjXaRtC&export=download",
+      "bytes": 2619,
+      "sha256": "99728af91da7f861540e587796c0ca63e61d705f376792cf4797f8aaae8f0db5"
+    },
+    {
+      "name": "nucleus_GTcodes.csv",
+      "url": "https://drive.usercontent.google.com/download?id=1vT6ZG1s3IQkB9suI21qgzF2N5zM8z0qd&export=download",
+      "bytes": 622,
+      "sha256": "a52166cfccb1a8f0883b4ad20d29dd4e402cd675268b7bdbde13255ede02c26f"
+    }
+  ],
+  "total_downloaded_bytes": 396720
+}

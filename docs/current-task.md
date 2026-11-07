@@ -7,19 +7,40 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected follow-up — real multi-image research pilot
+## Delivered follow-up — public multi-image research pilot
 
 Owner accepted running the delivered selector/runner on a real research project.
-Awaiting the intended local project path and window/tissue/exclusion/Cell classes
-(or explicit all-Cells selection). Local read-only metadata inventory found test
-fixtures and the duplicated-crop demonstration, not an identified research cohort.
+Owner has no local project. Select a tiny public NuCLS corrected single-rater
+subset:2 FOVs from different TCGA cases, author-published CC0 and0.2um/px.
+Use annotation FOV support for the denominator, not a claimed tissue ground truth;
+represent annotated nuclei as native Cell objects, without claiming whole-cell
+segmentation. Preserve source CSVs and rectangle/polygon centroid semantics. No new reader.
+Decisive check: generated class manifest -> existing installed runner ->2 CSV
+rows matching independent rectangle-area and annotation-centroid counts.
+Local read-only metadata inventory found test fixtures and the duplicated-crop
+demonstration, not an identified research cohort.
 Inventory is retained in main build/research-density-pilot/local-project-inventory.json;
-reuse it instead of rescanning. No pilot analysis or biological acceptance claimed.
-Next: preview the supplied saved project, resolve issues, run a new output directory
-and review combined CSV. No native build, new dataset download or feature expansion.
+reuse it instead of rescanning. No biological acceptance claimed.
+Completed:7 directly downloaded public assets total396720 bytes;2 distinct cases,
+60 annotated nuclei represented by centroid markers. Actual preview/generation/
+batch CLI produces2 rows:31 and27 in-FOV nuclei,0.00416024 and0.00404496mm2,
+7451.493183 and6674.973300 nuclei/mm2 of annotated FOV. Counts and areas match
+independent arithmetic; saved project bytes unchanged. [Pilot coverage, sources
+and evidence](benchmarks/research-density-pilot/README.md) close all6 selected checks.
+No native build, tests/package reinstall, model training or feature expansion.
 Waste review: initial inventory stopped on an unavailable historical artifact;
 the corrected read-only pass records unavailable/schema-ineligible entries and
 preserves all files. No repeated test campaign or fixture substitution for the pilot.
+First public import exposed a one-pixel out-of-image annotation box, correctly
+rejected by native Document. Preserve the failed analysis.log and partial output;
+use1px native Cell/nucleus markers at all original annotation centroids for this
+centroid-only pilot, rather than clipping source annotations or resampling pixels.
+Record source shape types, mask/RGB extent differences and representation limits.
+The corrected centroid-only workflow passes. Exact source hashes, failed first
+import and source annotations remain preserved. Durable compilexx note records
+bounded public-data selection and explicit representation/denominator semantics.
+Next: no further implementation or validation phase selected; report this pilot's
+scope rather than treating public annotations as whole-cell/clinical acceptance.
 
 ## Delivered phase — class-based density manifests
 

@@ -66,3 +66,7 @@ The [installed demonstration](benchmarks/density-manifest/workflow.json) reuses
 the same506-cell crop twice to test image namespaces, not independent specimens.
 Candidate4's native results and the batch runner are unchanged. No new GUI,
 reader, segmentation, platform or speed claim is part of this addition.
+
+A subsequent [public NuCLS pilot](benchmarks/research-density-pilot/README.md)
+also passes on two different cases using original annotation centroids and
+annotated FOV area, with explicit representation/denominator limits.
