@@ -15,8 +15,11 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S08 | Six affected suites pass; cached bindings reused; save/reopen exercised | Complete |
 | S09 | Final native/reference controls, late original-code control and host-load disclosure | Complete |
 | S10 | Source/runtime manifests, evidence, plan/notebook update and public source handoff | Complete |
-| S11 | Eliminate remaining matched cell gap: native 439-447 ms versus QuPath 336-354 ms | Open |
+| S11 | Eliminate remaining settled cell gap: native320 ms versus QuPath292 ms (~9.5%); [follow-up](benchmarks/speed-gap-followup/README.md) | Open |
+| S12 | Precise profile rules out context pooling; implicit nominal edges preserve ambiguous fallback | Complete |
+| S13 | Exact dense unit-grid boundary/area/inclusion proof, shifted-geometry refusal,65 patterns plus empty/hole cases | Complete |
+| S14 | Six native suites, canonical records, source/runtime identity and test-stack isolation | Complete |
+| S15 | Six-warmup/six-measured oracle-free protocol corrects premature ordinary-timing parity | Complete |
 
-Next: one precise current-source profile of remaining numeric and GEOS creation/
-overlay costs, then the largest demonstrated improvement with exact output gates.
-No overall speed, new RAM, whole-slide, platform or binary-release claim follows.
+Next: profile the remaining nucleus sub-stages before choosing another change.
+Scientific/data identity stays exact; strict speed parity is not claimed.

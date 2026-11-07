@@ -20,13 +20,15 @@ import java.security.MessageDigest
 
 def source=Path.of(args[0]);def output=Path.of(args[1])
 boolean resourceOnly=args.length>2 && args[2]=='resource'
+boolean steady=args.length>2 && args[2]=='steady'
+boolean skipOracles=resourceOnly || steady
 Files.createDirectory(output)
 Files.writeString(output.resolve('pid.txt'),Long.toString(ProcessHandle.current().pid()))
 def gson=GsonTools.getInstance();def runs=[]
 def cpuTime={ProcessHandle.current().info().totalCpuDuration().orElse(java.time.Duration.ZERO).toNanos()}
 def bounds=[29185,2048,512,512]
 def progress=Files.newBufferedWriter(output.resolve('progress.jsonl'))
-for(int iteration=0;iteration<(resourceOnly?1:4);iteration++) {
+for(int iteration=0;iteration<(resourceOnly?1:steady?12:4);iteration++) {
     def folder=output.resolve(Integer.toString(iteration));Files.createDirectory(folder)
     def stages=[:]
     def timed={String name,Closure operation ->
@@ -94,7 +96,7 @@ for(int iteration=0;iteration<(resourceOnly?1:4);iteration++) {
         if(reopened.getHierarchy().getCellObjects().size()!=cells.size()) throw new IllegalStateException('Reopened cell count differs')
         reopened.getServer().close()
         // Independent pixel-center partition capture, outside all timers.
-        if(!resourceOnly) ['nucleus','body'].each {compartment ->
+        if(!skipOracles) ['nucleus','body'].each {compartment ->
             int[] labels=new int[width*height]
             cells.eachWithIndex {cell,index ->
                 def shape=compartment=='nucleus'?cell.getNucleusROI():cell.getROI()
@@ -112,8 +114,8 @@ for(int iteration=0;iteration<(resourceOnly?1:4);iteration++) {
             def bytes=ByteBuffer.allocate(labels.length*4).order(ByteOrder.LITTLE_ENDIAN)
             labels.each {bytes.putInt(it)};Files.write(folder.resolve(compartment+'.u32'),bytes.array())
         }
-        if(!resourceOnly) Files.write(folder.resolve('rgb.u8'),rgb)
-        runs.add([iteration:iteration,warmup:iteration==0,stages:stages,workflow_ms:workflowMs,
+        if(!skipOracles) Files.write(folder.resolve('rgb.u8'),rgb)
+        runs.add([iteration:iteration,warmup:!resourceOnly && iteration<(steady?6:1),stages:stages,workflow_ms:workflowMs,
             cells:cells.size(),density:density.density,area_mm2:density.area_mm2,
             rgb_sha256:MessageDigest.getInstance('SHA-256').digest(rgb).encodeHex().toString(),rgb_sum:sums.toList(),
             pixel_width_um:px,pixel_height_um:py,parameters:parameters,

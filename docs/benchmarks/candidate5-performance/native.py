@@ -18,7 +18,9 @@ def main():
     parser.add_argument('--expected-tree', default='2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13')
     parser.add_argument('--context',type=int,default=0)
     parser.add_argument('--label')
-    parser.add_argument('--resource-only',action='store_true')
+    mode=parser.add_mutually_exclusive_group()
+    mode.add_argument('--resource-only',action='store_true')
+    mode.add_argument('--steady',action='store_true',help='Six warmups + six timed workflows, no mask oracles')
     args = parser.parse_args()
     args.output.mkdir(exist_ok=False)
     (args.output / 'pid.txt').write_text(str(os.getpid()))
@@ -31,7 +33,7 @@ def main():
     roi = (29185, 2048, 512, 512)
     runs = []
     progress = (args.output / 'progress.jsonl').open('w', encoding='utf-8')
-    for iteration in range(1 if args.resource_only else 4):
+    for iteration in range(1 if args.resource_only else 12 if args.steady else 4):
         folder = args.output / str(iteration)
         folder.mkdir()
         stages = {}
@@ -101,9 +103,14 @@ def main():
 
         restored, restored_doc, restored_density = timed('reopen_project', reopen)
         workflow_ms = (time.perf_counter()-started)*1000
-        if args.resource_only:
+        if args.resource_only or args.steady:
             assert restored_density.result.sha256==density_result.sha256
-            runs.append(dict(iteration=iteration,stages=stages,workflow_ms=workflow_ms,cells=result.cell_count,oracles=False))
+            row=density_result.row(0);assert row.count==result.cell_count
+            runs.append(dict(iteration=iteration,warmup=args.steady and iteration<6,
+                stages=stages,workflow_ms=workflow_ms,cells=result.cell_count,oracles=False,
+                density=row.density_per_mm2,area_mm2=row.area_mm2,
+                rgb_sum=[int(v) for v in analysis.intensity_statistics.rgb.sum],
+                pixel_width_um=doc.pixel_width_um,pixel_height_um=doc.pixel_height_um))
             continue
         # Correctness/oracle work starts after the workflow timer.
         rgba = pixels.numpy()

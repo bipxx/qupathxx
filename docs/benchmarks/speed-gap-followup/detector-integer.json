@@ -1,0 +1,61 @@
+{
+  "source_tree": "e69333b045cf4c6294092f1f3060ddeae48dbe2734229966f6df9581193c8f61",
+  "runs": [
+    {
+      "iteration": 0,
+      "wall_ms": 359.8018998745829,
+      "cpu_ms": 468.75,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    },
+    {
+      "iteration": 1,
+      "wall_ms": 347.9258001316339,
+      "cpu_ms": 484.375,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    },
+    {
+      "iteration": 2,
+      "wall_ms": 333.4063000511378,
+      "cpu_ms": 453.125,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    },
+    {
+      "iteration": 3,
+      "wall_ms": 327.1657999139279,
+      "cpu_ms": 437.5,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    }
+  ]
+}

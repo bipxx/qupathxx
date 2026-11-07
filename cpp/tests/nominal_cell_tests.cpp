@@ -4,6 +4,7 @@
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/object_classifier_archive.hpp"
 #include "../cell_archive.hpp"
+#include "../cell_contours.hpp"
 #include "../object_classifier_archive.hpp"
 #include "../geometry_archive.hpp"
 #include "../grid_cell_descriptor.hpp"
@@ -299,32 +300,7 @@ void check_nominal_cells() {
             verify(source->reads==before);
         }
     }
-    // A large nominal result uses independent contour workers. Compare its
-    // exact geometry with serial tracing and exercise a joined worker failure.
-    {
-        std::vector<std::uint8_t> pixels(256*256*3);
-        for(int y=0;y<256;++y) for(int x=0;x<256;++x) {
-            const bool dark=(x-64)*(x-64)+(y-64)*(y-64)<=100 || (x-192)*(x-192)+(y-192)*(y-192)<=100;
-            const std::array<std::uint8_t,3> color=dark?std::array<std::uint8_t,3>{75,55,120}:std::array<std::uint8_t,3>{245,244,242};
-            for(int c=0;c<3;++c) pixels[(y*256+x)*3+c]=color[c];
-        }
-        Document doc(Image(256,256,std::move(pixels)));const auto object=doc.add_rectangle({0,0,256,256});
-        GridCellParameters p;p.processing=CellProcessingPolicy::QuPath070V2;p.threshold=.4;p.min_nucleus_area=16;p.max_nucleus_area=512;
-        const auto request=CellRequest::for_nominal_roi(doc,object,transform,1,0,0,p,RgbNominalSampling::AffineInverse);
-        const auto result=detect_cells(request);verify(result->features().size()==2);
-        for(bool body:{false,true}) {
-            const auto serial=trace_tissue(*(body?result->cells():result->nuclei()),p.contours);
-            const auto concurrent=body?result->cell_contours():result->nucleus_contours();
-            verify(serial->components().size()==concurrent->components().size());
-            for(std::size_t i=0;i<serial->components().size();++i)
-                verify(serial->components()[i].geometry.wkt()==concurrent->components()[i].geometry.wkt());
-        }
-        const auto packet=CellArchiveCodec::encode(*result);
-        const auto restored=CellArchiveCodec::decode(packet.data(),packet.size(),request.roi(),doc.metadata());
-        verify(CellArchiveCodec::encode(*restored)==packet);
-        auto refused=p;refused.contours.max_edges=3;
-        rejects<std::length_error>([&]{detect_cells(CellRequest::for_nominal_roi(doc,object,transform,1,0,0,refused,RgbNominalSampling::AffineInverse));});
-    }
+    verify(!verify_integer_cell_containment(*result->nuclei(),*result->nucleus_contours(),*result->cells(),*result->cell_contours()));
     // Clipping can retain a nucleus fragment while excluding its original shape
     // maximum. The compatibility archive must preserve that real relationship.
     for(auto policy:{CellProcessingPolicy::QuPath070,CellProcessingPolicy::QuPath070V2}) {

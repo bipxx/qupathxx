@@ -1,24 +1,10 @@
 # API and workflow delivery paths
 
-The current [cell speed-gap batch](benchmarks/speed-gap/README.md) roughly halves
-native time against a late unchanged-code control, retaining exact results.
-Fresh native medians 439-447 ms versus QuPath 336-354 ms leave 26-31% overhead;
-[parity remains open](speed-gap-coverage.md). The selected continuation profiles
-remaining numeric/GEOS costs. Published releases and broader scope stay frozen.
-
-The selected [label-local contour optimization](benchmarks/contour-performance/README.md)
-is delivered in development: exact masks/CSV/ordered geometry, 84 topology cases,
-five affected suites and a local 7-16% full-workflow reduction against controls.
-[Coverage](contour-performance-coverage.md) records limits and source identity.
-Host drift prevents a new cross-engine ratio; no binary release is implied.
-
-Focused ROI performance is delivered: [report](benchmarks/candidate5-performance/README.md)
-and [coverage](candidate5-performance-coverage.md). Exact 2,237-cell partitions
-match QuPath; native cells remain about 2.2 times slower locally, with lower
-observed process RSS. A compatibility archive repair and bounded geometry change
-are verified in development only; published candidate5 stays frozen and affected
-by the newly discovered reopen limitation. Contour/reopen cost remains a measured
-opportunity, not an automatically selected task or whole-slide acceptance.
+The current [speed follow-up](benchmarks/speed-gap-followup/README.md) preserves
+exact outputs with a guarded integer-grid proof and a corrected steady timing
+protocol. [Current task](current-task.md) and [coverage](speed-gap-coverage.md)
+retain the open parity target. Historical profiles remain source-scoped; published
+releases and broader feature/support scope stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 

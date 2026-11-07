@@ -9,37 +9,33 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 
 ## Selected phase - close the cell speed gap (ongoing)
 
-Delivered the first optimization batch within the owner's speed goal.
-[Report](benchmarks/speed-gap/README.md) and [coverage](speed-gap-coverage.md)
-retain source scope, exact outputs, controls and the open parity requirement.
-Native cell pipeline improved from 1,077 ms initially / 906 ms late unchanged
-control to 439-447 ms. Fresh paired QuPath medians are 336-354 ms. Native remains
-26-31% slower; speed parity is NOT achieved. Host-load counters are recorded.
+Delivered S11's next optimization batch: implicit nominal segments, bounded
+predicate fallback and an exact dense integer-grid geometry/containment proof.
+[Follow-up report](benchmarks/speed-gap-followup/README.md) and
+[shared coverage](speed-gap-coverage.md) own source scope and checks.
+Final settled medians are320 ms native versus292 ms QuPath (~9.5% overhead,
+about28 ms). Strict speed parity remains open; no general speed win is claimed.
+All2,237 cell partitions, RGB/calibration/area, CSV and ordered geometry stay
+exact. Six affected suites pass; new adversarial/inclusion/hole/cancel/archive
+checks validate the proof. Sparse/fractional/curved inputs retain GEOS checks.
+Raw source tree d9f6b3c2348f473367358ec726515b07756f8af20eb8050f4d64d96646acfdbe
+has523 inputs and its own runtime-delivery receipt. Candidate5 stays frozen.
 
-Delivered: bounded concurrent contours; unambiguous closed-ring/direct-polygon
-paths with general fallbacks; polygon WKT on demand; binary GEOS Covers under
-both locks. All recorded native masks/RGB/CSV and eight final fresh QuPath
-partitions match exactly (2,237 cells); frozen ordered geometry is unchanged.
-Six affected suites pass, including concurrency/failure/archive and topology
-regressions. Raw source tree 4290404591e945023f8b9ebbb946cda9cc524534a5c263ebb6db37ef3c926ca0
-owns the measured runtime-selected module. Published candidate5 is unchanged.
+Waste review: precise profiling ruled out context pooling (~1 ms/mask). Eight
+predicate workers gave no clear benefit and were discarded. One-warmup reference
+samples were unsettled; longer warmup without intersample oracles corrected a
+premature parity interpretation. Extra fixtures overflowed a large Windows test
+stack; isolate value-heavy tests up front, preserving checks and stack limits.
+Use narrow probes during development; no broad qualification/binding recompile.
+Closeout diff checking flagged a required blank context marker in the retained
+profile patch; a file-specific whitespace attribute preserves that evidence.
 
-Rejected rectangular-overlay skipping: passed small patterns but failed real
-ordered geometry identity. Restored the exact passing source/product and kept
-failure evidence; no assertion or identity contract was relaxed.
-
-Waste review: broader call-path inspection found containment text conversion
-missed by contour-only probes. Fresh reference and late baseline controls were
-needed for host drift, but per-variant full workflows were excessive; retain
-those controls, use narrow decisive probes until final integration. Reused
-binding objects and six affected suites; no broad qualification or packaging.
-
-Next selected work (S11, open): precisely separate current numeric segmentation,
-GEOS per-object/context creation/preparation and overlay/predicate costs. The
-public phase names are too coarse for this decision. Improve the largest measured
-cost; context sharing needs a locking/ownership audit. Preserve exact outputs,
-legacy identity and the frozen releases. Only then run one fresh paired final
-check. No new feature, reader, GPU framework or binary release is selected.
+Next selected work: precisely split qupath070_nuclei response basins, filled
+regions, shape watershed and labeling (baseline combined cost~106 ms). Target
+its largest measured cost while preserving order, masks, identities and legacy
+replay. Reuse the current exact-output evidence and the settled timing protocol;
+run affected numeric/native checks only for actual changes. No new feature,
+reader, GPU framework or binary release is selected.
 
 ## Delivered phase - label-local contour performance
 

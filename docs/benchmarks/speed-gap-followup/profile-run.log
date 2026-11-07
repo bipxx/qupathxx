@@ -1,0 +1,10 @@
+NUMERIC_PROFILE prepare_ms=23.032 gaussian_laplacian_ms=5.053 nuclei_ms=105.908
+ROI_PROFILE context_ms=1.114 rings_ms=1.646 validate_prepare_ms=15.037 paths_ms=0.943 metrics_ms=0.218
+CONTOUR_PROFILE count_ms=1.788 lines_ms=14.975 polygonize_ms=11.640 locate_ms=3.248 transform_validate_ms=19.303 intersect_ms=58.408 extract_ms=1.170 roi_ms=20.330 cleanup_ms=6.976
+ROI_PROFILE context_ms=1.044 rings_ms=1.892 validate_prepare_ms=17.778 paths_ms=1.189 metrics_ms=0.244
+CONTOUR_PROFILE count_ms=1.575 lines_ms=18.082 polygonize_ms=11.258 locate_ms=1.236 transform_validate_ms=22.322 intersect_ms=66.991 extract_ms=1.305 roi_ms=23.380 cleanup_ms=10.515
+CELL_PROFILE assembly_ms=61.562 contours_ms=254.884
+ROI_PROFILE context_ms=1.096 rings_ms=1.536 validate_prepare_ms=15.347 paths_ms=0.928 metrics_ms=0.269
+CONTOUR_PROFILE count_ms=2.165 lines_ms=14.087 polygonize_ms=11.311 locate_ms=1.258 transform_validate_ms=18.856 intersect_ms=57.732 extract_ms=1.177 roi_ms=20.341 cleanup_ms=7.307
+ROI_PROFILE context_ms=0.910 rings_ms=1.710 validate_prepare_ms=17.255 paths_ms=1.119 metrics_ms=0.254
+CONTOUR_PROFILE count_ms=1.673 lines_ms=16.933 polygonize_ms=11.944 locate_ms=1.215 transform_validate_ms=22.101 intersect_ms=66.558 extract_ms=1.412 roi_ms=22.404 cleanup_ms=9.848

@@ -114,20 +114,21 @@ Geometry polygonize(Backend& backend,const TissueResult& mask,
     // Nominal cell labels already identify the boundary on each side. Give
     // GEOS each label's smaller graph rather than rebuilding one global graph.
     // Keep original edge order and the downstream clipping/canonicalization.
-    struct Edge {const GEOSGeometry* line;std::uint64_t from,to;};
+    struct Edge {std::uint64_t from,to;};
     const auto stride=std::uint64_t(mask.width())+1;
     std::vector<std::vector<Edge>> adjacent(mask.components().size());
     std::size_t edge=0;
     detail::for_each_label_boundary_run(mask,[&](auto x0,auto y0,auto x1,auto y1,auto a,auto b) {
-        const auto* line=lines.at(edge++);
+        ++edge;
         auto from=std::uint64_t(y0)*stride+std::uint64_t(x0),to=std::uint64_t(y1)*stride+std::uint64_t(x1);
         // Orient each label with its interior on the right. This preserves
         // polygonizer shell/hole winding and original first-edge order.
         if(x0==x1) std::swap(from,to);
-        if(a) adjacent.at(a-1).push_back({line,from,to});
-        if(b) adjacent.at(b-1).push_back({line,to,from});
+        if(a) adjacent.at(a-1).push_back({from,to});
+        if(b) adjacent.at(b-1).push_back({to,from});
     },cancelled);
-    if(edge!=lines.size()) throw std::logic_error("cell boundary edge order differs");
+    if(!lines.empty()) throw std::logic_error("nominal cell boundary segments must remain implicit");
+    if(edge>limit) throw std::length_error("cell boundary edge limit exceeded");
     std::vector<Geometry> owned;std::vector<GEOSGeometry*> faces;
     for(std::size_t label=1;label<=adjacent.size();++label) {
         checkpoint(cancelled);const auto& edges=adjacent[label-1];
@@ -159,7 +160,18 @@ Geometry polygonize(Backend& backend,const TissueResult& mask,
                         throw std::runtime_error("could not build closed cell boundary");
                 rings.push_back(backend.own(GEOSGeom_createLinearRing_r(backend.ctx,sequence.release())));boundary.push_back(rings.back().get());
             }
-        } else for(const auto& edge:edges) boundary.push_back(edge.line);
+        } else for(const auto& edge:edges) {
+            // Only ambiguous labels need individual GEOS segments. Raster runs
+            // originally progress left-to-right or top-to-bottom, so increasing
+            // packed vertex order reconstructs the exact original orientation.
+            const auto first=std::min(edge.from,edge.to),last=std::max(edge.from,edge.to);
+            auto destroy=[&](GEOSCoordSequence* s){GEOSCoordSeq_destroy_r(backend.ctx,s);};
+            std::unique_ptr<GEOSCoordSequence,decltype(destroy)> sequence(GEOSCoordSeq_create_r(backend.ctx,2,2),destroy);
+            if(!sequence || !GEOSCoordSeq_setXY_r(backend.ctx,sequence.get(),0,double(first%stride),double(first/stride)) ||
+                !GEOSCoordSeq_setXY_r(backend.ctx,sequence.get(),1,double(last%stride),double(last/stride)))
+                throw std::runtime_error("could not build ambiguous cell boundary");
+            rings.push_back(backend.own(GEOSGeom_createLineString_r(backend.ctx,sequence.release())));boundary.push_back(rings.back().get());
+        }
         // One unambiguous closed boundary has no nesting to discover.
         // Keep GEOS validity/area/clip checks below, without rebuilding a graph.
         auto polygons=(unambiguous && rings.size()==1)?
@@ -244,13 +256,17 @@ struct TissueContourKernel {
         result->retained_=sizeof(TissueContours)+result->components_.capacity()*sizeof(TissueContour)+result->input_sha256_.capacity();
         if(result->edges_) {
             Backend backend(cancelled);std::vector<Geometry> owned;std::vector<const GEOSGeometry*> lines;
-            owned.reserve(result->edges_);lines.reserve(result->edges_);
-            boundary_runs(mask,[&](std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1) {
-                auto destroy=[&](GEOSCoordSequence* s){GEOSCoordSeq_destroy_r(backend.ctx,s);};
-                std::unique_ptr<GEOSCoordSequence,decltype(destroy)> seq(GEOSCoordSeq_create_r(backend.ctx,2,2),destroy);
-                if(!seq || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),0,double(x0),double(y0)) || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),1,double(x1),double(y1))) throw std::runtime_error("could not build tissue contour edge");
-                auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
-            },cancelled);
+            // The nominal polygonizer walks native tagged endpoints. Do not
+            // allocate one GEOS object per segment just to discard most of them.
+            if(!nominal_geometry(mask)) {
+                owned.reserve(result->edges_);lines.reserve(result->edges_);
+                boundary_runs(mask,[&](std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1) {
+                    auto destroy=[&](GEOSCoordSequence* s){GEOSCoordSeq_destroy_r(backend.ctx,s);};
+                    std::unique_ptr<GEOSCoordSequence,decltype(destroy)> seq(GEOSCoordSeq_create_r(backend.ctx,2,2),destroy);
+                    if(!seq || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),0,double(x0),double(y0)) || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),1,double(x1),double(y1))) throw std::runtime_error("could not build tissue contour edge");
+                    auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
+                },cancelled);
+            }
             checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
