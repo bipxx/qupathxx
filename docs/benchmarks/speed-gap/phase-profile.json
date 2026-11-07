@@ -1,0 +1,50 @@
+{
+  "method": "Public CellJob phase polling every1ms; coarse grouped stages, diagnostic only",
+  "runs": [
+    {
+      "iteration": 0,
+      "phase_ms": {
+        "idle": 0.05879998207092285,
+        "reading": 156.9447999354452,
+        "smoothing": 1.566300168633461,
+        "expansion": 61.98859983123839,
+        "contours": 422.2004001494497,
+        "complete": 1.5647998079657555
+      },
+      "elapsed_ms": 644.3236998748034
+    },
+    {
+      "iteration": 1,
+      "phase_ms": {
+        "idle": 1.1436999775469303,
+        "reading": 149.5124998036772,
+        "expansion": 66.52200012467802,
+        "contours": 433.39150003157556,
+        "complete": 2.8810000512748957
+      },
+      "elapsed_ms": 653.4506999887526
+    },
+    {
+      "iteration": 2,
+      "phase_ms": {
+        "idle": 1.6419000457972288,
+        "reading": 150.0446000136435,
+        "expansion": 72.02599989250302,
+        "contours": 417.64579992741346,
+        "complete": 3.117999993264675
+      },
+      "elapsed_ms": 644.4762998726219
+    },
+    {
+      "iteration": 3,
+      "phase_ms": {
+        "idle": 1.357699977234006,
+        "reading": 154.9138999544084,
+        "expansion": 66.34910008870065,
+        "contours": 453.979599988088,
+        "complete": 3.184200031682849
+      },
+      "elapsed_ms": 679.7845000401139
+    }
+  ]
+}

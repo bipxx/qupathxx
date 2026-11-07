@@ -181,7 +181,21 @@ struct CellKernel {
     static void contours(CellResult& result,const std::atomic<bool>* cancelled) {
         const auto& p=result.parameters_;const auto count=result.features_.size();
         if(has_geos()) {
-            result.nucleus_contours_=trace_tissue(*result.nuclei_,p.contours,cancelled);result.cell_contours_=trace_tissue(*result.cells_,p.contours,cancelled);
+            if(count>1 && result.nuclei_->labels().size()>=256u*256u) {
+                // Independent immutable rasters and separate GEOS contexts.
+                // Admission already charges both contour work allowances.
+                // Join before publication, including exception unwinding.
+                auto nuclei=std::async(std::launch::async,[&] {
+                    return trace_tissue(*result.nuclei_,p.contours,cancelled);
+                });
+                auto bodies=trace_tissue(*result.cells_,p.contours,cancelled);
+                auto nucleus_contours=nuclei.get();
+                result.nucleus_contours_=std::move(nucleus_contours);
+                result.cell_contours_=std::move(bodies);
+            } else {
+                result.nucleus_contours_=trace_tissue(*result.nuclei_,p.contours,cancelled);
+                result.cell_contours_=trace_tissue(*result.cells_,p.contours,cancelled);
+            }
             if(result.nucleus_contours_->components().size()!=count || result.cell_contours_->components().size()!=count) throw std::runtime_error("cell contours did not preserve every label");
             for(std::size_t i=0;i<count;++i) {checkpoint(cancelled);const auto& body=result.cell_contours_->components()[i];const auto& nucleus=result.nucleus_contours_->components()[i];
                 if(body.label!=i+1 || nucleus.label!=i+1) throw std::runtime_error("cell contour label validation failed");

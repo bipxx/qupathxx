@@ -1,0 +1,12 @@
+{
+  "parent_commit": "f55da4b7534024d55742060386c5f15abd4647c4",
+  "raw_tree": "4290404591e945023f8b9ebbb946cda9cc524534a5c263ebb6db37ef3c926ca0",
+  "compiler_inputs": 522,
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\speed-gap\\runtime-selected",
+  "runtime_scope": "Python module and required runtime files; no app/wheel release",
+  "runtime_manifest_sha256": "d3ddb12b5a8db080577042a5bc674396854b962b83b8aa3ac349814874f524b1",
+  "published_candidate5_changed": false,
+  "parity_achieved": false,
+  "geos_source": "build/deps/geos-3.15.0/capi/geos_ts_c.cpp:4501",
+  "notes": "GEOSPreparedCovers_r uses the supplied const geometry; both owning contexts are locked for lazy geometry caches. Rejected rectangle variant is not part of this source/runtime."
+}

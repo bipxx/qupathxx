@@ -1,5 +1,11 @@
 # QuPath workflow inventory
 
+The current [cell speed-gap batch](benchmarks/speed-gap/README.md) roughly halves
+native time against a late unchanged-code control, retaining exact results.
+Fresh native medians 439-447 ms versus QuPath 336-354 ms leave 26-31% overhead;
+[parity remains open](speed-gap-coverage.md). The selected continuation profiles
+remaining numeric/GEOS costs. Published releases and broader scope stay frozen.
+
 The selected [label-local contour optimization](benchmarks/contour-performance/README.md)
 is delivered in development: exact masks/CSV/ordered geometry, 84 topology cases,
 five affected suites and a local 7-16% full-workflow reduction against controls.

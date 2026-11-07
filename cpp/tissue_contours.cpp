@@ -114,18 +114,57 @@ Geometry polygonize(Backend& backend,const TissueResult& mask,
     // Nominal cell labels already identify the boundary on each side. Give
     // GEOS each label's smaller graph rather than rebuilding one global graph.
     // Keep original edge order and the downstream clipping/canonicalization.
-    std::vector<std::vector<const GEOSGeometry*>> adjacent(mask.components().size());
+    struct Edge {const GEOSGeometry* line;std::uint64_t from,to;};
+    const auto stride=std::uint64_t(mask.width())+1;
+    std::vector<std::vector<Edge>> adjacent(mask.components().size());
     std::size_t edge=0;
-    detail::for_each_label_boundary_run(mask,[&](auto,auto,auto,auto,auto a,auto b) {
+    detail::for_each_label_boundary_run(mask,[&](auto x0,auto y0,auto x1,auto y1,auto a,auto b) {
         const auto* line=lines.at(edge++);
-        if(a) adjacent.at(a-1).push_back(line);
-        if(b) adjacent.at(b-1).push_back(line);
+        auto from=std::uint64_t(y0)*stride+std::uint64_t(x0),to=std::uint64_t(y1)*stride+std::uint64_t(x1);
+        // Orient each label with its interior on the right. This preserves
+        // polygonizer shell/hole winding and original first-edge order.
+        if(x0==x1) std::swap(from,to);
+        if(a) adjacent.at(a-1).push_back({line,from,to});
+        if(b) adjacent.at(b-1).push_back({line,to,from});
     },cancelled);
     if(edge!=lines.size()) throw std::logic_error("cell boundary edge order differs");
     std::vector<Geometry> owned;std::vector<GEOSGeometry*> faces;
     for(std::size_t label=1;label<=adjacent.size();++label) {
         checkpoint(cancelled);const auto& edges=adjacent[label-1];
-        auto polygons=backend.own(GEOSPolygonize_r(backend.ctx,edges.data(),static_cast<unsigned>(edges.size())));
+        std::vector<std::size_t> sorted;sorted.reserve(edges.size());
+        for(std::size_t i=0;i<edges.size();++i) sorted.push_back(i);
+        std::sort(sorted.begin(),sorted.end(),[&](auto a,auto b){return edges[a].from<edges[b].from;});
+        const bool unambiguous=std::adjacent_find(sorted.begin(),sorted.end(),[&](auto a,auto b){return edges[a].from==edges[b].from;})==sorted.end();
+        std::vector<Geometry> rings;std::vector<const GEOSGeometry*> boundary;
+        if(unambiguous) {
+            // Join degree-two raster boundaries before GEOS builds a graph.
+            // Ambiguous diagonal/junction vertices retain the segment route.
+            std::vector<std::uint8_t> seen(edges.size());
+            for(std::size_t start=0;start<edges.size();++start) {
+                if(seen[start]) continue;std::vector<std::uint64_t> vertices{edges[start].from};auto current=start;
+                do {
+                    checkpoint(cancelled);
+                    if(seen[current]) throw std::runtime_error("cell boundary cycle is not closed");
+                    seen[current]=1;const auto next=edges[current].to;vertices.push_back(next);
+                    if(next==vertices.front()) break;
+                    const auto found=std::lower_bound(sorted.begin(),sorted.end(),next,[&](auto i,auto key){return edges[i].from<key;});
+                    if(found==sorted.end() || edges[*found].from!=next) throw std::runtime_error("cell boundary endpoint is missing");
+                    current=*found;
+                } while(true);
+                auto destroy=[&](GEOSCoordSequence* s){GEOSCoordSeq_destroy_r(backend.ctx,s);};
+                std::unique_ptr<GEOSCoordSequence,decltype(destroy)> sequence(GEOSCoordSeq_create_r(backend.ctx,static_cast<unsigned>(vertices.size()),2),destroy);
+                if(!sequence) throw std::bad_alloc();
+                for(std::size_t i=0;i<vertices.size();++i)
+                    if(!GEOSCoordSeq_setXY_r(backend.ctx,sequence.get(),static_cast<unsigned>(i),double(vertices[i]%stride),double(vertices[i]/stride)))
+                        throw std::runtime_error("could not build closed cell boundary");
+                rings.push_back(backend.own(GEOSGeom_createLinearRing_r(backend.ctx,sequence.release())));boundary.push_back(rings.back().get());
+            }
+        } else for(const auto& edge:edges) boundary.push_back(edge.line);
+        // One unambiguous closed boundary has no nesting to discover.
+        // Keep GEOS validity/area/clip checks below, without rebuilding a graph.
+        auto polygons=(unambiguous && rings.size()==1)?
+            backend.own(GEOSGeom_createPolygon_r(backend.ctx,rings.front().release(),nullptr,0)):
+            backend.own(GEOSPolygonize_r(backend.ctx,boundary.data(),static_cast<unsigned>(boundary.size())));
         const auto count=GEOSGetNumGeometries_r(backend.ctx,polygons.get());
         if(count<0) throw std::runtime_error("invalid cell contour faces");
         for(int i=0;i<count;++i) {

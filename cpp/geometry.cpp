@@ -365,7 +365,19 @@ std::vector<PolygonPart> Roi::polygon_parts() const {
 std::string Roi::wkt() const {
     const auto& d=data(); if(!d.wkt.empty()) return d.wkt;
     std::ostringstream out; out.imbue(std::locale::classic()); out.precision(17);
-    out<<"POLYGON("; append_ring(out,kind()==RoiKind::Rectangle?box(d.bounds):ellipse_ring(d.bounds),true); out<<')';
+    if(d.kind==RoiKind::Polygon || d.kind==RoiKind::MultiPolygon) {
+        out<<(d.polygon_sizes.size()==1?"POLYGON(":"MULTIPOLYGON(");std::size_t offset=0;
+        for(std::size_t i=0;i<d.polygon_sizes.size();++i) {
+            if(i) out<<',';if(d.polygon_sizes.size()>1) out<<'(';
+            for(std::size_t ring=0;ring<d.polygon_sizes[i];++ring) {
+                if(ring) out<<',';append_ring(out,d.paths[offset++],true);
+            }
+            if(d.polygon_sizes.size()>1) out<<')';
+        }
+        out<<')';
+    } else {
+        out<<"POLYGON(";append_ring(out,d.kind==RoiKind::Rectangle?box(d.bounds):ellipse_ring(d.bounds),true);out<<')';
+    }
     return out.str();
 }
 Roi Roi::polygon(Ring shell,std::vector<Ring> holes) { return multipolygon({PolygonPart(std::move(shell),std::move(holes))}); }
@@ -375,16 +387,14 @@ Roi Roi::multipolygon(std::vector<PolygonPart> parts) {
 #else
     if(parts.empty() || parts.size()>1000000) throw std::invalid_argument("multipolygon requires polygon parts");
     auto d=std::make_shared<Data>(); d->kind=parts.size()==1?RoiKind::Polygon:RoiKind::MultiPolygon;
-    std::ostringstream out; out.imbue(std::locale::classic()); out.precision(17);
-    out<<(parts.size()==1?"POLYGON(":"MULTIPOLYGON(");
-    for(std::size_t i=0;i<parts.size();++i) {
-        if(i) out<<','; if(parts.size()>1) out<<'(';
-        auto shell=closed(std::move(parts[i].shell)); append_ring(out,shell,true); d->paths.push_back(std::move(shell));
-        d->polygon_sizes.push_back(1+parts[i].holes.size());
-        for(auto& hole:parts[i].holes) { out<<','; auto ring=closed(std::move(hole)); append_ring(out,ring,true); d->paths.push_back(std::move(ring)); }
-        if(parts.size()>1) out<<')';
+    // Binary geometry is authoritative. Text is derived only when requested,
+    // without mutating shared geometry or retaining a duplicate coordinate copy.
+    for(auto& part:parts) {
+        d->paths.push_back(closed(std::move(part.shell)));
+        d->polygon_sizes.push_back(1+part.holes.size());
+        for(auto& hole:part.holes) d->paths.push_back(closed(std::move(hole)));
     }
-    out<<')'; d->bounds=envelope(d->paths); d->wkt=out.str();
+    d->bounds=envelope(d->paths);
     d->backend=std::make_shared<Backend>(); d->backend->initialize_polygon(d->paths,d->polygon_sizes);
     if(!GEOSArea_r(d->backend->ctx,d->backend->geometry,&d->area) || !GEOSLength_r(d->backend->ctx,d->backend->geometry,&d->length) ||
         !std::isfinite(d->area) || d->area<=0 || !std::isfinite(d->length))
@@ -564,6 +574,14 @@ bool Roi::covers(const Roi& other) const {
 #ifdef QUPATHXX_HAS_GEOS
     auto backend=data().backend;
     if(!backend) { backend=std::make_shared<Backend>(); backend->initialize(wkt()); }
+    const auto other_backend=other.data().backend;
+    if(other_backend) {
+        if(backend==other_backend) return true;
+        // Both geometries already exist. GEOS reads them directly; lock both
+        // contexts because predicates may populate internal geometry caches.
+        std::scoped_lock lock(backend->mutex,other_backend->mutex);
+        return backend->predicate(GEOSPreparedCovers_r(backend->ctx,backend->prepared,other_backend->geometry));
+    }
     std::lock_guard<std::mutex> lock(backend->mutex);
     auto deleter=[&](GEOSGeometry* g) { GEOSGeom_destroy_r(backend->ctx,g); };
     std::unique_ptr<GEOSGeometry,decltype(deleter)> geometry(backend->read(other.wkt()),deleter);

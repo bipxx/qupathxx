@@ -89,7 +89,7 @@ $py = '../../../.venv/Scripts/python.exe'
 $bench = 'docs/benchmarks/candidate5-performance'
 $work = '../../candidate5-performance'
 & $py "$bench/measure.py" "$work/native-new" -- $py "$bench/native.py" '../../fixtures/CMU-1.svs' "$work/native-new" "$work/runtime-final" --expected-tree dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41 --context 0
-& $py "$bench/measure.py" "$work/qupath-new" -- '../../upstream/qupath/runtime/QuPath-0.7.0 (console).exe' script "$bench/qupath.groovy" --args '../../fixtures/CMU-1.svs' "$work/qupath-new"
+& $py "$bench/measure.py" "$work/qupath-new" -- '../../upstream/qupath/runtime/QuPath-0.7.0 (console).exe' script "$bench/qupath.groovy" --args '../../fixtures/CMU-1.svs' --args "$work/qupath-new"
 ```
 
 Add `--resource-only` to native.py, or a third script argument `resource` to

@@ -25,6 +25,16 @@ def main():
     kernel.CloseHandle.argtypes=[w.HANDLE]
     psapi.GetProcessMemoryInfo.argtypes=[w.HANDLE,c.POINTER(Counters),w.DWORD]
     psapi.GetProcessMemoryInfo.restype=w.BOOL
+    def ticks(value):
+        return (value.dwHighDateTime<<32)|value.dwLowDateTime
+
+    def system_times():
+        idle,kernel_time,user=(w.FILETIME() for _ in range(3))
+        if not kernel.GetSystemTimes(c.byref(idle),c.byref(kernel_time),c.byref(user)):
+            raise c.WinError(c.get_last_error())
+        return ticks(idle),ticks(kernel_time)+ticks(user)
+
+    system_before=system_times()
     started=time.perf_counter();handle=None;peak=0;private=0;samples=0;pid=None
     with Path(str(args.output)+'.log').open('w',encoding='utf-8') as log:
         process=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
@@ -45,9 +55,23 @@ def main():
                         peak=max(peak,values.peak_rss);private=max(private,values.peak_pagefile);samples+=1
                 time.sleep(.025)
             elapsed=time.perf_counter()-started
+            system_after=system_times()
+            idle=system_after[0]-system_before[0];capacity=system_after[1]-system_before[1]
+            created,ended,kernel_time,user=(w.FILETIME() for _ in range(4))
+            kernel.GetProcessTimes.argtypes=[w.HANDLE]+[c.POINTER(w.FILETIME)]*4
+            kernel.GetProcessTimes.restype=w.BOOL
+            engine_cpu=None
+            if handle:
+                if not kernel.GetProcessTimes(handle,c.byref(created),c.byref(ended),c.byref(kernel_time),c.byref(user)):
+                    raise c.WinError(c.get_last_error())
+                engine_cpu=ticks(kernel_time)+ticks(user)
             resource=dict(engine_pid=pid,launcher_pid=process.pid,process_wall_ms=elapsed*1000,
                 peak_working_set_bytes=peak,peak_pagefile_bytes=private,memory_samples=samples,
                 exit_code=process.returncode,memory_scope=('One full workflow plus engine startup, no mask oracles' if '--resource-only' in command or 'resource' in command else 'Actual engine process lifetime, including startup/warmup/oracles')+'; OS peak counter sampled25ms')
+            resource.update(system_cpu_busy_fraction=(capacity-idle)/capacity,
+                engine_cpu_ms=engine_cpu/10000 if engine_cpu is not None else None,
+                other_process_cpu_fraction=max(0,(capacity-idle-engine_cpu)/capacity) if engine_cpu is not None else None,
+                cpu_scope='Average across all logical CPUs over worker process lifetime, including startup/warmup/oracles; other-process value is system busy minus actual engine CPU, not attribution to a named app')
             Path(str(args.output)+'-resources.json').write_text(json.dumps(resource,indent=2),encoding='utf-8')
             if process.returncode:raise RuntimeError('Worker failed; inspect '+str(args.output)+'.log')
             assert samples and peak

@@ -36,9 +36,13 @@ void centroid_contracts() {
         const auto parts=Roi::multipolygon({PolygonPart(square(0,2)),
             PolygonPart({{10,0},{14,0},{14,4},{10,4}})});
         centroid_is(parts,9.8,1.8);
+        const auto inside=Roi::polygon(square(.25,1.75));
         std::vector<std::future<void>> tasks;
-        for(int i=0;i<8;++i) tasks.push_back(std::async(std::launch::async,[parts] {
-            for(int j=0;j<100;++j) centroid_is(parts,9.8,1.8);
+        for(int i=0;i<8;++i) tasks.push_back(std::async(std::launch::async,[parts,inside] {
+            for(int j=0;j<100;++j) {
+                centroid_is(parts,9.8,1.8);
+                check(parts.covers(inside) && !inside.covers(parts) && parts.covers(parts));
+            }
         }));
         for(auto& task:tasks) task.get();
     }

@@ -7,6 +7,40 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Selected phase - close the cell speed gap (ongoing)
+
+Delivered the first optimization batch within the owner's speed goal.
+[Report](benchmarks/speed-gap/README.md) and [coverage](speed-gap-coverage.md)
+retain source scope, exact outputs, controls and the open parity requirement.
+Native cell pipeline improved from 1,077 ms initially / 906 ms late unchanged
+control to 439-447 ms. Fresh paired QuPath medians are 336-354 ms. Native remains
+26-31% slower; speed parity is NOT achieved. Host-load counters are recorded.
+
+Delivered: bounded concurrent contours; unambiguous closed-ring/direct-polygon
+paths with general fallbacks; polygon WKT on demand; binary GEOS Covers under
+both locks. All recorded native masks/RGB/CSV and eight final fresh QuPath
+partitions match exactly (2,237 cells); frozen ordered geometry is unchanged.
+Six affected suites pass, including concurrency/failure/archive and topology
+regressions. Raw source tree 4290404591e945023f8b9ebbb946cda9cc524534a5c263ebb6db37ef3c926ca0
+owns the measured runtime-selected module. Published candidate5 is unchanged.
+
+Rejected rectangular-overlay skipping: passed small patterns but failed real
+ordered geometry identity. Restored the exact passing source/product and kept
+failure evidence; no assertion or identity contract was relaxed.
+
+Waste review: broader call-path inspection found containment text conversion
+missed by contour-only probes. Fresh reference and late baseline controls were
+needed for host drift, but per-variant full workflows were excessive; retain
+those controls, use narrow decisive probes until final integration. Reused
+binding objects and six affected suites; no broad qualification or packaging.
+
+Next selected work (S11, open): precisely separate current numeric segmentation,
+GEOS per-object/context creation/preparation and overlay/predicate costs. The
+public phase names are too coarse for this decision. Improve the largest measured
+cost; context sharing needs a locking/ownership audit. Preserve exact outputs,
+legacy identity and the frozen releases. Only then run one fresh paired final
+check. No new feature, reader, GPU framework or binary release is selected.
+
 ## Delivered phase - label-local contour performance
 
 Owner-selected C1-C4 are complete: phase profile, bounded label-local GEOS
