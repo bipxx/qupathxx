@@ -24,6 +24,17 @@ Releases close against their declared workflow/support scope, not every QuPath
 feature. Review visual checks for their purpose before execution; keep tests
 that establish meaningful display/interaction behavior rather than exact styling.
 
+## Windows candidate5 distribution
+
+[Candidate5](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.5)
+publishes the signed-boundary workflow and project-density/resume panel as a
+CPython3.12 Windows x64 wheel and native ZIP, with matching source/dependency
+archives. [Install guide](benchmarks/windows-candidate5/RUN.md),
+[12/12 packaging coverage](windows-candidate5-coverage.md) and
+[delivery evidence](benchmarks/windows-candidate5/README.md) define support.
+This closes local install/run/removal and publication; broader platform,
+fresh-host, signing, performance and biological acceptance remain unclaimed.
+
 ## Signed boundary distances
 
 Delivered the owner-selected original R9 signed-distance gap through the existing

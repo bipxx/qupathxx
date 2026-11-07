@@ -1,5 +1,8 @@
 # Project-wide density in ImGui
 
+Distributed with [Windows candidate5](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.5);
+see the [install guide](benchmarks/windows-candidate5/RUN.md).
+
 The new standalone desktop app adds **Project density...** in the Project pane.
 It uses the existing native density API in a background worker. Open a saved
 project, choose images/classes, review cohort counts and calibration, then run

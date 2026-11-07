@@ -7,7 +7,7 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected phase — Windows candidate5 packaging and publication
+## Delivered phase — Windows candidate5 packaging and publication
 
 Owner accepted packaging the latest signed-distance workflow as candidate5.
 Ship one CPython3.12 Windows x64 wheel (build tag5), native ZIP, matching source,
@@ -19,17 +19,25 @@ biological acceptance. No new feature/kernel/reader or broad test campaign.
 
 | Task | Existing path / decisive check | State |
 | --- | --- | --- |
-| P1 freeze and package | Reuse cached settled objects and scikit-build-core build tag; only provenance relink, explicit product targets; raw522-input source tree must remain2ddb06c5da4d | In progress |
-| P2 isolated installed route | New environment; wheel RECORD/member identity and mapped DLL origins; installed signed job -> CSV -> save/reopen/replay and managed ImGui; native ZIP opens that project | Pending |
-| P3 distribution and removal | Existing static runtime manifests, AGPL/notices plus unchanged12-source archive inventory; uninstall preserves outputs | Pending |
-| P4 publish | Source-scoped receipt/guide/checklist and SHA256SUMS; draft assets verified before publication; commit/push and candidate5 prerelease | Pending |
+| P1 freeze and package | One cached wheel build, only provenance compiled; explicit native targets relinked; source3155df80 retains raw522-input tree2ddb06c5da4d | Complete |
+| P2 isolated installed route | All67 immutable members and mapped DLL origins match; signed jobs/CSV/save/reopen/replay/managed ImGui pass; native ZIP opens installed project | Complete |
+| P3 distribution and removal | Wheel/native dependency closures complete, AGPL/notices and12-source inventory verify; uninstall preserves all10 output files | Complete |
+| P4 publish | Candidate5 public with19 assets; GitHub sizes/SHA256 digests match before/after publication and tag targets3155df80 | Complete |
 
 Before build: native behavior and Python interface are unchanged from the signed
 delivery. Packaging changes need source identity, installed-file/dependency closure
 and missing install/removal checks, not repeated numeric/native qualification.
-Waste review: reuse existing release scripts/cache/dependency archives. The old
-fresh-host helper is candidate1-specific; do not launch or generalize that campaign.
-Next action: settle packaging/verification scripts, freeze source, build once.
+Waste review: reused release scripts/cache/source archives; no binding recompile,
+new decoder, new download or broad numeric/fresh-host campaign. An unpublished
+draft's tag endpoint returned404 after successful uploads; retrieved releaseID
+from the authenticated list, verified existing assets by ID, then published.
+No rebuild/re-upload. Static manifests intentionally make no signing/fresh-host
+or exhaustive dynamic-loading claim. No novel engineering/biology claim added.
+[12/12 coverage](windows-candidate5-coverage.md), [release/install guide](benchmarks/windows-candidate5/RUN.md)
+and [delivery receipt](benchmarks/windows-candidate5/README.md) close the outcome.
+Local artifacts/native app:main build/windows-candidate5; test wheel was removed
+from its isolated environment. Candidate4 and prior products remain frozen.
+Publish closeout docs and stop; no next feature or validation phase selected.
 
 ## Delivered phase — signed Cell-to-annotation boundary distances
 

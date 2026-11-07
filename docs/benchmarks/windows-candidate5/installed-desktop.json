@@ -1,0 +1,12 @@
+{
+  "state": "ready",
+  "error": "",
+  "record": 0,
+  "export_state": "idle",
+  "values": [
+    -5.0,
+    10.0,
+    0.0
+  ],
+  "algorithm": "qpx.signed-boundary-nearest/1"
+}

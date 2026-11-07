@@ -1,5 +1,8 @@
 # Signed Cell-to-annotation boundary distances
 
+Available in [Windows candidate5](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.5).
+See the [install guide](benchmarks/windows-candidate5/RUN.md).
+
 Select Cells as sources and area Annotations as targets. The native distance
 workflow returns one row per Cell, using the nucleus centroid where available
 and the body centroid otherwise. `prefer_nucleus=false` selects body centroids.
