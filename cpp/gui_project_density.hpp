@@ -1,5 +1,5 @@
 #pragma once
-#include "project_density_panel.hpp"
+#include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "gui_layout.hpp"
 #include <imgui.h>
@@ -17,20 +17,20 @@
 #endif
 namespace qpx::detail {
 class GuiProjectDensity {
-    ProjectDensityPanelJob job_;
+    ProjectDensityJob job_;
     bool open_=false,all_cells_=true,prefer_nucleus_=true,curves_=false;
     std::array<std::array<char,4097>,4> classes_{};
     std::array<char,32769> output_{},previous_{};
     std::set<std::uint64_t> images_;
     std::string project_id_,source_,task_source_,error_;
-    std::shared_ptr<const DensityPanelReport> preview_,observed_;
+    std::shared_ptr<const ProjectDensityReport> preview_,observed_;
     template<class F>void attempt(F action) {try{action();error_.clear();}catch(const std::exception& e){error_=e.what();}}
     static std::vector<std::string> lines(const char* text) {
         std::vector<std::string> out;std::istringstream input(text);std::string line;
         while(std::getline(input,line)) {if(!line.empty() && line.back()=='\r')line.pop_back();if(!line.empty())out.push_back(line);}return out;
     }
-    DensityPanelRecipe recipe() const {
-        DensityPanelRecipe r;r.images.assign(images_.begin(),images_.end());
+    ProjectDensityRecipe recipe() const {
+        ProjectDensityRecipe r;r.images.assign(images_.begin(),images_.end());
         for(std::size_t i=0;i<4;++i)r.classes[i]=lines(classes_[i].data());if(all_cells_)r.classes[3].clear();
         r.all_cells=all_cells_;r.options.prefer_nucleus=prefer_nucleus_;r.options.polygonize_curves=curves_;return r;
     }

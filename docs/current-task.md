@@ -7,23 +7,71 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Consolidation checklist - planning ready
+## Selected phase - implement native consolidation NC01-NC28 (active)
 
-[NC01-NC28](consolidation-coverage.md) now own detailed L5-L7 acceptance: contracts,
-headless service boundaries, density selection/manifests, guarded execution/reuse,
-both legacy receipt adapters, native NuCLS/training interpretation, thin consumers,
-and source-scoped integration/handoff. All28 are Planned; existing helpers and
-this checklist do not count as implemented migration. The coarse phase summary
-links here instead of duplicating requirements.
+Owner activated the full implementation goal. [Checklist](consolidation-coverage.md)
+retains all28 requirements; [compatibility contract](consolidation-contract.md)
+records the existing source/tests and frozen outputs before edits. NC01 baseline
+is recorded; NC03 headless extraction and NC05-NC08 native manifest loading,
+selection, preview and publication are complete. NC02 shared types remain in
+progress: 6 complete,1 in progress,21 planned acceptance items.
+Keep both report/receipt dialects and their existing failure/CSV semantics.
 
-Next: NC01 records compatibility baselines, then NC02-NC04 settle native service/
-import contracts before a combined binding build. After each task/failure update
-its state/evidence and this card's waste/next action. No product change, native
-build, test campaign or release is needed to create the checklist.
+Native extraction class/explicit-ID routes and legacy resume tests pass.
+Current batch: native class/all-image selection, complete issue collection and
+manifest/preview JSON publication use the shared headless preview authority.
+Changed inputs: density SDK/workflow/manifest, metadata verification helper,
+focused generation tests and CMake registration. Decisive check: build only the
+four density test targets in the existing cache, then run those suites. Cover
+roundtrip, no-overwrite/scratch, missing classes, source integrity, geometry,
+calibration and policies; legacy panel/resume tests guard unchanged behavior. No binding build until density/import
+interfaces settle; use focused native targets and preserve expensive objects.
+Manifest loading is implemented in C++ with an owned metadata snapshot;
+[focused evidence](benchmarks/consolidation/README.md) records the passing strict
+JSON/source-mutation and fingerprint/source-identity tests (3 suites,0.39 s). Run/receipt adapters, importer/training rules, thin consumers and
+final installed integration remain required. Do not mark the goal achieved from
+this first batch. Record each completed task/failure with evidence and next action.
 
-Waste review: reuse existing C++ density/job/reuse/guard/export authorities;
-preserve both receipt formats and meaningful tests. Use one detailed checklist,
-one execution card and the existing phase summary. Keep optimization L3 separate.
+Manifest test diagnosis: line context identified that export_path made a
+relative project absolute before joining the manifest directory. Join first,
+then canonicalize; add absolute and nested-relative path regressions. Repair
+only the manifest target; preserve failed logs and unchanged service tests.
+The next check found the persistent decoder guard blocks Windows writes; use
+a native metadata-only snapshot probe, sharing the existing FileVersion encoder,
+and verify source mutation without weakening the assertion. Cover the small
+file-version refactor with existing fingerprint/source-identity suites.
+
+Build correction: moving the service out of detail exposed the implicit
+export_path dependency; import that native helper explicitly and reuse the
+completed core objects. The original compiler log remains retained.
+
+Checklist maintenance: clarified evidence-based counts, dependencies and next
+actions; preserved failed attempts and copied passing logs into the evidence
+folder. Documentation-only verification uses link/diff checks, no rebuild. Next:
+settle native run/report adapters and consolidate the existing execution loop.
+
+Generation check: the three legacy density suites pass. Remaining loader checks
+now include the unchanged shipped manifest, exact normalized IDs/defaults and
+unknown-field/overflow/cohort-cap/numeric-limit refusals. Canonicalize export
+parents to preserve the legacy resolved-path contract. Rebuild only manifest
+targets for these changed inputs; then close native selection/manifest evidence. The new test incorrectly
+expected an invalid preview for a structurally invalid snapshot budget; existing
+SpatialDensityOptions correctly throws at setup. Retain that refusal and repair
+only the test expectation, then rebuild/run only the generation target. Source
+inspection also corrects the compatibility notes: Python's writer explicitly
+uses LF, not CRLF. Final rehash is shared per operation, avoiding a redundant
+whole-project scan between preview and generation.
+
+Native manifest closeout: final loader/generator suites pass (2 suites,0.46 s);
+unchanged shipped manifest and generated explicit-ID manifests roundtrip. Source
+input hashes match cached build provenance; see the evidence link above. Native
+selection/preview/publication is complete; Python consumers are still unchanged.
+Next: typed run options and both legacy receipt/report adapters over one loop,
+including source-record hints, byte limits, stop/recompute and image progress.
+No binding build or binary handoff yet. Preserve all passing objects and failures.
+
+Waste control: reuse existing workflow, reuse predicate, guards/JSON/atomic exports;
+no third runner, another Python policy layer or broad qualification campaign.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

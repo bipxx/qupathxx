@@ -2,8 +2,8 @@
 
 Detailed acceptance checklist for L5-L7 of the [delivery plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan).
 [Current task](current-task.md) owns the execution queue; [phase summary](speed-gap-coverage.md)
-links here rather than maintaining a second detailed list. This checklist is
-planned work, not a claim that the Python migrations are implemented.
+links here rather than maintaining a second detailed list. This is the single acceptance checklist for consolidation. Status records only
+evidenced work; the Python migrations are not yet implemented.
 
 The outcome is one C++ authority for shipped selection, workflow state, reuse,
 import interpretation, scientific values, persistence and export. Python parses
@@ -11,6 +11,31 @@ arguments, constructs native options, submits/polls/cancels and displays native
 reports. ImGui and CLI use those same services. Independent test/reference code
 may remain Python. Scientific/persistent identities stay exact; cosmetic parity,
 new segmentation features and a binary release are outside this consolidation.
+
+## Current coverage and next tasks
+
+**6 complete, 1 in progress, 21 planned (28 total).** This is acceptance-item
+coverage, not an estimate of engineering effort or feature parity. NC01 records
+only the pre-change baseline; NC03 proves headless service extraction and
+NC05-NC08 cover native manifest selection/preview/publication. No thin
+Python consumer or installed integration is complete.
+
+- [x] NC01: capture compatibility baseline.
+- [x] NC03: extract and link the shared headless C++ density service.
+- [ ] NC02 / NC04: finish typed run/report, ownership, failure and limit contracts.
+- [x] NC05-NC08: native manifest loading, shared selection/preview and exports.
+- [ ] NC09-NC14: consolidate execution, guards, legacy resume, publication and cancellation.
+- [ ] NC15-NC18: move NuCLS interpretation/PNG/geometry and training selection to C++.
+- [ ] NC19-NC22: bind settled services and reduce Python/ImGui/CLI to controls.
+- [ ] NC23-NC28: complete focused behavior/integration checks, boundary audit and source handoff.
+
+Immediate order: settle native run/report adapters, then implement shared
+execution/reuse/publication. Settle
+the importer contract before the single combined binding build. Do not count a
+passing kernel test as completion of an unfinished consumer migration.
+
+[Incremental native evidence](benchmarks/consolidation/README.md) records the
+extraction and strict-manifest checks, their limits and diagnosed failures.
 
 ## Order and existing authorities
 
@@ -21,7 +46,7 @@ runners. Reuse these existing sources:
 
 | Responsibility | Current source / easiest path |
 | --- | --- |
-| Headless density execution/preview | Extract the service in [project_density_panel.cpp](../cpp/project_density_panel.cpp) and its [types/job](../cpp/project_density_panel.hpp); the target already depends on core + JSON without ImGui |
+| Headless density execution/preview | Extract the service in [density_workflow.cpp](../cpp/density_workflow.cpp) and its [SDK types/job](../cpp/include/qupathxx/density_workflow.hpp); the native target depends on core + JSON without ImGui |
 | Density science and reuse admission | Keep SpatialDensityRequest/result and [density_reuse.hpp](../cpp/density_reuse.hpp) as authorities; do not substitute input-hash equality for captured-object compatibility |
 | JSON, file integrity and publication | Reuse [strict_json.hpp](../cpp/strict_json.hpp), [json_string.hpp](../cpp/json_string.hpp), [reader_file_guard.hpp](../cpp/reader_file_guard.hpp), existing fingerprinting and [atomic_export.hpp](../cpp/atomic_export.hpp) |
 | Python logic to retire | [project_density.py](../examples/project_density.py), [density_manifest.py](../examples/density_manifest.py), [nucls_import.py](../examples/nucls_import.py) and training selection in [raw_classifier_workflow.py](../examples/raw_classifier_workflow.py) |
@@ -31,19 +56,19 @@ runners. Reuse these existing sources:
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC01 | Record current Python/GUI inputs, output ordering, errors, limits, exit codes and both receipt schemas from existing examples/tests | Compatibility map identifies every rule being moved and its native owner; frozen example outputs retained | Planned |
-| NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | C++ caller can express both current Python and GUI workflows without a consumer-only flag or per-object callback | Planned |
-| NC03 | Separate native service from the panel controller; use a headless core+JSON target and thin GUI job/controller | Service builds/links without Python, ImGui or OpenGL; no third runner or added global state | Planned |
+| NC01 | Record current Python/GUI inputs, output ordering, errors, limits, exit codes and both receipt schemas from existing examples/tests | [Compatibility contract and baseline](consolidation-contract.md) | Complete - baseline only |
+| NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | C++ caller can express both current Python and GUI workflows without a consumer-only flag or per-object callback | In progress |
+| NC03 | Separate native service from the panel controller; use a headless core+JSON target and thin GUI job/controller | [Headless build and native tests](benchmarks/consolidation/README.md); no Python/ImGui/OpenGL link dependency | Complete |
 | NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | Capture/worker/result ownership is explicit; immutable inputs remain owned through cancellation/join; no Python object held by native workers | Planned |
 
 ## B. Density selection and manifest authority
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC05 | Load qpx.project-density/1 in C++; retain bounded strict JSON, duplicate-key/type/nonfinite/unknown-field checks and relative project paths | Existing accepted manifests normalize the same way; malformed/oversized inputs fail in native code | Planned |
-| NC06 | Resolve image IDs, explicit object IDs, class selectors and all-cells policy in one native selection pass | Same ordered cohorts/counts from both consumer routes; duplicates, missing names/images and limits follow the recorded contract | Planned |
-| NC07 | Native preview owns calibration, planes, geometry/curve policy and density request admission | Existing SpatialDensityRequest performs science validation; preview displays native counts/units/issues and creates no outputs | Planned |
-| NC08 | Generate/save manifests and preview reports natively using existing atomic exports | Existing schema/order/path behavior remains compatible; invalid preview or existing destination cannot publish a manifest | Planned |
+| NC05 | Load qpx.project-density/1 in C++; retain bounded strict JSON, duplicate-key/type/nonfinite/unknown-field checks and relative project paths | [Strict loader, shipped example and generator roundtrip](benchmarks/consolidation/README.md) | Complete |
+| NC06 | Resolve image IDs, explicit object IDs, class selectors and all-cells policy in one native selection pass | [Native class/explicit cohorts and generator cases](benchmarks/consolidation/README.md); consumer wiring remains NC20/NC22 | Complete |
+| NC07 | Native preview owns calibration, planes, geometry/curve policy and density request admission | [Native request admission, counts/calibration/all issues, source unchanged](benchmarks/consolidation/README.md) | Complete |
+| NC08 | Generate/save manifests and preview reports natively using existing atomic exports | [Generated manifest roundtrip, invalid preview and save-new/scratch refusal](benchmarks/consolidation/README.md) | Complete |
 
 ## C. Execute, reuse and publish through one service
 

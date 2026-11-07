@@ -36,7 +36,7 @@ Python controls compliant or make the engine faster.
 | --- | --- | --- |
 | Image decoding, sampling, OD, cell detection/expansion, geometry, statistics, spatial operations, project save/replay, numeric CSV | C++ already owns these through existing requests/jobs/results | Optimize existing kernels; reuse their contracts and bindings |
 | src/qupathxx/__init__.py and __main__.py | Native reexports and argument/launch control; no scientific kernel | Keep thin; native entry points validate operational constraints too |
-| examples/project_density.py | Native density kernel, but Python owns manifest validation, recipe/reuse comparisons, checkpoint orchestration and contextual CSV assembly | Extract/reuse cpp/project_density_panel.cpp's existing native workflow service; support explicit IDs as well as classes |
+| examples/project_density.py | Native density kernel, but Python owns manifest validation, recipe/reuse comparisons, checkpoint orchestration and contextual CSV assembly | Extract/reuse cpp/density_workflow.cpp's existing native workflow service; support explicit IDs as well as classes |
 | examples/density_manifest.py | Python scans objects/classes and builds/validates cohort selections | Reuse the native density preview/selection pass; return a typed preview and native manifest export |
 | examples/nucls_import.py | Python owns CSV rules, polygon coordinate interpretation/centroid moments, matching, PNG decoding and import publication | Add one native importer over existing Roi/Document/Project, file guards and atomic export; use one openly licensed native PNG decoder |
 | examples/raw_classifier_workflow.py | Python selects training annotations by class/area; model work is native | Move cohort eligibility/selection to the existing native training request/frontend; retain only caller-specified selectors in Python |
@@ -58,7 +58,7 @@ caller choices. The native service owns their semantic validation and execution.
 | L2 Batch canonical SHA bytes | cpp/sha256.cpp or a small private serializer used by cpp/cell_sampling_grid.cpp; prefer bounded buffering in the existing hash authority if it covers all small updates | Exact scalar/buffered digests on Windows and portable paths, mixed update sizes, empty/partial buffers, finish/refusal semantics. Preserve every serialized byte; target the measured3.48 ->0.92 ms probe, not a promised full-pipeline gain |
 | L3 Reuse immutable domain/identity work | cpp/scientific_cells.cpp, cpp/scientific_raster.cpp/.hpp and cell_sampling_grid.cpp; construct the common domain/digest once within the owned nucleus/body operation, while validating each label array/count/budget independently | Same saved input hashes/CSV/geometry; wrong source/domain/labels/expected digest still refuse and cancellation publishes nothing. No public trusted-hash parameter or global cache. Skip sharing if instrumentation shows negligible benefit or ownership would become complex |
 | L4 Finish the selected cell optimization batch | One cached native/module relink after L1-L3 stabilize; use existing runtime and exact-output scripts | One final source-scoped real-output check and settled native/QuPath comparison. Report sample ranges/host load. Strict parity remains open if native is slower; no repeated campaign merely to obtain a favorable median |
-| L5 Consolidate density workflow authority | cpp/project_density_panel.cpp/.hpp, cpp/project_batch.cpp as applicable, cpp/include/qupathxx and focused new binding TU; extract a headless service from the existing panel implementation | SDK/ImGui/CLI/Python call one selection/run/reuse/export implementation; explicit-ID runner and class manifest behavior preserved. Source guards, stale/changed engine, smaller limits, cancel and no-replace publication verified once at native authority |
+| L5 Consolidate density workflow authority | cpp/density_workflow.cpp and cpp/include/qupathxx/density_workflow.hpp, cpp/project_batch.cpp as applicable, cpp/include/qupathxx and focused new binding TU; extract a headless service from the existing panel implementation | SDK/ImGui/CLI/Python call one selection/run/reuse/export implementation; explicit-ID runner and class manifest behavior preserved. Source guards, stale/changed engine, smaller limits, cancel and no-replace publication verified once at native authority |
 | L6 Move NuCLS interpretation and import to C++ | Small native importer beside existing interchange/project services; native CSV/PNG input, Roi construction/centroid, calibration, row issues, bounded reports and save-new | Preview/write same objects/classes/calibration/accepted geometry and declared centroid identity. Malformed CSV/PNG, missing pairs, limits/source mutation and no partial/overwrite publication checked. Python no longer requires Pillow/NumPy to implement this workflow |
 | L7 Finish thin controls and handoff | Focused nanobind files, src/qupathxx reexports/stubs, examples/project_density.py, density_manifest.py, nucls_import.py and any identified shipped logic | Python only parses/options/submits/polls/displays; remove raw classifier object-selection rules and separate example-only numerical oracles into tests/tools. Direct C++ and Python entry points agree on authoritative output/state. New workflow service has no Python/ImGui dependency; standalone native usage works without Python. Update API docs/coverage/source receipt and push; no automatic release |
 
@@ -80,7 +80,7 @@ second workflow into an incompatible report model.
 1. **Density selection/preview** accepts a project plus explicit per-image IDs or
    class selectors and existing SpatialDensityOptions. Normalize IDs, choose the
    cohort and capture provenance in C++; return counts/issues/calibration and an
-   immutable admitted plan. Reuse DensityPanelRecipe/Report internals where sound.
+   immutable admitted plan. Reuse ProjectDensityRecipe/Report internals where sound.
 2. **Density run/job** accepts that native plan, a new output directory and optional
    resume input. It owns source-file guards, cancellation, record/replay eligibility,
    per-image checkpoints, combined CSV and reports. Export the existing native CSV
@@ -99,7 +99,7 @@ second workflow into an incompatible report model.
    and returns its status; expensive work and state transitions stay native.
 
 Extract the density service into a headless native target available to the module
-and app; its current qupathxx_density_panel target already depends on core plus
+and app; its current qupathxx_density_workflow target already depends on core plus
 nlohmann_json, not ImGui. Reuse that dependency and existing guards/AtomicExportFile.
 Do not write a third density runner. Select the PNG implementation from existing
 openly licensed sources when linkable, otherwise add one small pinned decoder

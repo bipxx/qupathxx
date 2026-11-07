@@ -1,5 +1,5 @@
 #include "../atomic_export.hpp"
-#include "../project_density_panel.hpp"
+#include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include <filesystem>
 #include <fstream>
@@ -12,7 +12,7 @@ void checked(bool ok,int line){if(!ok)throw std::runtime_error("density panel ch
 #define check(...) checked((__VA_ARGS__),__LINE__)
 template<class F>void rejects(F fn){bool hit=false;try{fn();}catch(const std::exception&){hit=true;}check(hit);}
 std::string read(const fs::path& path){std::ifstream in(path,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
-DensityPanelRecipe recipe(){DensityPanelRecipe r;r.images={2,1};r.classes[0]={"Windows"};r.classes[1]={"Tissue"};r.classes[2]={"Excluded"};return r;}
+ProjectDensityRecipe recipe(){ProjectDensityRecipe r;r.images={2,1};r.classes[0]={"Windows"};r.classes[1]={"Tissue"};r.classes[2]={"Excluded"};return r;}
 void area(Document& doc,Rect bounds,const std::string& name){const auto id=doc.add_rectangle(bounds);doc.classify_annotation(id,name);}
 std::shared_ptr<Project> scene(const fs::path& source,bool slow=false){
     auto project=std::make_shared<Project>();
@@ -29,7 +29,7 @@ std::shared_ptr<Project> scene(const fs::path& source,bool slow=false){
 int main(int argc,char** argv){try{
     if(argc==3) {
         const std::string source=argv[1];const auto before=read(fs::u8path(source));
-        DensityPanelRecipe r;r.images={1,2};r.classes[0]={"Analysis windows"};r.classes[1]={"Annotated FOV support"};
+        ProjectDensityRecipe r;r.images={1,2};r.classes[0]={"Analysis windows"};r.classes[1]={"Annotated FOV support"};
         const auto preview=preview_project_density(source,r);check(preview.valid());
         check(preview.images[0].ids[3].size()==32 && preview.images[1].ids[3].size()==28);
         const auto report=run_project_density(preview,argv[2]);check(report.state=="completed" && report.rows==2);
@@ -50,8 +50,26 @@ int main(int argc,char** argv){try{
     check(preview.valid() && preview.images.size()==2 && preview.images[0].id==1);
     check(preview.images[0].ids[0].size()==1 && preview.images[0].ids[3].size()==3 && *preview.images[1].x==.5);
     check(read(source)==original && !project->dirty());
+    ProjectDensityRecipe explicit_ids;explicit_ids.options=r.options;
+    for(auto it=preview.images.rbegin();it!=preview.images.rend();++it) {
+        ProjectDensitySelection selected;selected.image_id=it->id;selected.ids=it->ids;
+        std::reverse(selected.ids[3].begin(),selected.ids[3].end());explicit_ids.selections.push_back(std::move(selected));
+    }
+    const auto explicit_preview=preview_project_density(source.u8string(),explicit_ids);
+    check(explicit_preview.valid() && explicit_preview.images.size()==preview.images.size());
+    for(std::size_t i=0;i<preview.images.size();++i) check(explicit_preview.images[i].id==preview.images[i].id && explicit_preview.images[i].ids==preview.images[i].ids);
+    auto invalid_ids=explicit_ids;invalid_ids.selections.push_back(invalid_ids.selections[0]);rejects([&]{invalid_ids.validate();});
+    invalid_ids=explicit_ids;invalid_ids.images={1};rejects([&]{invalid_ids.validate();});
+    invalid_ids=explicit_ids;invalid_ids.selections[0].ids[0].clear();rejects([&]{invalid_ids.validate();});
+    invalid_ids=explicit_ids;invalid_ids.selections[0].ids[3].push_back(0);rejects([&]{invalid_ids.validate();});
+    invalid_ids=explicit_ids;invalid_ids.selections[0].ids[1].push_back(invalid_ids.selections[0].ids[1][0]);rejects([&]{invalid_ids.validate();});
+    const auto explicit_report=run_project_density(explicit_preview,(root/"explicit").u8string());
+    check(explicit_report.state=="completed" && explicit_report.completed==2 && explicit_report.rows==2);
+
     auto report=run_project_density(preview,(root/"run").u8string());
     check(report.state=="completed" && report.completed==2 && report.rows==2 && report.failed==0);
+    for(std::size_t i=0;i<report.images.size();++i) check(report.images[i].result_sha256==explicit_report.images[i].result_sha256);
+
     check(report.csv.find("density.csv")!=std::string::npos && fs::exists(report.report));
     const auto combined=read(report.csv);check(combined.find("\"Case 1, \"\"quoted\"\"\nline\"")!=std::string::npos);
     for(const auto& row:report.images){
@@ -81,7 +99,7 @@ int main(int argc,char** argv){try{
     const auto slow_source=root/"slow.qpxproj";auto slow=scene(slow_source,true);const auto slow_bytes=read(slow_source);
     auto slow_preview=preview_project_density(slow_source.u8string(),r);
     check(slow_preview.valid());
-    std::atomic<bool> cancel{false};DensityPanelProgress progress;
+    std::atomic<bool> cancel{false};ProjectDensityProgress progress;
     auto future=std::async(std::launch::async,[&]{return run_project_density(slow_preview,(root/"cancel").u8string(),&cancel,&progress);});
     const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(20);
     while(progress.completed.load()<1 && future.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready){if(std::chrono::steady_clock::now()>=deadline){cancel.store(true);future.wait();check(false);}std::this_thread::sleep_for(std::chrono::milliseconds(1));}
@@ -104,7 +122,7 @@ int main(int argc,char** argv){try{
     {AtomicExportFile kept((root/"collision/image-2.qpxproj").u8string(),128);const std::string text="preserve user file";kept.write(text.data(),text.size());kept.commit(false);}
     const auto partial=collision.get();check(partial.state=="partial" && partial.completed==2 && partial.failed==1 && partial.images[2].state=="saved");
     check(read(root/"collision/image-2.qpxproj")=="preserve user file" && !partial.images[1].error.empty());
-    ProjectDensityPanelJob job;check(job.preview(slow_source.u8string(),r));check(!job.preview(slow_source.u8string(),r));
+    ProjectDensityJob job;check(job.preview(slow_source.u8string(),r));check(!job.preview(slow_source.u8string(),r));
     const auto job_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(20);
     while(job.busy()) {
         job.poll();

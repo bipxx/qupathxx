@@ -1,3 +1,4 @@
+#include "workflow_file_version.hpp"
 #include "json_string.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "sha256.hpp"
@@ -133,18 +134,25 @@ void save(const FileFingerprint& value,const std::string& path,const std::atomic
     value.validate();output_guard(value,path);const auto json=file_fingerprint_json(value);detail::AtomicExportFile file(path,1024*1024,cancelled);
     file.write(json.data(),json.size());checkpoint(cancelled);output_guard(value,path);file.commit();
 }
-}
-namespace detail {
-struct ReaderFileGuard::Impl {
-    std::string path;Input input;Stamp before;std::shared_ptr<const FileVersion> version;
-    explicit Impl(const std::string& value):path(normalized(value)),input(path),before(input.stamp()) {
-        auto v=std::make_shared<FileVersion>();v->path=path;v->bytes=before.bytes;v->identity=before.identity;v->modified_token=before.modified;v->change_token=before.changed;v->observed_unix_ms=unix_ms();
+std::shared_ptr<const FileVersion> file_version(const std::string& path,const Stamp& before) {
+    auto v=std::make_shared<FileVersion>();v->path=path;v->bytes=before.bytes;v->identity=before.identity;v->modified_token=before.modified;v->change_token=before.changed;v->observed_unix_ms=unix_ms();
 #ifdef _WIN32
         v->identity_scheme="windows.volume-file-id128/1";v->stamp_scheme="windows.filetime-100ns/1";
 #else
         v->identity_scheme="posix.device-inode/1";v->stamp_scheme="posix.seconds-nanoseconds/1";
 #endif
-        v->validate();version=std::move(v);
+        v->validate();return v;
+}
+
+}
+namespace detail {
+std::shared_ptr<const FileVersion> workflow_file_version(const std::string& value) {
+    const auto path=normalized(value);return file_version(path,Input(path,true).stamp());
+}
+struct ReaderFileGuard::Impl {
+    std::string path;Input input;Stamp before;std::shared_ptr<const FileVersion> version;
+    explicit Impl(const std::string& value):path(normalized(value)),input(path),before(input.stamp()) {
+        version=file_version(path,before);
     }
 };
 ReaderFileGuard::ReaderFileGuard(const std::string& path):impl_(std::make_unique<Impl>(path)) {}

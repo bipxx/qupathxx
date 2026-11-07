@@ -1,6 +1,7 @@
 #include "density_reuse.hpp"
+#include "density_preview.hpp"
 #include "json_string.hpp"
-#include "project_density_panel.hpp"
+#include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "reader_file_guard.hpp"
@@ -11,8 +12,15 @@
 #include <set>
 #include <sstream>
 #include <fstream>
-namespace qpx::detail {
+namespace qpx {
 namespace {
+using detail::ReaderFileGuard;
+using detail::AtomicExportFile;
+using detail::StrictJson;
+using detail::json_string;
+using detail::export_checkpoint;
+using detail::export_path;
+using detail::density_reuse_compatible;
 constexpr std::size_t mib=1024*1024;
 struct CsvLimit:std::length_error {using std::length_error::length_error;};
 const std::string csv_header="project_id,image_id,image_name,record_id,reuse,request_input_sha256,checkpoint,window_id,window_revision,count,area_pixels,area_mm2,density_per_mm2,status,units,cell_count,tissue_count,exclusion_count,algorithm,geometry_policy,footprint_sha256,input_sha256,result_sha256,pixel_width_um,pixel_height_um,prefer_nucleus,polygonize_curves\n";
@@ -30,7 +38,7 @@ void verify_source(const std::string& path,const ReaderFileGuard& guard) {no_sid
 std::string quote_csv(const std::string& text) {
     std::string out="\"";for(auto c:text) {out+=c;if(c=='"')out+='"';}return out+'"';
 }
-std::string report_json(const DensityPanelReport& report) {
+std::string report_json(const ProjectDensityReport& report) {
     std::string out="{\"schema\":\"qpx.gui-project-density/1\",\"state\":"+json_string(report.state)+",\"error\":"+json_string(report.error)+
         ",\"source\":"+json_string(report.source)+",\"source_sha256\":"+json_string(report.source_sha256)+",\"project_id\":"+json_string(report.project_id)+
         ",\"completed\":"+std::to_string(report.completed)+",\"computed\":"+std::to_string(report.computed)+",\"reused\":"+std::to_string(report.reused)+",\"failed\":"+std::to_string(report.failed)+",\"rows\":"+std::to_string(report.rows)+",\"images\":[";
@@ -61,7 +69,7 @@ std::uint64_t positive_id(const Json& value) {
     const auto id=value.get<std::uint64_t>();if(!id)throw std::invalid_argument("Checkpoint requires positive IDs");return id;
 }
 std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::path& directory,const std::string& project_id,
-    DensityPanelImage& row,const SpatialDensityRequest& request,const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
+    ProjectDensityImage& row,const SpatialDensityRequest& request,const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
     const auto path=directory/("image-"+std::to_string(row.id)+".json");
     if(!std::filesystem::exists(path)){row.reuse_reason="No complete checkpoint receipt";return {};}
     ReaderFileGuard receipt_guard(path.u8string());
@@ -91,16 +99,31 @@ std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::
     row.checkpoint=checkpoint_path;row.checkpoint_sha256=sha;row.checkpoint_image=image;row.record=record;
     held.push_back({checkpoint_path,sha,std::move(guard)});return stored;
 }
-void checkpoint_receipt(const DensityPanelReport& report,const DensityPanelImage& row,const SpatialDensityResult& result) {
+void checkpoint_receipt(const ProjectDensityReport& report,const ProjectDensityImage& row,const SpatialDensityResult& result) {
     const Json value={{"schema","qpx.gui-density-checkpoint/1"},{"project_id",report.project_id},{"image_id",row.id},
         {"engine",engine(*result.provenance()->environment)},{"checkpoint",row.checkpoint},{"checkpoint_image_id",row.checkpoint_image},
         {"checkpoint_sha256",row.checkpoint_sha256},{"record_id",row.record},{"result_sha256",result.sha256()},{"result_input_sha256",result.input_sha256()}};
     write_new((std::filesystem::u8path(report.output)/("image-"+std::to_string(row.id)+".json")).u8string(),value.dump(2),mib);
 }
 }
-void DensityPanelRecipe::validate() const {
+void ProjectDensityRecipe::validate() const {
     options.validate();
-    if(images.empty() || images.size()>1000 || std::set<std::uint64_t>(images.begin(),images.end()).size()!=images.size() || std::find(images.begin(),images.end(),0)!=images.end())
+    if(!selections.empty()) {
+        if(all_images || !images.empty() || std::any_of(classes.begin(),classes.end(),[](const auto& v){return !v.empty();}))
+            throw std::invalid_argument("Choose explicit cohorts or class selectors, not both");
+        if(selections.size()>1000) throw std::invalid_argument("Select 1..1000 distinct project images");
+        std::set<std::uint64_t> image_ids;
+        for(const auto& selected:selections) {
+            if(!selected.image_id || !image_ids.insert(selected.image_id).second) throw std::invalid_argument("Image IDs must be positive and distinct");
+            for(std::size_t role=0;role<4;++role) {
+                const auto& ids=selected.ids[role];const auto limit=role==3?100000u:10000u;
+                if(ids.size()>limit || (role<2 && ids.empty()) || std::find(ids.begin(),ids.end(),0)!=ids.end() || std::set<std::uint64_t>(ids.begin(),ids.end()).size()!=ids.size())
+                    throw std::invalid_argument("Explicit cohort IDs are empty, duplicated, zero or exceed limits");
+            }
+        }
+        return;
+    }
+    if((all_images && !images.empty()) || (!all_images && images.empty()) || images.size()>1000 || std::set<std::uint64_t>(images.begin(),images.end()).size()!=images.size() || std::find(images.begin(),images.end(),0)!=images.end())
         throw std::invalid_argument("Select 1..1000 distinct project images");
     if(classes[0].empty() || classes[1].empty()) throw std::invalid_argument("Choose window and tissue classes");
     if(all_cells==!classes[3].empty()) throw std::invalid_argument("Choose Cell classes or all Cells");
@@ -111,48 +134,62 @@ void DensityPanelRecipe::validate() const {
             throw std::invalid_argument("Class names must be nonempty, exact and distinct");
     }
 }
-bool DensityPanelReport::valid() const {
+bool ProjectDensityReport::valid() const {
     return state=="preview" && !images.empty() && error.empty() &&
         std::all_of(images.begin(),images.end(),[](const auto& row){return row.error.empty();});
 }
-DensityPanelReport preview_project_density(const std::string& path,const DensityPanelRecipe& recipe,const std::atomic<bool>* c,DensityPanelProgress* p) {
-    recipe.validate();checkpoint(c);DensityPanelReport report;report.recipe=recipe;
-    report.source=std::filesystem::canonical(std::filesystem::u8path(export_path(path))).u8string();no_sidecars(report.source);
-    ReaderFileGuard guard(report.source);report.source_sha256=fingerprint(report.source,c);
-    auto project=Project::open_without_journal_recovery(report.source);verify_source(report.source,guard);
+ProjectDensityReport preview_project_density(const std::string& path,const ProjectDensityRecipe& recipe,const std::atomic<bool>* c,ProjectDensityProgress* p) {
+    recipe.validate();detail::WorkflowInput input(path,1024ull*mib,true,c);
+    auto report=detail::preview_density_input(input,recipe,c,p);input.verify(true,c);return report;
+}
+ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,const ProjectDensityRecipe& recipe,const std::atomic<bool>* c,ProjectDensityProgress* p) {
+    recipe.validate();checkpoint(c);ProjectDensityReport report;report.recipe=recipe;
+    report.source=input.path();report.source_sha256=input.sha256();input.verify(false,c);
+    auto project=Project::open_without_journal_recovery(report.source);input.verify(false,c);
     report.project_id=project->identity();report.state="preview";
     const auto catalog=project->images();
-    auto ids=recipe.images;std::sort(ids.begin(),ids.end());
+    auto ids=recipe.images;for(const auto& selected:recipe.selections) ids.push_back(selected.image_id);std::sort(ids.begin(),ids.end());
+    if(recipe.all_images)for(const auto& image:catalog)ids.push_back(image.id);
+    std::sort(ids.begin(),ids.end());
+    if(ids.empty() || ids.size()>1000)throw std::invalid_argument("Select 1..1000 distinct project images");
     if(p){p->total.store(ids.size());p->phase.store(1);}
     for(auto id:ids) {
-        checkpoint(c);verify_source(report.source,guard);DensityPanelImage row;row.id=id;
+        checkpoint(c);input.verify(false,c);ProjectDensityImage row;row.id=id;
         if(p)p->image.store(id);
         try {
             const auto found=std::find_if(catalog.begin(),catalog.end(),[&](const auto& image){return image.id==id;});
-            if(found==catalog.end())throw std::invalid_argument("Image is no longer in the source project");row.name=found->name;
+            if(found==catalog.end())throw std::invalid_argument("Image is no longer in the source project");row.image_present=true;row.name=found->name;
             auto doc=project->document(id);row.x=doc->pixel_width_um();row.y=doc->pixel_height_um();
-            std::array<std::set<std::string>,4> matched;
-            for(const auto& obj:doc->annotations()) {
-                for(std::size_t role=0;role<4;++role) {
-                    const auto& names=recipe.classes[role];
-                    if(std::find(names.begin(),names.end(),obj.class_name)!=names.end()) {row.ids[role].push_back(obj.id);matched[role].insert(obj.class_name);}
+            if(!recipe.selections.empty()) {
+                const auto selected=std::find_if(recipe.selections.begin(),recipe.selections.end(),[&](const auto& v){return v.image_id==id;});
+                row.ids=selected->ids;row.hint_record=selected->record_id;
+                for(auto& role:row.ids) std::sort(role.begin(),role.end());
+            } else {
+                std::array<std::set<std::string>,4> matched;
+                for(const auto& obj:doc->annotations()) {
+                    for(std::size_t role=0;role<4;++role) {
+                        const auto& names=recipe.classes[role];
+                        if(std::find(names.begin(),names.end(),obj.class_name)!=names.end()) {row.ids[role].push_back(obj.id);matched[role].insert(obj.class_name);}
+                    }
+                    if(recipe.all_cells && obj.kind==ObjectKind::Cell)row.ids[3].push_back(obj.id);
                 }
-                if(recipe.all_cells && obj.kind==ObjectKind::Cell)row.ids[3].push_back(obj.id);
+                constexpr const char* roles[]={"windows","tissue","excluded","cells"};
+                for(std::size_t role=0;role<4;++role) {
+                    for(const auto& name:recipe.classes[role]) if(!matched[role].count(name)) row.issues.push_back(std::string(roles[role])+": no objects for class "+name);
+                    std::sort(row.ids[role].begin(),row.ids[role].end());
+                    const auto cap=role==3?100000u:10000u;
+                    if(row.ids[role].size()>cap)row.issues.push_back(std::string(roles[role])+": exceeds "+std::to_string(cap)+" objects");
+                }
             }
-            constexpr const char* roles[]={"windows","tissue","exclusions","Cells"};
-            for(std::size_t role=0;role<4;++role) {
-                for(const auto& name:recipe.classes[role]) if(!matched[role].count(name)) throw std::invalid_argument(std::string(roles[role])+": no objects for class "+name);
-                std::sort(row.ids[role].begin(),row.ids[role].end());
-            }
-            SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],recipe.options);
-        }catch(const std::exception& e){row.error=e.what();}
+            if(row.issues.empty()){SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],recipe.options);}
+        }catch(const std::exception& e){row.issues.push_back(e.what());}
+        if(!row.issues.empty())row.error=row.issues.front();
         report.images.push_back(std::move(row));if(p)p->completed.fetch_add(1);
     }
-    checkpoint(c);verify_source(report.source,guard);
-    if(fingerprint(report.source,c)!=report.source_sha256)throw std::runtime_error("Saved source changed during preview");
+    input.verify(false,c);
     return report;
 }
-DensityPanelReport run_project_density(const DensityPanelReport& preview,const std::string& output,const std::atomic<bool>* c,DensityPanelProgress* p,std::size_t csv_limit,const std::string& resume_from) {
+ProjectDensityReport run_project_density(const ProjectDensityReport& preview,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* p,std::size_t csv_limit,const std::string& resume_from) {
     if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");preview.recipe.validate();
     if(!csv_limit || csv_limit>1024*mib)throw std::invalid_argument("CSV limit must be 1 byte..1 GiB");
     if(csv_limit<csv_header.size())throw std::invalid_argument("CSV limit is smaller than the header");
@@ -232,18 +269,18 @@ DensityPanelReport run_project_density(const DensityPanelReport& preview,const s
     report.report=(directory/"report.json").u8string();write_new(report.report,report_json(report),16*mib);
     return report;
 }
-void ProjectDensityPanelJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.completed.store(0);progress_.total.store(0);progress_.image.store(0);progress_.phase.store(0);progress_.kernel_calls.store(0);progress_.reused.store(0);}
-bool ProjectDensityPanelJob::preview(const std::string& path,const DensityPanelRecipe& recipe) {
+void ProjectDensityJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.completed.store(0);progress_.total.store(0);progress_.image.store(0);progress_.phase.store(0);progress_.kernel_calls.store(0);progress_.reused.store(0);}
+bool ProjectDensityJob::preview(const std::string& path,const ProjectDensityRecipe& recipe) {
     poll();if(busy())return false;recipe.validate();reset();future_=std::async(std::launch::async,[this,path,recipe]{return preview_project_density(path,recipe,&cancelled_,&progress_);});return true;
 }
-bool ProjectDensityPanelJob::run(const DensityPanelReport& preview,const std::string& output,const std::string& resume_from) {
+bool ProjectDensityJob::run(const ProjectDensityReport& preview,const std::string& output,const std::string& resume_from) {
     poll();if(busy())return false;auto captured=preview;reset();future_=std::async(std::launch::async,[this,captured,output,resume_from]{return run_project_density(captured,output,&cancelled_,&progress_,64u*1024*1024,resume_from);});return true;
 }
-void ProjectDensityPanelJob::poll() {
+void ProjectDensityJob::poll() {
     if(busy() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
-        try{result_=std::make_shared<const DensityPanelReport>(future_.get());}catch(const std::exception& e){error_=e.what();}
+        try{result_=std::make_shared<const ProjectDensityReport>(future_.get());}catch(const std::exception& e){error_=e.what();}
     }
 }
-void ProjectDensityPanelJob::finish() {cancel();if(busy())future_.wait();poll();}
-ProjectDensityPanelJob::~ProjectDensityPanelJob(){finish();}
+void ProjectDensityJob::finish() {cancel();if(busy())future_.wait();poll();}
+ProjectDensityJob::~ProjectDensityJob(){finish();}
 }

@@ -1,5 +1,5 @@
 #include "../json_string.hpp"
-#include "../project_density_panel.hpp"
+#include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include <filesystem>
@@ -25,13 +25,13 @@ int main(){try{
         project.add_document(doc,"Image "+std::to_string(i));
     }
     const auto source=root/"source.qpxproj";project.save_new(source.u8string());const auto original=read(source);
-    DensityPanelRecipe recipe;recipe.images={1,2};recipe.classes[0]={"Windows"};recipe.classes[1]={"Tissue"};
+    ProjectDensityRecipe recipe;recipe.images={1,2};recipe.classes[0]={"Windows"};recipe.classes[1]={"Tissue"};
     auto preview=preview_project_density(source.u8string(),recipe);check(preview.valid());
     const auto first=run_project_density(preview,(root/"first").u8string());check(first.computed==2 && first.reused==0);
     const auto previous_bytes=read(first.images[0].checkpoint),receipt_bytes=read(root/"first/image-1.json");
-    const auto resume=[&](const DensityPanelReport& p,const std::string& name,const fs::path& previous,DensityPanelProgress& progress){
+    const auto resume=[&](const ProjectDensityReport& p,const std::string& name,const fs::path& previous,ProjectDensityProgress& progress){
         return run_project_density(p,(root/name).u8string(),nullptr,&progress,64u*1024*1024,previous.u8string());};
-    DensityPanelProgress p;
+    ProjectDensityProgress p;
     const auto reused=resume(preview,"reused",root/"first",p);
     check(reused.state=="completed" && reused.reused==2 && reused.computed==0 && p.kernel_calls.load()==0);
     check(reused.images[0].checkpoint==first.images[0].checkpoint && reused.images[0].result_sha256==first.images[0].result_sha256);
