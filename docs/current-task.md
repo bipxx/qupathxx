@@ -7,6 +7,40 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — ImGui project-wide density panel
+
+Owner continued image/class selection, native cohort/calibration preview,
+background progress/cancel and combined CSV/error reporting. Delivered as a new
+standalone app with a private controller over existing native density/records/
+CSV/save_new; no new SDK fields, batch enums, bindings or wheel. Saved-source
+SHA/review gates, new directories and independently owned worker Documents
+preserve the displayed workspace and input files. Per-image failures continue;
+completed whole-image outputs survive cancellation and CSV quota failures.
+
+T1/T2 complete: affected controller suite passes in0.82s, including active cancel,
+stale source, quoted CSV, quota and a collision followed by a successful third
+image. Actual final desktop preview/run shows32/28 selected Cells,31/27 in-FOV
+counts,2 saved images/2 rows and0 failures. Both saved and original source bytes
+remain unchanged; unchanged candidate4 Python reopens/verifies both checkpoints.
+Selector changes clear reviewed rows; short image IDs make both rows readable.
+Folder opener works; CSV opener reached the Windows chooser without changing
+associations. [Guide](gui-project-density.md), [14/14 coverage](gui-project-density-coverage.md)
+and [desktop/source receipt](benchmarks/gui-project-density/desktop.json) close
+this scope. Final local app:main build/gui-project-density/application,56 files,
+about40.6MB; its519 raw compiler inputs match recorded tree23111b162413. Reader
+DLLs/notices match candidate4; published candidates and Python consumers stay
+frozen. This is local Windows desktop evidence, not a new binary release or
+fresh-host, biology, segmentation, platform or speed acceptance.
+
+Waste review: a fixture conflated historical/current revision-bearing SHA;
+retain exact stored SHA/CSV and use native replay verification. Long names hid
+preview rows; private GUI repairs reused controller/kernel evidence and cached
+objects. WindowsPath sorting differed from CMake's string sort in the receipt
+observer; corrected only that script, without rebuilding product code. Original
+failures and intermediate products remain in main build/gui-project-density.
+Compilexx records durable lessons. No full kernel/binding/package campaign.
+The selected outcome is closed; publish sources and stop. No next phase selected.
+
 ## Delivered phase — reusable NuCLS PNG/CSV import
 
 Owner accepted generalizing the pilot into a standalone Python importer. Match

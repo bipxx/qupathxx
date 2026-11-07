@@ -26,6 +26,12 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Project-wide density runner
 
+The [ImGui project-density panel](gui-project-density.md) is delivered in the
+new standalone desktop app. Image/class selection, preview, progress/cancel,
+per-image QPX and combined CSV/error reporting reuse native density authorities.
+Its [14 selected requirements](gui-project-density-coverage.md) are closed.
+Published candidate4 wheels and existing Python consumers remain unchanged.
+
 The standalone [NuCLS importer](nucls-import.md) now prepares exact PNG/CSV pairs
 with explicit outline/centroid representation and X/Y calibration. Its
 [14-row checklist](nucls-import-coverage.md) is closed over unchanged candidate4.

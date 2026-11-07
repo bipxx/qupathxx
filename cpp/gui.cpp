@@ -35,6 +35,7 @@
 #include "gui_batch.hpp"
 #include "gui_tma.hpp"
 #include "gui_spatial.hpp"
+#include "gui_project_density.hpp"
 #include "gui_raw.hpp"
 #include "gui_raw_pixel.hpp"
 #include "gui_layout.hpp"
@@ -179,6 +180,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     detail::GuiProfiler profiler;
     auto batch_owner=std::make_unique<detail::GuiBatch>(options);auto& batch=*batch_owner;
     auto spatial_owner=std::make_unique<detail::GuiSpatial>(options);auto& spatial=*spatial_owner;
+    auto density_owner=std::make_unique<detail::GuiProjectDensity>();auto& project_density=*density_owner;
     auto tma_owner=std::make_unique<detail::GuiTma>(options);auto& tma=*tma_owner;
     auto raw_owner=std::make_unique<detail::GuiRaw>(options);auto& raw=*raw_owner;
     auto classifier_owner=std::make_unique<detail::GuiObjectClassifier>(options);auto& classifier=*classifier_owner;
@@ -1321,6 +1323,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool next_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageDown,ImGuiInputFlags_RouteGlobal);
             const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
             ui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
+            project_density.open_button();
             ImGui::BeginDisabled(project_load.valid());
             if(ui::Button("Edit project metadata")) {
                 try {entry_editor.open_project(options.project);}
@@ -2806,6 +2809,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
+        project_density.draw(options.project.get(),project_images,editing_blocked || save_job.busy() || project_load.valid());
         batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,tissue_grid,tissue_min_area,tissue_max_area,cell_parameters,cell_min_area,cell_max_area,cell_grid,cell_nominal,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
         raw_pixel.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
@@ -2874,6 +2878,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     tma.finish(frame_limit>0);
     raw.finish(active_document,frame_limit>0);
     batch.finish();
+    project_density.finish();
     classifier.finish(*active_document,*selection,frame_limit>0);
     pixel_classifier.finish(*active_document,*selection,frame_limit>0);raw_pixel.finish(*active_document,frame_limit>0);
     if(stain_estimate.busy()) {if(!frame_limit) stain_estimate.cancel();stain_estimate.wait(*active_document,selection->primary());}
