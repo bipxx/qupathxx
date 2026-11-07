@@ -7,6 +7,24 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Consolidation checklist - planning ready
+
+[NC01-NC28](consolidation-coverage.md) now own detailed L5-L7 acceptance: contracts,
+headless service boundaries, density selection/manifests, guarded execution/reuse,
+both legacy receipt adapters, native NuCLS/training interpretation, thin consumers,
+and source-scoped integration/handoff. All28 are Planned; existing helpers and
+this checklist do not count as implemented migration. The coarse phase summary
+links here instead of duplicating requirements.
+
+Next: NC01 records compatibility baselines, then NC02-NC04 settle native service/
+import contracts before a combined binding build. After each task/failure update
+its state/evidence and this card's waste/next action. No product change, native
+build, test campaign or release is needed to create the checklist.
+
+Waste review: reuse existing C++ density/job/reuse/guard/export authorities;
+preserve both receipt formats and meaningful tests. Use one detailed checklist,
+one execution card and the existing phase summary. Keep optimization L3 separate.
+
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 
 [Evidence](benchmarks/cell-kernel-optimization/README.md): direct interior

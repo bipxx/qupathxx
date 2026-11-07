@@ -34,9 +34,9 @@ is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 | L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Complete |
 | L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Deferred - profile remaining benefit before adding ownership complexity |
 | L4 | Final changed-source correctness capture and disclosed candidate/reference/control timing; first unsettled reference retained | Complete |
-| L5 | One headless C++ density selection/manifest/run/reuse/export service, explicit IDs/classes and legacy receipt adapters | Planned |
-| L6 | C++ NuCLS pairing/PNG/CSV/geometry/centroid/calibration/preview/publication, bounded open decoder | Planned |
-| L7 | Thin nanobind/Python/CLI/ImGui consumers; raw training selection native; diagnostic oracles in tests/tools; shared output/state and source handoff | Planned |
+| L5 | Shared C++ density service; [NC01-NC14](consolidation-coverage.md) own detailed acceptance | Planned |
+| L6 | Native importer rules; [NC15-NC17](consolidation-coverage.md) | Planned |
+| L7 | Native training selection, thin consumers and handoff; [NC18-NC28](consolidation-coverage.md) | Planned |
 
 After each completed task or failure, update its state/evidence and the current
 card's waste/next action. Do not restart completed scientific campaigns merely

@@ -1,0 +1,106 @@
+# Native logic consolidation checklist
+
+Detailed acceptance checklist for L5-L7 of the [delivery plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan).
+[Current task](current-task.md) owns the execution queue; [phase summary](speed-gap-coverage.md)
+links here rather than maintaining a second detailed list. This checklist is
+planned work, not a claim that the Python migrations are implemented.
+
+The outcome is one C++ authority for shipped selection, workflow state, reuse,
+import interpretation, scientific values, persistence and export. Python parses
+arguments, constructs native options, submits/polls/cancels and displays native
+reports. ImGui and CLI use those same services. Independent test/reference code
+may remain Python. Scientific/persistent identities stay exact; cosmetic parity,
+new segmentation features and a binary release are outside this consolidation.
+
+## Order and existing authorities
+
+Execute A -> B -> C -> D -> E -> F. Settle the density and importer interfaces
+before the combined binding build; native tests run as each authority settles.
+Cohort/manifest and run/resume are parts of the same density service, not separate
+runners. Reuse these existing sources:
+
+| Responsibility | Current source / easiest path |
+| --- | --- |
+| Headless density execution/preview | Extract the service in [project_density_panel.cpp](../cpp/project_density_panel.cpp) and its [types/job](../cpp/project_density_panel.hpp); the target already depends on core + JSON without ImGui |
+| Density science and reuse admission | Keep SpatialDensityRequest/result and [density_reuse.hpp](../cpp/density_reuse.hpp) as authorities; do not substitute input-hash equality for captured-object compatibility |
+| JSON, file integrity and publication | Reuse [strict_json.hpp](../cpp/strict_json.hpp), [json_string.hpp](../cpp/json_string.hpp), [reader_file_guard.hpp](../cpp/reader_file_guard.hpp), existing fingerprinting and [atomic_export.hpp](../cpp/atomic_export.hpp) |
+| Python logic to retire | [project_density.py](../examples/project_density.py), [density_manifest.py](../examples/density_manifest.py), [nucls_import.py](../examples/nucls_import.py) and training selection in [raw_classifier_workflow.py](../examples/raw_classifier_workflow.py) |
+| Native project/binding patterns | Reuse [project_batch.hpp](../cpp/include/qupathxx/project_batch.hpp), native request/job/result lifetimes and [feature binding registration](../cpp/project_batch_bindings.cpp); do not force density into an incompatible generic batch result |
+
+## A. Contracts and module ownership
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC01 | Record current Python/GUI inputs, output ordering, errors, limits, exit codes and both receipt schemas from existing examples/tests | Compatibility map identifies every rule being moved and its native owner; frozen example outputs retained | Planned |
+| NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | C++ caller can express both current Python and GUI workflows without a consumer-only flag or per-object callback | Planned |
+| NC03 | Separate native service from the panel controller; use a headless core+JSON target and thin GUI job/controller | Service builds/links without Python, ImGui or OpenGL; no third runner or added global state | Planned |
+| NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | Capture/worker/result ownership is explicit; immutable inputs remain owned through cancellation/join; no Python object held by native workers | Planned |
+
+## B. Density selection and manifest authority
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC05 | Load qpx.project-density/1 in C++; retain bounded strict JSON, duplicate-key/type/nonfinite/unknown-field checks and relative project paths | Existing accepted manifests normalize the same way; malformed/oversized inputs fail in native code | Planned |
+| NC06 | Resolve image IDs, explicit object IDs, class selectors and all-cells policy in one native selection pass | Same ordered cohorts/counts from both consumer routes; duplicates, missing names/images and limits follow the recorded contract | Planned |
+| NC07 | Native preview owns calibration, planes, geometry/curve policy and density request admission | Existing SpatialDensityRequest performs science validation; preview displays native counts/units/issues and creates no outputs | Planned |
+| NC08 | Generate/save manifests and preview reports natively using existing atomic exports | Existing schema/order/path behavior remains compatible; invalid preview or existing destination cannot publish a manifest | Planned |
+
+## C. Execute, reuse and publish through one service
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC09 | Execute each admitted selection through the existing native density kernel and retained record path | Same numeric rows, area, calibration, hashes and native CSV as current accepted workflow; no Python geometry/statistics | Planned |
+| NC10 | Centralize source guards: closed/saved project, SQLite sidecars, file versions, setup/final fingerprints and checks between images | Source mutation/sidecars fail clearly and preserve inputs; avoid hashing an unchanged whole project once per image | Planned |
+| NC11 | Centralize saved-record reuse using density_reuse_compatible and one engine compatibility policy | Unrelated metadata edits/larger allowances retain allowed reuse; changed geometry/centroids/calibration/engine or smaller limits require fresh admission/computation | Planned |
+| NC12 | Implement explicit native readers for Python qpx.project-density-checkpoint/1 and GUI qpx.gui-density-checkpoint/1, then normalize | Old folders still work with their documented routes; schema/identity/corruption mismatches refuse or recompute as specified; no silent interchangeability | Planned |
+| NC13 | Keep new-directory/no-replace publication, per-image QPX/receipts, contextual combined CSV and final reports in C++ | Existing files survive collisions; native numeric CSV text/ordering is preserved; no partial file is advertised as complete | Planned |
+| NC14 | Native job owns cancellation, joins and partial/failure/completed-image state; expose existing computed/reused/kernel-call observations | Cancel publishes no unfinished image; completed rows/checkpoints remain valid; reuse performs zero new density kernel calls; input project unchanged | Planned |
+
+## D. Remaining domain rules move to native authorities
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC15 | Native NuCLS service owns case-sensitive pairing/selection, CSV interpretation, row validation and bounded diagnostics | Same accepted/missing/malformed pairs and row issues as existing importer; no hidden dependency on the density example | Planned |
+| NC16 | Decode strict RGB PNG natively; use one pinned openly licensed decoder, existing source guards and allocation limits | Pixels/dimensions match accepted inputs; unsupported modes/corrupt files/limits/source mutation fail; license/notices retained | Planned |
+| NC17 | Construct NuCLS geometry, accurate centroids, classes, calibration and representation in C++; preview and atomic save-new use existing project authorities | Accepted objects/geometry/calibration/declared centroid identity match baseline; any blocking issue prevents whole-project publication; no overwrite | Planned |
+| NC18 | Move class/area training-cohort eligibility from raw_classifier_workflow.py into the existing native training frontend | Same selected annotations/order and model inputs, with native invalid/empty/limit checks; Python only passes selectors/options | Planned |
+
+## E. Thin SDK, binding, CLI and ImGui consumers
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC19 | Bind typed density/import services through focused feature units; release GIL during native work | Argument ownership, progress, terminal failures and cancellation arrive correctly; no per-pixel/object callbacks; public workflow types avoid the general core/GUI header | Planned |
+| NC20 | Reduce project_density.py and density_manifest.py to arguments/options/submit/poll/display | Native service owns selection/reuse/receipts/CSV; no copied policy lists, dynamic sibling imports or Python workflow state machine | Planned |
+| NC21 | Reduce nucls_import.py/raw classifier controls to the same thin boundary | No Python centroid, CSV/PNG interpretation or cohort eligibility implementation or Pillow/NumPy dependency implementing the NuCLS workflow; existing CLI options/status remain mapped | Planned |
+| NC22 | ImGui/native CLI consume the same service/preview/report and expose meaningful units/errors/progress | No duplicated admission/reuse/export rules; selections and visible outcomes match SDK/Python, allowing harmless cosmetic differences | Planned |
+
+## F. Integration and handoff
+
+| ID | Requirement / easiest implementation path | Decisive completion check | State |
+| --- | --- | --- | --- |
+| NC23 | Test domain behavior once at native authority using existing fixtures and focused missing cases | Selection/reuse/legacy/cancel/corruption/limits/source-mutation/no-overwrite cases pass; meaningful scientific tests retained | Planned |
+| NC24 | Replace implementation-coupled Python observation hooks with native result/progress observations while retaining their behavior coverage | No-recomputation, mutation refusal and atomic publication still tested; tests do not require removed Python internals | Planned |
+| NC25 | Run cheap changed native targets first, then one combined cached consumer/binding build/install after interfaces settle | Compatible expensive objects reused; changed inputs/source identity logged; failed checks repair only affected targets; no per-substep packaging | Planned |
+| NC26 | Verify a direct C++ route and a thin installed Python route on the selected saved-project/import fixtures | Authoritative rows/geometry/calibration/identity/export and terminal states agree; standalone native execution needs no Python | Planned |
+| NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | Planned |
+| NC28 | Update API/stubs/guides, receipts, current card and this checklist; push matching source | Evidence links identify tested source and unresolved scope; active cache/releases/fixtures/archives preserved; no new release or speed claim inferred | Planned |
+
+## Progress rules and stop condition
+
+There are **28 planned acceptance items**. Existing native helpers are reuse
+inputs, not checked-off migration work. At implementation start, mark the current
+row In progress; check it Complete only with a decisive evidence link. If a real
+blocker arises, record the concrete condition and next independent work. Amend
+this checklist for an agreed scope change instead of inventing a second ledger.
+
+After each coherent task or failed attempt, update the current card with outcome,
+check, actual waste/correction and next action. Append only durable new lessons
+to compilexx. Documentation changes need link/diff checks, not product builds.
+Reuse unchanged-kernel evidence; thin consumers get mapping/ownership/integration
+checks, not repeated numerical qualification for every frontend. Native APIs must
+still validate data even when Python argparse already validated syntax.
+
+Finish when NC01-NC28 are evidenced: one headless C++ workflow/import authority,
+compatible saved data/receipts and thin consumers. No100% QuPath parity, cosmetic
+campaign, whole-slide performance acceptance, optional feature expansion or binary
+publication is implied. Deferred L3 optimization stays separate from this queue.

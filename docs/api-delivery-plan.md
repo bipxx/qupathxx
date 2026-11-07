@@ -4,7 +4,7 @@ The [latest native kernel batch](benchmarks/cell-kernel-optimization/README.md)
 preserves exact outputs and improves the retained native control by~5.9%. The
 reference remains variable, so no general speed win is claimed. L1/L2/L4 are
 delivered; conditional L3 is deferred pending a measured benefit. L5-L7 remain
-the shared native workflow/import migration queue. Historical reports retain
+the shared native workflow/import migration queue, tracked in the [28-item consolidation checklist](consolidation-coverage.md). Historical reports retain
 their tested scope and published releases stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
@@ -26,7 +26,7 @@ Owner invoked untangle-codebase with Comments+Tests. The
 [decision log](untangle-decision-log.md) owns U1-U6: neutral JSON/dependency setup,
 self-contained watershed modules, shared contour/archive reconstruction, density
 reuse authority, replay vocabulary and domain target membership. These
-behavior-preserving structural fixes and affected checks are [complete](benchmarks/untangle-codebase/README.md); algorithm changes have not started.
+behavior-preserving structural fixes and affected checks are [complete](benchmarks/untangle-codebase/README.md); the native L1/L2 optimization batch is also delivered.
 Keep existing L5-L7 migration gaps explicit; a moved module alone does not make
 Python controls compliant or make the engine faster.
 
