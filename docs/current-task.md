@@ -7,6 +7,30 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Selected phase — Windows candidate5 packaging and publication
+
+Owner accepted packaging the latest signed-distance workflow as candidate5.
+Ship one CPython3.12 Windows x64 wheel (build tag5), native ZIP, matching source,
+unchanged pinned dependency sources, example project/CSV and concise install guide.
+Include the delivered ImGui project-density/resume code; older-engine receipts
+recompute rather than implying cross-upgrade cache reuse. Keep candidate4 frozen.
+This is local engineering support, not fresh-host/platform, signing, speed or
+biological acceptance. No new feature/kernel/reader or broad test campaign.
+
+| Task | Existing path / decisive check | State |
+| --- | --- | --- |
+| P1 freeze and package | Reuse cached settled objects and scikit-build-core build tag; only provenance relink, explicit product targets; raw522-input source tree must remain2ddb06c5da4d | In progress |
+| P2 isolated installed route | New environment; wheel RECORD/member identity and mapped DLL origins; installed signed job -> CSV -> save/reopen/replay and managed ImGui; native ZIP opens that project | Pending |
+| P3 distribution and removal | Existing static runtime manifests, AGPL/notices plus unchanged12-source archive inventory; uninstall preserves outputs | Pending |
+| P4 publish | Source-scoped receipt/guide/checklist and SHA256SUMS; draft assets verified before publication; commit/push and candidate5 prerelease | Pending |
+
+Before build: native behavior and Python interface are unchanged from the signed
+delivery. Packaging changes need source identity, installed-file/dependency closure
+and missing install/removal checks, not repeated numeric/native qualification.
+Waste review: reuse existing release scripts/cache/dependency archives. The old
+fresh-host helper is candidate1-specific; do not launch or generalize that campaign.
+Next action: settle packaging/verification scripts, freeze source, build once.
+
 ## Delivered phase — signed Cell-to-annotation boundary distances
 
 Owner accepted the original R9 signed-distance gap. Extend the existing distance
