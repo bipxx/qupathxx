@@ -21,6 +21,24 @@ Cosmetic tolerance does not authorize changing raw pixel data, weakening numeric
 checks or silently relaxing exact stored identity. Classify screenshot checks by
 purpose; retain those proving meaningful behavior, not cosmetic sameness.
 
+## C++ owns application logic; Python controls it
+
+Owner decision: all shipped scientific and application/workflow logic belongs in
+C++. Python is a simple control layer: parse arguments, construct typed native
+options, submit native operations, poll/cancel jobs and display native reports.
+Put segmentation, geometry, measurements, selection/cohort rules, identity/reuse
+checks, import interpretation, persistence and result export in shared native
+services. ImGui, CLI and nanobind must call those same authorities.
+
+Do not add Python per-pixel/per-object analysis or duplicate recipe/reuse/state
+machines. Move the existing density runner/manifest and NuCLS domain logic by
+the selected plan; these are identified migration gaps, not already compliant.
+Independent test/reference oracles and development benchmark analysis may remain
+Python; they are not product fallbacks or an alternate scientific authority.
+Keep native file/data validation at its actual trust boundary. Python argument
+parsing never replaces native validation. Release the GIL for native work and
+use owned snapshots/typed results rather than callbacks in hot loops.
+
 ## Deliver the selected user workflow
 
 Read [current-task.md](docs/current-task.md) and the

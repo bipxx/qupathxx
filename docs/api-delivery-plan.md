@@ -8,6 +8,119 @@ releases and broader feature/support scope stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
+## C++ logic optimization and thin Python control plan
+
+Owner-selected outcome: optimize the existing C++ execution path and make C++ the
+single authority for all shipped scientific and application/workflow behavior.
+Python performs argument parsing, native option construction, operation submission,
+poll/cancel and report display. The shared [coverage](speed-gap-coverage.md) tracks
+these tasks; [current task](current-task.md) owns execution state. This section
+supersedes earlier guidance that permits delivered Python examples to retain
+workflow rules indefinitely. Existing releases remain frozen until a separately
+selected binary handoff. This is a plan, not an implemented migration.
+
+### Current boundary and concrete migration targets
+
+| Surface | Current authority / gap | Easiest native path |
+| --- | --- | --- |
+| Image decoding, sampling, OD, cell detection/expansion, geometry, statistics, spatial operations, project save/replay, numeric CSV | C++ already owns these through existing requests/jobs/results | Optimize existing kernels; reuse their contracts and bindings |
+| src/qupathxx/__init__.py and __main__.py | Native reexports and argument/launch control; no scientific kernel | Keep thin; native entry points validate operational constraints too |
+| examples/project_density.py | Native density kernel, but Python owns manifest validation, recipe/reuse comparisons, checkpoint orchestration and contextual CSV assembly | Extract/reuse cpp/project_density_panel.cpp's existing native workflow service; support explicit IDs as well as classes |
+| examples/density_manifest.py | Python scans objects/classes and builds/validates cohort selections | Reuse the native density preview/selection pass; return a typed preview and native manifest export |
+| examples/nucls_import.py | Python owns CSV rules, polygon coordinate interpretation/centroid moments, matching, PNG decoding and import publication | Add one native importer over existing Roi/Document/Project, file guards and atomic export; use one openly licensed native PNG decoder |
+| examples/raw_classifier_workflow.py | Python selects training annotations by class/area; model work is native | Move cohort eligibility/selection to the existing native training request/frontend; retain only caller-specified selectors in Python |
+| Other shipped examples / nanobind adapters | Mostly native calls; some combine demonstrations with independent oracle assertions or synthetic fixture generation | Move diagnostic oracle/fixture code to tests/tools; keep shipped controls to native calls and report display. Move any remaining data-dependent rule to its existing native authority |
+| Tests, reference capture, timing/plotting and development tools | Independent validation/control code, not shipped analysis engines | Keep independent oracles; do not mechanically port tests or benchmark summaries |
+
+“All logic in C++” applies to application decisions as well as expensive kernels.
+A short Python recipe comparator is still a second authority. Python may loop to
+submit/poll independent native tasks or display results; it must not compute
+scientific values, filter cohorts, decide checkpoint validity, encode authoritative
+CSV/receipts or repair results. Input paths, flags and requested options remain
+caller choices. The native service owns their semantic validation and execution.
+
+### Ordered implementation batches
+
+| Task | Files / implementation route | Decisive result and stop rule |
+| --- | --- | --- |
+| L1 Integrate demonstrated neighbor access fix | cpp/shape_watershed.hpp, existing shape/numeric tests; use the interior direct offsets from the retained probe, original border path, same fate table/pass/write order | Native affected tests plus narrow real-label probe. Include widths/heights1/2, borders, holes/touching labels, cancellation and budgets where affected. Keep exact outputs; do not generalize all neighbor loops at once |
+| L2 Batch canonical SHA bytes | cpp/sha256.cpp or a small private serializer used by cpp/cell_sampling_grid.cpp; prefer bounded buffering in the existing hash authority if it covers all small updates | Exact scalar/buffered digests on Windows and portable paths, mixed update sizes, empty/partial buffers, finish/refusal semantics. Preserve every serialized byte; target the measured3.48 ->0.92 ms probe, not a promised full-pipeline gain |
+| L3 Reuse immutable domain/identity work | cpp/scientific_cells.cpp, cpp/scientific_raster.cpp/.hpp and cell_sampling_grid.cpp; construct the common domain/digest once within the owned nucleus/body operation, while validating each label array/count/budget independently | Same saved input hashes/CSV/geometry; wrong source/domain/labels/expected digest still refuse and cancellation publishes nothing. No public trusted-hash parameter or global cache. Skip sharing if instrumentation shows negligible benefit or ownership would become complex |
+| L4 Finish the selected cell optimization batch | One cached native/module relink after L1-L3 stabilize; use existing runtime and exact-output scripts | One final source-scoped real-output check and settled native/QuPath comparison. Report sample ranges/host load. Strict parity remains open if native is slower; no repeated campaign merely to obtain a favorable median |
+| L5 Consolidate density workflow authority | cpp/project_density_panel.cpp/.hpp, cpp/project_batch.cpp as applicable, cpp/include/qupathxx and focused new binding TU; extract a headless service from the existing panel implementation | SDK/ImGui/CLI/Python call one selection/run/reuse/export implementation; explicit-ID runner and class manifest behavior preserved. Source guards, stale/changed engine, smaller limits, cancel and no-replace publication verified once at native authority |
+| L6 Move NuCLS interpretation and import to C++ | Small native importer beside existing interchange/project services; native CSV/PNG input, Roi construction/centroid, calibration, row issues, bounded reports and save-new | Preview/write same objects/classes/calibration/accepted geometry and declared centroid identity. Malformed CSV/PNG, missing pairs, limits/source mutation and no partial/overwrite publication checked. Python no longer requires Pillow/NumPy to implement this workflow |
+| L7 Finish thin controls and handoff | Focused nanobind files, src/qupathxx reexports/stubs, examples/project_density.py, density_manifest.py, nucls_import.py and any identified shipped logic | Python only parses/options/submits/polls/displays; remove raw classifier object-selection rules and separate example-only numerical oracles into tests/tools. Direct C++ and Python entry points agree on authoritative output/state. New workflow service has no Python/ImGui dependency; standalone native usage works without Python. Update API docs/coverage/source receipt and push; no automatic release |
+
+L1-L4 close one measured speed batch before migration. L5-L7 close one shared
+workflow batch. Geometry shortcuts are conditional follow-up within the speed
+outcome: only if the final profile still identifies clipping/validation as the
+largest useful target. Reuse the general fallback and preserve exact ordered
+geometry. Do not repeat the failed rectangular shortcut or start a wholesale
+GEOS, GPU, scheduler or basin rewrite. Extra workers/context pooling already lack
+supporting evidence. Do not promise that isolated savings add up to parity.
+
+### Shared native interfaces and dependency order
+
+Reuse the existing request/job/result pattern; the names below describe proposed
+roles, not shipped APIs. Settle these interfaces together before the large binding
+build. Keep existing generic ProjectBatch behavior intact rather than forcing a
+second workflow into an incompatible report model.
+
+1. **Density selection/preview** accepts a project plus explicit per-image IDs or
+   class selectors and existing SpatialDensityOptions. Normalize IDs, choose the
+   cohort and capture provenance in C++; return counts/issues/calibration and an
+   immutable admitted plan. Reuse DensityPanelRecipe/Report internals where sound.
+2. **Density run/job** accepts that native plan, a new output directory and optional
+   resume input. It owns source-file guards, cancellation, record/replay eligibility,
+   per-image checkpoints, combined CSV and reports. Export the existing native CSV
+   text; preserve per-image resource admission. Revalidate external files on use.
+3. **Manifest load/save** implements the existing qpx.project-density/1 grammar,
+   duplicate-key/type/nonfinite/size checks and relative path rules in C++. Both
+   Python controls and the GUI consume the same normalized selection service.
+4. **NuCLS preview/import** accepts paths/selection/calibration/representation and
+   limits; returns native issues and an owned admitted import. Existing Project
+   save-new performs final publication. Use existing native geometry/centroid
+   primitives if they preserve the current contract; otherwise port the accurate
+   local-frame summation once. Do not silently alter stored identities.
+5. **Bindings/control** expose those typed options/plans/reports/jobs. Reuse existing
+   owned buffers/snapshots, release the GIL around native work, and keep Python
+   objects/callbacks out of worker lifetimes. Python prints a native report/JSON
+   and returns its status; expensive work and state transitions stay native.
+
+Extract the density service into a headless native target available to the module
+and app; its current qupathxx_density_panel target already depends on core plus
+nlohmann_json, not ImGui. Reuse that dependency and existing guards/AtomicExportFile.
+Do not write a third density runner. Select the PNG implementation from existing
+openly licensed sources when linkable, otherwise add one small pinned decoder
+with notices, strict RGB acceptance and allocation limits. No generic new reader
+framework or broader format expansion is needed.
+
+The Python and GUI resume formats currently differ. Preserve each existing format
+through explicit native readers/adapters, then normalize into one native model.
+Do not silently make their receipts interchangeable or invalidate old folders.
+Keep output schema/ordering/exit behavior compatible through small control adapters;
+write a new format only with an explicit version and native compatibility tests.
+
+### Validation, cost controls and completion
+
+- Preserve scientific masks/RGB/calibration/CSV, geometry and persistent identities.
+  Small visual differences remain acceptable; no new cosmetic campaign.
+- Native checks own algorithms, malformed input, source mutation, state/reuse,
+  limits/cancel and atomic publication. Python checks cover argument mapping,
+  ownership/GIL/progress/error delivery and one installed end-to-end workflow;
+  they do not duplicate the native scientific suite per frontend.
+- Run cheap affected native targets first. L1-L3 require no new bindings; preserve
+  binding objects. For L5-L7 settle all service interfaces, then one combined
+  cached binding/stub/native-consumer build and isolated install. Repair only
+  affected objects if a check fails. Do not republish frozen candidate5.
+- Update the existing current card/checklist after each task: result, decisive
+  check, actual waste/correction and next action. Append only durable lessons to
+  compilexx. Preserve failures and source-scoped receipts; no recurring audit.
+- Stop when all selected application rules have one C++ authority, the shipped
+  Python controls contain no domain algorithms/state machines, native/Python
+  routes agree and the speed result is reported honestly. A Python import count,
+  a line-count target or100% QuPath parity is not the acceptance metric.
+
 ## Result fidelity and scope policy
 
 Owner decision:100% QuPath parity is not a project completion requirement.

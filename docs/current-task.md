@@ -7,7 +7,7 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected phase - close the cell speed gap (ongoing)
+## Selected phase - optimize C++ logic and thin Python control (plan ready)
 
 Delivered S11's next optimization batch: implicit nominal segments, bounded
 predicate fallback and an exact dense integer-grid geometry/containment proof.
@@ -44,11 +44,25 @@ rule out explosive basin filling on this ROI. Corrected one summary script's
 shadowed builtin using retained output; no benchmark rerun. Early guessed/glob
 source reads were unhelpful on PowerShell; use rg file inventory and exact paths.
 
-Next selected work: integrate the exact interior-neighbor access change; check
-edge widths, numeric/topology/cancellation and the existing affected native cases,
-then one final exact-output/settled paired check. Share verified immutable domain/
-digest work or buffer exact SHA bytes only after measuring that result. Preserve
-order, masks, identities and legacy replay; no new feature, reader, GPU/thread
+Owner direction: all shipped scientific and workflow logic belongs in C++;
+Python only parses/options/submits/polls/displays. The [ordered L1-L7 plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan)
+and [live checklist](speed-gap-coverage.md) cover native optimization, shared
+density/manifest/resume services, native NuCLS import and thin consumers.
+AGENTS.md now enforces that boundary. Existing kernels are already native;
+Python density reuse/selection, NuCLS centroid/import and raw training cohort
+selection are migration gaps. Independent test oracles remain in test/tool code.
+
+Plan review/waste: reuse the native density panel's existing headless workflow,
+JSON, guards and atomic exports rather than creating another runner. Preserve
+both existing receipt formats through native adapters. Separate the measured
+speed batch from workflow migration; do not claim that moving controls speeds
+up the cell kernel. No native build/test is needed for this plan-only change.
+
+Next: L1 exact interior-neighbor access and affected edge/numeric checks; L2
+buffer identical hash bytes, L3 share immutable work if justified, then L4 one
+final integrated/source-scoped comparison. L5-L7 consolidate workflow authority
+and bindings after settling interfaces, with one combined consumer build. Keep
+scientific/persisted identity exact. No new reader expansion, generic GPU/thread
 framework or binary release is selected.
 
 ## Delivered phase - label-local contour performance

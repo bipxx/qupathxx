@@ -1,4 +1,4 @@
-# Cell speed-gap coverage
+# C++ logic optimization and speed-gap coverage
 
 [Report](benchmarks/speed-gap/README.md) and [current task](current-task.md) own this selected outcome.
 The optimization batch is delivered; the user's speed-parity objective remains open.
@@ -22,6 +22,22 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S15 | Six-warmup/six-measured oracle-free protocol corrects premature ordinary-timing parity | Complete |
 | S16 | Source-level speed diagnosis: exact-label original/interior/control probes isolate shape growth; scalar SHA overhead measured | Complete |
 
-Next: integrate the measured interior-neighbor optimization, then one affected
-correctness check and final settled paired measurement. See the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
+The [C++ ownership/optimization plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan)
+is ordered below. These are planned work, not delivered behavior. The diagnosis
+is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
+
+| Task | Completion requirement | State |
+| --- | --- | --- |
+| Policy | AGENTS enforces native application logic; plan identifies actual Python ownership gaps and shared authorities | Complete (planning only) |
+| L1 | Native watershed interior access; exact masks, edge widths, topology/cancel/budget checks | Planned - next |
+| L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Planned |
+| L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Planned - conditional on benefit |
+| L4 | One final changed-source correctness capture and settled paired speed result after L1-L3 | Planned |
+| L5 | One headless C++ density selection/manifest/run/reuse/export service, explicit IDs/classes and legacy receipt adapters | Planned |
+| L6 | C++ NuCLS pairing/PNG/CSV/geometry/centroid/calibration/preview/publication, bounded open decoder | Planned |
+| L7 | Thin nanobind/Python/CLI/ImGui consumers; raw training selection native; diagnostic oracles in tests/tools; shared output/state and source handoff | Planned |
+
+After each completed task or failure, update its state/evidence and the current
+card's waste/next action. Do not restart completed scientific campaigns merely
+because a consumer changed.
 Scientific/data identity stays exact; strict speed parity is not claimed.
