@@ -5,8 +5,17 @@ to create a saved project with explicit calibration and annotation representatio
 
 [density_manifest.py](../examples/density_manifest.py) selects saved project
 objects by exact class name and creates the explicit-ID manifest used by the
-[project-density runner](project-density.md). Both standalone scripts must stay
-together. Use Python with candidate4 installed; no native rebuild is required.
+[project-density runner](project-density.md). The script is a thin control over
+native selection, preview and publication. Use a matching native-workflow-enabled
+development install; published candidate4/5 wheels do not provide these new APIs.
+Sibling scripts are no longer imported. See the [consolidation checklist](consolidation-coverage.md)
+for verification status.
+
+The same native route is available without Python:
+
+```powershell
+qupathxx_batch --density-manifest study.qpxproj --window-class "Density windows" --tissue-class "Density tissue" --all-cells --output selections.json
+```
 
 Preview all project images:
 

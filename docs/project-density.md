@@ -1,18 +1,19 @@
 # Project-wide density reports
 
-[project_density.py](../examples/project_density.py) runs the existing native
-density workflow across explicitly selected project images. It uses the installed
-[Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4)
-API; no new wheel, binding build, segmentation or batch UI is required. The
-[coverage checklist](project-density-coverage.md) and
-[evidence](benchmarks/project-density-runner/receipt.json) describe the selected scope.
+[project_density.py](../examples/project_density.py) controls the shared C++
+saved-project density service through nanobind. Current source requires a
+native-workflow-enabled development install (`qupathxx.has_native_workflows`).
+The [consolidation checklist](consolidation-coverage.md) records migration and
+installed-route verification status. Published candidate4/5 products remain frozen;
+the [original runner receipt](benchmarks/project-density-runner/receipt.json)
+qualifies its historical source, not these changed controls.
 
 Use the [class-based manifest generator](density-manifest.md) to select cohorts
 by existing class names and preview counts/calibration before running.
 
 ## Run
 
-Install candidate4 in the environment described by the [density guide](benchmarks/density-workflow/README.md).
+Use the matching development install; do not mix current example source with a frozen candidate4/5 wheel.
 Save/close the input project, prepare a manifest, and choose a new output directory:
 
 ```powershell
@@ -129,6 +130,18 @@ report = run(Path("selections.json"), Path("results/run-003"),
 ```
 
 Another thread may set the Event. The callback receives a copy after each image
-attempt. The caller runs native owner operations sequentially; this phase adds
-neither parallel scheduling nor dedicated batch UI controls. Existing native
-density kernels/serialization remain frozen at candidate4.
+attempt on the controller thread. Native execution pauses until that event is
+acknowledged, so callback cancellation takes effect before the next image.
+Callback exceptions become native partial-run control failures. Python does not
+select cohorts, decide reuse, build receipts or encode scientific CSV.
+
+The native batch executable offers the same manifest route without Python:
+
+```powershell
+qupathxx_batch --project-density selections.json results/native-run --resume-from results/run-001
+```
+
+Typed SDK options, lifetimes, cancellation and failures are documented in the
+[native workflow contract](consolidation-native-api.md). The standalone ImGui
+panel uses this shared native execution service with its documented GUI receipt
+format; GUI and project-manifest resume folders remain distinct formats.

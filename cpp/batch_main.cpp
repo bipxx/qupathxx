@@ -6,6 +6,7 @@
 #include "raw_pixel_cli.hpp"
 #include "cell_table_cli.hpp"
 #include "spatial_cli.hpp"
+#include "native_workflow_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
 #include "tma_dearray_cli.hpp"
@@ -36,6 +37,9 @@ int execute(const std::vector<std::string>& args) {
     using namespace qpx;
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
+            "       qupathxx_batch --project-density MANIFEST NEW_DIRECTORY [--resume-from DIRECTORY --recompute --stop-on-error]\n"
+            "       qupathxx_batch --density-manifest PROJECT --window-class NAME --tissue-class NAME --all-cells [--output NEW_MANIFEST]\n"
+            "       qupathxx_batch --import-nucls IMAGES ANNOTATIONS --mpp-x N --mpp-y N --representation outlines|centroids [--output NEW_PROJECT]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
             "       density: --source ROI --target CELL --tissue ROI [--exclude ROI]; ID-file variants --source-ids/--target-ids/--tissue-ids/--exclude-ids\n"
@@ -126,6 +130,7 @@ int execute(const std::vector<std::string>& args) {
         return args.size()==1?2:0;
     }
     try {
+        if(const auto result=detail::native_workflow_cli(args,cancelled)) return *result;
         if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;

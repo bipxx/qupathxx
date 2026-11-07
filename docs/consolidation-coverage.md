@@ -3,7 +3,8 @@
 Detailed acceptance checklist for L5-L7 of the [delivery plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan).
 [Current task](current-task.md) owns the execution queue; [phase summary](speed-gap-coverage.md)
 links here rather than maintaining a second detailed list. This is the single acceptance checklist for consolidation. Status records only
-evidenced work; the Python migrations are not yet implemented.
+evidenced work; consumer source edits are in progress and installed migration
+verification remains open.
 
 The outcome is one C++ authority for shipped selection, workflow state, reuse,
 import interpretation, scientific values, persistence and export. Python parses
@@ -14,32 +15,25 @@ new segmentation features and a binary release are outside this consolidation.
 
 ## Current coverage and next tasks
 
-**18 complete, 0 in progress, 10 planned (28 total).** This is acceptance-item
-coverage, not an estimate of engineering effort or feature parity. NC01 records
-only the pre-change baseline; NC03 proves headless service extraction and
-NC05-NC14 cover native manifest selection/preview/publication and shared
-execution/reuse with legacy format adapters. NC16/NC18 add native RGB8 decoding
-and training cohort capture. No thin
-Python consumer or installed integration is complete.
+**26 complete, 1 in progress, 1 planned (28 total).** This is acceptance-item
+coverage, not an estimate of engineering effort or QuPath parity. Native
+contracts/services, focused bindings, thin primary controls, frontend wiring,
+behavior/test migration and installed route agreement are evidenced. The
+[consumer checkpoint](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair)
+records source identity and limits. Older example boundaries remain NC27; final
+handoff remains NC28. Do not claim the full migration complete yet.
 
-- [x] NC01: capture compatibility baseline.
-- [x] NC03: extract and link the shared headless C++ density service.
-- [x] NC02: shared native selection/run/report and control options.
-- [x] NC04: shared native ownership, typed failures, cancellation and aggregate admission.
-- [x] NC05-NC08: native manifest loading, shared selection/preview and exports.
-- [x] NC09-NC14: shared execution, guards, legacy resume, publication and cancellation.
-- [x] NC16 / NC18: native RGB8 PNG decoding and training cohort capture.
-- [x] NC15 / NC17: native NuCLS pairing/CSV/geometry and atomic project import.
-- [ ] NC19-NC22: bind settled services and reduce Python/ImGui/CLI to controls.
-- [ ] NC23-NC28: complete focused behavior/integration checks, boundary audit and source handoff.
+- [x] NC01-NC04: compatibility baseline, native API and headless service contracts.
+- [x] NC05-NC14: native selection/manifest, execution/reuse, guards and publication.
+- [x] NC15-NC18: native NuCLS/RGB8/geometry/import and training cohort capture.
+- [x] NC19-NC22: focused bindings, thin primary controls and shared frontend wiring.
+- [x] NC23-NC26: behavior evidence, test migration, cached build/install and route agreement.
+- [ ] NC27: finish the [remaining shipped-example boundary cleanup](consolidation-python-boundary.md) (In progress).
+- [ ] NC28: final API/evidence/current-card/source handoff after NC27.
 
-Immediate order: wire focused bindings and thin consumers over the [settled native
-contract](consolidation-native-api.md), then run the single combined cached
-consumer build and installed integration. Do not count a
-passing kernel test as completion of an unfinished consumer migration.
-
-[Incremental native evidence](benchmarks/consolidation/README.md) records the
-extraction and strict-manifest checks, their limits and diagnosed failures.
+Next: remove the remaining product-side preview pixel/calibration logic and move
+older synthetic/reference checks to tests/tools. Reuse current density/import
+qualification; validate only the additional changed controls/native helper.
 
 ## Order and existing authorities
 
@@ -98,20 +92,20 @@ runners. Reuse these existing sources:
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC19 | Bind typed density/import services through focused feature units; release GIL during native work | Argument ownership, progress, terminal failures and cancellation arrive correctly; no per-pixel/object callbacks; public workflow types avoid the general core/GUI header | Planned |
-| NC20 | Reduce project_density.py and density_manifest.py to arguments/options/submit/poll/display | Native service owns selection/reuse/receipts/CSV; no copied policy lists, dynamic sibling imports or Python workflow state machine | Planned |
-| NC21 | Reduce nucls_import.py/raw classifier controls to the same thin boundary | No Python centroid, CSV/PNG interpretation or cohort eligibility implementation or Pillow/NumPy dependency implementing the NuCLS workflow; existing CLI options/status remain mapped | Planned |
-| NC22 | ImGui/native CLI consume the same service/preview/report and expose meaningful units/errors/progress | No duplicated admission/reuse/export rules; selections and visible outcomes match SDK/Python, allowing harmless cosmetic differences | Planned |
+| NC19 | Bind typed density/import services through focused feature units; release GIL during native work | Argument ownership, progress, terminal failures and cancellation arrive correctly; no per-pixel/object callbacks; public workflow types avoid the general core/GUI header | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC20 | Reduce project_density.py and density_manifest.py to arguments/options/submit/poll/display | Native service owns selection/reuse/receipts/CSV; no copied policy lists, dynamic sibling imports or Python workflow state machine | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC21 | Reduce nucls_import.py/raw classifier controls to the same thin boundary | No Python centroid, CSV/PNG interpretation or cohort eligibility implementation or Pillow/NumPy dependency implementing the NuCLS workflow; existing CLI options/status remain mapped | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC22 | ImGui/native CLI consume the same service/preview/report and expose meaningful units/errors/progress | No duplicated admission/reuse/export rules; selections and visible outcomes match SDK/Python, allowing harmless cosmetic differences | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
 
 ## F. Integration and handoff
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC23 | Test domain behavior once at native authority using existing fixtures and focused missing cases | Selection/reuse/legacy/cancel/corruption/limits/source-mutation/no-overwrite cases pass; meaningful scientific tests retained | Planned |
-| NC24 | Replace implementation-coupled Python observation hooks with native result/progress observations while retaining their behavior coverage | No-recomputation, mutation refusal and atomic publication still tested; tests do not require removed Python internals | Planned |
-| NC25 | Run cheap changed native targets first, then one combined cached consumer/binding build/install after interfaces settle | Compatible expensive objects reused; changed inputs/source identity logged; failed checks repair only affected targets; no per-substep packaging | Planned |
-| NC26 | Verify a direct C++ route and a thin installed Python route on the selected saved-project/import fixtures | Authoritative rows/geometry/calibration/identity/export and terminal states agree; standalone native execution needs no Python | Planned |
-| NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | Planned |
+| NC23 | Test domain behavior once at native authority using existing fixtures and focused missing cases | Selection/reuse/legacy/cancel/corruption/limits/source-mutation/no-overwrite cases pass; meaningful scientific tests retained | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC24 | Replace implementation-coupled Python observation hooks with native result/progress observations while retaining their behavior coverage | No-recomputation, mutation refusal and atomic publication still tested; tests do not require removed Python internals | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC25 | Run cheap changed native targets first, then one combined cached consumer/binding build/install after interfaces settle | Compatible expensive objects reused; changed inputs/source identity logged; failed checks repair only affected targets; no per-substep packaging | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC26 | Verify a direct C++ route and a thin installed Python route on the selected saved-project/import fixtures | Authoritative rows/geometry/calibration/identity/export and terminal states agree; standalone native execution needs no Python | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | In progress - [boundary inventory](consolidation-python-boundary.md) |
 | NC28 | Update API/stubs/guides, receipts, current card and this checklist; push matching source | Evidence links identify tested source and unresolved scope; active cache/releases/fixtures/archives preserved; no new release or speed claim inferred | Planned |
 
 ## Execution checklist for the remaining ten items
@@ -123,60 +117,60 @@ and the current card after each coherent task. Unchecked means not yet evidenced
 
 ### NC19 - focused native bindings
 
-- [ ] Register density manifest/options/reports/jobs and NuCLS options/reports/jobs in focused binding units; link the existing native targets.
-- [ ] Map typed input-change, output-exists, budget, cancellation and filesystem failures to the declared Python exceptions.
-- [ ] Copy mutable options under the GIL; release it for waits and synchronous work after capture; expose immutable results without mutable nested aliases.
-- [ ] Bind the existing native labelled-training capture factory; keep unavailable-feature builds explicit without a Python domain fallback.
-- [ ] Check argument ownership, retained results, progress, cancellation and worker exception delivery through Python.
+- [x] Register density manifest/options/reports/jobs and NuCLS options/reports/jobs in focused binding units; link the existing native targets.
+- [x] Map typed input-change, output-exists, budget, cancellation and filesystem failures to the declared Python exceptions.
+- [x] Copy mutable options under the GIL; release it for waits and synchronous work after capture; expose immutable results without mutable nested aliases.
+- [x] Bind the existing native labelled-training capture factory; keep unavailable-feature builds explicit without a Python domain fallback.
+- [x] Check argument ownership, retained results, progress, cancellation and worker exception delivery through Python.
 
 ### NC20 - thin density controls
 
-- [ ] Replace project_density.py selection, reuse, checkpoint, CSV and publication logic with native manifest/options/job calls.
-- [ ] Replace density_manifest.py class scans and manifest assembly with native generation; preserve existing public arguments and report schemas.
-- [ ] Keep callbacks on the controller thread; forward callback failure and cancellation through native controls before acknowledging paused events.
-- [ ] Preserve CLI exit statuses and legacy resume behavior; remove dynamic sibling imports and superseded Python policy helpers.
+- [x] Replace project_density.py selection, reuse, checkpoint, CSV and publication logic with native manifest/options/job calls.
+- [x] Replace density_manifest.py class scans and manifest assembly with native generation; preserve existing public arguments and report schemas.
+- [x] Keep callbacks on the controller thread; forward callback failure and cancellation through native controls before acknowledging paused events.
+- [x] Preserve CLI exit statuses and legacy resume behavior; remove dynamic sibling imports and superseded Python policy helpers.
 
 ### NC21 - thin import and training controls
 
-- [ ] Replace NuCLS pairing, CSV/PNG decoding, geometry, centroids and publication with the native import job.
-- [ ] Preserve requested-name selection, calibration, representation, class-column arguments and native diagnostics; remove product Pillow/NumPy decoding dependencies.
-- [ ] Replace raw-classifier cohort filtering with the native labelled-training factory.
-- [ ] Check existing CLI options, terminal statuses and interruption handling without reimplementing native admission in Python.
+- [x] Replace NuCLS pairing, CSV/PNG decoding, geometry, centroids and publication with the native import job.
+- [x] Preserve requested-name selection, calibration, representation, class-column arguments and native diagnostics; remove product Pillow/NumPy decoding dependencies.
+- [x] Replace raw-classifier cohort filtering with the native labelled-training factory.
+- [x] Check existing CLI options, terminal statuses and interruption handling without reimplementing native admission in Python.
 
 ### NC22 - shared frontend integration
 
-- [ ] Confirm ImGui and native CLI call the shared density selection/preview/execution/report authority.
-- [ ] Remove any remaining frontend admission, reuse or export implementation superseded by that authority.
-- [ ] Verify meaningful units, progress, errors and completed/cancelled outcomes; accept harmless cosmetic differences.
+- [x] Confirm ImGui and native CLI call the shared density selection/preview/execution/report authority.
+- [x] Remove any remaining frontend admission, reuse or export implementation superseded by that authority.
+- [x] Verify meaningful units, progress, errors and completed/cancelled outcomes; accept harmless cosmetic differences.
 
 ### NC23 - native behavior coverage
 
-- [ ] Map required selection, reuse, legacy-format, corruption, limit, mutation, cancellation and no-overwrite behavior to existing source-scoped native evidence.
-- [ ] Add or run only missing cases or cases invalidated by consumer-driven native changes; retain independent scientific oracles.
-- [ ] Record exact affected source and checks; do not repeat accepted numerical qualification merely for frontend wiring.
+- [x] Map required selection, reuse, legacy-format, corruption, limit, mutation, cancellation and no-overwrite behavior to existing source-scoped native evidence.
+- [x] Add or run only missing cases or cases invalidated by consumer-driven native changes; retain independent scientific oracles.
+- [x] Record exact affected source and checks; do not repeat accepted numerical qualification merely for frontend wiring.
 
 ### NC24 - migrate Python tests
 
-- [ ] Replace density/manifest tests that monkeypatch retired Python internals with native result, event or progress observations.
-- [ ] Replace NuCLS implementation hooks with supported native limits/events and fixture outcomes; retain malformed-input and atomic-publication checks.
-- [ ] Retain meaningful no-recomputation, source-mutation, cancellation, CLI and compatibility coverage; remove only redundant implementation assertions.
+- [x] Replace density/manifest tests that monkeypatch retired Python internals with native result, event or progress observations.
+- [x] Replace NuCLS implementation hooks with supported native limits/events and fixture outcomes; retain malformed-input and atomic-publication checks.
+- [x] Retain meaningful no-recomputation, source-mutation, cancellation, CLI and compatibility coverage; remove only redundant implementation assertions.
 
 ### NC25 - one settled build and development install
 
-- [ ] Settle known consumer/API edits and record changed inputs plus the unresolved risks before the expensive build.
-- [ ] Build cheap changed native/frontend targets first, then affected focused bindings using the existing cache and preserved binding objects.
-- [ ] Generate matching stubs and perform the development install after interfaces settle; repair only affected targets after a diagnosed failure.
-- [ ] Record source/runtime identity and build results; preserve active source, cache, fixtures, failure evidence, archives and frozen products.
+- [x] Settle known consumer/API edits and record changed inputs plus the unresolved risks before the expensive build.
+- [x] Build cheap changed native/frontend targets first, then affected focused bindings using the existing cache and preserved binding objects.
+- [x] Generate matching stubs and perform the development install after interfaces settle; repair only affected targets after a diagnosed failure.
+- [x] Record source/runtime identity and build results; preserve active source, cache, fixtures, failure evidence, archives and frozen products.
 
 ### NC26 - installed route agreement
 
-- [ ] Run direct headless C++ and installed thin Python routes on the selected saved-project density and NuCLS fixtures.
-- [ ] Compare authoritative rows, geometry, calibration, stored identities, exports and terminal states using existing compatibility expectations.
-- [ ] Confirm standalone native execution needs no Python; use focused frontend checks for any remaining integration risk.
+- [x] Run direct headless C++ and installed thin Python routes on the selected saved-project density and NuCLS fixtures.
+- [x] Compare authoritative rows, geometry, calibration, stored identities, exports and terminal states using existing compatibility expectations.
+- [x] Confirm standalone native execution needs no Python; use focused frontend checks for any remaining integration risk.
 
 ### NC27 - boundary audit and retirement
 
-- [ ] Review shipped Python workflow code: each operation must be argument/control/display work or invoke a named native authority.
+- [x] Review shipped Python workflow code: each operation must be argument/control/display work or invoke a named native authority.
 - [ ] Remove superseded Python domain implementations and unused product dependencies; keep independent references in tests/tools.
 - [ ] Confirm no compatibility fallback, duplicate state machine or frontend-only scientific policy remains in the selected workflows.
 
@@ -192,6 +186,9 @@ NC23 native evidence and fill named gaps; perform NC25 once interfaces settle;
 complete NC26-NC28 against that installed source. Documentation and boundary-review
 edits can accompany each task. Do not create a second checklist or rebuild for a
 status-only update.
+
+[Shipped Python boundary inventory](consolidation-python-boundary.md) records
+remaining example/oracle/preview work for NC27; it does not mark that row complete.
 
 ## Progress rules and stop condition
 

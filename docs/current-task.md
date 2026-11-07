@@ -9,45 +9,45 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 
 ## Selected phase - implement native consolidation NC01-NC28 (active)
 
-The full [28-item checklist](consolidation-coverage.md) remains selected.
-**18 complete,0 in progress,10 planned**: native authorities and the joint NC04
-[ownership/error/admission contract](consolidation-native-api.md) are complete.
-Bindings/thin consumers and final integration remain; current Python controls and
-published products are unchanged. Do not claim the full migration complete yet.
+The [single consolidation checklist](consolidation-coverage.md) records **26 complete,
+1 in progress,1 planned**. NC19-NC26 are now evidenced: native bindings, thin
+primary examples, shared CLI/ImGui wiring, behavior/test migration, development
+install and direct native/thin Python route agreement. NC27's remaining shipped
+example boundaries and NC28's final handoff are still open. No binary release,
+full QuPath parity or general speed claim is selected.
 
-[Contract evidence](benchmarks/consolidation/README.md#settled-native-workflow-contract):
-owner-thread controls, cross-thread cancel/destruction and join, retained typed
-worker exceptions, owned movable captures and native manifest-generation jobs.
-Density capture is admitted before copies; NuCLS admits retained payloads using
-native sizes and disables transient undo history. No worker Python objects or
-callbacks. Operational paths are bounded before capture; long directory scans
-also check cooperative cancellation. Generation report admission precedes commit.
+[Consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair)
+records source tree13b2f410acac28b155ccd35a39e2d709cfe5b1ad9159cb55604e0bebefa34ac2
+(564 inputs), matching installed manifest/runtime and retained fixture identities.
+The first installed Python pass has89 passing cases; two diagnosed failures are
+repaired and16 selected repair/stub cases pass. One precise stub contract case
+and three installed training examples pass. Native golden/record, affected run,
+generation and ownership suites pass; compatible earlier scientific evidence is
+reused. All38 completed binding objects remain unchanged across targeted repairs.
 
-First pass has seven passing suites and one fixture failure: metadata exceeded
-ObjectProperties' existing4096-byte value bound before the intended aggregate
-budget. Use300 valid rows instead; repaired contract/affected async suites pass
-(3.30 s), then path checks pass (3.27 s) and final contract/import checks pass
-(1.13 s). Retain failures and source-scoped passing evidence. Final raw input
-hashes match cached provenance; no scientific tolerance/assertion was relaxed.
+Native batch and thin Python agree on8 density rows/CSV, bidirectional2-image
+resume with zero computation/project copies and saved checkpoint replay. Both
+NuCLS routes preserve the32/28-object subset's exact legacy pixels, geometry,
+nuclei, calibration, IDs/revisions, classes and metadata. Inputs stay unchanged.
+Installed standalone app --smoke --compact opens the Python-imported project
+(exit0); unchanged panel interaction evidence is retained with its declared scope.
+The active development runtime is main build/consolidation/development/qupathxx;
+the one cached build and all frozen products/fixtures/archives remain preserved.
 
-Waste review: explicit movable captures avoid const-copy repeats; bounded native
-queues avoid growing-report copies. Capture admission precedes dispatch, while
-Project/native scientific requests retain exact save/science checks. Use small
-valid budget fixtures, not oversized invalid properties or another broad campaign.
-Preserve37 binding objects, cache/runtime, fixtures, archives and all products.
+Waste review: lazy WKT exposed an old exact archive-charge regression. Preserve
+a frozen-runtime golden fixture; accept only the exact eager/current layouts,
+not arbitrary slack. Repair output-error precedence natively. Test a preview's
+project fingerprint, not Manifest.verify's file guard. Keep independent NumPy/
+CSV oracles in tools/tests (region oracle moved). Resume completed outputs after
+a checker API mistake. Details and failed logs are retained in the evidence
+checkpoint; no broad numerical campaign or expensive binding recompile followed.
 
-Checklist refinement: the [single consolidation checklist](consolidation-coverage.md#execution-checklist-for-the-remaining-ten-items)
-now breaks NC19-NC28 into executable subchecks with ownership/GIL, callback,
-compatibility, build-reuse and handoff conditions. Status stays18 complete and10
-planned; documentation does not establish consumer completion. Checked local
-links and diff only; no product build or repeated scientific validation needed.
-
-Next NC19-NC22: focused nanobind units and exception mappings; immutable result
-getters, GIL-held short submissions and GIL-free waits; thin density/manifest/
-NuCLS/raw-training controls; shared native CLI/GUI integration. Settle those edits
-before one combined cached binding/UI/CLI build. NC23-NC28 finish native/installed
-route evidence, meaningful test migration, boundary audit, stubs/guides and source
-handoff. No new release or speed claim is selected.
+Next NC27: follow the [boundary inventory](consolidation-python-boundary.md).
+Move nominal RGB preview pixels/calibration into a native helper; retire remaining
+product synthetic/reference checks and review older workflow controls without
+adding a second receipt/reuse authority. Check only affected interfaces, then
+finish NC28's guides/stubs/evidence and matching source handoff. Keep this goal
+active until every checklist item is implemented and evidenced.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

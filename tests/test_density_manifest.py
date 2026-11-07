@@ -44,24 +44,19 @@ def generate(path, **kwargs):
     return selector.generate(path, **defaults)
 
 
-def test_preview_and_roundtrip_to_runner(scene, tmp_path, monkeypatch):
+def test_preview_and_roundtrip_to_runner(scene, tmp_path):
     project, path = scene
     before = path.read_bytes()
-    def forbidden(*args):
-        raise AssertionError('preview must not run density')
-    with monkeypatch.context() as patch:
-        patch.setattr(q, 'SpatialDensityJob', forbidden)
-        patch.setattr(q, 'measure_spatial_density', forbidden)
-        report = generate(path)
+    report = generate(path)
     assert report['valid'] and not report['written']
     assert [i['counts'] for i in report['images']] == [dict(windows=1, tissue=1, excluded=1, cells=3)] * 2
     assert report['images'][0]['calibration_um'] == [2, .5]
     output = tmp_path / 'manifest.json'
     written = generate(path, output=output)
     assert written['written'] and json.loads(output.read_text()) == report['manifest']
-    _, loaded_project, entries, _ = selector.runner.load_manifest(output)
-    assert loaded_project == path and len(entries) == 2
-    result = selector.runner.run(output, tmp_path / 'run')
+    loaded = q.load_project_density_manifest(str(output))
+    assert Path(loaded.project) == path and len(loaded.recipe.selections) == 2
+    result = json.loads(q.run_project_density(loaded, str(tmp_path / 'run')).json)
     assert result['state'] == 'completed' and result['rows'] == 2
     import csv
     with Path(result['csv_path']).open(encoding='utf-8', newline='') as stream:
@@ -92,7 +87,7 @@ def test_repeated_classes_and_policy_options(scene):
     dict(image_ids=[True]), dict(window_classes=[]), dict(cell_classes=[]),
     dict(all_cells=True), dict(window_classes='Window'), dict(prefer_nucleus=1)])
 def test_bad_selectors(scene, changes):
-    with pytest.raises(ValueError):
+    with pytest.raises((TypeError, ValueError)):
         generate(scene[1], **changes)
 
 
@@ -151,18 +146,21 @@ def test_existing_output_and_scratch_are_preserved(scene, tmp_path):
     assert scratch.read_bytes() == b'preserve' and not output.exists()
 
 
-def test_changed_source_blocks_publication(scene, tmp_path, monkeypatch):
+def test_changed_source_refuses_captured_preview(scene, tmp_path):
     path = scene[1]
-    original = q.SpatialDensityRequest
-    def change(*args):
-        request = original(*args)
-        with path.open('ab') as stream:
-            stream.write(b'changed')
-        return request
-    monkeypatch.setattr(q, 'SpatialDensityRequest', change)
-    output = tmp_path / 'blocked.json'
-    with pytest.raises(selector.runner.InputChanged):
-        generate(path, output=output)
+    manifest_path = tmp_path / 'manifest.json'
+    generate(path, output=manifest_path)
+    loaded = q.load_project_density_manifest(str(manifest_path))
+    preview = q.preview_project_density(loaded.project, loaded.recipe)
+    with path.open('ab') as stream:
+        stream.write(b'changed')
+    loaded.verify()  # The manifest file is unchanged; the preview binds the project.
+    output = tmp_path / 'blocked'
+    job = q.ProjectDensityJob()
+    job.run_preview(preview, str(output))
+    from qupathxx._workflow_control import await_report
+    with pytest.raises(q.WorkflowInputChanged):
+        await_report(job)
     assert not output.exists()
 
 

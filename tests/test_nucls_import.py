@@ -1,4 +1,4 @@
-"""NuCLS boundary/representation checks against installed candidate4."""
+"""NuCLS native boundary and thin-control integration checks."""
 import csv
 import importlib.util
 import json
@@ -97,7 +97,7 @@ def test_missing_pairs_and_exact_stems(scene, tmp_path):
     dict(mpp_x=True), dict(representation='auto'), dict(class_column='unknown'),
     dict(names=['Case A', 'Case A']), dict(names=['../escape']), dict(names=[])])
 def test_invalid_options(scene, options):
-    with pytest.raises(ValueError):
+    with pytest.raises((TypeError, ValueError)):
         run(scene, **options)
 
 
@@ -153,42 +153,44 @@ def test_format_errors(scene, problem):
     assert not run(scene)['valid']
 
 
-def test_existing_output_and_changed_input(scene, tmp_path, monkeypatch):
+def test_existing_output_and_changed_input(scene, tmp_path):
     output = tmp_path / 'existing.qpxproj'; output.write_bytes(b'preserve')
     with pytest.raises(FileExistsError):
         run(scene, output=output)
     assert output.read_bytes() == b'preserve'
-    original = importer._geometry
-    def mutate(row):
-        value = original(row)
-        with (scene[1] / 'Case A.csv').open('ab') as stream:
-            stream.write(b'\n')
-        return value
-    monkeypatch.setattr(importer, '_geometry', mutate)
+    from qupathxx._workflow_control import await_report
+    options = q.NuclsImportOptions()
+    options.mpp_x, options.mpp_y, options.pause_after_pair = .4, .7, True
+    job = q.NuclsImportJob()
     output = tmp_path / 'blocked.qpxproj'
-    with pytest.raises(importer.runner.InputChanged):
-        run(scene, output=output)
+    job.run(*map(str, scene), options, str(output))
+    def mutate(pair):
+        if pair['name'] == 'Case A':
+            with (scene[1] / 'Case A.csv').open('ab') as stream:
+                stream.write(b'\n')
+    with pytest.raises(q.WorkflowInputChanged):
+        await_report(job, take=job.take_pairs, acknowledge=job.continue_pairs, on_event=mutate)
     assert not output.exists()
 
 
-def test_decoder_size_refusal_is_a_preview_issue(scene, monkeypatch):
-    # Exercise Pillow's real header-level refusal without allocating a giant image.
-    monkeypatch.setattr(Image, 'MAX_IMAGE_PIXELS', 1)
-    report = run(scene)
+def native_preview(scene, **limits):
+    options = q.NuclsImportOptions()
+    options.mpp_x, options.mpp_y = .4, .7
+    for key, value in limits.items():
+        setattr(options.limits, key, value)
+    return json.loads(q.import_nucls(*map(str, scene), options).json)
+
+
+def test_decoder_size_refusal_is_a_preview_issue(scene):
+    report = native_preview(scene, pixels=1)
     assert not report['valid'] and all(row['issue_count'] for row in report['images'])
 
 
-def test_limits_and_bounded_diagnostics(scene, monkeypatch):
-    with monkeypatch.context() as patch:
-        patch.setattr(importer, 'MAX_PIXELS', 1)
-        report = run(scene)
-        assert not report['valid'] and report['inspected_pairs'] == 1
-    with monkeypatch.context() as patch:
-        patch.setattr(importer, 'MAX_VERTICES', 3)
-        assert not run(scene)['valid']
-    with monkeypatch.context() as patch:
-        patch.setattr(importer, 'MAX_ROWS', 1)
-        assert not run(scene)['valid']
+def test_limits_and_bounded_diagnostics(scene):
+    report = native_preview(scene, pixels=1)
+    assert not report['valid'] and report['inspected_pairs'] == 1
+    assert not native_preview(scene, vertices=3)['valid']
+    assert not native_preview(scene, rows=1)['valid']
     bad = rows()[0]; bad['xmin'] = 'nan'
     write_csv(scene[1] / 'Case A.csv', [bad] * 60)
     report = run(scene)

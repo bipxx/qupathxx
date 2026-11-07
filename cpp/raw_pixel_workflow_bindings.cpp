@@ -1,6 +1,7 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
 #include "qupathxx/raw_pixel_tiled_training.hpp"
+#include "qupathxx/training_cohort.hpp"
 #include "qupathxx/raw_pixel_window_workflows.hpp"
 #include "qupathxx/raw_pixel_contours.hpp"
 #include "raw_pixel_binding_utils.hpp"
@@ -64,6 +65,7 @@ template<class Job> void prediction_job(nb::module_& m,const char* name) {
 }
 }
 void bind_raw_pixel_workflows(nb::module_& m) {
+
     using namespace qpx;
     nb::class_<RawPixelTrainingOptions>(m,"RawPixelTrainingOptions").def(nb::init<>())
         .def_rw("max_samples",&RawPixelTrainingOptions::max_samples).def_rw("max_samples_per_class",&RawPixelTrainingOptions::max_samples_per_class)
@@ -75,6 +77,10 @@ void bind_raw_pixel_workflows(nb::module_& m) {
     classification<RawPixelClassification>(m,"RawPixelClassification");classification<RawPixelWindowClassification>(m,"RawPixelWindowClassification");
     training_table<RawPixelTrainingTable>(m,"RawPixelTrainingTable");training_table<RawPixelTiledTrainingTable>(m,"RawPixelTiledTrainingTable");
     training_request<RawPixelTrainingRequest>(m,"RawPixelTrainingRequest");training_request<RawPixelTiledTrainingRequest>(m,"RawPixelTiledTrainingRequest");
+    m.def("capture_labelled_raw_pixel_training",&qpx::capture_labelled_raw_pixel_training,
+        "document"_a,"lattice"_a,"selection"_a,"features"_a,
+        "options"_a=qpx::RawPixelTrainingOptions{},"tiles"_a=qpx::RawPixelTileOptions{},"physical_sigmas"_a=false);
+
     nb::class_<RawPixelPredictionRequest>(m,"RawPixelPredictionRequest")
         .def(nb::init<const Document&,const RawPixelClassifier&,ScientificGrid,std::uint64_t,double,std::size_t>(),"document"_a,"model"_a,"grid"_a,"object_id"_a=0,"min_vote_fraction"_a=0.,"work_bytes"_a=0)
         .def_static("replay",&RawPixelPredictionRequest::replay,"document"_a,"record_id"_a).def("matches",&RawPixelPredictionRequest::matches,"document"_a)

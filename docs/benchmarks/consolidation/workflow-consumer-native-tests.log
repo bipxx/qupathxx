@@ -1,0 +1,11 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 66: workflow_contract
+1/3 Test #66: workflow_contract ................   Passed    0.68 sec
+    Start 71: density_manifest_generation
+2/3 Test #71: density_manifest_generation ......   Passed    0.16 sec
+    Start 72: density_manifest_run
+3/3 Test #72: density_manifest_run .............   Passed    2.11 sec
+
+100% tests passed out of 3
+
+Total Test time (real) =   3.03 sec

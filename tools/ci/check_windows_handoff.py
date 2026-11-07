@@ -77,6 +77,7 @@ def main():
     sdk = args.work/'sdk'
     run([software, '-I', ROOT/'examples/region_workflow.py', slide, sdk,
          '--roi', '29185', '2048', '512', '512'], args.work/'sdk.log', env)
+    run([software, '-I', ROOT/'tools/validate_region_workflow.py', sdk], args.work/'sdk-oracle.log', env)
     run([software, '-I', ROOT/'docs/benchmarks/windows-workflow-checkpoint/installed_desktop.py',
          slide, args.work/'desktop'], args.work/'desktop.log', env)
     run([native/'qupathxx_app.exe', '--project', sdk/'study.qpxproj', '--smoke', '--compact'],

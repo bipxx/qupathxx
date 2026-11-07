@@ -18,7 +18,6 @@ def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> 
     jobs: list[q.RawPixelTrainingCheckpointJob | q.RawPixelStreamSaveJob] = []
     try:
         doc = project.document(image_id)
-        ids = [a.id for a in doc.annotations if a.class_name and a.geometry.is_area]
         width, height = doc.metadata.width, doc.metadata.height
         lattice = q.ScientificRawLattice(width, height, q.ScientificGridAxis(0, width, min(width, 256)), q.ScientificGridAxis(0, height, min(height, 256)))
         tiles = q.RawPixelTileOptions()
@@ -26,7 +25,7 @@ def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> 
         selection, features = q.ScientificRawOptions(), q.RawPixelFeatureOptions()
         selection.channels = channels
         features.offsets, features.scales = [0.] * channels, [1.] * channels
-        request = q.RawPixelTiledTrainingRequest(doc, ids, lattice, selection, features, tiles=tiles)
+        request = q.capture_labelled_raw_pixel_training(doc, lattice, selection, features, tiles=tiles)
         checkpoint = output / "training.qtc"
         sampling, save = q.RawPixelTrainingCheckpointJob(), q.RawPixelTrainingCheckpointOptions()
         jobs.append(sampling)

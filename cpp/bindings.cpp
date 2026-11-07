@@ -28,6 +28,7 @@ void bind_analysis(nb::module_&);
 void bind_spatial(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
+void bind_native_workflows(nb::module_&);
 void bind_tma(nb::module_&);
 void bind_raw_images(nb::module_&);
 void bind_raw_analysis(nb::module_&);
@@ -525,6 +526,7 @@ NB_MODULE(_native, m) {
     bind_scientific_raw(m);
     bind_raw_analysis(m);
     bind_project_batch(m);
+    bind_native_workflows(m);
     bind_arrays(m);
     bind_thumbnails(m);
     bind_classifiers(m);

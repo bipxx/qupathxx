@@ -152,6 +152,7 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
     if(!manifest && project->identity()!=report.project_id)throw WorkflowInputChanged("Source project identity changed; preview again");
     report.source=source.path();report.source_sha256=source.sha256();report.project_id=project->identity();
     const auto directory=std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(output)));
+    if(std::filesystem::exists(directory))throw WorkflowOutputExists("Choose a new output directory");
     std::vector<std::filesystem::path> protected_inputs={std::filesystem::u8path(source.path())};
     if(manifest)protected_inputs.push_back(std::filesystem::u8path(manifest->path()));
     const auto catalog=project->images();
@@ -168,7 +169,6 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
             const auto above=parent.parent_path();if(above==parent)break;parent=above;
         }
     }
-    if(std::filesystem::exists(directory))throw WorkflowOutputExists("Choose a new output directory");
     if(format==DensityFormat::ProjectV1 && !directory.parent_path().empty())std::filesystem::create_directories(directory.parent_path());
     if(!std::filesystem::create_directory(directory))throw WorkflowOutputExists("Choose a new output directory");
     report.state="running";report.output=directory.u8string();

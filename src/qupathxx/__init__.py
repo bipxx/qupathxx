@@ -160,3 +160,30 @@ __all__ = [
     "SchedulerOptions", "SchedulerStats", "TileResult", "TileScheduler", "TileStatus",
     "DisplaySettings", "DisplayMode", "display_pixels", "GuiOptions", "GuiReport", "GuiInput", "GuiInputKind", "GuiInputTarget", "GuiInputWait",
 ]
+
+# Workflow services are an optional native build feature, with no Python fallback.
+from ._native import has_native_workflows, capture_labelled_raw_pixel_training
+__all__ += ["has_native_workflows", "capture_labelled_raw_pixel_training"]
+if has_native_workflows:
+    from ._native import (
+        WorkflowInputChanged, WorkflowOutputExists, WorkflowCaptureLimit,
+        WorkflowCancelled, WorkflowControlError, ProjectDensityCsvBudget,
+        ProjectDensitySelection, ProjectDensityRecipe, ProjectDensityManifest,
+        ProjectDensityImage, ProjectDensityReport, ProjectDensityManifestReport,
+        ProjectDensityRunOptions, ProjectDensityProgress, ProjectDensityJob,
+        load_project_density_manifest, preview_project_density,
+        generate_project_density_manifest, run_project_density,
+        NuclsImportLimits, NuclsImportOptions, NuclsPairReport, NuclsImportReport,
+        NuclsImportProgress, NuclsImportJob, import_nucls,
+    )
+    __all__ += [
+        "WorkflowInputChanged", "WorkflowOutputExists", "WorkflowCaptureLimit",
+        "WorkflowCancelled", "WorkflowControlError", "ProjectDensityCsvBudget",
+        "ProjectDensitySelection", "ProjectDensityRecipe", "ProjectDensityManifest",
+        "ProjectDensityImage", "ProjectDensityReport", "ProjectDensityManifestReport",
+        "ProjectDensityRunOptions", "ProjectDensityProgress", "ProjectDensityJob",
+        "load_project_density_manifest", "preview_project_density",
+        "generate_project_density_manifest", "run_project_density",
+        "NuclsImportLimits", "NuclsImportOptions", "NuclsPairReport", "NuclsImportReport",
+        "NuclsImportProgress", "NuclsImportJob", "import_nucls",
+    ]

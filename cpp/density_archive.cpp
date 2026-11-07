@@ -160,7 +160,21 @@ std::shared_ptr<const SpatialDensityRecord> SpatialDensityArchiveCodec::decode(c
     std::sort(source_ids.begin(),source_ids.end());source_ids.erase(std::unique(source_ids.begin(),source_ids.end()),source_ids.end());
     if(source_ids.size()!=d->sources.size()) throw std::invalid_argument("density area roles disagree with capture");
     for(std::size_t i=0;i<source_ids.size();++i) if(source_ids[i]!=d->objects[d->sources[i]].id) throw std::invalid_argument("density area roles disagree with capture");
-    if(admitted!=bytes || work!=snapshot->work_bound() || input!=snapshot->input_digest()) throw std::invalid_argument("density snapshot identity/admission mismatch");
+    if(admitted!=bytes) {
+        // QDN1 predates lazy polygon WKT. Its exact capture charge included the
+        // eager text; accept that historical layout without inventing slack.
+        auto eager=admitted;
+        for(const auto* group:{&snapshot->windows,&snapshot->tissue,&snapshot->excluded})
+            for(const auto& area:*group) {
+                const auto kind=area.geometry.kind();
+                if(kind!=RoiKind::Polygon && kind!=RoiKind::MultiPolygon)continue;
+                const auto text=area.geometry.wkt().size();
+                if(eager>bytes || text>bytes-eager)throw std::invalid_argument("density snapshot identity/admission mismatch");
+                eager+=text;
+            }
+        if(eager!=bytes)throw std::invalid_argument("density snapshot identity/admission mismatch");
+    }
+    if(work!=snapshot->work_bound() || input!=snapshot->input_digest()) throw std::invalid_argument("density snapshot identity/admission mismatch");
     auto result=std::shared_ptr<SpatialDensityResult>(new SpatialDensityResult());result->snapshot_=snapshot;result->rows_.reserve(snapshot->windows.size());
     result->sha256_=result_hash;result->membership_tests_=tests;result->geometry_operations_=operations;result->elapsed_ms_=elapsed_ms;
     total_vertices=0;

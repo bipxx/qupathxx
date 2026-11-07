@@ -1,0 +1,18 @@
+{
+  "source_tree_sha256": "13b2f410acac28b155ccd35a39e2d709cfe5b1ad9159cb55604e0bebefa34ac2",
+  "compiler_inputs": 564,
+  "binding_objects_preserved_across_repairs": 38,
+  "selected_runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx",
+  "gui_smoke_exit": 0,
+  "gui_smoke_project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\python-import.qpxproj",
+  "initial_python_passed": 89,
+  "initial_python_failed": 2,
+  "repaired_and_stub_cases_passed": 16,
+  "precise_workflow_stub_case_passed": 1,
+  "training_example_cases_passed": 3,
+  "binary_release": false,
+  "remaining": [
+    "NC27 remaining Python example boundaries",
+    "NC28 final handoff after boundary work"
+  ]
+}

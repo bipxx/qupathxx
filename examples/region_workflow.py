@@ -1,18 +1,13 @@
 """Run a bounded slide ROI through native analysis and a reopenable project.
 
-Use an installed qupathxx with NumPy and a reader for the input format:
+Use an installed qupathxx with a reader for the input format:
   python region_workflow.py slide.svs output --roi 12000 12000 512 512
 Add --show to inspect the saved project in ImGui. Existing outputs are preserved.
 """
 import argparse
-import csv
-import io
 import json
-import math
-from fractions import Fraction
 from pathlib import Path
 
-import numpy as np
 import qupathxx as q
 
 
@@ -63,10 +58,6 @@ def main() -> None:
     tissue_object = (doc.add_rectangle(q.Rect(0, 0, metadata.width, metadata.height),
                                       f'Whole-slide tissue (level {tissue_level})')
                      if args.whole_slide_tissue else obj)
-    pixels = doc.server.read_region(q.RegionRequest(x=x, y=y, level=0, width=width, height=height))
-    rgba = pixels.numpy()
-    if rgba.dtype != np.uint8 or rgba.shape != (height, width, 4):
-        raise RuntimeError('this workflow requires an RGBA8 region')
     transform = q.StainTransform([[.65, .70, .29], [.07, .99, .11]])
     request = q.AnalysisRequest.with_intensity_statistics(
         doc, obj, transform, q.AnalysisKind.OPTICAL_DENSITY_MEANS)
@@ -76,24 +67,7 @@ def main() -> None:
     tissue = q.detect_tissue(tissue_request)
     tissue_id = doc.keep_tissue(tissue_request, tissue)
 
-    # An independent pixel check covers the real-slide reader/statistics plumbing.
-    # Kernel and stain/tissue accuracy retain their existing fixture evidence.
-    rgb = rgba[:, :, :3][rgba[:, :, 3] == 255].astype(np.int64)
     stats = result.intensity_statistics
-    np.testing.assert_equal(stats.samples, len(rgb))
-    if len(rgb):
-        for field, expected in [('sum', rgb.sum(axis=0)), ('minimum', rgb.min(axis=0)),
-                                ('maximum', rgb.max(axis=0))]:
-            np.testing.assert_array_equal(getattr(stats.rgb, field), expected)
-        if len(rgb) > 1:
-            # Integer moments avoid a large floating reduction in the oracle.
-            # Fraction preserves the exact sample variance until the final sqrt.
-            n = len(rgb)
-            sums, squares = rgb.sum(axis=0), (rgb * rgb).sum(axis=0)
-            expected_sd = [math.sqrt(float(Fraction(n * int(ss) - int(s) ** 2, n * (n - 1))))
-                           for s, ss in zip(sums, squares)]
-            np.testing.assert_allclose(stats.rgb.sample_standard_deviation,
-                                       expected_sd, rtol=0, atol=1e-10)
 
     args.output.mkdir(parents=True, exist_ok=True)
     project_path = args.output / 'study.qpxproj'
@@ -109,14 +83,6 @@ def main() -> None:
     for kind, name, record in [(q.MeasurementTableKind.ROI, 'measurements.csv', analysis_id),
                                (q.MeasurementTableKind.TISSUE, 'tissue.csv', tissue_id)]:
         table = q.MeasurementTableRequest(restored, kind, [record])
-        text = q.measurements_csv(table)
-        rows = list(csv.DictReader(io.StringIO(text)))
-        expected_rows = 1 if kind == q.MeasurementTableKind.ROI else max(1, tissue.component_count)
-        if len(rows) != expected_rows:
-            raise RuntimeError('measurement rows do not match retained results')
-        if kind == q.MeasurementTableKind.TISSUE:
-            if sum(int(row['component_samples'] or 0) for row in rows) != tissue.foreground_pixels:
-                raise RuntimeError('component CSV does not account for the tissue mask')
         q.save_measurements_csv(table, str(args.output / name))
     environment = q.build_environment()
     summary = dict(source_revision=environment.git_revision,
@@ -132,7 +98,7 @@ def main() -> None:
                    tissue_work_bytes=tissue_request.estimated_work_bytes,
                    whole_slide_tissue=args.whole_slide_tissue,
                    analysis_record=analysis_id, tissue_record=tissue_id,
-                   independent_rgb_statistics=True, saved_replay=True)
+                   saved_replay=True)
     (args.output / 'workflow.json').write_text(json.dumps(summary, indent=2), encoding='utf-8')
     if args.show:
         q.show(reopened)

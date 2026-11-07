@@ -1,0 +1,14 @@
+{
+  "origin_native_module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\density-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "record_id": 8,
+  "input_sha256": "2a03fe96c61e361d4aba88a6715bd8de811d4a240843137bcb88610c7c5952a6",
+  "result_sha256": "6e8274db523e923fb01e971296e1213f6493593dfa05b28f63df23d44efce844",
+  "snapshot_bytes": 7408,
+  "work_bytes": 10269859,
+  "record_sha256": "392fc09c6325cb1eb39d20ed4b74817f7f11ba55e918cba63d3fdfd22903dda4",
+  "polygon_text_bytes": 301,
+  "origin_git_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "origin_compiler": "MSVC 19.44.35225.0",
+  "origin_source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "origin_configuration": "Release"
+}

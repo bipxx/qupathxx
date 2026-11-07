@@ -88,6 +88,33 @@ void codec_and_csv(const fs::path& root) {
     check(SpatialDensityArchiveCodec::encode(*SpatialDensityArchiveCodec::decode(curved_bytes.data(),curved_bytes.size()))==curved_bytes);
     std::cout<<"Density QDN1/CSV: exact geometry/value/policy roundtrip, corrupted/truncated/resealed semantic rejection and bounded atomic publication passed\n";
 }
+void eager_wkt_compatibility() {
+    const auto path=fs::path(__FILE__).parent_path().parent_path().parent_path()/"tests/fixtures/density-eager-wkt-v1/record.qdn";
+    const auto raw=read(path);std::vector<std::uint8_t> bytes(raw.begin(),raw.end());
+    Sha256 hash;hash.update(bytes.data(),bytes.size());
+    check(hash.finish()=="392fc09c6325cb1eb39d20ed4b74817f7f11ba55e918cba63d3fdfd22903dda4");
+    const auto restored=SpatialDensityArchiveCodec::decode(bytes.data(),bytes.size());
+    check(restored->id==8 && restored->result->window_count()==1 && restored->result->tissue_count()==1 && restored->result->exclusion_count()==1);
+    check(restored->result->input_sha256()=="2a03fe96c61e361d4aba88a6715bd8de811d4a240843137bcb88610c7c5952a6");
+    check(restored->result->sha256()=="6e8274db523e923fb01e971296e1213f6493593dfa05b28f63df23d44efce844");
+    check(SpatialDensityArchiveCodec::encode(*restored)==bytes);
+    // Locate the capture fields without assuming string lengths. Alter both
+    // byte/work charges and reseal, so checksum or work equality cannot mask
+    // an erroneous tolerance for arbitrary admission slack.
+    std::size_t at=20;
+    auto integer=[&](std::size_t offset){std::uint64_t n=0;for(int i=0;i<8;++i)n|=std::uint64_t(bytes[offset+i])<<(8*i);return n;};
+    for(int i=0;i<2;++i)at+=8+std::size_t(integer(at));
+    at+=16;const auto captured=at+8*8,work=at+9*8;
+    for(const auto delta:{std::int64_t(-1),std::int64_t(1)}) {
+        auto bad=bytes;
+        for(auto offset:{captured,work}) {
+            const auto n=std::uint64_t(std::int64_t(integer(offset))+delta);
+            for(int i=0;i<8;++i)bad[offset+i]=std::uint8_t(n>>(8*i));
+        }
+        reseal(bad);rejects([&]{SpatialDensityArchiveCodec::decode(bad.data(),bad.size());});
+    }
+    std::cout<<"Historical eager polygon/multipolygon WKT charge: exact golden QDN1 roundtrip and resealed off-by-one admission refusal passed\n";
+}
 #ifdef QPX_DENSITY_SQLITE
 void sql(const fs::path& path,const std::string& command) {
     sqlite3* db=nullptr;check(sqlite3_open(path.u8string().c_str(),&db)==SQLITE_OK);char* error=nullptr;const auto code=sqlite3_exec(db,command.c_str(),nullptr,nullptr,&error);
@@ -127,7 +154,7 @@ void projects(const fs::path& root) {
 #endif
 int main() {try {
     const auto root=fs::temp_directory_path()/("qupathxx-density-records-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);
-    retained_contracts();codec_and_csv(root);
+    retained_contracts();codec_and_csv(root);eager_wkt_compatibility();
 #ifdef QPX_DENSITY_SQLITE
     projects(root);
 #endif

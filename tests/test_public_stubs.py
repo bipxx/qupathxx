@@ -60,3 +60,22 @@ def test_raw_pixel_partial_results_are_optional_but_predictions_are_not():
     assert ast.unparse(table.returns)=='RawPixelTiledTrainingTable | None'
     assert ast.unparse(functions['predict_raw_pixel_window'].returns)=='RawPixelWindowClassification'
     assert ast.unparse(functions['classify_raw_pixel_window'].returns)=='RawPixelWindowClassification'
+
+
+def test_workflow_options_and_nullable_reports_have_usable_types():
+    tree = ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    classes = {node.name: node for node in tree.body if isinstance(node, ast.ClassDef)}
+    for cls, field, expected in [('NuclsImportOptions', 'mpp_x', 'float'),
+                                 ('ProjectDensityRunOptions', 'csv_bytes', 'int'),
+                                 ('ProjectDensityRunOptions', 'pause_after_image', 'bool'),
+                                 ('ProjectDensityRecipe', 'images', 'Sequence[int]')]:
+        setters = [node for node in classes[cls].body if isinstance(node, ast.FunctionDef)
+                   and node.name == field and len(node.args.posonlyargs + node.args.args) == 2]
+        assert len(setters) == 1
+        parameter = (setters[0].args.posonlyargs + setters[0].args.args)[1]
+        assert ast.unparse(parameter.annotation) == expected
+    for cls, field, expected in [('ProjectDensityJob', 'result', 'ProjectDensityReport | None'),
+                                 ('ProjectDensityJob', 'manifest_result', 'ProjectDensityManifestReport | None'),
+                                 ('NuclsImportJob', 'result', 'NuclsImportReport | None')]:
+        getter = next(node for node in classes[cls].body if isinstance(node, ast.FunctionDef) and node.name == field)
+        assert ast.unparse(getter.returns) == expected

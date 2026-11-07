@@ -1,0 +1,72 @@
+...........................F.............................F.............. [ 79%]
+...................                                                      [100%]
+================================== FAILURES ===================================
+__________________ test_input_output_and_sidecar_protection ___________________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/consolidation/consumer-python-tests/test_input_output_and_sidecar_0')
+
+    def test_input_output_and_sidecar_protection(tmp_path):
+        _, source, manifest, _ = scene(tmp_path)
+        original = sha(source)
+>       with pytest.raises(FileExistsError): runner.run(manifest, tmp_path)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_project_density_runner.py:275: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+examples\project_density.py:38: in run
+    report = await_report(job, cancelled=cancelled, take=job.take_images,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+job = <qupathxx._native.ProjectDensityJob object at 0x000001D9FF6748A0>
+result = 'result', cancelled = None
+take = <nanobind.nb_bound_method object at 0x000001D9FF62FA00>
+acknowledge = <nanobind.nb_bound_method object at 0x000001D9FF62D540>
+on_event = None
+
+    def await_report(job, *, result="result", cancelled=None, take=None,
+                     acknowledge=None, on_event=None):
+        """Drain native events, deliver controls, and return the native report."""
+        try:
+            while True:
+                job.poll()
+                if take is not None:
+                    for event in take():
+                        if on_event is not None:
+                            try:
+                                on_event(json.loads(event))
+                            except Exception as error:
+                                job.abort_control(str(error))
+                        if cancelled is not None and cancelled.is_set():
+                            job.cancel()
+                        if acknowledge is not None:
+                            acknowledge()
+                if cancelled is not None and cancelled.is_set():
+                    job.cancel()
+                if not job.busy:
+                    break
+                time.sleep(0.01)
+>           job.rethrow_error()
+E           ValueError: Output directory contains a protected project/manifest/image input
+
+..\..\consolidation\development\qupathxx\_workflow_control.py:30: ValueError
+________________ test_changed_source_refuses_captured_manifest ________________
+
+scene = (<qupathxx._native.Project object at 0x000001D9FF1925B0>, WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/consolidation/consumer-python-tests/test_changed_source_refuses_ca0/study.qpxproj'))
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/consolidation/consumer-python-tests/test_changed_source_refuses_ca0')
+
+    def test_changed_source_refuses_captured_manifest(scene, tmp_path):
+        path = scene[1]
+        manifest_path = tmp_path / 'manifest.json'
+        generate(path, output=manifest_path)
+        loaded = q.load_project_density_manifest(str(manifest_path))
+        with path.open('ab') as stream:
+            stream.write(b'changed')
+>       with pytest.raises(q.WorkflowInputChanged):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE WorkflowInputChanged
+
+tests\test_density_manifest.py:156: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_project_density_runner.py::test_input_output_and_sidecar_protection
+FAILED tests/test_density_manifest.py::test_changed_source_refuses_captured_manifest
+2 failed, 89 passed in 7.67s

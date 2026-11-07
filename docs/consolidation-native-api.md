@@ -17,7 +17,9 @@ Submissions validate and own their native arguments before dispatch. Explicit
 movable captures avoid a second deep copy of const recipe/options/report arguments.
 Workers open/create their own native projects/documents and never retain Python
 objects or callbacks. Loaded manifests share an immutable native implementation
-and owned source-version snapshot. Returned job reports are shared const snapshots;
+and owned manifest-file version snapshot. Manifest.verify checks that file; project
+source capture begins at preview/run, and an owned preview report binds its project
+fingerprint for subsequent execution. Returned job reports are shared const snapshots;
 resubmission clears the job's current result without invalidating retained snapshots.
 
 Density preview and class-manifest generation use the same selection authority.

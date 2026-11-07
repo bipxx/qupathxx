@@ -248,3 +248,92 @@ with the same progress/cancel/join ownership rules.
 Remaining: focused bindings and Python GIL/type/immutable-result mappings, thin
 examples/shared frontends and final installed evidence (NC19-NC28). No new package,
 release, feature-parity or speed claim follows from native contract completion.
+
+
+## Installed native controls and legacy archive repair
+
+[Consumer receipt](consumer-receipt.json) records raw compiler tree
+`13b2f410acac28b155ccd35a39e2d709cfe5b1ad9159cb55604e0bebefa34ac2`,564 inputs.
+[Input hashes](consumer-source-inputs.sha256) match the
+[generated manifest](consumer-build-manifest.hpp) and installed module. One cached
+combined build settled batch/app before the expensive binding compile. Later
+repairs rebuilt affected authorities/provenance and relinked; all38 completed
+[binding objects](consumer-binding-objects.json) retain their hashes. No wheel or
+release was produced. The selected development runtime is main
+build/consolidation/development/qupathxx; frozen installed products remain intact.
+
+NC19-NC22 now use the shared C++ authority: focused nanobind registrations,
+GIL-held owned submissions and GIL-free work/waits; typed failures and immutable
+nested result copies; thin density/manifest/NuCLS/training controls; native batch
+commands and the existing ImGui panel. Feature-unavailable units explicitly
+report absence; no Python domain fallback. [Binding/CLI syntax](workflow-consumers-syntax.log)
+and current installed mapping checks support the new boundary. Original panel
+[desktop evidence](../gui-project-density/README.md) retains the meaningful UI
+control layout; its source now calls ProjectDensityJob from the public shared
+header. The matching installed app opens the newly Python-imported project and
+passes --smoke --compact (exit0); this startup check alone is not a new panel
+interaction campaign.
+
+[First installed Python pass](workflow-consumer-python-tests.log):89 pass,2 fail.
+The first failure is a real compatibility issue: existing output folders must
+raise FileExistsError before the protected-input nesting check. Restore that native
+preflight order. The second is a migrated-test error: Manifest.verify guards the
+manifest file; a captured preview guards its project fingerprint. Test the latter
+through native run_preview rather than pretending the loader freezes its project.
+[Selected repairs and stub surface checks](workflow-consumer-repair-tests.log)
+pass16 cases; the [affected native run suite](workflow-consumer-preflight-native-tests.log)
+also passes. Unaffected passing cases are retained, not rerun for a status refresh.
+
+Generated stubs include conditional exports, native-only immutable reports and
+nullable job results. A positional-only setter was initially mistaken for a getter
+by the annotation adapter; count both argument lists. The
+[precise workflow annotation check](workflow-consumer-stub-types-tests.log) passes.
+[Three installed training examples](workflow-consumer-training-tests.log), including
+normal/-O execution and Detection-labelled inputs, pass native cohort capture,
+checkpoint resume and retained model/stream verification.
+
+The [installed route driver](verify-installed.py) and [receipt](installed-routes.json)
+compare native batch execution with the thin installed Python route. Both produce
+all8 density rows with exact counts/areas and matching scientific/context CSV
+apart from their output checkpoint paths. Native-to-Python and Python-to-native
+resume each reuse2 images, compute0 and copy no project. Saved checkpoints replay.
+Both NuCLS routes import the pinned two-case32/28-object subset; their previews
+agree and reopened pixels, geometry/nuclei, calibration, classes, IDs/revisions and
+object metadata match the preserved legacy import. All authenticated source bytes
+remain unchanged. The first driver's final checker used the nonexistent Image.data
+attribute; retain its failure log in main build/consolidation, use the supported
+NumPy view, and resume checks against completed outputs instead of publishing again.
+Independent NumPy/oracle code stays in evidence/tools, not product logic.
+
+A retained project exposed a separate preexisting archive regression: lazy polygon
+WKT removed cached text from payload accounting, while old QDN1 snapshots record
+its exact eager charge. The frozen-runtime [golden record](../../../tests/fixtures/density-eager-wkt-v1/README.md)
+covers fractional polygons, a hole and multipolygon exclusions (301 text bytes).
+The reader accepts exactly the current charge or the historical eager charge;
+checksums, work/input/result identities and scientific rows remain checked.
+[Golden/record tests](workflow-legacy-golden-tests.log) prove byte-exact re-encoding
+and refuse resealed byte/work charges altered by one. The retained two-image
+project now opens and produces its accepted counts/areas with unchanged inputs.
+[Three affected native suites](workflow-consumer-native-tests.log) pass. The
+[repair syntax check](workflow-legacy-admission-syntax17.log) uses the cached
+C++17 contract; an earlier C++20 probe hit existing char8_t/u8string differences.
+
+NC23 behavior coverage reuses the settled native suites at their authority:
+
+| Behavior | Decisive native evidence |
+| --- | --- |
+| Strict manifest/types/relative paths and class/explicit selection | manifest-contract-tests.log and manifest-generation tests above |
+| Geometry/calibration/plane/curve admission and preview | Native selection/generation receipts earlier in this document; unchanged scientific requests |
+| Compute/reuse/legacy receipts/engine and limit compatibility | native-run-tests.log / native-run-final-tests.log in the shared-execution checkpoint; current affected run suite |
+| Mutation, corruption, cancellation, no overwrite and atomic publication | Shared-execution/import native checkpoints and workflow contract suites; current failed-test repairs and golden archive tests |
+| NuCLS pairing/CSV/centroid/RGB8 and aggregate bounds | Native importer/numeric/PNG/capture receipts earlier in this document; installed importer cases |
+| Controller ownership, movable captures, joins and typed failures | workflow-contract tests, retained earlier contract evidence and installed binding cases |
+
+These are reusable source-scoped checks, not a claim that every suite was rerun on
+this final tree. NC24 migrated Python hooks to native progress/events/results;
+no-recomputation, mutation refusal, callback failure, cancellation, limits and
+publication checks remain. Region example's independent RGB moments and CSV
+accounting moved to tools/validate_region_workflow.py and remain in integration
+and handoff checks. NC27's [boundary inventory](../../consolidation-python-boundary.md)
+still lists older examples requiring cleanup. NC28's final source handoff stays
+open until that work finishes; no full migration, feature-parity or speed claim.

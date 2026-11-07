@@ -1,4 +1,4 @@
-"""Orchestration checks against installed candidate4, without rebuilding its kernel."""
+"""Thin-control integration against the installed native workflow services."""
 import csv
 import hashlib
 import importlib.util
@@ -17,6 +17,23 @@ SCRIPT = Path(__file__).resolve().parents[1] / 'examples/project_density.py'
 spec = importlib.util.spec_from_file_location('project_density_runner', SCRIPT)
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
+
+
+NATIVE_COLUMNS = (
+    'window_id', 'window_revision', 'count', 'area_pixels', 'area_mm2',
+    'density_per_mm2', 'status', 'units', 'cell_count', 'tissue_count',
+    'exclusion_count', 'algorithm', 'geometry_policy', 'footprint_sha256',
+    'input_sha256', 'result_sha256', 'pixel_width_um', 'pixel_height_um',
+    'prefer_nucleus', 'polygonize_curves',
+)
+CONTEXT_COLUMNS = ('project_id', 'image_id', 'image_name', 'record_id', 'reuse',
+                   'request_input_sha256', 'checkpoint')
+
+
+def csv_line(values):
+    stream = io.StringIO(newline='')
+    csv.writer(stream, lineterminator='\n').writerow(values)
+    return stream.getvalue().encode('utf-8')
 
 
 def sha(path):
@@ -48,7 +65,7 @@ def scene(root, count=2, retained=False):
     source = root / 'source.qpxproj'
     project.save(str(source))
     manifest = root / 'selections.json'
-    manifest.write_text(json.dumps(dict(schema=runner.SCHEMA, project=source.name,
+    manifest.write_text(json.dumps(dict(schema='qpx.project-density/1', project=source.name,
                                         images=list(reversed(selections)))), encoding='utf-8')
     return project, source, manifest, selections
 
@@ -60,9 +77,14 @@ def change_manifest(path, fn):
 
 
 def no_job(monkeypatch):
-    def forbidden():
-        raise AssertionError('reuse must not invoke the density kernel job')
-    monkeypatch.setattr(runner.q, 'SpatialDensityJob', forbidden)
+    actual = q.ProjectDensityJob
+    class ObservedJob:
+        def __init__(self): self.native = actual()
+        def poll(self):
+            self.native.poll()
+            assert self.native.progress.kernel_calls == 0, 'reuse invoked the native kernel'
+        def __getattr__(self, key): return getattr(self.native, key)
+    monkeypatch.setattr(q, 'ProjectDensityJob', ObservedJob)
 
 
 def test_combined_rows_checkpoints_and_native_identity(tmp_path):
@@ -92,7 +114,7 @@ def test_combined_rows_checkpoints_and_native_identity(tmp_path):
         assert local.verify_density(entry['record_id'], replay, q.measure_spatial_density(replay))
         native = list(csv.DictReader(io.StringIO(q.spatial_density_csv(expected))))
         actual = [r for r in rows if int(r['image_id']) == selected['image_id']]
-        assert [{k: r[k] for k in runner.NATIVE_COLUMNS} for r in actual] == native
+        assert [{k: r[k] for k in NATIVE_COLUMNS} for r in actual] == native
 
 
 def test_resume_skips_kernel_and_does_not_copy_projects(tmp_path, monkeypatch):
@@ -190,24 +212,20 @@ def test_cancel_after_image_and_resume(tmp_path):
 
 
 def test_active_native_job_receives_cancellation(tmp_path, monkeypatch):
-    _, _, manifest, _ = scene(tmp_path, count=1)
-    actual = q.SpatialDensityJob
-    stop = threading.Event()
-    calls = []
+    _, _, manifest, _ = scene(tmp_path)
+    actual = q.ProjectDensityJob
+    stop, calls = threading.Event(), []
     class Job:
         def __init__(self): self.native = actual()
-        def request(self, request):
-            accepted = self.native.request(request)
-            stop.set()  # Deterministically deliver cancellation after native submission.
-            return accepted
         def cancel(self):
             calls.append('cancel')
             self.native.cancel()
         def __getattr__(self, key): return getattr(self.native, key)
-    monkeypatch.setattr(runner.q, 'SpatialDensityJob', Job)
-    report = runner.run(manifest, tmp_path / 'run', cancelled=stop)
-    assert calls and report['state'] == 'cancelled' and report['rows'] == 0
-    assert not list((tmp_path / 'run').glob('*.qpxproj'))
+    monkeypatch.setattr(q, 'ProjectDensityJob', Job)
+    report = runner.run(manifest, tmp_path / 'run', cancelled=stop, on_image=lambda _: stop.set())
+    assert calls and report['state'] == 'cancelled'
+    assert report['computed'] == 1 and report['not_run'] == 1
+    assert len(list((tmp_path / 'run').glob('*.qpxproj'))) == 1
 
 
 def test_csv_budget_rolls_back_whole_image_and_keeps_reusable_checkpoint(tmp_path, monkeypatch):
@@ -215,11 +233,11 @@ def test_csv_budget_rolls_back_whole_image_and_keeps_reusable_checkpoint(tmp_pat
     baseline = runner.run(manifest, tmp_path / 'baseline')
     rows = read_csv(baseline)
     future = tmp_path / 'limited'
-    columns = runner.CONTEXT_COLUMNS + runner.NATIVE_COLUMNS
+    columns = CONTEXT_COLUMNS + NATIVE_COLUMNS
     for row in rows:
         row['checkpoint'] = str(future / Path(row['checkpoint']).name)
-    limit = len(runner._csv_line(list(columns)))
-    limit += sum(len(runner._csv_line([row[c] for c in columns])) for row in rows[:3]) + 10
+    limit = len(csv_line(list(columns)))
+    limit += sum(len(csv_line([row[c] for c in columns])) for row in rows[:3]) + 10
     limited = runner.run(manifest, future, csv_bytes=limit)
     assert limited['state'] == 'partial' and limited['computed'] == limited['failed'] == 1
     assert len(read_csv(limited)) == 2 and (future / 'image-2.json').exists()
@@ -273,17 +291,21 @@ def test_cli_real_multi_image_run_and_resume(tmp_path):
 
 
 def test_cli_sigint_cancels_native_and_restores_handler(tmp_path, monkeypatch, capsys):
-    _, _, manifest, _ = scene(tmp_path, count=1)
-    actual = q.SpatialDensityJob
+    _, _, manifest, _ = scene(tmp_path)
+    actual = q.ProjectDensityJob
     previous = signal.getsignal(signal.SIGINT)
     class Job:
         def __init__(self): self.native = actual()
-        def request(self, request):
-            accepted = self.native.request(request)
-            signal.raise_signal(signal.SIGINT)
-            return accepted
+        def run(self, loaded, output, options):
+            options.pause_after_image = True
+            return self.native.run(loaded, output, options)
+        def take_images(self):
+            events = self.native.take_images()
+            if events:
+                signal.raise_signal(signal.SIGINT)
+            return events
         def __getattr__(self, name): return getattr(self.native, name)
-    monkeypatch.setattr(runner.q, 'SpatialDensityJob', Job)
+    monkeypatch.setattr(q, 'ProjectDensityJob', Job)
     assert runner.main([str(manifest), str(tmp_path / 'run')]) == 130
     assert json.loads(capsys.readouterr().out)['state'] == 'cancelled'
     assert signal.getsignal(signal.SIGINT) == previous
@@ -319,7 +341,7 @@ def test_missing_linked_image_stays_unopened(tmp_path):
     source = tmp_path / 'source.qpxproj'
     project.save(str(source))
     manifest = tmp_path / 'selections.json'
-    manifest.write_text(json.dumps(dict(schema=runner.SCHEMA, project=source.name, images=[
+    manifest.write_text(json.dumps(dict(schema='qpx.project-density/1', project=source.name, images=[
         dict(image_id=image, windows=[roi], tissue=[roi], excluded=[], cells=[cell])])), encoding='utf-8')
     result = runner.run(manifest, tmp_path / 'run')
     assert result['state'] == 'completed' and not absent.exists()
@@ -336,8 +358,29 @@ def test_missing_linked_source_under_output_is_protected(tmp_path):
     source = tmp_path / 'source.qpxproj'
     project.save(str(source))
     manifest = tmp_path / 'selections.json'
-    manifest.write_text(json.dumps(dict(schema=runner.SCHEMA, project=source.name, images=[
+    manifest.write_text(json.dumps(dict(schema='qpx.project-density/1', project=source.name, images=[
         dict(image_id=image, windows=[roi], tissue=[roi], excluded=[], cells=[])])), encoding='utf-8')
     with pytest.raises(ValueError, match='protected'):
         runner.run(manifest, output)
     assert not output.exists()
+
+
+@pytest.mark.parametrize('message', ['callback failed', ''])
+def test_callback_failure_is_a_native_partial_run(tmp_path, message):
+    _, _, manifest, _ = scene(tmp_path)
+    def failed(_):
+        raise RuntimeError(message)
+    result = runner.run(manifest, tmp_path / 'run', on_image=failed)
+    assert result['state'] == 'partial' and result['error']
+    assert result['computed'] == 1 and result['not_run'] == 1
+    assert len(read_csv(result)) == 2
+
+
+def test_setup_cancellation_exit_status_restores_handler(tmp_path, monkeypatch, capsys):
+    previous = signal.getsignal(signal.SIGINT)
+    def cancelled(*args, **kwargs):
+        raise q.WorkflowCancelled('cancelled during setup')
+    monkeypatch.setattr(runner, 'run', cancelled)
+    assert runner.main([str(tmp_path / 'manifest.json'), str(tmp_path / 'run')]) == 130
+    assert json.loads(capsys.readouterr().out)['state'] == 'cancelled'
+    assert signal.getsignal(signal.SIGINT) == previous

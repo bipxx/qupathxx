@@ -852,3 +852,9 @@ cpp/vendor/lodepng/LICENSE -text -whitespace
 # Independent native import numerical oracle.
 tests/fixtures/nucls-import-v1/** -text whitespace=cr-at-eol
 tools/reference_nucls_numeric.py text eol=lf
+
+tests/fixtures/density-eager-wkt-v1/record.qdn -text
+
+# Preserve captured consumer failures/results, including tool-emitted whitespace.
+docs/benchmarks/consolidation/workflow-consumer*.log -text -whitespace
+docs/benchmarks/consolidation/workflow-legacy*.log -text -whitespace

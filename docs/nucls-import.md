@@ -1,12 +1,18 @@
 # Import NuCLS annotations
 
-[nucls_import.py](../examples/nucls_import.py) creates a **new** embedded-image
-QPX project from matching RGB PNG/CSV pairs. It is a standalone Python example
-over unchanged candidate4, using Pillow and numpy. Keep project_density.py beside
-it: the importer reuses that script's source-file integrity guards. No native
-build, wheel update or reader plugin is needed. Pillow's installed license is
-MIT-CMU; numpy's open license expression is captured in the
-[installed workflow receipt](benchmarks/nucls-import/workflow.json).
+[nucls_import.py](../examples/nucls_import.py) controls the C++ NuCLS importer to
+create a **new** embedded-image QPX project. Current source requires a matching
+native-workflow-enabled development install; published candidate4/5 wheels remain
+frozen. Pairing, CSV interpretation, geometry, calibration, source guards and
+atomic publication all live in C++. The pinned native LodePNG decoder is Zlib
+licensed; Pillow and NumPy are not product import dependencies. See the
+[consolidation checklist](consolidation-coverage.md) for verification status.
+
+The same importer can run without Python:
+
+```powershell
+qupathxx_batch --import-nucls path/to/rgb path/to/csv --mpp-x .2 --mpp-y .2 --representation outlines --output imported.qpxproj
+```
 
 Preview before writing:
 
@@ -31,7 +37,7 @@ Selection and coordinates:
 - Both positive finite X/Y scales are mandatory, in micrometers/pixel. They
   apply to every selected image in that import. No calibration is guessed from
   magnification or filenames. Use separate imports for different calibrations.
-- Only RGB PNG is accepted: pixels are embedded exactly, with no color conversion,
+- Only RGB8 PNG is accepted (palette, gray, RGBA and16-bit inputs refuse): pixels are embedded exactly, with no color conversion,
   resampling, clipping, padding or source-file modification. Coordinates remain
   in the source PNG pixel frame.
 - NuCLS `rectangle` uses xmin/ymin/xmax/ymax. NuCLS `polyline` means a **closed
@@ -76,9 +82,10 @@ stops further inspection; inspected_pairs then identifies how far preview got.
 
 Admission limits:100 pairs,16M aggregate pixels,100000 aggregate annotation rows,
 1M aggregate vertices,10000 vertices per polygon,32MiB per PNG and16MiB per CSV.
-CSV fields use the parser's field limit (128KiB in the tested interpreter).
+Native CSV fields are limited to131072 characters; retained CSV row storage is bounded.
 Native new-file save uses
-512MiB snapshot and1GiB file limits. These are input/payload admission limits,
+512MiB snapshot and1GiB file limits. Retained native import capture also has a
+512MiB logical payload allowance, admitted progressively before publication. These are input/payload admission limits,
 not a process-RSS guarantee. Source hashes are checked at setup and before
 publication; changed/disappeared inputs abort. No partial project is published
 for invalid data. Publication uses native save_new's no-replace behavior.

@@ -19,6 +19,12 @@ def test_white_roi_exports_zero_component_summary_and_preserves_existing_output(
     summary = json.loads((output / 'workflow.json').read_text(encoding='utf-8'))
     assert summary['tissue_components'] == summary['tissue_foreground_pixels'] == 0
     assert summary['saved_replay'] and not summary['whole_slide_tissue']
+    oracle = EXAMPLE.parents[1] / 'tools/validate_region_workflow.py'
+    checked = subprocess.run([sys.executable, '-I', str(oracle), str(output)],
+                             capture_output=True, text=True, timeout=30)
+    assert checked.returncode == 0, checked.stdout + checked.stderr
+    assert json.loads(checked.stdout)['independent_rgb_statistics']
+
     with (output / 'tissue.csv').open(newline='') as stream:
         rows = list(csv.DictReader(stream))
     assert len(rows) == 1 and rows[0]['component_samples'] == ''
