@@ -7,6 +7,20 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Selected follow-up — real multi-image research pilot
+
+Owner accepted running the delivered selector/runner on a real research project.
+Awaiting the intended local project path and window/tissue/exclusion/Cell classes
+(or explicit all-Cells selection). Local read-only metadata inventory found test
+fixtures and the duplicated-crop demonstration, not an identified research cohort.
+Inventory is retained in main build/research-density-pilot/local-project-inventory.json;
+reuse it instead of rescanning. No pilot analysis or biological acceptance claimed.
+Next: preview the supplied saved project, resolve issues, run a new output directory
+and review combined CSV. No native build, new dataset download or feature expansion.
+Waste review: initial inventory stopped on an unavailable historical artifact;
+the corrected read-only pass records unavailable/schema-ineligible entries and
+preserves all files. No repeated test campaign or fixture substitution for the pilot.
+
 ## Delivered phase — class-based density manifests
 
 Owner accepted a thin Python manifest generator. Select images by ID (all images
