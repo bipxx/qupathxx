@@ -1,0 +1,64 @@
+--- a/cpp/tissue_contours.cpp
++++ b/cpp/tissue_contours.cpp
+@@ -153,6 +153,8 @@
+         (void)mask;throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
+ #else
+         const auto began=std::chrono::steady_clock::now();
++        auto tick=began;double stages[8]={};
++        auto mark=[&](int i){const auto now=std::chrono::steady_clock::now();stages[i]+=std::chrono::duration<double,std::milli>(now-tick).count();tick=now;};
+         if(mask.components().size()>options.max_components) throw std::length_error("tissue contour component limit exceeded");
+         const auto base=65536ull+boundary_payload(mask)+mask.components().size()*512ull+(options.clip_to_roi?2ull*mask.roi().payload_bytes():0);
+         if(base>options.work_bytes) throw std::length_error("tissue contour work budget exceeded");
+@@ -163,7 +165,7 @@
+         },cancelled);
+         result->work_=static_cast<std::size_t>(base+result->edges_*512ull);result->components_.reserve(mask.components().size());
+         result->retained_=sizeof(TissueContours)+result->components_.capacity()*sizeof(TissueContour)+result->input_sha256_.capacity();
+-        if(result->edges_) {
++        mark(0);if(result->edges_) {
+             Backend backend(cancelled);std::vector<Geometry> owned;std::vector<const GEOSGeometry*> lines;
+             owned.reserve(result->edges_);lines.reserve(result->edges_);
+             boundary_runs(mask,[&](std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1) {
+@@ -172,8 +174,8 @@
+                 if(!seq || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),0,double(x0),double(y0)) || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),1,double(x1),double(y1))) throw std::runtime_error("could not build tissue contour edge");
+                 auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
+             },cancelled);
+-            checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
+-            const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
++            mark(1);checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
++            mark(2);const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
+             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
+             struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};
+             const auto grid=mask.scientific_grid();const auto stream=stream_geometry(mask);
+@@ -202,7 +204,7 @@
+                 cells.push_back({std::int64_t(std::floor(x)),std::int64_t(std::floor(y))});
+             }
+             const auto located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
+-            result->work_+=located.estimated_work_bytes;
++            result->work_+=located.estimated_work_bytes;mark(3);
+             for(int i=0;i<count;++i) {
+                 checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
+                 const auto label=located.labels[std::size_t(i)];if(!label) continue;
+@@ -230,10 +232,10 @@
+                     } else {*xx=m.bounds.x+*xx*m.scale;*yy=m.bounds.y+*yy*m.scale;}
+                     return std::isfinite(*xx) && std::isfinite(*yy);
+                 },&mapping));
+-                auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));
+-                extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);
++                mark(4);auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));mark(5);
++                extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);mark(6);
+             }
+-            for(std::size_t i=0;i<grouped.size();++i) {
++            mark(4);for(std::size_t i=0;i<grouped.size();++i) {
+                 checkpoint(cancelled);const auto& component=mask.components()[i];
+                 if(areas[i]!=component.pixels) throw std::runtime_error("tissue contour area does not match label raster");
+                 if(grouped[i].empty()) continue;
+@@ -243,7 +245,8 @@
+                 result->components_.push_back({component.label,component.pixels,std::move(geometry)});
+             }
+         }
+-        checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return result;
++        checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();mark(7);std::fprintf(stderr,"CONTOUR_PROFILE edges=%zu count=%zu count_ms=%.3f lines_ms=%.3f polygonize_ms=%.3f locate_ms=%.3f transform_validate_ms=%.3f intersect_ms=%.3f extract_ms=%.3f finalize_ms=%.3f\n",result->edges_,mask.components().size(),stages[0],stages[1],stages[2],stages[3],stages[4],stages[5],stages[6],stages[7]);
++        return result;
+ #endif
+     }
+ };

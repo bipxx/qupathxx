@@ -1,0 +1,12 @@
+{
+  "parent_commit": "649869072f9fa9b0ab50a7e9245ac90f2cd39765",
+  "raw_tree": "08f5967e9e7de1109a00f9985c9c98344d1c7ab9e6523413d9f7d76557d6c756",
+  "compiler_inputs": 522,
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\contour-performance\\runtime-candidate",
+  "runtime_scope": "Measured Python module and required runtime files, no new packaged native app or wheel",
+  "runtime_manifest_sha256": "1ee598d6fa1538b65a82f3b8d872dc1cc095cf85b5293085765e54ab3bba15ea",
+  "frozen_baseline_runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\candidate5-performance\\runtime-final",
+  "temporary_profile_tree": "5a4ae42fad0cca7303a87a49aa8e220b1047d4a9127a2f58652921137089cae9",
+  "temporary_profile_patch": "temporary-profiling.patch",
+  "published_candidate5_changed": false
+}

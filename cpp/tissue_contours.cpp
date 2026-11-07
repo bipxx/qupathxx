@@ -102,6 +102,46 @@ struct Backend {
         if(!reader) throw std::bad_alloc();return own(GEOSWKTReader_read_r(ctx,reader.get(),text.c_str()));
     }
 };
+// General masks retain the shared noded-network polygonizer.
+template<class Mask> Geometry polygonize(Backend& backend,const Mask&,
+    const std::vector<const GEOSGeometry*>& lines,std::size_t,const std::atomic<bool>*) {
+    return backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
+}
+Geometry polygonize(Backend& backend,const TissueResult& mask,
+    const std::vector<const GEOSGeometry*>& lines,std::size_t limit,const std::atomic<bool>* cancelled) {
+    if(!mask.nominal_sampling())
+        return backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
+    // Nominal cell labels already identify the boundary on each side. Give
+    // GEOS each label's smaller graph rather than rebuilding one global graph.
+    // Keep original edge order and the downstream clipping/canonicalization.
+    std::vector<std::vector<const GEOSGeometry*>> adjacent(mask.components().size());
+    std::size_t edge=0;
+    detail::for_each_label_boundary_run(mask,[&](auto,auto,auto,auto,auto a,auto b) {
+        const auto* line=lines.at(edge++);
+        if(a) adjacent.at(a-1).push_back(line);
+        if(b) adjacent.at(b-1).push_back(line);
+    },cancelled);
+    if(edge!=lines.size()) throw std::logic_error("cell boundary edge order differs");
+    std::vector<Geometry> owned;std::vector<GEOSGeometry*> faces;
+    for(std::size_t label=1;label<=adjacent.size();++label) {
+        checkpoint(cancelled);const auto& edges=adjacent[label-1];
+        auto polygons=backend.own(GEOSPolygonize_r(backend.ctx,edges.data(),static_cast<unsigned>(edges.size())));
+        const auto count=GEOSGetNumGeometries_r(backend.ctx,polygons.get());
+        if(count<0) throw std::runtime_error("invalid cell contour faces");
+        for(int i=0;i<count;++i) {
+            checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,polygons.get(),i);
+            auto point=backend.own(GEOSPointOnSurface_r(backend.ctx,face));double x,y;
+            if(!GEOSGeomGetX_r(backend.ctx,point.get(),&x) || !GEOSGeomGetY_r(backend.ctx,point.get(),&y) ||
+                !std::isfinite(x) || !std::isfinite(y) || x<0 || y<0 || x>=mask.width() || y>=mask.height())
+                throw std::runtime_error("invalid cell contour interior point");
+            if(mask.labels()[std::size_t(std::floor(y))*std::size_t(mask.width())+std::size_t(std::floor(x))]!=label) continue;
+            if(faces.size()>=limit) throw std::length_error("cell contour face limit exceeded");
+            owned.push_back(backend.own(GEOSGeom_clone_r(backend.ctx,face)));faces.push_back(owned.back().get());
+        }
+    }
+    for(auto& face:owned) face.release();
+    return backend.own(GEOSGeom_createCollection_r(backend.ctx,GEOS_GEOMETRYCOLLECTION,faces.data(),static_cast<unsigned>(faces.size())));
+}
 bool same(Point a,Point b) {return a.x==b.x && a.y==b.y;}
 bool straight(Point a,Point b,Point c) {
     return ((a.x==b.x && b.x==c.x) || (a.y==b.y && b.y==c.y));
@@ -172,7 +212,7 @@ struct TissueContourKernel {
                 if(!seq || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),0,double(x0),double(y0)) || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),1,double(x1),double(y1))) throw std::runtime_error("could not build tissue contour edge");
                 auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
             },cancelled);
-            checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
+            checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
             struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};

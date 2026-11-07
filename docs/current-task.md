@@ -7,6 +7,32 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase - label-local contour performance
+
+Owner-selected C1-C4 are complete: phase profile, bounded label-local GEOS
+polygonization, affected tests/exact-output checks and source handoff.
+[Report](benchmarks/contour-performance/README.md) and
+[8-row checklist](contour-performance-coverage.md) own scope and evidence.
+All four workflows retain exact RGB/masks/CSV and 2,237 QuPath-equivalent cell
+partitions; ordered WKT/labels/pixels remain exact. New 84-pattern topology
+regression and five affected suites pass. Raw source tree
+08f5967e9e7de1109a00f9985c9c98344d1c7ab9e6523413d9f7d76557d6c756
+has its own module/runtime receipt. Cached bindings were reused.
+
+Native full-workflow medians are 3,215/2,988/3,564 ms (before/candidate/later
+original control), an observed 7-16% reduction. Host drift is substantial;
+no new QuPath timing ratio, RAM, whole-slide or universal speed claim follows.
+Published candidate5 remains unchanged; these are development sources only.
+
+Waste review: phase-level timings selected the largest measured cost; reused
+GEOS topology handling, existing boundary labels and benchmark/reference outputs.
+The added regression initially gave only the reference grid a context pixel;
+corrected the setup and preserved the failure. Avoid guessed-path/oversized
+source reads and always specify UTF-8 on this host. Temporary profiling is absent
+from the candidate. Prior cleanup rejection was not retried; comparisons remain.
+Next action: stop after source push. Clipping, geometry creation and eager reopen
+reconstruction remain measured opportunities, without automatic follow-up work.
+
 ## Delivered phase - focused candidate5 workflow performance
 
 Owner-selected B1-B4 are complete: fixed workload, paired reference, bounded

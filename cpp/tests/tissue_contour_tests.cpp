@@ -1,4 +1,6 @@
 #include "qupathxx/tissue.hpp"
+#include "../scientific_raster.hpp"
+#include "../cell_sampling_grid.hpp"
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
@@ -16,6 +18,42 @@ int main() {
             TissueJob job;check(job.request(TissueRequest(doc,obj,transform)));check(job.wait(doc,obj).state=="ready");
             rejects<std::runtime_error>([&]{job.request_contours();});
             std::cout<<"contour backend-disabled checks passed\n";return 0;
+        }
+        // Compare the nominal label-local graph against the independent
+        // general scientific-grid route: diagonal contacts, shared boundaries,
+        // background/enclosed labels, disconnected parts and nested holes.
+        {
+            Document doc(Image(7,7,std::vector<std::uint8_t>(7*7*3,32)));
+            const auto object=doc.add_rectangle({0,0,7,7});
+            AnalysisRequest source(doc,object,transform,AnalysisKind::OpticalDensityMeans);
+            const ScientificGrid grid(7,7,{0,7,7,0},{0,7,7,0});
+            const auto area=read_scientific_rgb(*doc.server(),grid);
+            const CellSamplingGrid nominal(7,7,NominalCellSampling(RgbNominalRequest(0,0,7,7),0,0));
+            const auto rgb=read_cell_rgb(*doc.server(),nominal,nullptr);
+            for(unsigned trial=0;trial<84;++trial) {
+                std::vector<std::uint32_t> labels(49);unsigned value=trial;
+                if(trial<81) {
+                    for(int y=0;y<2;++y) for(int x=0;x<2;++x) {labels[(y+2)*7+x+2]=value%3;value/=3;}
+                } else for(int y=0;y<7;++y) for(int x=0;x<7;++x) {
+                    if(trial==81) labels[y*7+x]=1+(x+y)%2;
+                    else if(trial==82) labels[y*7+x]=(x==0 || y==0 || x==6 || y==6)?1:(x==1 || y==1 || x==5 || y==5)?2:0;
+                    else labels[y*7+x]=(x<2 || x>4)?1:(y<2 || y>4)?2:3;
+                }
+                // Compact sparse IDs, as required by immutable raster records.
+                std::uint32_t count=0;for(auto& label:labels) if(label==1) {count=1;break;}
+                bool two=false;for(auto label:labels) two|=label==2;
+                if(two && !count) for(auto& label:labels) {if(label==2) label=1;}
+                for(auto label:labels) count=std::max(count,label);
+                ScientificRasterSpec spec;spec.ticket=std::make_shared<const char>();spec.raw_components=count;
+                for(auto label:labels) spec.threshold_pixels+=label!=0;
+                const auto general=trace_tissue(*ScientificRasterKernel::make(source,area,labels,spec));
+                const auto local=trace_tissue(*ScientificRasterKernel::make(source,rgb,labels,spec));
+                check(local->components().size()==general->components().size());
+                for(std::size_t i=0;i<local->components().size();++i) {
+                    const auto& a=local->components()[i];const auto& b=general->components()[i];
+                    check(a.label==b.label && a.pixels==b.pixels && a.geometry.wkt()==b.geometry.wkt());
+                }
+            }
         }
         for(unsigned bits=0;bits<512;++bits) for(auto connectivity:{4,8}) {
             std::vector<std::uint8_t> rgb;for(int i=0;i<9;++i) for(int c=0;c<3;++c) rgb.push_back(bits&(1u<<i)?0:255);

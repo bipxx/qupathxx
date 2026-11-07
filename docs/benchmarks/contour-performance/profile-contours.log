@@ -1,0 +1,9 @@
+CONTOUR_PROFILE edges=60520 count=2237 count_ms=1.868 lines_ms=13.033 polygonize_ms=159.759 locate_ms=1.568 transform_validate_ms=18.480 intersect_ms=56.307 extract_ms=1.205 finalize_ms=77.367
+CONTOUR_PROFILE edges=77540 count=2237 count_ms=1.694 lines_ms=15.439 polygonize_ms=225.576 locate_ms=11.302 transform_validate_ms=21.596 intersect_ms=62.915 extract_ms=1.276 finalize_ms=97.727
+CONTOUR_PROFILE edges=60520 count=2237 count_ms=1.811 lines_ms=13.523 polygonize_ms=178.599 locate_ms=1.466 transform_validate_ms=18.906 intersect_ms=57.353 extract_ms=1.339 finalize_ms=80.961
+CONTOUR_PROFILE edges=77540 count=2237 count_ms=1.634 lines_ms=14.531 polygonize_ms=250.306 locate_ms=8.198 transform_validate_ms=23.078 intersect_ms=67.788 extract_ms=1.611 finalize_ms=96.549
+CONTOUR_PROFILE edges=60520 count=2237 count_ms=1.760 lines_ms=11.799 polygonize_ms=169.462 locate_ms=1.386 transform_validate_ms=18.169 intersect_ms=55.413 extract_ms=1.084 finalize_ms=76.917
+CONTOUR_PROFILE edges=77540 count=2237 count_ms=1.583 lines_ms=14.133 polygonize_ms=233.034 locate_ms=7.705 transform_validate_ms=21.396 intersect_ms=62.284 extract_ms=1.265 finalize_ms=95.796
+CONTOUR_PROFILE edges=60520 count=2237 count_ms=1.839 lines_ms=11.862 polygonize_ms=161.754 locate_ms=1.369 transform_validate_ms=18.527 intersect_ms=56.218 extract_ms=1.127 finalize_ms=75.525
+CONTOUR_PROFILE edges=77540 count=2237 count_ms=1.677 lines_ms=14.749 polygonize_ms=224.339 locate_ms=7.486 transform_validate_ms=22.619 intersect_ms=63.819 extract_ms=1.391 finalize_ms=95.718
+..\..\contour-performance\profile-contours.json

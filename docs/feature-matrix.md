@@ -1,5 +1,11 @@
 # QuPath workflow inventory
 
+The selected [label-local contour optimization](benchmarks/contour-performance/README.md)
+is delivered in development: exact masks/CSV/ordered geometry, 84 topology cases,
+five affected suites and a local 7-16% full-workflow reduction against controls.
+[Coverage](contour-performance-coverage.md) records limits and source identity.
+Host drift prevents a new cross-engine ratio; no binary release is implied.
+
 Focused ROI performance is delivered: [report](benchmarks/candidate5-performance/README.md)
 and [coverage](candidate5-performance-coverage.md). Exact 2,237-cell partitions
 match QuPath; native cells remain about 2.2 times slower locally, with lower
