@@ -9,6 +9,8 @@
 #include "qupathxx/provenance.hpp"
 #include "sha256.hpp"
 #include "grid_cell_descriptor.hpp"
+#include "cell_policy_names.hpp"
+#include "cell_expansion.hpp"
 #include <cstring>
 
 namespace qpx {
@@ -125,6 +127,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     Reader d{data+4,size-68};const bool statistics=data[3]==11;const auto p=parameters(d,data[3]>=7,data[3]>=8);
     const auto kind=statistics?d.integer(2):std::uint64_t(0);
     const auto grid=cell_grid_read(d,statistics?kind!=0:data[3]>=6,p.work_bytes,data[3]>=8,statistics?kind==2:data[3]>=9);
+    const bool compatibility=grid.nominal && cell_detail::qupath_processing(p.processing);
     if(grid.image_width()!=metadata.width || grid.image_height()!=metadata.height || !roi.is_area()) throw std::invalid_argument("grid cell archive image or ROI mismatch");
     const auto b=roi.bounds();if(b.x<0 || b.y<0 || b.x+b.width>metadata.width || b.y+b.height>metadata.height) throw std::invalid_argument("grid cell archive ROI exceeds image");
     const auto blob=d.blob(4ULL*1024*1024);const auto provenance=ProvenanceCodec::decode(blob.first,blob.second);
@@ -134,7 +137,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     if(resolved(q)!=resolved(resolve_grid_cell_parameters(grid,p,*provenance))) throw std::invalid_argument("grid cell archive resolved units or area differ");
     grid_cell_work_bytes(grid,p,q,roi,*provenance,provenance->source,cancelled,statistics);
     const auto n=std::size_t(grid.width()*grid.height());
-    const auto samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
+    const auto samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(compatibility?std::uint64_t(p.max_cells):markers,samples));
     if(!samples || archive_work(n,std::size_t(count),std::size_t(markers),provenance->payload_bytes(),roi.payload_bytes(),p.contours.work_bytes,size,statistics)>work_limit)
         throw std::invalid_argument("grid cell archive exceeds decoded budget");
     auto result=std::shared_ptr<CellResult>(new CellResult());result->measure_intensity_=statistics;result->algorithm_=grid.algorithm(p.processing);result->grid_parameters_=p;result->resolved_grid_parameters_=q;
@@ -146,12 +149,17 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     const auto radius_bound=std::hypot(double(grid.width())*q.step_x,double(grid.height())*q.step_y);
     for(std::size_t i=0;i<markers;++i) {
         checkpoint(cancelled);CellMarker m;m.label=std::uint32_t(d.integer(markers,4));m.result_label=std::uint32_t(d.integer(count,4));m.pixel_index=std::uint32_t(d.integer(n-1,4));m.radius=d.real();
-        if(m.label!=i+1 || (i && m.pixel_index<=previous) || m.radius<p.min_peak_radius || m.radius>radius_bound || !source_support(grid,m.pixel_index) || (m.result_label && owners[m.result_label]++))
+        if(m.label!=i+1 || (i && m.pixel_index<=previous) || m.radius<p.min_peak_radius || m.radius>radius_bound || !source_support(grid,m.pixel_index) || (m.result_label && !compatibility && owners[m.result_label]))
             throw std::invalid_argument("invalid grid cell marker");
+        if(m.result_label) owners[m.result_label]=1;
         m.center={grid.center_x(std::int64_t(m.pixel_index%grid.width())),grid.center_y(std::int64_t(m.pixel_index/grid.width()))};
         previous=m.pixel_index;result->markers_.push_back(m);
     }
-    for(std::size_t i=1;i<=count;++i) if(!owners[i]) throw std::invalid_argument("grid cell component has no marker");
+    // Compatibility nuclei are labeled after core clipping/refinement, unlike
+    // quantitative seeded regions. A clipped component can lose its maximum;
+    // hole filling can also join maxima. Preserve the actual marker relationship
+    // instead of inventing seeds or changing the retained masks.
+    if(!compatibility) for(std::size_t i=1;i<=count;++i) if(!owners[i]) throw std::invalid_argument("grid cell component has no marker");
     result->features_.resize(std::size_t(count));
     if(statistics) result->intensity_statistics_.reserve(std::size_t(count));
     for(std::size_t i=0;i<count;++i) {
@@ -174,7 +182,9 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
         if(nuclei[i] && nuclei[i]!=bodies[i]) throw std::invalid_argument("grid cell body loses a nucleus");
     }
     if(opaque!=samples) throw std::invalid_argument("grid cell sample count differs from domain");
-    const auto expected=cell_detail::expand_grid_cells(nuclei,domain,std::size_t(grid.width()),std::size_t(grid.height()),{q.step_x,q.step_y},p.cell_expansion,p.work_bytes,cancelled);
+    const auto expected=compatibility?
+        cell_detail::expand_cells_watershed(nuclei,domain,std::size_t(grid.width()),std::size_t(grid.height()),p.cell_expansion/q.step_x,p.work_bytes,cancelled,true,p.processing==CellProcessingPolicy::QuPath070V2):
+        cell_detail::expand_grid_cells(nuclei,domain,std::size_t(grid.width()),std::size_t(grid.height()),{q.step_x,q.step_y},p.cell_expansion,p.work_bytes,cancelled);
     if(expected.labels!=bodies) throw std::invalid_argument("grid cell body differs from its historical metric recipe");
     for(const auto& m:result->markers_) if(m.result_label && nuclei[m.pixel_index] && nuclei[m.pixel_index]!=m.result_label) throw std::invalid_argument("grid cell marker label mismatch");
     auto raster=[&](std::vector<std::uint32_t> labels,bool body) {

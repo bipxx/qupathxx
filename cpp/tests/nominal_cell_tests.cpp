@@ -299,6 +299,28 @@ void check_nominal_cells() {
             verify(source->reads==before);
         }
     }
+    // Clipping can retain a nucleus fragment while excluding its original shape
+    // maximum. The compatibility archive must preserve that real relationship.
+    for(auto policy:{CellProcessingPolicy::QuPath070,CellProcessingPolicy::QuPath070V2}) {
+        std::vector<std::uint8_t> pixels(128*128*3);
+        for(int y=0;y<128;++y) for(int x=0;x<128;++x) {
+            const bool nucleus=(x-44)*(x-44)+(y-64)*(y-64)<=100;
+            const std::array<std::uint8_t,3> color=nucleus?std::array<std::uint8_t,3>{75,55,120}:std::array<std::uint8_t,3>{245,244,242};
+            for(int c=0;c<3;++c) pixels[(y*128+x)*3+c]=color[c];
+        }
+        Document clipped(Image(128,128,std::move(pixels)));const auto object=clipped.add_rectangle({48,48,32,32});
+        GridCellParameters p;p.processing=policy;p.threshold=.4;p.min_nucleus_area=16;p.max_nucleus_area=512;
+        const auto captured=CellRequest::for_nominal_roi(clipped,object,transform,1,32,32,p,RgbNominalSampling::AffineInverse);
+        const auto detected=detect_cells(captured);verify(!detected->features().empty());
+        std::vector<bool> owners(detected->features().size()+1);
+        for(const auto& marker:detected->markers()) if(marker.result_label) owners[marker.result_label]=true;
+        verify(std::find(owners.begin()+1,owners.end(),false)!=owners.end());
+        const auto packet=CellArchiveCodec::encode(*detected);
+        const auto restored=CellArchiveCodec::decode(packet.data(),packet.size(),captured.roi(),clipped.metadata());
+        verify(CellArchiveCodec::encode(*restored)==packet);
+        verify(restored->nuclei()->labels()==detected->nuclei()->labels() && restored->cells()->labels()==detected->cells()->labels());
+    }
+    std::cout<<"Clipped compatibility maxima and policy-specific body archive replay passed\n";
     std::cout<<"Original-source sampling/processing choices, QCL9 canonical replay, CSV11 and pre-IO metric/filter refusals passed\n";
     reader->close();verify(load(bytes)->cells()->labels()==result->cells()->labels());rejects<std::runtime_error>([&]{detect_cells(request);});
     std::cout<<"Original-source nominal cell captured RGB/masks/features, QCL9 canonical history, replay, calibration, budgets and cancellation passed\n";

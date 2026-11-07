@@ -1,5 +1,13 @@
 # QuPath workflow inventory
 
+Focused ROI performance is delivered: [report](benchmarks/candidate5-performance/README.md)
+and [coverage](candidate5-performance-coverage.md). Exact 2,237-cell partitions
+match QuPath; native cells remain about 2.2 times slower locally, with lower
+observed process RSS. A compatibility archive repair and bounded geometry change
+are verified in development only; published candidate5 stays frozen and affected
+by the newly discovered reopen limitation. Contour/reopen cost remains a measured
+opportunity, not an automatically selected task or whole-slide acceptance.
+
 This is a reference catalogue, not a mandatory parity backlog. Under the owner's
 [scope policy](api-delivery-plan.md#result-fidelity-and-scope-policy), unselected
 Partial/missing rows do not block a release or count as required remaining work.

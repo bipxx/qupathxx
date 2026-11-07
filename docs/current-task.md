@@ -7,6 +7,35 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase - focused candidate5 workflow performance
+
+Owner-selected B1-B4 are complete: fixed workload, paired reference, bounded
+fix and source/evidence handoff. [Report](benchmarks/candidate5-performance/README.md)
+and [12-row coverage](candidate5-performance-coverage.md) own details.
+All four paired ROI workflows agree on 2,237 cell partitions and RGB/calibration.
+Native cell pipeline is 1,079 ms versus QuPath 486 ms (about 2.2 times slower).
+Resource-only process peaks are 217/1,262 MiB including runtime startup. These
+are local bounded-ROI observations, not whole-slide or overall superiority.
+
+Fixed a demonstrated compatibility grid-cell archive reopen bug and removed
+polygon WKT reparsing while retaining exact persisted identity. Five affected
+native suites pass; full workflow improved about 11% against the later original
+control, with inconsistent isolated contour probes disclosed. Development raw
+source tree dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41
+has its own runtime/source receipt. Published candidate5 remains immutable and
+still has the newly discovered archive limitation; no candidate6 is selected.
+
+Waste review: capacity refusals exposed linked raw-basin/contour/statistics
+allowances; establish a coherent admitted recipe before timing. Trace actual
+reader requests rather than guessing context. Separate oracle allocations from
+resource measurements. Keep failures and contrary controls visible. Private CPP
+changes reused cached bindings and affected suites; no broad qualification.
+Temporary comparison runtime deletion was rejected by automatic approval review
+("blocked by policy"); copies remain local. UTF-8 is explicit after a host GBK
+document-read failure. Next action: stop this selected phase after source push. Further work requires a
+selected user outcome; contour/reopen cost is the measured performance opportunity,
+and any future binary handoff must package the archive repair under a new identity.
+
 ## Delivered phase — Windows candidate5 packaging and publication
 
 Owner accepted packaging the latest signed-distance workflow as candidate5.

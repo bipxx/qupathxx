@@ -168,6 +168,9 @@ struct Backend {
     }
     void initialize(const std::string& wkt) {
         geometry=read(wkt);
+        validate_and_prepare();
+    }
+    void validate_and_prepare() {
         if(GEOSisValid_r(ctx,geometry)!=1) {
             auto free_reason=[&](char* p){GEOSFree_r(ctx,p);};
             std::unique_ptr<char,decltype(free_reason)> reason(GEOSisValidReason_r(ctx,geometry),free_reason);
@@ -176,6 +179,40 @@ struct Backend {
         }
         if(GEOSisEmpty_r(ctx,geometry)!=0) throw std::invalid_argument("empty geometry is not an ROI");
         prepared=GEOSPrepare_r(ctx,geometry); if(!prepared) throw std::runtime_error(error.data());
+    }
+    void initialize_polygon(const std::vector<Ring>& paths,const std::vector<std::size_t>& sizes) {
+        // The validated binary64 rings already exist. Do not parse their WKT
+        // rendering back into coordinates for every derived cell contour.
+        auto destroy=[&](GEOSGeometry* g){if(g) GEOSGeom_destroy_r(ctx,g);};
+        using Owned=std::unique_ptr<GEOSGeometry,decltype(destroy)>;
+        auto ring=[&](const Ring& points) {
+            auto free_sequence=[&](GEOSCoordSequence* s){if(s) GEOSCoordSeq_destroy_r(ctx,s);};
+            std::unique_ptr<GEOSCoordSequence,decltype(free_sequence)> sequence(GEOSCoordSeq_create_r(ctx,static_cast<unsigned>(points.size()+1),2),free_sequence);
+            if(!sequence) throw std::bad_alloc();
+            for(std::size_t i=0;i<=points.size();++i) {
+                const auto point=points[i%points.size()];
+                if(!GEOSCoordSeq_setXY_r(ctx,sequence.get(),static_cast<unsigned>(i),point.x,point.y)) throw std::runtime_error(error.data());
+            }
+            Owned value(GEOSGeom_createLinearRing_r(ctx,sequence.release()),destroy);
+            if(!value) throw std::invalid_argument(std::string("GEOS geometry: ")+error.data());
+            return value;
+        };
+        std::vector<Owned> polygons;polygons.reserve(sizes.size());std::size_t offset=0;
+        for(auto size:sizes) {
+            auto shell=ring(paths[offset++]);std::vector<Owned> holes;holes.reserve(size-1);
+            for(std::size_t i=1;i<size;++i) holes.push_back(ring(paths[offset++]));
+            std::vector<GEOSGeometry*> raw;raw.reserve(holes.size());for(auto& hole:holes) raw.push_back(hole.release());
+            Owned polygon(GEOSGeom_createPolygon_r(ctx,shell.release(),raw.data(),static_cast<unsigned>(raw.size())),destroy);
+            if(!polygon) throw std::invalid_argument(std::string("GEOS geometry: ")+error.data());
+            polygons.push_back(std::move(polygon));
+        }
+        if(polygons.size()==1) geometry=polygons.front().release();
+        else {
+            std::vector<GEOSGeometry*> raw;raw.reserve(polygons.size());for(auto& polygon:polygons) raw.push_back(polygon.release());
+            geometry=GEOSGeom_createCollection_r(ctx,GEOS_MULTIPOLYGON,raw.data(),static_cast<unsigned>(raw.size()));
+            if(!geometry) throw std::invalid_argument(std::string("GEOS geometry: ")+error.data());
+        }
+        validate_and_prepare();
     }
     bool predicate(char result) const { if(result==2) throw std::runtime_error(error.data()); return result==1; }
 };
@@ -348,7 +385,7 @@ Roi Roi::multipolygon(std::vector<PolygonPart> parts) {
         if(parts.size()>1) out<<')';
     }
     out<<')'; d->bounds=envelope(d->paths); d->wkt=out.str();
-    d->backend=std::make_shared<Backend>(); d->backend->initialize(d->wkt);
+    d->backend=std::make_shared<Backend>(); d->backend->initialize_polygon(d->paths,d->polygon_sizes);
     if(!GEOSArea_r(d->backend->ctx,d->backend->geometry,&d->area) || !GEOSLength_r(d->backend->ctx,d->backend->geometry,&d->length) ||
         !std::isfinite(d->area) || d->area<=0 || !std::isfinite(d->length))
         throw std::invalid_argument("polygon area/length must be finite and positive");

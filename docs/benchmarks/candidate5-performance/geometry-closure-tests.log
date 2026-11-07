@@ -1,0 +1,15 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 24: cell_records
+1/5 Test #24: cell_records .....................   Passed    0.85 sec
+    Start 26: cells
+2/5 Test #26: cells ............................   Passed    0.93 sec
+    Start 37: tissue_contours
+3/5 Test #37: tissue_contours ..................   Passed    0.19 sec
+    Start 52: geometry
+4/5 Test #52: geometry .........................   Passed    0.06 sec
+    Start 54: geometry_edits
+5/5 Test #54: geometry_edits ...................   Passed    0.06 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   2.27 sec

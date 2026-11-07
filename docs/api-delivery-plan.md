@@ -1,5 +1,13 @@
 # API and workflow delivery paths
 
+Focused ROI performance is delivered: [report](benchmarks/candidate5-performance/README.md)
+and [coverage](candidate5-performance-coverage.md). Exact 2,237-cell partitions
+match QuPath; native cells remain about 2.2 times slower locally, with lower
+observed process RSS. A compatibility archive repair and bounded geometry change
+are verified in development only; published candidate5 stays frozen and affected
+by the newly discovered reopen limitation. Contour/reopen cost remains a measured
+opportunity, not an automatically selected task or whole-slide acceptance.
+
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 
 ## Result fidelity and scope policy

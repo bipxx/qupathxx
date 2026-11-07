@@ -1,0 +1,420 @@
+{
+  "scope": "One warmup +3 measured workflows, warm filesystem cache;512px ROI on whole-slide CMU-1; not whole-slide segmentation",
+  "host": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "logical_processors": 20,
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel"
+  },
+  "native_engine": "development-direct-geometry",
+  "native_source": "4234e8a716415d6ade8d1b6f79fed422508b9aa5+dirty",
+  "native_tree": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+  "qupath_version": "0.7.0",
+  "inputs": {
+    "slide": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-1.svs",
+    "slide_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+    "slide_bytes": 177552579,
+    "qupath": {
+      "tag": "v0.7.0",
+      "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+      "version": "0.7.0",
+      "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+      "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+      "bundle_bytes": 282594398,
+      "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+      "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+      "runtime_files": 496,
+      "executable": "QuPath-0.7.0 (console).exe",
+      "license": "GPL-3.0-or-later",
+      "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+    },
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe"
+  },
+  "observed_qupath_requests": {
+    "requests": [
+      {
+        "x": 29185,
+        "y": 2048,
+        "width": 512,
+        "height": 512,
+        "downsample": 1.0
+      }
+    ],
+    "cells": 2237
+  },
+  "comparison": [
+    {
+      "iteration": 0,
+      "native_cells": 2237,
+      "qupath_cells": 2237,
+      "cell_counts_equal": true,
+      "area_equal": true,
+      "density_relative_difference": 0.0,
+      "masks": {
+        "nucleus": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        },
+        "body": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        }
+      }
+    },
+    {
+      "iteration": 1,
+      "native_cells": 2237,
+      "qupath_cells": 2237,
+      "cell_counts_equal": true,
+      "area_equal": true,
+      "density_relative_difference": 0.0,
+      "masks": {
+        "nucleus": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        },
+        "body": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        }
+      }
+    },
+    {
+      "iteration": 2,
+      "native_cells": 2237,
+      "qupath_cells": 2237,
+      "cell_counts_equal": true,
+      "area_equal": true,
+      "density_relative_difference": 0.0,
+      "masks": {
+        "nucleus": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        },
+        "body": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        }
+      }
+    },
+    {
+      "iteration": 3,
+      "native_cells": 2237,
+      "qupath_cells": 2237,
+      "cell_counts_equal": true,
+      "area_equal": true,
+      "density_relative_difference": 0.0,
+      "masks": {
+        "nucleus": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        },
+        "body": {
+          "partition_equal": true,
+          "foreground_mismatched_pixels": 0,
+          "mismatches_within32px_border": 0,
+          "foreground_iou": 1.0
+        }
+      }
+    }
+  ],
+  "exact_partition_gate_passed": true,
+  "native_stages": {
+    "open_image": {
+      "median_ms": 15.24259988218546,
+      "min_ms": 14.231499982997775,
+      "max_ms": 15.542199835181236
+    },
+    "setup_roi": {
+      "median_ms": 0.027700094506144524,
+      "min_ms": 0.026300083845853806,
+      "max_ms": 0.03520003519952297
+    },
+    "read_roi": {
+      "median_ms": 7.3222999926656485,
+      "min_ms": 6.810300052165985,
+      "max_ms": 7.621799828484654
+    },
+    "roi_statistics": {
+      "median_ms": 17.517700092867017,
+      "min_ms": 17.02690008096397,
+      "max_ms": 17.66979997046292
+    },
+    "keep_statistics": {
+      "median_ms": 0.018399907276034355,
+      "min_ms": 0.015999889001250267,
+      "max_ms": 0.018700025975704193
+    },
+    "cell_capture": {
+      "median_ms": 0.04850002005696297,
+      "min_ms": 0.043899985030293465,
+      "max_ms": 0.07309997454285622
+    },
+    "cell_detection": {
+      "median_ms": 1075.3313000313938,
+      "min_ms": 1064.9382998235524,
+      "max_ms": 1177.950399927795
+    },
+    "keep_cells": {
+      "median_ms": 0.015099998563528061,
+      "min_ms": 0.01409999094903469,
+      "max_ms": 0.015900004655122757
+    },
+    "publish_cells": {
+      "median_ms": 3.6523998714983463,
+      "min_ms": 3.479299833998084,
+      "max_ms": 3.6599000450223684
+    },
+    "density": {
+      "median_ms": 9.850300149992108,
+      "min_ms": 9.369899984449148,
+      "max_ms": 10.582200018689036
+    },
+    "keep_density": {
+      "median_ms": 0.010499963536858559,
+      "min_ms": 0.010200077667832375,
+      "max_ms": 0.014299992471933365
+    },
+    "export_csv": {
+      "median_ms": 3.7497999146580696,
+      "min_ms": 3.6326998379081488,
+      "max_ms": 4.058700054883957
+    },
+    "save_project": {
+      "median_ms": 65.00930013135076,
+      "min_ms": 64.51330007985234,
+      "max_ms": 65.6773999799043
+    },
+    "reopen_project": {
+      "median_ms": 1087.6575000584126,
+      "min_ms": 1080.6474999990314,
+      "max_ms": 1095.962299965322
+    }
+  },
+  "qupath_stages": {
+    "open_image": {
+      "median_ms": 121.1068,
+      "min_ms": 84.2368,
+      "max_ms": 134.4537
+    },
+    "setup_roi": {
+      "median_ms": 1.5798,
+      "min_ms": 1.0037,
+      "max_ms": 1.8944
+    },
+    "read_roi": {
+      "median_ms": 2.1274,
+      "min_ms": 1.6488,
+      "max_ms": 3.8632
+    },
+    "scripted_rgb_statistics": {
+      "median_ms": 41.3951,
+      "min_ms": 39.946,
+      "max_ms": 70.5623
+    },
+    "cell_detection_and_publication": {
+      "median_ms": 485.5915,
+      "min_ms": 397.5733,
+      "max_ms": 510.1266
+    },
+    "density": {
+      "median_ms": 5.4128,
+      "min_ms": 1.5686,
+      "max_ms": 8.5883
+    },
+    "export_csv": {
+      "median_ms": 1.6572,
+      "min_ms": 0.959,
+      "max_ms": 1.9864
+    },
+    "save_image_data": {
+      "median_ms": 29.6091,
+      "min_ms": 20.6318,
+      "max_ms": 33.0474
+    },
+    "reopen_image_data": {
+      "median_ms": 211.3291,
+      "min_ms": 188.772,
+      "max_ms": 212.6035
+    }
+  },
+  "native_cell_pipeline_median_ms": 1079.0510000661016,
+  "qupath_cell_pipeline_median_ms": 485.5915,
+  "paired_cell_speed_ratio_qupath_over_native": 0.4500171910041816,
+  "native_workflow_median_ms": 2317.2889000270516,
+  "qupath_workflow_median_ms": 927.4396,
+  "resources": {
+    "native": {
+      "engine_pid": 100052,
+      "launcher_pid": 71812,
+      "process_wall_ms": 2906.777999829501,
+      "peak_working_set_bytes": 227520512,
+      "memory_samples": 111,
+      "exit_code": 0,
+      "scope": "One full workflow plus actual engine process startup, without untimed mask oracles; OS high-water working set sampled25ms"
+    },
+    "qupath": {
+      "engine_pid": 185656,
+      "launcher_pid": 190424,
+      "process_wall_ms": 7027.338200015947,
+      "peak_working_set_bytes": 1322782720,
+      "memory_samples": 165,
+      "exit_code": 0,
+      "scope": "One full workflow plus actual engine process startup, without untimed mask oracles; OS high-water working set sampled25ms"
+    }
+  },
+  "project_bytes": {
+    "native": 6148096,
+    "qupath": 2247927
+  },
+  "optimization_blocks": {
+    "native-matched": {
+      "workflow_median_ms": 3010.539800161496,
+      "min_ms": 2668.049099855125,
+      "max_ms": 3061.8318000342697
+    },
+    "native-geometry": {
+      "workflow_median_ms": 2317.2889000270516,
+      "min_ms": 2297.05119994469,
+      "max_ms": 2405.4941998329014
+    },
+    "native-control": {
+      "workflow_median_ms": 2615.324500016868,
+      "min_ms": 2535.060199908912,
+      "max_ms": 2654.049899894744
+    }
+  },
+  "observed_workflow_time_reduction_vs_later_control": 0.11395740757519546,
+  "exact_geometry_wkt_and_csv_preserved": true,
+  "contour_micro_before": {
+    "source_tree": "b7294a7c81ae6edae4dca0f90d89430400dc5eef9ce4fe40951a458e0b35989d",
+    "runs": [
+      {
+        "nucleus": {
+          "wall_ms": 356.1209999024868,
+          "cpu_ms": 343.75,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 467.4742000643164,
+          "cpu_ms": 453.125,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      },
+      {
+        "nucleus": {
+          "wall_ms": 362.7225998789072,
+          "cpu_ms": 359.375,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 480.45410006307065,
+          "cpu_ms": 437.5,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      },
+      {
+        "nucleus": {
+          "wall_ms": 357.95520013198256,
+          "cpu_ms": 328.125,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 488.21109998971224,
+          "cpu_ms": 468.75,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      }
+    ]
+  },
+  "contour_micro_after": {
+    "source_tree": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+    "runs": [
+      {
+        "nucleus": {
+          "wall_ms": 459.9363000597805,
+          "cpu_ms": 468.75,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 501.810000045225,
+          "cpu_ms": 484.375,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      },
+      {
+        "nucleus": {
+          "wall_ms": 379.7204000875354,
+          "cpu_ms": 375.0,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 510.9313998837024,
+          "cpu_ms": 515.625,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      },
+      {
+        "nucleus": {
+          "wall_ms": 422.94980003498495,
+          "cpu_ms": 406.25,
+          "components": 2237,
+          "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+        },
+        "body": {
+          "wall_ms": 577.2305000573397,
+          "cpu_ms": 578.125,
+          "components": 2237,
+          "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+        }
+      }
+    ]
+  },
+  "archive_fix": {
+    "project_sha256": "e3fb6f03c944b93af1971ca2b847455f9470f7d8afacb456837e9c20511b16d2",
+    "cells": 2210,
+    "old_source": "3155df804a778daf2d470b3ea60363630e735c98",
+    "fixed_source": "4234e8a716415d6ade8d1b6f79fed422508b9aa5+dirty",
+    "fixed_tree": "b7294a7c81ae6edae4dca0f90d89430400dc5eef9ce4fe40951a458e0b35989d"
+  },
+  "contour_probe": {
+    "nucleus_contours_ms": 392.98670017160475,
+    "body_contours_ms": 510.15900005586445
+  },
+  "reopen_probe": {
+    "project_open_ms": 1240.6640998087823,
+    "document_ms": 0.00890018418431282,
+    "record_ms": 0.00809994526207447,
+    "cells": 2210
+  },
+  "caveats": [
+    "Native OD+RGB statistics differ from the scripted QuPath RGB reduction; no statistics speed ratio.",
+    "Native QPX retains masks/statistics/identities; QPData stores image data/hierarchy. No save/reopen or overall equivalent-work speed ratio.",
+    "Reported RAM is one resource-only full workflow including host startup; it is not a per-kernel or total machine memory cap.",
+    "Isolated contour probes did not show a consistent gain; the optimization claim is limited to observed full-workflow A/B/A blocks.",
+    "Candidate5 failed the real archived-cell reopen; successful measurements use the development decoder fix plus direct polygon construction."
+  ]
+}
