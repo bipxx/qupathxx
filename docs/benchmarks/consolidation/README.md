@@ -104,3 +104,46 @@ remain; final commits recheck metadata after staging. A failed-integrity run may
 publish only its partial historical rows/error report. This is native-authority
 completion of NC09-NC14; interface/limit settlement with the importer (NC04), thin
 consumers, installed integration and the final boundary audit remain required.
+
+## Native training selection and RGB PNG prerequisites
+
+NC18: [training cohort](training-cohort-tests.log) passes (0.14 s). The
+[new native capture factory](../../../cpp/training_cohort.cpp) selects the same
+labelled area objects/order as the former Python comprehension, including Cells
+and Detections. It iterates the object map rather than copying every annotation
+and geometry. Existing RawPixelTiledTrainingRequest owns plane/class/source/
+resource admission. [Focused cases](../../../cpp/tests/training_cohort_tests.cpp)
+prove exact table/input hashes, features, labels, coordinates, owners and class
+counts against explicit IDs; no pixels are read during capture. Empty/oversized
+cohorts, invalid options and stale capture refuse natively. The initial compile
+needed core.hpp in the implementation because the public request header correctly
+forward-declares Document. The narrow repair reused completed objects; raw compiler
+logs remain in main build/consolidation. Bindings/example wiring remain NC19/NC21.
+This check predates the PNG addition; factory/test inputs are unchanged afterward.
+
+NC16: [PNG and shared-input cases](nucls-png-tests.log) pass (2 suites,0.54 s).
+The matching PNG build raw tree `be36ab7efd774459c988c0b0423fc456f8be6f738c29fef62aa93f8c10321afd` has 548 inputs, independently
+matched from [hashes](nucls-png-source-inputs.sha256) to the [generated manifest](nucls-png-build-manifest.hpp).
+CMake now inventories the vendored .h as an actual compiler input.
+
+The [native decoder](../../../cpp/nucls_png.cpp) uses unmodified [pinned LodePNG](../../../cpp/vendor/lodepng/README.md)
+under its retained Zlib license; the license is installed with application notices.
+No platform codec, Pillow or NumPy performs product decoding. Encoder/disk/C++
+convenience/ancillary metadata parsing are disabled. RGB8 bytes remain exact;
+there is no gamma/ICC conversion. Palette, gray, RGBA and 16-bit sources refuse
+without automatic conversion. This explicitly limits the native import's supported
+pixel representation; it does not introduce a 16-bit image authority.
+
+[Independent fixture encoder cases](../../../cpp/tests/nucls_png_tests.cpp) cover
+all five PNG filters, split IDAT and Adam7, byte-for-byte RGB values, unsupported
+modes/depth, unknown critical chunks, all chunk checksums (including ignored
+ancillary metadata), truncated/chunk-length/deflate corruption, pixel/file limits,
+cancellation and typed source mutation. Header/pixel admission precedes allocation;
+32 MiB encoded,16M aggregate pixels,128 MiB per decoder allocation and bounded
+inflate output apply. A shared bounded snapshot reader allocates the admitted
+encoded size once and checks metadata before/after I/O. The existing manifest
+suite still passes after this shared helper addition.
+
+NuCLS pairing/CSV, geometry/accurate centroid interpretation and final atomic
+project import are still NC15/NC17 work. No importer consumer, binding build,
+new binary package, release or speed claim follows from these prerequisites.

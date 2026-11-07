@@ -4,6 +4,8 @@
 #include "workflow_file_version.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include <filesystem>
+#include <fstream>
+#include <limits>
 namespace qpx::detail {
 class WorkflowInput {
     std::string path_,sha_;
@@ -40,7 +42,25 @@ public:
             throw WorkflowInputChanged(std::string("Workflow input changed or unavailable: ")+path_+": "+e.what());
         }
     }
+    std::uint64_t bytes() const {return version_->bytes;}
     const std::string& path() const {return path_;}
     const std::string& sha256() const {return sha_;}
 };
+inline std::string read_workflow_input(const WorkflowInput& source,const std::atomic<bool>* c=nullptr) {
+    source.verify(false,c);
+    if(source.bytes()>std::numeric_limits<std::size_t>::max())throw std::length_error("Workflow input exceeds address space");
+    std::ifstream file(std::filesystem::u8path(source.path()),std::ios::binary);
+    if(!file)throw std::runtime_error("Cannot open workflow input");
+    std::string data(static_cast<std::size_t>(source.bytes()),'\0');
+    for(std::size_t at=0;at<data.size();) {
+        export_checkpoint(c);const auto count=std::min<std::size_t>(65536,data.size()-at);
+        file.read(data.data()+at,count);
+        if(static_cast<std::size_t>(file.gcount())!=count){source.verify(false,c);throw std::runtime_error("Cannot read workflow input snapshot");}
+        at+=count;
+    }
+    char extra;file.read(&extra,1);source.verify(false,c);
+    if(file.gcount() || file.bad())throw std::runtime_error("Workflow input differs from snapshot");
+    return data;
+}
+
 }

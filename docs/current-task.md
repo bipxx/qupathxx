@@ -10,41 +10,40 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 ## Selected phase - implement native consolidation NC01-NC28 (active)
 
 The full [28-item checklist](consolidation-coverage.md) remains selected.
-**13 complete,1 in progress,14 planned**: shared density types/headless service,
-manifest selection/preview/publication and native run/resume/format adapters are
-complete at the native authority. NC04 contract settlement is in progress;
-import/training rules, bindings/thin consumers and final integration remain.
-The [compatibility contract](consolidation-contract.md) preserves both existing
-schema dialects and exact scientific/persistent identity. Existing products and
-Python consumers remain unchanged until the settled combined consumer build.
+**15 complete,1 in progress,12 planned**: native density selection/execution,
+legacy formats, source guards and publication are complete; NC16 native RGB8
+PNG decode and NC18 training cohort capture now pass. NC04 contract settlement,
+NuCLS interpretation/publication, bindings/thin controls and final integration
+remain. Existing binary products and Python consumers remain unchanged.
 
-[Execution evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters):
-one C++ execution loop, source-record hints and checkpoint reuse, byte limits,
-recompute/stop-on-error, no-replace receipts/checkpoints/CSV/reports and owned
-image events/acknowledgement. No worker Python callbacks. Constant source checks
-between images; retained receipt/checkpoint checks are final/publication scoped,
-so prior files are not rescanned quadratically. Native numeric CSV stays exact.
+[New prerequisite evidence](benchmarks/consolidation/README.md#native-training-selection-and-rgb-png-prerequisites):
+training_cohort passes (0.14 s), preserving table/input hashes, features, labels,
+coordinates, owners and model inputs against the explicit-ID route. The native
+factory iterates object references, retains all eligible object kinds and delegates
+admission to the existing training request. Initial compile needed core.hpp only
+in its implementation; targeted repair reused cached objects and preserved logs.
 
-Checks: initial five density suites pass (3.35 s). After publication/linked-input
-and later-image CSV cases, desktop/resume pass; manifest-run initially fails
-because a test changed resume_from but retained the older nesting path. The
-fixture proves native correctly accepted a separate directory. Correct only that
-setup and add call-site diagnostics; targeted manifest-run passes (2.51 s).
-All logs/failures remain; no assertion, source guard or limit was weakened.
-Raw compiler input hashes match cached generated provenance for this checkpoint.
+Nucls_png plus affected density_manifest pass (2 suites,0.54 s). Pinned unmodified
+LodePNG/Zlib source and installed notices, bounded encoded/inflated/output storage,
+all PNG filters/Adam7, exact RGB8 bytes, corrupt/unsupported modes, cancellation
+and typed source mutation are covered. No gamma/ICC/bit-depth/color conversion.
+The matching raw input inventory includes the vendor header and source; the prior
+training check is scoped to unchanged factory/test inputs, not retagged to a new
+binary identity. No new wheel/runtime or binding rebuild. Upstream source/license bytes are pinned
+in Git with file-specific attributes; retain the original license whitespace rather
+than modifying the authenticated notice to satisfy patch formatting.
 
-Waste review: reuse the existing density/reuse/project/JSON/atomic authorities;
-keep one loop with explicit legacy schema serializers. Recheck complete
-publication metadata after staging, retain partial historical rows on integrity
-failure and preserve valid checkpoints after CSV exhaustion. No broad campaign,
-new package/runtime, binding rebuild or new speed claim. Durable notes remain in
-compilexx; archived source, installed products, fixtures and binding objects stay.
+Waste review: one bounded snapshot read, native object-map scan instead of Python
+annotation/geometry copies, shared request/source/atomic authorities, one small
+open decoder with encoder/ancillary parsing disabled. Do not rebuild settled
+bindings for each API addition or replay accepted kernel/desktop campaigns.
+Preserve cached objects, fixtures, archived source, original failures and products.
 
-Next: NC15-NC18 native NuCLS pairing/CSV, a pinned openly licensed RGB PNG decoder,
-accurate native geometry/centroids and atomic import, then native training cohort
-selection. Settle importer/density ownership, aggregate limits and terminal error
-mapping (NC04) before one combined binding/UI/CLI build and thin consumer changes
-(NC19-NC28). Do not mark the goal complete from density-only progress.
+Next: NC15 native case-sensitive NuCLS pairing and CSV rules; NC17 native ROI,
+accurate centroid/metadata and atomic save-new import over the admitted RGB decoder.
+Then settle importer/density ownership, aggregate limits and terminal error mapping
+(NC04) before the combined binding/UI/CLI build and thin controls (NC19-NC28).
+Do not mark the full goal complete from these native prerequisites.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

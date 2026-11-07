@@ -843,3 +843,8 @@ tools/upstream/qupath_cell_statistics_reference.groovy -text
 docs/benchmarks/cell-statistics-r6/** -text -whitespace
 
 tests/fixtures/stain-model-v1/** -text -whitespace
+
+# Unmodified decoder files retain upstream bytes and authenticated source hashes.
+cpp/vendor/lodepng/lodepng.cpp -text -whitespace
+cpp/vendor/lodepng/lodepng.h -text -whitespace
+cpp/vendor/lodepng/LICENSE -text -whitespace
