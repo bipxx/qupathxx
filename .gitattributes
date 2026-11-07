@@ -848,3 +848,7 @@ tests/fixtures/stain-model-v1/** -text -whitespace
 cpp/vendor/lodepng/lodepng.cpp -text -whitespace
 cpp/vendor/lodepng/lodepng.h -text -whitespace
 cpp/vendor/lodepng/LICENSE -text -whitespace
+
+# Independent native import numerical oracle.
+tests/fixtures/nucls-import-v1/** -text whitespace=cr-at-eol
+tools/reference_nucls_numeric.py text eol=lf

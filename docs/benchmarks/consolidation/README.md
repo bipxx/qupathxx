@@ -147,3 +147,62 @@ suite still passes after this shared helper addition.
 NuCLS pairing/CSV, geometry/accurate centroid interpretation and final atomic
 project import are still NC15/NC17 work. No importer consumer, binding build,
 new binary package, release or speed claim follows from these prerequisites.
+
+## Native NuCLS pairing, interpretation and publication
+
+NC15/NC17 native authority is implemented in [nucls_import](../../../cpp/nucls_import.cpp),
+with focused [CSV](../../../cpp/nucls_csv.cpp) and [geometry](../../../cpp/nucls_geometry.cpp)
+units over the existing RGB decoder, Document/Project and atomic save-new authority.
+Native options/limits/reports/jobs own their data; no density-example import,
+Python callback, per-pixel or per-object Python processing is required by this
+service. Existing Python consumers are still unchanged until NC19-NC21.
+
+Raw tree `ed383c0605068c1d50f2f951fda77e8f983688aa61bb3fe3b6bb55dae476d022` has 557 [compiler inputs](nucls-import-source-inputs.sha256),
+independently matched to the [cached build manifest](nucls-import-build-manifest.hpp).
+The final importer build uses this source. Earlier numeric/density/PNG results
+are scoped below to unchanged inputs rather than retagged as a new binary build.
+
+[Initial six-suite pass](nucls-import-tests.log),4.63 s: native import, numeric,
+PNG and three density execution suites after sharing owned workflow events.
+A missing ObjectProperties include stopped the first compile; the narrow repair
+keeps public headers lean and reuses completed core/decoder objects. The original
+compiler log remains in main build/consolidation/nucls-import-build.log.
+
+[Import/numeric closeout](nucls-import-final-tests.log),0.49 s: bound directory
+inventory at selection time, retain only requested stems and move point storage
+into native geometry validation while moments retain original scalar inputs.
+Crowded-directory selection and all existing binary64 oracles still pass.
+Publication review then moves report serialization/admission before project
+commit; [publication check](nucls-publication-tests.log) passes. A lowerable
+native report-byte cap proves exhaustion leaves no project, without huge fixtures:
+[final importer check](nucls-report-admission-tests.log),0.43 s.
+
+[Importer behavior cases](../../../cpp/tests/nucls_import_tests.cpp) cover:
+
+- Exact case-sensitive pairing/selection, missing pairs, subset/default limits,
+  duplicate headers, wrong row width, Unicode class names, quoted/multiline CSV
+  physical line numbers, finite coordinates, types and invalid polygons.
+- Both representations save/reopen exact RGB/calibration, object IDs/Cell kinds,
+  body/nucleus geometry, areas, source class metadata and declared centroids.
+  Outside outlines refuse; valid centroid markers use the original midpoint and
+  never silently clip the source geometry.
+- Aggregate pixel/row/vertex limits, bounded50 retained diagnostics with full issue
+  counts, unchanged inputs, existing/competing output preservation, source mutation,
+  native cancellation and joins. No invalid/partial import publishes a project.
+
+[Independent oracle](../../../tools/reference_nucls_numeric.py) and [frozen fixture](../../../tests/fixtures/nucls-import-v1/numeric.json)
+are development-only; [hashes](nucls-numeric-oracle.sha256) authenticate them.
+Regeneration is byte-identical. [Native numeric cases](../../../cpp/tests/nucls_numeric_tests.cpp)
+match12 decimal/Unicode/underflow binary64 values,29 accurate-sum cases and32
+local-frame polygons (orientation/closure and offsets through1e15) exactly.
+Separate centroid moment terms retain floating-point error components and final
+half-way rounding; strict FP/no contraction preserves the legacy scalar order.
+No tolerance was widened, and no general GEOS centroid replaces that calculation.
+
+A shared owned workflow event queue now serves density and import progress:
+maximum1000 events and16 MiB queued JSON, optional acknowledgement, cancellation
+and controller-side drain. Source guards hash at setup/final verification and
+recheck metadata before atomic publication. Native reports are admitted before
+commit; schema/event/native ownership and aggregate admission/terminal failure
+mapping still need joint NC04 closeout before bindings. No binary release,
+installed integration, broad parity campaign or speed claim follows.

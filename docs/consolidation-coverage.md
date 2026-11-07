@@ -14,7 +14,7 @@ new segmentation features and a binary release are outside this consolidation.
 
 ## Current coverage and next tasks
 
-**15 complete, 1 in progress, 12 planned (28 total).** This is acceptance-item
+**17 complete, 1 in progress, 10 planned (28 total).** This is acceptance-item
 coverage, not an estimate of engineering effort or feature parity. NC01 records
 only the pre-change baseline; NC03 proves headless service extraction and
 NC05-NC14 cover native manifest selection/preview/publication and shared
@@ -29,13 +29,13 @@ Python consumer or installed integration is complete.
 - [x] NC05-NC08: native manifest loading, shared selection/preview and exports.
 - [x] NC09-NC14: shared execution, guards, legacy resume, publication and cancellation.
 - [x] NC16 / NC18: native RGB8 PNG decoding and training cohort capture.
-- [ ] NC15 / NC17: native NuCLS pairing/CSV/geometry and project import.
+- [x] NC15 / NC17: native NuCLS pairing/CSV/geometry and atomic project import.
 - [ ] NC19-NC22: bind settled services and reduce Python/ImGui/CLI to controls.
 - [ ] NC23-NC28: complete focused behavior/integration checks, boundary audit and source handoff.
 
-Immediate order: implement native NuCLS pairing/CSV/geometry/publication over
-the admitted RGB decoder, then settle the importer/density contract before the single combined
-binding build. Do not count a
+Immediate order: settle the shared density/import contract (ownership, aggregate
+admission, terminal failures), then wire thin consumers and run the single
+combined binding build. Do not count a
 passing kernel test as completion of an unfinished consumer migration.
 
 [Incremental native evidence](benchmarks/consolidation/README.md) records the
@@ -89,9 +89,9 @@ runners. Reuse these existing sources:
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC15 | Native NuCLS service owns case-sensitive pairing/selection, CSV interpretation, row validation and bounded diagnostics | Same accepted/missing/malformed pairs and row issues as existing importer; no hidden dependency on the density example | Planned |
+| NC15 | Native NuCLS service owns case-sensitive pairing/selection, CSV interpretation, row validation and bounded diagnostics | Same accepted/missing/malformed pairs and row issues as existing importer; no hidden dependency on the density example; [native evidence](benchmarks/consolidation/README.md#native-nucls-pairing-interpretation-and-publication) | Complete |
 | NC16 | Decode strict RGB PNG natively; use one pinned openly licensed decoder, existing source guards and allocation limits | Exact RGB8/filter/Adam7 pixels; modes/corruption/limits/mutation refuse; [open license and evidence](benchmarks/consolidation/README.md#native-training-selection-and-rgb-png-prerequisites) | Complete |
-| NC17 | Construct NuCLS geometry, accurate centroids, classes, calibration and representation in C++; preview and atomic save-new use existing project authorities | Accepted objects/geometry/calibration/declared centroid identity match baseline; any blocking issue prevents whole-project publication; no overwrite | Planned |
+| NC17 | Construct NuCLS geometry, accurate centroids, classes, calibration and representation in C++; preview and atomic save-new use existing project authorities | Accepted objects/geometry/calibration/declared centroid identity match baseline; any blocking issue prevents whole-project publication; no overwrite; [native evidence](benchmarks/consolidation/README.md#native-nucls-pairing-interpretation-and-publication) | Complete |
 | NC18 | Move class/area training-cohort eligibility from raw_classifier_workflow.py into the existing native training frontend | Exact native cohort/table/model inputs and empty/invalid/limit checks; [evidence](benchmarks/consolidation/README.md#native-training-selection-and-rgb-png-prerequisites). Thin consumer wiring remains NC21 | Complete |
 
 ## E. Thin SDK, binding, CLI and ImGui consumers

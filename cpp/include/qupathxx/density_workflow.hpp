@@ -4,8 +4,7 @@
 #include <array>
 #include <atomic>
 #include <future>
-#include <mutex>
-#include <condition_variable>
+#include "qupathxx/workflow.hpp"
 #include <string>
 #include <vector>
 namespace qpx {
@@ -83,10 +82,7 @@ struct ProjectDensityProgress {
     void reset();
     void publish_image(std::string,bool pause,const std::atomic<bool>* cancelled);
 private:
-    std::mutex mutex_;
-    std::condition_variable condition_;
-    std::vector<std::string> images_;
-    std::size_t published_=0,acknowledged_=0;
+    WorkflowEvents events_;
 };
 ProjectDensityReport preview_project_density(const std::string&,const ProjectDensityRecipe&,
     const std::atomic<bool>* cancelled=nullptr,ProjectDensityProgress* progress=nullptr);

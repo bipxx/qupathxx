@@ -338,18 +338,11 @@ void ProjectDensityRunOptions::validate() const {
 }
 void ProjectDensityProgress::reset() {
     completed.store(0);total.store(0);kernel_calls.store(0);reused.store(0);image.store(0);phase.store(0);
-    std::lock_guard<std::mutex> lock(mutex_);images_.clear();published_=acknowledged_=0;
+    events_.reset();
 }
-std::vector<std::string> ProjectDensityProgress::take_images() {
-    std::lock_guard<std::mutex> lock(mutex_);auto result=std::move(images_);images_.clear();return result;
-}
-void ProjectDensityProgress::continue_images() {
-    {std::lock_guard<std::mutex> lock(mutex_);acknowledged_=published_;}condition_.notify_all();
-}
-void ProjectDensityProgress::publish_image(std::string json,bool pause,const std::atomic<bool>* c) {
-    std::unique_lock<std::mutex> lock(mutex_);images_.push_back(std::move(json));const auto sequence=++published_;
-    while(pause && acknowledged_<sequence && !(c && c->load()))condition_.wait_for(lock,std::chrono::milliseconds(20));
-}
+std::vector<std::string> ProjectDensityProgress::take_images() {return events_.take();}
+void ProjectDensityProgress::continue_images() {events_.acknowledge();}
+void ProjectDensityProgress::publish_image(std::string json,bool pause,const std::atomic<bool>* c) {events_.publish(std::move(json),pause,c);}
 ProjectDensityReport run_project_density(const ProjectDensityReport& preview,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* p,std::size_t csv_limit,const std::string& resume_from) {
     if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");
     ProjectDensityRunOptions options;options.csv_bytes=csv_limit;options.resume_from=resume_from;

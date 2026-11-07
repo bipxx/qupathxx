@@ -10,40 +10,42 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 ## Selected phase - implement native consolidation NC01-NC28 (active)
 
 The full [28-item checklist](consolidation-coverage.md) remains selected.
-**15 complete,1 in progress,12 planned**: native density selection/execution,
-legacy formats, source guards and publication are complete; NC16 native RGB8
-PNG decode and NC18 training cohort capture now pass. NC04 contract settlement,
-NuCLS interpretation/publication, bindings/thin controls and final integration
-remain. Existing binary products and Python consumers remain unchanged.
+**17 complete,1 in progress,10 planned**: all selected native density, manifest,
+NuCLS pairing/CSV/geometry/decode/publication and training-cohort authorities now
+have focused evidence. NC04 shared contract settlement, bindings/thin consumers
+and final integration remain. Existing binary products/Python controls stay
+unchanged until the settled combined build. Do not claim full consolidation yet.
 
-[New prerequisite evidence](benchmarks/consolidation/README.md#native-training-selection-and-rgb-png-prerequisites):
-training_cohort passes (0.14 s), preserving table/input hashes, features, labels,
-coordinates, owners and model inputs against the explicit-ID route. The native
-factory iterates object references, retains all eligible object kinds and delegates
-admission to the existing training request. Initial compile needed core.hpp only
-in its implementation; targeted repair reused cached objects and preserved logs.
+[NuCLS evidence](benchmarks/consolidation/README.md#native-nucls-pairing-interpretation-and-publication):
+first six affected native suites pass (4.63 s), including density cancellation/
+reuse after sharing owned bounded events. Numeric oracle is bit-exact for12
+coordinate values,29 accurate sums and32 polygons through1e15 offsets; no wider
+tolerance or general-centroid replacement. Both representations retain native
+pixels/calibration/Cell geometry and source metadata through save/reopen.
 
-Nucls_png plus affected density_manifest pass (2 suites,0.54 s). Pinned unmodified
-LodePNG/Zlib source and installed notices, bounded encoded/inflated/output storage,
-all PNG filters/Adam7, exact RGB8 bytes, corrupt/unsupported modes, cancellation
-and typed source mutation are covered. No gamma/ICC/bit-depth/color conversion.
-The matching raw input inventory includes the vendor header and source; the prior
-training check is scoped to unchanged factory/test inputs, not retagged to a new
-binary identity. No new wheel/runtime or binding rebuild. Upstream source/license bytes are pinned
-in Git with file-specific attributes; retain the original license whitespace rather
-than modifying the authenticated notice to satisfy patch formatting.
+Closeout import/numeric tests pass (0.49 s) after bounding/filtering directory
+inventory and moving polygon storage into native validation. Publication review
+moves report admission before project commit; final importer check (0.43 s)
+proves report exhaustion leaves no project. Input mutation, cancellation, source
+checks, row/field/diagnostic limits and existing/competing outputs are covered.
+The initial compile needed ObjectProperties' header in implementation/test;
+repair reused completed objects and retained the failure log. Final raw inputs
+match cached generated provenance; prior evidence remains source-scoped. The
+byte-pinned oracle fixture keeps its tested Windows CRLF bytes; a file-specific
+cr-at-eol attribute fixes diff classification without changing the fixture.
 
-Waste review: one bounded snapshot read, native object-map scan instead of Python
-annotation/geometry copies, shared request/source/atomic authorities, one small
-open decoder with encoder/ancillary parsing disabled. Do not rebuild settled
-bindings for each API addition or replay accepted kernel/desktop campaigns.
-Preserve cached objects, fixtures, archived source, original failures and products.
+Waste review: one shared event/acknowledgement queue, one independent test PNG
+encoder, native reference scans and scalar moment accumulation; no repeated
+geometry copies, Python policy layer, source hashes per row or growing-report
+copies. Test only changed authorities; keep passing PNG/density evidence after
+import-only changes. Preserve bindings/cache/products/fixtures/archives. No new
+wheel/install, binary release, broad qualification or speed claim.
 
-Next: NC15 native case-sensitive NuCLS pairing and CSV rules; NC17 native ROI,
-accurate centroid/metadata and atomic save-new import over the admitted RGB decoder.
-Then settle importer/density ownership, aggregate limits and terminal error mapping
-(NC04) before the combined binding/UI/CLI build and thin controls (NC19-NC28).
-Do not mark the full goal complete from these native prerequisites.
+Next NC04: settle controller thread ownership, terminal exception mapping,
+aggregate capture/event/report limits and cancellation behavior for both native
+services. Then NC19-NC22 focused bindings, thin examples and shared CLI/GUI;
+NC23-NC28 complete behavioral/installed boundary checks, stubs/guides/evidence
+and matching source handoff. One combined binding build after interfaces settle.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 
