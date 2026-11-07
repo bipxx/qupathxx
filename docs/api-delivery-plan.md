@@ -1,10 +1,11 @@
 # API and workflow delivery paths
 
-The current [speed follow-up](benchmarks/speed-gap-followup/README.md) preserves
-exact outputs with a guarded integer-grid proof and a corrected steady timing
-protocol. [Current task](current-task.md) and [coverage](speed-gap-coverage.md)
-retain the open parity target. Historical profiles remain source-scoped; published
-releases and broader feature/support scope stay frozen.
+The [latest native kernel batch](benchmarks/cell-kernel-optimization/README.md)
+preserves exact outputs and improves the retained native control by~5.9%. The
+reference remains variable, so no general speed win is claimed. L1/L2/L4 are
+delivered; conditional L3 is deferred pending a measured benefit. L5-L7 remain
+the shared native workflow/import migration queue. Historical reports retain
+their tested scope and published releases stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 

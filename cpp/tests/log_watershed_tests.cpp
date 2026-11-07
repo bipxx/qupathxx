@@ -71,6 +71,45 @@ void shape_contract() {
     std::vector<std::uint8_t> particles(81);for(std::size_t y=1;y<9;y+=3) for(std::size_t x=1;x<9;x+=3) particles[y*9+x]=1;
     bool limited=false;try {sampled_shape_watershed(particles,9,9,.5,1);} catch(const std::length_error&) {limited=true;}require(limited);
 }
+void thin_shape_reference() {
+    struct Case {std::size_t width,height;const char* input;const char* mask;const char* maxima;};
+    const Case cases[]={
+        {1,1,"0","0","0"},
+        {1,1,"1","1","0"},
+        {1,1,"0","0","0"},
+        {1,1,"0","0","0"},
+        {1,9,"000000000","000000000","000000000"},
+        {1,9,"111111111","111111111","000000000"},
+        {1,9,"011110101","011110101","000100101"},
+        {1,9,"011010101","011010101","001010101"},
+        {9,1,"000000000","000000000","000000000"},
+        {9,1,"111111111","111111111","000000000"},
+        {9,1,"011110101","011110101","000100101"},
+        {9,1,"011010101","011010101","001010101"},
+        {2,2,"0000","0000","0000"},
+        {2,2,"1111","1111","0000"},
+        {2,2,"0111","0111","0001"},
+        {2,2,"0110","0110","0010"},
+        {2,9,"000000000000000000","000000000000000000","000000000000000000"},
+        {2,9,"111111111111111111","111111111111111111","000000000000000000"},
+        {2,9,"011110101010111101","011110101010111101","000000000000000100"},
+        {2,9,"011010101010101101","011010101010101101","000000001000000000"},
+        {9,2,"000000000000000000","000000000000000000","000000000000000000"},
+        {9,2,"111111111111111111","111111111111111111","000000000000000000"},
+        {9,2,"011110101010111101","011110101010111101","000000000000010001"},
+        {9,2,"011010101010101101","011010101010101101","000010000000000001"},
+        {3,3,"000000000","000000000","000000000"},
+        {3,3,"111111111","111111111","000000000"},
+        {3,3,"011110101","011110101","000010000"},
+        {3,3,"011010101","011010101","000010000"}};
+    for(const auto& sample:cases) {
+        const auto n=sample.width*sample.height;std::vector<std::uint8_t> input(n),expected(n),maxima(n);
+        for(std::size_t i=0;i<n;++i) {input[i]=sample.input[i]-'0';expected[i]=sample.mask[i]-'0';maxima[i]=sample.maxima[i]-'0';}
+        const auto result=qpx::cell_detail::sampled_shape_watershed(input,sample.width,sample.height);
+        std::vector<std::uint8_t> points(n);for(auto i:result.maxima) points.at(i)=1;
+        require(result.mask==expected && points==maxima);
+    }
+}
 void shape_reference() {
     const std::string root=QUPATHXX_SHAPE_FIXTURE;std::ifstream index(root+"/index.txt");require(bool(index));
     auto read=[&](const std::string& file,std::size_t size) {
@@ -128,7 +167,7 @@ int main(int argc,char** argv) {
         require(argc==1);
         using namespace qpx::cell_detail;
         reconstruction_oracle();
-        shape_contract();
+        shape_contract();thin_shape_reference();
         shape_reference();
         std::vector<std::uint8_t> leak4={0,1,1,1,0,1,1,1,1},leak8=leak4;
         log_fill_holes(leak4,3,3,nullptr);log_fill_holes(leak8,3,3,nullptr,true);

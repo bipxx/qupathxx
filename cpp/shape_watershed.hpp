@@ -149,7 +149,13 @@ class SampledShapeWatershed {
                     changed.clear();std::size_t untouched=0;const auto pass=sequence[direction%8];
                     for(std::size_t at=0;at<remaining;++at) {
                         step();const auto i=queue_[start[level]+at];unsigned bits=0;
-                        for(int d=0;d<8;++d) {std::size_t j=0;if(neighbor(i,d,j) && levels_[j]==255) bits|=1u<<d;}
+                        const auto x=i%width_;
+                        if(i>=width_ && i<size_-width_ && x && x+1<width_) {
+                            bits=(levels_[i-width_]==255?1u:0u)|(levels_[i-width_+1]==255?2u:0u)|
+                                (levels_[i+1]==255?4u:0u)|(levels_[i+width_+1]==255?8u:0u)|
+                                (levels_[i+width_]==255?16u:0u)|(levels_[i+width_-1]==255?32u:0u)|
+                                (levels_[i-1]==255?64u:0u)|(levels_[i-width_-1]==255?128u:0u);
+                        } else for(int d=0;d<8;++d) {std::size_t j=0;if(neighbor(i,d,j) && levels_[j]==255) bits|=1u<<d;}
                         if(fate[bits]&(1u<<pass)) changed.push_back(i);else queue_[start[level]+untouched++]=i;
                     }
                     for(auto i:changed) levels_[i]=255;remaining-=changed.size();if(!changed.empty()) idle=0;++direction;

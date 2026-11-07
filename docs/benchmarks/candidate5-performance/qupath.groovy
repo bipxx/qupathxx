@@ -22,13 +22,17 @@ def source=Path.of(args[0]);def output=Path.of(args[1])
 boolean resourceOnly=args.length>2 && args[2]=='resource'
 boolean steady=args.length>2 && args[2]=='steady'
 boolean skipOracles=resourceOnly || steady
+int warmupRuns=steady ? (args.length>3 ? Integer.parseInt(args[3]) : 6) : resourceOnly ? 0 : 1
+int measuredRuns=steady ? (args.length>4 ? Integer.parseInt(args[4]) : 6) : resourceOnly ? 1 : 3
+if(warmupRuns<0 || warmupRuns>100 || measuredRuns<1 || measuredRuns>100)
+    throw new IllegalArgumentException('Invalid warmup/measured workflow count')
 Files.createDirectory(output)
 Files.writeString(output.resolve('pid.txt'),Long.toString(ProcessHandle.current().pid()))
 def gson=GsonTools.getInstance();def runs=[]
 def cpuTime={ProcessHandle.current().info().totalCpuDuration().orElse(java.time.Duration.ZERO).toNanos()}
 def bounds=[29185,2048,512,512]
 def progress=Files.newBufferedWriter(output.resolve('progress.jsonl'))
-for(int iteration=0;iteration<(resourceOnly?1:steady?12:4);iteration++) {
+for(int iteration=0;iteration<warmupRuns+measuredRuns;iteration++) {
     def folder=output.resolve(Integer.toString(iteration));Files.createDirectory(folder)
     def stages=[:]
     def timed={String name,Closure operation ->
@@ -115,7 +119,7 @@ for(int iteration=0;iteration<(resourceOnly?1:steady?12:4);iteration++) {
             labels.each {bytes.putInt(it)};Files.write(folder.resolve(compartment+'.u32'),bytes.array())
         }
         if(!skipOracles) Files.write(folder.resolve('rgb.u8'),rgb)
-        runs.add([iteration:iteration,warmup:!resourceOnly && iteration<(steady?6:1),stages:stages,workflow_ms:workflowMs,
+        runs.add([iteration:iteration,warmup:iteration<warmupRuns,stages:stages,workflow_ms:workflowMs,
             cells:cells.size(),density:density.density,area_mm2:density.area_mm2,
             rgb_sha256:MessageDigest.getInstance('SHA-256').digest(rgb).encodeHex().toString(),rgb_sum:sums.toList(),
             pixel_width_um:px,pixel_height_um:py,parameters:parameters,
@@ -125,4 +129,4 @@ for(int iteration=0;iteration<(resourceOnly?1:steady?12:4);iteration++) {
 }
 progress.close()
 Files.writeString(output.resolve('report.json'),gson.toJson([engine:'QuPath',version:GeneralTools.getVersion(),
-    java_version:System.getProperty('java.version'),roi:bounds,runs:runs]))
+    java_version:System.getProperty('java.version'),roi:bounds,warmup_runs:warmupRuns,measured_runs:measuredRuns,runs:runs]))

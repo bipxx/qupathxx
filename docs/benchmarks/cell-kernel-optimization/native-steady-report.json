@@ -1,0 +1,902 @@
+{
+  "engine": "interior-buffered",
+  "source_revision": "070503e510f4dda6873c87da4dbb647571cf8398+dirty",
+  "source_tree_sha256": "ef7338dd16763fc5c62b5aeb501a4b1eeb6540acb0f6bb5a17c343e175727584",
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "context": 0,
+  "runs": [
+    {
+      "iteration": 0,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.055099993944168,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.09040022268891335,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.380599785596132,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.586500082165003,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03719981759786606,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.08019991219043732,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 344.83790025115013,
+          "cpu_ms": 468.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.05050003528594971,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 6.287800148129463,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 10.210500098764896,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.024800188839435577,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.6535998806357384,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 74.62819991633296,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 253.78300016745925,
+          "cpu_ms": 359.375
+        }
+      },
+      "workflow_ms": 740.6943002715707,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 1,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.234199844300747,
+          "cpu_ms": 31.25
+        },
+        "setup_roi": {
+          "wall_ms": 0.06800005212426186,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.99599988386035,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.887800000607967,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.049099791795015335,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06859982386231422,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 329.8639999702573,
+          "cpu_ms": 453.125
+        },
+        "keep_cells": {
+          "wall_ms": 0.04150019958615303,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.492499865591526,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 11.085199657827616,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.018800143152475357,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 4.48289979249239,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 70.63840003684163,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 236.48470034822822,
+          "cpu_ms": 343.75
+        }
+      },
+      "workflow_ms": 726.8193997442722,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 2,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.185799941420555,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.057800207287073135,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.511600084602833,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.823300022631884,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.021700281649827957,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.07080007344484329,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 318.00129963085055,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.021700281649827957,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.509400110691786,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 11.358399875462055,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.035600271075963974,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 5.475400015711784,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 73.78020044416189,
+          "cpu_ms": 78.125
+        },
+        "reopen_project": {
+          "wall_ms": 245.76690001413226,
+          "cpu_ms": 328.125
+        }
+      },
+      "workflow_ms": 729.469200130552,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 3,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.374799888581038,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.035599805414676666,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.465899921953678,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.219400197267532,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.026500318199396133,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06299978122115135,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 324.0728001110256,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.026700086891651154,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 5.015299655497074,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 10.121199768036604,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.020300038158893585,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.4349998459219933,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 74.86920012161136,
+          "cpu_ms": 31.25
+        },
+        "reopen_project": {
+          "wall_ms": 241.84879986569285,
+          "cpu_ms": 359.375
+        }
+      },
+      "workflow_ms": 726.5372001565993,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 4,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.53869978711009,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04540011286735535,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.920200005173683,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.348199781030416,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03700004890561104,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.04930002614855766,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 328.76120042055845,
+          "cpu_ms": 468.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.03060000017285347,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 6.792599800974131,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 14.732600189745426,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.03440026193857193,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.963800147175789,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 73.45149992033839,
+          "cpu_ms": 31.25
+        },
+        "reopen_project": {
+          "wall_ms": 258.5816001519561,
+          "cpu_ms": 406.25
+        }
+      },
+      "workflow_ms": 756.7019001580775,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 5,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.970400094985962,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.037200283259153366,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.737300056964159,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.30670004710555,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.035400036722421646,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.0825999304652214,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 312.24700016900897,
+          "cpu_ms": 406.25
+        },
+        "keep_cells": {
+          "wall_ms": 0.018100254237651825,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.815499763935804,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 10.109500028192997,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.014400109648704529,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.859800286591053,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 74.09910019487143,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 243.73869970440865,
+          "cpu_ms": 375.0
+        }
+      },
+      "workflow_ms": 718.2181002572179,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 6,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.804599970579147,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.038700178265571594,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.42890003696084,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.953500151634216,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.021200161427259445,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.07029995322227478,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 321.0366000421345,
+          "cpu_ms": 453.125
+        },
+        "keep_cells": {
+          "wall_ms": 0.02150004729628563,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.2443000711500645,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.802800137549639,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.028899870812892914,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 5.611400119960308,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 71.83660008013248,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 237.83200001344085,
+          "cpu_ms": 359.375
+        }
+      },
+      "workflow_ms": 714.8373001255095,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 7,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.667000319808722,
+          "cpu_ms": 0.0
+        },
+        "setup_roi": {
+          "wall_ms": 0.037200283259153366,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.450600154697895,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.223199993371964,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.023200176656246185,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.09380001574754715,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 324.9661000445485,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.02330029383301735,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.2769997380673885,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.863999672234058,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.017600134015083313,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.2963999547064304,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 73.5746999271214,
+          "cpu_ms": 31.25
+        },
+        "reopen_project": {
+          "wall_ms": 237.42299992591143,
+          "cpu_ms": 359.375
+        }
+      },
+      "workflow_ms": 721.2681998498738,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 8,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.440199851989746,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.06529968231916428,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.433700073510408,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.617600202560425,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03719981759786606,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.12850016355514526,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 322.1181002445519,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.023600179702043533,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 3.9794002659618855,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 11.14200009033084,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.016700010746717453,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 5.043500103056431,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 74.88479977473617,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 236.1524999141693,
+          "cpu_ms": 343.75
+        }
+      },
+      "workflow_ms": 719.6301999501884,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 9,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.790499910712242,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04060007631778717,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.284499868750572,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.355700187385082,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.023599714040756226,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.061300117522478104,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 317.55989976227283,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.020699575543403625,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.154900088906288,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.400499984622002,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.014299992471933365,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 5.681899841874838,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 72.35669996589422,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 247.86110036075115,
+          "cpu_ms": 343.75
+        }
+      },
+      "workflow_ms": 722.1304001286626,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 10,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.71809982508421,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04150019958615303,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.26930021867156,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.831499852240086,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.030499882996082306,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.17879996448755264,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 336.89349982887506,
+          "cpu_ms": 468.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.02310005947947502,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.711700137704611,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 10.94869989901781,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.012500211596488953,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 4.118800163269043,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 77.22109975293279,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 239.82789972797036,
+          "cpu_ms": 359.375
+        }
+      },
+      "workflow_ms": 740.4201999306679,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 11,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.66500000283122,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.037999823689460754,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.824299857020378,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.29349994659424,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.01989956945180893,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.051999930292367935,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 328.79560021683574,
+          "cpu_ms": 468.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.028099864721298218,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.9370997585356236,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 11.0060996375978,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.016300007700920105,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 6.697800010442734,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 71.2800002656877,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 244.89389965310693,
+          "cpu_ms": 375.0
+        }
+      },
+      "workflow_ms": 731.5230998210609,
+      "cells": 2237,
+      "oracles": false,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    }
+  ]
+}

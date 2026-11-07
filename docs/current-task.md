@@ -7,6 +7,33 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase - C++ cell kernel optimization L1/L2/L4
+
+[Evidence](benchmarks/cell-kernel-optimization/README.md): direct interior
+watershed neighbors and same-byte Windows SHA buffering preserve exact outputs.
+Native median328 ms versus348 ms retained old module (~5.9% faster). Extended
+QuPath median347 ms spans305-403 ms; native has a lower median in this run, but
+no reliable general speed win/strict parity is confirmed. The seven affected
+native suites pass;28 pre-change thin cases and26 ImageJ cases plus mixed/hash
+boundary/finalization tests pass. Four full RGB/mask/CSV comparisons and four
+reopened detector checks retain all2,237 cells and ordered geometry exactly.
+
+Raw tree ef7338dd16763fc5c62b5aeb501a4b1eeb6540acb0f6bb5a17c343e175727584 has530
+inputs. Only private native inputs/provenance rebuilt; all37 binding objects are
+unchanged. Same cache/runtime and shared DLLs, one small retained control module;
+no new wheel, install, binary release or language-boundary change.
+
+Waste review: six JVM warmups did not settle the first reference (412 ->318 ms).
+Expose explicit counts and repeat only that reference with24 warmups/six measured;
+retain both runs and completed native results. Extended variability remains, so
+do not chase favorable medians or compare historical absolute times across host
+windows. No extra predicate workers, geometry shortcut or identity-token framework.
+
+Next planned phase is L5's shared headless C++ density/selection/resume/export
+service, then L6 importer and L7 thin controls. Conditional L3 sharing is deferred
+until profiling justifies its ownership complexity. The scientific/performance
+claim remains scoped to this ROI; stop this batch after source/evidence push.
+
 ## Storage maintenance -2026-11-07 complete
 
 Owner interrupted optimization to recover disk space. No L1 implementation had

@@ -15,7 +15,7 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S08 | Six affected suites pass; cached bindings reused; save/reopen exercised | Complete |
 | S09 | Final native/reference controls, late original-code control and host-load disclosure | Complete |
 | S10 | Source/runtime manifests, evidence, plan/notebook update and public source handoff | Complete |
-| S11 | Eliminate remaining settled cell gap: native320 ms versus QuPath292 ms (~9.5%); [follow-up](benchmarks/speed-gap-followup/README.md) | Open |
+| S11 | Eliminate remaining settled cell gap: native328 ms versus extended QuPath347 ms, with wide reference jitter; no reliable general win; [latest](benchmarks/cell-kernel-optimization/README.md) | Open |
 | S12 | Precise profile rules out context pooling; implicit nominal edges preserve ambiguous fallback | Complete |
 | S13 | Exact dense unit-grid boundary/area/inclusion proof, shifted-geometry refusal,65 patterns plus empty/hole cases | Complete |
 | S14 | Six native suites, canonical records, source/runtime identity and test-stack isolation | Complete |
@@ -30,10 +30,10 @@ is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 | --- | --- | --- |
 | Policy | AGENTS enforces native application logic; plan identifies actual Python ownership gaps and shared authorities | Complete (planning only) |
 | Untangle | U1-U6 structural prerequisites, comment cleanup and behavioral test repair; [decision log](untangle-decision-log.md) | Complete - [evidence](benchmarks/untangle-codebase/README.md) |
-| L1 | Native watershed interior access; exact masks, edge widths, topology/cancel/budget checks | Planned - next |
-| L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Planned |
-| L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Planned - conditional on benefit |
-| L4 | One final changed-source correctness capture and settled paired speed result after L1-L3 | Planned |
+| L1 | Native watershed interior access; exact masks, edge widths, topology/cancel/budget checks | Complete - [evidence](benchmarks/cell-kernel-optimization/README.md) |
+| L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Complete |
+| L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Deferred - profile remaining benefit before adding ownership complexity |
+| L4 | Final changed-source correctness capture and disclosed candidate/reference/control timing; first unsettled reference retained | Complete |
 | L5 | One headless C++ density selection/manifest/run/reuse/export service, explicit IDs/classes and legacy receipt adapters | Planned |
 | L6 | C++ NuCLS pairing/PNG/CSV/geometry/centroid/calibration/preview/publication, bounded open decoder | Planned |
 | L7 | Thin nanobind/Python/CLI/ImGui consumers; raw training selection native; diagnostic oracles in tests/tools; shared output/state and source handoff | Planned |

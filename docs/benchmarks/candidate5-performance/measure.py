@@ -67,7 +67,7 @@ def main():
                 engine_cpu=ticks(kernel_time)+ticks(user)
             resource=dict(engine_pid=pid,launcher_pid=process.pid,process_wall_ms=elapsed*1000,
                 peak_working_set_bytes=peak,peak_pagefile_bytes=private,memory_samples=samples,
-                exit_code=process.returncode,memory_scope=('Engine startup plus six warmups and six timed workflows, no mask oracles' if '--steady' in command or 'steady' in command else 'One full workflow plus engine startup, no mask oracles' if '--resource-only' in command or 'resource' in command else 'Actual engine process lifetime, including startup/warmup/oracles')+'; OS peak counter sampled25ms')
+                exit_code=process.returncode,memory_scope=('Engine startup plus explicit steady warmup and measured workflows, no mask oracles' if '--steady' in command or 'steady' in command else 'One full workflow plus engine startup, no mask oracles' if '--resource-only' in command or 'resource' in command else 'Actual engine process lifetime, including startup/warmup/oracles')+'; OS peak counter sampled25ms')
             resource.update(system_cpu_busy_fraction=(capacity-idle)/capacity,
                 engine_cpu_ms=engine_cpu/10000 if engine_cpu is not None else None,
                 other_process_cpu_fraction=max(0,(capacity-idle-engine_cpu)/capacity) if engine_cpu is not None else None,
