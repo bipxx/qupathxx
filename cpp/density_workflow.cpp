@@ -16,18 +16,18 @@ namespace {
 using detail::AtomicExportFile;
 using detail::StrictJson;
 using detail::json_string;
-using detail::export_checkpoint;
 using detail::export_path;
 using detail::density_reuse_compatible;
 constexpr std::size_t mib=1024*1024;
-struct CsvLimit:std::length_error {using std::length_error::length_error;};
+using CsvLimit=ProjectDensityCsvBudget;
 const std::string csv_header="project_id,image_id,image_name,record_id,reuse,request_input_sha256,checkpoint,window_id,window_revision,count,area_pixels,area_mm2,density_per_mm2,status,units,cell_count,tissue_count,exclusion_count,algorithm,geometry_policy,footprint_sha256,input_sha256,result_sha256,pixel_width_um,pixel_height_um,prefer_nucleus,polygonize_curves\n";
-void checkpoint(const std::atomic<bool>* c) {export_checkpoint(c);}
+void checkpoint(const std::atomic<bool>* c) {workflow_checkpoint(c);}
 std::string quote_csv(const std::string& text) {
     std::string out="\"";for(auto c:text) {out+=c;if(c=='"')out+='"';}return out+'"';
 }
 void write_new(const std::string& path,const std::string& data,std::size_t limit,const std::function<void()>& guard={}) {
-    AtomicExportFile file(path,limit);file.write(data.data(),data.size());if(guard)guard();file.commit(false);
+    AtomicExportFile file(path,limit);file.write(data.data(),data.size());if(guard)guard();
+    try{file.commit(false);}catch(...){std::error_code error;if(std::filesystem::exists(std::filesystem::u8path(path),error))throw WorkflowOutputExists("Output already exists");throw;}
 }
 using Json=nlohmann::json;
 using detail::DensityFormat;
@@ -91,7 +91,7 @@ void write_json_new(const std::string& path,const std::string& data,std::size_t 
     if(format==DensityFormat::ProjectV1) {
         const auto target=std::filesystem::u8path(path);
         if(std::filesystem::exists(target.parent_path()/std::filesystem::u8path("."+target.filename().u8string()+".part")))
-            throw std::runtime_error("JSON scratch already exists");
+            throw WorkflowOutputExists("JSON scratch already exists");
     }
     write_new(path,data,limit,guard);
 }
@@ -143,7 +143,7 @@ std::string short_error(const std::string& message,DensityFormat format) {
 ProjectDensityReport execute_density(ProjectDensityReport report,const std::string& output,const ProjectDensityRunOptions& options,
     DensityFormat format,const ProjectDensityManifest* manifest,const std::atomic<bool>* c,ProjectDensityProgress* p) {
     options.validate();report.recipe.validate();
-    if(options.csv_bytes<csv_header.size())throw std::invalid_argument("CSV limit is smaller than the header");
+    if(options.csv_bytes<csv_header.size())throw ProjectDensityCsvBudget("CSV limit is smaller than the header");
     if(options.pause_after_image && !p)throw std::invalid_argument("Image acknowledgement requires a native progress controller");
     checkpoint(c);detail::WorkflowInput source(report.source,options.project_bytes,true,c);
     if(manifest)manifest->verify(false,c);
@@ -168,8 +168,9 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
             const auto above=parent.parent_path();if(above==parent)break;parent=above;
         }
     }
+    if(std::filesystem::exists(directory))throw WorkflowOutputExists("Choose a new output directory");
     if(format==DensityFormat::ProjectV1 && !directory.parent_path().empty())std::filesystem::create_directories(directory.parent_path());
-    if(!std::filesystem::create_directory(directory))throw std::runtime_error("Choose a new output directory");
+    if(!std::filesystem::create_directory(directory))throw WorkflowOutputExists("Choose a new output directory");
     report.state="running";report.output=directory.u8string();
     report.completed=report.computed=report.reused=report.failed=report.rows=0;report.error.clear();
     for(auto& row:report.images) {
@@ -249,8 +250,36 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
 }
 
 }
+namespace {
+constexpr std::size_t recipe_limit=128u*1024*1024,report_limit=256u*1024*1024;
+void image_capture(std::size_t& bytes,const ProjectDensityImage& row) {
+    const auto charge=[&](std::size_t n){workflow_capture_charge(bytes,n,report_limit);};
+    charge(sizeof(ProjectDensityImage));for(const auto& ids:row.ids)charge(ids.size()*sizeof(std::uint64_t));
+    for(const auto* text:{&row.name,&row.error,&row.state,&row.checkpoint,&row.input_sha256,&row.result_sha256,&row.reuse,&row.reuse_reason,&row.checkpoint_sha256,&row.result_input_sha256,&row.receipt_json})charge(text->size());
+    for(const auto& issue:row.issues)charge(sizeof(std::string)+issue.size());
+}
+}
+std::size_t ProjectDensityRecipe::capture_bytes() const {
+    std::size_t bytes=sizeof(*this);const auto charge=[&](std::size_t n){workflow_capture_charge(bytes,n,recipe_limit);};
+    charge(images.size()*sizeof(std::uint64_t));charge(selections.size()*sizeof(ProjectDensitySelection));
+    for(const auto& image:selections)for(const auto& role:image.ids)charge(role.size()*sizeof(std::uint64_t));
+    for(const auto& role:classes)for(const auto& name:role)charge(sizeof(std::string)+name.size());return bytes;
+}
+std::size_t ProjectDensityReport::capture_bytes() const {
+    std::size_t bytes=sizeof(*this);const auto charge=[&](std::size_t n){workflow_capture_charge(bytes,n,report_limit);};charge(recipe.capture_bytes());
+    for(const auto* text:{&source,&source_sha256,&project_id,&state,&error,&output,&csv,&report,&manifest,&manifest_sha256,&json})charge(text->size());
+    for(const auto& image:images)image_capture(bytes,image);return bytes;
+}
+void ProjectDensityReport::validate_preview() const {
+    if(!valid())throw std::invalid_argument("Review a successful preview before Run");recipe.validate();capture_bytes();workflow_path_argument(source);
+    if(images.size()>1000)throw std::invalid_argument("Select1..1000 preview images");std::set<std::uint64_t> seen;
+    for(const auto& image:images) {
+        if(!image.id || !seen.insert(image.id).second)throw std::invalid_argument("Preview image IDs must be positive and distinct");
+        for(std::size_t role=0;role<4;++role)if(image.ids[role].size()>(role==3?100000u:10000u) || (role<2 && image.ids[role].empty()))throw std::invalid_argument("Preview cohorts exceed native bounds");
+    }
+}
 void ProjectDensityRecipe::validate() const {
-    options.validate();
+    capture_bytes();options.validate();
     if(!selections.empty()) {
         if(all_images || !images.empty() || std::any_of(classes.begin(),classes.end(),[](const auto& v){return !v.empty();}))
             throw std::invalid_argument("Choose explicit cohorts or class selectors, not both");
@@ -290,7 +319,7 @@ ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,co
     report.source=input.path();report.source_sha256=input.sha256();input.verify(false,c);
     auto project=Project::open_without_journal_recovery(report.source);input.verify(false,c);
     report.project_id=project->identity();report.state="preview";
-    const auto catalog=project->images();
+    const auto catalog=project->images();std::size_t captured_bytes=report.capture_bytes();
     auto ids=recipe.images;for(const auto& selected:recipe.selections) ids.push_back(selected.image_id);std::sort(ids.begin(),ids.end());
     if(recipe.all_images)for(const auto& image:catalog)ids.push_back(image.id);
     std::sort(ids.begin(),ids.end());
@@ -327,12 +356,13 @@ ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,co
             if(row.issues.empty()){SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],recipe.options);}
         }catch(const std::exception& e){row.issues.push_back(e.what());}
         if(!row.issues.empty())row.error=row.issues.front();
-        report.images.push_back(std::move(row));if(p)p->completed.fetch_add(1);
+        image_capture(captured_bytes,row);report.images.push_back(std::move(row));if(p)p->completed.fetch_add(1);
     }
     input.verify(false,c);
     return report;
 }
 void ProjectDensityRunOptions::validate() const {
+    workflow_path_argument(resume_from,true);
     for(const auto value:{std::uint64_t(csv_bytes),project_bytes,checkpoint_bytes})if(!value || value>1024ull*mib)
         throw std::invalid_argument("Workflow byte limits must be 1 byte..1 GiB");
 }
@@ -344,7 +374,7 @@ std::vector<std::string> ProjectDensityProgress::take_images() {return events_.t
 void ProjectDensityProgress::continue_images() {events_.acknowledge();}
 void ProjectDensityProgress::publish_image(std::string json,bool pause,const std::atomic<bool>* c) {events_.publish(std::move(json),pause,c);}
 ProjectDensityReport run_project_density(const ProjectDensityReport& preview,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* p,std::size_t csv_limit,const std::string& resume_from) {
-    if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");
+    preview.validate_preview();
     ProjectDensityRunOptions options;options.csv_bytes=csv_limit;options.resume_from=resume_from;
     return execute_density(preview,output,options,DensityFormat::GuiV1,nullptr,c,p);
 }
@@ -354,22 +384,30 @@ ProjectDensityReport run_project_density(const ProjectDensityManifest& manifest,
     for(const auto& selected:report.recipe.selections){ProjectDensityImage row;row.id=selected.image_id;row.ids=selected.ids;row.hint_record=selected.record_id;report.images.push_back(std::move(row));}
     return execute_density(std::move(report),output,options,DensityFormat::ProjectV1,&manifest,c,p);
 }
-void ProjectDensityJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.reset();}
+void ProjectDensityJob::reset() {cancelled_.store(false);result_.reset();manifest_result_.reset();failure_=nullptr;error_.clear();progress_.reset();}
 bool ProjectDensityJob::preview(const std::string& path,const ProjectDensityRecipe& recipe) {
-    poll();if(busy())return false;recipe.validate();reset();future_=std::async(std::launch::async,[this,path,recipe]{return preview_project_density(path,recipe,&cancelled_,&progress_);});return true;
+    poll();if(busy())return false;workflow_path_argument(path);recipe.validate();reset();future_=std::async(std::launch::async,[this,path=std::string(path),recipe=ProjectDensityRecipe(recipe)]{return preview_project_density(path,recipe,&cancelled_,&progress_);});return true;
+}
+bool ProjectDensityJob::generate_manifest(const std::string& path,const ProjectDensityRecipe& recipe,const std::string& output) {
+    poll();if(busy())return false;workflow_path_argument(path);workflow_path_argument(output,true);recipe.capture_bytes();reset();
+    manifest_future_=std::async(std::launch::async,[this,path=std::string(path),recipe=ProjectDensityRecipe(recipe),output=std::string(output)]{return generate_project_density_manifest(path,recipe,output,&cancelled_,&progress_);});return true;
 }
 bool ProjectDensityJob::run(const ProjectDensityReport& preview,const std::string& output,const std::string& resume_from) {
-    poll();if(busy())return false;auto captured=preview;reset();future_=std::async(std::launch::async,[this,captured,output,resume_from]{return run_project_density(captured,output,&cancelled_,&progress_,64u*1024*1024,resume_from);});return true;
+    poll();if(busy())return false;workflow_path_argument(output);workflow_path_argument(resume_from,true);preview.validate_preview();reset();future_=std::async(std::launch::async,[this,preview=ProjectDensityReport(preview),output=std::string(output),resume_from=std::string(resume_from)]{return run_project_density(preview,output,&cancelled_,&progress_,64u*1024*1024,resume_from);});return true;
 }
 bool ProjectDensityJob::run(const ProjectDensityManifest& manifest,const std::string& output,const ProjectDensityRunOptions& options) {
-    poll();if(busy())return false;options.validate();reset();
-    future_=std::async(std::launch::async,[this,manifest,output,options]{return run_project_density(manifest,output,options,&cancelled_,&progress_);});return true;
+    poll();if(busy())return false;workflow_path_argument(output);options.validate();reset();
+    future_=std::async(std::launch::async,[this,manifest=ProjectDensityManifest(manifest),output=std::string(output),options=ProjectDensityRunOptions(options)]{return run_project_density(manifest,output,options,&cancelled_,&progress_);});return true;
 }
 void ProjectDensityJob::poll() {
-    if(busy() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
-        try{result_=std::make_shared<const ProjectDensityReport>(future_.get());}catch(const std::exception& e){error_=e.what();}
+    workflow_require_owner(owner_);
+    if(future_.valid() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
+        try{result_=std::make_shared<const ProjectDensityReport>(future_.get());}catch(...){failure_=std::current_exception();error_=workflow_failure_message(failure_);}
+    }
+    if(manifest_future_.valid() && manifest_future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
+        try{manifest_result_=std::make_shared<const ProjectDensityManifestReport>(manifest_future_.get());}catch(...){failure_=std::current_exception();error_=workflow_failure_message(failure_);}
     }
 }
-void ProjectDensityJob::finish() {cancel();if(busy())future_.wait();poll();}
-ProjectDensityJob::~ProjectDensityJob(){finish();}
+void ProjectDensityJob::finish() {workflow_require_owner(owner_);cancel();if(future_.valid())future_.wait();if(manifest_future_.valid())manifest_future_.wait();poll();}
+ProjectDensityJob::~ProjectDensityJob(){cancel();if(future_.valid())future_.wait();if(manifest_future_.valid())manifest_future_.wait();}
 }

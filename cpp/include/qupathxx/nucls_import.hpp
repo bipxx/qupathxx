@@ -8,7 +8,7 @@ namespace qpx {
 struct NuclsImportLimits {
     std::size_t images=100,pixels=16000000,rows=100000,vertices=1000000,issues_per_image=50;
     std::size_t png_bytes=32u*1024*1024,csv_bytes=16u*1024*1024,report_bytes=16u*1024*1024;
-    std::size_t snapshot_bytes=512u*1024*1024;
+    std::size_t snapshot_bytes=512u*1024*1024,capture_bytes=512u*1024*1024;
     std::uint64_t file_bytes=1024ull*1024*1024;
     void validate() const;
 };
@@ -45,20 +45,24 @@ NuclsImportReport import_nucls(const std::string& images,const std::string& anno
     NuclsImportProgress* progress=nullptr);
 class NuclsImportJob {
     std::future<NuclsImportReport> future_;
+    std::thread::id owner_=std::this_thread::get_id();
+    std::exception_ptr failure_;
     std::atomic<bool> cancelled_{false};
     NuclsImportProgress progress_;
     std::shared_ptr<const NuclsImportReport> result_;
     std::string error_;
 public:
     ~NuclsImportJob();
-    bool busy() const {return future_.valid();}
+    bool busy() const {workflow_require_owner(owner_);return future_.valid();}
     bool run(const std::string& images,const std::string& annotations,const NuclsImportOptions&,const std::string& output="");
     void cancel(){cancelled_.store(true);}
     void poll();void finish();
-    std::vector<std::string> take_pairs(){return progress_.events.take();}
-    void continue_pairs(){progress_.events.acknowledge();}
-    const NuclsImportProgress& progress() const {return progress_;}
-    const std::string& error() const {return error_;}
-    std::shared_ptr<const NuclsImportReport> result() const {return result_;}
+    void abort_control(std::string error){workflow_require_owner(owner_);progress_.events.fail(std::move(error));}
+    void rethrow_error() const {workflow_require_owner(owner_);if(failure_)std::rethrow_exception(failure_);}
+    std::vector<std::string> take_pairs(){workflow_require_owner(owner_);return progress_.events.take();}
+    void continue_pairs(){workflow_require_owner(owner_);progress_.events.acknowledge();}
+    const NuclsImportProgress& progress() const {workflow_require_owner(owner_);return progress_;}
+    const std::string& error() const {workflow_require_owner(owner_);return error_;}
+    std::shared_ptr<const NuclsImportReport> result() const {workflow_require_owner(owner_);return result_;}
 };
 }

@@ -8,6 +8,11 @@
 #include <string>
 #include <vector>
 namespace qpx {
+class ProjectDensityCsvBudget : public std::length_error {
+public:
+    using std::length_error::length_error;
+};
+struct ProjectDensityProgress;
 struct ProjectDensitySelection {
     std::uint64_t image_id=0,record_id=0;
     std::array<std::vector<std::uint64_t>,4> ids; // windows,tissue,excluded,cells
@@ -21,6 +26,7 @@ struct ProjectDensityRecipe {
     bool all_cells=true;
     SpatialDensityOptions options;
     void validate() const;
+    std::size_t capture_bytes() const;
 };
 class ProjectDensityManifest {
 public:
@@ -53,6 +59,8 @@ struct ProjectDensityReport {
     std::vector<ProjectDensityImage> images;
     std::size_t completed=0,computed=0,reused=0,failed=0,rows=0,not_run=0;
     bool valid() const;
+    std::size_t capture_bytes() const;
+    void validate_preview() const;
 };
 struct ProjectDensityManifestReport {
     ProjectDensityReport preview;
@@ -62,7 +70,8 @@ struct ProjectDensityManifestReport {
 // Duplicate class names normalize to one exact selector; empty images require all_images.
 // Optional publication is save-new and occurs only after every native capture succeeds.
 ProjectDensityManifestReport generate_project_density_manifest(const std::string& project,
-    const ProjectDensityRecipe&,const std::string& output="",const std::atomic<bool>* cancelled=nullptr);
+    const ProjectDensityRecipe&,const std::string& output="",const std::atomic<bool>* cancelled=nullptr,
+    ProjectDensityProgress* progress=nullptr);
 struct ProjectDensityRunOptions {
     std::string resume_from;
     std::size_t csv_bytes=64u*1024*1024;
@@ -81,6 +90,7 @@ struct ProjectDensityProgress {
     void continue_images();
     void reset();
     void publish_image(std::string,bool pause,const std::atomic<bool>* cancelled);
+    void fail_control(std::string error){events_.fail(std::move(error));}
 private:
     WorkflowEvents events_;
 };
@@ -94,24 +104,32 @@ ProjectDensityReport run_project_density(const ProjectDensityManifest&,const std
     ProjectDensityProgress* progress=nullptr);
 class ProjectDensityJob {
     std::future<ProjectDensityReport> future_;
+    std::future<ProjectDensityManifestReport> manifest_future_;
+    std::shared_ptr<const ProjectDensityManifestReport> manifest_result_;
+    std::thread::id owner_=std::this_thread::get_id();
+    std::exception_ptr failure_;
     std::atomic<bool> cancelled_{false};
     ProjectDensityProgress progress_;
     std::shared_ptr<const ProjectDensityReport> result_;
     std::string error_;
 public:
     ~ProjectDensityJob();
-    bool busy() const {return future_.valid();}
+    bool busy() const {workflow_require_owner(owner_);return future_.valid() || manifest_future_.valid();}
     bool preview(const std::string&,const ProjectDensityRecipe&);
+    bool generate_manifest(const std::string&,const ProjectDensityRecipe&,const std::string& output="");
     bool run(const ProjectDensityReport&,const std::string&,const std::string& resume_from="");
     bool run(const ProjectDensityManifest&,const std::string&,const ProjectDensityRunOptions& options={});
-    std::vector<std::string> take_images() {return progress_.take_images();}
-    void continue_images() {progress_.continue_images();}
+    std::vector<std::string> take_images() {workflow_require_owner(owner_);return progress_.take_images();}
+    void continue_images() {workflow_require_owner(owner_);progress_.continue_images();}
     void cancel() {cancelled_.store(true);}
     bool cancelling() const {return busy() && cancelled_.load();}
     void poll();void finish();
-    const ProjectDensityProgress& progress() const {return progress_;}
-    const std::string& error() const {return error_;}
-    std::shared_ptr<const ProjectDensityReport> result() const {return result_;}
+    void abort_control(std::string error){workflow_require_owner(owner_);progress_.fail_control(std::move(error));}
+    void rethrow_error() const {workflow_require_owner(owner_);if(failure_)std::rethrow_exception(failure_);}
+    std::shared_ptr<const ProjectDensityManifestReport> manifest_result() const {workflow_require_owner(owner_);return manifest_result_;}
+    const ProjectDensityProgress& progress() const {workflow_require_owner(owner_);return progress_;}
+    const std::string& error() const {workflow_require_owner(owner_);return error_;}
+    std::shared_ptr<const ProjectDensityReport> result() const {workflow_require_owner(owner_);return result_;}
 private:
     void reset();
 };

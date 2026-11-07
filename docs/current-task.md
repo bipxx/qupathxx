@@ -10,42 +10,38 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 ## Selected phase - implement native consolidation NC01-NC28 (active)
 
 The full [28-item checklist](consolidation-coverage.md) remains selected.
-**17 complete,1 in progress,10 planned**: all selected native density, manifest,
-NuCLS pairing/CSV/geometry/decode/publication and training-cohort authorities now
-have focused evidence. NC04 shared contract settlement, bindings/thin consumers
-and final integration remain. Existing binary products/Python controls stay
-unchanged until the settled combined build. Do not claim full consolidation yet.
+**18 complete,0 in progress,10 planned**: native authorities and the joint NC04
+[ownership/error/admission contract](consolidation-native-api.md) are complete.
+Bindings/thin consumers and final integration remain; current Python controls and
+published products are unchanged. Do not claim the full migration complete yet.
 
-[NuCLS evidence](benchmarks/consolidation/README.md#native-nucls-pairing-interpretation-and-publication):
-first six affected native suites pass (4.63 s), including density cancellation/
-reuse after sharing owned bounded events. Numeric oracle is bit-exact for12
-coordinate values,29 accurate sums and32 polygons through1e15 offsets; no wider
-tolerance or general-centroid replacement. Both representations retain native
-pixels/calibration/Cell geometry and source metadata through save/reopen.
+[Contract evidence](benchmarks/consolidation/README.md#settled-native-workflow-contract):
+owner-thread controls, cross-thread cancel/destruction and join, retained typed
+worker exceptions, owned movable captures and native manifest-generation jobs.
+Density capture is admitted before copies; NuCLS admits retained payloads using
+native sizes and disables transient undo history. No worker Python objects or
+callbacks. Operational paths are bounded before capture; long directory scans
+also check cooperative cancellation. Generation report admission precedes commit.
 
-Closeout import/numeric tests pass (0.49 s) after bounding/filtering directory
-inventory and moving polygon storage into native validation. Publication review
-moves report admission before project commit; final importer check (0.43 s)
-proves report exhaustion leaves no project. Input mutation, cancellation, source
-checks, row/field/diagnostic limits and existing/competing outputs are covered.
-The initial compile needed ObjectProperties' header in implementation/test;
-repair reused completed objects and retained the failure log. Final raw inputs
-match cached generated provenance; prior evidence remains source-scoped. The
-byte-pinned oracle fixture keeps its tested Windows CRLF bytes; a file-specific
-cr-at-eol attribute fixes diff classification without changing the fixture.
+First pass has seven passing suites and one fixture failure: metadata exceeded
+ObjectProperties' existing4096-byte value bound before the intended aggregate
+budget. Use300 valid rows instead; repaired contract/affected async suites pass
+(3.30 s), then path checks pass (3.27 s) and final contract/import checks pass
+(1.13 s). Retain failures and source-scoped passing evidence. Final raw input
+hashes match cached provenance; no scientific tolerance/assertion was relaxed.
 
-Waste review: one shared event/acknowledgement queue, one independent test PNG
-encoder, native reference scans and scalar moment accumulation; no repeated
-geometry copies, Python policy layer, source hashes per row or growing-report
-copies. Test only changed authorities; keep passing PNG/density evidence after
-import-only changes. Preserve bindings/cache/products/fixtures/archives. No new
-wheel/install, binary release, broad qualification or speed claim.
+Waste review: explicit movable captures avoid const-copy repeats; bounded native
+queues avoid growing-report copies. Capture admission precedes dispatch, while
+Project/native scientific requests retain exact save/science checks. Use small
+valid budget fixtures, not oversized invalid properties or another broad campaign.
+Preserve37 binding objects, cache/runtime, fixtures, archives and all products.
 
-Next NC04: settle controller thread ownership, terminal exception mapping,
-aggregate capture/event/report limits and cancellation behavior for both native
-services. Then NC19-NC22 focused bindings, thin examples and shared CLI/GUI;
-NC23-NC28 complete behavioral/installed boundary checks, stubs/guides/evidence
-and matching source handoff. One combined binding build after interfaces settle.
+Next NC19-NC22: focused nanobind units and exception mappings; immutable result
+getters, GIL-held short submissions and GIL-free waits; thin density/manifest/
+NuCLS/raw-training controls; shared native CLI/GUI integration. Settle those edits
+before one combined cached binding/UI/CLI build. NC23-NC28 finish native/installed
+route evidence, meaningful test migration, boundary audit, stubs/guides and source
+handoff. No new release or speed claim is selected.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

@@ -206,3 +206,45 @@ recheck metadata before atomic publication. Native reports are admitted before
 commit; schema/event/native ownership and aggregate admission/terminal failure
 mapping still need joint NC04 closeout before bindings. No binary release,
 installed integration, broad parity campaign or speed claim follows.
+
+## Settled native workflow contract
+
+NC04 [contract](../../consolidation-native-api.md) is implemented for both services.
+Raw tree `b48b777085b905800c9eef68e37ab334abbb494d75ecb374ed59da1597d1a4e5` has 558 [inputs](workflow-contract-source-inputs.sha256),
+independently matched to the [cached build manifest](workflow-contract-build-manifest.hpp).
+The final contract/import binaries use this source; prior narrower evidence is
+retained for unchanged inputs, without another full campaign.
+
+[Initial pass](workflow-contract-tests.log): seven suites pass and the new contract
+suite fails only at its aggregate-budget fixture. The fixture's131072-byte property
+value correctly hits the existing4096-byte ObjectProperties limit first. Preserve
+that assertion; use300 valid4096-byte rows to exercise aggregate capture refusal.
+The [repair and affected async routes](workflow-contract-repair-tests.log) pass
+(3.30 s). Explicit movable captures also remove const-lambda deep-copy repeats.
+
+[Path admission closeout](workflow-contract-final-tests.log),3.27 s, verifies
+operational strings are refused before future copies. [Final catalog cancellation
+check](workflow-contract-cancel-tests.log),1.13 s, adds a cooperative stop per entry
+for potentially long missing-subset scans. No geometry/kernel assertions or
+scientific tolerances were weakened; passing loader/generator/PNG/density evidence
+was reused where its inputs were unchanged.
+
+[Contract cases](../../../cpp/tests/workflow_contract_tests.cpp) prove owner-only
+controls, cross-thread cancel and paused destruction/join, exact filesystem/output/
+CSV/cancel exception types after worker completion, job reset, copied argument
+lifetime and native manifest generation. Invalid/overlong requests do not launch
+workers. Caller-control errors produce partial density reports. Valid metadata
+exhausts a lower aggregate capture cap and publishes no import.
+
+Native services now preserve exception_ptr for owner-thread rethrow. Source guards
+and workflow checkpoints distinguish setup cancellation; controllers never borrow
+Python state. Native NuCLS documents disable transient undo history, progressively
+admit RGB/object/property payloads and retain Project.save_new as publication
+admission authority. Density recipes/previews are charged before async copies;
+128/256 MiB allowances retain the existing16 MiB manifest envelope. Manifest report
+serialization/admission precedes optional commit, and generation has a native job
+with the same progress/cancel/join ownership rules.
+
+Remaining: focused bindings and Python GIL/type/immutable-result mappings, thin
+examples/shared frontends and final installed evidence (NC19-NC28). No new package,
+release, feature-parity or speed claim follows from native contract completion.

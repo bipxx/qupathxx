@@ -14,7 +14,7 @@ new segmentation features and a binary release are outside this consolidation.
 
 ## Current coverage and next tasks
 
-**17 complete, 1 in progress, 10 planned (28 total).** This is acceptance-item
+**18 complete, 0 in progress, 10 planned (28 total).** This is acceptance-item
 coverage, not an estimate of engineering effort or feature parity. NC01 records
 only the pre-change baseline; NC03 proves headless service extraction and
 NC05-NC14 cover native manifest selection/preview/publication and shared
@@ -25,7 +25,7 @@ Python consumer or installed integration is complete.
 - [x] NC01: capture compatibility baseline.
 - [x] NC03: extract and link the shared headless C++ density service.
 - [x] NC02: shared native selection/run/report and control options.
-- [ ] NC04: settle importer and density ownership, failures and aggregate limits together.
+- [x] NC04: shared native ownership, typed failures, cancellation and aggregate admission.
 - [x] NC05-NC08: native manifest loading, shared selection/preview and exports.
 - [x] NC09-NC14: shared execution, guards, legacy resume, publication and cancellation.
 - [x] NC16 / NC18: native RGB8 PNG decoding and training cohort capture.
@@ -33,9 +33,9 @@ Python consumer or installed integration is complete.
 - [ ] NC19-NC22: bind settled services and reduce Python/ImGui/CLI to controls.
 - [ ] NC23-NC28: complete focused behavior/integration checks, boundary audit and source handoff.
 
-Immediate order: settle the shared density/import contract (ownership, aggregate
-admission, terminal failures), then wire thin consumers and run the single
-combined binding build. Do not count a
+Immediate order: wire focused bindings and thin consumers over the [settled native
+contract](consolidation-native-api.md), then run the single combined cached
+consumer build and installed integration. Do not count a
 passing kernel test as completion of an unfinished consumer migration.
 
 [Incremental native evidence](benchmarks/consolidation/README.md) records the
@@ -63,7 +63,7 @@ runners. Reuse these existing sources:
 | NC01 | Record current Python/GUI inputs, output ordering, errors, limits, exit codes and both receipt schemas from existing examples/tests | [Compatibility contract and baseline](consolidation-contract.md) | Complete - baseline only |
 | NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | [Typed native run options and both schema routes](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters); no Python callbacks in workers | Complete |
 | NC03 | Separate native service from the panel controller; use a headless core+JSON target and thin GUI job/controller | [Headless build and native tests](benchmarks/consolidation/README.md); no Python/ImGui/OpenGL link dependency | Complete |
-| NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | Density snapshots/events/jobs are owned natively; importer contracts, aggregate capture limits and terminal failure mapping remain to settle together | In progress |
+| NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | [Native ownership/error/admission contract](consolidation-native-api.md) and [decisive tests](benchmarks/consolidation/README.md#settled-native-workflow-contract); binding mappings remain NC19 | Complete |
 
 ## B. Density selection and manifest authority
 

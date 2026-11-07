@@ -41,12 +41,12 @@ ProjectDensityManifest load_project_density_manifest(const std::string& path,con
     std::ifstream input(std::filesystem::u8path(result->input.path()),std::ios::binary);if(!input)throw std::runtime_error("Cannot open manifest");
     std::string data;char block[65536];
     while(input) {
-        detail::export_checkpoint(c);input.read(block,sizeof(block));const auto size=std::size_t(input.gcount());
+        workflow_checkpoint(c);input.read(block,sizeof(block));const auto size=std::size_t(input.gcount());
         if(size>16u*1024*1024-data.size())throw std::invalid_argument("Manifest exceeds16 MiB");data.append(block,size);
     }
     if(input.bad())throw std::runtime_error("Cannot read manifest");result->input.verify(false,c);
     detail::StrictJson strict("density manifest");if(!Json::sax_parse(data,&strict))throw std::invalid_argument("Invalid manifest JSON");
-    detail::export_checkpoint(c);
+    workflow_checkpoint(c);
     try {
         const auto root=Json::parse(data);object_fields(root,{"schema","project","images","options"});
         if(root.at("schema")!="qpx.project-density/1" || !root.at("project").is_string() || root.at("project").get<std::string>().empty())
@@ -81,19 +81,19 @@ ProjectDensityManifest load_project_density_manifest(const std::string& path,con
     }catch(const Json::exception& e){throw std::invalid_argument(std::string("Invalid density manifest: ")+e.what());}
     result->input.verify(false,c);return ProjectDensityManifest(std::move(result));
 }
-ProjectDensityManifestReport generate_project_density_manifest(const std::string& path,const ProjectDensityRecipe& selectors,const std::string& output,const std::atomic<bool>* c) {
+ProjectDensityManifestReport generate_project_density_manifest(const std::string& path,const ProjectDensityRecipe& selectors,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* progress) {
     if(!selectors.selections.empty())throw std::invalid_argument("Manifest generation requires class selectors");
-    auto recipe=selectors;
+    selectors.capture_bytes();auto recipe=selectors;
     for(auto& names:recipe.classes){std::sort(names.begin(),names.end());names.erase(std::unique(names.begin(),names.end()),names.end());}
-    recipe.validate();detail::export_checkpoint(c);
+    recipe.validate();workflow_checkpoint(c);
     std::filesystem::path target;
     if(!output.empty()) {
         target=std::filesystem::weakly_canonical(std::filesystem::u8path(detail::export_path(output)));
         auto scratch=target.parent_path()/std::filesystem::u8path("."+target.filename().u8string()+".part");
-        if(std::filesystem::exists(target) || std::filesystem::exists(scratch))throw std::runtime_error("Manifest destination or legacy scratch already exists");
+        if(std::filesystem::exists(target) || std::filesystem::exists(scratch))throw WorkflowOutputExists("Manifest destination or legacy scratch already exists");
     }
     detail::WorkflowInput source(path,1024ull*1024*1024,true,c);
-    ProjectDensityManifestReport result;result.preview=detail::preview_density_input(source,recipe,c,nullptr);
+    ProjectDensityManifestReport result;result.preview=detail::preview_density_input(source,recipe,c,progress);
     for(const auto& row:result.preview.images)if(!row.image_present)throw std::invalid_argument("unknown image IDs: "+std::to_string(row.id));
     constexpr const char* roles[]={"windows","tissue","excluded","cells"};
     Json entries=Json::array(),images=Json::array(),names=Json::object();
@@ -115,16 +115,20 @@ ProjectDensityManifestReport generate_project_density_manifest(const std::string
     const Json manifest={{"schema","qpx.project-density/1"},{"project",source.path()},{"images",entries},{"options",options}};
     result.manifest_json=manifest.dump(2,' ',true)+"\n";
     if(result.manifest_json.size()>16u*1024*1024)throw std::length_error("Generated manifest exceeds16 MiB");
-    source.verify(true,c);
-    if(!output.empty() && result.preview.valid()) {
-        detail::AtomicExportFile file(target.u8string(),16u*1024*1024,c);
-        file.write(result.manifest_json.data(),result.manifest_json.size());source.verify(false,c);file.commit(false);
-        result.written=true;result.output=target.u8string();
-    }
+    const bool publish=!output.empty() && result.preview.valid();
+    result.written=publish;if(publish)result.output=target.u8string();
     Json report={{"valid",result.preview.valid()},{"project",source.path()},{"project_sha256",source.sha256()},
-        {"selectors",names},{"all_cells",recipe.all_cells},{"images",images},{"manifest",manifest},{"written",result.written}};
-    if(result.written)report["output"]=result.output;
-    result.json=report.dump(2,' ',true)+"\n";return result;
+        {"selectors",names},{"all_cells",recipe.all_cells},{"images",images},{"manifest",manifest},{"written",publish}};
+    if(publish)report["output"]=result.output;result.json=report.dump(2,' ',true)+"\n";
+    if(result.json.size()>64u*1024*1024)throw WorkflowCaptureLimit("Manifest preview report exceeds64 MiB");
+    result.written=false;source.verify(true,c);
+    if(publish) {
+        if(progress)progress->phase.store(4);
+        try{detail::AtomicExportFile file(target.u8string(),16u*1024*1024,c);file.write(result.manifest_json.data(),result.manifest_json.size());source.verify(false,c);file.commit(false);}
+        catch(...){workflow_checkpoint(c);std::error_code error;if(std::filesystem::exists(target,error))throw WorkflowOutputExists("Manifest output already exists");throw;}
+        result.written=true;
+    }
+    return result;
 }
 
 }

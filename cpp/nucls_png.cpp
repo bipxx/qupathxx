@@ -15,7 +15,7 @@ unsigned u32(const unsigned char* bytes) {
 void valid_chunks(const unsigned char* data,std::size_t size,const std::atomic<bool>* cancelled) {
     bool end=false;std::size_t at=8;
     while(at<size) {
-        export_checkpoint(cancelled);
+        workflow_checkpoint(cancelled);
         if(size-at<12)throw std::invalid_argument("Truncated PNG chunk");
         const auto length=std::size_t(u32(data+at));
         if(length>size-at-12)throw std::invalid_argument("PNG chunk exceeds file bounds");
@@ -40,7 +40,7 @@ NuclsRgb decode_nucls_rgb_png(const WorkflowInput& source,std::uint64_t availabl
         throw std::invalid_argument("Requires an RGB8 PNG; no automatic color conversion");
     const auto pixels=std::uint64_t(result.width)*result.height;
     if(!pixels || pixels>16000000 || pixels>available_pixels)throw NuclsPixelLimit("Exceeds aggregate16000000 PNG pixels");
-    valid_chunks(input,data.size(),cancelled);export_checkpoint(cancelled);
+    valid_chunks(input,data.size(),cancelled);workflow_checkpoint(cancelled);
     state.value.decoder.zlibsettings.max_output_size=static_cast<std::size_t>(4*pixels);
     unsigned char* decoded=nullptr;unsigned width=0,height=0;
     code=lodepng_decode(&decoded,&width,&height,&state.value,input,data.size());

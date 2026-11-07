@@ -18,17 +18,18 @@ class WorkflowInput {
                 throw std::invalid_argument("Close/recover the project; SQLite sidecar present");
     }
     std::string digest(const std::atomic<bool>* c) const {
-        FileFingerprintOptions options;options.byte_limit=limit_;return fingerprint_file(path_,options,c)->sha256;
+        FileFingerprintOptions options;options.byte_limit=limit_;
+        try{return fingerprint_file(path_,options,c)->sha256;}catch(...){workflow_checkpoint(c);throw;}
     }
 public:
     WorkflowInput(const std::string& path,std::uint64_t limit,bool project=false,const std::atomic<bool>* c=nullptr):limit_(limit),project_(project) {
-        export_checkpoint(c);path_=std::filesystem::canonical(std::filesystem::u8path(export_path(path))).u8string();sidecars();
+        workflow_checkpoint(c);path_=std::filesystem::canonical(std::filesystem::u8path(export_path(path))).u8string();sidecars();
         version_=workflow_file_version(path_);
         if(version_->bytes>limit_) throw std::invalid_argument("Workflow input exceeds byte limit");
         sha_=digest(c);verify(false,c);
     }
     void verify(bool rehash=false,const std::atomic<bool>* c=nullptr) const {
-        export_checkpoint(c);try {sidecars();const auto now=workflow_file_version(path_);
+        workflow_checkpoint(c);try {sidecars();const auto now=workflow_file_version(path_);
         if(now->identity_scheme!=version_->identity_scheme || now->identity!=version_->identity || now->bytes!=version_->bytes ||
             now->stamp_scheme!=version_->stamp_scheme || now->modified_token!=version_->modified_token || now->change_token!=version_->change_token)
             throw std::runtime_error("Workflow input version changed");
@@ -53,7 +54,7 @@ inline std::string read_workflow_input(const WorkflowInput& source,const std::at
     if(!file)throw std::runtime_error("Cannot open workflow input");
     std::string data(static_cast<std::size_t>(source.bytes()),'\0');
     for(std::size_t at=0;at<data.size();) {
-        export_checkpoint(c);const auto count=std::min<std::size_t>(65536,data.size()-at);
+        workflow_checkpoint(c);const auto count=std::min<std::size_t>(65536,data.size()-at);
         file.read(data.data()+at,count);
         if(static_cast<std::size_t>(file.gcount())!=count){source.verify(false,c);throw std::runtime_error("Cannot read workflow input snapshot");}
         at+=count;
