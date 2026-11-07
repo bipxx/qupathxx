@@ -7,6 +7,35 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — ImGui density resume/reuse
+
+Owner accepted a previous-run folder selector and reuse/recompute indicators.
+Delivered private controller/GUI receipts over existing native replay/capture,
+records/CSV and the CLI's exact engine/geometry/revision/calibration/policy/limit
+rules. Each saved image publishes a bounded checksum receipt before combined
+CSV; no final report is required to resume. Eligible unchanged images reference
+original checkpoints without kernel work or QPX/pixel copies. Changed/missing
+results compute; eligible corruption fails explicitly without replacing data.
+
+T1/T2 complete: both affected native suites pass,2/2 in1.64s. Tests prove0 kernel
+calls for reuse/chains, partial receipt recovery, changed geometry/calibration,
+unrelated metadata, smaller quotas, engine changes, duplicate JSON/checksum/
+replay errors and separated folders. Actual desktop first run computed2; second
+run computed0/reused2 with0 new QPX copies. All old run files and source remain
+byte-identical;31/27 counts and all20 native CSV columns agree. [10/10 coverage](gui-density-resume-coverage.md),
+[guide](gui-project-density.md) and [desktop/source evidence](benchmarks/gui-density-resume/README.md)
+close this scope. Local app:main build/gui-density-resume/application;56 members,
+raw520-input tree e83ae913ef42. Older pre-receipt/different-engine runs compute.
+Published candidate4 and Python consumers remain unchanged; no new binary release.
+
+Waste review: first tests passed; one boundary review added required-field
+admission and Windows case-alias nesting checks, then only affected suites and
+one cached app build. Reused strict JSON, atomic publication, downloaded fixtures
+and numeric oracles. No bindings, wheel, new dependency version, decoder, generic
+cache framework, broad qualification or fresh biology/speed claim. Compilexx
+records durable lessons; preserve prior apps/outputs. Publish sources and stop;
+no further feature or validation phase is selected.
+
 ## Delivered phase — ImGui project-wide density panel
 
 Owner continued image/class selection, native cohort/calibration preview,

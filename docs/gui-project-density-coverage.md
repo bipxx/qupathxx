@@ -4,6 +4,8 @@ Selected outcome: image/class cohort selection, preview, background progress/
 cancellation, combined native CSV and per-image errors in the standalone app.
 This is a desktop consumer of existing density APIs, not a new kernel or release.
 All14 selected requirements are closed.
+The subsequent [resume/reuse phase](gui-density-resume-coverage.md) closes10
+additional selected requirements without changing these native authorities.
 
 | Requirement | Status / evidence |
 | --- | --- |

@@ -4,10 +4,12 @@
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
 #include "batch_checkpoint.hpp"
+#include "strict_json.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <set>
 #include <sstream>
+#include <fstream>
 namespace qpx::detail {
 namespace {
 constexpr std::size_t mib=1024*1024;
@@ -31,16 +33,84 @@ std::string report_json(const DensityPanelReport& report) {
     const auto quote=[](const std::string& s){return batch_json_quote(s);};
     std::string out="{\"schema\":\"qpx.gui-project-density/1\",\"state\":"+quote(report.state)+",\"error\":"+quote(report.error)+
         ",\"source\":"+quote(report.source)+",\"source_sha256\":"+quote(report.source_sha256)+",\"project_id\":"+quote(report.project_id)+
-        ",\"completed\":"+std::to_string(report.completed)+",\"failed\":"+std::to_string(report.failed)+",\"rows\":"+std::to_string(report.rows)+",\"images\":[";
+        ",\"completed\":"+std::to_string(report.completed)+",\"computed\":"+std::to_string(report.computed)+",\"reused\":"+std::to_string(report.reused)+",\"failed\":"+std::to_string(report.failed)+",\"rows\":"+std::to_string(report.rows)+",\"images\":[";
     bool first=true;for(const auto& row:report.images) {
         if(!first)out+=',';first=false;
         out+="{\"image_id\":"+std::to_string(row.id)+",\"image_name\":"+quote(row.name)+",\"state\":"+quote(row.state)+",\"error\":"+quote(row.error)+
             ",\"checkpoint\":"+quote(row.checkpoint)+",\"checkpoint_image_id\":"+std::to_string(row.checkpoint_image)+",\"record_id\":"+std::to_string(row.record)+
-            ",\"input_sha256\":"+quote(row.input_sha256)+",\"result_sha256\":"+quote(row.result_sha256)+"}";
+            ",\"input_sha256\":"+quote(row.input_sha256)+",\"result_sha256\":"+quote(row.result_sha256)+
+            ",\"reuse\":"+quote(row.reuse)+",\"reuse_reason\":"+quote(row.reuse_reason)+",\"checkpoint_sha256\":"+quote(row.checkpoint_sha256)+",\"result_input_sha256\":"+quote(row.result_input_sha256)+"}";
     }return out+"]}\n";
 }
 void write_new(const std::string& path,const std::string& data,std::size_t limit) {
     AtomicExportFile file(path,limit);file.write(data.data(),data.size());file.commit(false);
+}
+using Json=nlohmann::json;
+Json engine(const BuildEnvironment& e) {
+    return {{"source_tree_sha256",e.source_tree_sha256},{"compiler",e.compiler},{"compiler_flags",e.compiler_flags},
+        {"configuration",e.configuration},{"platform",e.platform},{"geos_version",e.geos_version}};
+}
+bool same_recipe(const SpatialDensityRequest& request,const SpatialDensityResult& result) {
+    if(std::string(result.algorithm())!="qpx.roi-tissue-density/1" || std::string(result.geometry_policy())!="qpx.polygon512-closed-exclusion/1")return false;
+    if(request.x_scale()!=result.x_scale() || request.y_scale()!=result.y_scale() ||
+        request.provenance()->source.width!=result.provenance()->source.width || request.provenance()->source.height!=result.provenance()->source.height)return false;
+    const auto a=request.options(),b=result.options();
+    if(a.prefer_nucleus!=b.prefer_nucleus || a.polygonize_curves!=b.polygonize_curves || a.snapshot_bytes<b.snapshot_bytes || a.work_bytes<b.work_bytes ||
+        a.max_membership_tests<b.max_membership_tests || a.max_geometry_operations<b.max_geometry_operations || a.max_geometry_vertices<b.max_geometry_vertices)return false;
+    const auto same=[](const auto& x,const auto& y){return x.id==y.id && x.revision==y.revision && x.geometry_sha256==y.geometry_sha256;};
+    if(request.window_count()!=result.window_count() || request.tissue_count()!=result.tissue_count() || request.exclusion_count()!=result.exclusion_count() || request.cell_count()!=result.cell_count())return false;
+    for(std::size_t i=0;i<request.window_count();++i)if(!same(request.window_object(i),result.window_object(i)))return false;
+    for(std::size_t i=0;i<request.tissue_count();++i)if(!same(request.tissue_object(i),result.tissue_object(i)))return false;
+    for(std::size_t i=0;i<request.exclusion_count();++i)if(!same(request.exclusion_object(i),result.exclusion_object(i)))return false;
+    for(std::size_t i=0;i<request.cell_count();++i){const auto& x=request.cell_object(i);const auto& y=result.cell_object(i);
+        if(!same(x,y) || x.kind!=y.kind || x.nucleus!=y.nucleus || x.centroid.x!=y.centroid.x || x.centroid.y!=y.centroid.y)return false;}
+    return true;
+}
+struct ReusedFile {
+    std::string path,sha;
+    std::unique_ptr<ReaderFileGuard> guard;
+};
+std::uint64_t positive_id(const Json& value) {
+    if(!value.is_number_unsigned() && !value.is_number_integer())throw std::invalid_argument("Checkpoint requires integer IDs");
+    if(value.is_number_integer() && !value.is_number_unsigned() && value.get<std::int64_t>()<=0)throw std::invalid_argument("Checkpoint requires positive IDs");
+    const auto id=value.get<std::uint64_t>();if(!id)throw std::invalid_argument("Checkpoint requires positive IDs");return id;
+}
+std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::path& directory,const std::string& project_id,
+    DensityPanelImage& row,const SpatialDensityRequest& request,const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
+    const auto path=directory/("image-"+std::to_string(row.id)+".json");
+    if(!std::filesystem::exists(path)){row.reuse_reason="No complete checkpoint receipt";return {};}
+    ReaderFileGuard receipt_guard(path.u8string());
+    if(std::filesystem::file_size(path)>mib)throw std::length_error("Checkpoint receipt exceeds 1 MiB");
+    std::ifstream in(path,std::ios::binary);if(!in)throw std::runtime_error("Cannot read checkpoint receipt");
+    std::string data(mib+1,'\0');in.read(data.data(),data.size());data.resize(static_cast<std::size_t>(in.gcount()));
+    if(in.bad() || data.size()>mib)throw std::length_error("Cannot read bounded checkpoint receipt");
+    StrictJson strict("density checkpoint");Json::sax_parse(data,&strict);const auto value=Json::parse(data);receipt_guard.verify();
+    for(const auto* key:{"schema","project_id","image_id","engine","checkpoint","checkpoint_image_id","checkpoint_sha256","record_id","result_sha256","result_input_sha256"})
+        if(!value.is_object() || !value.contains(key))throw std::invalid_argument("Checkpoint receipt is incomplete");
+    if(!value.is_object() || value.at("schema")!="qpx.gui-density-checkpoint/1" || value.at("project_id")!=project_id || positive_id(value.at("image_id"))!=row.id)
+        throw std::invalid_argument("Checkpoint schema/source image identity differs");
+    const auto& env=value.at("engine");
+    for(const auto* name:{"source_tree_sha256","compiler","compiler_flags","configuration","platform","geos_version"})if(!env.at(name).is_string())throw std::invalid_argument("Invalid checkpoint engine");
+    if(env!=engine(*build_environment())){row.reuse_reason="Engine identity changed";return {};}
+    const auto checkpoint_path=std::filesystem::canonical(std::filesystem::u8path(value.at("checkpoint").get<std::string>())).u8string();no_sidecars(checkpoint_path);
+    auto guard=std::make_unique<ReaderFileGuard>(checkpoint_path);const auto sha=fingerprint(checkpoint_path,c);
+    if(sha!=value.at("checkpoint_sha256"))throw std::invalid_argument("Checkpoint checksum differs; previous file preserved");
+    const auto image=positive_id(value.at("checkpoint_image_id")),record=positive_id(value.at("record_id"));
+    auto saved=Project::open_without_journal_recovery(checkpoint_path);auto doc=saved->document(image);auto stored=doc->density_record(record)->result;
+    SpatialDensityRequest::replay(*doc,record);
+    if(stored->sha256()!=value.at("result_sha256") || stored->input_sha256()!=value.at("result_input_sha256"))throw std::invalid_argument("Saved result identity differs");
+    verify_source(checkpoint_path,*guard);receipt_guard.verify();checkpoint(c);
+    if(engine(*stored->provenance()->environment)!=env)throw std::invalid_argument("Saved result engine differs from receipt");
+    if(!same_recipe(request,*stored)){row.reuse_reason="Captured inputs, policy or admission limits changed";return {};}
+    row.reuse="reused";row.reuse_reason="Unchanged native capture; saved record replayed (not recomputed)";
+    row.checkpoint=checkpoint_path;row.checkpoint_sha256=sha;row.checkpoint_image=image;row.record=record;
+    held.push_back({checkpoint_path,sha,std::move(guard)});return stored;
+}
+void checkpoint_receipt(const DensityPanelReport& report,const DensityPanelImage& row,const SpatialDensityResult& result) {
+    const Json value={{"schema","qpx.gui-density-checkpoint/1"},{"project_id",report.project_id},{"image_id",row.id},
+        {"engine",engine(*result.provenance()->environment)},{"checkpoint",row.checkpoint},{"checkpoint_image_id",row.checkpoint_image},
+        {"checkpoint_sha256",row.checkpoint_sha256},{"record_id",row.record},{"result_sha256",result.sha256()},{"result_input_sha256",result.input_sha256()}};
+    write_new((std::filesystem::u8path(report.output)/("image-"+std::to_string(row.id)+".json")).u8string(),value.dump(2),mib);
 }
 }
 void DensityPanelRecipe::validate() const {
@@ -97,7 +167,7 @@ DensityPanelReport preview_project_density(const std::string& path,const Density
     if(fingerprint(report.source,c)!=report.source_sha256)throw std::runtime_error("Saved source changed during preview");
     return report;
 }
-DensityPanelReport run_project_density(const DensityPanelReport& preview,const std::string& output,const std::atomic<bool>* c,DensityPanelProgress* p,std::size_t csv_limit) {
+DensityPanelReport run_project_density(const DensityPanelReport& preview,const std::string& output,const std::atomic<bool>* c,DensityPanelProgress* p,std::size_t csv_limit,const std::string& resume_from) {
     if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");preview.recipe.validate();
     if(!csv_limit || csv_limit>1024*mib)throw std::invalid_argument("CSV limit must be 1 byte..1 GiB");
     if(csv_limit<csv_header.size())throw std::invalid_argument("CSV limit is smaller than the header");
@@ -106,10 +176,23 @@ DensityPanelReport run_project_density(const DensityPanelReport& preview,const s
     auto project=Project::open_without_journal_recovery(preview.source);verify_source(preview.source,guard);
     if(project->identity()!=preview.project_id)throw std::runtime_error("Source project identity changed; preview again");
     const auto directory=std::filesystem::u8path(export_path(output));
+    std::filesystem::path previous;
+    if(!resume_from.empty()){
+        previous=std::filesystem::canonical(std::filesystem::u8path(resume_from));
+        if(!std::filesystem::is_directory(previous))throw std::invalid_argument("Previous run must be a directory");
+        const auto next=std::filesystem::weakly_canonical(directory);
+        const auto inside=[](const auto& a,const auto& b){auto x=a.begin(),y=b.begin();for(;y!=b.end();++x,++y)if(x==a.end() || *x!=*y)return false;return true;};
+        if(inside(next,previous) || inside(previous,next))throw std::invalid_argument("Previous and new run folders must be separate, without nesting");
+        for(auto parent=next.parent_path();!parent.empty();) {
+            if(std::filesystem::exists(parent) && std::filesystem::equivalent(parent,previous))throw std::invalid_argument("New run cannot be nested inside the previous run");
+            const auto above=parent.parent_path();if(above==parent)break;parent=above;
+        }
+    }
     if(!std::filesystem::create_directory(directory))throw std::runtime_error("Choose a new output directory");
     auto report=preview;report.state="running";report.output=directory.u8string();
     for(auto& row:report.images)row.state="not_run";
     std::string combined=csv_header;
+    std::vector<ReusedFile> reused_files;
     if(p){p->total.store(report.images.size());p->completed.store(0);p->phase.store(2);}
     try {
         for(auto& row:report.images) {
@@ -117,26 +200,35 @@ DensityPanelReport run_project_density(const DensityPanelReport& preview,const s
             try {
                 auto doc=project->document(row.id);
                 SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],preview.recipe.options);
-                auto result=measure_spatial_density(request,c);checkpoint(c);
+                std::shared_ptr<const SpatialDensityResult> result;
+                if(!previous.empty()){if(p)p->phase.store(5);result=reuse_result(previous,report.project_id,row,request,c,reused_files);}
+                else row.reuse_reason="No previous run selected";
+                if(!result){if(p)p->kernel_calls.fetch_add(1);result=measure_spatial_density(request,c);}checkpoint(c);
                 const auto native=spatial_density_csv(*result,csv_limit,c);const auto end=native.find('\n');
                 if(csv_header.substr(csv_header.find("window_id,"))!=native.substr(0,end+1))throw std::runtime_error("Native CSV schema changed");
                 std::string chunk;
-                const auto checkpoint_path=(directory/("image-"+std::to_string(row.id)+".qpxproj")).u8string();
-                const auto record=doc->keep_density(request,result);
-                const auto prefix=quote_csv(project->identity())+","+std::to_string(row.id)+","+quote_csv(row.name)+","+std::to_string(record)+",computed,"+request.input_sha256()+","+quote_csv(checkpoint_path)+",";
+                const auto checkpoint_path=row.reuse=="reused"?row.checkpoint:(directory/("image-"+std::to_string(row.id)+".qpxproj")).u8string();
+                const auto record=row.reuse=="reused"?row.record:doc->keep_density(request,result);
+                const auto prefix=quote_csv(project->identity())+","+std::to_string(row.id)+","+quote_csv(row.name)+","+std::to_string(record)+","+row.reuse+","+request.input_sha256()+","+quote_csv(checkpoint_path)+",";
                 for(std::size_t at=end+1;at<native.size();) {
                     const auto next=native.find('\n',at);chunk+=prefix+native.substr(at,next-at)+"\n";at=next==std::string::npos?native.size():next+1;
                 }
                 if(chunk.size()>csv_limit || combined.size()>csv_limit-chunk.size())throw CsvLimit("Combined CSV byte limit exceeded");
+                if(row.reuse!="reused") {
                 Project saved;std::vector<ObjectClass> classes;for(const auto& [name,value]:project->classes())classes.push_back(value);
                 saved.set_class_registry(classes,project->class_defaults());saved.set_metadata(project->metadata());
                 const auto image=saved.add_document(doc,row.name);saved.set_image_metadata(image,project->image_metadata(row.id));
                 saved.set_image_details(image,project->image_description(row.id),project->image_tags(row.id));if(auto view=project->view(row.id))saved.set_view(image,*view);
                 if(p)p->phase.store(3);
                 saved.save_new(checkpoint_path,512*mib,1024ull*mib,c,[&]{verify_source(preview.source,guard);});
-                combined+=chunk;row.record=record;row.checkpoint_image=image;row.checkpoint=checkpoint_path;
-                row.input_sha256=request.input_sha256();row.result_sha256=result->sha256();row.rows=result->rows().size();row.state="saved";
+                row.record=record;row.checkpoint_image=image;row.checkpoint=checkpoint_path;row.checkpoint_sha256=fingerprint(checkpoint_path,c);
+                }
+                verify_source(preview.source,guard);checkpoint(c);
+                checkpoint_receipt(report,row,*result);
+                combined+=chunk;
+                row.input_sha256=request.input_sha256();row.result_input_sha256=result->input_sha256();row.result_sha256=result->sha256();row.rows=result->rows().size();row.state=row.reuse=="reused"?"reused":"saved";
                 report.rows+=row.rows;++report.completed;
+                if(row.reuse=="reused"){++report.reused;if(p)p->reused.fetch_add(1);}else ++report.computed;
             }catch(const CsvLimit& e) {row.error=e.what();row.state="failed";++report.failed;throw;}catch(const std::exception& e) {
                 if(c && c->load())throw;
                 row.error=e.what();row.state="failed";++report.failed;
@@ -145,6 +237,7 @@ DensityPanelReport run_project_density(const DensityPanelReport& preview,const s
         }
         checkpoint(c);verify_source(preview.source,guard);
         if(fingerprint(preview.source,c)!=preview.source_sha256)throw std::runtime_error("Saved source changed during run");
+        for(const auto& held:reused_files){verify_source(held.path,*held.guard);if(fingerprint(held.path,c)!=held.sha)throw std::runtime_error("Reused checkpoint changed during run");}
         report.state=report.failed?"partial":"completed";
     }catch(const std::exception& e){report.state=c && c->load()?"cancelled":"partial";report.error=e.what();}
     if(p)p->phase.store(4);
@@ -154,12 +247,12 @@ DensityPanelReport run_project_density(const DensityPanelReport& preview,const s
     report.report=(directory/"report.json").u8string();write_new(report.report,report_json(report),16*mib);
     return report;
 }
-void ProjectDensityPanelJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.completed.store(0);progress_.total.store(0);progress_.image.store(0);progress_.phase.store(0);}
+void ProjectDensityPanelJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.completed.store(0);progress_.total.store(0);progress_.image.store(0);progress_.phase.store(0);progress_.kernel_calls.store(0);progress_.reused.store(0);}
 bool ProjectDensityPanelJob::preview(const std::string& path,const DensityPanelRecipe& recipe) {
     poll();if(busy())return false;recipe.validate();reset();future_=std::async(std::launch::async,[this,path,recipe]{return preview_project_density(path,recipe,&cancelled_,&progress_);});return true;
 }
-bool ProjectDensityPanelJob::run(const DensityPanelReport& preview,const std::string& output) {
-    poll();if(busy())return false;auto captured=preview;reset();future_=std::async(std::launch::async,[this,captured,output]{return run_project_density(captured,output,&cancelled_,&progress_);});return true;
+bool ProjectDensityPanelJob::run(const DensityPanelReport& preview,const std::string& output,const std::string& resume_from) {
+    poll();if(busy())return false;auto captured=preview;reset();future_=std::async(std::launch::async,[this,captured,output,resume_from]{return run_project_density(captured,output,&cancelled_,&progress_,64u*1024*1024,resume_from);});return true;
 }
 void ProjectDensityPanelJob::poll() {
     if(busy() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {

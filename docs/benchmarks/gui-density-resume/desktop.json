@@ -1,0 +1,28 @@
+{
+  "engine": {
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "platform": "Windows AMD64",
+    "source_tree_sha256": "e83ae913ef42993a7ac66afb92ca749354470019afa37e642bde6aea5d0f6698"
+  },
+  "compiler_input_count": 520,
+  "application_sha256": "2f530c09bc03e54ff7dd6ee0d2c6709346daeab2d4ac5bf77bc4b7b36897fc7b",
+  "bundle_members_verified": 56,
+  "first_computed": 2,
+  "resumed_computed": 0,
+  "resumed_reused": 2,
+  "new_qpx_copies": 0,
+  "prior_run_files_unchanged": true,
+  "source_unchanged": true,
+  "native_csv_columns_exact": true,
+  "counts": [
+    31,
+    27
+  ],
+  "cached_records_replay": true,
+  "no_observer_density_computation": true,
+  "source_project_sha256": "85f4c62987a5be0516a7bd06334d2794dc90bdd53ca6e7fb12c217dd9693d8bb",
+  "limits": "Same-app local Windows x64 reuse, not numerical re-verification, speed superiority or a new release/platform/biological claim. GUI receipts and Python receipts differ; older or changed engines compute. Published candidate4 remains unchanged."
+}

@@ -25,7 +25,8 @@ unchanged; they do not acquire this panel without a new app build.
    kernel work and writes no output. Changing selectors clears its approval.
    These are selected-cohort counts; the CSV count column holds per-ROI membership
    counts after analysis.
-6. Enter a **new output directory**, with an existing parent, and click **Run
+6. Optionally enter a **Previous GUI run folder** to reuse eligible saved images.
+   Enter a **new output directory**, with an existing parent, and click **Run
    project density**. Scroll the panel if needed to see controls/results. Run
    rechecks the saved file against the preview's SHA256 before creating output.
 7. Progress reports the task's source, phase, current image and completed-image
@@ -57,6 +58,10 @@ Output files:
 - `report.json` (`qpx.gui-project-density/1`): saved source path/SHA and project
   identity, final state/error, completed/failed/row counts, and per-image record,
   checkpoint, input/result identities and errors. Unattempted images say not_run.
+- `image-ID.json` (`qpx.gui-density-checkpoint/1`): bounded per-image receipt with
+  source project/image IDs, exact engine, checkpoint path/SHA and saved record/
+  result identities. Published after the checkpoint and before combined CSV;
+  resume does not need a final report.json. Keep original checkpoint folders.
 
 Per-image errors normally continue. Combined CSV exhaustion stops further work.
 Completed historical checkpoints survive cancellation or later errors; no partial
@@ -68,10 +73,26 @@ limits, not a process-RSS guarantee. The worker hashes the source at each new
 preview/run boundary and at successful completion, with file-version checks
 between images and before checkpoint publication.
 
-This panel performs a new computation; it does not expose resume or saved-result
-reuse controls. The [Python runner](project-density.md) remains available for
-its own resumable workflow. The GUI report is a separate format; do not pass its
-output directory as a Python-runner resume receipt. Native QPX results remain
+An eligible receipt uses native saved-record replay and compares the current
+capture's role IDs/revisions/geometry hashes, Cell kind/nucleus/centroids, image
+dimensions, calibration and nucleus/curve policies. Smaller resource limits
+require fresh native admission/computation. Exact engine identity covers raw
+source tree, compiler/flags, configuration, platform and GEOS, as in the CLI.
+Reuse preserves native CSV/result identities and references the existing QPX;
+it does not recalculate density or copy pixels. Unrelated metadata changes can
+reuse; changed geometry/calibration/cohorts compute. Missing receipts compute.
+Malformed/incomplete receipts and matching-engine checkpoint checksum, replay or
+result-identity failures produce per-image errors and preserve prior files.
+
+The UI shows computed/reused totals and reused/Fresh image states, with hover
+reasons. Each resumed folder writes new receipts referring directly to original
+checkpoints, so it can itself be selected for another resume. No parent/child
+nesting of old/new run folders is allowed. A checkpoint interrupted before its
+receipt is complete is not automatically reused. Pre-receipt GUI versions and
+different engine builds compute once; their old files are not overwritten.
+
+The [Python runner](project-density.md) retains its own resume format. GUI and
+Python receipt folders are not interchangeable. Native QPX results remain
 inspectable through existing APIs/editor. No model training, new readers, tissue
 inference, biological acceptance, platform expansion or speed claim is added.
 

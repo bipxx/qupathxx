@@ -20,7 +20,7 @@ class GuiProjectDensity {
     ProjectDensityPanelJob job_;
     bool open_=false,all_cells_=true,prefer_nucleus_=true,curves_=false;
     std::array<std::array<char,4097>,4> classes_{};
-    std::array<char,32769> output_{};
+    std::array<char,32769> output_{},previous_{};
     std::set<std::uint64_t> images_;
     std::string project_id_,source_,task_source_,error_;
     std::shared_ptr<const DensityPanelReport> preview_,observed_;
@@ -93,40 +93,45 @@ public:
             ImGui::EndDisabled();
             const auto shown=preview_?preview_:(result && result->state!="preview"?result:nullptr);
             if(shown && ImGui::BeginTable("Density preview",8,ImGuiTableFlags_Borders|ImGuiTableFlags_ScrollY|ImGuiTableFlags_Resizable,{0,125})) {
-                for(const auto* label:{"Image ID","Windows","Tissue","Excluded","Cells","um/px X,Y","State","Issue"})ImGui::TableSetupColumn(label);
+                for(const auto* label:{"Image ID","Windows","Tissue","Excluded","Cells","um/px X,Y","State","Issue / reuse"})ImGui::TableSetupColumn(label);
                 ImGui::TableHeadersRow();
                 for(const auto& row:shown->images) {
                     ImGui::TableNextRow();ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(row.id));if(ImGui::IsItemHovered())ImGui::SetTooltip("%s",row.name.c_str());
                     for(const auto& ids:row.ids){ImGui::TableNextColumn();ImGui::Text("%zu",ids.size());}
                     ImGui::TableNextColumn();if(row.x && row.y)ImGui::Text("%.6g, %.6g",*row.x,*row.y);else ImGui::TextUnformatted("Missing");
-                    ImGui::TableNextColumn();ImGui::TextUnformatted(row.state.c_str());ImGui::TableNextColumn();ImGui::TextWrapped("%s",row.error.c_str());
+                    ImGui::TableNextColumn();ImGui::TextUnformatted(row.state.c_str());ImGui::TableNextColumn();
+                    if(!row.error.empty())ImGui::TextWrapped("%s",row.error.c_str());
+                    else if(row.state!="preview"){ImGui::TextUnformatted(row.reuse=="reused"?"Unchanged":"Fresh");if(ImGui::IsItemHovered())ImGui::SetTooltip("%s",row.reuse_reason.c_str());}
                 }ImGui::EndTable();
             }
             ImGui::BeginDisabled(busy || blocked);ImGui::SetNextItemWidth(-1);
-            ImGui::InputTextWithHint("##density-output","New output directory",output_.data(),output_.size());ImGui::EndDisabled();
+            ImGui::InputTextWithHint("##density-previous","Previous GUI run folder (optional)",previous_.data(),previous_.size());
+            ImGui::TextWrapped("Unchanged results reuse their existing checkpoints. Changed or missing results compute; corrupt cache files report errors.");
+            ImGui::SetNextItemWidth(-1);ImGui::InputTextWithHint("##density-output","New output directory",output_.data(),output_.size());ImGui::EndDisabled();
             const bool ready=enabled && preview_ && preview_->valid() && preview_->source==source_ && output_[0];
             ImGui::BeginDisabled(!ready);
-            if(ui::Button("Run project density"))attempt([&]{auto reviewed=*preview_;task_source_=reviewed.source;job_.run(reviewed,output_.data());preview_.reset();});
+            if(ui::Button("Run project density"))attempt([&]{auto reviewed=*preview_;task_source_=reviewed.source;job_.run(reviewed,output_.data(),previous_.data());preview_.reset();});
             ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(!busy);
             if(ui::Button("Cancel density"))job_.cancel();ImGui::EndDisabled();
             if(busy) {
                 ImGui::TextWrapped("Task source: %s",task_source_.c_str());
                 const auto& p=job_.progress();const auto total=p.total.load(),completed=p.completed.load();
                 ImGui::ProgressBar(total?float(completed)/float(total):0);
-                constexpr const char* phases[]={"Opening saved project","Previewing","Computing","Saving image result","Publishing CSV/report"};
-                ImGui::Text("%s; image %llu; %zu/%zu",phases[std::clamp(p.phase.load(),0,4)],static_cast<unsigned long long>(p.image.load()),completed,total);
+                constexpr const char* phases[]={"Opening saved project","Previewing","Computing","Saving image result","Publishing CSV/report","Checking saved results"};
+                ImGui::Text("%s; image %llu; %zu/%zu",phases[std::clamp(p.phase.load(),0,5)],static_cast<unsigned long long>(p.image.load()),completed,total);
+                ImGui::Text("Computations started: %zu; reused: %zu",p.kernel_calls.load(),p.reused.load());
                 if(job_.cancelling())ImGui::TextWrapped("Cancellation requested. Native geometry/open/save must reach a cancellation point.");
             }
             if(result && result->state!="preview") {
                 ImGui::TextWrapped("Run source: %s",result->source.c_str());
-                ImGui::Text("%s: %zu saved images, %zu failed, %zu rows",result->state.c_str(),result->completed,result->failed,result->rows);
+                ImGui::Text("%s: %zu complete, %zu computed, %zu reused, %zu failed, %zu rows",result->state.c_str(),result->completed,result->computed,result->reused,result->failed,result->rows);
                 if(!result->error.empty())ImGui::TextWrapped("%s",result->error.c_str());
                 ImGui::TextWrapped("CSV: %s",result->csv.c_str());ImGui::TextWrapped("Report: %s",result->report.c_str());
                 if(ui::Button("Open CSV"))open_file(result->csv);ImGui::SameLine();if(ui::Button("Open results folder"))open_file(result->output);
             }
             if(!job_.error().empty())ImGui::TextWrapped("%s",job_.error().c_str());
             if(!error_.empty())ImGui::TextWrapped("%s",error_.c_str());
-            ImGui::TextWrapped("Native default analysis quotas apply. New folders only; per-image QPX results and combined CSV. Errors/cancellation retain completed images in a partial report. No resume control in this panel.");
+            ImGui::TextWrapped("Native default analysis quotas apply. New folders only. Reuse requires exact native engine and captured input identity; it is not numerical re-verification. Errors/cancellation retain completed images and receipts.");
         }catch(const std::exception& e){error_=e.what();}
         ImGui::End();
     }

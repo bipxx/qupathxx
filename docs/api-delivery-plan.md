@@ -30,6 +30,8 @@ The [ImGui project-density panel](gui-project-density.md) is delivered in the
 new standalone desktop app. Image/class selection, preview, progress/cancel,
 per-image QPX and combined CSV/error reporting reuse native density authorities.
 Its [14 selected requirements](gui-project-density-coverage.md) are closed.
+The [10-row resume/reuse addition](gui-density-resume-coverage.md) is also closed:
+per-image receipts reuse eligible native records without copying checkpoints.
 Published candidate4 wheels and existing Python consumers remain unchanged.
 
 The standalone [NuCLS importer](nucls-import.md) now prepares exact PNG/CSV pairs

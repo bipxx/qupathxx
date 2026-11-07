@@ -17,6 +17,7 @@ struct DensityPanelRecipe {
 struct DensityPanelImage {
     std::uint64_t id=0,record=0,checkpoint_image=0;
     std::string name,error,state="preview",checkpoint,input_sha256,result_sha256;
+    std::string reuse="computed",reuse_reason,checkpoint_sha256,result_input_sha256;
     std::array<std::vector<std::uint64_t>,4> ids;
     std::optional<double> x,y;
     std::size_t rows=0;
@@ -25,11 +26,12 @@ struct DensityPanelReport {
     std::string source,source_sha256,project_id,state="idle",error,output,csv,report;
     DensityPanelRecipe recipe;
     std::vector<DensityPanelImage> images;
-    std::size_t completed=0,failed=0,rows=0;
+    std::size_t completed=0,computed=0,reused=0,failed=0,rows=0;
     bool valid() const;
 };
 struct DensityPanelProgress {
     std::atomic<std::size_t> completed{0},total{0};
+    std::atomic<std::size_t> kernel_calls{0},reused{0};
     std::atomic<std::uint64_t> image{0};
     std::atomic<int> phase{0}; // opening,preview,compute,save,publish
 };
@@ -37,7 +39,7 @@ DensityPanelReport preview_project_density(const std::string&,const DensityPanel
     const std::atomic<bool>* cancelled=nullptr,DensityPanelProgress* progress=nullptr);
 DensityPanelReport run_project_density(const DensityPanelReport&,const std::string&,
     const std::atomic<bool>* cancelled=nullptr,DensityPanelProgress* progress=nullptr,
-    std::size_t csv_limit=64u*1024*1024);
+    std::size_t csv_limit=64u*1024*1024,const std::string& resume_from="");
 class ProjectDensityPanelJob {
     std::future<DensityPanelReport> future_;
     std::atomic<bool> cancelled_{false};
@@ -48,7 +50,7 @@ public:
     ~ProjectDensityPanelJob();
     bool busy() const {return future_.valid();}
     bool preview(const std::string&,const DensityPanelRecipe&);
-    bool run(const DensityPanelReport&,const std::string&);
+    bool run(const DensityPanelReport&,const std::string&,const std::string& resume_from="");
     void cancel() {cancelled_.store(true);}
     bool cancelling() const {return busy() && cancelled_.load();}
     void poll();void finish();
