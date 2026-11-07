@@ -16,6 +16,22 @@
 #include <sstream>
 namespace qpx::detail {
 class GuiPixelClassifier {
+    inline static constexpr auto input_targets=std::array{
+        GuiInputTarget::TrainPixelClassifier,
+        GuiInputTarget::PredictPixelClasses,
+        GuiInputTarget::CancelPixelClassifier,
+        GuiInputTarget::SavePixelModel,
+        GuiInputTarget::LoadPixelModel,
+        GuiInputTarget::TogglePixelOverlay,
+        GuiInputTarget::TracePixelContours,
+        GuiInputTarget::PublishPixelContours,
+        GuiInputTarget::KeepPixelTraining,
+        GuiInputTarget::KeepPixelPrediction,
+        GuiInputTarget::UsePixelRecordModel,
+        GuiInputTarget::PreviewPixelRecord,
+        GuiInputTarget::RemovePixelRecord,
+        GuiInputTarget::ExportPixelStream,
+        GuiInputTarget::OpenPixelStreamBrowser};
     GuiPixelArchives archives_;GuiPixelStreamBrowser browser_;
     PixelStreamExportJob stream_;PixelStreamExportStats stream_stats_;PixelStreamOptions stream_options_;
     std::array<char,4096> stream_path_{};bool stream_replace_=false;std::uint64_t stream_max_bytes_=1ULL<<40;
@@ -35,7 +51,7 @@ class GuiPixelClassifier {
     bool open_=false,selected_only_=false,replace_=false,show_=true,viewport_only_=false,trained_=false,preview_reset_=false;
     std::uint64_t target_=0,adopted_=0;std::size_t preview_limit_=0;double capture_ms_=0;float opacity_=.45f;
     std::vector<std::array<float,3>> colors_;std::vector<std::uint32_t> palette_;
-    std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,15> targets_{};
+    std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,input_targets.size()> targets_{};
     std::string error_,io_state_="idle",io_error_;
     struct IoResult {std::shared_ptr<const PixelClassifier> model;std::string error;bool save=false;};
     std::future<IoResult> io_;std::atomic<bool> io_cancelled_{false};
@@ -44,7 +60,10 @@ class GuiPixelClassifier {
     std::vector<std::uint64_t> labelled_,areas_;bool catalog_complete_=false;
     std::size_t catalog_inspected_=0,catalog_max_step_=0;
     std::vector<std::uint64_t> captured_selection_;
-    static std::size_t index(GuiInputTarget t) {return static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::TrainPixelClassifier);}
+    static constexpr std::size_t index(GuiInputTarget t) {
+        for(std::size_t i=0;i<input_targets.size();++i) if(input_targets[i]==t) return i;
+        return input_targets.size();
+    }
     void scales_text() {std::ostringstream text;text.imbue(std::locale::classic());text<<std::setprecision(17);for(auto v:options_.features.sigmas) {if(text.tellp()>0) text<<", ";text<<v;}const auto s=text.str();scales_.fill(0);std::memcpy(scales_.data(),s.data(),std::min(s.size(),scales_.size()-1));}
     void parse_scales() {std::istringstream all(scales_.data());std::string field;std::vector<double> values;while(std::getline(all,field,',')) {std::istringstream part(field);part.imbue(std::locale::classic());double value;if(!(part>>value)) throw std::invalid_argument("Enter comma-separated feature scales");part>>std::ws;if(!part.eof()) throw std::invalid_argument("Invalid feature scale");values.push_back(value);}if(!all.eof() || (!std::string(scales_.data()).empty() && std::string(scales_.data()).back()==',')) throw std::invalid_argument("Invalid feature scale list");auto f=options_.features;f.sigmas=std::move(values);f.validate();options_.features=std::move(f);}
     void make_palette() {if(!std::isfinite(opacity_)) opacity_=.45f;opacity_=std::clamp(opacity_,0.f,1.f);palette_.clear();for(const auto& c:colors_) {std::uint32_t rgb=0;for(unsigned i=0;i<3;++i) rgb|=std::uint32_t(std::lround((std::isfinite(c[i])?std::clamp(c[i],0.f,1.f):0.f)*255))<<(8*i);palette_.push_back(rgb|(std::uint32_t(std::lround(opacity_*255))<<24));}}
@@ -147,7 +166,8 @@ public:
     std::size_t catalog_inspected() const {return catalog_inspected_;}
     std::size_t catalog_max_step() const {return catalog_max_step_;}
     bool catalog_complete() const {return catalog_complete_;}
-    Rect bounds(GuiInputTarget t) const {return t>=GuiInputTarget::OpenPixelStreamFile?browser_.bounds(t):targets_.at(index(t));}
+    static constexpr bool handles(GuiInputTarget target) {return index(target)<input_targets.size() || GuiPixelStreamBrowser::handles(target);}
+    Rect bounds(GuiInputTarget t) const {return GuiPixelStreamBrowser::handles(t)?browser_.bounds(t):targets_.at(index(t));}
     void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);browser_.finish(finite);update(doc,selection);}
     void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
         if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}

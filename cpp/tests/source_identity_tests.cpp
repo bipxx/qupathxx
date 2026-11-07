@@ -1,3 +1,4 @@
+#include "../json_string.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/core.hpp"
 #include "../reader_provenance.hpp"
@@ -16,6 +17,12 @@ template<class E,class F> void rejects(F f) {try {f();} catch(const E&) {return;
 void checksum(std::vector<std::uint8_t>& bytes) {Sha256 hash;hash.update(bytes.data(),bytes.size()-64);const auto sum=hash.finish();std::copy(sum.begin(),sum.end(),bytes.end()-64);}
 int main() {
  try {
+    check(detail::json_string("")=="\"\"");
+    check(detail::json_string("a\"\\\n\t\x01")=="\"a\\\"\\\\\\u000a\\u0009\\u0001\"");
+    check(detail::json_string("\xc3\xa9")=="\"\xc3\xa9\"");
+    rejects<std::invalid_argument>([]{detail::json_string(std::string("a\0b",3));});
+    rejects<std::invalid_argument>([]{detail::json_string("\xc0\xaf");});
+    rejects<std::invalid_argument>([]{detail::json_string("\xf0\x9f");});
     const auto path=std::filesystem::current_path()/("reader-source-"+std::to_string(std::random_device{}())+".ppm");
     {std::ofstream f(path,std::ios::binary);f<<"P6\n2 2\n255\n";for(int i=0;i<12;++i) f.put(char(i));}
     auto server=ppm_image_server(path.u8string());const auto source=server->reader_source();check(source && source->scope=="single_file" && source->primary && source->primary->bytes==23);

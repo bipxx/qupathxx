@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "spatial_cli.hpp"
 #include "qupathxx/spatial_neighborhood.hpp"
 #include "qupathxx/spatial_density.hpp"
@@ -7,7 +8,6 @@
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
 #include "spatial_output_guard.hpp"
-#include "batch_checkpoint.hpp"
 #include "utf8_text.hpp"
 #include <charconv>
 #include <cmath>
@@ -161,19 +161,19 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         std::size_t source_count=0,target_count=0;const char* units=nullptr;
         if constexpr(is_density) {source_count=result->window_count();target_count=result->cell_count();units="cells/mm2";}
         else {source_count=result->source_count();target_count=result->target_count();units=result->options().units==SpatialDistanceUnits::Pixels?"px":"um";}
-        std::cout<<"{\"schema\":"<<batch_json_quote(density?"qpx.spatial-density-cli/1":neighborhood?"qpx.spatial-neighborhood-cli/1":"qpx.spatial-cli/1")<<",\"command\":"<<batch_json_quote(measure?"measure":verify?"verify":"export")
-            <<",\"state\":"<<batch_json_quote(verify?"verified":"saved")<<",\"image_id\":"<<image<<",\"record_id\":"<<record_id
+        std::cout<<"{\"schema\":"<<json_string(density?"qpx.spatial-density-cli/1":neighborhood?"qpx.spatial-neighborhood-cli/1":"qpx.spatial-cli/1")<<",\"command\":"<<json_string(measure?"measure":verify?"verify":"export")
+            <<",\"state\":"<<json_string(verify?"verified":"saved")<<",\"image_id\":"<<image<<",\"record_id\":"<<record_id
             <<",\"rows\":"<<result->rows().size()<<",\"sources\":"<<source_count<<",\"targets\":"<<target_count
-            <<",\"units\":"<<batch_json_quote(units)
-            <<",\"algorithm\":"<<batch_json_quote(result->algorithm())<<",\"input_sha256\":"<<batch_json_quote(result->input_sha256())
-            <<",\"result_sha256\":"<<batch_json_quote(result->sha256())<<",\"historical\":"<<(!measure && !verify?"true":"false");
-        if constexpr(is_density) std::cout<<",\"operation\":\"tissue-density\",\"tissue_rois\":"<<result->tissue_count()<<",\"exclusions\":"<<result->exclusion_count()<<",\"geometry_policy\":"<<batch_json_quote(result->geometry_policy());
+            <<",\"units\":"<<json_string(units)
+            <<",\"algorithm\":"<<json_string(result->algorithm())<<",\"input_sha256\":"<<json_string(result->input_sha256())
+            <<",\"result_sha256\":"<<json_string(result->sha256())<<",\"historical\":"<<(!measure && !verify?"true":"false");
+        if constexpr(is_density) std::cout<<",\"operation\":\"tissue-density\",\"tissue_rois\":"<<result->tissue_count()<<",\"exclusions\":"<<result->exclusion_count()<<",\"geometry_policy\":"<<json_string(result->geometry_policy());
         if(neighborhood) std::cout<<std::setprecision(17)<<",\"operation\":\"radius-count\",\"radius\":"<<neighborhood_result->options().radius;
-        if(!verify) std::cout<<",\"output\":"<<batch_json_quote(output);
+        if(!verify) std::cout<<",\"output\":"<<json_string(output);
         if(!measure && !verify) std::cout<<",\"bytes\":"<<bytes;
         std::cout<<"}\n";
         };
         if(density)print_result(density_result);else if(neighborhood)print_result(neighborhood_result);else print_result(result);return 0;
-    }catch(const std::exception& e) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(e.what())<<"}\n";return cancelled.load()?130:1;}
+    }catch(const std::exception& e) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<json_string(e.what())<<"}\n";return cancelled.load()?130:1;}
 }
 }

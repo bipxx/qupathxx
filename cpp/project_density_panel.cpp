@@ -1,9 +1,10 @@
+#include "density_reuse.hpp"
+#include "json_string.hpp"
 #include "project_density_panel.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
-#include "batch_checkpoint.hpp"
 #include "strict_json.hpp"
 #include <algorithm>
 #include <filesystem>
@@ -30,16 +31,15 @@ std::string quote_csv(const std::string& text) {
     std::string out="\"";for(auto c:text) {out+=c;if(c=='"')out+='"';}return out+'"';
 }
 std::string report_json(const DensityPanelReport& report) {
-    const auto quote=[](const std::string& s){return batch_json_quote(s);};
-    std::string out="{\"schema\":\"qpx.gui-project-density/1\",\"state\":"+quote(report.state)+",\"error\":"+quote(report.error)+
-        ",\"source\":"+quote(report.source)+",\"source_sha256\":"+quote(report.source_sha256)+",\"project_id\":"+quote(report.project_id)+
+    std::string out="{\"schema\":\"qpx.gui-project-density/1\",\"state\":"+json_string(report.state)+",\"error\":"+json_string(report.error)+
+        ",\"source\":"+json_string(report.source)+",\"source_sha256\":"+json_string(report.source_sha256)+",\"project_id\":"+json_string(report.project_id)+
         ",\"completed\":"+std::to_string(report.completed)+",\"computed\":"+std::to_string(report.computed)+",\"reused\":"+std::to_string(report.reused)+",\"failed\":"+std::to_string(report.failed)+",\"rows\":"+std::to_string(report.rows)+",\"images\":[";
     bool first=true;for(const auto& row:report.images) {
         if(!first)out+=',';first=false;
-        out+="{\"image_id\":"+std::to_string(row.id)+",\"image_name\":"+quote(row.name)+",\"state\":"+quote(row.state)+",\"error\":"+quote(row.error)+
-            ",\"checkpoint\":"+quote(row.checkpoint)+",\"checkpoint_image_id\":"+std::to_string(row.checkpoint_image)+",\"record_id\":"+std::to_string(row.record)+
-            ",\"input_sha256\":"+quote(row.input_sha256)+",\"result_sha256\":"+quote(row.result_sha256)+
-            ",\"reuse\":"+quote(row.reuse)+",\"reuse_reason\":"+quote(row.reuse_reason)+",\"checkpoint_sha256\":"+quote(row.checkpoint_sha256)+",\"result_input_sha256\":"+quote(row.result_input_sha256)+"}";
+        out+="{\"image_id\":"+std::to_string(row.id)+",\"image_name\":"+json_string(row.name)+",\"state\":"+json_string(row.state)+",\"error\":"+json_string(row.error)+
+            ",\"checkpoint\":"+json_string(row.checkpoint)+",\"checkpoint_image_id\":"+std::to_string(row.checkpoint_image)+",\"record_id\":"+std::to_string(row.record)+
+            ",\"input_sha256\":"+json_string(row.input_sha256)+",\"result_sha256\":"+json_string(row.result_sha256)+
+            ",\"reuse\":"+json_string(row.reuse)+",\"reuse_reason\":"+json_string(row.reuse_reason)+",\"checkpoint_sha256\":"+json_string(row.checkpoint_sha256)+",\"result_input_sha256\":"+json_string(row.result_input_sha256)+"}";
     }return out+"]}\n";
 }
 void write_new(const std::string& path,const std::string& data,std::size_t limit) {
@@ -50,22 +50,7 @@ Json engine(const BuildEnvironment& e) {
     return {{"source_tree_sha256",e.source_tree_sha256},{"compiler",e.compiler},{"compiler_flags",e.compiler_flags},
         {"configuration",e.configuration},{"platform",e.platform},{"geos_version",e.geos_version}};
 }
-bool same_recipe(const SpatialDensityRequest& request,const SpatialDensityResult& result) {
-    if(std::string(result.algorithm())!="qpx.roi-tissue-density/1" || std::string(result.geometry_policy())!="qpx.polygon512-closed-exclusion/1")return false;
-    if(request.x_scale()!=result.x_scale() || request.y_scale()!=result.y_scale() ||
-        request.provenance()->source.width!=result.provenance()->source.width || request.provenance()->source.height!=result.provenance()->source.height)return false;
-    const auto a=request.options(),b=result.options();
-    if(a.prefer_nucleus!=b.prefer_nucleus || a.polygonize_curves!=b.polygonize_curves || a.snapshot_bytes<b.snapshot_bytes || a.work_bytes<b.work_bytes ||
-        a.max_membership_tests<b.max_membership_tests || a.max_geometry_operations<b.max_geometry_operations || a.max_geometry_vertices<b.max_geometry_vertices)return false;
-    const auto same=[](const auto& x,const auto& y){return x.id==y.id && x.revision==y.revision && x.geometry_sha256==y.geometry_sha256;};
-    if(request.window_count()!=result.window_count() || request.tissue_count()!=result.tissue_count() || request.exclusion_count()!=result.exclusion_count() || request.cell_count()!=result.cell_count())return false;
-    for(std::size_t i=0;i<request.window_count();++i)if(!same(request.window_object(i),result.window_object(i)))return false;
-    for(std::size_t i=0;i<request.tissue_count();++i)if(!same(request.tissue_object(i),result.tissue_object(i)))return false;
-    for(std::size_t i=0;i<request.exclusion_count();++i)if(!same(request.exclusion_object(i),result.exclusion_object(i)))return false;
-    for(std::size_t i=0;i<request.cell_count();++i){const auto& x=request.cell_object(i);const auto& y=result.cell_object(i);
-        if(!same(x,y) || x.kind!=y.kind || x.nucleus!=y.nucleus || x.centroid.x!=y.centroid.x || x.centroid.y!=y.centroid.y)return false;}
-    return true;
-}
+
 struct ReusedFile {
     std::string path,sha;
     std::unique_ptr<ReaderFileGuard> guard;
@@ -101,7 +86,7 @@ std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::
     if(stored->sha256()!=value.at("result_sha256") || stored->input_sha256()!=value.at("result_input_sha256"))throw std::invalid_argument("Saved result identity differs");
     verify_source(checkpoint_path,*guard);receipt_guard.verify();checkpoint(c);
     if(engine(*stored->provenance()->environment)!=env)throw std::invalid_argument("Saved result engine differs from receipt");
-    if(!same_recipe(request,*stored)){row.reuse_reason="Captured inputs, policy or admission limits changed";return {};}
+    if(!density_reuse_compatible(request,*stored)){row.reuse_reason="Captured inputs, policy or admission limits changed";return {};}
     row.reuse="reused";row.reuse_reason="Unchanged native capture; saved record replayed (not recomputed)";
     row.checkpoint=checkpoint_path;row.checkpoint_sha256=sha;row.checkpoint_image=image;row.record=record;
     held.push_back({checkpoint_path,sha,std::move(guard)});return stored;

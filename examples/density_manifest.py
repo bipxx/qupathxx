@@ -78,7 +78,6 @@ def generate(project: Path, *, window_classes: Sequence[str],
             doc = source.document(image.id)
             row['calibration_um'] = [doc.pixel_width_um, doc.pixel_height_um]
             found = {role: set() for role in roles}
-            # Snapshot the native object list once; never implement geometry here.
             for obj in doc.annotations:
                 for role, names in roles.items():
                     if obj.class_name in names:

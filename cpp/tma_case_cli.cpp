@@ -1,7 +1,7 @@
+#include "json_string.hpp"
 #include "tma_case_cli.hpp"
 #include "tma_case_export.hpp"
 #include "qupathxx/project.hpp"
-#include "batch_checkpoint.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
 #include <charconv>
@@ -61,7 +61,7 @@ std::optional<int> tma_case_cli(const std::vector<std::string>& args,const std::
             observed.verify();
             const auto bytes=save_tma_cohort_case_summary_file(snapshots,output,input,value,weight,limit,unversioned,&cancelled,&observed);
             std::cout<<"{\"schema\":\"qpx.tma-cohort-export/1\",\"state\":\"saved\",\"grids\":"<<snapshots.size()
-                     <<",\"bytes\":"<<bytes<<",\"output\":"<<batch_json_quote(output)<<"}\n";
+                     <<",\"bytes\":"<<bytes<<",\"output\":"<<json_string(output)<<"}\n";
             return 0;
         }
         if(!image_id) {if(images.size()!=1) throw std::invalid_argument("select one TMA image with --image when the project does not contain exactly one image");image_id=images.front().id;}
@@ -70,10 +70,10 @@ std::optional<int> tma_case_cli(const std::vector<std::string>& args,const std::
         observed.verify();
         const auto bytes=save_tma_case_summary_file(*snapshot,output,input,value,weight,limit,unversioned,&cancelled,&observed);
         std::cout<<"{\"schema\":\"qpx.tma-case-export/1\",\"state\":\"saved\",\"image_id\":"<<image_id
-                 <<",\"document_revision\":"<<snapshot->document_revision()<<",\"bytes\":"<<bytes<<",\"output\":"<<batch_json_quote(output)<<"}\n";
+                 <<",\"document_revision\":"<<snapshot->document_revision()<<",\"bytes\":"<<bytes<<",\"output\":"<<json_string(output)<<"}\n";
         return 0;
     }catch(const std::exception& e) {
-        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(e.what())<<"}\n";
+        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<json_string(e.what())<<"}\n";
         return cancelled.load()?130:1;
     }
 }

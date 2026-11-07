@@ -84,7 +84,20 @@ int main() {
         rejects<std::invalid_argument>([]{GuiReplayDeadline bad(61);});
         down.target=GuiInputTarget::Canvas;rejects<std::invalid_argument>([&]{GuiReplay bad({down},1);});
         down.target=GuiInputTarget::DiscardClose;down.kind=GuiInputKind::LeftUp;rejects<std::invalid_argument>([&]{GuiReplay bad({down},1);});
-        down.wait_for=static_cast<GuiInputWait>(99);rejects<std::invalid_argument>([&]{GuiReplay bad({down},1);});
+        int highest_wait=0;
+        for(const auto& condition:detail::gui_input_wait_values) {
+            highest_wait=std::max(highest_wait,static_cast<int>(condition.value));
+            GuiInput event;event.kind=GuiInputKind::LeftDown;event.target=GuiInputTarget::DiscardClose;
+            event.wait_for=condition.value;GuiReplay accepted({event},1);
+            std::size_t emitted_count=0,readiness_queries=0;
+            accepted.dispatch([&](const auto& observed) {++readiness_queries;check(observed.wait_for==event.wait_for);return true;},
+                [&](const auto& observed) {++emitted_count;check(observed.wait_for==event.wait_for);},Clock::time_point{});
+            check(accepted.complete() && emitted_count==1 && readiness_queries==(event.wait_for==GuiInputWait::Immediate?0u:1u));
+        }
+        for(int value:{-1,highest_wait+1,std::numeric_limits<int>::max()}) {
+            GuiInput event;event.wait_for=static_cast<GuiInputWait>(value);
+            rejects<std::invalid_argument>([&]{GuiReplay bad({event},1);});
+        }
         // Legacy events do not query readiness and retain their physical frame schedule.
         GuiReplay legacy({up,key},1);std::size_t count=0;
         for(int i=0;i<5;++i) {legacy.dispatch([](const auto&)->bool{throw std::logic_error("legacy wait");},[&](const auto&){++count;},Clock::time_point{});legacy.finish_frame();}
@@ -114,9 +127,6 @@ int main() {
         for(auto target:{GuiInputTarget::TracePixelContours,GuiInputTarget::PublishPixelContours,GuiInputTarget::KeepPixelTraining,GuiInputTarget::KeepPixelPrediction,GuiInputTarget::UsePixelRecordModel,GuiInputTarget::PreviewPixelRecord,GuiInputTarget::RemovePixelRecord,GuiInputTarget::ExportPixelStream,GuiInputTarget::OpenPixelStreamBrowser,GuiInputTarget::OpenPixelStreamFile,GuiInputTarget::ReadPixelStreamBlock,GuiInputTarget::PreviousPixelStreamBlock,GuiInputTarget::NextPixelStreamBlock,GuiInputTarget::VerifyPixelStreamFile,GuiInputTarget::CancelPixelStreamRead,GuiInputTarget::ClosePixelStreamFile,GuiInputTarget::KeepPixelStreamLink,GuiInputTarget::OpenPixelStreamRecord,GuiInputTarget::RelinkPixelStreamRecord,GuiInputTarget::RemovePixelStreamRecord}) {
             GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;
             GuiReplay accepted({click},1);
-        }
-        for(auto condition:{GuiInputWait::PixelContoursReady,GuiInputWait::PixelContoursPublished,GuiInputWait::PixelRecordKept,GuiInputWait::PixelRecordModelLoaded,GuiInputWait::PixelHistoricalPreviewReady,GuiInputWait::PixelStreamFinished,GuiInputWait::PixelStreamReadReady,GuiInputWait::PixelStreamReadFinished,GuiInputWait::PixelStreamVerified,GuiInputWait::PixelStreamLinked}) {
-            GuiInput wait;wait.kind=GuiInputKind::Move;wait.wait_for=condition;GuiReplay accepted({wait},1);
         }
         for(auto target:{GuiInputTarget::OverviewBudgetIncrease,GuiInputTarget::OverviewBudgetDecrease}) {
             GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;

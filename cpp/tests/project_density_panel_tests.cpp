@@ -1,3 +1,4 @@
+#include "../atomic_export.hpp"
 #include "../project_density_panel.hpp"
 #include "qupathxx/project.hpp"
 #include <filesystem>
@@ -83,7 +84,7 @@ int main(int argc,char** argv){try{
     std::atomic<bool> cancel{false};DensityPanelProgress progress;
     auto future=std::async(std::launch::async,[&]{return run_project_density(slow_preview,(root/"cancel").u8string(),&cancel,&progress);});
     const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(20);
-    while(progress.completed.load()<1 && future.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready){check(std::chrono::steady_clock::now()<deadline);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+    while(progress.completed.load()<1 && future.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready){if(std::chrono::steady_clock::now()>=deadline){cancel.store(true);future.wait();check(false);}std::this_thread::sleep_for(std::chrono::milliseconds(1));}
     check(progress.completed.load()==1);cancel.store(true);const auto cancelled=future.get();
     check(cancelled.state=="cancelled" && cancelled.completed==1 && cancelled.rows==1);
     check(cancelled.csv.find("partial")!=std::string::npos && fs::exists(cancelled.images[0].checkpoint));
@@ -92,12 +93,24 @@ int main(int argc,char** argv){try{
     cancel.store(false);progress.completed.store(0);progress.image.store(0);
     auto three=r;three.images={1,2,3};const auto three_preview=preview_project_density(slow_source.u8string(),three);
     auto collision=std::async(std::launch::async,[&]{return run_project_density(three_preview,(root/"collision").u8string(),&cancel,&progress);});
-    while(progress.image.load()!=2 && collision.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready)std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    {std::ofstream kept(root/"collision/image-2.qpxproj");kept<<"preserve user file";}
+    const auto collision_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(20);
+    while(progress.image.load()!=2 && collision.wait_for(std::chrono::milliseconds(0))!=std::future_status::ready) {
+        if(std::chrono::steady_clock::now()>=collision_deadline) {cancel.store(true);collision.wait();check(false);}
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    if(progress.image.load()!=2 || collision.wait_for(std::chrono::milliseconds(0))==std::future_status::ready) {
+        cancel.store(true);collision.wait();check(false);
+    }
+    {AtomicExportFile kept((root/"collision/image-2.qpxproj").u8string(),128);const std::string text="preserve user file";kept.write(text.data(),text.size());kept.commit(false);}
     const auto partial=collision.get();check(partial.state=="partial" && partial.completed==2 && partial.failed==1 && partial.images[2].state=="saved");
     check(read(root/"collision/image-2.qpxproj")=="preserve user file" && !partial.images[1].error.empty());
     ProjectDensityPanelJob job;check(job.preview(slow_source.u8string(),r));check(!job.preview(slow_source.u8string(),r));
-    while(job.busy()){job.poll();std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+    const auto job_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(20);
+    while(job.busy()) {
+        job.poll();
+        if(job.busy() && std::chrono::steady_clock::now()>=job_deadline) {job.cancel();job.finish();check(false);}
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
     check(job.error().empty() && job.result()->valid());
     std::cout<<"density panel checks passed: preview, selection, calibration, CSV/checkpoints, stale source, cancellation, per-image failure, async job\n";
     return 0;

@@ -203,8 +203,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     result->nuclei_=raster(std::move(nuclei),false);result->cells_=raster(std::move(bodies),true);
     const auto canonical=encode_grid(*result,cancelled);
     if(canonical.size()!=size || !std::equal(canonical.begin(),canonical.end(),data)) throw std::invalid_argument("noncanonical grid cell archive encoding");
-    try {restore_cell_contours(*result,cancelled);} catch(const std::length_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
-    catch(const std::runtime_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
-    checkpoint(cancelled);return result;
+    restore_archived_cell_contours(*result,cancelled);
+    return result;
 }
 }

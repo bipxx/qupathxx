@@ -19,11 +19,35 @@
 
 namespace qpx::detail {
 class GuiTma {
-    static constexpr auto first=GuiInputTarget::CreateTmaGrid,last=GuiInputTarget::ApplyTmaLabels;
-    static constexpr std::size_t old_count=static_cast<std::size_t>(last)-static_cast<std::size_t>(first)+1;
-    static constexpr std::size_t exchange_count=static_cast<std::size_t>(GuiInputTarget::AcknowledgeQptmaLosses)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview)+1;
-    static constexpr std::size_t count=old_count+exchange_count+7;
-    std::array<Rect,count> targets_{};std::array<bool,count> enabled_{};
+    inline static constexpr auto input_targets=std::array{
+        GuiInputTarget::CreateTmaGrid,
+        GuiInputTarget::ToggleTmaMissing,
+        GuiInputTarget::SelectTmaPresent,
+        GuiInputTarget::ApplyTmaCase,
+        GuiInputTarget::ApplyTmaGeometry,
+        GuiInputTarget::TranslateTmaGrid,
+        GuiInputTarget::ClearTmaGrid,
+        GuiInputTarget::OpenTmaBatch,
+        GuiInputTarget::ExportTmaMetadata,
+        GuiInputTarget::CancelTmaMetadata,
+        GuiInputTarget::TmaCoreTab,
+        GuiInputTarget::TmaGridTab,
+        GuiInputTarget::TmaExportTab,
+        GuiInputTarget::ApplyTmaLabels,
+        GuiInputTarget::LoadQptmaPreview,
+        GuiInputTarget::ApplyQptmaPreview,
+        GuiInputTarget::ExportQptma,
+        GuiInputTarget::CancelQptma,
+        GuiInputTarget::DiscardQptmaPreview,
+        GuiInputTarget::AcknowledgeQptmaLosses,
+        GuiInputTarget::TmaInsertRowBefore,
+        GuiInputTarget::TmaInsertRowAfter,
+        GuiInputTarget::TmaInsertColumnBefore,
+        GuiInputTarget::TmaInsertColumnAfter,
+        GuiInputTarget::TmaRemoveRow,
+        GuiInputTarget::TmaRemoveColumn,
+        GuiInputTarget::TmaDetectGrid};
+    std::array<Rect,input_targets.size()> targets_{};std::array<bool,input_targets.size()> enabled_{};
     bool open_=false,explicit_options_=false,rename_names_=false,activate_tab_=true;int initial_tab_=0;
     TmaGridOptions options_;
     std::array<char,257> name_{},case_{};
@@ -46,9 +70,9 @@ class GuiTma {
     Rect edited_;
     struct Export {std::string state,error;std::size_t bytes=0;};
     std::future<Export> export_;std::atomic<bool> cancel_{false};
-    static std::size_t index(GuiInputTarget t) {
-        if(t>=GuiInputTarget::TmaInsertRowBefore) return old_count+exchange_count+static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::TmaInsertRowBefore);
-        return t>=GuiInputTarget::LoadQptmaPreview?old_count+static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview):static_cast<std::size_t>(t)-static_cast<std::size_t>(first);
+    static constexpr std::size_t index(GuiInputTarget t) {
+        for(std::size_t i=0;i<input_targets.size();++i) if(input_targets[i]==t) return i;
+        return input_targets.size();
     }
     std::array<char,32769> qptma_input_{},qptma_output_{};
     struct Exchange {std::shared_ptr<const QptmaData> preview;std::shared_ptr<const TmaDearrayResult> dearray;std::unique_ptr<SpatialIndex> index;std::string state,error;std::size_t bytes=0,missing=0;};
@@ -200,7 +224,7 @@ public:
     explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(insert_label_,initial.tma_insert_label);insert_cores_=initial.tma_insert_cores;insert_missing_=initial.tma_insert_missing;copy(qptma_input_,initial.qptma_input_path);copy(qptma_output_,initial.qptma_output_path);exchange_open_=qptma_input_[0] || qptma_output_[0] || bool(initial.tma_dearray_options);dearray_open_=bool(initial.tma_dearray_options);if(initial.tma_dearray_options)dearray_options_=*initial.tma_dearray_options;else if(initial.tma_options){dearray_options_.rows=options_.rows;dearray_options_.columns=options_.columns;dearray_options_.core_width=options_.width;dearray_options_.core_height=options_.height;dearray_options_.name=options_.name;}if(initial.tma_dearray_options)dearray_options_.validate();copy(dearray_name_,dearray_options_.name);copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
     ~GuiTma() {finish(false);}
     void open() {open_=true;}
-    static bool handles(GuiInputTarget target) {return (target>=first && target<=last) || (target>=GuiInputTarget::LoadQptmaPreview && target<=GuiInputTarget::AcknowledgeQptmaLosses) || (target>=GuiInputTarget::TmaInsertRowBefore && target<=GuiInputTarget::TmaDetectGrid);}
+    static constexpr bool handles(GuiInputTarget target) {return index(target)<input_targets.size();}
     const std::string& qptma_state() const {return exchange_state_;}
     std::shared_ptr<const TmaDearrayResult> dearray_result() const {return dearray_result_;}
     std::size_t qptma_cores() const {return preview_?preview_->cores.size():0;}

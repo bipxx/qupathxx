@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "sha256.hpp"
 #include "atomic_export.hpp"
@@ -127,10 +128,7 @@ std::shared_ptr<const FileFingerprint> run(const std::string& path,FileFingerpri
     if(!(before==input.stamp()) || !(before==Input(path,true).stamp())) throw std::runtime_error("file fingerprint input changed while hashing");
     checkpoint(cancelled);value->sha256=hash.finish();value->finished_unix_ms=unix_ms();value->elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();value->validate();return value;
 }
-std::string quoted(const std::string& value) {
-    std::string out="\"";constexpr char hex[]="0123456789abcdef";
-    for(unsigned char c:value) {if(c=='\"' || c=='\\') {out+='\\';out+=char(c);}else if(c<32) {out+="\\u00";out+=hex[c>>4];out+=hex[c&15];}else out+=char(c);}return out+'\"';
-}
+
 void save(const FileFingerprint& value,const std::string& path,const std::atomic<bool>* cancelled) {
     value.validate();output_guard(value,path);const auto json=file_fingerprint_json(value);detail::AtomicExportFile file(path,1024*1024,cancelled);
     file.write(json.data(),json.size());checkpoint(cancelled);output_guard(value,path);file.commit();
@@ -166,7 +164,7 @@ void FileFingerprint::validate() const {
 std::shared_ptr<const FileFingerprint> fingerprint_file(const std::string& path,FileFingerprintOptions options,const std::atomic<bool>* cancelled) {options.validate();return run(normalized(path),options,cancelled);}
 std::string file_fingerprint_json(const FileFingerprint& value) {
     value.validate();char real[128];auto formatted=std::to_chars(real,real+128,value.elapsed_ms,std::chars_format::general,std::numeric_limits<double>::max_digits10);if(formatted.ec!=std::errc{}) throw std::runtime_error("fingerprint duration formatting failed");
-    return "{\"schema\":\"qpx.file-fingerprint/1\",\"path\":"+quoted(value.path)+",\"bytes\":"+std::to_string(value.bytes)+",\"sha256\":"+quoted(value.sha256)+",\"identity_scheme\":"+quoted(value.identity_scheme)+",\"identity\":"+quoted(value.identity)+",\"stamp_scheme\":"+quoted(value.stamp_scheme)+",\"modified_token\":"+quoted(value.modified_token)+",\"change_token\":"+quoted(value.change_token)+",\"started_unix_ms\":"+std::to_string(value.started_unix_ms)+",\"finished_unix_ms\":"+std::to_string(value.finished_unix_ms)+",\"elapsed_ms\":"+std::string(real,formatted.ptr)+"}\n";
+    return "{\"schema\":\"qpx.file-fingerprint/1\",\"path\":"+detail::json_string(value.path)+",\"bytes\":"+std::to_string(value.bytes)+",\"sha256\":"+detail::json_string(value.sha256)+",\"identity_scheme\":"+detail::json_string(value.identity_scheme)+",\"identity\":"+detail::json_string(value.identity)+",\"stamp_scheme\":"+detail::json_string(value.stamp_scheme)+",\"modified_token\":"+detail::json_string(value.modified_token)+",\"change_token\":"+detail::json_string(value.change_token)+",\"started_unix_ms\":"+std::to_string(value.started_unix_ms)+",\"finished_unix_ms\":"+std::to_string(value.finished_unix_ms)+",\"elapsed_ms\":"+std::string(real,formatted.ptr)+"}\n";
 }
 void save_file_fingerprint(const FileFingerprint& value,const std::string& path) {save(value,normalized(path),nullptr);}
 struct FileFingerprintJob::Impl {

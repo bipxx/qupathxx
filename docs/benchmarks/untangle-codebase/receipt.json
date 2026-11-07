@@ -1,0 +1,16 @@
+{
+  "parent_commit": "ffdb404a5232ce17874cdf27529929233600b0c5",
+  "compiled_git": "ffdb404a+dirty",
+  "source_tree": "d1bee927656c1ada8b05774f9cb6eb1216fe9238d4e0144f32fdad9b5ded9910",
+  "compiler_inputs": 530,
+  "native_suites_unique": 16,
+  "standalone_header_checks": 10,
+  "real_workflows": 4,
+  "cells": 2237,
+  "exact_masks_geometry": true,
+  "enum_members": 66,
+  "binding_objects_reused": 37,
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release",
+  "published_candidate5_changed": false,
+  "new_speed_claim": false
+}

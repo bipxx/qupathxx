@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
@@ -11,12 +12,9 @@
 #include <set>
 namespace qpx {
 namespace {
-std::string quoted(const std::string& value) {
-    std::string out="\"";constexpr char hex[]="0123456789abcdef";
-    for(unsigned char c:value) {if(c=='\"' || c=='\\') {out+='\\';out+=char(c);}else if(c<32) {out+="\\u00";out+=hex[c>>4];out+=hex[c&15];}else out+=char(c);}return out+'\"';
-}
+
 std::string version_json(const FileVersion& v) {
-    return "{\"path\":"+quoted(v.path)+",\"bytes\":"+std::to_string(v.bytes)+",\"identity_scheme\":"+quoted(v.identity_scheme)+",\"identity\":"+quoted(v.identity)+",\"stamp_scheme\":"+quoted(v.stamp_scheme)+",\"modified_token\":"+quoted(v.modified_token)+",\"change_token\":"+quoted(v.change_token)+",\"observed_unix_ms\":"+std::to_string(v.observed_unix_ms)+"}";
+    return "{\"path\":"+detail::json_string(v.path)+",\"bytes\":"+std::to_string(v.bytes)+",\"identity_scheme\":"+detail::json_string(v.identity_scheme)+",\"identity\":"+detail::json_string(v.identity)+",\"stamp_scheme\":"+detail::json_string(v.stamp_scheme)+",\"modified_token\":"+detail::json_string(v.modified_token)+",\"change_token\":"+detail::json_string(v.change_token)+",\"observed_unix_ms\":"+std::to_string(v.observed_unix_ms)+"}";
 }
 std::string generation() {
     static const std::string prefix=[] {std::random_device random;constexpr char hex[]="0123456789abcdef";std::string value;for(int i=0;i<32;++i) value+=hex[random()&15];return value+":";}();
@@ -86,14 +84,14 @@ SourceFileAssociation associate_source_file(const ReaderSource& source,const Fil
     source.validate();fingerprint.validate();return {source,fingerprint,status(source,fingerprint)};
 }
 std::string reader_source_json(const ReaderSource& source) {
-    source.validate();std::string out="{\"schema\":\"qpx.reader-source/"+std::string(source.companions.empty()?"1":"2")+"\",\"generation\":"+quoted(source.generation)+",\"reader\":"+quoted(source.reader)+",\"locator\":"+quoted(source.locator)+",\"scope\":"+quoted(source.scope)+",\"primary\":"+(source.primary?version_json(*source.primary):"null");
+    source.validate();std::string out="{\"schema\":\"qpx.reader-source/"+std::string(source.companions.empty()?"1":"2")+"\",\"generation\":"+detail::json_string(source.generation)+",\"reader\":"+detail::json_string(source.reader)+",\"locator\":"+detail::json_string(source.locator)+",\"scope\":"+detail::json_string(source.scope)+",\"primary\":"+(source.primary?version_json(*source.primary):"null");
     if(!source.companions.empty()) {out+=",\"companions\":[";bool comma=false;for(const auto& file:source.companions) {if(comma) out+=',';comma=true;out+=version_json(file);}out+=']';}
     return out+"}";
 }
 std::string source_file_association_json(const SourceFileAssociation& a) {
     const auto checked=associate_source_file(a.source,a.fingerprint);if(a.status!=checked.status) throw std::invalid_argument("invalid source association status");
     auto fingerprint=file_fingerprint_json(a.fingerprint);if(!fingerprint.empty() && fingerprint.back()=='\n') fingerprint.pop_back();
-    return "{\"schema\":\"qpx.source-file-association/"+std::string(a.source.companions.empty()?"1":"2")+"\",\"status\":"+quoted(a.status)+",\"source\":"+reader_source_json(a.source)+",\"fingerprint\":"+fingerprint+"}\n";
+    return "{\"schema\":\"qpx.source-file-association/"+std::string(a.source.companions.empty()?"1":"2")+"\",\"status\":"+detail::json_string(a.status)+",\"source\":"+reader_source_json(a.source)+",\"fingerprint\":"+fingerprint+"}\n";
 }
 namespace detail {
 bool same_reader_files(const ReaderSource& a,const ReaderSource& b) {

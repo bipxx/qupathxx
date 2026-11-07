@@ -1,6 +1,7 @@
 #pragma once
-// Internal implementation included inside qpx::cell_detail by log_watershed.hpp.
-// Independent regional maxima, descending flood and per-basin intensity checks.
+#include "log_regions.hpp"
+
+namespace qpx::cell_detail {
 inline std::vector<std::uint32_t> log_response_basins(const std::vector<float>& response,std::size_t width,std::size_t height,
                                                      std::size_t maximum_basins,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);
@@ -93,4 +94,5 @@ inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& sco
     std::vector<float> response;const auto positive=log_positive(score,width,height,p.sigma,cancelled,&response);
     const auto components=log_response_basins(response,width,height,p.maximum_cells,cancelled);
     return log_filled_basin_regions(score,components,positive,width,height,p,cancelled);
+}
 }

@@ -140,6 +140,7 @@ public:
     std::size_t retained_bytes() const;
 private:
     friend struct CellKernel;
+    friend struct CellContourKernel;
     friend struct ScientificCellKernel;
     friend struct CellArchiveCodec;
     friend class Document;

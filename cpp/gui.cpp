@@ -991,10 +991,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
             if(event.target==GuiInputTarget::Window) {origin={0,0};extent=input.DisplaySize;}
             if(event.target==GuiInputTarget::SaveProject) {origin=save_project_offset;extent=save_project_size;}
-            if(event.target>=GuiInputTarget::TrainObjectClassifier && event.target<=GuiInputTarget::UseClassifierRecord) {
+            if(detail::GuiObjectClassifier::handles(event.target)) {
                 const auto bounds=classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
-            if(event.target>=GuiInputTarget::TrainPixelClassifier && event.target<=GuiInputTarget::RemovePixelStreamRecord) {
+            if(detail::GuiPixelClassifier::handles(event.target)) {
                 const auto bounds=pixel_classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
             if(detail::GuiSpatial::handles(event.target)) {const auto bounds=spatial.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}

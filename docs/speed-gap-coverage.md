@@ -29,6 +29,7 @@ is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 | Task | Completion requirement | State |
 | --- | --- | --- |
 | Policy | AGENTS enforces native application logic; plan identifies actual Python ownership gaps and shared authorities | Complete (planning only) |
+| Untangle | U1-U6 structural prerequisites, comment cleanup and behavioral test repair; [decision log](untangle-decision-log.md) | Complete - [evidence](benchmarks/untangle-codebase/README.md) |
 | L1 | Native watershed interior access; exact masks, edge widths, topology/cancel/budget checks | Planned - next |
 | L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Planned |
 | L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Planned - conditional on benefit |

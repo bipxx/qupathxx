@@ -17,5 +17,4 @@ BatchCheckpoint read_batch_checkpoint(const std::string& path,const std::atomic<
 std::vector<std::shared_ptr<const PixelStreamRecord>> batch_pixel_records(const std::string&,std::uint64_t image_id,const std::set<std::uint64_t>& excluded,std::size_t budget,const std::atomic<bool>*);
 std::vector<std::shared_ptr<const RawPixelStreamRecord>> batch_raw_pixel_records(const std::string&,std::uint64_t image_id,const std::set<std::uint64_t>& excluded,std::size_t budget,const std::atomic<bool>*);
 std::size_t batch_added_object_count(const std::string&,std::uint64_t image_id,std::size_t original_objects,const std::atomic<bool>*);
-std::string batch_json_quote(const std::string&);
 }

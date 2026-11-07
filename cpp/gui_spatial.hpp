@@ -15,10 +15,28 @@ class GuiSpatial {
     std::vector<std::pair<std::uint64_t,std::string>> records_;
     std::array<char,32769> path_{};
     std::string error_;
-    static constexpr auto first=GuiInputTarget::SpatialOpen,last=GuiInputTarget::SpatialRecordId;
-    static constexpr std::size_t old_count=std::size_t(last)-std::size_t(first)+1,count=old_count+2;
-    std::array<Rect,count> bounds_{};std::array<bool,count> enabled_{};
-    static std::size_t index(GuiInputTarget t) {if(t==GuiInputTarget::SpatialTissue)return old_count;if(t==GuiInputTarget::SpatialExclusions)return old_count+1;return std::size_t(t)-std::size_t(first);}
+    inline static constexpr auto input_targets=std::array{
+        GuiInputTarget::SpatialOpen,
+        GuiInputTarget::SpatialSources,
+        GuiInputTarget::SpatialTargets,
+        GuiInputTarget::SpatialRun,
+        GuiInputTarget::SpatialCancel,
+        GuiInputTarget::SpatialKeep,
+        GuiInputTarget::SpatialInspect,
+        GuiInputTarget::SpatialVerify,
+        GuiInputTarget::SpatialExport,
+        GuiInputTarget::SpatialRemove,
+        GuiInputTarget::SpatialPath,
+        GuiInputTarget::SpatialOperation,
+        GuiInputTarget::SpatialRadius,
+        GuiInputTarget::SpatialRecordId,
+        GuiInputTarget::SpatialTissue,
+        GuiInputTarget::SpatialExclusions};
+    std::array<Rect,input_targets.size()> bounds_{};std::array<bool,input_targets.size()> enabled_{};
+    static constexpr std::size_t index(GuiInputTarget t) {
+        for(std::size_t i=0;i<input_targets.size();++i) if(input_targets[i]==t) return i;
+        return input_targets.size();
+    }
     template<class Mark>void mark(GuiInputTarget t,bool enabled,Mark& callback) {
         callback(t);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();bounds_[index(t)]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[index(t)]=enabled;
     }
@@ -40,7 +58,7 @@ public:
         options_.validate();open_=options_.open || options_.run || options_.record_id;sources_=options_.sources;targets_=options_.targets;tissue_=options_.tissue;excluded_=options_.excluded;record_=options_.record_id;
         std::memcpy(path_.data(),options_.csv_path.c_str(),options_.csv_path.size()+1);
     }
-    static bool handles(GuiInputTarget t) {return (t>=first && t<=last) || t==GuiInputTarget::SpatialTissue || t==GuiInputTarget::SpatialExclusions;}
+    static constexpr bool handles(GuiInputTarget t) {return index(t)<input_targets.size();}
     bool enabled(GuiInputTarget t) const {return enabled_.at(index(t));}
     Rect bounds(GuiInputTarget t) const {return bounds_.at(index(t));}
     template<class Mark>void open_button(Mark& mark_target) {button("Spatial...",GuiInputTarget::SpatialOpen,true,mark_target,[&]{open_=true;});}

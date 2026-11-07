@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 19: source_identity
+1/2 Test #19: source_identity ..................   Passed    0.07 sec
+    Start 21: provenance
+2/2 Test #21: provenance .......................   Passed    0.05 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.20 sec

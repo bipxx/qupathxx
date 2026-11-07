@@ -1,6 +1,6 @@
+#include "json_string.hpp"
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/stain_model_io.hpp"
-#include "batch_checkpoint.hpp"
 #include "decimal_quantity.hpp"
 #include "pixel_stream_cli.hpp"
 #include "raw_pixel_cli.hpp"
@@ -303,7 +303,7 @@ int execute(const std::vector<std::string>& args) {
         const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});
         std::cout<<project_batch_report_json(report)<<std::flush;return report.state=="succeeded"?0:report.state=="cancelled"?130:1;
     } catch(const std::exception& e) {
-        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::batch_json_quote(e.what())<<"}\n";return cancelled.load()?130:2;
+        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(e.what())<<"}\n";return cancelled.load()?130:2;
     }
 }
 }

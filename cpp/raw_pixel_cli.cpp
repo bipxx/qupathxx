@@ -1,10 +1,10 @@
+#include "json_string.hpp"
 #include "raw_pixel_cli.hpp"
 #include "qupathxx/raw_pixel_file_jobs.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
 #include "qupathxx/raw_pixel_stream_contours.hpp"
 #include "utf8_text.hpp"
 #include "qupathxx/project.hpp"
-#include "batch_checkpoint.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
 #include <charconv>
@@ -150,11 +150,11 @@ void guard_outputs(const Project& project,const std::vector<std::string>& output
     }
 }
 std::string summary_json(const RawPixelStreamFileSummary& s) {
-    std::string out="{\"bytes\":"+std::to_string(s.bytes)+",\"total_windows\":"+std::to_string(s.total_windows)+",\"completed_windows\":"+std::to_string(s.completed_windows)+",\"reused_windows\":"+std::to_string(s.reused_windows)+",\"valid_samples\":"+std::to_string(s.valid_samples)+",\"classified_samples\":"+std::to_string(s.classified_samples)+",\"complete\":"+(s.complete?"true":"false")+",\"input_sha256\":"+batch_json_quote(s.input_sha256)+",\"sha256\":"+batch_json_quote(s.sha256)+",\"content_sha256\":"+batch_json_quote(s.content_sha256)+",\"class_counts\":[";
+    std::string out="{\"bytes\":"+std::to_string(s.bytes)+",\"total_windows\":"+std::to_string(s.total_windows)+",\"completed_windows\":"+std::to_string(s.completed_windows)+",\"reused_windows\":"+std::to_string(s.reused_windows)+",\"valid_samples\":"+std::to_string(s.valid_samples)+",\"classified_samples\":"+std::to_string(s.classified_samples)+",\"complete\":"+(s.complete?"true":"false")+",\"input_sha256\":"+json_string(s.input_sha256)+",\"sha256\":"+json_string(s.sha256)+",\"content_sha256\":"+json_string(s.content_sha256)+",\"class_counts\":[";
     for(std::size_t i=0;i<s.class_counts.size();++i) {if(i) out+=',';out+=std::to_string(s.class_counts[i]);}return out+"]}";
 }
 void line(const std::string& verb,const std::string& state,const std::string& path,const RawPixelFileJobStats& stats,const std::string& fields="") {
-    std::cout<<"{\"schema\":\"qpx.raw-pixel-"<<verb<<"/1\",\"state\":"<<batch_json_quote(state)<<",\"path\":"<<batch_json_quote(path)<<",\"error\":"<<batch_json_quote(stats.error)<<",\"source_tree_sha256\":"<<batch_json_quote(build_environment()->source_tree_sha256)<<",\"total_windows\":"<<stats.total_windows<<",\"completed_windows\":"<<stats.completed_windows<<fields<<"}\n"<<std::flush;
+    std::cout<<"{\"schema\":\"qpx.raw-pixel-"<<verb<<"/1\",\"state\":"<<json_string(state)<<",\"path\":"<<json_string(path)<<",\"error\":"<<json_string(stats.error)<<",\"source_tree_sha256\":"<<json_string(build_environment()->source_tree_sha256)<<",\"total_windows\":"<<stats.total_windows<<",\"completed_windows\":"<<stats.completed_windows<<fields<<"}\n"<<std::flush;
 }
 template<class Job,class Poll> auto collect(Job& job,Poll poll,const std::atomic<bool>& cancelled) {
     while(job.busy()) {if(cancelled.load()) job.cancel();poll();if(job.busy()) std::this_thread::sleep_for(std::chrono::milliseconds(5));}
@@ -174,14 +174,14 @@ int predict(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     std::vector<std::string> outputs{args[5]};if(!o.output_project.empty()) outputs.push_back(o.output_project);guard_outputs(*project,outputs,{args[4]});
     if(!o.save.resume_path.empty()) for(std::size_t i=1;i<outputs.size();++i) guard_file_output(export_path(o.save.resume_path),"",export_path(outputs[i]));
     RawPixelTiledPredictionRequest request(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
-    RawPixelStreamSaveJob job;job.request(request,args[5],o.save);line("export","running",args[5],job.poll(*doc),",\"model_sha256\":"+batch_json_quote(model.sha256()));
+    RawPixelStreamSaveJob job;job.request(request,args[5],o.save);line("export","running",args[5],job.poll(*doc),",\"model_sha256\":"+json_string(model.sha256()));
     auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto summary=job.take(*doc);if(!summary) stats=job.poll(*doc);
     if(summary && !o.output_project.empty()) {
         RawPixelStreamFile file(args[5],o.save.limits);file.verify(&cancelled);auto link=file.link();doc->keep_raw_pixel_stream(link);
         guard_outputs(*project,outputs,{args[4]});project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);
     }
     const auto state=summary?(summary->complete?"saved":"partial"):stats.state;
-    line("export",state,args[5],stats,",\"model_sha256\":"+batch_json_quote(model.sha256())+(summary?",\"summary\":"+summary_json(*summary):""));
+    line("export",state,args[5],stats,",\"model_sha256\":"+json_string(model.sha256())+(summary?",\"summary\":"+summary_json(*summary):""));
     return summary?(summary->complete?0:1):stats.state=="cancelled"?130:1;
 }
 std::shared_ptr<const ReaderSource> observe_cli_file(const std::string& path) {
@@ -205,9 +205,9 @@ int inspect_contours(const std::vector<std::string>& args,const std::atomic<bool
     if(!result) {line("file-contours",stats.state,args[2],stats);return stats.state=="cancelled"?130:1;}
     const auto& geometry=*result->contours();
     if(65536ull+geometry.vertex_count()*128ull+geometry.components().size()*1024ull>o.publication_bytes) throw std::length_error("historical contour JSON estimate exceeds budget");
-    std::string fields=",\"historical\":true,\"model_sha256\":"+batch_json_quote(result->link()->model_sha256())+",\"input_sha256\":"+batch_json_quote(result->link()->summary().input_sha256)+",\"prediction_sha256\":"+batch_json_quote(result->link()->summary().sha256)+",\"components\":"+std::to_string(geometry.components().size())+",\"geometry\":[";
+    std::string fields=",\"historical\":true,\"model_sha256\":"+json_string(result->link()->model_sha256())+",\"input_sha256\":"+json_string(result->link()->summary().input_sha256)+",\"prediction_sha256\":"+json_string(result->link()->summary().sha256)+",\"components\":"+std::to_string(geometry.components().size())+",\"geometry\":[";
     bool first=true;for(const auto& component:geometry.components()) {
-        export_checkpoint(&cancelled);const auto row=std::string(first?"":",")+"{\"label\":"+std::to_string(component.label)+",\"class_name\":"+batch_json_quote(result->class_names().at(component.label-1))+",\"samples\":"+std::to_string(component.pixels)+",\"wkt\":"+batch_json_quote(component.geometry.wkt())+"}";
+        export_checkpoint(&cancelled);const auto row=std::string(first?"":",")+"{\"label\":"+std::to_string(component.label)+",\"class_name\":"+json_string(result->class_names().at(component.label-1))+",\"samples\":"+std::to_string(component.pixels)+",\"wkt\":"+json_string(component.geometry.wkt())+"}";
         if(fields.size()>o.publication_bytes || row.size()>o.publication_bytes-fields.size()) throw std::length_error("historical contour JSON exceeds budget");fields+=row;first=false;
     }
     fields+=']';export_checkpoint(&cancelled);result->file()->check_unchanged();line("file-contours","historical",args[2],stats,fields);return 0;
@@ -226,13 +226,13 @@ int contour(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     auto guard=[&] {export_checkpoint(&cancelled);guard_outputs(*project,{destination},{args[4]});verify_cli_source(*observed_model);verify_cli_source(*observed_project);if(observed_source) verify_cli_source(*observed_source);};
     guard();const auto request=replay?capture_raw_pixel_stream_replay(*doc,*history):RawPixelTiledPredictionRequest(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
     RawPixelStreamContourJob job;if(replay) job.request_replay(request,history,o.contours);else job.request(request,o.contours);
-    const auto fields=",\"model_sha256\":"+batch_json_quote(model.sha256());
+    const auto fields=",\"model_sha256\":"+json_string(model.sha256());
     line("contours","running",destination,contour_stats(job.poll(*doc)),fields);
     const auto stats=collect(job,[&]{return job.poll(*doc);},cancelled);const auto result=job.result();
     if(!result) {line("contours",stats.state,destination,contour_stats(stats),fields);return stats.state=="cancelled"?130:1;}
     guard();const auto ids=publish_raw_pixel_stream_contours(*doc,request,*result,o.prefix,o.publication_bytes);
     export_checkpoint(&cancelled);project->save_new(destination,o.snapshot_bytes,o.project_bytes,&cancelled,guard);
-    std::string summary=fields+",\"request_sha256\":"+batch_json_quote(result->request_sha256())+",\"input_sha256\":"+batch_json_quote(result->input_sha256())+",\"prediction_sha256\":"+batch_json_quote(result->prediction_sha256())+",\"samples\":"+std::to_string(result->completed_samples())+",\"valid_samples\":"+std::to_string(result->valid_samples())+",\"vertices\":"+std::to_string(result->contours()->vertex_count())+",\"components\":"+std::to_string(result->contours()->components().size())+",\"class_counts\":[";
+    std::string summary=fields+",\"request_sha256\":"+json_string(result->request_sha256())+",\"input_sha256\":"+json_string(result->input_sha256())+",\"prediction_sha256\":"+json_string(result->prediction_sha256())+",\"samples\":"+std::to_string(result->completed_samples())+",\"valid_samples\":"+std::to_string(result->valid_samples())+",\"vertices\":"+std::to_string(result->contours()->vertex_count())+",\"components\":"+std::to_string(result->contours()->components().size())+",\"class_counts\":[";
     for(std::size_t i=0;i<result->class_counts().size();++i) {if(i) summary+=',';summary+=std::to_string(result->class_counts()[i]);}summary+="],\"object_ids\":[";
     for(std::size_t i=0;i<ids.size();++i) {if(i) summary+=',';summary+=std::to_string(ids[i]);}summary+=']';
     line("contours","saved",destination,contour_stats(stats),summary);return 0;
@@ -250,13 +250,13 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
     RawPixelTrainingCheckpointJob job;job.request(request,o.checkpoint_path,o.checkpoint);line("train","sampling",o.checkpoint_path,job.poll(*doc));
     auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto result=job.take(*doc);
     if(!result) {stats=job.poll(*doc);line("train",stats.state,o.checkpoint_path,stats);return stats.state=="cancelled"?130:1;}
-    const auto fields=",\"request_sha256\":"+batch_json_quote(result->checkpoint->request_sha256())+",\"prefix_sha256\":"+batch_json_quote(result->checkpoint->prefix_sha256())+",\"replayed_windows\":"+std::to_string(result->replayed_windows);
+    const auto fields=",\"request_sha256\":"+json_string(result->checkpoint->request_sha256())+",\"prefix_sha256\":"+json_string(result->checkpoint->prefix_sha256())+",\"replayed_windows\":"+std::to_string(result->replayed_windows);
     if(!result->table) {line("train","partial",o.checkpoint_path,stats,fields+",\"model_sha256\":null");return 1;}
     const auto model=train_raw_pixel_tiled_classifier(*result->table,o.forest,&cancelled);
     auto archive=archive_raw_pixel_tiled_training(result->table,std::make_shared<const RawPixelClassifier>(model),&cancelled);
     guard_outputs(*project,outputs,{});save_raw_pixel_classifier(model,args[4],o.checkpoint.replace_existing,&cancelled);save_raw_pixel_archive(*archive,o.archive_path,o.checkpoint.replace_existing,&cancelled);
     if(!o.output_project.empty()) {doc->keep_raw_pixel_tiled_training(request,archive);project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);}
-    line("train","trained",args[4],stats,fields+",\"rows\":"+std::to_string(result->table->row_count())+",\"table_sha256\":"+batch_json_quote(result->table->sha256())+",\"model_sha256\":"+batch_json_quote(model.sha256())+",\"archive_path\":"+batch_json_quote(o.archive_path));return 0;
+    line("train","trained",args[4],stats,fields+",\"rows\":"+std::to_string(result->table->row_count())+",\"table_sha256\":"+json_string(result->table->sha256())+",\"model_sha256\":"+json_string(model.sha256())+",\"archive_path\":"+json_string(o.archive_path));return 0;
 }
 }
 ScientificGridAxis raw_pixel_cli_axis(const std::string& value) {return axis(value);}

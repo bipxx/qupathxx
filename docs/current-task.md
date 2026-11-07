@@ -7,7 +7,36 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected phase - optimize C++ logic and thin Python control (plan ready)
+## Delivered prerequisite - untangle codebase before optimization
+
+Owner-invoked untangle-codebase with Comments+Tests completes U1-U6 in the
+[decision log](untangle-decision-log.md): neutral JSON/dependencies, self-contained
+watershed modules, shared contour/archive authority, density reuse, replay
+vocabulary and explicit panel target membership. Independent repeat reviews
+found no further worthwhile issue in these addressed areas. Meaningful science,
+archive, compatibility and quota tests remain; redundant/stale comments and a
+superseded replay acceptance subset are removed.
+
+[Evidence](benchmarks/untangle-codebase/README.md): ten standalone header checks,
+16 distinct affected native suites across two source-scoped steps,66 preserved
+enum members/order, four real-slide runs with all2,237 masks and ordered geometry
+exact. Final raw tree d1bee927656c1ada8b05774f9cb6eb1216fe9238d4e0144f32fdad9b5ded9910
+has530 inputs; development runtime is the existing cache Release folder. No new
+binary release, speed claim or completed Python workflow migration follows.
+
+Waste review: an incorrect save-test target name stopped the first command;
+verified qupathxx_save_tests and reused the completed core/targets. The repeat
+scan found a writer-embedded encoder missed by helper-name searches; final small
+core relink reused all37 binding objects byte-for-byte. The monolithic binding
+compile dominated elapsed time; do not repeat it for documentation/stub changes.
+Preserve logs/failures/products. No cleanup or full qualification was attempted.
+
+Next planned task is L1's measured interior-neighbor optimization. L2-L4 retain
+exact hashes/identity and one final paired result; L5-L7 remain the explicit
+native workflow migration queue. Stop this structural prerequisite after source
+push; no algorithm change has started and candidate5 stays frozen.
+
+## Prior phase - optimize C++ logic and thin Python control (plan ready)
 
 Delivered S11's next optimization batch: implicit nominal segments, bounded
 predicate fallback and an exact dense integer-grid geometry/containment proof.

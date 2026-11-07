@@ -1,9 +1,9 @@
+#include "json_string.hpp"
 #include "tma_dearray_cli.hpp"
 #include "qupathxx/tma_dearray.hpp"
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
-#include "batch_checkpoint.hpp"
 #include <charconv>
 #include <cmath>
 #include <iostream>
@@ -81,8 +81,8 @@ std::optional<int> tma_dearray_cli(const std::vector<std::string>& args,const st
         dimensions<<'}';
         AtomicExportFile file(output,text_limit,&cancelled);file.write(text.data(),text.size());protect();file.commit(false);
         std::cout<<"{\"schema\":\"qpx.tma-dearray-preview/1\",\"state\":\"saved\",\"image_id\":"<<image_id<<",\"rows\":"<<result->grid.rows<<",\"columns\":"<<result->grid.columns
-            <<",\"candidates\":"<<result->candidates<<",\"input_sha256\":"<<batch_json_quote(result->input_sha256)<<",\"recipe_sha256\":"<<batch_json_quote(result->recipe_sha256)
-            <<",\"core_size\":"<<dimensions.str()<<",\"output\":"<<batch_json_quote(output)<<"}\n";return 0;
-    }catch(const std::exception& error) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(error.what())<<"}\n";return cancelled.load()?130:1;}
+            <<",\"candidates\":"<<result->candidates<<",\"input_sha256\":"<<json_string(result->input_sha256)<<",\"recipe_sha256\":"<<json_string(result->recipe_sha256)
+            <<",\"core_size\":"<<dimensions.str()<<",\"output\":"<<json_string(output)<<"}\n";return 0;
+    }catch(const std::exception& error) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<json_string(error.what())<<"}\n";return cancelled.load()?130:1;}
 }
 }

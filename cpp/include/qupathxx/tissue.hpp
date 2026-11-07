@@ -205,7 +205,7 @@ public:
     std::uint64_t object_id() const {return object_id_;}
 private:
     friend struct TissueContourKernel;
-    friend struct CellKernel;
+    friend struct CellContourKernel;
     TissueContours()=default;
     std::string input_sha256_;
     TissueContourOptions options_;

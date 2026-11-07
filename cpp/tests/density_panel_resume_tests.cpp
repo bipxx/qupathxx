@@ -1,5 +1,5 @@
+#include "../json_string.hpp"
 #include "../project_density_panel.hpp"
-#include "../batch_checkpoint.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include <filesystem>
@@ -50,13 +50,13 @@ int main(){try{
     const auto duplicate=cache("duplicate-cache");text=read(duplicate/"image-1.json");text.insert(1,"\"schema\":\"duplicate\",");write(duplicate/"image-1.json",text);p.kernel_calls.store(0);
     const auto duplicate_result=resume(preview,"duplicate-run",duplicate,p);check(duplicate_result.failed==1 && duplicate_result.reused==1 && p.kernel_calls.load()==0);
     const auto broken=cache("broken-cache");const auto bad_file=broken/"bad.qpxproj";fs::copy_file(first.images[0].checkpoint,bad_file);
-    text=read(broken/"image-1.json");replace(text,batch_json_quote(first.images[0].checkpoint),batch_json_quote(bad_file.u8string()));write(broken/"image-1.json",text);
+    text=read(broken/"image-1.json");replace(text,json_string(first.images[0].checkpoint),json_string(bad_file.u8string()));write(broken/"image-1.json",text);
     {std::ofstream append(bad_file,std::ios::app|std::ios::binary);append<<"changed";}const auto bad_bytes=read(bad_file);p.kernel_calls.store(0);
     const auto corrupt=resume(preview,"corrupt-run",broken,p);check(corrupt.failed==1 && corrupt.reused==1 && p.kernel_calls.load()==0);
     check(corrupt.images[0].error.find("checksum")!=std::string::npos && read(bad_file)==bad_bytes);
     const auto stale_dir=cache("stale-cache");const auto stale_file=stale_dir/"stale.qpxproj";auto saved=Project::open(first.images[0].checkpoint);
     saved->document(first.images[0].checkpoint_image)->update_rectangle(1,{0,0,8,8});saved->save_new(stale_file.u8string());
-    text=read(stale_dir/"image-1.json");replace(text,batch_json_quote(first.images[0].checkpoint),batch_json_quote(stale_file.u8string()));
+    text=read(stale_dir/"image-1.json");replace(text,json_string(first.images[0].checkpoint),json_string(stale_file.u8string()));
     replace(text,first.images[0].checkpoint_sha256,fingerprint_file(stale_file.u8string())->sha256);write(stale_dir/"image-1.json",text);p.kernel_calls.store(0);
     const auto stale=resume(preview,"stale-run",stale_dir,p);check(stale.failed==1 && stale.reused==1 && p.kernel_calls.load()==0);
     rejects([&]{run_project_density(preview,(root/"first/nested").u8string(),nullptr,nullptr,64u*1024*1024,(root/"first").u8string());});

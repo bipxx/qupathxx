@@ -19,6 +19,16 @@ supersedes earlier guidance that permits delivered Python examples to retain
 workflow rules indefinitely. Existing releases remain frozen until a separately
 selected binary handoff. This is a plan, not an implemented migration.
 
+### Untangle prerequisite selected before L1
+
+Owner invoked untangle-codebase with Comments+Tests. The
+[decision log](untangle-decision-log.md) owns U1-U6: neutral JSON/dependency setup,
+self-contained watershed modules, shared contour/archive reconstruction, density
+reuse authority, replay vocabulary and domain target membership. These
+behavior-preserving structural fixes and affected checks are [complete](benchmarks/untangle-codebase/README.md); algorithm changes have not started.
+Keep existing L5-L7 migration gaps explicit; a moved module alone does not make
+Python controls compliant or make the engine faster.
+
 ### Current boundary and concrete migration targets
 
 | Surface | Current authority / gap | Easiest native path |

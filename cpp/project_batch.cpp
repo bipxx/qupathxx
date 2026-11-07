@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/tma.hpp"
 #include "qupathxx/input_digest.hpp"
@@ -29,7 +30,7 @@
 #endif
 namespace qpx {
 namespace {
-namespace fs=std::filesystem;using Clock=std::chrono::steady_clock;using detail::batch_json_quote;
+namespace fs=std::filesystem;using Clock=std::chrono::steady_clock;using detail::json_string;
 std::string token() {std::random_device r;constexpr char hex[]="0123456789abcdef";std::string s;for(int i=0;i<32;++i) s+=hex[r()&15];return s;}
 std::string hash(const std::string& s) {Sha256 h;h.update(s.data(),s.size());return h.finish();}
 std::string real(double n) {std::ostringstream s;s.imbue(std::locale::classic());s<<std::setprecision(17)<<n;return s.str();}
@@ -144,7 +145,7 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     const TissueParameters default_tissue;const CellParameters default_cells;
     const auto e=build_environment();const auto& p=o.cell_nominal?default_tissue:o.tissue;const auto& c=o.cell_nominal?default_cells:o.cells;
     std::ostringstream s;s.imbue(std::locale::classic());s<<std::setprecision(17);
-    s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<batch_json_quote(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
+    s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<json_string(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
     s<<",\"tissue\":{\"feature\":"<<int(p.feature)<<",\"threshold\":"<<p.threshold<<",\"connectivity\":"<<p.connectivity<<",\"level\":"<<p.level<<",\"open_radius\":"<<p.open_radius<<",\"close_radius\":"<<p.close_radius<<",\"fill_holes\":"<<(p.fill_holes?"true":"false")<<",\"max_hole_pixels\":"<<p.max_hole_pixels<<",\"min_pixels\":"<<p.min_pixels<<",\"max_pixels\":"<<p.max_pixels<<",\"tile_size\":"<<p.tile_size<<",\"max_components\":"<<p.max_components<<",\"work_bytes\":"<<p.work_bytes<<'}';
     s<<",\"cells\":{\"feature\":"<<int(c.feature)<<",\"threshold\":"<<c.threshold<<",\"sigma\":"<<c.sigma<<",\"min_peak_radius\":"<<c.min_peak_radius<<",\"min_seed_distance\":"<<c.min_seed_distance<<",\"cell_expansion\":"<<c.cell_expansion<<",\"min_nucleus_pixels\":"<<c.min_nucleus_pixels<<",\"max_nucleus_pixels\":"<<c.max_nucleus_pixels<<",\"connectivity\":"<<c.connectivity<<",\"level\":"<<c.level<<",\"tile_size\":"<<c.tile_size<<",\"max_cells\":"<<c.max_cells<<",\"work_bytes\":"<<c.work_bytes<<",\"contours\":{\"clip_to_roi\":"<<(c.contours.clip_to_roi?"true":"false")<<",\"max_components\":"<<c.contours.max_components<<",\"max_edges\":"<<c.contours.max_edges<<",\"max_vertices\":"<<c.contours.max_vertices<<",\"work_bytes\":"<<c.contours.work_bytes<<"}}";
     if(o.roi_intensity_statistics) s<<",\"roi_intensity_statistics\":true";
@@ -175,14 +176,14 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         const auto& gp=o.grid_cells;
         if(o.cell_nominal) {
             const auto& n=*o.cell_nominal;
-            s<<",\"nominal_cells\":{\"sampling_algorithm\":"<<batch_json_quote(n.algorithm())
-                <<",\"detector_algorithm\":"<<batch_json_quote(cell_detail::nominal_algorithm(n.sampling,gp.processing))<<",\"downsample\":"<<n.downsample
+            s<<",\"nominal_cells\":{\"sampling_algorithm\":"<<json_string(n.algorithm())
+                <<",\"detector_algorithm\":"<<json_string(cell_detail::nominal_algorithm(n.sampling,gp.processing))<<",\"downsample\":"<<n.downsample
                 <<",\"context_x\":"<<n.context_x<<",\"context_y\":"<<n.context_y;
         } else {
             const auto& g=*o.cell_grid;
             s<<",\"grid_cells\":{\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y<<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y;
         }
-        if(gp.processing!=CellProcessingPolicy::Quantitative) s<<",\"processing\":"<<batch_json_quote(cell_detail::processing_name(gp.processing));
+        if(gp.processing!=CellProcessingPolicy::Quantitative) s<<",\"processing\":"<<json_string(cell_detail::processing_name(gp.processing));
         s<<",\"units\":"<<int(gp.units)<<",\"feature\":"<<int(gp.feature)<<",\"threshold\":"<<gp.threshold<<",\"sigma\":"<<gp.sigma<<",\"log_prominence\":"<<gp.log_prominence
             <<",\"min_peak_radius\":"<<gp.min_peak_radius<<",\"min_seed_distance\":"<<gp.min_seed_distance<<",\"cell_expansion\":"<<gp.cell_expansion
             <<",\"min_nucleus_area\":"<<gp.min_nucleus_area<<",\"max_nucleus_area\":";
@@ -197,23 +198,23 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         s<<",\"tissue_sampling_policy\":"<<int(p.sampling_policy);
     if(o.tma_only) s<<",\"tma_scope\":{\"include_missing\":"<<(o.include_missing_tma?"true":"false")<<'}';
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
-        s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
+        s<<",\"pixels\":{\"model_sha256\":"<<json_string(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
     }
     if(raw_classifier_batch(o.kind)) {const auto& v=o.raw_pixels;
-        s<<",\"raw_pixels\":{\"model_sha256\":"<<batch_json_quote(o.raw_pixel_model->sha256())<<",\"tile_width\":"<<v.tile_width<<",\"tile_height\":"<<v.tile_height<<",\"work_bytes\":"<<v.work_bytes<<",\"min_vote_fraction\":"<<v.min_vote_fraction<<",\"max_samples\":"<<v.max_samples<<",\"max_windows\":"<<v.max_windows<<",\"file_work_bytes\":"<<o.raw_pixel_file_work_bytes<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit;
+        s<<",\"raw_pixels\":{\"model_sha256\":"<<json_string(o.raw_pixel_model->sha256())<<",\"tile_width\":"<<v.tile_width<<",\"tile_height\":"<<v.tile_height<<",\"work_bytes\":"<<v.work_bytes<<",\"min_vote_fraction\":"<<v.min_vote_fraction<<",\"max_samples\":"<<v.max_samples<<",\"max_windows\":"<<v.max_windows<<",\"file_work_bytes\":"<<o.raw_pixel_file_work_bytes<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit;
         auto axis=[&](const char* name,const std::optional<ScientificGridAxis>& a) {s<<",\""<<name<<"\":";if(a) s<<'['<<a->origin()<<','<<a->extent()<<','<<a->samples()<<','<<a->context()<<']';else s<<"null";};
         axis("x",o.raw_pixel_x);axis("y",o.raw_pixel_y);s<<'}';
     }
     if(o.kind==ProjectBatchKind::RawPixelContours) {const auto& v=o.raw_contours;const auto& g=v.contours;
-        s<<",\"raw_contours\":{\"prefix\":"<<batch_json_quote(o.raw_contour_prefix)<<",\"publication_bytes\":"<<o.raw_contour_publication_bytes<<",\"boundary_work_bytes\":"<<v.boundary_work_bytes<<",\"max_boundary_runs\":"<<v.max_boundary_runs<<",\"work_bytes\":"<<v.work_bytes<<",\"clip_to_roi\":"<<(g.clip_to_roi?"true":"false")<<",\"max_components\":"<<g.max_components<<",\"max_edges\":"<<g.max_edges<<",\"max_vertices\":"<<g.max_vertices<<",\"contour_work_bytes\":"<<g.work_bytes<<'}';
+        s<<",\"raw_contours\":{\"prefix\":"<<json_string(o.raw_contour_prefix)<<",\"publication_bytes\":"<<o.raw_contour_publication_bytes<<",\"boundary_work_bytes\":"<<v.boundary_work_bytes<<",\"max_boundary_runs\":"<<v.max_boundary_runs<<",\"work_bytes\":"<<v.work_bytes<<",\"clip_to_roi\":"<<(g.clip_to_roi?"true":"false")<<",\"max_components\":"<<g.max_components<<",\"max_edges\":"<<g.max_edges<<",\"max_vertices\":"<<g.max_vertices<<",\"contour_work_bytes\":"<<g.work_bytes<<'}';
     }
     if(o.raw_grid) {
         const auto& g=*o.raw_grid;
         s<<",\"raw_grid\":{\"recipe\":\"qpx.raw-grid-statistics/1\",\"input\":\"qpx.raw-grid-statistics-input/1\",\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y
             <<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y<<",\"work_bytes\":"<<o.raw_grid_work_bytes<<'}';
     }
-    if(o.kind==ProjectBatchKind::Raw) s<<",\"raw\":{\"hash\":"<<batch_json_quote(o.raw_grid?"qpx.raw-grid-statistics-input/1":"qpx.raw-roi-input/1")<<",\"level\":"<<o.raw.region.level<<",\"first_channel\":"<<o.raw.first_channel<<",\"channels\":"<<o.raw.channels<<",\"z\":"<<o.raw.z<<",\"time\":"<<o.raw.t<<",\"follow_display\":"<<(o.raw_follow_display?"true":"false")<<",\"max_pixels\":"<<o.raw_max_pixels<<'}';
-    s<<",\"environment\":{\"app_version\":"<<batch_json_quote(e->app_version)<<",\"source_tree_sha256\":"<<batch_json_quote(e->source_tree_sha256)<<",\"compiler\":"<<batch_json_quote(e->compiler)<<",\"compiler_flags\":"<<batch_json_quote(e->compiler_flags)<<",\"configuration\":"<<batch_json_quote(e->configuration)<<",\"platform\":"<<batch_json_quote(e->platform)<<",\"geos_version\":"<<batch_json_quote(e->geos_version)<<",\"openslide_version\":"<<batch_json_quote(e->openslide_version)<<",\"sqlite_version\":"<<batch_json_quote(e->sqlite_version)<<"}}";
+    if(o.kind==ProjectBatchKind::Raw) s<<",\"raw\":{\"hash\":"<<json_string(o.raw_grid?"qpx.raw-grid-statistics-input/1":"qpx.raw-roi-input/1")<<",\"level\":"<<o.raw.region.level<<",\"first_channel\":"<<o.raw.first_channel<<",\"channels\":"<<o.raw.channels<<",\"z\":"<<o.raw.z<<",\"time\":"<<o.raw.t<<",\"follow_display\":"<<(o.raw_follow_display?"true":"false")<<",\"max_pixels\":"<<o.raw_max_pixels<<'}';
+    s<<",\"environment\":{\"app_version\":"<<json_string(e->app_version)<<",\"source_tree_sha256\":"<<json_string(e->source_tree_sha256)<<",\"compiler\":"<<json_string(e->compiler)<<",\"compiler_flags\":"<<json_string(e->compiler_flags)<<",\"configuration\":"<<json_string(e->configuration)<<",\"platform\":"<<json_string(e->platform)<<",\"geos_version\":"<<json_string(e->geos_version)<<",\"openslide_version\":"<<json_string(e->openslide_version)<<",\"sqlite_version\":"<<json_string(e->sqlite_version)<<"}}";
     auto value=s.str();if(value.size()>512*1024) throw std::length_error("batch parameter manifest exceeds limit");return value;
 }
 struct Progress {std::atomic<int> phase{0};std::atomic<std::uint64_t> image{0};std::atomic<std::size_t> images{0},objects{0};};
@@ -513,9 +514,9 @@ struct ProjectBatchKernel {
     }
 };
 ProjectBatchReport run_project_batch(const ProjectBatchRequest& request,const std::string& output,const std::atomic<bool>* c,const std::function<void(const ProjectBatchImageResult&)>& sink) {return ProjectBatchKernel::run(request,output,c,nullptr,sink);}
-std::string project_batch_image_json(const ProjectBatchImageResult& r) {return "{\"schema\":\"qpx.batch-image/1\",\"image_id\":"+std::to_string(r.image_id)+",\"image_name\":"+batch_json_quote(r.image_name)+",\"state\":"+batch_json_quote(r.state)+",\"path\":"+batch_json_quote(r.path)+",\"error\":"+batch_json_quote(r.error)+",\"input_sha256\":"+batch_json_quote(r.input_sha256)+",\"pixel_sha256\":"+batch_json_quote(r.pixel_sha256)+",\"objects\":"+std::to_string(r.objects)+",\"records\":"+std::to_string(r.records)+",\"inferred_blocks\":"+std::to_string(r.inferred_blocks)+",\"hashed_blocks\":"+std::to_string(r.hashed_blocks)+",\"verified_blocks\":"+std::to_string(r.verified_blocks)+",\"stream_bytes\":"+std::to_string(r.stream_bytes)+",\"raw_tiles\":"+std::to_string(r.raw_tiles)+",\"raw_hashed_tiles\":"+std::to_string(r.raw_hashed_tiles)+",\"elapsed_ms\":"+real(r.elapsed_ms)+"}";}
+std::string project_batch_image_json(const ProjectBatchImageResult& r) {return "{\"schema\":\"qpx.batch-image/1\",\"image_id\":"+std::to_string(r.image_id)+",\"image_name\":"+json_string(r.image_name)+",\"state\":"+json_string(r.state)+",\"path\":"+json_string(r.path)+",\"error\":"+json_string(r.error)+",\"input_sha256\":"+json_string(r.input_sha256)+",\"pixel_sha256\":"+json_string(r.pixel_sha256)+",\"objects\":"+std::to_string(r.objects)+",\"records\":"+std::to_string(r.records)+",\"inferred_blocks\":"+std::to_string(r.inferred_blocks)+",\"hashed_blocks\":"+std::to_string(r.hashed_blocks)+",\"verified_blocks\":"+std::to_string(r.verified_blocks)+",\"stream_bytes\":"+std::to_string(r.stream_bytes)+",\"raw_tiles\":"+std::to_string(r.raw_tiles)+",\"raw_hashed_tiles\":"+std::to_string(r.raw_hashed_tiles)+",\"elapsed_ms\":"+real(r.elapsed_ms)+"}";}
 std::string project_batch_report_json(const ProjectBatchReport& r) {
-    std::string s="{\"schema\":\"qpx.project-batch/1\",\"state\":"+batch_json_quote(r.state)+",\"error\":"+batch_json_quote(r.error)+",\"report_path\":"+batch_json_quote(r.report_path)+",\"parameters_sha256\":"+batch_json_quote(r.parameters_sha256)+",\"source_identity\":"+batch_json_quote(r.source_identity)+",\"source_generation\":"+std::to_string(r.source_generation)+",\"source_revision\":"+std::to_string(r.source_revision)+",\"saved\":"+std::to_string(r.saved)+",\"reused\":"+std::to_string(r.reused)+",\"failed\":"+std::to_string(r.failed)+",\"snapshot_bytes\":"+std::to_string(r.snapshot_bytes)+",\"capture_ms\":"+real(r.capture_ms)+",\"elapsed_ms\":"+real(r.elapsed_ms)+",\"images\":[";
+    std::string s="{\"schema\":\"qpx.project-batch/1\",\"state\":"+json_string(r.state)+",\"error\":"+json_string(r.error)+",\"report_path\":"+json_string(r.report_path)+",\"parameters_sha256\":"+json_string(r.parameters_sha256)+",\"source_identity\":"+json_string(r.source_identity)+",\"source_generation\":"+std::to_string(r.source_generation)+",\"source_revision\":"+std::to_string(r.source_revision)+",\"saved\":"+std::to_string(r.saved)+",\"reused\":"+std::to_string(r.reused)+",\"failed\":"+std::to_string(r.failed)+",\"snapshot_bytes\":"+std::to_string(r.snapshot_bytes)+",\"capture_ms\":"+real(r.capture_ms)+",\"elapsed_ms\":"+real(r.elapsed_ms)+",\"images\":[";
     bool first=true;for(const auto& image:r.images) {if(!first) s+=',';first=false;s+=project_batch_image_json(image);if(s.size()>64*1024*1024) throw std::length_error("batch report exceeds byte limit");}return s+"]}\n";
 }
 struct ProjectBatchJob::Impl {

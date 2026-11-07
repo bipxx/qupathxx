@@ -12,6 +12,15 @@
 
 namespace qpx::detail {
 class GuiObjectClassifier {
+    inline static constexpr auto input_targets=std::array{
+        GuiInputTarget::TrainObjectClassifier,
+        GuiInputTarget::PredictObjectClasses,
+        GuiInputTarget::ApplyObjectClasses,
+        GuiInputTarget::CancelObjectClassifier,
+        GuiInputTarget::SaveClassifierModel,
+        GuiInputTarget::LoadClassifierModel,
+        GuiInputTarget::KeepClassifierTraining,
+        GuiInputTarget::UseClassifierRecord};
     ObjectFeatureOptions features_;
     ForestParameters parameters_;
     ObjectClassifierJob job_;
@@ -25,11 +34,14 @@ class GuiObjectClassifier {
     std::vector<std::uint64_t> captured_selection_;
     std::string error_,io_state_="idle",io_error_;
     std::array<char,4096> path_{};
-    std::array<Rect,8> targets_{};
+    std::array<Rect,input_targets.size()> targets_{};
     struct IoResult {std::shared_ptr<const ForestModel> model;std::optional<ObjectFeatureOptions> features;std::string error;bool save=false;};
     std::future<IoResult> io_;
     std::atomic<bool> io_cancelled_{false};
-    static std::size_t index(GuiInputTarget t) {return static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::TrainObjectClassifier);}
+    static constexpr std::size_t index(GuiInputTarget t) {
+        for(std::size_t i=0;i<input_targets.size();++i) if(input_targets[i]==t) return i;
+        return input_targets.size();
+    }
     void changed_settings() {job_.cancel();captured_selection_.clear();error_.clear();applied_=false;}
     void poll_io() {
         if(io_.valid() && io_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
@@ -89,6 +101,7 @@ public:
         stats_=job_.poll(doc);
         if(stats_.state=="ready" && !job_.result() && job_.model() && adopted_!=stats_.generation) {model_=job_.model();adopted_=stats_.generation;trained_=true;}
     }
+    static constexpr bool handles(GuiInputTarget target) {return index(target)<input_targets.size();}
     Rect bounds(GuiInputTarget t) const {return targets_.at(index(t));}
     bool trained() const {return trained_ && !job_.busy();}
     bool predicted() const {return stats_.state=="ready" && bool(job_.result());}

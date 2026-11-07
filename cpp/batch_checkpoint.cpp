@@ -17,10 +17,6 @@
 #include <sqlite3.h>
 #endif
 namespace qpx::detail {
-std::string batch_json_quote(const std::string& s) {
-    bounded_utf8(s,64*1024*1024);std::string out="\"";constexpr char hex[]="0123456789abcdef";
-    for(unsigned char c:s) {if(c=='"' || c=='\\') {out+='\\';out+=char(c);}else if(c<32) {out+="\\u00";out+=hex[c>>4];out+=hex[c&15];}else out+=char(c);}return out+'"';
-}
 #ifdef QUPATHXX_HAS_PROJECT
 namespace {
 void check(int code,sqlite3* db) {if(code!=SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db));}

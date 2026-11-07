@@ -1,6 +1,8 @@
 #pragma once
-// Included inside qpx::cell_detail by log_watershed.hpp. Internal candidate;
-// existing production recipes never enable sampled_shape.
+#include "log_common.hpp"
+#include "shape_watershed.hpp"
+
+namespace qpx::cell_detail {
 inline LogResult log_label_sampled_nuclei(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
     const ShapeSplit& shaped,const std::vector<std::uint8_t>& candidates,std::size_t width,std::size_t height,
     const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase) {
@@ -45,4 +47,5 @@ inline LogResult log_sampled_nuclei(const std::vector<float>& score,const std::v
         throw std::invalid_argument("sampled shape candidate requires explicit zero radius and spacing filters");
     if(phase) phase->store(3);const auto shaped=sampled_shape_watershed(mask,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
     return log_label_sampled_nuclei(score,domain,shaped,mask,width,height,p,cancelled,phase);
+}
 }

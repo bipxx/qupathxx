@@ -1,9 +1,9 @@
+#include "json_string.hpp"
 #include "qptma_project_cli.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/qptma.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
-#include "batch_checkpoint.hpp"
 #include <charconv>
 #include <filesystem>
 #include <iostream>
@@ -43,18 +43,18 @@ std::optional<int> qptma_project_cli(const std::vector<std::string>& args,const 
             auto data=load_qptma(input,text_bytes,&cancelled);export_checkpoint(&cancelled);import_qptma(*document,data);
             auto validate=[&]{observed.verify();wire.verify();protect();guard_file_output(input,wire.version()->identity,output);};
             validate();project->save_new(output,snapshot_bytes,file_bytes,&cancelled,validate);
-            std::cout<<"{\"schema\":\"qpx.qptma-project-import/1\",\"state\":\"saved\",\"image_id\":"<<image_id<<",\"cores\":"<<data.cores.size()<<",\"rows\":"<<data.rows<<",\"columns\":"<<data.columns<<",\"output\":"<<batch_json_quote(output)<<"}\n";
+            std::cout<<"{\"schema\":\"qpx.qptma-project-import/1\",\"state\":\"saved\",\"image_id\":"<<image_id<<",\"cores\":"<<data.cores.size()<<",\"rows\":"<<data.rows<<",\"columns\":"<<data.columns<<",\"output\":"<<json_string(output)<<"}\n";
         } else {
             const auto snapshot=document->tma_grid();if(!snapshot)throw std::invalid_argument("selected image has no TMA grid");
             const auto report=qptma_from_grid(*snapshot,selected->source_path,selected->name);const auto text=qptma_text(report.data,text_bytes,&cancelled);
             AtomicExportFile file(output,text_bytes,&cancelled);file.write(text.data(),text.size());observed.verify();protect();file.commit(false);
             std::cout<<"{\"schema\":\"qpx.qptma-project-export/1\",\"state\":\"saved\",\"image_id\":"<<image_id<<",\"cores\":"<<report.data.cores.size()<<",\"bytes\":"<<text.size()<<",\"omitted_metadata\":[";
-            for(std::size_t i=0;i<report.omitted_metadata.size();++i){if(i)std::cout<<',';std::cout<<batch_json_quote(report.omitted_metadata[i]);}
-            std::cout<<"],\"output\":"<<batch_json_quote(output)<<"}\n";
+            for(std::size_t i=0;i<report.omitted_metadata.size();++i){if(i)std::cout<<',';std::cout<<json_string(report.omitted_metadata[i]);}
+            std::cout<<"],\"output\":"<<json_string(output)<<"}\n";
         }
         return 0;
     }catch(const std::exception& error) {
-        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(error.what())<<"}\n";return cancelled.load()?130:1;
+        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<json_string(error.what())<<"}\n";return cancelled.load()?130:1;
     }
 }
 }

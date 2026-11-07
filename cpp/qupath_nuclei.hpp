@@ -1,5 +1,6 @@
 #pragma once
-#include "log_watershed.hpp"
+#include "log_response_regions.hpp"
+#include "log_sampled_nuclei.hpp"
 #include "qupath_response_basins.hpp"
 #include "imagej_gaussian.hpp"
 
@@ -9,7 +10,7 @@ struct QuPathNucleusStages {
     std::vector<std::uint8_t> regions,binary,refinement;
     LogResult nuclei;
 };
-// Private, sampled-grid compatibility candidate. Input/LoG arrays are borrowed
+// Input/LoG arrays are borrowed
 // float32 planes; units of sigma and area parameters are processing samples.
 // Stage retention is explicit; ordinary requests keep only the final nuclei.
 inline QuPathNucleusStages qupath070_nuclei(const std::vector<float>& score,

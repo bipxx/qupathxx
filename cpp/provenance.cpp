@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "qupathxx/provenance.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
@@ -23,7 +24,7 @@ bool hex(const std::string& s) {return s.size()==64 && s.find_first_not_of("0123
 void calibration(std::optional<double> v) {if(v && (!std::isfinite(*v) || *v<=0)) throw std::invalid_argument("invalid provenance calibration");}
 struct Json {
     std::string out;
-    void string(const std::string& s) {out+='"';constexpr char hex[]="0123456789abcdef";for(unsigned char c:s) {if(c=='"' || c=='\\') {out+='\\';out+=char(c);}else if(c<32) {out+="\\u00";out+=hex[c>>4];out+=hex[c&15];}else out+=char(c);}out+='"';}
+    void string(const std::string& s) {out+=detail::json_string(s);}
     void integer(std::uint64_t v) {char b[32];auto r=std::to_chars(b,b+32,v);if(r.ec!=std::errc{}) throw std::runtime_error("provenance integer format failed");out.append(b,r.ptr);}
     void real(double v) {char b[128];auto r=std::to_chars(b,b+128,v,std::chars_format::general,std::numeric_limits<double>::max_digits10);if(r.ec!=std::errc{}) throw std::runtime_error("provenance real format failed");out.append(b,r.ptr);}
     void optional(std::optional<double> v) {if(v) real(*v);else out+="null";}
