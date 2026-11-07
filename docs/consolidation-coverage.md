@@ -114,6 +114,85 @@ runners. Reuse these existing sources:
 | NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | Planned |
 | NC28 | Update API/stubs/guides, receipts, current card and this checklist; push matching source | Evidence links identify tested source and unresolved scope; active cache/releases/fixtures/archives preserved; no new release or speed claim inferred | Planned |
 
+## Execution checklist for the remaining ten items
+
+These subchecks make NC19-NC28 actionable; they do not add acceptance items or
+change the 18/28 count. Mark a parent Complete only when its decisive evidence
+is linked in the tables above. Keep one active outcome and update this checklist
+and the current card after each coherent task. Unchecked means not yet evidenced.
+
+### NC19 - focused native bindings
+
+- [ ] Register density manifest/options/reports/jobs and NuCLS options/reports/jobs in focused binding units; link the existing native targets.
+- [ ] Map typed input-change, output-exists, budget, cancellation and filesystem failures to the declared Python exceptions.
+- [ ] Copy mutable options under the GIL; release it for waits and synchronous work after capture; expose immutable results without mutable nested aliases.
+- [ ] Bind the existing native labelled-training capture factory; keep unavailable-feature builds explicit without a Python domain fallback.
+- [ ] Check argument ownership, retained results, progress, cancellation and worker exception delivery through Python.
+
+### NC20 - thin density controls
+
+- [ ] Replace project_density.py selection, reuse, checkpoint, CSV and publication logic with native manifest/options/job calls.
+- [ ] Replace density_manifest.py class scans and manifest assembly with native generation; preserve existing public arguments and report schemas.
+- [ ] Keep callbacks on the controller thread; forward callback failure and cancellation through native controls before acknowledging paused events.
+- [ ] Preserve CLI exit statuses and legacy resume behavior; remove dynamic sibling imports and superseded Python policy helpers.
+
+### NC21 - thin import and training controls
+
+- [ ] Replace NuCLS pairing, CSV/PNG decoding, geometry, centroids and publication with the native import job.
+- [ ] Preserve requested-name selection, calibration, representation, class-column arguments and native diagnostics; remove product Pillow/NumPy decoding dependencies.
+- [ ] Replace raw-classifier cohort filtering with the native labelled-training factory.
+- [ ] Check existing CLI options, terminal statuses and interruption handling without reimplementing native admission in Python.
+
+### NC22 - shared frontend integration
+
+- [ ] Confirm ImGui and native CLI call the shared density selection/preview/execution/report authority.
+- [ ] Remove any remaining frontend admission, reuse or export implementation superseded by that authority.
+- [ ] Verify meaningful units, progress, errors and completed/cancelled outcomes; accept harmless cosmetic differences.
+
+### NC23 - native behavior coverage
+
+- [ ] Map required selection, reuse, legacy-format, corruption, limit, mutation, cancellation and no-overwrite behavior to existing source-scoped native evidence.
+- [ ] Add or run only missing cases or cases invalidated by consumer-driven native changes; retain independent scientific oracles.
+- [ ] Record exact affected source and checks; do not repeat accepted numerical qualification merely for frontend wiring.
+
+### NC24 - migrate Python tests
+
+- [ ] Replace density/manifest tests that monkeypatch retired Python internals with native result, event or progress observations.
+- [ ] Replace NuCLS implementation hooks with supported native limits/events and fixture outcomes; retain malformed-input and atomic-publication checks.
+- [ ] Retain meaningful no-recomputation, source-mutation, cancellation, CLI and compatibility coverage; remove only redundant implementation assertions.
+
+### NC25 - one settled build and development install
+
+- [ ] Settle known consumer/API edits and record changed inputs plus the unresolved risks before the expensive build.
+- [ ] Build cheap changed native/frontend targets first, then affected focused bindings using the existing cache and preserved binding objects.
+- [ ] Generate matching stubs and perform the development install after interfaces settle; repair only affected targets after a diagnosed failure.
+- [ ] Record source/runtime identity and build results; preserve active source, cache, fixtures, failure evidence, archives and frozen products.
+
+### NC26 - installed route agreement
+
+- [ ] Run direct headless C++ and installed thin Python routes on the selected saved-project density and NuCLS fixtures.
+- [ ] Compare authoritative rows, geometry, calibration, stored identities, exports and terminal states using existing compatibility expectations.
+- [ ] Confirm standalone native execution needs no Python; use focused frontend checks for any remaining integration risk.
+
+### NC27 - boundary audit and retirement
+
+- [ ] Review shipped Python workflow code: each operation must be argument/control/display work or invoke a named native authority.
+- [ ] Remove superseded Python domain implementations and unused product dependencies; keep independent references in tests/tools.
+- [ ] Confirm no compatibility fallback, duplicate state machine or frontend-only scientific policy remains in the selected workflows.
+
+### NC28 - source handoff
+
+- [ ] Update API/stubs/guides for the installed native controls, supported inputs, exceptions and known limits.
+- [ ] Link source-scoped receipts and decisive evidence; reconcile this checklist and current-task.md with actual results.
+- [ ] Record actual waste/correction in the current card; add only new durable lessons to compilexx's existing notebook.
+- [ ] Commit and push matching source; report remaining scope without inferring a binary release, full parity or general speed superiority.
+
+Execution order: prepare NC19-NC22 and their NC24 test changes together; reuse
+NC23 native evidence and fill named gaps; perform NC25 once interfaces settle;
+complete NC26-NC28 against that installed source. Documentation and boundary-review
+edits can accompany each task. Do not create a second checklist or rebuild for a
+status-only update.
+
 ## Progress rules and stop condition
 
 There are **28 planned acceptance items**. Existing native helpers are reuse

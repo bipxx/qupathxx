@@ -36,6 +36,12 @@ Project/native scientific requests retain exact save/science checks. Use small
 valid budget fixtures, not oversized invalid properties or another broad campaign.
 Preserve37 binding objects, cache/runtime, fixtures, archives and all products.
 
+Checklist refinement: the [single consolidation checklist](consolidation-coverage.md#execution-checklist-for-the-remaining-ten-items)
+now breaks NC19-NC28 into executable subchecks with ownership/GIL, callback,
+compatibility, build-reuse and handoff conditions. Status stays18 complete and10
+planned; documentation does not establish consumer completion. Checked local
+links and diff only; no product build or repeated scientific validation needed.
+
 Next NC19-NC22: focused nanobind units and exception mappings; immutable result
 getters, GIL-held short submissions and GIL-free waits; thin density/manifest/
 NuCLS/raw-training controls; shared native CLI/GUI integration. Settle those edits
