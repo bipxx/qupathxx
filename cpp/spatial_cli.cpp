@@ -54,7 +54,7 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         if(!number && flag!="--operation" && !(measure && (flag=="--radius" || flag=="--units" || flag=="--name" || flag=="--source-ids" || flag=="--target-ids" || flag=="--tissue-ids" || flag=="--exclude-ids"))) throw std::invalid_argument("unknown spatial option: "+flag);
         if(++i==args.size()) throw std::invalid_argument("missing value for spatial option: "+flag);
         const auto& value=args[i];
-        if(flag=="--operation") {if(value=="nearest-distance") {neighborhood=false;density=false;}else if(value=="radius-count") {neighborhood=true;density=false;}else if(value=="tissue-density") {density=true;neighborhood=false;}else throw std::invalid_argument("spatial operation must be nearest-distance, radius-count or tissue-density");continue;}
+        if(flag=="--operation") {if(value=="nearest-distance" || value=="signed-boundary") {neighborhood=false;density=false;options.metric=value=="signed-boundary"?SpatialDistanceMetric::SignedBoundary:SpatialDistanceMetric::Centroid;}else if(value=="radius-count") {neighborhood=true;density=false;}else if(value=="tissue-density") {density=true;neighborhood=false;}else throw std::invalid_argument("spatial operation must be nearest-distance, signed-boundary, radius-count or tissue-density");continue;}
         if(flag=="--radius") {
             double v=0;const auto parsed=std::from_chars(value.data(),value.data()+value.size(),v);
             if(parsed.ec!=std::errc{} || parsed.ptr!=value.data()+value.size() || !std::isfinite(v) || v<=0) throw std::invalid_argument("spatial radius must be positive and finite");
@@ -85,6 +85,10 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
     if(!image || (measure?(sources.empty() && source_ids_file.empty()):!record_id)) throw std::invalid_argument("spatial commands require --image and either --source/--source-ids or --record");
     if((!source_ids_file.empty() && !sources.empty()) || (!target_ids_file.empty() && !targets.empty()) || (!tissue_ids_file.empty() && !tissue.empty()) || (!excluded_ids_file.empty() && !excluded.empty())) throw std::invalid_argument("each spatial cohort uses repeated IDs or one ID file, not both");
     for(auto* ids:{&sources,&targets,&tissue,&excluded}) {std::sort(ids->begin(),ids->end());if(std::adjacent_find(ids->begin(),ids->end())!=ids->end()) throw std::invalid_argument("duplicate spatial cohort ID");}
+    if(options.metric==SpatialDistanceMetric::SignedBoundary) {
+        options.polygonize_curves=density_options.polygonize_curves;
+        if(!seen.count("--name")) name="Signed boundary distances";
+    }
     options.validate();
     if(radius && !neighborhood) throw std::invalid_argument("--radius requires --operation radius-count");
     if(neighborhood && measure && !radius) throw std::invalid_argument("radius-count measurement requires --radius");
@@ -95,7 +99,7 @@ std::optional<int> spatial_cli(const std::vector<std::string>& args,const std::a
         if(measure && tissue.empty() && tissue_ids_file.empty()) throw std::invalid_argument("density measurement requires --tissue or --tissue-ids");
         if(!seen.count("--name")) name="Tissue cell density";
     }else for(const auto* flag:{"--tissue","--exclude","--tissue-ids","--exclude-ids","--polygonize-curves","--max-membership-tests","--max-geometry-operations","--max-geometry-vertices"})
-        if(seen.count(flag) || (std::string(flag)=="--tissue" && !tissue.empty()) || (std::string(flag)=="--exclude" && !excluded.empty())) throw std::invalid_argument("density option requires --operation tissue-density");
+        if((seen.count(flag) && !(std::string(flag)=="--polygonize-curves" && options.metric==SpatialDistanceMetric::SignedBoundary)) || (std::string(flag)=="--tissue" && !tissue.empty()) || (std::string(flag)=="--exclude" && !excluded.empty())) throw std::invalid_argument("density option requires --operation tissue-density (polygonize-curves also supports signed-boundary)");
     try {
         export_checkpoint(&cancelled);const auto source=export_path(args[2]);const auto output=verify?std::string{}:export_path(args[3]);
         ReaderFileGuard observed(source);

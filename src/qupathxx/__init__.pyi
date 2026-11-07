@@ -29,6 +29,7 @@ from ._native import (
     GuiSpatialOptions as GuiSpatialOptions,
     GuiSpatialReport as GuiSpatialReport,
     SpatialDistanceUnits as SpatialDistanceUnits,
+    SpatialDistanceMetric as SpatialDistanceMetric,
     SpatialDistanceOptions as SpatialDistanceOptions,
     SpatialObjectSnapshot as SpatialObjectSnapshot,
     SpatialDistanceRequest as SpatialDistanceRequest,

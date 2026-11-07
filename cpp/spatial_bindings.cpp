@@ -10,9 +10,12 @@
 namespace nb=nanobind;using namespace nb::literals;
 void bind_spatial(nb::module_& m) {
     using namespace qpx;
+    nb::enum_<SpatialDistanceMetric>(m,"SpatialDistanceMetric")
+        .value("CENTROID",SpatialDistanceMetric::Centroid).value("SIGNED_BOUNDARY",SpatialDistanceMetric::SignedBoundary);
     nb::enum_<SpatialDistanceUnits>(m,"SpatialDistanceUnits")
         .value("PIXELS",SpatialDistanceUnits::Pixels).value("MICROMETRES",SpatialDistanceUnits::Micrometres);
     nb::class_<SpatialDistanceOptions>(m,"SpatialDistanceOptions").def(nb::init<>())
+        .def_rw("metric",&SpatialDistanceOptions::metric).def_rw("polygonize_curves",&SpatialDistanceOptions::polygonize_curves)
         .def_rw("units",&SpatialDistanceOptions::units).def_rw("prefer_nucleus",&SpatialDistanceOptions::prefer_nucleus)
         .def_rw("exclude_self",&SpatialDistanceOptions::exclude_self).def_rw("snapshot_bytes",&SpatialDistanceOptions::snapshot_bytes)
         .def_rw("work_bytes",&SpatialDistanceOptions::work_bytes).def_rw("max_distance_tests",&SpatialDistanceOptions::max_distance_tests)

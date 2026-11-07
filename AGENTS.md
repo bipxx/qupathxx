@@ -36,6 +36,8 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
   The ImGui project-density panel, including resume/reuse, is delivered in a
   separate standalone app;
   the published candidate4 wheel/SDK and existing Python consumers stay frozen.
+  Signed Cell-to-annotation boundary distances are delivered separately through
+  the existing distance pipeline and their own staged runtime/source receipt.
   Preserve the frozen native runtime. No new kernel, binding rebuild, batch UI,
   wheel or further feature phase is selected without a new owner need.
 - Pull new work into that outcome only for a demonstrated blocker, correctness

@@ -4131,6 +4131,11 @@ class AnalysisRecord:
     @property
     def tile_size(self) -> int: ...
 
+class SpatialDistanceMetric(enum.Enum):
+    CENTROID = 0
+
+    SIGNED_BOUNDARY = 1
+
 class SpatialDistanceUnits(enum.Enum):
     PIXELS = 0
 
@@ -4138,6 +4143,18 @@ class SpatialDistanceUnits(enum.Enum):
 
 class SpatialDistanceOptions:
     def __init__(self) -> None: ...
+
+    @property
+    def metric(self) -> SpatialDistanceMetric: ...
+
+    @metric.setter
+    def metric(self, arg: SpatialDistanceMetric, /) -> None: ...
+
+    @property
+    def polygonize_curves(self) -> bool: ...
+
+    @polygonize_curves.setter
+    def polygonize_curves(self, arg: bool, /) -> None: ...
 
     @property
     def units(self) -> SpatialDistanceUnits: ...

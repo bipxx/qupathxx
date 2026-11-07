@@ -1,5 +1,7 @@
 #include "spatial_archive.hpp"
 #include "spatial_snapshot.hpp"
+#include "geometry_archive.hpp"
+#include "boundary_metric.hpp"
 #include "provenance_codec.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
@@ -49,8 +51,10 @@ std::vector<std::uint8_t> SpatialDistanceArchiveCodec::encode(const SpatialDista
     detail::bounded_utf8(record.name,256);detail::bounded_utf8(record.producer,256);
     if(record.name.empty() || record.producer.empty()) throw std::invalid_argument("spatial archive name/producer is empty");
     const auto& r=*record.result;const auto& d=*r.snapshot_;d.options.validate();
-    Writer w{{'Q','S','D',1},c};w.integer(record.id);w.integer(record.captured_next_id);w.text(record.name);w.text(record.producer);
+    const bool boundary=d.options.metric==SpatialDistanceMetric::SignedBoundary;
+    Writer w{{'Q','S','D',std::uint8_t(boundary?2:1)},c};w.integer(record.id);w.integer(record.captured_next_id);w.text(record.name);w.text(record.producer);
     w.integer(unsigned(d.options.units));w.integer(d.options.prefer_nucleus);w.integer(d.options.exclude_self);
+    if(boundary) w.integer(d.options.polygonize_curves);
     for(auto v:{std::uint64_t(d.options.snapshot_bytes),std::uint64_t(d.options.work_bytes),d.options.max_distance_tests,d.revision,std::uint64_t(d.bytes),std::uint64_t(d.work)}) w.integer(v);
     w.real(d.sx);w.real(d.sy);w.real(d.capture_ms);w.text(d.digest);w.text(r.sha256_);w.integer(r.distance_tests_);w.real(r.elapsed_ms_);
     const auto provenance=ProvenanceCodec::encode(*d.provenance,true);w.integer(provenance.size());w.raw(provenance.data(),provenance.size());
@@ -60,16 +64,21 @@ std::vector<std::uint8_t> SpatialDistanceArchiveCodec::encode(const SpatialDista
         w.integer(a.id);w.integer(a.revision);w.real(a.centroid.x);w.real(a.centroid.y);w.integer(unsigned(a.kind));w.integer(a.nucleus);w.text(a.geometry_sha256);
     }
     for(const auto* ids:{&d.sources,&d.targets}) {w.integer(ids->size());for(auto i:*ids) {stop(c);w.integer(i);}}
+    if(boundary) for(const auto& roi:static_cast<const SpatialDistanceRequest::Data::Boundary&>(d).original) {
+        stop(c);const auto bytes=GeometryArchiveCodec::encode(roi);w.integer(bytes.size());w.raw(bytes.data(),bytes.size());
+    }
     for(const auto& row:r.rows_) {
         stop(c);w.integer(bool(row.target_id));if(row.target_id) {w.integer(*row.target_id);w.real(*row.distance);}
     }
     const auto hash=checksum(w.bytes.data(),w.bytes.size(),c);w.raw(hash.data(),hash.size());return std::move(w.bytes);
 }
 std::shared_ptr<const SpatialDistanceRecord> SpatialDistanceArchiveCodec::decode(const std::uint8_t* p,std::size_t n,const std::atomic<bool>* c) {
-    stop(c);if(!p || n<68 || n>limit || std::memcmp(p,"QSD\1",4) || checksum(p,n-64,c)!=std::string(reinterpret_cast<const char*>(p+n-64),64)) throw std::invalid_argument("invalid spatial archive header/checksum");
+    stop(c);if(!p || n<68 || n>limit || std::memcmp(p,"QSD",3) || (p[3]!=1 && p[3]!=2) || checksum(p,n-64,c)!=std::string(reinterpret_cast<const char*>(p+n-64),64)) throw std::invalid_argument("invalid spatial archive header/checksum");
+    const bool boundary=p[3]==2;
     Reader rd{p+4,n-68};auto record=std::make_shared<SpatialDistanceRecord>();record->id=rd.integer();record->captured_next_id=rd.integer();record->name=rd.text(256);record->producer=rd.text(256);
-    auto d=std::make_shared<SpatialDistanceRequest::Data>();auto& o=d->options;
+    std::shared_ptr<SpatialDistanceRequest::Data> d=boundary?std::make_shared<SpatialDistanceRequest::Data::Boundary>():std::make_shared<SpatialDistanceRequest::Data>();auto& o=d->options;
     o.units=SpatialDistanceUnits(rd.integer(1));o.prefer_nucleus=rd.integer(1)!=0;o.exclude_self=rd.integer(1)!=0;
+    if(boundary) {o.metric=SpatialDistanceMetric::SignedBoundary;o.polygonize_curves=rd.integer(1)!=0;}
     o.snapshot_bytes=std::size_t(rd.integer(256u*1024*1024));o.work_bytes=std::size_t(rd.integer(1024u*1024*1024));o.max_distance_tests=rd.integer();o.validate();
     d->revision=rd.integer();d->bytes=std::size_t(rd.integer(o.snapshot_bytes));d->work=std::size_t(rd.integer(o.work_bytes));d->sx=rd.real();d->sy=rd.real();d->capture_ms=rd.real();d->digest=rd.text(64);hex(d->digest);
     auto result=std::shared_ptr<SpatialDistanceResult>(new SpatialDistanceResult());result->snapshot_=d;result->sha256_=rd.text(64);hex(result->sha256_);
@@ -92,10 +101,36 @@ std::shared_ptr<const SpatialDistanceRecord> SpatialDistanceArchiveCodec::decode
         const auto size=std::size_t(rd.integer(100000));if(size>rd.left/8 || (ids==&d->sources && !size)) throw std::invalid_argument("invalid spatial cohort length");ids->reserve(size);
         for(std::size_t i=0;i<size;++i) {stop(c);const auto index=std::size_t(rd.integer(count-1));if(i && index<=ids->back()) throw std::invalid_argument("unordered spatial cohort");ids->push_back(index);used[index]=true;}
     }
-    const auto minimum=base+count*(sizeof(SpatialObjectSnapshot)+128)+(d->sources.size()+d->targets.size())*sizeof(std::size_t);
+    auto minimum=base+count*(sizeof(SpatialObjectSnapshot)+128)+(d->sources.size()+d->targets.size())*sizeof(std::size_t);
+    if(boundary) {
+        auto& b=static_cast<SpatialDistanceRequest::Data::Boundary&>(*d);
+        minimum+=sizeof(b)-sizeof(*d)+d->targets.size()*(2*sizeof(Roi)+sizeof(std::vector<Ring>));
+        if(minimum>d->bytes) throw std::invalid_argument("boundary geometry exceeds admitted payload");
+        b.original.reserve(d->targets.size());b.geometry.reserve(d->targets.size());b.rings.reserve(d->targets.size());
+        for(auto i:d->sources) if(d->objects[i].kind!=ObjectKind::Cell) throw std::invalid_argument("boundary source is not a Cell");
+        for(auto i:d->targets) {
+            stop(c);const auto encoded=rd.view(std::min<std::size_t>(d->bytes,16u*1024*1024));
+            Sha256 h;h.update(encoded.first,encoded.second);
+            const auto& a=d->objects[i];
+            if(a.kind!=ObjectKind::Annotation || a.nucleus || h.finish()!=a.geometry_sha256) throw std::invalid_argument("boundary target geometry identity mismatch");
+            auto original=GeometryArchiveCodec::decode(encoded.first,encoded.second);
+            if(!original.is_area() || (original.kind()==RoiKind::Ellipse && !o.polygonize_curves)) throw std::invalid_argument("invalid boundary geometry policy");
+            const auto center=original.centroid();
+            if(center.x!=a.centroid.x || center.y!=a.centroid.y) throw std::invalid_argument("boundary centroid disagrees with geometry");
+            const auto bounds=original.bounds();
+            if(bounds.x<0 || bounds.y<0 || bounds.x+bounds.width>d->provenance->source.width || bounds.y+bounds.height>d->provenance->source.height) throw std::invalid_argument("boundary outside image");
+            auto geometry=original.kind()==RoiKind::Ellipse?original.as_polygon():original;
+            auto rings=geometry.paths();std::size_t vertices=0;for(const auto& ring:rings) vertices+=ring.size();
+            if(vertices>10000) throw std::invalid_argument("boundary vertex limit exceeded");
+            minimum+=geometry.payload_bytes()+rings.size()*sizeof(Ring)+vertices*sizeof(Point);
+            if(minimum>d->bytes) throw std::invalid_argument("boundary geometry exceeds captured payload");
+            b.original.push_back(std::move(original));b.geometry.push_back(std::move(geometry));b.rings.push_back(std::move(rings));
+        }
+    }
     if(std::find(used.begin(),used.end(),false)!=used.end() || d->bytes<minimum || d->work<d->bytes+sizeof(SpatialDistanceResult)+d->sources.size()*sizeof(SpatialDistanceRow)+SpatialIndex::estimated_bytes(d->targets.size())+8192 || d->digest!=d->input_digest()) throw std::invalid_argument("spatial capture identity/payload mismatch");
     if(d->sources.size()>rd.left/8) throw std::invalid_argument("truncated spatial rows");result->rows_.reserve(d->sources.size());
-    Sha256 hash;hash_text(hash,"qpx.centroid-nearest-result/1");hash_text(hash,d->digest);hash.integer(d->sources.size());std::uint64_t matched=0;
+    Sha256 hash;hash_text(hash,boundary?"qpx.signed-boundary-nearest-result/1":"qpx.centroid-nearest-result/1");hash_text(hash,d->digest);hash.integer(d->sources.size());std::uint64_t matched=0;
+    auto remaining=o.max_distance_tests;
     for(auto i:d->sources) {
         stop(c);const auto& a=d->objects[i];SpatialDistanceRow row;row.source_id=a.id;row.source_revision=a.revision;row.source_centroid=a.centroid;row.source_kind=a.kind;row.source_nucleus=a.nucleus;
         const bool present=rd.integer(1)!=0;hash.integer(a.id);hash.integer(present);
@@ -104,14 +139,29 @@ std::shared_ptr<const SpatialDistanceRecord> SpatialDistanceArchiveCodec::decode
         if(present) {
             const auto id=rd.integer();const auto t=std::lower_bound(d->objects.begin(),d->objects.end(),id,[](const auto& a,auto id){return a.id<id;});
             if(t==d->objects.end() || t->id!=id || !std::binary_search(d->targets.begin(),d->targets.end(),std::size_t(t-d->objects.begin())) || (o.exclude_self && id==a.id)) throw std::invalid_argument("spatial row references an ineligible target");
-            row.distance=rd.real();const auto expected=std::hypot(std::abs((t->centroid.x-a.centroid.x)*d->sx),std::abs((t->centroid.y-a.centroid.y)*d->sy));
+            row.distance=rd.real();double expected;
+            if(boundary) {
+                const auto& b=static_cast<const SpatialDistanceRequest::Data::Boundary&>(*d);
+                const auto index=std::size_t(t-d->objects.begin());
+                const auto j=std::size_t(std::lower_bound(d->targets.begin(),d->targets.end(),index)-d->targets.begin());
+                // Structural load validation, like QSD1: validate the selected
+                // target's distance, not a second complete nearest search.
+                // Explicit Document verification owns full recomputation.
+                expected=detail::signed_boundary_distance(b.geometry[j],b.rings[j],a.centroid,d->sx,d->sy,remaining,c);
+            }else expected=std::hypot(std::abs((t->centroid.x-a.centroid.x)*d->sx),std::abs((t->centroid.y-a.centroid.y)*d->sy));
             // libm hypot may differ by a few ULPs across supported platforms.
             // Keep the archived float64 bytes/hash; this is structural validation,
             // not a relaxation of the independent geometry comparison tolerance.
-            if(!std::isfinite(expected) || *row.distance<0 || (expected==0?*row.distance!=0:std::abs(*row.distance-expected)>8*std::numeric_limits<double>::epsilon()*expected)) throw std::invalid_argument("spatial row distance disagrees with captured centroids");
+            if(!std::isfinite(expected) || (!boundary && *row.distance<0) || (expected==0?*row.distance!=0:std::abs(*row.distance-expected)>8*std::numeric_limits<double>::epsilon()*std::abs(expected))) throw std::invalid_argument("spatial row distance disagrees with captured geometry");
             row.target_id=t->id;row.target_revision=t->revision;row.target_centroid=t->centroid;row.target_kind=t->kind;row.target_nucleus=t->nucleus;hash.integer(id);hash_real(hash,*row.distance);++matched;
         }
         result->rows_.push_back(row);
+    }
+    if(boundary) {
+        const auto& b=static_cast<const SpatialDistanceRequest::Data::Boundary&>(*d);
+        std::uint64_t segments=0;for(const auto& rings:b.rings) for(const auto& ring:rings) segments+=ring.size();
+        if(segments && d->sources.size()>o.max_distance_tests/segments) throw std::invalid_argument("boundary result exceeds segment budget");
+        if(result->distance_tests_!=segments*d->sources.size()) throw std::invalid_argument("boundary segment count disagrees with geometry");
     }
     if(rd.left || hash.finish()!=result->sha256_ || result->distance_tests_<matched || result->payload_bytes()>o.work_bytes) throw std::invalid_argument("spatial result identity/payload mismatch");
     record->result=std::move(result);return record;

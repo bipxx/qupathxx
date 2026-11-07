@@ -6,9 +6,12 @@
 
 namespace qpx {
 enum class SpatialDistanceUnits { Pixels, Micrometres };
+enum class SpatialDistanceMetric : std::uint8_t { Centroid, SignedBoundary };
 struct SpatialDistanceOptions {
     SpatialDistanceUnits units=SpatialDistanceUnits::Pixels;
     bool prefer_nucleus=true,exclude_self=true;
+    SpatialDistanceMetric metric=SpatialDistanceMetric::Centroid;
+    bool polygonize_curves=false;
     // Conservative input/capture and worker-payload admission, not RSS caps.
     std::size_t snapshot_bytes=64u*1024*1024,work_bytes=128u*1024*1024;
     std::uint64_t max_distance_tests=100000000;
@@ -74,7 +77,7 @@ struct SpatialDistanceRow {
 class SpatialDistanceResult {
 public:
     const std::vector<SpatialDistanceRow>& rows() const {return rows_;}
-    const char* algorithm() const {return "qpx.centroid-nearest/1";}
+    const char* algorithm() const;
     const std::string& input_sha256() const;
     const std::string& sha256() const {return sha256_;}
     SpatialDistanceOptions options() const;

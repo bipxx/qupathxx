@@ -2,6 +2,7 @@
 #include "qupathxx/spatial_analysis.hpp"
 namespace qpx {
 struct SpatialDistanceRequest::Data {
+    struct Boundary;
     SpatialDistanceOptions options;
     std::uint64_t revision=0;
     std::vector<SpatialObjectSnapshot> objects;
@@ -13,5 +14,12 @@ struct SpatialDistanceRequest::Data {
     std::string input_digest() const;
     bool same_geometry(const Data&) const;
     bool matches_objects(const Document&) const;
+};
+// Keep the centroid capture layout unchanged: historical neighborhood/density
+// payload admission and identities continue to use exactly the same base.
+struct SpatialDistanceRequest::Data::Boundary final : SpatialDistanceRequest::Data {
+    std::vector<Roi> original;
+    std::vector<Roi> geometry;
+    std::vector<std::vector<Ring>> rings;
 };
 }

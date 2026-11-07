@@ -21,6 +21,7 @@ SpatialDistanceRequest capture(const Document& doc,const std::vector<std::uint64
 }
 void SpatialNeighborhoodOptions::validate() const {
     SpatialDistanceOptions::validate();
+    if(metric!=SpatialDistanceMetric::Centroid) throw std::invalid_argument("radius counts require the centroid metric");
     if(!std::isfinite(radius) || radius<=0) throw std::invalid_argument("spatial neighborhood radius must be positive and finite");
 }
 SpatialNeighborhoodRequest::SpatialNeighborhoodRequest(const Document& doc,const std::vector<std::uint64_t>& sources,

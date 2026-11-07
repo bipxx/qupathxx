@@ -78,6 +78,16 @@ public:
             ImGui::Checkbox("Accept 512-segment curved ROI approximation",&options_.density.polygonize_curves);
             ImGui::Checkbox("Prefer cell nuclei",&options_.density.prefer_nucleus);
         }else {
+            if(!neighborhood()) {
+                int metric=int(options_.analysis.metric);
+                if(ImGui::Combo("Distance metric",&metric,"Centroid to centroid\0Signed Cell to annotation boundary\0")) {
+                    options_.analysis.metric=SpatialDistanceMetric(metric);options_.analysis.polygonize_curves=false;
+                }
+                if(options_.analysis.metric==SpatialDistanceMetric::SignedBoundary) {
+                    ImGui::TextWrapped("Sources: Cells. Targets: area Annotations. Negative inside, positive outside, zero on edge. Nearest individual boundary (including holes), not a union; ties use lower target ID.");
+                    ImGui::Checkbox("Accept 512-segment curved boundary approximation",&options_.analysis.polygonize_curves);
+                }
+            }else {options_.analysis.metric=SpatialDistanceMetric::Centroid;options_.analysis.polygonize_curves=false;}
             int units=options_.analysis.units==SpatialDistanceUnits::Pixels?0:1;
             if(ImGui::Combo("Distance units",&units,"Pixels\0Micrometres\0"))options_.analysis.units=units?SpatialDistanceUnits::Micrometres:SpatialDistanceUnits::Pixels;
             ImGui::Checkbox("Prefer cell nuclei",&options_.analysis.prefer_nucleus);ImGui::SameLine();ImGui::Checkbox("Exclude the same object",&options_.analysis.exclude_self);
@@ -155,6 +165,8 @@ public:
         }
         if(current_mode && state.result) {
             const auto& result=*state.result;ImGui::Text("%zu rows; %s",result.rows().size(),result.options().units==SpatialDistanceUnits::Pixels?"pixels":"micrometres");
+            ImGui::TextUnformatted(result.algorithm());
+            if(result.options().metric==SpatialDistanceMetric::SignedBoundary) ImGui::TextWrapped("Signed boundary result: negative inside selected target; positive outside; zero on boundary.");
             if(ImGui::BeginTable("Distances",4,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg|ImGuiTableFlags_ScrollY,ImVec2(0,180))) {
                 ImGui::TableSetupColumn("Source");ImGui::TableSetupColumn("Nearest target");ImGui::TableSetupColumn("Distance");ImGui::TableSetupColumn("Status");ImGui::TableHeadersRow();
                 ImGuiListClipper clip;clip.Begin(int(result.rows().size()));while(clip.Step())for(int i=clip.DisplayStart;i<clip.DisplayEnd;++i) {

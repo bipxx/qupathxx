@@ -40,7 +40,7 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
             "       density: --source ROI --target CELL --tissue ROI [--exclude ROI]; ID-file variants --source-ids/--target-ids/--tissue-ids/--exclude-ids\n"
             "       density limits: --max-membership-tests N --max-geometry-operations N --max-geometry-vertices N; curves need --polygonize-curves\n"
-            "       spatial options: --operation nearest-distance|radius-count|tissue-density; radius-count measure requires --radius R (uses --units px|um)\n"
+            "       spatial options: --operation nearest-distance|signed-boundary|radius-count|tissue-density; radius-count measure requires --radius R (uses --units px|um)\n"
             "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
             "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
             "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"

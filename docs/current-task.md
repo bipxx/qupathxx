@@ -7,6 +7,49 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — signed Cell-to-annotation boundary distances
+
+Owner accepted the original R9 signed-distance gap. Extend the existing distance
+request/job/record/export path with an explicit metric; preserve centroid behavior
+and old QSD1 records. No new reader, orchestration framework or full-parity target.
+
+Contract: selected Cell centroids (nucleus preferred, body fallback) to the nearest
+individual selected Annotation area boundary, including holes and multipart rings.
+Negative inside that annotation, positive outside, canonical zero on its boundary;
+minimum absolute distance wins, exact ties use lower target ID. Regions are not
+unioned. Pixels or positive finite independent X/Y micrometre calibration. Curves
+require explicit 512-segment polygonization. One Z/time plane, no pixel reads.
+Bound capture/work, vertices and segment tests; cooperative cancellation and stale
+guards remain native. Preserve exact saved float64 identities and historical CSV.
+
+| Task | Easiest existing path / decisive check | State |
+| --- | --- | --- |
+| T1 contract and native implementation | Existing metric/request/job with immutable bounded boundary capture; independent geometry/calibration oracles and failures | Complete |
+| T2 retain/replay/export | QSD2 boundary geometry; QSD1 unchanged; exact saved hash/CSV and native replay | Complete |
+| T3 consumers | Thin nanobind fields, CLI operation and existing ImGui panel; same frontend lifecycle | Complete |
+| T4 delivery | Native suites9/9 plus final archive suites2/2 in6.89s; Python/CLI/managed ImGui, legacy identity, types and exact cross-interface CSV pass | Complete |
+
+Build risk/check: native headers and payload change; settle all consumer contracts
+before compiling cheap affected targets, then one binding/staging pass. Published
+candidates and prior app bundles remain frozen. Do not replay broad qualification.
+Waste review: reuse the distance pipeline instead of another record/job/frontend
+family; preserve centroid capture layout so old archive admission stays valid.
+First native run passed. Review added close-to-edge and vertex-limit checks, then
+only affected checks. Initial exploration produced truncated reads; narrow reads
+avoid repeating that. Reuse the native app/CLI while the binding TU compiles.
+Review found QSD2 loading repeated the full nearest search. Like QSD1, load now
+checks the chosen distance/geometry and identities; exact segment totals are
+validated arithmetically. Explicit Verify owns full recomputation. Final signed/archive suites2/2 pass; cached consumer relink and staged checks
+pass, preserving the compiled binding objects.
+The large binding TU was the actual critical-path cost; it compiled once while
+standalone checks proceeded. Staged source522-input tree 2ddb06c5da4d matches the
+raw compiler manifest and runtime. [14/14 coverage](signed-distances-coverage.md),
+[guide](signed-distances.md) and [source/runtime evidence](benchmarks/signed-distances/README.md)
+close this slice. Local app/Python runtime:main build/signed-distances/runtime.
+This is a separate development runtime; candidate4 wheel/SDK and prior apps remain
+frozen. No new binary release, indexed-search speed, biology or full-parity claim.
+Compilexx records durable lessons. Publish source and stop; no next phase selected.
+
 ## Delivered phase — ImGui density resume/reuse
 
 Owner accepted a previous-run folder selector and reuse/recompute indicators.

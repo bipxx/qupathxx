@@ -1,6 +1,7 @@
 #include "spatial_snapshot.hpp"
 #include "utf8_text.hpp"
 #include "geometry_archive.hpp"
+#include "boundary_metric.hpp"
 #include "sha256.hpp"
 #include <algorithm>
 #include <chrono>
@@ -26,6 +27,10 @@ std::vector<std::uint64_t> selection(const std::vector<std::uint64_t>& ids,bool 
 }
 }
 void SpatialDistanceOptions::validate() const {
+    if(metric!=SpatialDistanceMetric::Centroid && metric!=SpatialDistanceMetric::SignedBoundary)
+        throw std::invalid_argument("invalid spatial distance metric");
+    if(polygonize_curves && metric!=SpatialDistanceMetric::SignedBoundary)
+        throw std::invalid_argument("curve polygonization requires signed boundary distances");
     if(units!=SpatialDistanceUnits::Pixels && units!=SpatialDistanceUnits::Micrometres)
         throw std::invalid_argument("invalid spatial distance units");
     constexpr std::size_t mb=1024*1024;
@@ -41,7 +46,9 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     if((source_ids.size()+target_ids.size())*2*sizeof(std::uint64_t)+sizeof(Data)+sizeof(*this)+256>options.snapshot_bytes)
         throw std::length_error("spatial selection exceeds snapshot budget");
     auto sources=selection(source_ids,true),targets=selection(target_ids,false);
-    auto d=std::make_shared<Data>();d->options=options;d->revision=doc.revision();
+    const bool boundary=options.metric==SpatialDistanceMetric::SignedBoundary;
+    std::shared_ptr<Data> d=boundary?std::make_shared<Data::Boundary>():std::make_shared<Data>();
+    d->options=options;d->revision=doc.revision();
     if(options.units==SpatialDistanceUnits::Micrometres) {
         if(!doc.pixel_width_um() || !doc.pixel_height_um()) throw std::invalid_argument("micrometre spatial distances require complete calibration");
         d->sx=*doc.pixel_width_um();d->sy=*doc.pixel_height_um();
@@ -54,6 +61,14 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     std::vector<std::uint64_t> all;all.reserve(sources.size()+targets.size());all.insert(all.end(),sources.begin(),sources.end());all.insert(all.end(),targets.begin(),targets.end());
     std::sort(all.begin(),all.end());all.erase(std::unique(all.begin(),all.end()),all.end());
     for(auto id:all) if(!doc.objects().count(id)) throw std::out_of_range("spatial object does not exist");
+    if(boundary) {
+        for(auto id:sources) if(doc.objects().at(id).kind!=ObjectKind::Cell) throw std::invalid_argument("signed boundary sources must be Cells");
+        for(auto id:targets) {
+            const auto& a=doc.objects().at(id);
+            if(a.kind!=ObjectKind::Annotation || !a.geometry.is_area()) throw std::invalid_argument("signed boundary targets must be area Annotations");
+            if(a.geometry.kind()==RoiKind::Ellipse && !options.polygonize_curves) throw std::invalid_argument("curved boundary requires explicit polygonize_curves");
+        }
+    }
     const auto plane=doc.objects().at(all.front()).plane;
     for(auto id:all) {const auto& selected=doc.objects().at(id).plane;if(selected.z!=plane.z || selected.t!=plane.t)throw std::invalid_argument("2D spatial distances require one Z/time plane");}
     d->bytes+=all.size()*(sizeof(SpatialObjectSnapshot)+128)+(sources.size()+targets.size())*sizeof(std::size_t);admit(selection_bytes);
@@ -73,6 +88,23 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     d->bytes+=geometry_work;admit(selection_bytes);
     auto indexes=[&](const auto& ids,auto& into) {into.reserve(ids.size());for(auto id:ids) into.push_back(std::lower_bound(all.begin(),all.end(),id)-all.begin());};
     indexes(sources,d->sources);indexes(targets,d->targets);
+    if(boundary) {
+        auto& b=static_cast<Data::Boundary&>(*d);
+        d->bytes+=sizeof(Data::Boundary)-sizeof(Data)+targets.size()*(2*sizeof(Roi)+sizeof(std::vector<Ring>));admit(0);
+        b.original.reserve(targets.size());b.geometry.reserve(targets.size());b.rings.reserve(targets.size());
+        for(auto id:targets) {
+            const auto& original=doc.objects().at(id).geometry;
+            // Refuse before copying/converting an unbounded geometry.
+            const auto estimate=original.kind()==RoiKind::Ellipse?std::size_t(65536):original.payload_bytes()*3;
+            admit(estimate);
+            auto roi=original.kind()==RoiKind::Ellipse?original.as_polygon():original;
+            auto rings=roi.paths();std::size_t vertices=0;
+            for(const auto& ring:rings) vertices+=ring.size();
+            if(vertices>10000) throw std::length_error("signed boundary exceeds 10000 represented vertices per target");
+            const auto bytes=roi.payload_bytes()+rings.size()*sizeof(Ring)+vertices*sizeof(Point);
+            admit(bytes);d->bytes+=bytes;b.original.push_back(original);b.geometry.push_back(std::move(roi));b.rings.push_back(std::move(rings));
+        }
+    }
     d->work=d->bytes+sizeof(SpatialDistanceResult)+sources.size()*sizeof(SpatialDistanceRow)+SpatialIndex::estimated_bytes(targets.size())+8192;
     if(d->work>options.work_bytes) throw std::length_error("spatial distance result/index exceeds work budget");
     d->digest=d->input_digest();d->capture_ms=elapsed(started);
@@ -80,7 +112,9 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     data_=std::move(d);
 }
 std::string SpatialDistanceRequest::Data::input_digest() const {
-    Sha256 hash;text(hash,"qpx.centroid-nearest/1");hash.integer(unsigned(options.units));hash.integer(options.prefer_nucleus);hash.integer(options.exclude_self);
+    Sha256 hash;text(hash,options.metric==SpatialDistanceMetric::SignedBoundary?"qpx.signed-boundary-nearest/1":"qpx.centroid-nearest/1");
+    if(options.metric==SpatialDistanceMetric::SignedBoundary) hash.integer(options.polygonize_curves);
+    hash.integer(unsigned(options.units));hash.integer(options.prefer_nucleus);hash.integer(options.exclude_self);
     hash.integer(revision);hash.integer(provenance->source.width);hash.integer(provenance->source.height);real(hash,sx);real(hash,sy);
     for(auto v:{provenance->effective_pixel_width_um,provenance->effective_pixel_height_um}) {hash.integer(bool(v));if(v) real(hash,*v);}
     hash.integer(objects.size());
@@ -89,7 +123,7 @@ std::string SpatialDistanceRequest::Data::input_digest() const {
     return hash.finish();
 }
 bool SpatialDistanceRequest::Data::same_geometry(const Data& b) const {
-    if(options.units!=b.options.units || options.prefer_nucleus!=b.options.prefer_nucleus || options.exclude_self!=b.options.exclude_self ||
+    if(options.metric!=b.options.metric || options.polygonize_curves!=b.options.polygonize_curves || options.units!=b.options.units || options.prefer_nucleus!=b.options.prefer_nucleus || options.exclude_self!=b.options.exclude_self ||
        sx!=b.sx || sy!=b.sy || sources!=b.sources || targets!=b.targets || objects.size()!=b.objects.size() ||
        provenance->source.width!=b.provenance->source.width || provenance->source.height!=b.provenance->source.height ||
        provenance->effective_pixel_width_um!=b.provenance->effective_pixel_width_um || provenance->effective_pixel_height_um!=b.provenance->effective_pixel_height_um) return false;
@@ -184,6 +218,7 @@ SpatialDistanceOptions SpatialDistanceRequest::options() const {return data_->op
 const std::string& SpatialDistanceRequest::input_sha256() const {return data_->digest;}
 const std::shared_ptr<const AnalysisProvenance>& SpatialDistanceRequest::provenance() const {return data_->provenance;}
 const std::string& SpatialDistanceResult::input_sha256() const {return snapshot_->digest;}
+const char* SpatialDistanceResult::algorithm() const {return snapshot_->options.metric==SpatialDistanceMetric::SignedBoundary?"qpx.signed-boundary-nearest/1":"qpx.centroid-nearest/1";}
 SpatialDistanceOptions SpatialDistanceResult::options() const {return snapshot_->options;}
 double SpatialDistanceResult::x_scale() const {return snapshot_->sx;}
 double SpatialDistanceResult::y_scale() const {return snapshot_->sy;}
@@ -196,17 +231,25 @@ struct SpatialDistanceKernel {
         std::atomic<std::uint64_t>* progress=nullptr,std::atomic<std::uint64_t>* tests=nullptr) {
         checkpoint(cancelled);const auto started=Clock::now();const auto& d=*request.data_;
         std::vector<SpatialEntry> entries;entries.reserve(d.targets.size());
-        for(auto i:d.targets) {checkpoint(cancelled);const auto& a=d.objects[i];entries.push_back({a.id,{a.centroid.x,a.centroid.y,0,0}});}
+        if(d.options.metric==SpatialDistanceMetric::Centroid) for(auto i:d.targets) {checkpoint(cancelled);const auto& a=d.objects[i];entries.push_back({a.id,{a.centroid.x,a.centroid.y,0,0}});}
         SpatialIndex index(std::move(entries));checkpoint(cancelled);
         if(index.payload_bytes()>SpatialIndex::estimated_bytes(d.targets.size())) throw std::length_error("spatial index allocation exceeds admitted bound");
         auto out=std::shared_ptr<SpatialDistanceResult>(new SpatialDistanceResult());out->snapshot_=request.data_;out->rows_.reserve(d.sources.size());
         if(out->payload_bytes()+index.payload_bytes()+8192>d.options.work_bytes) throw std::length_error("spatial result allocation exceeds work budget");
-        auto remaining=d.options.max_distance_tests;Sha256 hash;text(hash,"qpx.centroid-nearest-result/1");text(hash,d.digest);hash.integer(d.sources.size());
+        auto remaining=d.options.max_distance_tests;Sha256 hash;text(hash,d.options.metric==SpatialDistanceMetric::SignedBoundary?"qpx.signed-boundary-nearest-result/1":"qpx.centroid-nearest-result/1");text(hash,d.digest);hash.integer(d.sources.size());
         try {
             for(auto i:d.sources) {
                 checkpoint(cancelled);const auto& a=d.objects[i];SpatialDistanceRow row;
                 row.source_id=a.id;row.source_revision=a.revision;row.source_centroid=a.centroid;row.source_kind=a.kind;row.source_nucleus=a.nucleus;
-                const auto nearest=index.nearest_point(a.centroid,d.sx,d.sy,d.options.exclude_self?std::optional<std::uint64_t>(a.id):std::nullopt,cancelled,&remaining);
+                std::optional<SpatialNeighbor> nearest;
+                if(d.options.metric==SpatialDistanceMetric::SignedBoundary) {
+                    const auto& b=static_cast<const SpatialDistanceRequest::Data::Boundary&>(d);
+                    for(std::size_t t=0;t<d.targets.size();++t) {
+                        const auto id=d.objects[d.targets[t]].id;
+                        const auto distance=detail::signed_boundary_distance(b.geometry[t],b.rings[t],a.centroid,d.sx,d.sy,remaining,cancelled);
+                        if(!nearest || std::abs(distance)<std::abs(nearest->distance)) nearest=SpatialNeighbor{id,distance};
+                    }
+                }else nearest=index.nearest_point(a.centroid,d.sx,d.sy,d.options.exclude_self?std::optional<std::uint64_t>(a.id):std::nullopt,cancelled,&remaining);
                 hash.integer(a.id);hash.integer(bool(nearest));
                 if(nearest) {
                     const auto target=std::lower_bound(d.objects.begin(),d.objects.end(),nearest->id,[](const auto& a,auto id){return a.id<id;});

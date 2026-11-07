@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 59: signed_distance
+1/2 Test #59: signed_distance ..................   Passed    0.22 sec
+    Start 65: spatial_records
+2/2 Test #65: spatial_records ..................   Passed    6.56 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   6.89 sec

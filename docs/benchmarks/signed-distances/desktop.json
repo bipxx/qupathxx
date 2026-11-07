@@ -1,0 +1,20 @@
+{
+  "source_tree_sha256": "ddddd17fe7020c3468f20cedfbfc6e621a5ecba49878f95a51779acae67f1755",
+  "standalone_application_sha256": "92dd962d1a6b0cb547bb3562d2eb6bf257094d353e8c21f1733d0153548bbc01",
+  "record_id": 6,
+  "record_status": "current",
+  "export_state": "saved",
+  "values_um": [
+    -5,
+    10,
+    0
+  ],
+  "csv_sha256": "5cb2d44663ce4215a7f65a73530fa80e0a09833d50cab49d48e0c8552d44b309",
+  "csv_exact_across": [
+    "standalone",
+    "python",
+    "cli"
+  ],
+  "managed_report": "desktop-report.json",
+  "screenshot": "standalone-verified.png"
+}
