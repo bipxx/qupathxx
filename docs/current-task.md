@@ -9,69 +9,42 @@ calibration, persistence/export/replay and meaningful overlay/display checks sta
 
 ## Selected phase - implement native consolidation NC01-NC28 (active)
 
-Owner activated the full implementation goal. [Checklist](consolidation-coverage.md)
-retains all28 requirements; [compatibility contract](consolidation-contract.md)
-records the existing source/tests and frozen outputs before edits. NC01 baseline
-is recorded; NC03 headless extraction and NC05-NC08 native manifest loading,
-selection, preview and publication are complete. NC02 shared types remain in
-progress: 6 complete,1 in progress,21 planned acceptance items.
-Keep both report/receipt dialects and their existing failure/CSV semantics.
+The full [28-item checklist](consolidation-coverage.md) remains selected.
+**13 complete,1 in progress,14 planned**: shared density types/headless service,
+manifest selection/preview/publication and native run/resume/format adapters are
+complete at the native authority. NC04 contract settlement is in progress;
+import/training rules, bindings/thin consumers and final integration remain.
+The [compatibility contract](consolidation-contract.md) preserves both existing
+schema dialects and exact scientific/persistent identity. Existing products and
+Python consumers remain unchanged until the settled combined consumer build.
 
-Native extraction class/explicit-ID routes and legacy resume tests pass.
-Current batch: native class/all-image selection, complete issue collection and
-manifest/preview JSON publication use the shared headless preview authority.
-Changed inputs: density SDK/workflow/manifest, metadata verification helper,
-focused generation tests and CMake registration. Decisive check: build only the
-four density test targets in the existing cache, then run those suites. Cover
-roundtrip, no-overwrite/scratch, missing classes, source integrity, geometry,
-calibration and policies; legacy panel/resume tests guard unchanged behavior. No binding build until density/import
-interfaces settle; use focused native targets and preserve expensive objects.
-Manifest loading is implemented in C++ with an owned metadata snapshot;
-[focused evidence](benchmarks/consolidation/README.md) records the passing strict
-JSON/source-mutation and fingerprint/source-identity tests (3 suites,0.39 s). Run/receipt adapters, importer/training rules, thin consumers and
-final installed integration remain required. Do not mark the goal achieved from
-this first batch. Record each completed task/failure with evidence and next action.
+[Execution evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters):
+one C++ execution loop, source-record hints and checkpoint reuse, byte limits,
+recompute/stop-on-error, no-replace receipts/checkpoints/CSV/reports and owned
+image events/acknowledgement. No worker Python callbacks. Constant source checks
+between images; retained receipt/checkpoint checks are final/publication scoped,
+so prior files are not rescanned quadratically. Native numeric CSV stays exact.
 
-Manifest test diagnosis: line context identified that export_path made a
-relative project absolute before joining the manifest directory. Join first,
-then canonicalize; add absolute and nested-relative path regressions. Repair
-only the manifest target; preserve failed logs and unchanged service tests.
-The next check found the persistent decoder guard blocks Windows writes; use
-a native metadata-only snapshot probe, sharing the existing FileVersion encoder,
-and verify source mutation without weakening the assertion. Cover the small
-file-version refactor with existing fingerprint/source-identity suites.
+Checks: initial five density suites pass (3.35 s). After publication/linked-input
+and later-image CSV cases, desktop/resume pass; manifest-run initially fails
+because a test changed resume_from but retained the older nesting path. The
+fixture proves native correctly accepted a separate directory. Correct only that
+setup and add call-site diagnostics; targeted manifest-run passes (2.51 s).
+All logs/failures remain; no assertion, source guard or limit was weakened.
+Raw compiler input hashes match cached generated provenance for this checkpoint.
 
-Build correction: moving the service out of detail exposed the implicit
-export_path dependency; import that native helper explicitly and reuse the
-completed core objects. The original compiler log remains retained.
+Waste review: reuse the existing density/reuse/project/JSON/atomic authorities;
+keep one loop with explicit legacy schema serializers. Recheck complete
+publication metadata after staging, retain partial historical rows on integrity
+failure and preserve valid checkpoints after CSV exhaustion. No broad campaign,
+new package/runtime, binding rebuild or new speed claim. Durable notes remain in
+compilexx; archived source, installed products, fixtures and binding objects stay.
 
-Checklist maintenance: clarified evidence-based counts, dependencies and next
-actions; preserved failed attempts and copied passing logs into the evidence
-folder. Documentation-only verification uses link/diff checks, no rebuild. Next:
-settle native run/report adapters and consolidate the existing execution loop.
-
-Generation check: the three legacy density suites pass. Remaining loader checks
-now include the unchanged shipped manifest, exact normalized IDs/defaults and
-unknown-field/overflow/cohort-cap/numeric-limit refusals. Canonicalize export
-parents to preserve the legacy resolved-path contract. Rebuild only manifest
-targets for these changed inputs; then close native selection/manifest evidence. The new test incorrectly
-expected an invalid preview for a structurally invalid snapshot budget; existing
-SpatialDensityOptions correctly throws at setup. Retain that refusal and repair
-only the test expectation, then rebuild/run only the generation target. Source
-inspection also corrects the compatibility notes: Python's writer explicitly
-uses LF, not CRLF. Final rehash is shared per operation, avoiding a redundant
-whole-project scan between preview and generation.
-
-Native manifest closeout: final loader/generator suites pass (2 suites,0.46 s);
-unchanged shipped manifest and generated explicit-ID manifests roundtrip. Source
-input hashes match cached build provenance; see the evidence link above. Native
-selection/preview/publication is complete; Python consumers are still unchanged.
-Next: typed run options and both legacy receipt/report adapters over one loop,
-including source-record hints, byte limits, stop/recompute and image progress.
-No binding build or binary handoff yet. Preserve all passing objects and failures.
-
-Waste control: reuse existing workflow, reuse predicate, guards/JSON/atomic exports;
-no third runner, another Python policy layer or broad qualification campaign.
+Next: NC15-NC18 native NuCLS pairing/CSV, a pinned openly licensed RGB PNG decoder,
+accurate native geometry/centroids and atomic import, then native training cohort
+selection. Settle importer/density ownership, aggregate limits and terminal error
+mapping (NC04) before one combined binding/UI/CLI build and thin consumer changes
+(NC19-NC28). Do not mark the goal complete from density-only progress.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

@@ -18,7 +18,7 @@ poll/cancel and report display. The shared [coverage](speed-gap-coverage.md) tra
 these tasks; [current task](current-task.md) owns execution state. This section
 supersedes earlier guidance that permits delivered Python examples to retain
 workflow rules indefinitely. Existing releases remain frozen until a separately
-selected binary handoff. This is a plan, not an implemented migration.
+selected binary handoff. The detailed [checklist](consolidation-coverage.md) records native density authority completion; Python migrations and final integration remain incomplete.
 
 ### Untangle prerequisite selected before L1
 
@@ -36,7 +36,7 @@ Python controls compliant or make the engine faster.
 | --- | --- | --- |
 | Image decoding, sampling, OD, cell detection/expansion, geometry, statistics, spatial operations, project save/replay, numeric CSV | C++ already owns these through existing requests/jobs/results | Optimize existing kernels; reuse their contracts and bindings |
 | src/qupathxx/__init__.py and __main__.py | Native reexports and argument/launch control; no scientific kernel | Keep thin; native entry points validate operational constraints too |
-| examples/project_density.py | Native density kernel, but Python owns manifest validation, recipe/reuse comparisons, checkpoint orchestration and contextual CSV assembly | Extract/reuse cpp/density_workflow.cpp's existing native workflow service; support explicit IDs as well as classes |
+| examples/project_density.py | Native density kernel, but Python owns manifest validation, recipe/reuse comparisons, checkpoint orchestration and contextual CSV assembly | The shared native workflow/format adapters are implemented and tested; wire this control to the settled native job after importer interfaces settle |
 | examples/density_manifest.py | Python scans objects/classes and builds/validates cohort selections | Reuse the native density preview/selection pass; return a typed preview and native manifest export |
 | examples/nucls_import.py | Python owns CSV rules, polygon coordinate interpretation/centroid moments, matching, PNG decoding and import publication | Add one native importer over existing Roi/Document/Project, file guards and atomic export; use one openly licensed native PNG decoder |
 | examples/raw_classifier_workflow.py | Python selects training annotations by class/area; model work is native | Move cohort eligibility/selection to the existing native training request/frontend; retain only caller-specified selectors in Python |

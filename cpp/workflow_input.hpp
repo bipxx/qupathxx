@@ -1,5 +1,6 @@
 #pragma once
 #include "atomic_export.hpp"
+#include "qupathxx/workflow.hpp"
 #include "workflow_file_version.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include <filesystem>
@@ -25,7 +26,7 @@ public:
         sha_=digest(c);verify(false,c);
     }
     void verify(bool rehash=false,const std::atomic<bool>* c=nullptr) const {
-        export_checkpoint(c);sidecars();const auto now=workflow_file_version(path_);
+        export_checkpoint(c);try {sidecars();const auto now=workflow_file_version(path_);
         if(now->identity_scheme!=version_->identity_scheme || now->identity!=version_->identity || now->bytes!=version_->bytes ||
             now->stamp_scheme!=version_->stamp_scheme || now->modified_token!=version_->modified_token || now->change_token!=version_->change_token)
             throw std::runtime_error("Workflow input version changed");
@@ -34,6 +35,10 @@ public:
         const auto after=workflow_file_version(path_);
         if(after->identity!=now->identity || after->bytes!=now->bytes || after->modified_token!=now->modified_token || after->change_token!=now->change_token)
             throw std::runtime_error("Workflow input changed during verification");
+        }catch(const std::exception& e) {
+            if(c && c->load())throw;
+            throw WorkflowInputChanged(std::string("Workflow input changed or unavailable: ")+path_+": "+e.what());
+        }
     }
     const std::string& path() const {return path_;}
     const std::string& sha256() const {return sha_;}

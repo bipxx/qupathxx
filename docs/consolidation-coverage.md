@@ -14,24 +14,26 @@ new segmentation features and a binary release are outside this consolidation.
 
 ## Current coverage and next tasks
 
-**6 complete, 1 in progress, 21 planned (28 total).** This is acceptance-item
+**13 complete, 1 in progress, 14 planned (28 total).** This is acceptance-item
 coverage, not an estimate of engineering effort or feature parity. NC01 records
 only the pre-change baseline; NC03 proves headless service extraction and
-NC05-NC08 cover native manifest selection/preview/publication. No thin
+NC05-NC14 cover native manifest selection/preview/publication and shared
+execution/reuse with legacy format adapters. No thin
 Python consumer or installed integration is complete.
 
 - [x] NC01: capture compatibility baseline.
 - [x] NC03: extract and link the shared headless C++ density service.
-- [ ] NC02 / NC04: finish typed run/report, ownership, failure and limit contracts.
+- [x] NC02: shared native selection/run/report and control options.
+- [ ] NC04: settle importer and density ownership, failures and aggregate limits together.
 - [x] NC05-NC08: native manifest loading, shared selection/preview and exports.
-- [ ] NC09-NC14: consolidate execution, guards, legacy resume, publication and cancellation.
+- [x] NC09-NC14: shared execution, guards, legacy resume, publication and cancellation.
 - [ ] NC15-NC18: move NuCLS interpretation/PNG/geometry and training selection to C++.
 - [ ] NC19-NC22: bind settled services and reduce Python/ImGui/CLI to controls.
 - [ ] NC23-NC28: complete focused behavior/integration checks, boundary audit and source handoff.
 
-Immediate order: settle native run/report adapters, then implement shared
-execution/reuse/publication. Settle
-the importer contract before the single combined binding build. Do not count a
+Immediate order: implement native NuCLS input/geometry/publication and training
+selection, then settle the importer/density contract before the single combined
+binding build. Do not count a
 passing kernel test as completion of an unfinished consumer migration.
 
 [Incremental native evidence](benchmarks/consolidation/README.md) records the
@@ -57,9 +59,9 @@ runners. Reuse these existing sources:
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
 | NC01 | Record current Python/GUI inputs, output ordering, errors, limits, exit codes and both receipt schemas from existing examples/tests | [Compatibility contract and baseline](consolidation-contract.md) | Complete - baseline only |
-| NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | C++ caller can express both current Python and GUI workflows without a consumer-only flag or per-object callback | In progress |
+| NC02 | Define shared native selection/options/preview/run/report types supporting explicit per-image IDs and class selectors | [Typed native run options and both schema routes](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters); no Python callbacks in workers | Complete |
 | NC03 | Separate native service from the panel controller; use a headless core+JSON target and thin GUI job/controller | [Headless build and native tests](benchmarks/consolidation/README.md); no Python/ImGui/OpenGL link dependency | Complete |
-| NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | Capture/worker/result ownership is explicit; immutable inputs remain owned through cancellation/join; no Python object held by native workers | Planned |
+| NC04 | Settle native API fields/lifetimes, typed failures and limits for density/import together before bindings | Density snapshots/events/jobs are owned natively; importer contracts, aggregate capture limits and terminal failure mapping remain to settle together | In progress |
 
 ## B. Density selection and manifest authority
 
@@ -74,12 +76,12 @@ runners. Reuse these existing sources:
 
 | ID | Requirement / easiest implementation path | Decisive completion check | State |
 | --- | --- | --- | --- |
-| NC09 | Execute each admitted selection through the existing native density kernel and retained record path | Same numeric rows, area, calibration, hashes and native CSV as current accepted workflow; no Python geometry/statistics | Planned |
-| NC10 | Centralize source guards: closed/saved project, SQLite sidecars, file versions, setup/final fingerprints and checks between images | Source mutation/sidecars fail clearly and preserve inputs; avoid hashing an unchanged whole project once per image | Planned |
-| NC11 | Centralize saved-record reuse using density_reuse_compatible and one engine compatibility policy | Unrelated metadata edits/larger allowances retain allowed reuse; changed geometry/centroids/calibration/engine or smaller limits require fresh admission/computation | Planned |
-| NC12 | Implement explicit native readers for Python qpx.project-density-checkpoint/1 and GUI qpx.gui-density-checkpoint/1, then normalize | Old folders still work with their documented routes; schema/identity/corruption mismatches refuse or recompute as specified; no silent interchangeability | Planned |
-| NC13 | Keep new-directory/no-replace publication, per-image QPX/receipts, contextual combined CSV and final reports in C++ | Existing files survive collisions; native numeric CSV text/ordering is preserved; no partial file is advertised as complete | Planned |
-| NC14 | Native job owns cancellation, joins and partial/failure/completed-image state; expose existing computed/reused/kernel-call observations | Cancel publishes no unfinished image; completed rows/checkpoints remain valid; reuse performs zero new density kernel calls; input project unchanged | Planned |
+| NC09 | Execute each admitted selection through the existing native density kernel and retained record path | Same numeric rows, area, calibration, hashes and native CSV as current accepted workflow; no Python geometry/statistics; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
+| NC10 | Centralize source guards: closed/saved project, SQLite sidecars, file versions, setup/final fingerprints and checks between images | Source mutation/sidecars fail clearly and preserve inputs; avoid hashing an unchanged whole project once per image; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
+| NC11 | Centralize saved-record reuse using density_reuse_compatible and one engine compatibility policy | Unrelated metadata edits/larger allowances retain allowed reuse; changed geometry/centroids/calibration/engine or smaller limits require fresh admission/computation; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
+| NC12 | Implement explicit native readers for Python qpx.project-density-checkpoint/1 and GUI qpx.gui-density-checkpoint/1, then normalize | Old folders still work with their documented routes; schema/identity/corruption mismatches refuse or recompute as specified; no silent interchangeability; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
+| NC13 | Keep new-directory/no-replace publication, per-image QPX/receipts, contextual combined CSV and final reports in C++ | Existing files survive collisions; native numeric CSV text/ordering is preserved; no partial file is advertised as complete; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
+| NC14 | Native job owns cancellation, joins and partial/failure/completed-image state; expose existing computed/reused/kernel-call observations | Cancel publishes no unfinished image; completed rows/checkpoints remain valid; reuse performs zero new density kernel calls; input project unchanged; [evidence](benchmarks/consolidation/README.md#shared-native-execution-and-legacy-adapters) | Complete |
 
 ## D. Remaining domain rules move to native authorities
 

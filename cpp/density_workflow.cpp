@@ -1,20 +1,18 @@
 #include "density_reuse.hpp"
 #include "density_preview.hpp"
+#include "density_formats.hpp"
 #include "json_string.hpp"
 #include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
-#include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
 #include "strict_json.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <set>
-#include <sstream>
 #include <fstream>
 namespace qpx {
 namespace {
-using detail::ReaderFileGuard;
 using detail::AtomicExportFile;
 using detail::StrictJson;
 using detail::json_string;
@@ -25,43 +23,18 @@ constexpr std::size_t mib=1024*1024;
 struct CsvLimit:std::length_error {using std::length_error::length_error;};
 const std::string csv_header="project_id,image_id,image_name,record_id,reuse,request_input_sha256,checkpoint,window_id,window_revision,count,area_pixels,area_mm2,density_per_mm2,status,units,cell_count,tissue_count,exclusion_count,algorithm,geometry_policy,footprint_sha256,input_sha256,result_sha256,pixel_width_um,pixel_height_um,prefer_nucleus,polygonize_curves\n";
 void checkpoint(const std::atomic<bool>* c) {export_checkpoint(c);}
-void no_sidecars(const std::string& path) {
-    for(const auto* suffix:{"-journal","-wal","-shm"})
-        if(std::filesystem::exists(std::filesystem::u8path(path+suffix)))
-            throw std::runtime_error("Close/recover the source project; SQLite sidecar present");
-}
-std::string fingerprint(const std::string& path,const std::atomic<bool>* c) {
-    FileFingerprintOptions options;options.byte_limit=1024ull*mib;
-    return fingerprint_file(path,options,c)->sha256;
-}
-void verify_source(const std::string& path,const ReaderFileGuard& guard) {no_sidecars(path);guard.verify();}
 std::string quote_csv(const std::string& text) {
     std::string out="\"";for(auto c:text) {out+=c;if(c=='"')out+='"';}return out+'"';
 }
-std::string report_json(const ProjectDensityReport& report) {
-    std::string out="{\"schema\":\"qpx.gui-project-density/1\",\"state\":"+json_string(report.state)+",\"error\":"+json_string(report.error)+
-        ",\"source\":"+json_string(report.source)+",\"source_sha256\":"+json_string(report.source_sha256)+",\"project_id\":"+json_string(report.project_id)+
-        ",\"completed\":"+std::to_string(report.completed)+",\"computed\":"+std::to_string(report.computed)+",\"reused\":"+std::to_string(report.reused)+",\"failed\":"+std::to_string(report.failed)+",\"rows\":"+std::to_string(report.rows)+",\"images\":[";
-    bool first=true;for(const auto& row:report.images) {
-        if(!first)out+=',';first=false;
-        out+="{\"image_id\":"+std::to_string(row.id)+",\"image_name\":"+json_string(row.name)+",\"state\":"+json_string(row.state)+",\"error\":"+json_string(row.error)+
-            ",\"checkpoint\":"+json_string(row.checkpoint)+",\"checkpoint_image_id\":"+std::to_string(row.checkpoint_image)+",\"record_id\":"+std::to_string(row.record)+
-            ",\"input_sha256\":"+json_string(row.input_sha256)+",\"result_sha256\":"+json_string(row.result_sha256)+
-            ",\"reuse\":"+json_string(row.reuse)+",\"reuse_reason\":"+json_string(row.reuse_reason)+",\"checkpoint_sha256\":"+json_string(row.checkpoint_sha256)+",\"result_input_sha256\":"+json_string(row.result_input_sha256)+"}";
-    }return out+"]}\n";
-}
-void write_new(const std::string& path,const std::string& data,std::size_t limit) {
-    AtomicExportFile file(path,limit);file.write(data.data(),data.size());file.commit(false);
+void write_new(const std::string& path,const std::string& data,std::size_t limit,const std::function<void()>& guard={}) {
+    AtomicExportFile file(path,limit);file.write(data.data(),data.size());if(guard)guard();file.commit(false);
 }
 using Json=nlohmann::json;
-Json engine(const BuildEnvironment& e) {
-    return {{"source_tree_sha256",e.source_tree_sha256},{"compiler",e.compiler},{"compiler_flags",e.compiler_flags},
-        {"configuration",e.configuration},{"platform",e.platform},{"geos_version",e.geos_version}};
-}
+using detail::DensityFormat;
+using detail::density_engine;
 
 struct ReusedFile {
-    std::string path,sha;
-    std::unique_ptr<ReaderFileGuard> guard;
+    std::unique_ptr<detail::WorkflowInput> input;
 };
 std::uint64_t positive_id(const Json& value) {
     if(!value.is_number_unsigned() && !value.is_number_integer())throw std::invalid_argument("Checkpoint requires integer IDs");
@@ -69,42 +42,212 @@ std::uint64_t positive_id(const Json& value) {
     const auto id=value.get<std::uint64_t>();if(!id)throw std::invalid_argument("Checkpoint requires positive IDs");return id;
 }
 std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::path& directory,const std::string& project_id,
-    ProjectDensityImage& row,const SpatialDensityRequest& request,const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
+    ProjectDensityImage& row,const SpatialDensityRequest& request,DensityFormat format,std::uint64_t byte_limit,
+    const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
     const auto path=directory/("image-"+std::to_string(row.id)+".json");
     if(!std::filesystem::exists(path)){row.reuse_reason="No complete checkpoint receipt";return {};}
-    ReaderFileGuard receipt_guard(path.u8string());
-    if(std::filesystem::file_size(path)>mib)throw std::length_error("Checkpoint receipt exceeds 1 MiB");
+    auto receipt_guard=std::make_unique<detail::WorkflowInput>(path.u8string(),mib,false,c);
     std::ifstream in(path,std::ios::binary);if(!in)throw std::runtime_error("Cannot read checkpoint receipt");
     std::string data(mib+1,'\0');in.read(data.data(),data.size());data.resize(static_cast<std::size_t>(in.gcount()));
     if(in.bad() || data.size()>mib)throw std::length_error("Cannot read bounded checkpoint receipt");
-    StrictJson strict("density checkpoint");Json::sax_parse(data,&strict);const auto value=Json::parse(data);receipt_guard.verify();
+    StrictJson strict("density checkpoint");if(!Json::sax_parse(data,&strict))throw std::invalid_argument("Invalid checkpoint JSON");
+    const auto value=Json::parse(data);receipt_guard->verify(false,c);
     for(const auto* key:{"schema","project_id","image_id","engine","checkpoint","checkpoint_image_id","checkpoint_sha256","record_id","result_sha256","result_input_sha256"})
         if(!value.is_object() || !value.contains(key))throw std::invalid_argument("Checkpoint receipt is incomplete");
-    if(!value.is_object() || value.at("schema")!="qpx.gui-density-checkpoint/1" || value.at("project_id")!=project_id || positive_id(value.at("image_id"))!=row.id)
+    if(value.at("schema")!=detail::density_checkpoint_schema(format) || value.at("project_id")!=project_id || positive_id(value.at("image_id"))!=row.id)
         throw std::invalid_argument("Checkpoint schema/source image identity differs");
     const auto& env=value.at("engine");
     for(const auto* name:{"source_tree_sha256","compiler","compiler_flags","configuration","platform","geos_version"})if(!env.at(name).is_string())throw std::invalid_argument("Invalid checkpoint engine");
-    if(env!=engine(*build_environment())){row.reuse_reason="Engine identity changed";return {};}
-    const auto checkpoint_path=std::filesystem::canonical(std::filesystem::u8path(value.at("checkpoint").get<std::string>())).u8string();no_sidecars(checkpoint_path);
-    auto guard=std::make_unique<ReaderFileGuard>(checkpoint_path);const auto sha=fingerprint(checkpoint_path,c);
-    if(sha!=value.at("checkpoint_sha256"))throw std::invalid_argument("Checkpoint checksum differs; previous file preserved");
+    if(env!=density_engine(*build_environment())){row.reuse_reason="Engine identity changed";return {};}
+    auto guard=std::make_unique<detail::WorkflowInput>(value.at("checkpoint").get<std::string>(),byte_limit,true,c);
+    if(guard->sha256()!=value.at("checkpoint_sha256"))throw std::invalid_argument("Checkpoint checksum differs; previous file preserved");
     const auto image=positive_id(value.at("checkpoint_image_id")),record=positive_id(value.at("record_id"));
-    auto saved=Project::open_without_journal_recovery(checkpoint_path);auto doc=saved->document(image);auto stored=doc->density_record(record)->result;
+    auto saved=Project::open_without_journal_recovery(guard->path());auto doc=saved->document(image);auto stored=doc->density_record(record)->result;
     SpatialDensityRequest::replay(*doc,record);
     if(stored->sha256()!=value.at("result_sha256") || stored->input_sha256()!=value.at("result_input_sha256"))throw std::invalid_argument("Saved result identity differs");
-    verify_source(checkpoint_path,*guard);receipt_guard.verify();checkpoint(c);
-    if(engine(*stored->provenance()->environment)!=env)throw std::invalid_argument("Saved result engine differs from receipt");
+    guard->verify(false,c);receipt_guard->verify(false,c);checkpoint(c);
+    if(density_engine(*stored->provenance()->environment)!=env) {
+        if(format==DensityFormat::GuiV1)throw std::invalid_argument("Saved result engine differs from receipt");
+        row.reuse_reason="Saved result engine changed";return {};
+    }
     if(!density_reuse_compatible(request,*stored)){row.reuse_reason="Captured inputs, policy or admission limits changed";return {};}
-    row.reuse="reused";row.reuse_reason="Unchanged native capture; saved record replayed (not recomputed)";
-    row.checkpoint=checkpoint_path;row.checkpoint_sha256=sha;row.checkpoint_image=image;row.record=record;
-    held.push_back({checkpoint_path,sha,std::move(guard)});return stored;
+    row.reuse=format==DensityFormat::GuiV1?"reused":"checkpoint";
+    row.reuse_reason="Unchanged native capture; saved record replayed (not recomputed)";
+    row.checkpoint=guard->path();row.checkpoint_sha256=guard->sha256();row.checkpoint_image=image;row.record=record;
+    if(format==DensityFormat::ProjectV1)row.receipt_json=data;
+    held.push_back({std::move(guard)});held.push_back({std::move(receipt_guard)});return stored;
 }
-void checkpoint_receipt(const ProjectDensityReport& report,const ProjectDensityImage& row,const SpatialDensityResult& result) {
-    const Json value={{"schema","qpx.gui-density-checkpoint/1"},{"project_id",report.project_id},{"image_id",row.id},
-        {"engine",engine(*result.provenance()->environment)},{"checkpoint",row.checkpoint},{"checkpoint_image_id",row.checkpoint_image},
-        {"checkpoint_sha256",row.checkpoint_sha256},{"record_id",row.record},{"result_sha256",result.sha256()},{"result_input_sha256",result.input_sha256()}};
-    write_new((std::filesystem::u8path(report.output)/("image-"+std::to_string(row.id)+".json")).u8string(),value.dump(2),mib);
+std::shared_ptr<const SpatialDensityResult> source_record(Document& doc,ProjectDensityImage& row,const SpatialDensityRequest& request) {
+    if(!row.hint_record)return {};
+    try {
+        const auto record=doc.density_record(row.hint_record);SpatialDensityRequest::replay(doc,record->id);
+        if(density_engine(*record->result->provenance()->environment)==density_engine(*build_environment()) && density_reuse_compatible(request,*record->result)) {
+            row.record=record->id;row.reuse="source_record";return record->result;
+        }
+    }catch(const std::invalid_argument&){}catch(const std::out_of_range&){}catch(const std::length_error&){}
+    return {};
 }
+void write_json_new(const std::string& path,const std::string& data,std::size_t limit,DensityFormat format,const std::function<void()>& guard={}) {
+    if(format==DensityFormat::ProjectV1) {
+        const auto target=std::filesystem::u8path(path);
+        if(std::filesystem::exists(target.parent_path()/std::filesystem::u8path("."+target.filename().u8string()+".part")))
+            throw std::runtime_error("JSON scratch already exists");
+    }
+    write_new(path,data,limit,guard);
+}
+void checkpoint_receipt(const ProjectDensityReport& report,ProjectDensityImage& row,const SpatialDensityResult& result,DensityFormat format,
+    const std::function<void()>& guard,const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
+    const auto data=detail::density_receipt(report,row,result,format).dump(2,' ',true);
+    const auto path=(std::filesystem::u8path(report.output)/("image-"+std::to_string(row.id)+".json")).u8string();
+    write_json_new(path,data,mib,format,guard);row.receipt_json=data;
+    held.push_back({std::make_unique<detail::WorkflowInput>(path,mib,false,c)});
+}
+bool within(const std::filesystem::path& path,const std::filesystem::path& directory) {
+    auto a=path.begin(),b=directory.begin();
+    for(;b!=directory.end();++a,++b) {
+        if(a==path.end())return false;
+#ifdef _WIN32
+        const auto x=a->wstring(),y=b->wstring();
+        if(CompareStringOrdinal(x.data(),static_cast<int>(x.size()),y.data(),static_cast<int>(y.size()),TRUE)!=CSTR_EQUAL)return false;
+#else
+        if(*a!=*b)return false;
+#endif
+    }
+    return true;
+}
+std::string context_csv(const std::string& text,DensityFormat format) {
+    if(format==DensityFormat::ProjectV1 && text.find_first_of(",\"\n")==std::string::npos)return text;
+    return quote_csv(text);
+}
+std::string csv_chunk(const ProjectDensityReport& report,const ProjectDensityImage& row,const SpatialDensityRequest& request,
+    const SpatialDensityResult& result,const std::string& checkpoint_path,std::uint64_t record,DensityFormat format,
+    std::size_t remaining,std::size_t native_limit,const std::atomic<bool>* c) {
+    const auto native=spatial_density_csv(result,native_limit,c);const auto end=native.find('\n');
+    if(csv_header.substr(csv_header.find("window_id,"))!=native.substr(0,end+1))throw std::runtime_error("Native CSV schema changed");
+    const auto prefix=context_csv(report.project_id,format)+","+std::to_string(row.id)+","+context_csv(row.name,format)+","+
+        std::to_string(record)+","+row.reuse+","+request.input_sha256()+","+context_csv(checkpoint_path,format)+",";
+    std::string chunk;
+    for(std::size_t at=end+1;at<native.size();) {
+        checkpoint(c);const auto next=native.find('\n',at);if(next==std::string::npos)throw std::runtime_error("Incomplete native density CSV row");
+        const auto bytes=next-at+1;
+        if(prefix.size()>remaining-chunk.size() || bytes>remaining-chunk.size()-prefix.size())throw CsvLimit("Combined CSV byte limit exceeded");
+        chunk+=prefix;chunk.append(native,at,bytes);at=next+1;
+    }
+    return chunk;
+}
+std::string short_error(const std::string& message,DensityFormat format) {
+    if(format==DensityFormat::GuiV1)return message;
+    std::size_t count=0,at=0;for(;at<message.size();++at)if((static_cast<unsigned char>(message[at])&0xc0)!=0x80 && count++==2048)break;
+    return message.substr(0,at);
+}
+ProjectDensityReport execute_density(ProjectDensityReport report,const std::string& output,const ProjectDensityRunOptions& options,
+    DensityFormat format,const ProjectDensityManifest* manifest,const std::atomic<bool>* c,ProjectDensityProgress* p) {
+    options.validate();report.recipe.validate();
+    if(options.csv_bytes<csv_header.size())throw std::invalid_argument("CSV limit is smaller than the header");
+    if(options.pause_after_image && !p)throw std::invalid_argument("Image acknowledgement requires a native progress controller");
+    checkpoint(c);detail::WorkflowInput source(report.source,options.project_bytes,true,c);
+    if(manifest)manifest->verify(false,c);
+    else if(source.sha256()!=report.source_sha256)throw WorkflowInputChanged("Saved project changed; preview again");
+    auto project=Project::open_without_journal_recovery(source.path());source.verify(false,c);
+    if(!manifest && project->identity()!=report.project_id)throw WorkflowInputChanged("Source project identity changed; preview again");
+    report.source=source.path();report.source_sha256=source.sha256();report.project_id=project->identity();
+    const auto directory=std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(output)));
+    std::vector<std::filesystem::path> protected_inputs={std::filesystem::u8path(source.path())};
+    if(manifest)protected_inputs.push_back(std::filesystem::u8path(manifest->path()));
+    const auto catalog=project->images();
+    for(const auto& image:catalog)if(!image.embedded && !image.source_path.empty())
+        protected_inputs.push_back(std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(image.source_path))));
+    for(const auto& input:protected_inputs)if(within(input,directory))throw std::invalid_argument("Output directory contains a protected project/manifest/image input");
+    std::filesystem::path previous;
+    if(!options.resume_from.empty()) {
+        previous=std::filesystem::canonical(std::filesystem::u8path(export_path(options.resume_from)));
+        if(!std::filesystem::is_directory(previous) || within(directory,previous) || within(previous,directory))
+            throw std::invalid_argument("Previous and new run folders must be separate directories, without nesting");
+        for(auto parent=directory.parent_path();!parent.empty();) {
+            if(std::filesystem::exists(parent) && std::filesystem::equivalent(parent,previous))throw std::invalid_argument("New run cannot be nested inside the previous run");
+            const auto above=parent.parent_path();if(above==parent)break;parent=above;
+        }
+    }
+    if(format==DensityFormat::ProjectV1 && !directory.parent_path().empty())std::filesystem::create_directories(directory.parent_path());
+    if(!std::filesystem::create_directory(directory))throw std::runtime_error("Choose a new output directory");
+    report.state="running";report.output=directory.u8string();
+    report.completed=report.computed=report.reused=report.failed=report.rows=0;report.error.clear();
+    for(auto& row:report.images) {
+        row.state="not_run";row.error.clear();row.rows=0;row.record=row.checkpoint_image=0;
+        row.reuse="computed";row.receipt_json.clear();row.checkpoint.clear();row.checkpoint_sha256.clear();
+        row.input_sha256.clear();row.result_input_sha256.clear();row.result_sha256.clear();
+    }
+    std::string combined=csv_header;std::vector<ReusedFile> held;
+    const auto verify=[&](bool rehash,const std::atomic<bool>* stop) {
+        source.verify(rehash,stop);if(manifest)manifest->verify(rehash,stop);
+    };
+    if(p){p->reset();p->total.store(report.images.size());p->phase.store(2);}
+    try {
+        for(auto& row:report.images) {
+            checkpoint(c);if(format==DensityFormat::GuiV1)verify(false,c);
+            if(p){p->image.store(row.id);p->phase.store(2);}
+            bool fatal=false;
+            try {
+                if(format==DensityFormat::ProjectV1)verify(false,c);
+                const auto found=std::find_if(catalog.begin(),catalog.end(),[&](const auto& image){return image.id==row.id;});
+                if(found==catalog.end())throw std::invalid_argument("Image does not exist in the source project");
+                row.name=found->name;row.image_present=true;auto doc=project->document(row.id);
+                SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],report.recipe.options);
+                std::shared_ptr<const SpatialDensityResult> result;
+                if(!options.recompute && !previous.empty()) {
+                    if(p)p->phase.store(5);
+                    result=reuse_result(previous,report.project_id,row,request,format,options.checkpoint_bytes,c,held);
+                }else row.reuse_reason=options.recompute?"Recomputation requested":"No previous run selected";
+                if(!result && format==DensityFormat::ProjectV1 && !options.recompute)result=source_record(*doc,row,request);
+                if(!result){if(p)p->kernel_calls.fetch_add(1);result=measure_spatial_density(request,c);}checkpoint(c);
+                const bool from_checkpoint=row.reuse=="reused" || row.reuse=="checkpoint";
+                const auto checkpoint_path=from_checkpoint?row.checkpoint:(directory/("image-"+std::to_string(row.id)+".qpxproj")).u8string();
+                const auto record=(from_checkpoint || row.reuse=="source_record")?row.record:doc->keep_density(request,result);
+                std::string chunk;
+                if(format==DensityFormat::GuiV1)chunk=csv_chunk(report,row,request,*result,checkpoint_path,record,format,options.csv_bytes-combined.size(),options.csv_bytes,c);
+                if(!from_checkpoint) {
+                    Project saved;std::vector<ObjectClass> classes;for(const auto& [name,value]:project->classes())classes.push_back(value);
+                    saved.set_class_registry(classes,project->class_defaults());saved.set_metadata(project->metadata());
+                    const auto image=saved.add_document(doc,row.name,found->embedded?"":found->source_path,found->reader);
+                    saved.set_image_metadata(image,project->image_metadata(row.id));saved.set_image_details(image,project->image_description(row.id),project->image_tags(row.id));
+                    if(auto view=project->view(row.id))saved.set_view(image,*view);if(p)p->phase.store(3);
+                    saved.save_new(checkpoint_path,512*mib,options.checkpoint_bytes,c,[&]{verify(false,c);});
+                    auto guard=std::make_unique<detail::WorkflowInput>(checkpoint_path,options.checkpoint_bytes,true,c);
+                    row.record=record;row.checkpoint_image=image;row.checkpoint=guard->path();row.checkpoint_sha256=guard->sha256();held.push_back({std::move(guard)});
+                }
+                verify(false,c);checkpoint(c);row.input_sha256=request.input_sha256();row.result_input_sha256=result->input_sha256();row.result_sha256=result->sha256();
+                checkpoint_receipt(report,row,*result,format,[&]{verify(false,c);},c,held);
+                if(format==DensityFormat::ProjectV1)chunk=csv_chunk(report,row,request,*result,checkpoint_path,record,format,options.csv_bytes-combined.size(),64*mib,c);
+                checkpoint(c);combined+=chunk;row.rows=result->rows().size();row.state=from_checkpoint?"reused":"saved";
+                report.rows+=row.rows;++report.completed;
+                if(row.reuse!="computed"){++report.reused;if(p)p->reused.fetch_add(1);}else ++report.computed;
+            }catch(const WorkflowInputChanged& e) {
+                row.error=short_error(e.what(),format);row.state="failed";++report.failed;report.error=row.error;fatal=true;
+            }catch(const CsvLimit& e) {
+                row.error=short_error(e.what(),format);row.state="failed";++report.failed;report.error=row.error;fatal=true;
+            }catch(const std::exception& e) {
+                if(c && c->load()) {
+                    if(format==DensityFormat::GuiV1)throw;
+                    row.state="cancelled";row.error="cancelled; no partial image CSV published";
+                }else {row.error=short_error(e.what(),format);row.state="failed";++report.failed;}
+            }
+            if(p){p->completed.fetch_add(1);p->publish_image(detail::density_image_json(row,format),options.pause_after_image,c);}
+            if((c && c->load()) || fatal || (row.state=="failed" && options.stop_on_error))break;
+        }
+    }catch(const std::exception& e){report.error=short_error(e.what(),format);}
+    try {verify(true,nullptr);for(const auto& file:held)file.input->verify(true,nullptr);}catch(const std::exception& e){report.error=short_error(e.what(),format);}
+    report.not_run=std::count_if(report.images.begin(),report.images.end(),[](const auto& row){return row.state=="not_run";});
+    report.state=c && c->load()?"cancelled":report.failed || !report.error.empty()?"partial":"completed";
+    if(p)p->phase.store(4);
+    report.csv=(directory/(report.state=="completed"?"density.csv":"density.partial.csv")).u8string();
+    const auto publication_guard=[&]{verify(false,nullptr);for(const auto& file:held)file.input->verify(false,nullptr);};
+    // Failed integrity is still reported as a partial historical run; complete publication rechecks every guard.
+    if(report.state=="completed")write_new(report.csv,combined,options.csv_bytes,publication_guard);
+    else write_new(report.csv,combined,options.csv_bytes);
+    report.report=(directory/"report.json").u8string();report.json=detail::density_report_json(report,format);
+    write_json_new(report.report,report.json,16*mib,format,report.state=="completed"?std::function<void()>(publication_guard):std::function<void()>{});return report;
+}
+
 }
 void ProjectDensityRecipe::validate() const {
     options.validate();
@@ -189,92 +332,45 @@ ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,co
     input.verify(false,c);
     return report;
 }
-ProjectDensityReport run_project_density(const ProjectDensityReport& preview,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* p,std::size_t csv_limit,const std::string& resume_from) {
-    if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");preview.recipe.validate();
-    if(!csv_limit || csv_limit>1024*mib)throw std::invalid_argument("CSV limit must be 1 byte..1 GiB");
-    if(csv_limit<csv_header.size())throw std::invalid_argument("CSV limit is smaller than the header");
-    checkpoint(c);no_sidecars(preview.source);ReaderFileGuard guard(preview.source);
-    if(fingerprint(preview.source,c)!=preview.source_sha256)throw std::runtime_error("Saved project changed; preview again");
-    auto project=Project::open_without_journal_recovery(preview.source);verify_source(preview.source,guard);
-    if(project->identity()!=preview.project_id)throw std::runtime_error("Source project identity changed; preview again");
-    const auto directory=std::filesystem::u8path(export_path(output));
-    std::filesystem::path previous;
-    if(!resume_from.empty()){
-        previous=std::filesystem::canonical(std::filesystem::u8path(resume_from));
-        if(!std::filesystem::is_directory(previous))throw std::invalid_argument("Previous run must be a directory");
-        const auto next=std::filesystem::weakly_canonical(directory);
-        const auto inside=[](const auto& a,const auto& b){auto x=a.begin(),y=b.begin();for(;y!=b.end();++x,++y)if(x==a.end() || *x!=*y)return false;return true;};
-        if(inside(next,previous) || inside(previous,next))throw std::invalid_argument("Previous and new run folders must be separate, without nesting");
-        for(auto parent=next.parent_path();!parent.empty();) {
-            if(std::filesystem::exists(parent) && std::filesystem::equivalent(parent,previous))throw std::invalid_argument("New run cannot be nested inside the previous run");
-            const auto above=parent.parent_path();if(above==parent)break;parent=above;
-        }
-    }
-    if(!std::filesystem::create_directory(directory))throw std::runtime_error("Choose a new output directory");
-    auto report=preview;report.state="running";report.output=directory.u8string();
-    for(auto& row:report.images)row.state="not_run";
-    std::string combined=csv_header;
-    std::vector<ReusedFile> reused_files;
-    if(p){p->total.store(report.images.size());p->completed.store(0);p->phase.store(2);}
-    try {
-        for(auto& row:report.images) {
-            checkpoint(c);verify_source(preview.source,guard);if(p){p->image.store(row.id);p->phase.store(2);}
-            try {
-                auto doc=project->document(row.id);
-                SpatialDensityRequest request(*doc,row.ids[0],row.ids[1],row.ids[2],row.ids[3],preview.recipe.options);
-                std::shared_ptr<const SpatialDensityResult> result;
-                if(!previous.empty()){if(p)p->phase.store(5);result=reuse_result(previous,report.project_id,row,request,c,reused_files);}
-                else row.reuse_reason="No previous run selected";
-                if(!result){if(p)p->kernel_calls.fetch_add(1);result=measure_spatial_density(request,c);}checkpoint(c);
-                const auto native=spatial_density_csv(*result,csv_limit,c);const auto end=native.find('\n');
-                if(csv_header.substr(csv_header.find("window_id,"))!=native.substr(0,end+1))throw std::runtime_error("Native CSV schema changed");
-                std::string chunk;
-                const auto checkpoint_path=row.reuse=="reused"?row.checkpoint:(directory/("image-"+std::to_string(row.id)+".qpxproj")).u8string();
-                const auto record=row.reuse=="reused"?row.record:doc->keep_density(request,result);
-                const auto prefix=quote_csv(project->identity())+","+std::to_string(row.id)+","+quote_csv(row.name)+","+std::to_string(record)+","+row.reuse+","+request.input_sha256()+","+quote_csv(checkpoint_path)+",";
-                for(std::size_t at=end+1;at<native.size();) {
-                    const auto next=native.find('\n',at);chunk+=prefix+native.substr(at,next-at)+"\n";at=next==std::string::npos?native.size():next+1;
-                }
-                if(chunk.size()>csv_limit || combined.size()>csv_limit-chunk.size())throw CsvLimit("Combined CSV byte limit exceeded");
-                if(row.reuse!="reused") {
-                Project saved;std::vector<ObjectClass> classes;for(const auto& [name,value]:project->classes())classes.push_back(value);
-                saved.set_class_registry(classes,project->class_defaults());saved.set_metadata(project->metadata());
-                const auto image=saved.add_document(doc,row.name);saved.set_image_metadata(image,project->image_metadata(row.id));
-                saved.set_image_details(image,project->image_description(row.id),project->image_tags(row.id));if(auto view=project->view(row.id))saved.set_view(image,*view);
-                if(p)p->phase.store(3);
-                saved.save_new(checkpoint_path,512*mib,1024ull*mib,c,[&]{verify_source(preview.source,guard);});
-                row.record=record;row.checkpoint_image=image;row.checkpoint=checkpoint_path;row.checkpoint_sha256=fingerprint(checkpoint_path,c);
-                }
-                verify_source(preview.source,guard);checkpoint(c);
-                checkpoint_receipt(report,row,*result);
-                combined+=chunk;
-                row.input_sha256=request.input_sha256();row.result_input_sha256=result->input_sha256();row.result_sha256=result->sha256();row.rows=result->rows().size();row.state=row.reuse=="reused"?"reused":"saved";
-                report.rows+=row.rows;++report.completed;
-                if(row.reuse=="reused"){++report.reused;if(p)p->reused.fetch_add(1);}else ++report.computed;
-            }catch(const CsvLimit& e) {row.error=e.what();row.state="failed";++report.failed;throw;}catch(const std::exception& e) {
-                if(c && c->load())throw;
-                row.error=e.what();row.state="failed";++report.failed;
-            }
-            if(p)p->completed.fetch_add(1);
-        }
-        checkpoint(c);verify_source(preview.source,guard);
-        if(fingerprint(preview.source,c)!=preview.source_sha256)throw std::runtime_error("Saved source changed during run");
-        for(const auto& held:reused_files){verify_source(held.path,*held.guard);if(fingerprint(held.path,c)!=held.sha)throw std::runtime_error("Reused checkpoint changed during run");}
-        report.state=report.failed?"partial":"completed";
-    }catch(const std::exception& e){report.state=c && c->load()?"cancelled":"partial";report.error=e.what();}
-    if(p)p->phase.store(4);
-    // A cancelled run still publishes its completed historical rows and errors.
-    report.csv=(directory/(report.state=="completed"?"density.csv":"density.partial.csv")).u8string();
-    write_new(report.csv,combined,csv_limit);
-    report.report=(directory/"report.json").u8string();write_new(report.report,report_json(report),16*mib);
-    return report;
+void ProjectDensityRunOptions::validate() const {
+    for(const auto value:{std::uint64_t(csv_bytes),project_bytes,checkpoint_bytes})if(!value || value>1024ull*mib)
+        throw std::invalid_argument("Workflow byte limits must be 1 byte..1 GiB");
 }
-void ProjectDensityJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.completed.store(0);progress_.total.store(0);progress_.image.store(0);progress_.phase.store(0);progress_.kernel_calls.store(0);progress_.reused.store(0);}
+void ProjectDensityProgress::reset() {
+    completed.store(0);total.store(0);kernel_calls.store(0);reused.store(0);image.store(0);phase.store(0);
+    std::lock_guard<std::mutex> lock(mutex_);images_.clear();published_=acknowledged_=0;
+}
+std::vector<std::string> ProjectDensityProgress::take_images() {
+    std::lock_guard<std::mutex> lock(mutex_);auto result=std::move(images_);images_.clear();return result;
+}
+void ProjectDensityProgress::continue_images() {
+    {std::lock_guard<std::mutex> lock(mutex_);acknowledged_=published_;}condition_.notify_all();
+}
+void ProjectDensityProgress::publish_image(std::string json,bool pause,const std::atomic<bool>* c) {
+    std::unique_lock<std::mutex> lock(mutex_);images_.push_back(std::move(json));const auto sequence=++published_;
+    while(pause && acknowledged_<sequence && !(c && c->load()))condition_.wait_for(lock,std::chrono::milliseconds(20));
+}
+ProjectDensityReport run_project_density(const ProjectDensityReport& preview,const std::string& output,const std::atomic<bool>* c,ProjectDensityProgress* p,std::size_t csv_limit,const std::string& resume_from) {
+    if(!preview.valid())throw std::invalid_argument("Review a successful preview before Run");
+    ProjectDensityRunOptions options;options.csv_bytes=csv_limit;options.resume_from=resume_from;
+    return execute_density(preview,output,options,DensityFormat::GuiV1,nullptr,c,p);
+}
+ProjectDensityReport run_project_density(const ProjectDensityManifest& manifest,const std::string& output,const ProjectDensityRunOptions& options,const std::atomic<bool>* c,ProjectDensityProgress* p) {
+    options.validate();manifest.verify(false,c);ProjectDensityReport report;report.recipe=manifest.recipe();
+    report.source=manifest.project();report.manifest=manifest.path();report.manifest_sha256=manifest.sha256();
+    for(const auto& selected:report.recipe.selections){ProjectDensityImage row;row.id=selected.image_id;row.ids=selected.ids;row.hint_record=selected.record_id;report.images.push_back(std::move(row));}
+    return execute_density(std::move(report),output,options,DensityFormat::ProjectV1,&manifest,c,p);
+}
+void ProjectDensityJob::reset() {cancelled_.store(false);result_.reset();error_.clear();progress_.reset();}
 bool ProjectDensityJob::preview(const std::string& path,const ProjectDensityRecipe& recipe) {
     poll();if(busy())return false;recipe.validate();reset();future_=std::async(std::launch::async,[this,path,recipe]{return preview_project_density(path,recipe,&cancelled_,&progress_);});return true;
 }
 bool ProjectDensityJob::run(const ProjectDensityReport& preview,const std::string& output,const std::string& resume_from) {
     poll();if(busy())return false;auto captured=preview;reset();future_=std::async(std::launch::async,[this,captured,output,resume_from]{return run_project_density(captured,output,&cancelled_,&progress_,64u*1024*1024,resume_from);});return true;
+}
+bool ProjectDensityJob::run(const ProjectDensityManifest& manifest,const std::string& output,const ProjectDensityRunOptions& options) {
+    poll();if(busy())return false;options.validate();reset();
+    future_=std::async(std::launch::async,[this,manifest,output,options]{return run_project_density(manifest,output,options,&cancelled_,&progress_);});return true;
 }
 void ProjectDensityJob::poll() {
     if(busy() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {

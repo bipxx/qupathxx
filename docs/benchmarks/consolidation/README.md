@@ -1,7 +1,7 @@
 # Native consolidation evidence
 
 Incremental development evidence, not release or full migration acceptance.
-Native source tree `d6a2699d4a9e439f2bde308e30d8bd5931382ef061437971c628fd4845c93ae9` has 536 raw compiler inputs, independently
+Selection/manifest checkpoint native source tree `d6a2699d4a9e439f2bde308e30d8bd5931382ef061437971c628fd4845c93ae9` has 536 raw compiler inputs, independently
 recomputed from [input hashes](native-source-inputs.sha256) and matched against
 the cached generated build manifest. Built on cb87a56e with local changes;
 final installed consumer evidence remains required by NC25-NC28.
@@ -53,3 +53,54 @@ mutation on Windows; decoder guards retain their original lock semantics. Final
 native source-mutation/admission coverage and consumer observation replacement
 remain NC23-NC24 work. Python's existing contextual CSV explicitly uses LF, not
 CRLF; the compatibility note is corrected from source inspection before adapters.
+
+## Shared native execution and legacy adapters
+
+Run checkpoint raw source tree `329dd182fbcd08556607acb0a5240cdb59955f2683dc2c0c1b61d426abf6a242` has 540 inputs, independently
+recomputed from [input hashes](native-run-source-inputs.sha256) and matched to
+the [cached native build manifest](native-run-build-manifest.hpp). Built on
+ca4033a8 with the changes recorded at this checkpoint; no binding rebuild or
+installed-consumer qualification is implied.
+
+One execution loop handles GUI-v1 admitted previews and project-v1 manifests.
+[Private format adapters](../../../cpp/density_formats.cpp) preserve the two
+receipt/report schemas, reuse tags, image states, fields and contextual CSV
+quoting; native numeric CSV text is unchanged. Each route refuses the other's
+checkpoint schema. Native run options carry recompute, stop-on-error, source/
+checkpoint/CSV byte limits and optional per-image acknowledgement. Native jobs
+own the manifest snapshot, worker, cancellation and joins; their owned JSON image
+events are drained/acknowledged on the controlling thread, without callbacks or
+Python references in workers. Setup input changes have a typed native exception.
+
+[First combined pass](native-run-tests.log): all five density suites pass (3.35 s).
+[Publication closeout](native-run-final-tests.log): desktop and resume pass; the
+new manifest suite stops at a test configuration mistake. Adding a later-budget
+case changed resume_from, but the nesting test still named the older directory.
+The preserved fixture shows native correctly allowed a separate run. Correcting
+that setup and adding call-site diagnostics gives a [targeted pass](native-run-repair-tests.log)
+(2.51 s). No native assertion/guard was weakened or unaffected test campaign replayed.
+
+[Manifest-run behavior cases](../../../cpp/tests/density_manifest_run_tests.cpp):
+
+- Native result identities/retained records and exact contextual scientific CSV;
+  matching JSON on disk and in the native report; no source/manifest mutation.
+- Zero-kernel checkpoint reuse/chains without project copies, legacy receipt
+  fields retained, missing final report tolerated, explicit cross-schema refusal.
+- Source-record hints, stale/missing hints, changed engine/geometry, larger and
+  smaller allowances and forced recomputation use the existing reuse authority.
+- Per-image failures, stop-on-error/not-run counts, byte limits, complete-image
+  CSV rollback with earlier rows retained and both checkpoints reusable.
+- Owned events with acknowledgement, cancellation between images and resume;
+  existing desktop tests retain active-kernel cancellation coverage.
+- Source/manifest/checkpoint changes, SQLite sidecars, typed stale-manifest setup
+  refusal, corrupt receipt/checksum, scratch and output/no-overwrite preservation.
+- Missing linked images remain unopened; saved source locators remain linked;
+  protected missing inputs beneath a proposed output prevent its creation.
+
+Source/manifest checks are constant per image. Retained checkpoint/receipt guards
+are checked at final verification and complete-publication boundaries, avoiding
+quadratic rescanning of every prior checkpoint between images. Setup/final hashes
+remain; final commits recheck metadata after staging. A failed-integrity run may
+publish only its partial historical rows/error report. This is native-authority
+completion of NC09-NC14; interface/limit settlement with the importer (NC04), thin
+consumers, installed integration and the final boundary audit remain required.
