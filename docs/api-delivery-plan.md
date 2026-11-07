@@ -26,6 +26,11 @@ that establish meaningful display/interaction behavior rather than exact styling
 
 ## Project-wide density runner
 
+The standalone [NuCLS importer](nucls-import.md) now prepares exact PNG/CSV pairs
+with explicit outline/centroid representation and X/Y calibration. Its
+[14-row checklist](nucls-import-coverage.md) is closed over unchanged candidate4.
+Other formats, tissue inference and whole-cell boundaries are not implied.
+
 Delivered:thin standalone Python runner over unchanged candidate4. Native
 Project.open_without_journal_recovery, SpatialDensityRequest/Job, retained
 records, save_new and CSV remain authoritative. The bounded JSON manifest owns

@@ -7,6 +7,35 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — reusable NuCLS PNG/CSV import
+
+Owner accepted generalizing the pilot into a standalone Python importer. Match
+PNG/CSV stems across two directories, optionally select named stems; require
+explicit X/Y calibration and outlines versus centroid-marker representation.
+Preview missing files, malformed rows, classes and coordinate problems. No save
+unless every pair passes; write a new QPX only. Preserve selected class plus
+source classification/row provenance in native metadata. Do not infer tissue,
+windows, calibration, clip coordinates, repair topology or resample images.
+Reuse native ROI validation, Project.save_new and delivered file guards; keep
+candidate4 and delivered density consumers unchanged. No C++/wheel/UI work.
+T1/T2 complete: first focused run28/28 passes. Native outlines/marker centroids,
+classes/provenance, malformed/missing pairs, budgets, changed input and no-replace
+output have evidence. Added Pillow header-size-refusal coverage after review;
+final affected module29/29 passes in1.57s. Installed CLI demonstration passes:
+2 public cases/60 nuclei, all classes and original RGB pixels exact on reopen;
+outlines correctly reject the known out-of-image box; explicit markers reproduce
+the prior pilot's counts31/27 and areas104006/101124px2. No new downloads/build.
+[Guide](nucls-import.md), [14/14 coverage](nucls-import-coverage.md), source/test
+receipt and installed workflow evidence close the selected outcome. Push and
+stop; no further phase or broader native test campaign selected.
+Waste review: settle this small format contract before coding; no query language,
+general adapter registry, new download, segmentation or native qualification.
+Execution waste review: no failed test/implementation run. Public outline
+rejection is expected and recorded; reused downloaded assets and prior independent
+FOV/count-area oracles. Native ROI validation and save_new own topology/publication.
+One final module pass covered the added real Pillow size-refusal case; no native
+build, wheel, install or unrelated tests. Compilexx records the reusable lesson.
+
 ## Delivered follow-up — public multi-image research pilot
 
 Owner accepted running the delivered selector/runner on a real research project.

@@ -1,0 +1,61 @@
+{
+  "valid": false,
+  "representation": "outlines",
+  "class_column": "main_classification",
+  "calibration_um": [
+    0.2,
+    0.2
+  ],
+  "selected_pairs": 2,
+  "inspected_pairs": 2,
+  "images": [
+    {
+      "name": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671",
+      "image": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.png",
+      "annotations": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.csv",
+      "rows": 32,
+      "imported": 32,
+      "classes": {
+        "tumor_nonMitotic": 32
+      },
+      "source_bounds_outside": 0,
+      "issue_count": 0,
+      "issues": [],
+      "image_sha256": "a0136a49776ad05b3444ed21d79f01e24d78dfd826c4f5ff5223d3bfc958559d",
+      "csv_sha256": "4473f27e274520b0d64e69dd1f893413aee916cc1767095d511ba93fe51eb607",
+      "width": 378,
+      "height": 368,
+      "calibration_um": [
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "name": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364",
+      "image": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.png",
+      "annotations": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.csv",
+      "rows": 28,
+      "imported": 27,
+      "classes": {
+        "nonTILnonMQ_stromal": 17,
+        "AMBIGUOUS": 3,
+        "lymphocyte": 6,
+        "macrophage": 1
+      },
+      "source_bounds_outside": 1,
+      "issue_count": 1,
+      "issues": [
+        "annotation 25 (CSV line 26): ROI must lie inside the image"
+      ],
+      "image_sha256": "b6e27885e5c8def287f501182a1d8af981c192d75eb6cc6689c57a854fd8c746",
+      "csv_sha256": "6118f9dcac74472864bda0d761e2de475c7f1b5d965dd767f08436fd392d9698",
+      "width": 331,
+      "height": 345,
+      "calibration_um": [
+        0.2,
+        0.2
+      ]
+    }
+  ],
+  "written": false
+}

@@ -32,7 +32,7 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
 - Keep one in-progress user outcome. For the selected checkpoint, finish open
   the workflow named in current-task.md using existing native authorities.
   Candidates2/3/4, the thin Python project-density runner and class-based
-  manifest generator are delivered.
+  manifest generator and standalone NuCLS importer are delivered.
   Preserve the frozen native runtime. No new kernel, binding rebuild, batch UI,
   wheel or further feature phase is selected without a new owner need.
 - Pull new work into that outcome only for a demonstrated blocker, correctness

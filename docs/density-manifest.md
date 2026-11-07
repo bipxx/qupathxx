@@ -1,5 +1,8 @@
 # Class-based density manifests
 
+For external NuCLS PNG/CSV pairs, first use the [NuCLS importer](nucls-import.md)
+to create a saved project with explicit calibration and annotation representation.
+
 [density_manifest.py](../examples/density_manifest.py) selects saved project
 objects by exact class name and creates the explicit-ID manifest used by the
 [project-density runner](project-density.md). Both standalone scripts must stay
