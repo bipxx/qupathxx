@@ -30,12 +30,26 @@ Use narrow probes during development; no broad qualification/binding recompile.
 Closeout diff checking flagged a required blank context marker in the retained
 profile patch; a file-specific whitespace attribute preserves that evidence.
 
-Next selected work: precisely split qupath070_nuclei response basins, filled
-regions, shape watershed and labeling (baseline combined cost~106 ms). Target
-its largest measured cost while preserving order, masks, identities and legacy
-replay. Reuse the current exact-output evidence and the settled timing protocol;
-run affected numeric/native checks only for actual changes. No new feature,
-reader, GPU framework or binary release is selected.
+Logic diagnosis: [source comparison and isolated probes](benchmarks/speed-gap-followup/logic-analysis.md)
+show repeated general neighbor access in shape growth costs~23 ms; an equivalent
+interior-offset path takes~8 ms, preserving all2,237 nucleus labels in36 total
+original/variant/control runs. Nucleus subtotal falls105 ->87 ms in the probe.
+Small scalar SHA updates cost3.48 versus0.92 ms for the same buffered bytes;
+input hashing repeats for both masks. Neither is yet an integrated speed result.
+Production source/binaries stay unchanged; strict parity remains open.
+
+Waste review: reused raw RGB, masks, headers and MSVC Release settings in tiny
+standalone probes instead of rebuilding bindings/full workflows. Box counters
+rule out explosive basin filling on this ROI. Corrected one summary script's
+shadowed builtin using retained output; no benchmark rerun. Early guessed/glob
+source reads were unhelpful on PowerShell; use rg file inventory and exact paths.
+
+Next selected work: integrate the exact interior-neighbor access change; check
+edge widths, numeric/topology/cancellation and the existing affected native cases,
+then one final exact-output/settled paired check. Share verified immutable domain/
+digest work or buffer exact SHA bytes only after measuring that result. Preserve
+order, masks, identities and legacy replay; no new feature, reader, GPU/thread
+framework or binary release is selected.
 
 ## Delivered phase - label-local contour performance
 

@@ -20,6 +20,8 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S13 | Exact dense unit-grid boundary/area/inclusion proof, shifted-geometry refusal,65 patterns plus empty/hole cases | Complete |
 | S14 | Six native suites, canonical records, source/runtime identity and test-stack isolation | Complete |
 | S15 | Six-warmup/six-measured oracle-free protocol corrects premature ordinary-timing parity | Complete |
+| S16 | Source-level speed diagnosis: exact-label original/interior/control probes isolate shape growth; scalar SHA overhead measured | Complete |
 
-Next: profile the remaining nucleus sub-stages before choosing another change.
+Next: integrate the measured interior-neighbor optimization, then one affected
+correctness check and final settled paired measurement. See the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 Scientific/data identity stays exact; strict speed parity is not claimed.

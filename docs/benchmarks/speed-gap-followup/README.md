@@ -139,3 +139,6 @@ build/speed-gap-followup. Compact receipts, profiles and failures are tracked.
 Published candidate5 and prior releases are unchanged. More full workflows are
 not a prerequisite for the next step: reuse exact evidence, profile the remaining
 nucleus sub-stages, and make one measured change before a final paired check.
+
+[Logic investigation](logic-analysis.md) isolates the next neighbor-access change
+with exact-label probes; it does not replace the integrated timings above.

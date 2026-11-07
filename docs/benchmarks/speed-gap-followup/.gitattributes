@@ -1,3 +1,4 @@
 * text eol=lf
 # Unified diff blank context lines contain a required space.
 temporary-profile.patch whitespace=-blank-at-eol
+logic/*.patch whitespace=-blank-at-eol,-blank-at-eof
