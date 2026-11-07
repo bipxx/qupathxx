@@ -1,0 +1,28 @@
+F.......................                                                 [100%]
+================================== FAILURES ===================================
+_____________ test_combined_rows_checkpoints_and_native_identity ______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4983/test_combined_rows_checkpoints0')
+
+    def test_combined_rows_checkpoints_and_native_identity(tmp_path):
+        project, source, manifest, selections = scene(tmp_path)
+        before = sha(source), sha(manifest)
+        report = runner.run(manifest, tmp_path / 'run')
+        assert report['state'] == 'completed' and report['computed'] == 2 and report['reused'] == report['failed'] == 0
+        rows = read_csv(report)
+        assert len(rows) == report['rows'] == 4
+        assert [int(r['image_id']) for r in rows] == [1, 1, 2, 2]
+        assert [int(r['count']) for r in rows] == [2, 0, 2, 0]
+        assert [r['status'] for r in rows] == ['valid', 'empty_area'] * 2
+        assert rows[0]['image_name'] == 'Case 0, "quoted"\n����'
+        assert float(rows[0]['area_mm2']) == pytest.approx(.00008)
+        assert float(rows[2]['area_mm2']) == pytest.approx(.00001)
+        assert rows[1]['density_per_mm2'] == ''
+>       assert (sha(source), sha(manifest)) == before and not project.dirty()
+                                                              ^^^^^^^^^^^^^^^
+E       TypeError: 'bool' object is not callable
+
+tests\test_project_density_runner.py:82: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_project_density_runner.py::test_combined_rows_checkpoints_and_native_identity
+1 failed, 23 passed in 3.62s

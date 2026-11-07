@@ -11,6 +11,9 @@ QuPath port or a compatible replacement for Java QuPath.
   share native kernels across Python, CLI and ImGui. See the
   [density guide](docs/benchmarks/density-workflow/README.md) and
   [Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4).
+  The [project density runner](docs/project-density.md) adds explicit per-image
+  selections, combined CSV, failure handling, cancellation and checkpoint reuse
+  using that unchanged native package.
 
 - Native tissue microarray grids support undoable core edits, missing flags,
   case IDs, project persistence, per-core analysis and CSV exports through

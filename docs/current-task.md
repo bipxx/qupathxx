@@ -7,6 +7,58 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — project-wide density runner
+
+Owner accepted the proposed thin Python runner. Delivered over candidate4 unchanged:
+explicit per-image windows/tissue/exclusions/Cells, sequential native density
+jobs, per-image QPX checkpoints, combined CSV, failure reporting, cancellation
+and reuse of unchanged saved results. No native/binding/UI changes or new wheel.
+[Project-density coverage](project-density-coverage.md) tracks this outcome.
+
+T1 complete:standalone examples/project_density.py with a bounded versioned JSON manifest.
+Every run writes a new directory. --resume-from reads earlier immutable image
+checkpoints; it does not overwrite or duplicate earlier projects. Optional
+record_id selects an existing native saved result. Reuse requires native replay/
+input identity and exact native source-tree identity; it is labelled reused,
+not a numerical re-verification. Changed inputs compute anew; corrupt caches
+fail explicitly. Native geometry, jobs, serialization and CSV stay authoritative.
+
+T2 complete:focused multi-image tests cover native agreement, CSV identities/quoting,
+per-image failures, cancellation, resume without kernel work, changed-input
+recomputation, corrupt checkpoints, byte limits and input/output protection.
+Cancellation polls the native job; synchronous project open/save must return
+before cancellation can finish. Partial/cancelled runs publish density.partial.csv.
+
+T3 complete:standalone installed-candidate4 CLI demonstration computed2 image
+entries/8 ROI rows, then reused both checkpoints with0 new QPX copies. Each
+image has the accepted506-cell crop counts289/121/168/0 and areas40576/17536/
+23040/0px2. The same crop is deliberately used twice to test namespaces, not
+independent specimens. Source bytes remain unchanged and checkpoints reopen/
+replay. [Guide](project-density.md), [source/test receipt](benchmarks/project-density-runner/receipt.json)
+and [CLI evidence](benchmarks/project-density-runner/workflow.json) cover all16
+selected requirements. Native source remains cbf4102f; the standalone runner has
+its own source hash. No reader/segmentation/platform/resource campaign, GUI work,
+native build or wheel/install was needed. Native headers/bindings stay unchanged.
+
+Waste control:open the source project once; hash at setup/final and stat between images;
+one single-image checkpoint per computed image, never a whole-project save per
+image. Resume references existing checkpoints instead of copying their pixels.
+
+Waste review:29 focused tests pass against unchanged installed candidate4.
+Initial23 passed and one test used Project.dirty as a method; corrected its
+property accessor and ran that test alone. Final code review added reduced-budget
+native readmission, SQLite-sidecar protection and bounded checkpoint identities;
+the affected module then passes all29 cases. Native values/replay, source-record/
+checkpoint reuse without jobs, unrelated/relevant edits, failures, active cancel/
+SIGINT, rollback/byte caps and preserved inputs/outputs have evidence. No build,
+wheel or install. The standalone orchestration reuses native authorities rather
+than adding C++ batch enums/UI/stubs. Canonical compilexx notes record the reusable
+lessons. Inputs, previous outputs/checkpoints and failed logs are preserved.
+Closeout normalized doubled Windows line endings in the archived failure-log
+view after diff-check flagged them; original raw log remains preserved. No product
+code changed and no behavioral checks were repeated for that documentation fix.
+The selected outcome is closed; no further feature or validation phase is selected.
+
 ## Delivered phase — tissue-aware ROI cell density
 
 Owner continued the recommended density phase. Delivered selected cell centroid

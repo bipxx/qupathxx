@@ -31,9 +31,9 @@ evidence, not instructions to replay campaigns. Follow newer user steering.
 
 - Keep one in-progress user outcome. For the selected checkpoint, finish open
   the workflow named in current-task.md using existing native authorities.
-  Candidates2/3/4 are delivered and remain frozen. The density phase is closed;
-  do not replay delivery campaigns or start an unselected R9 extension without
-  a new owner need.
+  Candidates2/3/4 and the thin Python project-density runner are delivered.
+  Preserve the frozen native runtime. No new kernel, binding rebuild, batch UI,
+  wheel or further feature phase is selected without a new owner need.
 - Pull new work into that outcome only for a demonstrated blocker, correctness
   failure or invalidated evidence. Put other findings in their existing R row.
   Park optional PRESET1 consumers unless this workflow requires named presets.
