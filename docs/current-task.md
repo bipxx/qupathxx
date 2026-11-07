@@ -7,6 +7,25 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Storage maintenance -2026-11-07 complete
+
+Owner interrupted optimization to recover disk space. No L1 implementation had
+started; source was clean. [Receipt](benchmarks/storage-cleanup-20261107/receipt.json):
+standard NTFS compression of144 inactive artifact folders saves1.51 GiB;
+all10,369 files retain their original SHA256. C: had18.46 GiB free at verification;
+other activity also freed space, so only the measured1.51 GiB is attributed here.
+
+Active source/cache,37 binding objects, selected module/runtime bytes, published
+products, fixtures, original ZIPs and storage-cleanup-20261105 are preserved.
+Recursive removal of verified ZIP duplicates was rejected by automatic approval
+review (blocked by policy); no folders were deleted or deletion retry attempted.
+Normal NTFS compression preserves regular-file behavior; no WOF/reparse encoding.
+
+Waste correction: Linux SDK link entries cannot be read as regular Windows files;
+exclude those SDKs and preserve partial hash progress rather than repeat an
+all-tree scan. No product build/test campaign or cache regeneration. Next planned
+work remains L1's C++ watershed optimization; preserve the expensive binding cache.
+
 ## Delivered prerequisite - untangle codebase before optimization
 
 Owner-invoked untangle-codebase with Comments+Tests completes U1-U6 in the
