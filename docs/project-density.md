@@ -7,6 +7,9 @@ API; no new wheel, binding build, segmentation or batch UI is required. The
 [coverage checklist](project-density-coverage.md) and
 [evidence](benchmarks/project-density-runner/receipt.json) describe the selected scope.
 
+Use the [class-based manifest generator](density-manifest.md) to select cohorts
+by existing class names and preview counts/calibration before running.
+
 ## Run
 
 Install candidate4 in the environment described by the [density guide](benchmarks/density-workflow/README.md).

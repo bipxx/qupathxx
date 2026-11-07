@@ -34,7 +34,10 @@ and a combined table preserves source image/result identities. See
 [workflow/manifest guide](project-density.md) and
 [selected coverage](project-density-coverage.md). No native enum/binding/UI,
 new wheel or platform campaign was required. All16 selected requirements are
-closed; no further feature phase is selected.
+closed. The owner-selected [class-based manifest generator](density-manifest.md)
+now resolves exact classes into explicit IDs and previews native capture before
+new-file publication. Its [12-row checklist](density-manifest-coverage.md) closes
+without changing the runner or candidate4. No further feature phase is selected.
 
 ## Next phase: tissue-aware ROI cell density
 

@@ -7,6 +7,33 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered phase — class-based density manifests
+
+Owner accepted a thin Python manifest generator. Select images by ID (all images
+by default), resolve exact class names into explicit window/tissue/exclusion/Cell
+IDs, and preview counts, calibration and native request errors before publication.
+Require explicit Cell classes or all-Cells selection. Write only a new manifest
+when every selected image passes. Reuse the delivered runner's file guards and
+atomic JSON writer; keep candidate4 and the batch runner unchanged.
+
+T1/T2 complete: standalone generator,22 focused tests passing against installed
+candidate4, and actual isolated CLI generated-manifest to runner demonstration:
+2 images/8 rows with unchanged counts289/121/168/0 and areas40576/17536/23040/0
+per image. Reused the preserved duplicate-crop project; original bytes unchanged.
+[Guide](density-manifest.md), [12/12 coverage](density-manifest-coverage.md) and
+[receipt](benchmarks/density-manifest/receipt.json) record scope. Native candidate4
+and batch runner unchanged; no native build, wheel, install, GUI or segmentation.
+Waste review: exact-name selection avoids a new query language or hierarchy
+policy; one object scan per image, one project open, no kernel work in preview.
+Fixture repairs: Document.set_class takes RGB; ellipses use add_roi(Roi.ellipse).
+The curve case passed alone, then final22 passed including repeated selectors
+and native policy options. Nondefault planes require quantitative TIFF, so the
+invalid synthetic plane fixture was removed; native plane capture stays unchanged
+with no new plane-coverage claim. Raw failures are preserved in main
+build/density-manifest. Lesson in compilexx: inspect installed stub semantics
+before fixture authoring; no second validation framework. No further phase is
+selected; publish this outcome and stop.
+
 ## Delivered phase — project-wide density runner
 
 Owner accepted the proposed thin Python runner. Delivered over candidate4 unchanged:
