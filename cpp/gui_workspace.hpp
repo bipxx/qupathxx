@@ -40,6 +40,7 @@ public:
     inline static constexpr const char* panes[]={project_pane,image_pane,objects_pane,workflow_pane};
     inline static constexpr const char* keys[]={"project","image","annotations","workflow"};
     Rect browser{0,0,1,1},objects{0,0,1,1},display{0,0,1,1},measurements{0,0,1,1},canvas{0,0,1,1};
+    std::string gene_preference;
     explicit GuiWorkspace(const GuiOptions& options):enabled_(options.docked_workspace),reset_(options.reset_layout),path_(options.layout_path) {
         if(!enabled_ && (!path_.empty() || reset_)) throw std::invalid_argument("layout preferences require a docked workspace");
         if(path_.empty()) return;
@@ -63,6 +64,12 @@ public:
             const auto header_end=data.find("[Window]");const auto header=data.substr(0,header_end);
             for(int i=0;i<4;++i) if(header.find(std::string("; qupathxx sidebar=")+keys[i]+"\n")!=std::string::npos || header.find(std::string("; qupathxx sidebar=")+keys[i]+"\r\n")!=std::string::npos) active_=i;
             if(reset_) return;
+            const std::string gene_marker="; qupathxx gene-view=";
+            const auto gene_start=data.find(gene_marker);
+            if(gene_start!=std::string::npos) {
+                const auto start=gene_start+gene_marker.size(),end=data.find_first_of("\r\n",start);
+                gene_preference=data.substr(start,end==std::string::npos?end:end-start);
+            }
             // Retain the user's splits when opening a pre-tabbed workspace.
             for(const auto& names:{std::pair{"Project and objects",project_pane},std::pair{"Image and display",image_pane},std::pair{"Measurements and jobs",workflow_pane}}) {
                 const std::string old_header=std::string("[Window][")+names.first+"]";
@@ -154,7 +161,9 @@ public:
         if(!enabled_ || path_.empty() || !writable_) return false;
         try {
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
-            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n";
+            if(gene_preference.size()>16384 || gene_preference.find_first_of("\r\n")!=std::string::npos)throw std::invalid_argument("Invalid gene-view workspace preference");
+            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n"+
+                (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n");
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();
             if(!parent.empty()) std::filesystem::create_directories(parent);

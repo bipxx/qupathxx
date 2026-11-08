@@ -35,6 +35,7 @@
 #include "gui_batch.hpp"
 #include "gui_tma.hpp"
 #include "gui_spatial.hpp"
+#include "gui_genes.hpp"
 #include "gui_project_density.hpp"
 #include "gui_raw.hpp"
 #include "gui_raw_pixel.hpp"
@@ -286,6 +287,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ui::i18n::Session language_session;
     ui::design::Session design_session;
     GuiWorkspace workspace(options);
+    detail::GuiGeneDisplay genes;genes.load_preference(workspace.gene_preference);
     int pending_language=-2;bool language_requested=false,language_dialog_active=false;char language_search[128]{};
     auto pixel_classifier_owner=std::make_unique<detail::GuiPixelClassifier>(options);auto& pixel_classifier=*pixel_classifier_owner;
     auto raw_pixel_owner=std::make_unique<detail::GuiRawPixel>(options);auto& raw_pixel=*raw_pixel_owner;
@@ -872,6 +874,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(!tissue.result()) tissue_preview.clear();
         const bool has_image=!options.project || active_image!=0;
+        genes.update(document,has_image);
         const auto& image=document.metadata();
         if(options.project && project_catalog_dirty) {
             project_images=options.project->images(); project_catalog_dirty=false; project_filter_dirty=true;
@@ -1326,6 +1329,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::MenuItem("Batch analysis...")) batch.open();
                 if(ui::MenuItem("Object classifiers...","F4")) classifier.open();
                 if(ui::MenuItem("Pixel classifiers...","F5")) pixel_classifier.open();
+                if(ui::MenuItem("Gene expression...",nullptr,false,has_image)) genes.open();
                 ImGui::EndMenu();
             }
             if(ui::BeginMenu("TMA",has_image)) {if(ui::MenuItem("Tissue microarray...")) tma.open();ImGui::EndMenu();}
@@ -2061,6 +2065,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ui::Button("Object classifiers (F4)")) classifier.open();
             if(ui::Button("Pixel classifiers (F5)")) pixel_classifier.open();
             if(ui::Button("Raw pixel classifier")) raw_pixel.open();
+            if(ui::Button("Gene expression...")) genes.open();
             bool analysis_changed=ui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
             int roi_sampling=static_cast<int>(roi_sampling_policy);
             if(ui::Combo("ROI polygon samples",&roi_sampling,"Geometry coverage\0Polygon winding\0")) {roi_sampling_policy=static_cast<RoiSamplingPolicy>(roi_sampling);analysis_changed=true;}
@@ -2769,6 +2774,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         overlay_cache.capture(draw);
         }
         tma.draw_qptma_preview(document,draw,viewport,offset,size);
+        genes.draw_overlay(draw,viewport,offset,size);
         if(tool==6 && vertex_id) {
             for(std::size_t path=0;path<vertex_paths.size();++path) {
                 const auto& ring=vertex_paths[path];
@@ -2987,6 +2993,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::End();
         spatial.draw(document,*selection,options.project.get(),&project_images,editing_blocked,has_image,mark_target);
+        genes.draw(display);
         if(tma.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target)) batch.open_tma();
         const auto raw_change=raw.draw(document,*selection,options.project.get(),editing_blocked,mark_target);
         if(raw_change.image) {pending_image=raw_change.image;project_catalog_dirty=true;}
@@ -3023,7 +3030,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         replay.finish_frame(!settling);
         if(settling) ++settle_frames;
-        const bool tiles_settled=raw_pixel.settled() && pixel_classifier.settled() && !startup_active && !project_load.valid() && !qupath_review.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
+        const bool tiles_settled=genes.settled() && raw_pixel.settled() && pixel_classifier.settled() && !startup_active && !project_load.valid() && !qupath_review.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
         const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
@@ -3110,6 +3117,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         workspace.protect(options.project->path());workspace.protect(options.project->recovery_source());
         for(const auto& image:options.project->images()) workspace.protect(options.project->document(image.id)->server()->source_locator());
     }
+    workspace.gene_preference=genes.preference();
     const bool layout_saved=workspace.save();
     GuiReport report{frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,

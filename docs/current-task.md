@@ -1425,7 +1425,7 @@ It is not the selected candidate; use only delivery-agpl or the prerelease asset
 
 Owner requested a plan for all eight remaining feature areas. The
 [canonical roadmap](feature-expansion-plan.md) defines22 implementation items
-(4 complete,18 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
+(5 complete,17 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
 native import preview come first, then registration/fluorescence, backed matrices/
 H5AD/OME-Zarr, molecular methods and SDK/release. Current active UI work is preserved.
 
@@ -1538,3 +1538,64 @@ Both admitted real examples pass: mouse-brain original coordinates/counts stay
 exact after native acceptance, and fluorescence display-window changes preserve
 frame identity. No proprietary/NC data, new dependency, binding/GUI compilation or
 package was introduced. R01 is closed; R02 interactive landmarks remains open.
+
+### Active V02: gene expression display and synchronized comparison
+
+The previous turn made progress: R01 is committed at5eb899dd. Preserve ongoing
+desktop layout edits. New integration adds a separate gene tool and small hooks
+to the current shell, rather than replacing those edits. RmlUi's existing Workflow
+route and Analyze menu lead to the native controls.
+
+Changed inputs: shared native GeneViewSession/paged ID+symbol search, pooled
+comparison range and preferences; separate GuiGeneDisplay panel/overlays and
+workspace preference field; narrow app/CMake/CI integrations and affected tests.
+Workers own immutable snapshots and coalesce rapid changes; stale generations
+cannot publish. Typed native display fields supply all colors/ranges; UI does not
+parse counts or duplicate transforms. Original projects/counts/positions stay
+unchanged. Local workspace preferences persist presentation; two comparison
+canvases share one camera and tile cache. Main overlays bypass the geometry cache
+so a new field cannot leave old colors on a cache hit.
+
+Decisive check: native pooled percentile/minmax/constant/missing cases, coalescing/
+cancel/ownership/search/persistence. One combined cached native/frontend build,
+then GUI capture verifies native colors at exact scientific spot positions and
+zero/missing presentation, shared comparison/prefs and unchanged project bytes.
+Run the admitted real mouse-brain comparison. No bindings or package build. A new
+Visual Studio test target needs explicit regeneration of the existing cache first.
+
+Shared-cache check found the other frontend build live. The initial inspection
+and configure were separate shell statements, so configuration still ran; it
+finished without launching our compiler. The other build is now terminal (its
+process is absent). Correct subsequent build commands to refuse a live project
+process before starting, and preserve its existing objects/results.
+
+Native gene-view/expression tests pass (2 cases,0.18s). First GUI capture visibly
+renders the expected zero/missing/min/max colors, but the pixel oracle used
+Viewport::origin as image coordinates; the API stores screen translation.
+Reuse its public image_to_screen conversion in the oracle and correct the same
+assumption in comparison drag panning. Retain the failed capture, rebuild only
+affected frontend/test targets, and retry in a new evidence directory. Numeric
+color/data assertions remain unchanged.
+
+Corrected GUI replay passes, including the real2,702-spot comparison and exact
+spot-color/data/project checks. Final review extends workspace preferences to
+retain the explicit source lineage when multiple imported sources exist. Add one
+comparison-drag replay that measures both native-color marker displacements and
+checks the main camera/project stay unchanged. These changed inputs justify one
+final affected native/frontend build; no binding/package/requalification work.
+
+V02 complete locally. Final native expression/gene_view CTest passes (2 cases,
+0.55s); GUI replay passes exact point colors, measured zero versus missing,
+workspace/source persistence across two lineages, matching40-screen-pixel drag
+in both comparison canvases and unchanged main camera/project bytes/counts.
+Real Aqp4/Gad1 shared-log1p comparison over2,702 spots is readable; source counts/
+coordinates retain exact identity. Captures and failed oracle run remain under
+workspace-root build/feature-expansion; see the single progress receipt.
+
+Reuse the completed UI layout's CollectionHeight/SetNextToolWindow helpers as
+dependencies of this tool; preserve its other source edits. No public GuiOptions
+or binding layout changed, no binding compilation, new cache, package or restricted
+material. Waste review: one viewport-origin mistake was fixed in both oracle and
+drag logic; source persistence and drag checks closed concrete final-review gaps.
+Next I02: a shell-free import wizard over the existing native preview/job, without
+a second parser or Python orchestration.

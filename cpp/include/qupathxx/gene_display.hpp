@@ -16,6 +16,7 @@ struct GeneDisplayOptions {
     std::array<std::uint8_t,4> zero_color{20,20,24,255};
     void validate() const;
 };
+std::array<std::uint8_t,4> gene_display_palette_color(double position,const GeneDisplayOptions&);
 struct GeneDisplayLegend {
     ExpressionValueDomain domain=ExpressionValueDomain::Counts;
     GeneDisplayTransform transform=GeneDisplayTransform::Linear;
@@ -53,6 +54,16 @@ struct GeneDisplayField {
     std::size_t payload_bytes=0;
 };
 std::shared_ptr<const GeneDisplayField> gene_display_field(const GeneDisplayRequest&,
+    const std::atomic<bool>* cancelled=nullptr);
+struct GeneDisplayPair {
+    std::array<std::shared_ptr<const GeneDisplayField>,2> fields;
+    bool shared_range=false;
+    GeneDisplayRange range_policy=GeneDisplayRange::MinMax;
+};
+// A shared automatic range uses the pooled measured values of both genes.
+// Manual equal endpoints intentionally support a constant/all-missing field.
+GeneDisplayPair gene_display_pair(ExpressionDataset,const std::array<std::string,2>&,
+    GeneDisplayOptions,bool compare,bool shared_range,std::size_t work_bytes=64u*1024*1024,
     const std::atomic<bool>* cancelled=nullptr);
 // Serial controller-thread cache. Fields/snapshots are immutable and may be read
 // by workers. A changed dataset/cohort/options identity cannot return an old field.

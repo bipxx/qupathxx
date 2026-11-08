@@ -2,8 +2,8 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 4 complete, 18 pending**. It does not reopen completed
-FO00–FO05. Native S01/V01/I01/R01 are delivered locally; their UI consumers remain
+checklist: **22 work items: 5 complete, 17 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/R01 are delivered locally; import/registration UI remains
 pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
 [current-task.md](current-task.md) continues; this plan queues subsequent work.
 
@@ -105,7 +105,7 @@ Do not build a general workflow engine or distributed service for these tasks.
   zero/missing colors, opacity, legend units and optional shared range for gene
   comparisons. Cache by dataset/gene/cohort/display identity; cancel stale work.
   Display transformations never rewrite counts or masquerade as normalization.
-- [ ] **V02 — gene selector, heatmaps and comparison UI.** After the current UI
+- [x] **V02 — gene selector, heatmaps and comparison UI.** After the current UI
   closeout, reuse the RmlUi shell's typed-command bridge and existing inspectors.
   Search/paginate gene IDs and symbols, render position-based expression overlays,
   show the exact range/transform/legend and support synchronized two-gene views.
@@ -321,6 +321,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next connect V02/I02 after the active UI handoff allows consumer changes;
+parity. Next deliver I02 guided import on the settled desktop shell;
 finish L01 membership admission as actual release inputs settle. Native R01 can
 proceed without editing the concurrent desktop layout.

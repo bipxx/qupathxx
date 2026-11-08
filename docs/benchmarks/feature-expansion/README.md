@@ -1,8 +1,9 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/I01/R01 locally, plus an incomplete L01 guard
-foundation. No expanded GUI, release, speed or biological-accuracy claim.
+authority. This receipt covers S01/V01/V02/I01/R01 locally, plus an incomplete L01
+guard foundation. GUI claims cover only the named gene workflows below; no new
+release, speed or biological-accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
 projection, with stable IDs/positions/frame/plane/source identity, exact uint64
@@ -77,3 +78,36 @@ No interactive landmark-registration or GUI claim is made from this native check
 The companion OME-TIFF real example additionally passes a display-window change
 with identical frame identity, checking the raw/display boundary on the real
 two-channel source. Original real projects were opened read-only and not saved.
+
+V02 continuation: Analyze → Gene expression (also Workflow → Tools) opens the
+native gene selector. Search imported IDs/symbols and page the catalogue; enable
+spot-center colors and choose linear/log1p, minmax/percentile/manual ranges,
+palette/opacity and glyph size. The legend reports the actual transformed units,
+range, measured zeros, missing values and clipping. Hover gives exact raw counts.
+Compare opens two image canvases with one shared navigation state; shared
+automatic percentiles use pooled measured values, never the extrema of separate
+percentiles. Constant/missing fields retain their semantics. Presentation/source
+choices live in workspace preferences, without rewriting project measurements.
+
+Native GeneViewSession owns immutable snapshots and one worker with latest-
+generation coalescing/cancellation. UI uses native fields/palette colors. New
+overlay fields draw outside the geometry cache, so cached geometry cannot retain
+an old gene color. Comparison tile/context ownership stays on the GUI thread.
+
+Final native expression/gene_view CTest:2 cases pass (0.55s). Independent pooled
+percentile oracle is [0,2,10,100,200,300,400] → P25=6/P75=250; checks include
+constant/all-missing, raw integer preservation, rapid switches, stale generations,
+cancel/owner thread, catalogue paging and exact native preference/source round trip.
+Native GUI replay passes exact colors at scientific point locations, zero/missing,
+source persistence with two lineages and a40-screen-pixel drag measured in both
+comparison maps while the main camera/project remain unchanged. Real Aqp4/Gad1
+comparison covers2,702 spots with a shared log1p scale and unchanged source identity.
+Evidence: workspace-root build/feature-expansion/gui-v02-r3; first failed oracle
+capture remains in gui-v02 and the intermediate passing comparison in gui-v02-r2.
+
+The first oracle incorrectly treated Viewport::origin as image coordinates;
+native image_to_screen resolved it, and comparison drag now uses screen translation
+too. Source persistence/drag checks were added for named final-review gaps.
+Only affected cached targets compiled; Python bindings, packages and historical
+science qualification were not rebuilt. The tool reuses the completed layout's
+bounded-window/collection helpers; other concurrent UI source is preserved.

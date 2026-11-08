@@ -189,6 +189,26 @@ inline bool BeginPopupModal(const char* name,bool* open=nullptr,ImGuiWindowFlags
     design::Heading title;
     return ImGui::BeginPopupModal(i18n::label(name).c_str(),open,flags);
 }
+inline float CollectionHeight(std::size_t rows) {
+    const float row=ImGui::GetTextLineHeightWithSpacing();
+    const float desired=(rows?std::clamp(float(rows),4.f,8.f):2.f)*row+2*ImGui::GetStyle().FramePadding.y;
+    return std::min(desired,std::max((rows?3.f:2.f)*row,ImGui::GetContentRegionAvail().y*.35f));
+}
+inline void SetNextToolWindow(const char* name,ImVec2 preferred) {
+    const auto* vp=ImGui::GetMainViewport();const float scale=design::scale();
+    const float margin=std::min(12.f*scale,std::min(vp->WorkSize.x,vp->WorkSize.y)*.05f);
+    const ImVec2 origin{vp->WorkPos.x+margin,vp->WorkPos.y+margin};
+    const ImVec2 extent{std::max(1.f,vp->WorkSize.x-2*margin),std::max(1.f,vp->WorkSize.y-2*margin)};
+    const ImVec2 minimum{std::min(260.f*scale,extent.x),std::min(160.f*scale,extent.y)};
+    ImGui::SetNextWindowSize({std::min(preferred.x*scale,extent.x),std::min(preferred.y*scale,extent.y)},ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowPos({origin.x+extent.x*.5f,origin.y+extent.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
+    ImGui::SetNextWindowSizeConstraints(minimum,extent);
+    if(auto* window=ImGui::FindWindowByName(i18n::label(name).c_str());window && !window->DockNode) {
+        const ImVec2 size{std::clamp(window->SizeFull.x,minimum.x,extent.x),std::clamp(window->SizeFull.y,minimum.y,extent.y)};
+        const ImVec2 pos{std::clamp(window->Pos.x,origin.x,origin.x+extent.x-size.x),std::clamp(window->Pos.y,origin.y,origin.y+extent.y-size.y)};
+        if(pos.x!=window->Pos.x || pos.y!=window->Pos.y) ImGui::SetNextWindowPos(pos);
+    }
+}
 inline void TextDisabled(const char* format,...) {
     va_list args;va_start(args,format);ImGui::PushTextWrapPos(0);ImGui::TextDisabledV(i18n::text(format),args);ImGui::PopTextWrapPos();va_end(args);
 }
