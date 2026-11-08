@@ -1,6 +1,6 @@
 # Shipped Python boundary review
 
-Working inventory for NC27, not acceptance evidence. The [single consolidation
+NC27 source review and evidence map. The [single consolidation
 checklist](consolidation-coverage.md) owns status. Python may parse arguments,
 construct caller-selected options, submit/poll/cancel native operations and display
 native reports. Native services must validate and own domain interpretation,
@@ -8,24 +8,37 @@ selection, scientific values, reuse, persistence and authoritative export.
 
 | Surface | Native authority / remaining action | Verification |
 | --- | --- | --- |
-| project_density.py | ProjectDensityManifest + ProjectDensityJob own run/reuse/guards/receipts/CSV; Python forwards events and caller cancellation | Installed mapping, callback failure, cancellation, legacy resume and source-change tests pending |
-| density_manifest.py | ProjectDensityRecipe + native generation own class resolution/admission/publication | Installed class selection, invalid cohorts and save-new tests pending |
-| nucls_import.py | NuclsImportOptions + NuclsImportJob own pairing/CSV/RGB8/geometry/publication | Installed interpretation, limit, mutation and atomic-save tests pending |
-| raw_classifier_workflow.py | Native labelled-training capture replaces class/area filtering; remaining calls construct options and control native checkpoint/training jobs | Installed training cohort agreement pending |
-| src/qupathxx/_workflow_control.py | Controller-thread polling, event JSON decoding for display/callbacks, cancel/acknowledge and typed error delivery only | No per-object/pixel analysis or native workflow state duplicated |
-| src/qupathxx/__init__.py | Conditional native reexports and capability flag | Check feature-unavailable build/stubs; no Python fallback |
-| src/qupathxx/__main__.py and live_workflow.py | Argument/option/launch and ViewerSession request control | Retain native validation; audit source-opening choices and output control before NC27 closure |
-| region_workflow.py | Requests/jobs/persistence/export stay native; NumPy RGB/moment and CSV accounting moved to tools/validate_region_workflow.py | Product and saved-output oracle integration checks pending |
-| neighborhood_workflow.py | Native neighborhood request/result/replay/export; Python independently rechecks CSV counts | Move CSV oracle to tests/tools without losing retained-count coverage |
-| pixel_classifier.py / pixel_workflow.py | Native feature/training/prediction; synthetic image/labels and lifecycle assertions remain embedded in demonstrations | Move synthetic/reference checks to tests/tools; make shipped controls consume caller-supplied native inputs/options |
-| rgb_nominal_preview.py | Sampling is native, but Python slices RGBA to RGB and scales calibration | Reuse/add native preview-document construction so pixels/calibration have one authority; retain explicit caller sampling options |
-| density_workflow.py | Native density request/result/replay/export, explicit caller IDs | Review output orchestration against the shared workflow boundary; avoid a second receipt/reuse/state machine |
+| project_density.py | ProjectDensityManifest + ProjectDensityJob own run/reuse/guards/receipts/CSV; Python forwards events and caller cancellation | [Installed mapping/cancel/callback/legacy/source-change evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
+| density_manifest.py | ProjectDensityRecipe + native generation own class resolution/admission/publication | Same installed checkpoint proves class selection, invalid cohorts and save-new behavior |
+| nucls_import.py | NuclsImportOptions + NuclsImportJob own pairing/CSV/RGB8/geometry/publication | Same installed checkpoint proves interpretation, limits, mutation and atomic save |
+| raw_classifier_workflow.py | Native labelled-training capture owns class/area eligibility; remaining calls configure native lattice/features/quotas and submit checkpoint/training/stream operations | Three installed examples, including Detection-labelled inputs and -O, pass in the consumer checkpoint |
+| src/qupathxx/_workflow_control.py | Controller-thread polling, event JSON display/callbacks, cancel/acknowledge and typed error delivery only | Source reviewed; native workflow state/receipts/science are not duplicated |
+| src/qupathxx/__init__.py | Native reexports and capability flag | Matching generated/installed stubs; optional workflows explicitly absent without a Python fallback |
+| src/qupathxx/__main__.py | Argument validation and native GUI startup options, recovery/project/image selection and native Image.demo | Source reviewed; no Python image decoding, project interpretation or scientific calculations |
+| live_workflow.py | ViewerSession ticket submit/wait/take/close; caller-selected first image/default bounded ROI and stain options | Source reviewed; UI/default input choices are controls, while object edits, measurements, export and save execute natively |
+| region_workflow.py | Native requests/results/save/replay/export; explicit/default ROI/tissue-level/quota choices; native values displayed in JSON | RGB/moment/CSV oracle is tools/validate_region_workflow.py and remains in installed region integration/handoff checks |
+| neighborhood_workflow.py | Native request/result/replay/export; explicit source/target IDs and radius options | CSV oracle moved to tools/validate_neighborhood_workflow.py; installed CLI/oracle check passes |
+| pixel_classifier.py / pixel_workflow.py | Explicit saved project, labelled/target ROI IDs and native options; native training/model save/load/prediction jobs | Installed -O training, native model/result agreement and no-overwrite check pass; original synthetic/lifetime demos retained and run in tools |
+| rgb_nominal_preview.py | Native make_rgb_nominal_preview owns RGB extraction/new source/calibration; native open_rgb_nominal_source owns reader dispatch | Native ownership/calibration/overflow/cancel/reader tests and installed exact pixels/calibration/source-lifetime checks pass |
+| density_workflow.py | Explicit caller IDs/options, native density request/result/keep/replay/export/save_new | Installed control checks native count/area/export/replay; it has no manifest selection, receipt/reuse adapter or competing batch state machine |
 
-The additional examples above must be addressed or justified as pure controls
-before claiming every shipped Python workflow compliant. Do not hide them by
-counting only the four primary migrations. Independent oracles can remain Python
-under tests/tools; they must not become product fallbacks. Keep their accepted
-scientific checks rather than deleting them to obtain a clean boundary report.
+[Boundary closeout evidence](benchmarks/consolidation/README.md#shipped-python-boundary-closeout)
+records the source scope, native test, ten passing installed cases and retained
+independent tools. All11 shipped examples and three Python package modules were
+reviewed. Python may choose explicit defaults, output locations and quotas, forward
+native terminal failures and display summaries; it does not interpret cohorts,
+compute per-pixel/object scientific values, decide reuse, parse input data or encode
+authoritative scientific CSV/receipts. Native APIs validate at the actual trust
+boundary even when argparse also constrains syntax.
+
+Region/neighborhood/density examples use native save_new for new scientific
+projects. The raw checkpoint demonstration creates its output directory exclusively
+and explicitly requests native resume/replace for its own checkpoint files; its
+save/retention/coverage decisions remain native. UI/default source/ROI choices do
+not create a second scientific selection/reuse authority. No compatibility fallback
+or frontend-only scientific policy remains in these shipped Python workflows.
+Independent NumPy/reference/fixture operations are retained in tests/tools and
+are not imported by product controls.
 
 Historical benchmark programs/fixtures are independent development evidence and
 retain their original source scope. Changing a shipped control does not retroactively

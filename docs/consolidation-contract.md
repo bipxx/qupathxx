@@ -24,6 +24,8 @@ control callbacks run on the caller thread after native image-progress publicati
 workers must never borrow Python callbacks or objects. Preserve meaningful behavior
 coverage when replacing monkeypatches of Python internals with native counters.
 
-The initial extraction preserves existing GUI behavior. Explicit-ID native
-selections are additive; manifest-mode execution/legacy adapters remain incomplete
-until NC05-NC14 evidence is attached. No new release or full parity target follows.
+At the initial extraction checkpoint, explicit-ID selection was additive and
+manifest execution/adapters were still pending. Their native and installed
+[completion evidence](benchmarks/consolidation/README.md) is now attached to
+NC05-NC26. This baseline retains historical compatibility expectations; it does
+not imply a binary release or full parity target.

@@ -96,3 +96,18 @@ def test_ids_limits_and_failure_types(saved_scene, tmp_path):
     with pytest.raises(q.ProjectDensityCsvBudget):
         await_report(job)
     assert not (tmp_path / 'too-small').exists()
+
+
+@pytest.mark.parametrize('class_name,field,value', [
+    ('ProjectDensityRunOptions', 'csv_bytes', -1),
+    ('ProjectDensityRunOptions', 'checkpoint_bytes', 1 << 128),
+    ('NuclsImportLimits', 'rows', -1),
+    ('ProjectDensityRecipe', 'images', [1, -1]),
+    ('ProjectDensitySelection', 'record_id', 1 << 128),
+])
+def test_unrepresentable_numbers_are_value_errors_without_partial_assignment(class_name, field, value):
+    options = getattr(q, class_name)()
+    before = getattr(options, field)
+    with pytest.raises(ValueError, match='native type range'):
+        setattr(options, field, value)
+    assert getattr(options, field) == before

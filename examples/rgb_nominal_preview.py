@@ -1,28 +1,15 @@
 """Read an explicit nominal RGB region and preview it as a new native document."""
 import argparse
 import json
-from pathlib import Path
 import qupathxx as q
 
 
 def make_preview(document: q.Document, request: q.RgbNominalRequest) -> q.Document:
-    px, py = document.pixel_width_um, document.pixel_height_um
-    pixels = q.read_rgb_nominal_region(document.server, request)
-    preview = q.Document(q.Image.from_numpy(pixels.numpy()[:, :, :3]))
-    if px is not None and py is not None:
-        preview.set_calibration(px * request.downsample, py * request.downsample)
-    return preview
+    return q.make_rgb_nominal_preview(document, request)
 
 
 def open_source(path: str, reader: str) -> q.ImageServer:
-    if reader == 'auto':
-        suffix = Path(path).suffix.lower()
-        reader = 'ppm' if suffix == '.ppm' else 'tiff' if suffix in ('.tif', '.tiff') else 'openslide'
-    if reader == 'ppm':
-        return q.dense_image_server(q.Image.read_ppm(path))
-    if reader == 'tiff':
-        return q.open_tiff(path)
-    return q.open_slide(path)
+    return q.open_rgb_nominal_source(path, reader)
 
 
 def main() -> None:

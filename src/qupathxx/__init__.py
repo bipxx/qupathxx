@@ -187,3 +187,6 @@ if has_native_workflows:
         "NuclsImportLimits", "NuclsImportOptions", "NuclsPairReport", "NuclsImportReport",
         "NuclsImportProgress", "NuclsImportJob", "import_nucls",
     ]
+
+from ._native import make_rgb_nominal_preview, open_rgb_nominal_source
+__all__ += ["make_rgb_nominal_preview", "open_rgb_nominal_source"]

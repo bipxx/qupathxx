@@ -19,7 +19,8 @@ template<class T> T number(nb::handle value) {
         if(!PyLong_Check(value.ptr())) throw nb::type_error("Expected an integer");
     } else if(!PyLong_Check(value.ptr()) && !PyFloat_Check(value.ptr()))
         throw nb::type_error("Expected a number");
-    return nb::cast<T>(value);
+    try {return nb::cast<T>(value);}
+    catch(const nb::cast_error&) {throw nb::value_error("Number is outside the native type range");}
 }
 template<class C,class T> void numeric(nb::class_<C>& c,const char* name,T C::* member) {
     c.def_prop_rw(name,[member](const C& v){return v.*member;},

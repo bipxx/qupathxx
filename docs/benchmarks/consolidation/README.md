@@ -1,6 +1,9 @@
 # Native consolidation evidence
 
-Incremental development evidence, not release or full migration acceptance.
+Source-scoped development evidence. NC01-NC28 are complete; this is not a binary
+release or full QuPath parity claim. The [final boundary closeout](#shipped-python-boundary-closeout)
+and [receipt](boundary-receipt.json) identify the current installed source; earlier
+sections retain each checkpoint's original scope.
 Selection/manifest checkpoint native source tree `d6a2699d4a9e439f2bde308e30d8bd5931382ef061437971c628fd4845c93ae9` has 536 raw compiler inputs, independently
 recomputed from [input hashes](native-source-inputs.sha256) and matched against
 the cached generated build manifest. Built on cb87a56e with local changes;
@@ -337,3 +340,60 @@ accounting moved to tools/validate_region_workflow.py and remain in integration
 and handoff checks. NC27's [boundary inventory](../../consolidation-python-boundary.md)
 still lists older examples requiring cleanup. NC28's final source handoff stays
 open until that work finishes; no full migration, feature-parity or speed claim.
+
+
+## Shipped Python boundary closeout
+
+NC27 closes the [review of all11 examples and three package modules](../../consolidation-python-boundary.md).
+[Final boundary receipt](boundary-receipt.json), [compiler inputs](boundary-source-inputs.sha256),
+[control/stub/tool inputs](boundary-control-inputs.sha256) and the
+[generated manifest](boundary-build-manifest.hpp) identify native source tree
+`15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011` (567 compiler inputs).
+The installed development module reports that same tree. Only seven compiler
+inputs differ from the consumer checkpoint: CMake, three new preview/header/test
+files, focused thumbnail/range-conversion bindings and package reexports. Existing
+density/import/selection/CSV/archive/geometry/scientific authority inputs are
+unchanged, so their compatible source-scoped native/installed evidence is reused.
+
+The [native preview service](../../../cpp/include/qupathxx/rgb_preview.hpp) now
+owns sampled RGB extraction, new-document construction, scaled calibration and
+preview reader dispatch. Python captures native source/calibration while holding
+the GIL, then releases it for native work; no Python pixels/calibration math or
+fallback decoder remains. Partial calibration stays unknown; invalid/scaled
+nonfinite values refuse before I/O. The native auto policy preserves this
+preview's all-TIFF selection, distinct from the project's OME-aware policy.
+The [native suite](boundary-native-tests.log) passes exact owned RGB/calibration,
+source closure, unknown/overflow, pre/post-read cancellation, null/closed sources
+and reader-selection checks.
+
+[Installed example checks](boundary-python-tests.log):10 pass,1 optional GUI
+interaction case skipped. They establish exact preview pixels/calibration and
+owned lifetime; explicit project/label/target pixel controls train under -O,
+save/reopen/predict identically and preserve existing model/source bytes; native
+neighborhood/density exports and replay retain expected counts/areas. Original
+synthetic pixel/training/lifetime examples were moved intact to tools and still
+run. Neighborhood/region independent CSV/NumPy checks live in tools and remain
+invoked by integration checks. Product scripts contain only argument/default
+choices, typed native operations, native result/error controls and display.
+Region/neighborhood/density new-project saves now call native save_new.
+
+[Public stub/signature checks](boundary-stub-tests.log):15 pass. The final audit
+also found negative/overflowing unsigned options surfaced RuntimeError "bad cast";
+catch only nanobind cast_error at the numeric conversion boundary and report
+ValueError. [Ten focused binding cases](boundary-number-tests.log) pass ownership,
+thread/cancel/result and negative/overflow checks, including unchanged options on
+refusal. [Final installed stub generation check](boundary-final-stub-check.log)
+matches the runtime; scientific fields/results/tolerances did not change.
+
+The first syntax probe used a nonexistent Document.identity getter only to name
+a test artifact; [failed output](boundary-syntax.log) is retained. Use the existing
+steady-clock naming pattern; [repaired C++17 syntax](boundary-syntax-repair.log)
+passes. One cached affected-target build and a focused conversion repair reused
+[36 of38 binding objects](boundary-binding-objects.json), including the expensive
+main binding. No dependency rebuild/cache recreation, new environment, wheel or binary
+release was created. The same development install/runtime is selected; frozen
+products, source archives, fixtures and failures are preserved. The optional GUI
+interaction skip does not imply a new desktop campaign; existing source-scoped
+meaningful UI evidence remains applicable because renderer/panel inputs did not
+change. Speed parity and broader optional QuPath features remain outside this
+consolidation's completion claim.

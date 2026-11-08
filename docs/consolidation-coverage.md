@@ -15,25 +15,28 @@ new segmentation features and a binary release are outside this consolidation.
 
 ## Current coverage and next tasks
 
-**26 complete, 1 in progress, 1 planned (28 total).** This is acceptance-item
+**28 complete, 0 in progress, 0 planned (28 total).** This is acceptance-item
 coverage, not an estimate of engineering effort or QuPath parity. Native
 contracts/services, focused bindings, thin primary controls, frontend wiring,
 behavior/test migration and installed route agreement are evidenced. The
 [consumer checkpoint](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair)
-records source identity and limits. Older example boundaries remain NC27; final
-handoff remains NC28. Do not claim the full migration complete yet.
+records source identity and limits. [NC27 boundary closeout](benchmarks/consolidation/README.md#shipped-python-boundary-closeout)
+adds native preview ownership/calibration and the remaining example cleanup.
+Final API/stub/guide/evidence/source handoff closes NC28; the selected
+consolidation is complete. Published binary releases remain frozen.
 
 - [x] NC01-NC04: compatibility baseline, native API and headless service contracts.
 - [x] NC05-NC14: native selection/manifest, execution/reuse, guards and publication.
 - [x] NC15-NC18: native NuCLS/RGB8/geometry/import and training cohort capture.
 - [x] NC19-NC22: focused bindings, thin primary controls and shared frontend wiring.
 - [x] NC23-NC26: behavior evidence, test migration, cached build/install and route agreement.
-- [ ] NC27: finish the [remaining shipped-example boundary cleanup](consolidation-python-boundary.md) (In progress).
-- [ ] NC28: final API/evidence/current-card/source handoff after NC27.
+- [x] NC27: finish the [shipped-example boundary cleanup](consolidation-python-boundary.md).
+- [x] NC28: final API/evidence/current-card/source handoff.
 
-Next: remove the remaining product-side preview pixel/calibration logic and move
-older synthetic/reference checks to tests/tools. Reuse current density/import
-qualification; validate only the additional changed controls/native helper.
+Stop this phase. The [final boundary receipt](benchmarks/consolidation/boundary-receipt.json)
+and compiler/control manifests identify the matching installed source. Unchanged
+scientific evidence is reused explicitly; broader optional features, a binary
+release and general speed superiority are not part of these28 acceptance items.
 
 ## Order and existing authorities
 
@@ -105,13 +108,13 @@ runners. Reuse these existing sources:
 | NC24 | Replace implementation-coupled Python observation hooks with native result/progress observations while retaining their behavior coverage | No-recomputation, mutation refusal and atomic publication still tested; tests do not require removed Python internals | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
 | NC25 | Run cheap changed native targets first, then one combined cached consumer/binding build/install after interfaces settle | Compatible expensive objects reused; changed inputs/source identity logged; failed checks repair only affected targets; no per-substep packaging | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
 | NC26 | Verify a direct C++ route and a thin installed Python route on the selected saved-project/import fixtures | Authoritative rows/geometry/calibration/identity/export and terminal states agree; standalone native execution needs no Python | Complete - [consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair) |
-| NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | In progress - [boundary inventory](consolidation-python-boundary.md) |
-| NC28 | Update API/stubs/guides, receipts, current card and this checklist; push matching source | Evidence links identify tested source and unresolved scope; active cache/releases/fixtures/archives preserved; no new release or speed claim inferred | Planned |
+| NC27 | Complete boundary review and remove superseded product domain implementations | Every shipped Python decision maps to control/display or a native authority; independent diagnostic oracles/fixtures live in tests/tools; no compatibility behavior lost | Complete - [boundary evidence](benchmarks/consolidation/README.md#shipped-python-boundary-closeout) |
+| NC28 | Update API/stubs/guides, receipts, current card and this checklist; push matching source | Evidence links identify tested source and unresolved scope; active cache/releases/fixtures/archives preserved; no new release or speed claim inferred | Complete - [final source/installed receipt](benchmarks/consolidation/boundary-receipt.json) and source handoff on feature/scientific-grid-159 |
 
-## Execution checklist for the remaining ten items
+## Execution checklist for consumer integration and handoff
 
 These subchecks make NC19-NC28 actionable; they do not add acceptance items or
-change the 18/28 count. Mark a parent Complete only when its decisive evidence
+replace the parent-item coverage count. Mark a parent Complete only when its decisive evidence
 is linked in the tables above. Keep one active outcome and update this checklist
 and the current card after each coherent task. Unchecked means not yet evidenced.
 
@@ -171,15 +174,15 @@ and the current card after each coherent task. Unchecked means not yet evidenced
 ### NC27 - boundary audit and retirement
 
 - [x] Review shipped Python workflow code: each operation must be argument/control/display work or invoke a named native authority.
-- [ ] Remove superseded Python domain implementations and unused product dependencies; keep independent references in tests/tools.
-- [ ] Confirm no compatibility fallback, duplicate state machine or frontend-only scientific policy remains in the selected workflows.
+- [x] Remove superseded Python domain implementations and unused product dependencies; keep independent references in tests/tools.
+- [x] Confirm no compatibility fallback, duplicate state machine or frontend-only scientific policy remains in the selected workflows.
 
 ### NC28 - source handoff
 
-- [ ] Update API/stubs/guides for the installed native controls, supported inputs, exceptions and known limits.
-- [ ] Link source-scoped receipts and decisive evidence; reconcile this checklist and current-task.md with actual results.
-- [ ] Record actual waste/correction in the current card; add only new durable lessons to compilexx's existing notebook.
-- [ ] Commit and push matching source; report remaining scope without inferring a binary release, full parity or general speed superiority.
+- [x] Update API/stubs/guides for the installed native controls, supported inputs, exceptions and known limits.
+- [x] Link source-scoped receipts and decisive evidence; reconcile this checklist and current-task.md with actual results.
+- [x] Record actual waste/correction in the current card; add only new durable lessons to compilexx's existing notebook.
+- [x] Commit and push matching source; report remaining scope without inferring a binary release, full parity or general speed superiority.
 
 Execution order: prepare NC19-NC22 and their NC24 test changes together; reuse
 NC23 native evidence and fill named gaps; perform NC25 once interfaces settle;
@@ -187,8 +190,8 @@ complete NC26-NC28 against that installed source. Documentation and boundary-rev
 edits can accompany each task. Do not create a second checklist or rebuild for a
 status-only update.
 
-[Shipped Python boundary inventory](consolidation-python-boundary.md) records
-remaining example/oracle/preview work for NC27; it does not mark that row complete.
+[Shipped Python boundary review](consolidation-python-boundary.md) maps every
+example/package module to its native authority and decisive checks.
 
 ## Progress rules and stop condition
 

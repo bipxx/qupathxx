@@ -2,11 +2,26 @@
 
 The C++ and Python APIs extract multiscale pixel features, sample labelled
 ROIs on native workers, train through the optional forest backend, and predict
-source-aware ROI masks using portable saved recipes. See the [runnable example](../examples/pixel_classifier.py)
-and [native contracts](../cpp/include/qupathxx/pixel_classifier.hpp).
-The [F5 ImGui panel](pixel-classifier-ui.md) now exposes training, model files
-and bounded previews. Project pixel records remain open.
-See the [source-aware example](../examples/pixel_workflow.py).
+source-aware ROI masks using portable saved recipes. The [prediction control](../examples/pixel_classifier.py)
+uses a supplied model/project/ROI; the [training control](../examples/pixel_workflow.py)
+uses explicit labelled ROI IDs, saves/reopens a native model and predicts a target
+ROI. They contain no synthetic image/label generation or Python feature math.
+[Native contracts](../cpp/include/qupathxx/pixel_classifier.hpp) retain authority.
+The [F5 ImGui panel](pixel-classifier-ui.md) exposes training, model files and
+bounded previews; native pixel archive/record APIs can retain project results.
+
+```powershell
+python -I examples/pixel_workflow.py study.qpx new.qpc --image 1 --label 10 --label 11 --target 12
+python -I examples/pixel_classifier.py study.qpx new.qpc --image 1 --target 12
+```
+
+The model output must be new; native publication refuses replacement. The input
+project stays unchanged. Both controls display native counts, valid pixels and
+model/input identities. Calibration, eligibility, sampling, prediction and source
+compatibility are checked natively. Synthetic raw-buffer training and lifetime
+checks remain runnable under [tools/demo_pixel_classifier.py](../tools/demo_pixel_classifier.py)
+and [tools/demo_pixel_workflow.py](../tools/demo_pixel_workflow.py); they are independent
+development demonstrations, not product fallbacks.
 
 ## Numeric contract
 

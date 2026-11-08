@@ -35,7 +35,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     q.save_spatial_density_csv(result, str(args.output / 'density.csv'))
     saved = args.output / 'study.qpxproj'
-    project.save(str(saved))
+    project.save_new(str(saved))
     restored = q.Project.open(str(saved)).document(args.image)
     replay = q.SpatialDensityRequest.replay(restored, record)
     if not restored.verify_density(record, replay, q.measure_spatial_density(replay)):

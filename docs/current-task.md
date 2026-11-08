@@ -7,47 +7,53 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected phase - implement native consolidation NC01-NC28 (active)
+## Delivered phase - native consolidation NC01-NC28
 
-The [single consolidation checklist](consolidation-coverage.md) records **26 complete,
-1 in progress,1 planned**. NC19-NC26 are now evidenced: native bindings, thin
-primary examples, shared CLI/ImGui wiring, behavior/test migration, development
-install and direct native/thin Python route agreement. NC27's remaining shipped
-example boundaries and NC28's final handoff are still open. No binary release,
-full QuPath parity or general speed claim is selected.
+The [single consolidation checklist](consolidation-coverage.md) records **28 complete,
+0 in progress,0 planned**. Shared C++ density/manifest/reuse/export and NuCLS import
+services, native training-cohort selection, focused bindings, thin controls,
+shared frontends, boundary cleanup, API/stubs/guides and source handoff are complete.
+Stop this selected phase; do not automatically start another release, optional
+QuPath feature or speed campaign.
+
+[Final boundary receipt](benchmarks/consolidation/boundary-receipt.json) records
+raw native source tree15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011
+(567 inputs), independently matched to the generated manifest and installed module.
+Compiler and control/stub/tool manifests identify tested files. All11 shipped
+examples and three package modules are reviewed; native preview owns pixels,
+calibration and reader dispatch. Pixel controls take supplied projects/ROI IDs/
+models; independent synthetic/NumPy/CSV checks remain runnable in tests/tools.
+
+[Boundary evidence](benchmarks/consolidation/README.md#shipped-python-boundary-closeout):
+new native preview suite passes;10 installed changed-example cases pass with one
+optional GUI interaction skipped;15 public stub/signature checks and10 focused
+binding ownership/range cases pass. Negative/overflowing numeric conversions now
+raise ValueError before altering options. The final installed stub check matches.
+Only two focused binding objects changed;36 others, including the expensive main
+binding, were reused. No scientific algorithm, tolerance or codec dependency changed.
 
 [Consumer evidence](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair)
-records source tree13b2f410acac28b155ccd35a39e2d709cfe5b1ad9159cb55604e0bebefa34ac2
-(564 inputs), matching installed manifest/runtime and retained fixture identities.
-The first installed Python pass has89 passing cases; two diagnosed failures are
-repaired and16 selected repair/stub cases pass. One precise stub contract case
-and three installed training examples pass. Native golden/record, affected run,
-generation and ownership suites pass; compatible earlier scientific evidence is
-reused. All38 completed binding objects remain unchanged across targeted repairs.
+retains source-scoped native/installed authority checks. Native and thin Python
+routes agree on8 density rows/CSV, bidirectional2-image resume with zero computation/
+project copies and checkpoint replay. Both NuCLS routes preserve the32/28-object
+subset's exact legacy pixels, geometry/nuclei, calibration, IDs/revisions, classes
+and metadata. Source inputs stay unchanged. The archive golden roundtrips exactly
+and refuses resealed off-by-one charges. Three training examples and standalone
+app startup smoke pass. Unchanged authority inputs are explicitly matched against
+the final tree; these accepted scientific checks are reused, not repeated.
 
-Native batch and thin Python agree on8 density rows/CSV, bidirectional2-image
-resume with zero computation/project copies and saved checkpoint replay. Both
-NuCLS routes preserve the32/28-object subset's exact legacy pixels, geometry,
-nuclei, calibration, IDs/revisions, classes and metadata. Inputs stay unchanged.
-Installed standalone app --smoke --compact opens the Python-imported project
-(exit0); unchanged panel interaction evidence is retained with its declared scope.
-The active development runtime is main build/consolidation/development/qupathxx;
-the one cached build and all frozen products/fixtures/archives remain preserved.
+Waste review: preserve exact historical eager/current WKT admission layouts,
+correct native output-error precedence and test preview versus manifest guards
+according to their actual contracts. Move independent checks to tools without
+erasing them. Resume completed fixture outputs after a checker API mistake.
+Catch binding range-conversion errors at the language boundary. Details/failures
+and new durable lessons are retained in evidence and compilexx's canonical notebook.
 
-Waste review: lazy WKT exposed an old exact archive-charge regression. Preserve
-a frozen-runtime golden fixture; accept only the exact eager/current layouts,
-not arbitrary slack. Repair output-error precedence natively. Test a preview's
-project fingerprint, not Manifest.verify's file guard. Keep independent NumPy/
-CSV oracles in tools/tests (region oracle moved). Resume completed outputs after
-a checker API mistake. Details and failed logs are retained in the evidence
-checkpoint; no broad numerical campaign or expensive binding recompile followed.
-
-Next NC27: follow the [boundary inventory](consolidation-python-boundary.md).
-Move nominal RGB preview pixels/calibration into a native helper; retire remaining
-product synthetic/reference checks and review older workflow controls without
-adding a second receipt/reuse authority. Check only affected interfaces, then
-finish NC28's guides/stubs/evidence and matching source handoff. Keep this goal
-active until every checklist item is implemented and evidenced.
+Matching source is handed off on origin feature/scientific-grid-159. The one
+cache and active runtime (main build/consolidation/development/qupathxx), frozen
+products, fixtures, archives and failure evidence remain preserved. There is no
+new wheel/binary release,100% parity or reliable general speed-superiority claim;
+those broader scopes remain separate from this completed consolidation.
 
 ## Delivered phase - C++ cell kernel optimization L1/L2/L4
 

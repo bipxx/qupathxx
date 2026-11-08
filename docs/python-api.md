@@ -88,9 +88,11 @@ gates remain unfinished.
 
 [Pixel recipes and masks](pixel-classifiers.md) expose typed feature options,
 context windows, immutable models/results and uint32/float32/uint8 NumPy views.
-The [pixel example](../examples/pixel_classifier.py) trains, saves, reopens and
-predicts a synthetic grid; physical sampling and source authority remain with
-the caller.
+The [pixel prediction control](../examples/pixel_classifier.py) consumes a native
+model and explicit project ROI. The [training control](../examples/pixel_workflow.py)
+consumes explicit labelled ROI IDs and saves/reopens the native model. Synthetic
+input/oracle examples live in tools; native requests own eligibility, sampling,
+calibration and source compatibility.
 
 The public `GuiReport` includes typed pixel-worker/controller results and the
 logical `canvas_content_bounds` used for image-to-framebuffer mapping. See the
@@ -172,3 +174,25 @@ reuse this native path. The explicit `RgbNominalSampling.AFFINE_INVERSE` and
 `CellProcessingPolicy.QUPATH_070` choices are documented in the
 [original-source recipe guide](original-source-cell-integration.md), with
 [installed evidence](benchmarks/original-source-cells-305/receipt.json).
+
+
+## Native nominal RGB preview documents
+
+`make_rgb_nominal_preview(document, request)` captures the native source and
+calibration under the GIL, then releases it while native sampling/RGB conversion
+and new-document construction run. The [SDK service](../cpp/include/qupathxx/rgb_preview.hpp)
+owns pixel extraction and calibration scaling. Both known X/Y scales are multiplied
+by the requested nominal downsample; incomplete calibration stays unknown.
+Nonpositive/nonfinite scales or an overflowing scaled calibration refuse before
+pixel I/O. The new document owns the exact opaque RGB pixels, survives source
+closure, and has its own source identity; original-source replay authority is not
+transferred. Underlying synchronous reader calls cannot be interrupted mid-call.
+
+`open_rgb_nominal_source(path, reader="auto")` is the preview consumer's native
+reader selector: auto uses PPM for `.ppm`, the native TIFF reader for `.tif`/`.tiff`,
+and OpenSlide otherwise (case-insensitive suffixes). Explicit `ppm`, `tiff` and
+`openslide` selections are supported. Unknown selections refuse; an unavailable
+native reader does not fall back to Python. This preserves the preview's existing
+all-TIFF policy; the project's separate OME-aware auto policy remains unchanged.
+The [preview control](../examples/rgb_nominal_preview.py) only parses options,
+calls these native factories, displays the report and launches ImGui.

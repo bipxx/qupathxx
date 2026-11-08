@@ -5,8 +5,6 @@ Example: python neighborhood_workflow.py cells.qpxproj output --image 1
          --source 10 --source 11 --target 12 --radius 25 --units um
 """
 import argparse
-import csv
-import io
 import json
 from pathlib import Path
 
@@ -39,14 +37,11 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     csv_path, saved = args.output / 'neighborhoods.csv', args.output / 'study.qpxproj'
     q.save_spatial_neighborhood_csv(result, str(csv_path))
-    project.save(str(saved))
+    project.save_new(str(saved))
     restored = q.Project.open(str(saved)).document(args.image)
     replay = q.SpatialNeighborhoodRequest.replay(restored, record)
     if not restored.verify_neighborhood(record, replay, q.measure_spatial_neighborhoods(replay)):
         raise RuntimeError('saved neighborhood result did not replay')
-    rows = list(csv.DictReader(io.StringIO(csv_path.read_text(encoding='utf-8'))))
-    if len(rows) != result.row_count or any(int(row['count']) != result.row(i).count for i, row in enumerate(rows)):
-        raise RuntimeError('CSV counts do not match retained results')
     summary = dict(source_revision=q.build_environment().git_revision, algorithm=result.algorithm,
                    image_id=args.image, record_id=record, sources=result.source_count,
                    targets=result.target_count, radius=options.radius, units=args.units,

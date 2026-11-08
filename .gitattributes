@@ -858,3 +858,6 @@ tests/fixtures/density-eager-wkt-v1/record.qdn -text
 # Preserve captured consumer failures/results, including tool-emitted whitespace.
 docs/benchmarks/consolidation/workflow-consumer*.log -text -whitespace
 docs/benchmarks/consolidation/workflow-legacy*.log -text -whitespace
+
+# Preserve boundary validation output exactly.
+docs/benchmarks/consolidation/boundary*.log -text -whitespace

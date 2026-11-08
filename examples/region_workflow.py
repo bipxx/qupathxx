@@ -71,7 +71,7 @@ def main() -> None:
 
     args.output.mkdir(parents=True, exist_ok=True)
     project_path = args.output / 'study.qpxproj'
-    project.save(str(project_path))
+    project.save_new(str(project_path))
     reopened = q.Project.open(str(project_path))
     restored = reopened.document(image_id)
     replay = q.AnalysisRequest.replay(restored, analysis_id)

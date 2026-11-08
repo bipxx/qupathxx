@@ -3,8 +3,10 @@
 The [latest native kernel batch](benchmarks/cell-kernel-optimization/README.md)
 preserves exact outputs and improves the retained native control by~5.9%. The
 reference remains variable, so no general speed win is claimed. L1/L2/L4 are
-delivered; conditional L3 is deferred pending a measured benefit. L5-L7 remain
-the shared native workflow/import migration queue, tracked in the [28-item consolidation checklist](consolidation-coverage.md). Historical reports retain
+delivered; conditional L3 is deferred pending a measured benefit. L5-L7's shared
+native workflow/import migration is implemented and evidenced in the
+[28-item consolidation checklist](consolidation-coverage.md); final source handoff
+closes that selected phase. Historical reports retain
 their tested scope and published releases stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
@@ -18,7 +20,7 @@ poll/cancel and report display. The shared [coverage](speed-gap-coverage.md) tra
 these tasks; [current task](current-task.md) owns execution state. This section
 supersedes earlier guidance that permits delivered Python examples to retain
 workflow rules indefinitely. Existing releases remain frozen until a separately
-selected binary handoff. The detailed [checklist](consolidation-coverage.md) records native authority, primary thin controls and installed integration completion. NC27 older-example boundaries and NC28 final source handoff remain open.
+selected binary handoff. The detailed [checklist](consolidation-coverage.md) records native authority, primary thin controls and installed integration completion. NC27 older-example boundaries are now closed; NC28 records the final source handoff.
 
 ### Untangle prerequisite selected before L1
 
@@ -27,8 +29,8 @@ Owner invoked untangle-codebase with Comments+Tests. The
 self-contained watershed modules, shared contour/archive reconstruction, density
 reuse authority, replay vocabulary and domain target membership. These
 behavior-preserving structural fixes and affected checks are [complete](benchmarks/untangle-codebase/README.md); the native L1/L2 optimization batch is also delivered.
-Keep existing L5-L7 migration gaps explicit; a moved module alone does not make
-Python controls compliant or make the engine faster.
+L5-L7 now have native authority, installed thin controls and a complete boundary
+review; their evidence does not establish general speed superiority.
 
 ### Current boundary and concrete migration targets
 
@@ -40,7 +42,7 @@ Python controls compliant or make the engine faster.
 | examples/density_manifest.py | Native selection/preview/generation; Python constructs options and displays native reports | Complete under NC20; no Python class scan or sibling runner import |
 | examples/nucls_import.py | Native NuCLS job owns pairing/CSV/RGB8/geometry/calibration/publication; Python controls it | Complete under NC21/NC26; pinned Zlib-licensed decoder, no product Pillow/NumPy import dependency |
 | examples/raw_classifier_workflow.py | Native labelled-training capture owns class/area eligibility; Python controls native sampling/training/stream jobs | Complete under NC21; installed Detection-labelled and normal/-O examples pass |
-| Other shipped examples / nanobind adapters | Mostly native calls; some combine demonstrations with independent oracle assertions or synthetic fixture generation | Move diagnostic oracle/fixture code to tests/tools; keep shipped controls to native calls and report display. Move any remaining data-dependent rule to its existing native authority |
+| Other shipped examples / nanobind adapters | Native preview owns pixels/calibration/readers; explicit controls use caller-supplied projects/ROI IDs/models; independent fixtures/oracles live in tools/tests | Complete NC27 boundary review and changed-control checks; retain the source-scoped evidence |
 | Tests, reference capture, timing/plotting and development tools | Independent validation/control code, not shipped analysis engines | Keep independent oracles; do not mechanically port tests or benchmark summaries |
 
 “All logic in C++” applies to application decisions as well as expensive kernels.
@@ -72,15 +74,17 @@ supporting evidence. Do not promise that isolated savings add up to parity.
 
 ### Shared native interfaces and dependency order
 
-Reuse the existing request/job/result pattern; the names below describe proposed
-roles, not shipped APIs. Settle these interfaces together before the large binding
-build. Keep existing generic ProjectBatch behavior intact rather than forcing a
-second workflow into an incompatible report model.
+The shared SDK implements the existing request/job/result pattern through
+ProjectDensityRecipe/Manifest/Report/RunOptions/Job and NuclsImportOptions/Report/Job.
+See the [native ownership/error contract](consolidation-native-api.md) and focused
+bindings. Existing generic ProjectBatch behavior remains intact; density retains
+its own compatible report model.
 
 1. **Density selection/preview** accepts a project plus explicit per-image IDs or
    class selectors and existing SpatialDensityOptions. Normalize IDs, choose the
    cohort and capture provenance in C++; return counts/issues/calibration and an
-   immutable admitted plan. Reuse ProjectDensityRecipe/Report internals where sound.
+   owned validated ProjectDensityReport. Execution rechecks its project fingerprint
+   and scientific requests; the report is not a trusted capability token.
 2. **Density run/job** accepts that native plan, a new output directory and optional
    resume input. It owns source-file guards, cancellation, record/replay eligibility,
    per-image checkpoints, combined CSV and reports. Export the existing native CSV
@@ -89,10 +93,11 @@ second workflow into an incompatible report model.
    duplicate-key/type/nonfinite/size checks and relative path rules in C++. Both
    Python controls and the GUI consume the same normalized selection service.
 4. **NuCLS preview/import** accepts paths/selection/calibration/representation and
-   limits; returns native issues and an owned admitted import. Existing Project
-   save-new performs final publication. Use existing native geometry/centroid
-   primitives if they preserve the current contract; otherwise port the accurate
-   local-frame summation once. Do not silently alter stored identities.
+   NuclsImportLimits; one native operation owns source guards, decoded RGB,
+   geometry/centroids and the provisional project, returning NuclsImportReport.
+   Existing Project save-new performs final publication only after admission.
+   Native local-frame summation preserves declared centroid identity; no Python
+   scientific interpretation or separate import engine remains.
 5. **Bindings/control** expose those typed options/plans/reports/jobs. Reuse existing
    owned buffers/snapshots, release the GIL around native work, and keep Python
    objects/callbacks out of worker lifetimes. Python prints a native report/JSON
@@ -101,10 +106,9 @@ second workflow into an incompatible report model.
 Extract the density service into a headless native target available to the module
 and app; its current qupathxx_density_workflow target already depends on core plus
 nlohmann_json, not ImGui. Reuse that dependency and existing guards/AtomicExportFile.
-Do not write a third density runner. Select the PNG implementation from existing
-openly licensed sources when linkable, otherwise add one small pinned decoder
-with notices, strict RGB acceptance and allocation limits. No generic new reader
-framework or broader format expansion is needed.
+The pinned, Zlib-licensed LodePNG decoder supplies strict RGB8 decoding and
+allocation checks with installed notices. No third density runner, generic reader
+framework or broader format expansion was introduced.
 
 The Python and GUI resume formats currently differ. Preserve each existing format
 through explicit native readers/adapters, then normalize into one native model.

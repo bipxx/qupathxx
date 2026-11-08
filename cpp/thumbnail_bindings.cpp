@@ -1,5 +1,7 @@
 #include "job_binding_utils.hpp"
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/rgb_preview.hpp"
+#include "qupathxx/core.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
@@ -26,6 +28,12 @@ void bind_thumbnails(nb::module_& m) {
         .def("request",qpx::bindings::owner_job_method<&ThumbnailJob::request>(),"server"_a,"options"_a=ThumbnailOptions{})
         .def("poll",qpx::bindings::owner_job_method<&ThumbnailJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<ThumbnailJob>& job){return qpx::bindings::wait(job);})
         .def("cancel",qpx::bindings::owner_job_method<&ThumbnailJob::cancel,false>()).def("busy",qpx::bindings::owner_job_method<&ThumbnailJob::busy>()).def("result",qpx::bindings::owner_job_method<&ThumbnailJob::result>());
+    m.def("open_rgb_nominal_source",&open_rgb_nominal_source,"path"_a,"reader"_a="auto",nb::call_guard<nb::gil_scoped_release>());
+    m.def("make_rgb_nominal_preview",[](const Document& document,const RgbNominalRequest& request) {
+        const auto source=document.server();const auto px=document.pixel_width_um(),py=document.pixel_height_um();
+        nb::gil_scoped_release release;
+        return make_rgb_nominal_preview(source,request,px,py);
+    },"document"_a,"request"_a);
     m.def("plan_thumbnail",&plan_thumbnail,"metadata"_a,"options"_a=ThumbnailOptions{});
     m.def("read_thumbnail",[](const std::shared_ptr<ImageServer>& server,ThumbnailOptions options) {
         if(!server) throw std::invalid_argument("thumbnail requires a server");return read_thumbnail(*server,options);

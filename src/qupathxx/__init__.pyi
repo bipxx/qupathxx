@@ -471,6 +471,8 @@ from ._native import (
     GuiInputWait as GuiInputWait,
     has_native_workflows as has_native_workflows,
     capture_labelled_raw_pixel_training as capture_labelled_raw_pixel_training,
+    make_rgb_nominal_preview as make_rgb_nominal_preview,
+    open_rgb_nominal_source as open_rgb_nominal_source,
     WorkflowInputChanged as WorkflowInputChanged,
     WorkflowOutputExists as WorkflowOutputExists,
     WorkflowCaptureLimit as WorkflowCaptureLimit,

@@ -1,0 +1,35 @@
+{
+  "source_tree_sha256": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+  "compiler_inputs": 567,
+  "tested_git_base": "e0178dcb6eb9609238a8c5b499afc840190dc296+dirty",
+  "installed_runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx",
+  "native_preview_suite_passed": true,
+  "installed_example_cases_passed": 10,
+  "optional_gui_interaction_skipped": 1,
+  "stub_surface_cases_passed": 15,
+  "binding_range_ownership_cases_passed": 10,
+  "binding_objects_reused": 36,
+  "changed_binding_objects": [
+    "native_workflow_bindings.obj",
+    "thumbnail_bindings.obj"
+  ],
+  "full_binding_recompile": false,
+  "reviewed_python_examples": 11,
+  "reviewed_package_modules": 3,
+  "reused_scientific_evidence": "consumer-receipt.json and native authority receipts; unchanged science bodies",
+  "binary_release": false,
+  "full_qupath_parity": false,
+  "general_speed_superiority": false,
+  "changed_compiler_inputs_since_consumer_checkpoint": [
+    "CMakeLists.txt",
+    "cpp/include/qupathxx/rgb_preview.hpp",
+    "cpp/native_workflow_bindings.cpp",
+    "cpp/rgb_preview.cpp",
+    "cpp/tests/rgb_preview_tests.cpp",
+    "cpp/thumbnail_bindings.cpp",
+    "src/qupathxx/__init__.py"
+  ],
+  "control_manifest": "boundary-control-inputs.sha256",
+  "control_input_files": 21,
+  "control_manifest_sha256": "cf4096f7abe90efca23f1a9126bf922aa0da7467e78519f655f242e482a65be0"
+}

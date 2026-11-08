@@ -1,7 +1,7 @@
 # Native workflow contract
 
 NC04 contract for the shared density/import services. The [checklist](consolidation-coverage.md)
-retains consumer and installed integration work; [native evidence](benchmarks/consolidation/README.md#settled-native-workflow-contract)
+records consumer/installed completion and the final handoff; [native evidence](benchmarks/consolidation/README.md#settled-native-workflow-contract)
 proves the behavior below at the C++ authority. No new binary delivery is implied.
 
 ## Ownership and controls
@@ -50,7 +50,7 @@ integrity and publication failures remain exceptions.
 | WorkflowInputChanged | Dedicated changed-input exception |
 | WorkflowOutputExists | FileExistsError |
 | ProjectDensityCsvBudget | ValueError-derived CSV budget exception |
-| WorkflowCaptureLimit / invalid_argument / length_error | ValueError-derived admission failure |
+| WorkflowCaptureLimit / invalid_argument / length_error | ValueError-derived admission failure; unrepresentable numeric conversions also raise ValueError before assignment |
 | WorkflowCancelled | Explicit setup cancellation; do not fabricate a completed report |
 | filesystem_error | OSError |
 | Owner-thread logic_error / other runtime_error | RuntimeError |
@@ -86,4 +86,5 @@ For bindings, hold the GIL while validating/copying mutable Python option object
 into a job. Workers already run without the GIL. Release it for waits/joins and
 appropriate synchronous native work after owned capture. Return copies of nested
 mutable options/recipes from immutable manifest/result snapshots. These consumer
-obligations are checked in NC19-NC26, not inferred from the native tests.
+obligations are evidenced by the installed NC19-NC26 checks, rather than inferred
+from native tests. See the [consumer checkpoint](benchmarks/consolidation/README.md#installed-native-controls-and-legacy-archive-repair).
