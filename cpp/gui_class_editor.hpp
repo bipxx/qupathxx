@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/project.hpp"
 #include <imgui.h>
+#include "gui_layout.hpp"
 #include <imgui_internal.h>
 #include <array>
 #include <algorithm>
@@ -55,8 +56,8 @@ public:
             for(const auto& [key,c]:registry)if(ImGui::Selectable(key.c_str(),key==selected_))attempt([&]{load(project,document,image,key);});
             ImGui::EndCombo();
         }
-        if(ImGui::Button("New class"))attempt([&]{load(project,document,image,{});});
-        ImGui::SameLine();if(ImGui::Button("Reload class"))attempt([&]{load(project,document,image,selected_);});
+        if(ui::IconButton("New class",ui::Icon::Plus))attempt([&]{load(project,document,image,{});});
+        ImGui::SameLine();if(ui::IconButton("Reload class",ui::Icon::Refresh))attempt([&]{load(project,document,image,selected_);});
         const bool context=same(project,document,image);
         const auto found=registry.find(selected_);
         const bool unchanged=!baseline_?selected_.empty():(found!=registry.end() && found->second==*baseline_);
@@ -72,7 +73,7 @@ public:
         ImGui::EndDisabled();
         if(!color_present_ && found!=registry.end())ImGui::Text("Resolved RGB: #%06x",found->second.color);
         ImGui::BeginDisabled(!context || !unchanged);
-        if(ImGui::Button("Save class"))attempt([&] {
+        if(ui::IconButton("Save class",ui::Icon::Save))attempt([&] {
             const std::string key=selected_.empty()?name_.data():selected_;
             if(selected_.empty() && registry.count(key))throw std::invalid_argument("Choose the existing class before replacing it");
             std::optional<std::uint32_t> raw;
@@ -91,10 +92,10 @@ public:
         });
         if(!selected_.empty()) {
             if(!project_mode_) {
-                ImGui::SameLine();if(ImGui::Button("Rename"))attempt([&]{const std::string next=name_.data();document->rename_class(selected_,next);load(project,document,image,next);});
+                ImGui::SameLine();if(ui::IconButton("Rename",ui::Icon::Edit))attempt([&]{const std::string next=name_.data();document->rename_class(selected_,next);load(project,document,image,next);});
                 ImGui::Text("Assigned: %zu",registry.count(selected_)?document->class_count(selected_):0);
             }
-            if(ImGui::Button(project_mode_?"Remove class":"Remove unused class"))attempt([&] {
+            if(ui::IconButton(project_mode_?"Remove class":"Remove unused class",ui::Icon::Trash,ui::design::Action::Danger))attempt([&] {
                 if(project_mode_) {
                     auto entries=definitions(registry);entries.erase(std::remove_if(entries.begin(),entries.end(),[&](const ObjectClass& c){return c.name==selected_;}),entries.end());
                     project->set_class_registry(entries,project->class_defaults());
@@ -108,13 +109,13 @@ public:
             const auto current=project->class_defaults();
             const bool palette_current=context && current==baseline_defaults_;
             if(!palette_current)ImGui::TextWrapped("Defaults or active image changed. Reload defaults before editing or applying them.");
-            if(ImGui::Button("Reload defaults")) {ImGui::ClearActiveID();baseline_defaults_=current;default_row_=-1;}
+            if(ui::IconButton("Reload defaults",ui::Icon::Refresh)) {ImGui::ClearActiveID();baseline_defaults_=current;default_row_=-1;}
             if(ImGui::BeginCombo("Default class",default_key_.empty()?"Choose class":default_key_.c_str())) {
                 for(const auto& [key,c]:registry)if(ImGui::Selectable(key.c_str(),key==default_key_))default_key_=key;
                 ImGui::EndCombo();
             }
             ImGui::BeginDisabled(!palette_current);
-            if(ImGui::Button("Append default"))attempt([&]{auto next=current;next.push_back(default_key_);project->set_class_registry(definitions(registry),next);baseline_defaults_=std::move(next);default_row_=static_cast<int>(baseline_defaults_.size())-1;});
+            if(ui::IconButton("Append default",ui::Icon::Plus))attempt([&]{auto next=current;next.push_back(default_key_);project->set_class_registry(definitions(registry),next);baseline_defaults_=std::move(next);default_row_=static_cast<int>(baseline_defaults_.size())-1;});
             if(ImGui::BeginChild("Default order",{0,100},ImGuiChildFlags_Borders)) {
                 ImGuiListClipper rows;rows.Begin(static_cast<int>(current.size()));
                 while(rows.Step())for(int row=rows.DisplayStart;row<rows.DisplayEnd;++row) {
@@ -130,11 +131,11 @@ public:
                 default_row_=remove?-1:default_row_+direction;
             };
             ImGui::BeginDisabled(!row_valid || default_row_==0);
-            if(ImGui::Button("Move default up"))attempt([&]{update(-1,false);});ImGui::EndDisabled();ImGui::SameLine();
+            if(ui::IconButton("Move default up",ui::Icon::Up))attempt([&]{update(-1,false);});ImGui::EndDisabled();ImGui::SameLine();
             ImGui::BeginDisabled(!row_valid || default_row_+1>=static_cast<int>(current.size()));
-            if(ImGui::Button("Move default down"))attempt([&]{update(1,false);});ImGui::EndDisabled();
+            if(ui::IconButton("Move default down",ui::Icon::Down))attempt([&]{update(1,false);});ImGui::EndDisabled();
             ImGui::BeginDisabled(!row_valid);
-            if(ImGui::Button("Remove default"))attempt([&]{update(0,true);});ImGui::EndDisabled();
+            if(ui::IconButton("Remove default",ui::Icon::Trash))attempt([&]{update(0,true);});ImGui::EndDisabled();
             ImGui::BeginDisabled(!image);
             if(ImGui::Button("Apply defaults to image"))attempt([&]{project->apply_class_defaults(image);});ImGui::EndDisabled();
             ImGui::EndDisabled();

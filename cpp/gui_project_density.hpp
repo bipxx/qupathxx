@@ -67,8 +67,8 @@ public:
             if(!source_.empty())ImGui::TextWrapped("Source: %s",source_.c_str());
             ImGui::BeginDisabled(busy || blocked);
             bool changed=false;
-            if(ui::Button("All images")){images_.clear();for(const auto& image:catalog)images_.insert(image.id);changed=true;}ImGui::SameLine();
-            if(ui::Button("Clear images")){images_.clear();changed=true;}
+            if(ui::IconButton("All images",ui::Icon::SelectAll)){images_.clear();for(const auto& image:catalog)images_.insert(image.id);changed=true;}ImGui::SameLine();
+            if(ui::IconButton("Clear images",ui::Icon::Deselect)){images_.clear();changed=true;}
             if(ImGui::BeginChild("Density images",{0,110},ImGuiChildFlags_Borders)) {
                 for(const auto& image:catalog) {
                     ImGui::PushID(std::to_string(image.id).c_str());bool selected=images_.count(image.id)!=0;

@@ -75,10 +75,17 @@ def test_switch_cancels_unfinished_rectangle():
 @pytest.mark.parametrize("finish_on_second", [False, True])
 def test_each_image_retains_independent_display_settings(tmp_path, finish_on_second):
     from PIL import Image
+    from test_gui_docking import select_pane
     project, first, second, a, b, options = workspace()
     display = q.DisplaySettings()
     display.mode = q.DisplayMode.RED
     options.display = display
+    # The redesigned desktop puts display controls in the Image tab. Exercise
+    # the visible control instead of clicking an offscreen legacy inspector item.
+    options.docked_workspace = True
+    options.layout_path = str(tmp_path / "display-layout.ini")
+    q.show(first, frame_limit=8, options=options)
+    select_pane(tmp_path / "display-layout.ini", "Image and display")
     inputs = [event(4, q.GuiInputKind.NEXT_IMAGE_KEY),
                       event(10, q.GuiInputKind.LEFT_DOWN, target=q.GuiInputTarget.DISPLAY_RESET),
                       event(11, q.GuiInputKind.LEFT_UP, target=q.GuiInputTarget.DISPLAY_RESET),
@@ -90,7 +97,8 @@ def test_each_image_retains_independent_display_settings(tmp_path, finish_on_sec
     report = q.show(first, frame_limit=35, capture_path=str(capture), options=options)
     assert (report.active_image, report.image_switches, report.project_error) == ((b if finish_on_second else a), (3 if finish_on_second else 2), "")
     with Image.open(capture) as frame:
-        assert frame.getpixel((int(frame.width*.65), frame.height//2)) == ((210, 60, 30) if finish_on_second else (30, 30, 30))
+        canvas = report.canvas_bounds
+        assert frame.getpixel((int(canvas.x+canvas.width/2), int(canvas.y+canvas.height/2))) == ((210, 60, 30) if finish_on_second else (30, 30, 30))
 
 
 def test_add_image_then_save_and_restart(tmp_path):
