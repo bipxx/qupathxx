@@ -24,7 +24,7 @@ def test_language_chooser_switches_live_and_blocks_background_edits(tmp_path, mo
     project, doc = workspace(tmp_path)
     path = tmp_path/'chooser.ini'
     options = config(path)
-    opening = chooser_click(options, 5, 320, 10)+chooser_click(options, 10, 350, 39)
+    opening = [replay(5, q.GuiInputKind.POLYLINE_KEY, ctrl=True, shift=True)]
     options.inputs = opening
     q.show(project, frame_limit=24, options=options)
     text = path.read_text(encoding='utf8')
@@ -34,7 +34,7 @@ def test_language_chooser_switches_live_and_blocks_background_edits(tmp_path, mo
     options.inputs = [replay(3, q.GuiInputKind.SELECT_ALL_KEY)]+opening
     options.inputs += [replay(13, q.GuiInputKind.DELETE_KEY)]
     row = LANGUAGES.index(language)+1  # Automatic appears before explicit languages.
-    options.inputs += chooser_click(options, 16, x+80, y+75+19*row)
+    options.inputs += chooser_click(options, 16, x+80, y+91+22*row)
     options.inputs += chooser_click(options, 22, x+35, y+height-20)
     report = q.show(project, frame_limit=32, options=options)
     assert report.replay_complete and doc.object_count == 1

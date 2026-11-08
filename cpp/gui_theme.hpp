@@ -2,42 +2,44 @@
 #include <imgui.h>
 #include <initializer_list>
 #include "gui_i18n.hpp"
+#include "gui_design_system.hpp"
+#include "gui_layout.hpp"
 
 namespace qpx::ui {
 // Desktop chrome only. Image pixels, class colors and scientific overlays keep
 // their own display contracts. GuiScale scales this baseline once per change.
-inline void apply_desktop_theme() {
-    ImGui::StyleColorsLight();
-    auto& s=ImGui::GetStyle();
-    s.WindowPadding={10,10};s.FramePadding={7,4};s.ItemSpacing={8,6};
-    s.WindowRounding=0;s.ChildRounding=0;s.FrameRounding=2;s.PopupRounding=3;
-    s.TabRounding=2;s.ScrollbarRounding=2;s.WindowBorderSize=1;s.FrameBorderSize=1;
-    s.DockingSeparatorSize=4;
-    auto* c=s.Colors;
-    c[ImGuiCol_Text]={.12f,.14f,.16f,1};c[ImGuiCol_TextDisabled]={.38f,.40f,.43f,1};
-    c[ImGuiCol_WindowBg]={.96f,.96f,.96f,1};c[ImGuiCol_ChildBg]={.98f,.98f,.98f,1};
-    c[ImGuiCol_PopupBg]={.99f,.99f,.99f,1};c[ImGuiCol_Border]={.74f,.76f,.78f,1};
-    c[ImGuiCol_FrameBg]={1,1,1,1};c[ImGuiCol_FrameBgHovered]={.90f,.94f,.98f,1};
-    c[ImGuiCol_FrameBgActive]={.83f,.90f,.97f,1};
-    c[ImGuiCol_TitleBg]={.87f,.88f,.89f,1};c[ImGuiCol_TitleBgActive]={.83f,.86f,.89f,1};
-    c[ImGuiCol_MenuBarBg]={.94f,.94f,.94f,1};
-    c[ImGuiCol_Button]={.93f,.93f,.93f,1};c[ImGuiCol_ButtonHovered]={.82f,.89f,.96f,1};
-    c[ImGuiCol_ButtonActive]={.67f,.80f,.93f,1};
-    c[ImGuiCol_Header]={.85f,.90f,.95f,1};c[ImGuiCol_HeaderHovered]={.77f,.86f,.95f,1};
-    c[ImGuiCol_HeaderActive]={.66f,.79f,.93f,1};
-    c[ImGuiCol_Tab]={.88f,.89f,.90f,1};c[ImGuiCol_TabHovered]={.78f,.86f,.95f,1};
-    c[ImGuiCol_TabSelected]={.98f,.98f,.98f,1};
-    c[ImGuiCol_TabSelectedOverline]={.20f,.43f,.70f,1};
-    c[ImGuiCol_TabDimmed]={.88f,.89f,.90f,1};c[ImGuiCol_TabDimmedSelected]={.96f,.96f,.96f,1};
-    c[ImGuiCol_TabDimmedSelectedOverline]=c[ImGuiCol_TabSelectedOverline];
-    c[ImGuiCol_CheckMark]={.16f,.37f,.63f,1};c[ImGuiCol_SliderGrab]={.28f,.47f,.68f,1};
-    c[ImGuiCol_Separator]={.76f,.78f,.80f,1};
-    c[ImGuiCol_DockingEmptyBg]={.85f,.85f,.85f,1};
+inline void apply_desktop_theme() {design::apply(ImGui::GetStyle(),design::current());}
+
+enum class ActionIcon {Fit,Undo,Redo,Spatial,Reset};
+inline bool icon_action(const char* id,ActionIcon icon,const char* caption,const char* shortcut="") {
+    if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    design::CompactActions compact;const float side=design::metrics.icon_size*design::scale();
+    const bool pressed=Button(id,{side,side},design::Action::Ghost);
+    const auto p=ImGui::GetItemRectMin();const float k=side/32;
+    auto at=[&](float x,float y){return ImVec2{p.x+x*k,p.y+y*k};};
+    auto* draw=ImGui::GetWindowDrawList();const auto ink=ImGui::GetColorU32(ImGuiCol_Text);const float stroke=1.5f*k;
+    auto line=[&](float x,float y,float u,float v){draw->AddLine(at(x,y),at(u,v),ink,stroke);};
+    if(icon==ActionIcon::Fit) {
+        for(float x:{7.f,25.f}) for(float y:{7.f,25.f}) {line(x,y,x+(x<16?6:-6),y);line(x,y,x,y+(y<16?6:-6));}
+    } else if(icon==ActionIcon::Undo || icon==ActionIcon::Redo) {
+        auto point=[&](float x,float y){return at(icon==ActionIcon::Redo?32-x:x,y);};
+        draw->AddBezierCubic(point(25,24),point(28,9),point(12,7),point(7,15),ink,stroke);
+        const ImVec2 arrow[]={point(7,8),point(7,15),point(14,15)};draw->AddPolyline(arrow,3,ink,stroke,0);
+    } else if(icon==ActionIcon::Spatial) {
+        line(9,23,15,8);line(15,8,25,22);line(25,22,9,23);
+        for(auto point:{at(9,23),at(15,8),at(25,22)}) draw->AddCircleFilled(point,3*k,ink);
+    } else {
+        draw->AddCircle(at(16,16),9*k,ink,0,stroke);line(7,7,7,15);line(7,15,15,15);
+    }
+    if(ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) || ImGui::IsItemFocused()) {
+        if(*shortcut) ImGui::SetTooltip("%s (%s)",i18n::text(caption),shortcut);else ImGui::SetTooltip("%s",i18n::text(caption));
+    }
+    return pressed;
 }
 
 // Vector glyphs stay crisp at each supported DPI without another font asset.
 inline bool tool_button(int index,int selected,const char* name,const char* shortcut) {
-    const float side=ImGui::GetFrameHeight()+4;
+    const float side=design::metrics.icon_size*design::scale();
     ImGui::PushID(index);
     if(index==selected) ImGui::PushStyleColor(ImGuiCol_Button,ImGui::GetStyleColorVec4(ImGuiCol_HeaderActive));
     const bool pressed=ImGui::Button("##tool",{side,side});
@@ -54,6 +56,7 @@ inline bool tool_button(int index,int selected,const char* name,const char* shor
     else if(index==6) {d->AddRect(at(8,8),at(24,24),color,0,0,stroke);for(auto q:{at(8,8),at(24,8),at(8,24),at(24,24)}) d->AddRectFilled({q.x-2*k,q.y-2*k},{q.x+2*k,q.y+2*k},color);}
     else {d->AddCircle(at(16,16),9*k,color,0,stroke);d->AddCircle(at(16,16),4*k,color,0,stroke);}
     if(ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip("%s (%s)",i18n::text(name),shortcut);
+    if(index==selected) d->AddRect(p,{p.x+side,p.y+side},ImGui::ColorConvertFloat4ToU32(design::color(design::colors().accent)),design::metrics.control_radius*design::scale(),0,2*design::scale());
     ImGui::PopID();return pressed;
 }
 }

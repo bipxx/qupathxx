@@ -1,5 +1,11 @@
 # GUI font delivery
 
+The [COLMAP-based native design system](design-system.md) now replaces the bitmap
+Latin face with packaged IBM Plex Sans Regular/Semibold at14px. The earlier
+preserve-bitmap checks below describe their historical delivery. Native asset
+authentication, international fallbacks, dynamic glyph loading and atlas/GL
+lifetime limits remain in force for the new font roles.
+
 The old application preserved supplementary UTF8 input but its224-glyph font
 displayed placeholders. Delivery283 now packages dynamic international fonts
 and has local Windows acceptance; [real GL measurements284](benchmarks/gui-font-gl-284/receipt.json)

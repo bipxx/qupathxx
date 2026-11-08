@@ -23,6 +23,10 @@ QuPath port or a compatible replacement for Java QuPath.
   around the slide canvas, with separate layout preferences. Embedded callers
   can opt in; see the [docked workspace](docs/docked-workspace.md).
 
+- The native [design system](docs/design-system.md) shares COLMAP WebView's
+  palettes, IBM Plex Sans typography, spacing and component recipes. Saved
+  Dark/Light/System appearance and the 16-language chooser live in the menu bar.
+
 - Monitor-aware fonts and controls support live UI size changes while preserving
   the slide camera; fields and buttons adapt to narrow panes. See
   [UI scaling](docs/ui-scaling.md) and the [responsive workspace](docs/responsive-workspace.md).

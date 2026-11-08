@@ -22,6 +22,21 @@ set(QPX_GUI_CJK_SHA256 "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d
 set(QPX_GUI_EMOJI_NAME "NotoEmoji.ttf")
 set(QPX_GUI_EMOJI_BYTES 1982596)
 set(QPX_GUI_EMOJI_SHA256 "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551")
+set(QPX_GUI_SANS_NAME "IBMPlexSans-Regular.ttf")
+set(QPX_GUI_SANS_BYTES 56000)
+set(QPX_GUI_SANS_SHA256 "2cf8ca6d81dd4cfa11a236f9eb7bce6f7a9a4d1252f9154ab14ed1e2329141f3")
+set(QPX_GUI_SEMIBOLD_NAME "IBMPlexSans-Semibold.ttf")
+set(QPX_GUI_SEMIBOLD_BYTES 56024)
+set(QPX_GUI_SEMIBOLD_SHA256 "4b7126390ae8a74bb6f56e7adf3561f038163360168dd7d17c78a4447ef524d8")
+foreach(face SANS SEMIBOLD)
+  set(source "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/${QPX_GUI_${face}_NAME}")
+  file(SHA256 "${source}" actual)
+  file(SIZE "${source}" bytes)
+  if(NOT actual STREQUAL QPX_GUI_${face}_SHA256 OR NOT bytes EQUAL QPX_GUI_${face}_BYTES)
+    message(FATAL_ERROR "Packaged IBM Plex Sans ${face} font does not match its manifest")
+  endif()
+  configure_file("${source}" "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_${face}_NAME}" COPYONLY)
+endforeach()
 set(cjk "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans")
 set(emoji "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notoemoji")
 qpx_gui_font_download("${QPX_GUI_CJK_NAME}" "${cjk}/OTF/SimplifiedChinese/${QPX_GUI_CJK_NAME}" "${QPX_GUI_CJK_SHA256}")
@@ -31,6 +46,8 @@ qpx_gui_font_download(cjk-NOTICE.md "${cjk}/README-third_party.md" "aa229a2136c4
 qpx_gui_font_download(emoji-OFL.txt "${emoji}/OFL.txt" "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/gui_font_manifest.hpp.in" "${CMAKE_CURRENT_BINARY_DIR}/generated/gui_font_manifest.hpp" @ONLY)
 install(FILES "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_CJK_NAME}" "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_EMOJI_NAME}" DESTINATION qupathxx/fonts)
+install(FILES "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_SANS_NAME}" "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_SEMIBOLD_NAME}" DESTINATION qupathxx/fonts)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/IBMPlexSans-OFL.txt" DESTINATION qupathxx/licenses/ibm-plex-sans RENAME OFL.txt)
 install(FILES "${QPX_GUI_FONT_DIRECTORY}/cjk-OFL.txt" DESTINATION qupathxx/licenses/noto-cjk RENAME OFL.txt)
 install(FILES "${QPX_GUI_FONT_DIRECTORY}/cjk-NOTICE.md" DESTINATION qupathxx/licenses/noto-cjk RENAME NOTICE.md)
 install(FILES "${QPX_GUI_FONT_DIRECTORY}/emoji-OFL.txt" DESTINATION qupathxx/licenses/noto-emoji RENAME OFL.txt)
@@ -39,6 +56,7 @@ function(qupathxx_copy_gui_fonts target)
     COMMAND "${CMAKE_COMMAND}" -E make_directory "$<TARGET_FILE_DIR:${target}>/fonts"
     COMMAND "${CMAKE_COMMAND}" -E copy_if_different
       "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_CJK_NAME}" "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_EMOJI_NAME}"
+      "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_SANS_NAME}" "${QPX_GUI_FONT_DIRECTORY}/${QPX_GUI_SEMIBOLD_NAME}"
       "$<TARGET_FILE_DIR:${target}>/fonts")
 endfunction()
 

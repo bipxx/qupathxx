@@ -282,13 +282,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     if(options.docked_workspace) ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ui::i18n::Session language_session;
+    ui::design::Session design_session;
     GuiWorkspace workspace(options);
     int pending_language=-2;bool language_requested=false,language_dialog_active=false;char language_search[128]{};
     auto pixel_classifier_owner=std::make_unique<detail::GuiPixelClassifier>(options);auto& pixel_classifier=*pixel_classifier_owner;
     auto raw_pixel_owner=std::make_unique<detail::GuiRawPixel>(options);auto& raw_pixel=*raw_pixel_owner;
     ui::apply_desktop_theme();
     auto& style = ImGui::GetStyle();
-    const ImGuiStyle base_style=style;
+    ImGuiStyle base_style=style;auto applied_theme=ui::design::current();
     double ui_multiplier=options.ui_scale;
     GuiScale ui_scale,font_scale;bool fonts_initialized=false;std::uint64_t font_rebuilds=0;
     session.platform = ImGui_ImplGlfw_InitForOpenGL(session.window, true);
@@ -1165,12 +1166,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
 
         float sx=1,sy=1;glfwGetWindowContentScale(session.window,&sx,&sy);
         const auto next_scale=GuiScale::from(std::max(sx,sy),std::max(input.DisplayFramebufferScale.x,input.DisplayFramebufferScale.y),ui_multiplier);
+        if(const auto next_theme=ui::design::current();next_theme!=applied_theme) {
+            ui::design::apply(base_style,next_theme);style=base_style;style.ScaleAllSizes(next_scale.logical);
+            style.FontSizeBase=ui::design::metrics.font_size*next_scale.logical;applied_theme=next_theme;
+        }
         if(!fonts_initialized || !font_scale.same_fonts(next_scale)) {
             // Rebuild only between frames, on the GL owner thread. Never scale
             // the previous style, which would accumulate rounding and drift.
             overlay_cache.clear();
             style=base_style;style.ScaleAllSizes(next_scale.logical);
-            style.FontSizeBase=13.f*next_scale.logical;
+            style.FontSizeBase=ui::design::metrics.font_size*next_scale.logical;
             // Dynamic bakes reuse the same sources; framebuffer density comes
             // from GLFW. The backend owns texture creation/update/destruction.
             font_scale=next_scale;fonts_initialized=true;++font_rebuilds;
@@ -1267,6 +1272,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::MenuItem("Increase UI size",nullptr,false,ui_multiplier<3)) ui_multiplier=std::min(3.,ui_multiplier+.25);
                 if(ui::MenuItem("Decrease UI size",nullptr,false,ui_multiplier>.5)) ui_multiplier=std::max(.5,ui_multiplier-.25);
                 if(ui::MenuItem("Automatic UI size")) ui_multiplier=1;
+                ImGui::Separator();
+                if(ui::BeginMenu("Appearance")) {
+                    for(const auto choice:{ui::design::Theme::Dark,ui::design::Theme::Light,ui::design::Theme::System}) {
+                        const auto* caption=choice==ui::design::Theme::Dark?"Dark":choice==ui::design::Theme::Light?"Light":"System";
+                        if(ui::MenuItem(caption,nullptr,ui::design::state.choice==choice)) ui::design::state.choice=choice;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMenu();
             }
             if(ui::BeginMenu("Analyze",has_image)) {
@@ -1283,13 +1296,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::EndMenu();
             }
             if(ui::BeginMenu("Language")) {
-                if(ui::MenuItem("Choose language")) language_requested=true;
+                if(ui::MenuItem("Choose language","Ctrl+Shift+L")) language_requested=true;
                 ImGui::Separator();
                 ImGui::TextUnformatted(ui::i18n::languages[ui::i18n::state.effective].native_name);
                 ImGui::EndMenu();
             }
             ImGui::EndDisabled();ImGui::EndMenuBar();
         }
+        if(!editing_blocked && ImGui::Shortcut(ImGuiMod_Ctrl|ImGuiMod_Shift|ImGuiKey_L,ImGuiInputFlags_RouteGlobal)) language_requested=true;
         if(startup_active) {
             ++startup_frames;
             const auto phase=startup_progress->phase.load();
@@ -1322,7 +1336,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(!io.WantTextInput && !editing_blocked && has_image) {
             if(ImGui::IsKeyPressed(ImGuiKey_E)) tool=2;
             if(ImGui::IsKeyPressed(ImGuiKey_P)) tool=3;
-            if(ImGui::IsKeyPressed(ImGuiKey_L)) tool=4;
+            if(ImGui::IsKeyPressed(ImGuiKey_L) && !io.KeyCtrl && !io.KeyAlt) tool=4;
             if(ImGui::IsKeyPressed(ImGuiKey_T) && !io.KeyCtrl && !io.KeyAlt) tool=5;
             if(!io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
             if(ImGui::IsKeyPressed(ImGuiKey_H)) tool=7;
@@ -1330,17 +1344,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const char* tool_names[]={"Select","Rectangle","Ellipse","Polygon","Polyline","Points","Edit vertices","Draw hole"};
         const char* tool_keys[]={"R to toggle rectangle","R","E","P","L","T","V","H"};
         for(int i=0;i<8;++i) {
-            if(i && ui::available()<ImGui::GetFrameHeight()+4) ImGui::NewLine();
+            if(i && ui::available()<ui::design::metrics.icon_size*ui::design::scale()) ImGui::NewLine();
             if(ui::tool_button(i,tool,tool_names[i],tool_keys[i])) tool=i;
             ImGui::SameLine(0,3*ui_scale.logical);
         }
         if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
-        if (ui::Button("Fit image")) fit = true;
+        if (ui::icon_action("##Fit image",ui::ActionIcon::Fit,"Fit image")) fit = true;
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
-        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ui::Button("Undo")) history_action(false); ImGui::EndDisabled();
-        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ui::Button("Redo")) history_action(true); ImGui::EndDisabled();
-        ImGui::SameLine();spatial.open_button(mark_target);
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ui::icon_action("##Undo",ui::ActionIcon::Undo,"Undo","Ctrl+Z")) history_action(false); ImGui::EndDisabled();
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ui::icon_action("##Redo",ui::ActionIcon::Redo,"Redo","Ctrl+Y")) history_action(true); ImGui::EndDisabled();
+        ImGui::SameLine();spatial.open_icon(mark_target);
         if(document.server()->reader_id()=="tiff") {ImGui::SameLine();if(ui::Button("Raw channels (F2)")) raw.open();}
         selected=selection->primary();
         if(!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
@@ -1355,7 +1369,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::EndDisabled();
         if(workspace.enabled()) {
             ImGui::SameLine();
-            if(ui::Button("Reset layout")) workspace.reset();
+            if(ui::icon_action("##Reset layout",ui::ActionIcon::Reset,"Reset layout")) workspace.reset();
             layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
             if(!workspace.error().empty()) ui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
             workspace.dockspace();
@@ -1367,16 +1381,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool next_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageDown,ImGuiInputFlags_RouteGlobal);
             const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
             ui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
-            project_density.open_button();
-            ImGui::BeginDisabled(project_load.valid());
-            if(ui::Button("Edit project metadata")) {
-                try {entry_editor.open_project(options.project);}
-                catch(const std::exception& e){project_error=e.what();}
-            }
-            ImGui::EndDisabled();
             ImGui::BeginDisabled(save_job.busy());
             ui::SetNextItemWidth(240); ui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
-            const bool save_pressed=ui::Button("Save project (Ctrl+S)");
+            const bool save_pressed=ui::PrimaryButton("Save project (Ctrl+S)");
             save_project_offset=ImGui::GetItemRectMin();const auto save_max=ImGui::GetItemRectMax();
             save_project_size={save_max.x-save_project_offset.x,save_max.y-save_project_offset.y};mark_target(GuiInputTarget::SaveProject);
             if(save_pressed || (!editing_blocked && !save_job.busy() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
@@ -1527,6 +1534,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ImGui::EndDisabled();
                     ImGui::TreePop();
                 }
+            }
+            if(ui::CollapsingHeader("Project tools")) {
+            project_density.open_button();
+            ImGui::BeginDisabled(project_load.valid());
+            if(ui::Button("Edit project metadata")) {
+                try {entry_editor.open_project(options.project);}
+                catch(const std::exception& e){project_error=e.what();}
+            }
+            ImGui::EndDisabled();
             }
             if(ui::CollapsingHeader("Project classes and defaults"))project_class_editor->draw(options.project,nullptr,active_image);
             if(entry_editor.draw(options.project,active_image))project_catalog_dirty=true;
@@ -1767,7 +1783,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ui::InputDouble("Pixel width (um)",&draft_calibration[0],0,0,"%.6g");
         ui::SetNextItemWidth(120);
         ui::InputDouble("Pixel height (um)",&draft_calibration[1],0,0,"%.6g");
-        if (ui::Button("Apply calibration")) {
+        if (ui::PrimaryButton("Apply calibration")) {
             try { document.set_calibration(draft_calibration[0], draft_calibration[1]); error.clear(); }
             catch (const std::exception& e) { error = e.what(); }
         }
@@ -1800,7 +1816,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::EndChild();
         if(ui::CollapsingHeader("Classes"))image_class_editor->draw(options.project,&document,active_image);
         ui::Text("Selected: %zu",selection->size());
-        if(selected && ui::Button("Delete selected")) delete_selection();
+        if(selected && ui::DangerButton("Delete selected")) delete_selection();
         if(selected) { ImGui::SameLine(); if(ui::Button("Clear selection")) { selection->clear(); selected=0; } }
         if(selection->size()>1) {
             if(ui::BeginCombo("Batch class",batch_class.empty()?"Unclassified":batch_class.c_str())) {
@@ -1905,7 +1921,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::BeginDisabled(draft_geometry.kind()!=RoiKind::Rectangle && draft_geometry.kind()!=RoiKind::Ellipse);
             ui::InputDouble("Width",&draft_roi.width); ui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled(); ImGui::EndDisabled();
             ui::InputScalar("Parent ID",ImGuiDataType_U64,&draft_parent);
-            if (ui::Button("Apply object edit")) {
+            if (ui::PrimaryButton("Apply object edit")) {
                 try {
                     auto bounds=draft_geometry.bounds();
                     auto geometry=draft_geometry.kind()==RoiKind::Rectangle?Roi::rectangle(draft_roi):
@@ -2730,9 +2746,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::GetWindowDrawList()->AddText({offset.x+32,offset.y+32},IM_COL32(190,205,220,255),project_images.empty()?"No images in this project.\nAdd an image in Project images, or open another project.":"No image selected.\nSelect an image in Project images.");
         }
         if(workspace.enabled() && has_image && canvas_visible) {
-            const float width=std::min(180.f*ui_scale.logical,size.x*.28f);
+            const float width=std::min(ui::design::metrics.overview_width*ui_scale.logical,size.x*.28f);
             const auto padding=ImGui::GetStyle().WindowPadding;
-            ImGui::SetCursorScreenPos({offset.x+size.x-width-2*padding.x-10*ui_scale.logical,offset.y+10*ui_scale.logical});
+            ImGui::SetCursorScreenPos({offset.x+size.x-width-2*padding.x-ui::design::metrics.overview_margin*ui_scale.logical,offset.y+ui::design::metrics.overview_margin*ui_scale.logical});
             ImGui::BeginChild("Slide overview",{width+2*padding.x,width*.6f+2*padding.y},ImGuiChildFlags_Borders,
                 ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
             overview_navigation(width);
@@ -2760,7 +2776,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!error.empty()) ui::TextWrapped("%s",error.c_str());
             else if(!project_error.empty()) ui::TextWrapped("%s",project_error.c_str());
             else if(has_image) {
-                ImGui::Text("%lld x %lld px  |  %s %.0f%%  |  %zu %s  |  %zu %s%s%s",
+                ImGui::TextWrapped("%lld x %lld px  |  %s %.0f%%  |  %zu %s  |  %zu %s%s%s",
                     static_cast<long long>(image.width),static_cast<long long>(image.height),ui::i18n::text("Zoom"),viewport.zoom*100,
                     document.object_count(),ui::i18n::text("objects"),selection->size(),ui::i18n::text("selected"),
                     options.project && options.project->dirty()?"  |  ":"",options.project && options.project->dirty()?ui::i18n::text("Unsaved project"):"");
@@ -2821,7 +2837,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ui::TextWrapped("%s / %zu images",recovery_label(*reviewed_checkpoint).c_str(),reviewed_checkpoint->images);
                 ui::TextWrapped("Automatic recovery saving or another open window may create another checkpoint later.");
                 ImGui::PopTextWrapPos();
-                if(ui::Button("Permanently delete checkpoint")) {
+                if(ui::DangerButton("Permanently delete checkpoint")) {
                     auto reviewed=*reviewed_checkpoint; maintenance_epoch=workspace_epoch; maintenance_error.clear();
                     maintenance_job=std::async(std::launch::async,[reviewed] {
                         MaintenanceResult result;
@@ -2842,7 +2858,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto item=std::find_if(project_images.begin(),project_images.end(),[&](const auto& image){return image.id==active_image;});
             ui::TextWrapped("Remove %s from this project?",item==project_images.end()?"this image":item->name.c_str());
             ui::TextWrapped("This removes its %zu objects, view and editing history from the workspace. Undo cannot restore the entry. Save project to persist the removal. The source image file stays on disk.",document.object_count());
-            if(ui::Button("Remove image")) { pending_remove=active_image; remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
+            if(ui::DangerButton("Remove image")) { pending_remove=active_image; remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
             confirm_remove_offset=ImGui::GetItemRectMin(); auto confirm_max=ImGui::GetItemRectMax(); confirm_remove_size={confirm_max.x-confirm_remove_offset.x,confirm_max.y-confirm_remove_offset.y}; mark_target(GuiInputTarget::ConfirmRemoveImage);
             ImGui::SameLine();
             if(ui::Button("Cancel")) { remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
@@ -2879,11 +2895,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::SetNextItemWidth(400); ui::InputTextWithHint("##Close save path","Project destination",project_path,sizeof(project_path));
             ui::SetNextItemWidth(400); ui::InputTextWithHint("##Close recovery path","Automatic recovery destination",autosave_path,sizeof(autosave_path));
             ImGui::BeginDisabled(close_action!=0);
-            if(ui::Button("Save and close")) { save_project_requested=true; close_action=1; close_wait_only=false; }
+            if(ui::PrimaryButton("Save and close")) { save_project_requested=true; close_action=1; close_wait_only=false; }
             save_close_offset=ImGui::GetItemRectMin(); auto sc=ImGui::GetItemRectMax(); save_close_size={sc.x-save_close_offset.x,sc.y-save_close_offset.y}; mark_target(GuiInputTarget::SaveClose);
             if(ui::Button("Keep recovery and close")) { close_action=2; close_keep_started=false; }
             keep_close_offset=ImGui::GetItemRectMin(); auto kc=ImGui::GetItemRectMax(); keep_close_size={kc.x-keep_close_offset.x,kc.y-keep_close_offset.y}; mark_target(GuiInputTarget::KeepRecoveryClose);
-            if(ui::Button("Discard and close")) { autosave.clear(); close_action=3; }
+            if(ui::DangerButton("Discard and close")) { autosave.clear(); close_action=3; }
             discard_close_offset=ImGui::GetItemRectMin(); auto dc=ImGui::GetItemRectMax(); discard_close_size={dc.x-discard_close_offset.x,dc.y-discard_close_offset.y}; mark_target(GuiInputTarget::DiscardClose);
             if(ui::Button("Cancel")) { close_dialog_active=false; ImGui::CloseCurrentPopup(); }
             cancel_close_offset=ImGui::GetItemRectMin(); auto cc=ImGui::GetItemRectMax(); cancel_close_size={cc.x-cancel_close_offset.x,cc.y-cancel_close_offset.y}; mark_target(GuiInputTarget::CancelClose);

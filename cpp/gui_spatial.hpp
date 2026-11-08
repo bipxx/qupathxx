@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/spatial_frontend.hpp"
 #include "gui_layout.hpp"
+#include "gui_theme.hpp"
 #include <imgui.h>
 #include <array>
 #include <cstring>
@@ -62,6 +63,10 @@ public:
     bool enabled(GuiInputTarget t) const {return enabled_.at(index(t));}
     Rect bounds(GuiInputTarget t) const {return bounds_.at(index(t));}
     template<class Mark>void open_button(Mark& mark_target) {button("Spatial...",GuiInputTarget::SpatialOpen,true,mark_target,[&]{open_=true;});}
+    template<class Mark>void open_icon(Mark& mark_target) {
+        if(ui::icon_action("##Spatial",ui::ActionIcon::Spatial,"Spatial...")) open_=true;
+        mark(GuiInputTarget::SpatialOpen,true,mark_target);
+    }
     GuiSpatialReport report() const {auto report=frontend_.report();if(!error_.empty())report.error=error_;return report;}
     void finish(Document& doc,bool wait) {frontend_.finish(doc,wait);}
     template<class Mark>void draw(Document& doc,const ObjectSelection& selection,const Project* project,const std::vector<ProjectImage>* catalog,bool blocked,bool has_image,Mark& mark_target) {

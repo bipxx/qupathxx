@@ -1,0 +1,4 @@
+gui_design_tests.cpp
+Design tokens: explicit/system themes, text/action contrast and target sizes pass
+gui_i18n_tests.cpp
+GUI i18n: 131 entries, 16 languages; catalogue, formats, identity, detection, preference and session checks passed

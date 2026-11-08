@@ -1,0 +1,17 @@
+{
+  "family": "IBM Plex Sans",
+  "reference_commit": "121bd73ae77686e42093918944cec1baa1164aa5",
+  "package": "@fontsource-variable/ibm-plex-sans@5.3.0",
+  "source_sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470",
+  "conversion": "WOFF2 to static SFNT TTF, fonttools 4.68.0; original outlines; weight 400/600; no runtime conversion",
+  "outputs": {
+    "IBMPlexSans-Regular.ttf": {
+      "bytes": 56000,
+      "sha256": "2cf8ca6d81dd4cfa11a236f9eb7bce6f7a9a4d1252f9154ab14ed1e2329141f3"
+    },
+    "IBMPlexSans-Semibold.ttf": {
+      "bytes": 56024,
+      "sha256": "4b7126390ae8a74bb6f56e7adf3561f038163360168dd7d17c78a4447ef524d8"
+    }
+  }
+}

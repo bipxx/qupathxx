@@ -2,6 +2,7 @@
 #include "gui_font_manifest.hpp"
 #include "filesystem_access.hpp"
 #include "sha256.hpp"
+#include "gui_design_tokens.hpp"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
@@ -51,7 +52,9 @@ const GuiFontAssets& gui_font_assets() {
     static const GuiFontAssets assets=[] {
         const auto directory=gui_font_directory();
         return GuiFontAssets{load_gui_font_asset(directory/gui_cjk_name,gui_cjk_bytes,gui_cjk_sha256),
-                             load_gui_font_asset(directory/gui_emoji_name,gui_emoji_bytes,gui_emoji_sha256)};
+                             load_gui_font_asset(directory/gui_emoji_name,gui_emoji_bytes,gui_emoji_sha256),
+                             load_gui_font_asset(directory/gui_sans_name,gui_sans_bytes,gui_sans_sha256),
+                             load_gui_font_asset(directory/gui_semibold_name,gui_semibold_bytes,gui_semibold_sha256)};
     }();
     return assets;
 }
@@ -61,12 +64,17 @@ ImFont* configure_gui_fonts(ImFontAtlas& atlas,int maximum_texture) {
     while(limit<=cap/2) limit*=2;
     atlas.TexMinWidth=std::min(512,limit);atlas.TexMinHeight=128;
     atlas.TexMaxWidth=atlas.TexMaxHeight=limit;atlas.TexDesiredFormat=ImTextureFormat_RGBA32;
-    ImFontConfig base;base.SizePixels=13;
-    auto* font=atlas.AddFontDefaultBitmap(&base);
-    ImFontConfig merge;merge.MergeMode=true;merge.PixelSnapH=true;merge.SizePixels=13;merge.FontDataOwnedByAtlas=false;
-    if(!font || !atlas.AddFontFromMemoryTTF(const_cast<unsigned char*>(assets.cjk.data()),static_cast<int>(assets.cjk.size()),13,&merge) ||
-        !atlas.AddFontFromMemoryTTF(const_cast<unsigned char*>(assets.emoji.data()),static_cast<int>(assets.emoji.size()),13,&merge))
-        throw std::runtime_error("Cannot initialize packaged GUI fonts");
+    const auto size=ui::design::metrics.font_size;
+    auto add=[&](const std::vector<unsigned char>& face) {
+        ImFontConfig base;base.SizePixels=size;base.FontDataOwnedByAtlas=false;
+        auto* font=atlas.AddFontFromMemoryTTF(const_cast<unsigned char*>(face.data()),static_cast<int>(face.size()),size,&base);
+        ImFontConfig merge;merge.MergeMode=true;merge.PixelSnapH=true;merge.SizePixels=size;merge.FontDataOwnedByAtlas=false;
+        if(!font || !atlas.AddFontFromMemoryTTF(const_cast<unsigned char*>(assets.cjk.data()),static_cast<int>(assets.cjk.size()),size,&merge) ||
+            !atlas.AddFontFromMemoryTTF(const_cast<unsigned char*>(assets.emoji.data()),static_cast<int>(assets.emoji.size()),size,&merge))
+            throw std::runtime_error("Cannot initialize packaged GUI fonts");
+        return font;
+    };
+    auto* font=add(assets.sans);add(assets.semibold);
     return font;
 }
 }

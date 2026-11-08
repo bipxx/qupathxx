@@ -36,8 +36,14 @@ def test_overview_is_complete_bounded_and_captured(tmp_path, blue):
         # actual image color, including both sides of the reduced preview.
         mask = np.all(pixels[:, :300] == ([210]*3 if blue else [30, 120, 210]), axis=2)
         assert mask.sum() > 20000
-        _, xs = np.nonzero(mask)
-        assert xs.max()-xs.min() >= 195
+        # Antialiased sans text can contain the same neutral gray as a blue-only
+        # preview. Isolate filled image rows before measuring its visible extent.
+        rows = np.flatnonzero(mask.sum(axis=1) > result.plan.width*.5)
+        assert len(rows) >= result.plan.height*.85
+        _, xs = np.nonzero(mask[rows])
+        # The inspector fits the complete preview inside its current padding
+        # and scrollbar. Verify its geometry rather than a fixed font-era width.
+        assert (xs.max()-xs.min())/(rows.max()-rows.min()) == pytest.approx(result.plan.width/result.plan.height, abs=.05)
 
 
 def test_source_switch_publishes_only_current_complete_overview():

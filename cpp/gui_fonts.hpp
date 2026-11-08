@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 namespace qpx::detail {
-struct GuiFontAssets {std::vector<unsigned char> cjk,emoji;};
+struct GuiFontAssets {std::vector<unsigned char> cjk,emoji,sans,semibold;};
 // Fixed packaged assets, authenticated once and retained immutably for the
 // module lifetime. No working-directory or checkout-path fallback.
 std::filesystem::path gui_font_directory();

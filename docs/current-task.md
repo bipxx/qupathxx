@@ -7,6 +7,54 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - COLMAP WebView design system
+
+Owner selected `../colmap_webview/colmap-webview` as the new UI reference.
+Use its current `docs/design-system.md`, CSS tokens and shared component recipes
+at121bd73a: neutral dark default, matching light palette, IBM Plex Sans14px,
+regular/semibold roles,4/8/12/16/24/32 spacing,8px panels, fine borders and32px
+actions. Implement reusable native tokens/components and appearance preferences;
+keep scientific pixels, overlays, calibration and result state independent.
+
+Work is isolated on `feature/colmap-design-system`, from local main605bba55,
+because the active integration checkout has ongoing native import/resource work.
+This named UI worktree is the exception for this owner-selected UI outcome.
+Do not touch that checkout or regenerate its cache/runtime. GUI-only preview
+compilation reuses retained native libraries and binding objects.
+
+Before compiling: validate token agreement with the local reference, font bytes/
+OFL notices and theme/locale preference contracts. Then compile the two changed
+GUI/font objects, relink a separate preview, inspect dark/light/translated/scaled
+screens and exercise changed user flows. Reuse scientific acceptance. New sans
+metrics deliberately supersede the earlier Proggy bitmap appearance; preserve
+international fallback fonts, atlas budgets, per-module asset loading and IDs.
+
+Outcome: shared semantic palettes, spacing, typography and action recipes now
+drive native panels. IBM Plex Sans regular/semibold matches the reference font;
+the complete OFL and authenticated font resources ship with the GUI. View >
+Appearance offers saved Dark/Light/System choices. Compact vector commands and
+collapsible Project tools keep localized controls usable at200% scale. See the
+[design-system guide](design-system.md) and
+[source-scoped validation](benchmarks/design-system/README.md).
+
+Checks:90 real-GL/source-contract cases pass; five unchanged installed-subprocess
+font/launcher cases are deselected. Native design-token/contrast/target-size and
+131-entry/16-language checks pass. Dark/light/Chinese screenshots use the retained
+CMU-1 ROI, with exact synthetic image pixels, camera, save/reopen and project-byte
+invariants checked separately. The preview reuses native libraries and38 binding
+objects; no scientific qualification, wheel or release is replaced. Live desktop
+inspection was stopped by physical Escape; no further desktop input was issued.
+
+Waste/correction: proportional text invalidated the old fixed overview-width
+assertion and a language-menu coordinate. Keep exact native thumbnail data and
+test the displayed aspect/complete area; isolate image rows from antialiased gray
+text. Use the native language shortcut. A Russian200% save control was obscured
+by long utility labels; shared icon controls resolve it. Development fontTools
+initially selected Python3.14; reinstall only the private tools for Python3.12.
+Local preview inputs, failures and scripts stay under main build/design-system-preview.
+The temporary UI checkout is retired only after local main integration; the
+separate scientific integration checkout and its newer native work stay intact.
+
 ## Delivered task - desktop UI merged to main and worktree retired
 
 Owner requested merge and cleanup. UI commit87745eee and integration merge

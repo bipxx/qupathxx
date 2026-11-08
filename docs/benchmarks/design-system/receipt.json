@@ -1,0 +1,61 @@
+{
+  "scope": "Windows GUI-only local preview; no wheel, published runtime or scientific qualification replaced",
+  "base_main": "605bba55a94973f542524b5f09f1510d628a2511",
+  "reference": {
+    "project": "../colmap_webview/colmap-webview",
+    "commit": "121bd73ae77686e42093918944cec1baa1164aa5"
+  },
+  "source_hashes": "source-inputs.json records raw Windows inputs and canonical LF text hashes; Git EOL conversion only is allowed at integration",
+  "build": {
+    "changed_translation_units": [
+      "cpp/gui.cpp",
+      "cpp/gui_fonts.cpp"
+    ],
+    "reused_binding_objects": 38,
+    "native_input_snapshots": "retained-native-inputs.json",
+    "flags": "/std:c++17 /MD /O2 /utf-8 /DIMGUI_USE_WCHAR32",
+    "existing_warning": "LNK4098 LIBCMT default-library conflict also present in baseline"
+  },
+  "validation": {
+    "pytest": "90 passed, 5 deselected in 52.36s",
+    "deselection": "Unchanged installed-subprocess packaged_fonts, launchers and font_assets cases; new IBM font contracts are included",
+    "native": "Design token/theme/contrast/size and 131-entry/16-language contracts pass",
+    "visual": [
+      "dark English",
+      "light English",
+      "dark Simplified Chinese"
+    ],
+    "desktop": "Preview inspected over CMU-1; final live menu check stopped by physical Escape. No further computer input."
+  },
+  "pytest_command": "python -m pytest tests/test_gui_design.py tests/test_gui_design_contract.py tests/test_gui_i18n.py tests/test_gui_docking.py tests/test_gui_layout.py tests/test_gui_scale.py tests/test_gui_thumbnail.py -q --tb=short -k \"not packaged_fonts and not launchers and not font_assets\"",
+  "artifacts": {
+    "qupathxx_app.exe": {
+      "bytes": 9774080,
+      "sha256": "80e26d0ee3960883210d489ed269dfca9af06db58e41803a681212631a89ecf5"
+    },
+    "runtime/qupathxx/_native.cp312-win_amd64.pyd": {
+      "bytes": 12438528,
+      "sha256": "bb3792821b252dea3a7656f9b1ada2417dd1b07f6627bc3bdd2f26802e671c04"
+    },
+    "generated/gui_font_manifest.hpp": {
+      "bytes": 980,
+      "sha256": "67f1c5ffdaf117dcd7ead985ec9c80d04bfd779592e0dabe86c927e4dde48360"
+    }
+  },
+  "screenshots": {
+    "design-system-dark-en.png": {
+      "bytes": 1552823,
+      "sha256": "a61b308fb79e6fcdeb8056bf3b16d4b7c354c3c71eaf4555c6ac8cdb00f257c8"
+    },
+    "design-system-light-en.png": {
+      "bytes": 1556336,
+      "sha256": "78b7f4636ed98a9dc37d4cce38ead4fe218e1ab96fefbc0dbe22b08a215516f3"
+    },
+    "design-system-dark-zh-CN.png": {
+      "bytes": 1545785,
+      "sha256": "b775612136b2a45f5ac6296e02e96da45571e631c2397f004bfdebbea77eaff8"
+    }
+  },
+  "retained_local_output": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview",
+  "integration": "Local main only. Separate scientific integration checkout/cache/products are preserved; no push or publication."
+}

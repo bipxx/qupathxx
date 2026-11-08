@@ -1,6 +1,12 @@
 #pragma once
 #include <cstddef>
 namespace qpx::detail {
+inline constexpr char gui_sans_name[]="@QPX_GUI_SANS_NAME@";
+inline constexpr std::size_t gui_sans_bytes=@QPX_GUI_SANS_BYTES@;
+inline constexpr char gui_sans_sha256[]="@QPX_GUI_SANS_SHA256@";
+inline constexpr char gui_semibold_name[]="@QPX_GUI_SEMIBOLD_NAME@";
+inline constexpr std::size_t gui_semibold_bytes=@QPX_GUI_SEMIBOLD_BYTES@;
+inline constexpr char gui_semibold_sha256[]="@QPX_GUI_SEMIBOLD_SHA256@";
 inline constexpr char gui_cjk_name[]="@QPX_GUI_CJK_NAME@";
 inline constexpr std::size_t gui_cjk_bytes=@QPX_GUI_CJK_BYTES@;
 inline constexpr char gui_cjk_sha256[]="@QPX_GUI_CJK_SHA256@";

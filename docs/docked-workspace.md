@@ -1,6 +1,7 @@
 # Docked research workspace
 
-The desktop launchers use a QuPath-style light workspace with Project, Image,
+The desktop launchers use the [shared native design system](design-system.md),
+based on COLMAP WebView, with Project, Image,
 Annotations and Workflow tabs on the left and a large slide canvas alongside.
 The clickable overview stays at the top right of the viewer. The menu bar and
 vector annotation toolbar sit above the workspace; the status bar shows image
@@ -9,10 +10,11 @@ rearrange panels and splitters to resize them. Existing saved splits are retaine
 The Reset layout button restores the default arrangement. Multiple native
 platform windows are not enabled; floating panels stay inside the main window.
 
-The arrangement follows QuPath's [analysis pane, drawing toolbar and viewer
+The analysis arrangement follows QuPath's [analysis pane, drawing toolbar and viewer
 overview](https://qupath.readthedocs.io/en/stable/docs/starting/first_steps.html).
 Menus expose existing native commands; this visual update adds no analysis
-algorithm. The compact API layout remains supported with the same light theme.
+algorithm. The compact API layout remains supported with the shared palette and
+components. Dark is the default; View > Appearance offers Dark, Light and System.
 
 ![Light workspace with a synthetic demo slide, annotation and viewer overview](images/qupath-style-workspace.png)
 

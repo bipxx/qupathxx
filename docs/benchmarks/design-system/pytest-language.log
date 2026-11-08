@@ -1,0 +1,11 @@
+.....................F..                                                 [100%]
+================================== FAILURES ===================================
+___________ test_localized_save_button_routes_after_dpi_resize[ru] ____________
+tests\test_gui_i18n.py:81: in test_localized_save_button_routes_after_dpi_resize
+    assert report.replay_complete and report.saves_completed == 1 and not project.dirty
+E   assert (True and 0 == 1)
+E    +  where True = <qupathxx._native.GuiReport object at 0x000001D391C4BCF0>.replay_complete
+E    +  and   0 = <qupathxx._native.GuiReport object at 0x000001D391C4BCF0>.saves_completed
+=========================== short test summary info ===========================
+FAILED tests/test_gui_i18n.py::test_localized_save_button_routes_after_dpi_resize[ru]
+1 failed, 23 passed in 16.99s
