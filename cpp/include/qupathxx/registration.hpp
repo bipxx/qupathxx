@@ -64,6 +64,8 @@ struct RegistrationField {
 RegistrationField registration_field(const RegistrationRequest&,const std::atomic<bool>* cancelled=nullptr);
 void require_current_registration(const RegistrationDefinition&,const ExpressionDataset& current,
     const CoordinateFrame& current_target);
+void require_current_registration(const Document&,const RegistrationRequest&,
+    const std::atomic<bool>* cancelled=nullptr);
 // Owner-thread publication for the existing materialized point projection.
 // Recaptures the requested cohort and image frame, checks stale inputs, then
 // publishes through the existing native image-properties undo command.

@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/gene_view.hpp"
+#include "qupathxx/landmark_registration.hpp"
 #include "qupathxx/core.hpp"
 #include "gui_layout.hpp"
 #include "gui_tiles.hpp"
@@ -10,6 +11,7 @@
 namespace qpx::detail {
 class GuiGeneDisplay {
     GeneViewSession session_;
+    std::optional<RegistrationField> registered_;
     bool open_=false;
     const Document* document_=nullptr;
     std::shared_ptr<ImageServer> server_;
@@ -59,7 +61,8 @@ class GuiGeneDisplay {
         std::optional<std::size_t> hit;double closest=double(radius+3)*(radius+3);
         const auto mouse=ImGui::GetIO().MousePos;
         for(std::size_t i=0;i<field.rows.size();++i) {
-            const auto row=field.rows[i];const auto point=view.image_to_screen(field.dataset.observations()[row].position);
+            const auto row=field.rows[i];const auto position=registered_ && registered_->dataset.sha256()==field.dataset.sha256()?registered_->positions[row]:field.dataset.observations()[row].position;
+            const auto point=view.image_to_screen(position);
             if(!std::isfinite(point.x) || !std::isfinite(point.y) || point.x< -radius || point.y< -radius || point.x>size.x+radius || point.y>size.y+radius)continue;
             const ImVec2 p{offset.x+float(point.x),offset.y+float(point.y)};draw->AddCircleFilled(p,radius,color(field.colors[i]));
             if(hovered) {const double dx=mouse.x-p.x,dy=mouse.y-p.y,distance=dx*dx+dy*dy;if(distance<closest) {closest=distance;hit=i;}}
@@ -122,19 +125,20 @@ public:
     const GeneViewSession& session() const {return session_;}
     bool settled() const {return !session_.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
     void update(Document& document,bool has_image) {
-        session_.poll();if(!has_image) {if(document_)session_.clear();document_=nullptr;server_.reset();comparison_tiles_.reset();return;}
+        session_.poll();if(!has_image) {if(document_)session_.clear();registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();return;}
         if(!open_ && !session_.options().enabled)return;
         if(document_==&document && server_==document.server() && revision_==document.revision() && plane_==document.active_plane())return;
         const bool new_image=document_!=&document || server_!=document.server();
         if(new_image) {comparison_tiles_.reset();comparison_size_={};page_={};}
         document_=&document;server_=document.server();revision_=document.revision();plane_=document.active_plane();
-        try {
+        registered_.reset();try {
             sources_=ExpressionDataset::sources(document,plane_);
             if(std::find(sources_.begin(),sources_.end(),source_)==sources_.end())source_.clear();
             if(source_.empty() && sources_.size()==1)source_=sources_[0];
             if(source_.empty()) {session_.clear();error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";return;}
             ExpressionCaptureOptions options;options.coordinate_frame="image-level-zero-px";options.plane=plane_;options.source_id=source_;
-            session_.bind(ExpressionDataset::capture(document,options));session_.poll();error_.clear();
+            auto dataset=ExpressionDataset::capture(document,options);registered_=active_registration_field(document,dataset);
+            session_.bind(std::move(dataset));session_.poll();error_.clear();
         }catch(const std::exception& e){session_.clear();error_=e.what();}
     }
     void draw_overlay(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {
@@ -145,6 +149,7 @@ public:
         if(open_) {
             ui::SetNextToolWindow("Gene expression",{440,730});if(ImGui::Begin("Gene expression",&open_)) {
                 ui::TextWrapped("Spot centers; glyph size is display only. Source counts are unchanged.");
+                if(registered_)ui::TextWrapped("Accepted registration places expression glyphs. Source object geometry is unchanged.");
                 if(sources_.size()>1 && ui::BeginCombo("Expression source",source_.empty()?"Choose source":source_.c_str())) {
                     for(const auto& source:sources_)if(ImGui::Selectable(source.c_str(),source_==source)) {source_=source;revision_=std::numeric_limits<std::uint64_t>::max();session_.clear();}
                     ImGui::EndCombo();

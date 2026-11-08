@@ -1,7 +1,7 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/V02/I01/I02/R01 locally, plus an incomplete L01
+authority. This receipt covers S01/V01/V02/I01/I02/R01/R02 locally, plus an incomplete L01
 guard foundation. GUI claims cover only the named gene workflows below; no new
 release, speed or biological-accuracy claim.
 
@@ -148,3 +148,67 @@ are readable. Final evidence: workspace-root build/feature-expansion/gui-i02-fin
 initial passing GUI evidence remains in gui-i02. A missing /utf-8 option on the new
 MSVC test target caused the initial compiler failure; the translated sources were
 unchanged. No binding build, new dependency, new engine cache or package campaign.
+
+R02 adds native immutable landmark fitting, using normalized translation/similarity
+least squares and Householder QR for affine fitting. Explicit similarity reflection
+never guesses axes; held-out pairs do not influence coefficients. Reports retain
+raw pairs, residual vectors/distances, training RMS and an optional held-out RMS,
+target units and an exact versioned identity. Rank/finite/condition, pair/ID/work
+and cancellation checks refuse invalid fits. Stored model/unit integers are
+range-checked before conversion; residuals/statistics/definition/identity are
+validated on load. Stored coefficients are restored exactly without refitting.
+
+The existing native current-registration recapture guard now serves both manual
+and landmark acceptance. A single image-data-properties command stores the
+definition, fit evidence and active ID, providing atomic Undo/Redo/save/reopen.
+No point coordinates or counts are overwritten. Active mapping uses the selected
+source/frame/image/calibration identities; stale accepted mappings refuse reuse.
+
+Analyze/Workflow Tools → Landmark registration opens a compiled private canvas
+controller over the existing viewport/tile services. Users add/edit source and
+target pairs, drag the selected handle kind, mark held-out observations, choose
+the model and inspect preview/errors. Accept and saved-evidence load call the
+same native services. The main gene overlay and comparison renderer consume
+accepted mapped positions. The UI labels source object geometry as unchanged;
+selection and other analyses do not silently acquire registered ROI membership.
+
+Native CTest registration and landmark_registration pass2 cases (0.25s), with
+independently known affine/similarity/reflection/translation, a noisy overdetermined
+oracle, held-out isolation, large origins, rank/invalid/budget/cancel refusal,
+stale publication, atomic undo and exact project persistence. The admitted real
+mouse-brain project also passes the native persistence contract. Logs and the
+retained test projects are under workspace-root build/feature-expansion/r02-native.
+
+Final native GUI replay passes actual target dragging and preview invalidation,
+Fit/Accept, disabled publication, Undo/Redo, stored-fit load and actual reload
+after save/reopen under persistent project/image identity. On an in-memory copy
+of the admitted mouse-brain project, all2,702 source positions are deliberately
+shifted(+10,-8); a translation fitted to one point with two held-out points
+recovers(-10,+8), restoring every registered position to the original published
+location. Raw positions/counts remain exact relative to that prepared baseline;
+the original fixture file is untouched. This is a controlled geometric test,
+not biological registration accuracy evidence. Final captures/projects/log:
+build/feature-expansion/gui-r02-final; the earlier passing replay remains gui-r02.
+
+The actual app gene replay passes exact native colors at transformed positions,
+alongside existing zero/missing, comparison navigation and workspace/source
+checks. Final capture/log: build/feature-expansion/gene-r02-final. Native alignment
+controls/residuals and real overlay are readable on inspection. App and affected
+test targets build; native-only CI now includes the landmark case (hosted execution
+is not claimed). No new dependency, restricted data, binding compilation or release.
+
+Corrections retained: the initial native undo oracle dereferenced absent default
+metadata; compare optional metadata explicitly. A field/function typo stopped the
+first panel compile. The new gene oracle needed its explicit lineage/linear setup.
+Its second failure exposed a stale gui.obj from source edits during a concurrent
+desktop compile; forcing only gui.cpp after that build ended restored the actual
+consumer. Keep shared translation units unchanged during another build; new
+isolated files can be prepared independently. The compiled panel avoids recurring
+large gui.cpp recompilation for controller implementation changes. Failed native
+log: r02-native-failure; failed gene captures: gene-r02 and gene-r02-fixed. The
+durable shared-build lesson is recorded in compilexx's canonical notebook.
+
+Frontend checks ran on the combined integration tree, including the separately
+owned sidebar-form edits retained in this checkout. They qualify the named
+behavior on that tree, not a frozen standalone binary release from this feature
+commit. Release/source/package identity remains P02 work.

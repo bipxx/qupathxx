@@ -132,3 +132,53 @@ H5AD, OME-Zarr, direct vendor-platform imports, automated registration, molecula
 normalization/clustering and differential expression are outside this delivered
 slice. Format, reader/codec and fixture licensing follow the
 [open-format admission policy](reader-license-policy.md).
+
+## Spatial expression and landmark alignment
+
+Analyze → Gene expression selects imported genes and displays linear/log1p colors
+with an explicit legend. Comparison views share navigation and can share the
+display range. These are display transforms; original counts are unchanged.
+Analyze → Import spatial expression provides a native Matrix Market/TSV preview
+and publication wizard; the selected-gene projection remains its initial storage
+route. Full disk-backed matrices are tracked separately in the expansion plan.
+
+Analyze → Landmark registration opens a separate alignment canvas for an imported
+expression source. Choose the source explicitly when multiple cohorts exist.
+Add landmark pairs and enter source/target coordinates in pixels, or select the
+source-circle/target-square drag mode to move a handle over the image. Right drag
+pans and the wheel zooms. Cyan circles are original source landmarks, orange
+squares are target landmarks, and fitted expression positions appear in green.
+
+Choose translation (at least one training pair), similarity (two distinct source
+positions), or affine (three noncollinear source positions). More well-distributed
+pairs permit an overdetermined least-squares fit. Similarity reflection is an
+explicit option; axes/reflection are never inferred. Mark independent landmarks
+held out to assess their error; they never affect fitting. No held-out landmarks
+means no held-out error estimate, rather than a reported zero.
+
+Fit preview reports per-pair residual distance, training RMS and held-out RMS in
+target pixels. A changed pair invalidates the old preview. Accept registration
+stores the definition, original pairs and exact fit evidence in one native undo
+command. Save the project to retain it; Load saved landmarks uses the entered
+registration name and restores stored coefficients without refitting. Stale
+expression/image/calibration inputs refuse acceptance or reuse. Native Undo/Redo
+restores the whole registration state together.
+
+Accepted registration places gene overlays in both the main and comparison views.
+Raw object geometry and source counts remain unchanged. Generic object outlines,
+selection and other analyses still use their own declared coordinate domain;
+this alignment does not silently move source objects or change ROI memberships.
+The current UI uses source/image pixels; the native coordinate-frame API also
+supports explicitly calibrated pixel/micrometre conversions.
+
+Native callers use [landmark_registration.hpp](../cpp/include/qupathxx/landmark_registration.hpp):
+`fit_landmarks` returns owned immutable coefficients/residuals and held-out
+statistics; `accept_landmark_registration` validates the current request before
+atomic publication; `stored_landmark_fit` restores exact evidence;
+`active_registration_field` produces mapped positions without rewriting the
+dataset. Fitting is bounded to1,024 finite, uniquely named pairs, with a declared
+work budget and cancellation. Affine fitting uses normalized Householder QR with
+a1e-12 relative rank threshold; transforms retain the coordinate API's finite,
+invertible, condition-bounded contract. No Python runtime or new dependency is
+required by this service. Nonlinear/automatic registration remains outside this
+landmark workflow.

@@ -2,9 +2,9 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 6 complete, 16 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01 are delivered locally; interactive registration
-remains pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
+checklist: **22 work items: 7 complete, 15 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. Raw-channel
+segmentation is next. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
 [current-task.md](current-task.md) continues; this plan queues subsequent work.
 
 All application/scientific interpretation, transforms, statistics, storage and
@@ -81,6 +81,67 @@ dependencies/materials cannot enter until their own admission is complete. SDK
 layout can be designed early, but export/packaging happens after the APIs settle.
 Do not build a general workflow engine or distributed service for these tasks.
 
+## Implementation packets for the remaining work
+
+This table makes the existing checklist executable; it is not another progress
+ledger. Checkboxes below remain authoritative. Finish one packet before starting
+the next, except that admission of a new input belongs to the packet consuming it.
+Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
+registered-gene rendering and persistence checks; F01 is the next feature packet.
+
+| Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
+| --- | --- | --- | --- |
+| L01: admission, completed incrementally before P02 | Existing inventories/guard | Annotate actual enabled dependencies, fixtures and derivatives in their current inventories; connect the offline guard to source-kit and package staging. Use metadata-only negative fixtures, without restricted downloads. Review license compatibility and notices as well as open status. | Every actual staged file has admitted provenance; proprietary, NC, unreviewed and restricted-ancestor records refuse staging. Final membership coverage closes L01. |
+| R02: interactive alignment, delivered | Delivered R01/I02/V02 | Native landmark fit/report and atomic registration command; compiled private canvas controller using existing viewport/tile/undo services. Preview draft coordinates, accept one command, and consume the accepted transform in gene display. Retain source coordinates/counts and exact stored coefficients. | Analytical translation/similarity/affine and degenerate cases; drag, preview, accept, undo, save/reopen and stale refusal; real open demo with known landmark displacement. |
+| F01: raw-channel segmentation | Existing fluorescence source and segmentation kernels | Capture channel/plane/ROI once; add only the raw-domain pipeline and missing compartment reducer. Reuse object publication and recipe jobs; expose a small tool panel/CLI recipe over that service. | Independent masks/intensities, invalid/empty compartments and a licensed annotated example with declared tolerances; no RGB-preview measurement. |
+| F02: marker rules | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
+| F03: correction and typed raw-source capability | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
+| F04: linear unmixing | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
+| D01: indexed sparse storage | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
+| D02: bounded interaction and tiling | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
+| O01: H5AD subset | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
+| O02: local OME-Zarr subset | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
+| A01: QC and normalization | D01 full intended feature universe | Add streaming native totals/detection and an immutable normalized/log1p result source. Let gene display choose raw or explicitly named derived values; never replace the raw matrix. | Hand-calculated sparse values, zero libraries/missing data, exact raw preservation and persisted source/parameter identity. |
+| A02: regions and pseudobulk | D01; R01/R02 when transformed coordinates selected | Reuse ROI cohorts and block reductions; add explicit coordinate-domain choice, overlap policy and sample/replicate metadata. Export exact sums and associations through existing native writers. | Analytical empty/overlapping cohorts, overflow, registered membership and exact totals/save/replay. |
+| A03: PCA and clustering | A01; admitted native algebra backend | Add bounded block products and fixed-seed truncated PCA, then explicit-k k-means. Persist preprocessing/means/features/seed with owned result arrays; add one results view. | Independent small numeric oracle, deterministic seeded replay, work/cancel bounds and stored embedding/cluster association. |
+| A04: replicate-level DE | A01/A02; admitted replicated dataset and numerical distribution dependency | Aggregate raw counts per biological replicate, normalize/log pseudobulk, then native Welch/effect/BH output. Reuse typed result export; single-mouse spots cannot satisfy the replicate contract. | Analytical/independent statistics, insufficient/degenerate groups and one openly licensed replicated dataset. If absent, keep the task open and continue independent work; do not substitute pseudo-replicates. |
+| P01: native SDK | Shared interfaces settled | Export existing native component targets/headers and exact transitive dependencies through relocatable CMake config. Add thin nanobind exposure in one settled batch where needed; retain Python-free app/CLI/SDK routes. | Relocated installation consumed by a separate tiny C++ project with no Python or checkout access, matching headers/libraries/notices. |
+| P02: one release handoff | All feature checks and final L01/P01 | Freeze source, stage matching Windows app/CLI/SDK and optional Python once, apply admission/hash checks and existing install/use/uninstall tools. Publish only actual qualified support. | Frozen source/package identities, no restricted inputs/lineage, clean install/use/removal preserving data, matching native/optional-Python results and notices. |
+
+Before each packet, record changed inputs and one decisive check in the existing
+current-task card. Settle the native request/result/persistence contract, implement
+the native service, then wire thin consumers. Extend an existing request when its
+meaning is unchanged; version persisted interpretation when it changes. Shared
+jobs own snapshots, cancellation and stale-result refusal. Do not add per-object
+Python calls or reimplement validation in the UI.
+
+Each completion updates the canonical checkbox and the single evidence receipt,
+then records actual waste/correction and the next packet in current-task.md.
+Use affected cached builds/tests; defer packaging and broad qualification to P02.
+An unavailable external fixture blocks its acceptance claim, not unrelated work.
+No calendar or speed-superiority estimate is asserted before measured work.
+
+## Separation acceptance throughout implementation
+
+The existing proprietary, NC and unreviewed register sections remain distinct
+metadata records. Actual restricted artifacts, if ever separately authorized,
+must use their corresponding external pools; none is downloaded or integrated
+by this roadmap. There is no proprietary/NC build option or default discovery path.
+
+At each dependency/fixture addition, record resource kind, exact revision/hash,
+license evidence, attribution and complete source/derivative lineage. Review code,
+format, codecs, weights and data separately. Open status alone does not establish
+compatibility with the project's AGPL-3.0-only distribution or discharge notices.
+Keep user-private research inputs outside public fixtures, logs and packages.
+
+L01/P02 must test both source-kit and binary/package membership, including model
+assets, screenshots and generated derivatives. Negative tests use synthetic bytes
+and restricted metadata to prove exclusion; restricted data are not needed as test
+inputs. A restricted or unresolved source ancestor excludes its derivative from
+the open staging path. Converting a file or wrapping a decoder does not change
+admission. If no admissible evaluation data exist, retain analytical evidence and
+report the missing real-data acceptance rather than borrowing an NC fixture.
+
 ## Checklist: shared services and useful visualization
 
 - [ ] **L01 — material inventory and separation guard.** Extend the existing
@@ -135,13 +196,18 @@ Do not build a general workflow engine or distributed service for these tasks.
   identity and transform separately; apply scale/translation/rotation/reflection
   only through explicit matrices. Unknown calibration prevents a micrometre/pixel
   conversion. Test analytical transforms, inverse/round-trip and stale source checks.
-- [ ] **R02 — interactive landmark registration.** Reuse canvas point editing,
+- [x] **R02 — interactive landmark registration.** Reuse canvas point editing,
   overlays and undo. Fit a translation/similarity/affine transform from sufficient
   nondegenerate landmarks using native least squares; show residuals and held-out
   error in declared units. Preview, accept, undo and save/reopen; do not rewrite raw
   coordinates or gene counts. Exit: recover a known transform and align the real
   demo without swapping axes implicitly. Nonlinear deformation and unrestricted
   automatic registration are not required for this first registration contract.
+  Delivered: native normalized fitting/residuals, compiled canvas tools, atomic
+  accept/undo and exact saved-evidence reload. Accepted transforms place native
+  gene overlays; generic object geometry remains explicitly unchanged. Analytical
+  and actual GUI checks pass, including a controlled shift of all2,702 real spots.
+  [Evidence](benchmarks/feature-expansion/README.md).
 
 ## Checklist: fluorescence analysis
 
@@ -321,6 +387,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver R02 interactive landmark registration;
-finish L01 membership admission as actual release inputs settle. Native R01 can
-proceed without editing the concurrent desktop layout.
+parity. Next deliver F01 raw-channel nucleus/cell analysis;
+finish L01 membership admission as actual release inputs settle. Preserve the
+independent desktop layout work and its source-scoped evidence.

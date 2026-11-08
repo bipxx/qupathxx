@@ -39,9 +39,9 @@ jobs:
         run: |
           cmake --build build/native-only --parallel 2 --target \
             qupathxx_project_example qupathxx_application_entry_tests qupathxx_batch qupathxx_region \
-            qupathxx_fluorescence_tests qupathxx_spatial_counts qupathxx_spatial_counts_tests qupathxx_expression_tests qupathxx_registration_tests qupathxx_gene_view_tests
+            qupathxx_fluorescence_tests qupathxx_spatial_counts qupathxx_spatial_counts_tests qupathxx_expression_tests qupathxx_registration_tests qupathxx_landmark_registration_tests qupathxx_gene_view_tests
           ctest --test-dir build/native-only --output-on-failure \
-            --no-tests=error -R '^(native_project_example|application_entry|fluorescence_workflow|spatial_counts|spatial_counts_cli|expression|registration|gene_view)$'
+            --no-tests=error -R '^(native_project_example|application_entry|fluorescence_workflow|spatial_counts|spatial_counts_cli|expression|registration|landmark_registration|gene_view)$'
       - name: Install and exercise the native consumer
         run: |
           cmake --install build/native-only --prefix "$PWD/build/native-only-stage"

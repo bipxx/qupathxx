@@ -1475,7 +1475,7 @@ It is not the selected candidate; use only delivery-agpl or the prerelease asset
 
 Owner requested a plan for all eight remaining feature areas. The
 [canonical roadmap](feature-expansion-plan.md) defines22 implementation items
-(6 complete,16 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
+(7 complete,15 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
 native import preview come first, then registration/fluorescence, backed matrices/
 H5AD/OME-Zarr, molecular methods and SDK/release. Current active UI work is preserved.
 
@@ -1708,3 +1708,85 @@ fixed it without editing translation data. Final checks closed actual stale-sour
 cohort and loader-handoff gaps. No binding compilation, dependency download, new
 cache, restricted material or package. Next R02: native landmark fit plus interactive
 preview/accept/undo through the delivered registration contract.
+
+### Planning update: remaining expansion packets and material separation
+
+Updated the canonical feature-expansion-plan.md with an implementation path,
+prerequisites, shared-service/consumer integration and decisive completion check
+for all16 remaining tasks. The22-item checklist remains the only progress ledger:
+6 complete,16 pending. Preserve unfinished R02 and concurrent desktop source;
+this documentation update claims no new implemented feature.
+
+Proprietary, NC and unreviewed records/pools remain separate and excluded from
+open dependencies, fixtures, training, acceptance inputs and distribution. Added
+explicit source-kit/package and derivative-lineage acceptance, AGPL compatibility
+review, synthetic exclusion checks and handling when no open real fixture exists.
+Next native packet remains R02; complete L01 admission as actual inputs settle.
+
+Validation: documentation diff, checklist count and local-link checks only; no
+build, binding regeneration, download or cleanup. Waste review: reused existing
+22 tasks, licensing register and staging guard rather than another roadmap or
+inventory. An initial task-note patch missed an exact line; appended this scoped
+note instead, preserving existing concurrent edits.
+
+### Active R02: native landmark fit and atomic registration
+
+The existing draft now has an affected native test target. Changed inputs are
+landmark fitting/evidence persistence, the shared current-registration guard and
+CMake test/source wiring. Decisive first check: independent known translation,
+similarity/reflection, affine/noisy least squares, held-out isolation, degenerate/
+budget/cancel refusal, atomic undo and exact save/reopen. Reuse the real admitted
+mouse-brain project for the same native contract; preserve original files.
+Configure/build only landmark and existing registration tests in the shared cache;
+no binding, package or broad campaign. Interactive UI and its proof remain open.
+
+R02 interfaces are settled for the first affected build: compiled private panel,
+native preview/atomic accept/load and active gene-overlay mapping. GUI replay
+will exercise target dragging, invalidation, actual Fit/Accept, blocked publish,
+undo/load/save/reopen and known displacement of an in-memory real open demo.
+Source coordinates/counts are checked against the prepared baseline, and the
+original fixture remains untouched. Earlier guards refused two competing desktop
+builds; no competing compiler was started. Those processes are now absent.
+
+First native R01 check passes. New landmark test crashed because its undo oracle
+assumed default image-data properties were non-null; Document legitimately has
+no metadata initially. Compare optional properties without dereferencing absence.
+The first frontend compile also caught a stored transform field called as a
+function; corrected. Gene replay's new input-clear used the singular field name;
+corrected before its compilation. Retry the affected targets only, preserving
+native library/test objects and the failing CTest log. No numeric assertion relaxed.
+
+Native registration/landmark tests pass2 cases (0.25s), including the admitted real
+mouse-brain native save/reopen check. GUI registration replay passes actual drag,
+preview, accept, blocked publication, undo/load/save/reopen and all2702 known-shift
+positions on the real in-memory test copy. Original fixture is untouched.
+The new gene-overlay oracle omitted explicit source selection after its earlier
+multi-source fixture and retained the comparison log display while expecting
+linear colors. Correct only that setup: select the recorded lineage and linear
+policy. Keep the failed capture; rebuild the gene test target only.
+
+The corrected gene setup still failed. Binary/object inspection shows the new
+registration caption absent from gui.obj: the competing compiler read gui.cpp/
+gui_genes.hpp before edits, then finished afterward, defeating timestamp freshness.
+Do not mutate shared translation units during another build; prepare isolated
+files and defer wiring until it finishes. Touch only gui.cpp after all compiler
+processes are absent to force its affected compilation. Also strengthen GUI replay
+so save/reopen reloads landmarks through the actual panel using one persistent
+project/image identity. Preserve both failed gene captures and native evidence.
+
+R02 complete locally. Final native registration/landmark CTest passes2 cases
+(0.25s) and the real native persistence contract passes. Final GUI replay proves
+actual drag/invalidation, Fit/Accept, disabled publication, atomic undo, saved-fit
+load and reload after save/reopen with persistent image identity. The controlled
+real-data shift is recovered for all2702 spots; raw geometry/count identity stays
+exact relative to the prepared baseline. Actual app gene colors pass at mapped
+positions; final captures are readable. See the single feature-expansion receipt.
+
+Updated the canonical checklist to7 complete/15 pending. No new dependency,
+restricted material, binding compilation or package. Preserved concurrent sidebar
+edits and all failed captures. Moved only the two known native test projects from
+the source root into r02-native evidence; nothing was deleted. Waste review:
+compiled controller isolates subsequent UI changes; a shared-source mutation race
+required one forced gui.cpp compilation. Compilexx records the durable correction.
+Next F01: reuse native raw TIFF/channel snapshots and existing segmentation kernels
+for nucleus/cell measurements, with explicit compartment/invalid/seam semantics.
