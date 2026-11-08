@@ -1,5 +1,6 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupath_saved_data.hpp"
+#include "qupath_polygon.hpp"
 #include "class_registry.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "tma_internal.hpp"
@@ -179,6 +180,7 @@ double floating(std::uint64_t bits,bool single=false) {
 
 class Decoder {
     const Stream& stream;QuPathSavedData result;std::set<Id> objects;std::size_t count=0;
+    const std::atomic<bool>* cancelled;
     std::map<Id,std::string> class_ids;
     std::map<std::string,ObjectClass> class_definitions;
     std::shared_ptr<const TmaGridInfo> tma_grid;
@@ -286,13 +288,21 @@ class Decoder {
         } else if(roi.kind()==RoiKind::Polyline) {
             out["type"]="LineString";out["coordinates"]=Json::array();for(auto p:paths[0])out["coordinates"].push_back(point(p));
         } else {
-            Json ring=Json::array();for(auto p:paths[0])ring.push_back(point(p));ring.push_back(point(paths[0].front()));
-            out={{"type","Polygon"},{"coordinates",Json::array({ring})}};
+            auto ring=[&](const Ring& path) {Json value=Json::array();for(auto p:path)value.push_back(point(p));value.push_back(point(path.front()));return value;};
+            Json polygons=Json::array();
+            auto parts=roi.polygon_parts();
+            if(parts.empty())parts.emplace_back(paths[0]); // Analytic rectangle/ellipse transport.
+            for(const auto& part:parts) {
+                Json rings=Json::array({ring(part.shell)});
+                for(const auto& hole:part.holes)rings.push_back(ring(hole));
+                polygons.push_back(std::move(rings));
+            }
+            out=roi.kind()==RoiKind::MultiPolygon?Json{{"type","MultiPolygon"},{"coordinates",std::move(polygons)}}:Json{{"type","Polygon"},{"coordinates",std::move(polygons[0])}};
             if(roi.kind()==RoiKind::Rectangle || roi.kind()==RoiKind::Ellipse) {const auto b=roi.bounds();out["qupathxx"]={{"kind",roi.kind()==RoiKind::Rectangle?"rectangle":"ellipse"},{"bounds",Json::array({b.x,b.y,b.width,b.height})}};}
         }
         return out;
     }
-    Json geometry(Id id) const {
+    Json geometry(Id id) {
         if(!id)invalid("missing ROI");
         const auto c=int_field(id,"c"),z=int_field(id,"z"),t=int_field(id,"t");
         if(c < -1 || c>=65536 || z<0 || z>=65536 || t<0 || t>=65536)invalid("image plane index exceeds limits");
@@ -302,7 +312,12 @@ class Decoder {
             const auto x=double_field(id,"x"),y=double_field(id,"y"),x2=double_field(id,"x2"),y2=double_field(id,"y2");const Rect b{x,y,x2-x,y2-y};
             return roi_json(name.find("RectangleROI")!=std::string::npos?Roi::rectangle(b):Roi::ellipse(b));
         }
-        if(name=="qupath.lib.roi.PolygonROI$SerializationProxy")return roi_json(Roi::polygon(coordinates(id)));
+        if(name=="qupath.lib.roi.PolygonROI$SerializationProxy") {
+            bool normalized=false;
+            auto polygon=qupath_saved_polygon(coordinates(id),normalized,cancelled);
+            if(normalized)issue("polygon_vertex_touches_normalized","Saved PolygonROI vertex-touch walk decomposed without moving coordinates; stored measurements retained");
+            return roi_json(polygon);
+        }
         if(name=="qupath.lib.roi.PolylineROI$SerializationProxy")return roi_json(Roi::polyline(coordinates(id)));
         if(name=="qupath.lib.roi.PointsROI$SerializationProxy")return roi_json(Roi::points(coordinates(id)));
         if(name=="qupath.lib.roi.GeometryROI$WKBSerializationProxy") {
@@ -395,7 +410,7 @@ class Decoder {
         Json properties={{"objectType",cell?"cell":detection?"detection":"annotation"}};
         if(!attributes.empty())properties["metadata"]=std::move(attributes);
         if(!measured.empty())properties["measurements"]=measured;
-        if(label)properties["name"]=text(label);
+        properties["name"]=label?text(label):std::string{};
         if(color) {if(stream.name(color)!="java.lang.Integer")invalid("invalid saved object color");properties["color"]=std::int32_t(number(field(color,"value"),'I'));}
         const auto locked=d.object();if(stream.name(locked)!="java.lang.Boolean")invalid("invalid ROI lock flag");
         const auto lock_value=number(field(locked,"value"),'Z');if(lock_value>1)invalid("invalid ROI lock value");if(lock_value)properties["isLocked"]=true;
@@ -506,7 +521,7 @@ class Decoder {
         if(!out.empty())result.data_properties=std::make_shared<const ImageDataProperties>(std::move(out));
     }
 public:
-    explicit Decoder(const Stream& s):stream(s) {}
+    explicit Decoder(const Stream& s,const std::atomic<bool>* flag):stream(s),cancelled(flag) {}
     QuPathSavedData decode(const std::vector<Id>& values) {
         if(values.size()<3 || at(values[0]).kind!=Node::Block)invalid("missing data-file version");
         const auto& header=at(values[0]).bytes;const std::string version="Data file version 3";
@@ -581,7 +596,7 @@ public:
 };
 }
 QuPathSavedData decode_qupath_saved_data(const std::string& bytes,const std::atomic<bool>* cancelled) {
-    try {Stream stream(bytes,cancelled);std::vector<Id> values;while(!stream.done()) {if(values.size()>=1024)invalid("too many top-level records");values.push_back(stream.value());}return Decoder(stream).decode(values);}
+    try {Stream stream(bytes,cancelled);std::vector<Id> values;while(!stream.done()) {if(values.size()>=1024)invalid("too many top-level records");values.push_back(stream.value());}return Decoder(stream,cancelled).decode(values);}
     catch(const Json::exception& e) {invalid(std::string("invalid saved metadata: ")+e.what());}
 }
 }

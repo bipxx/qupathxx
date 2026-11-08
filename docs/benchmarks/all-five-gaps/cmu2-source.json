@@ -1,0 +1,10 @@
+{
+  "filename": "CMU-2.svs",
+  "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-2.svs",
+  "sha256": "fb6df83bfd91a252185c9652aebeb00deff84e49329f7ff8f75744f31f475b08",
+  "bytes": 390750635,
+  "license": "CC0-1.0",
+  "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/index.yaml",
+  "license_evidence": "retained build/fixtures/aperio-index.yaml",
+  "purpose": "G03 independent second-slide source; no pathologist ground truth"
+}

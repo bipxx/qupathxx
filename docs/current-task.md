@@ -7,6 +7,70 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active task - close G01-G05 with finite acceptance targets
+
+Owner explicitly requests all five gaps closed. G01's selected-ROI comparison
+and candidate6 G04 handoff stay accepted; do not rerun unchanged kernels for
+status. Additional work is selected now, with exit criteria fixed before results:
+
+- G05: native saved PolygonROI vertex-touch decomposition. Keep coordinates and
+  nonzero-winding filled region; report normalization as an explicit import loss
+  requiring existing allow_losses admission. Reject arbitrary crossings, spikes,
+  invalid decompositions and exceeded bounds. Compare all558 captured cell and
+  nucleus pixel-center partitions plus retained measurements/calibration/IDs after
+  save/reopen; add native positive/negative topology controls. No Python repair.
+- G02: retained real-slide canonical coarse tissue plus100,000-object viewer,
+  ten-minute repeat stability, actual Windows process GPU-memory counters and
+  native payload budgets; verify tile consistency/cancel/stale publication at
+  existing authorities. Scope is these named Windows whole-slide research routes,
+  not streaming level-zero cell analysis or a universal leak/latency guarantee.
+- G03: independent CC0 CMU-2.svs, three deterministic separated tissue-rich crops
+  chosen from input pixels before segmentation. Freeze recipe and exact RGB/mask/
+  measurement comparison against pinned QuPath; retain failures. This closes the
+  named second-slide scientific comparison, not pathologist accuracy claims.
+- G04: one final matching Windows handoff after the source change, using the
+  existing cache and38 binding objects; targeted native/installed routes, exact
+  source/notices/open-codec inventory and install/removal/publication checks.
+  G01 evidence remains applicable if detector/sampling/measurement source is
+  unchanged; record those unchanged inputs rather than repeat timing searches.
+
+G05 first result: native normalization and30 winding/coordinate cases pass;
+all558 source masks and22,880 stored measurement values match bit-for-bit in a
+diagnostic comparison. Strict name check found an existing decoder bug: null
+source names fell through GeoJSON's generic Annotation default. Native decoder
+now writes explicit empty names. Diagnostic receipt is not final acceptance;
+rerun full comparison after the narrow decoder repair. All38 binding objects
+were reused. Resource run is active for its fixed ten-minute window.
+
+G05 strict full check now passes all558 masks,22,880 bit-exact stored values,
+hierarchy, names and calibration after native null-name repair. G03 fixed panel
+is CMU-2 crops[23552,21504],[58368,17408],[7168,5120], each512 square. Initial
+observer incorrectly reduced double per-pixel OD against the documented float32
+FloatRgbImage domain. Corrected the independent oracle's per-pixel quantization,
+keeping1e-10 mean tolerance and every selected crop; recover the first successful
+archive rather than redetect/repackage. Dense100,001-object viewer passes with
+actual OS GPU counters retained. Ten-minute run remains active.
+
+G02 acceptance complete:2,768 identical calls/600.08s;1.07MiB private range
+within32MiB predeclared bound. Dense100,001-object/600-frame route passes;
+actual GPU process peak87,875,584 committed bytes, distinct from12.25MiB tissue
+payload. G03 fixed second-slide cases pass2,258/2,266/2,208 cells (6,732 total),
+exact RGB/partitions/calibration;20,196 nucleus/cell/cytoplasm domains pass RGB/
+float32-OD means and physical sample areas at1e-10. Five affected Python importer
+regressions pass; final native importer suite passes0.47s. No cases/tolerances
+were removed. [Evidence](benchmarks/all-five-gaps/README.md).
+
+G04 now selects a single candidate7 handoff from final571-input tree013006a1.
+Candidate6 stays frozen. Package/install/current-import/standalone/removal/asset
+checks remain, using existing freezer and installed-route drivers. Stage is
+refreshed after the sustained worker exited;38 binding objects remain exact.
+
+Build risk/decisive check: only private importer/helper and affected native tests
+should compile, then relink consumers once. Preserve candidate6 and archived
+failures. No optional O01-O05 features or additional-platform claim is selected;
+G05 chooses the additional saved-data format case, as permitted by its original
+format-or-platform exit. Update this card/checklist after each coherent result.
+
 ## Delivered task - candidate6 handoff and remaining gap status
 
 Owner selected G01-G05 closure; [checklist](remaining-gaps-checklist.md) records

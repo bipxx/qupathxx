@@ -276,3 +276,32 @@ Short project-entry metadata maps now have [scoped retention](project-entry-meta
 through ProjectImage/Project and manifest/exchange1/2 imports, including actual
 saved geometry routes. [Tags and description](project-entry-details.md) also have scoped retention
 through their project authority. [Project-wide metadata](benchmarks/project-metadata-r5/README.md) now has its separate schema25/import/edit/snapshot/recovery workflow. Derived class ancestry and zero-image project class defaults remain distinct gaps.
+
+
+## Saved PolygonROI vertex touches
+
+Pinned QuPath0.7.0 PolygonROI uses nonzero winding and can serialize a walk with
+repeated non-adjacent vertices. The native saved-data reader decomposes those
+walks into simple cycles without moving, snapping or inventing coordinates.
+Validated containment/winding determines exterior shells, holes and redundant
+interior boundaries. Every cycle and the final polygon/multipolygon must pass
+normal native topology validation; partially overlapping/crossing cycles,
+backtracking spikes, adjacent duplicates and empty results remain fatal. No
+GEOS MakeValid or general repair is applied. Normalization is limited to100,000
+vertices,1,024 cycles and two million cycle-pair vertex work; cancellation is
+checked while decomposing and comparing cycles. Ordinary valid polygons retain
+the existing path and vertex limit.
+
+Preview reports `polygon_vertex_touches_normalized` with a count. As with other
+reported import losses, default publication refuses; the existing explicit
+`allow_losses=True` API or native UI acceptance checkbox admits the reviewed
+conversion. Source files remain unchanged and source guards/new-destination
+publication remain in force. Existing stored measurements are retained exactly;
+newly computed geometry metrics describe the valid filled-region representation,
+not the original repeated walk's edge traversal. Unnamed source objects remain
+unnamed instead of acquiring the generic GeoJSON Annotation default.
+
+[Named-case evidence](benchmarks/all-five-gaps/README.md) compares all558 cells'
+nucleus/body partitions,22,880 bit-exact stored measurements, names, hierarchy,
+calibration and save/reopen. This is support for vertex-touch PolygonROI walks;
+unsupported arbitrary self-crossings are still explicitly refused.

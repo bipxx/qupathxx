@@ -1,0 +1,12 @@
+{
+  "samples": 10,
+  "engine_pid": 173920,
+  "peak_working_set_bytes": 301764608,
+  "peak_private_bytes": 977375232,
+  "gpu_process_counter_peaks_bytes": {
+    "dedicated usage": 53714944.0,
+    "shared usage": 34095104.0,
+    "total committed": 87875584.0
+  },
+  "scope": "Windows GPU Process Memory counters, aggregated across adapters per observation; observed process peaks, not native payload-only accounting or hardware-wide guarantees"
+}

@@ -1,0 +1,253 @@
+[
+  {
+    "time_utc": "2026-11-08T14:39:10.3499578Z",
+    "engine_pid": 173920,
+    "rss": 259178496,
+    "peak_rss": 263835648,
+    "private": 915554304,
+    "gpu": []
+  },
+  {
+    "time_utc": "2026-11-08T14:39:11.7527838Z",
+    "engine_pid": 173920,
+    "rss": 297598976,
+    "peak_rss": 301764608,
+    "private": 977375232,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:13.0922660Z",
+    "engine_pid": 173920,
+    "rss": 297639936,
+    "peak_rss": 301764608,
+    "private": 977375232,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:14.4109380Z",
+    "engine_pid": 173920,
+    "rss": 297644032,
+    "peak_rss": 301764608,
+    "private": 977375232,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:15.7181746Z",
+    "engine_pid": 173920,
+    "rss": 297652224,
+    "peak_rss": 301764608,
+    "private": 977375232,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:17.0523660Z",
+    "engine_pid": 173920,
+    "rss": 297652224,
+    "peak_rss": 301764608,
+    "private": 977375232,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:18.3359476Z",
+    "engine_pid": 173920,
+    "rss": 296587264,
+    "peak_rss": 301764608,
+    "private": 976310272,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:19.6381293Z",
+    "engine_pid": 173920,
+    "rss": 296587264,
+    "peak_rss": 301764608,
+    "private": 976310272,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:20.9492194Z",
+    "engine_pid": 173920,
+    "rss": 296620032,
+    "peak_rss": 301764608,
+    "private": 976506880,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 53714944.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 34095104.0,
+        "Status": 0
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 87875584.0,
+        "Status": 0
+      }
+    ]
+  },
+  {
+    "time_utc": "2026-11-08T14:39:22.2392124Z",
+    "engine_pid": 173920,
+    "rss": null,
+    "peak_rss": null,
+    "private": null,
+    "gpu": [
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\dedicated usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 0.0,
+        "Status": 3221228486
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\shared usage",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 0.0,
+        "Status": 3221228486
+      },
+      {
+        "Path": "\\\\heqpc\\gpu process memory(pid_173920_luid_0x00000000_0x0001091a_phys_0)\\total committed",
+        "InstanceName": "pid_173920_luid_0x00000000_0x0001091a_phys_0",
+        "CookedValue": 0.0,
+        "Status": 3221228486
+      }
+    ]
+  }
+]

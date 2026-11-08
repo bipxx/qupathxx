@@ -1,0 +1,35 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "source_pixels": 205520896,
+  "level": 3,
+  "downsample": 8.0,
+  "sampled_pixels": 3211264,
+  "sample_reduction": 64,
+  "capture_ms": 0.020300038158893585,
+  "estimated_work_bytes": 33204224,
+  "retained_bytes": 19248008,
+  "input_format": "qpx.rgba-level-tiles/1",
+  "input_sha256": "8a7fb3bd1ba00b96da2606731cc9754c72d10e04015c7e85eba1d288e07e09cc",
+  "runs": [
+    {
+      "submit_ms": 0.1071002334356308,
+      "worker_ms": 150.2174,
+      "max_poll_ms": 0.07670000195503235
+    },
+    {
+      "submit_ms": 0.060399994254112244,
+      "worker_ms": 141.9951,
+      "max_poll_ms": 0.04040030762553215
+    }
+  ],
+  "objects": 100001,
+  "selected": 100001,
+  "visible": 876,
+  "cpu_frame_p95_ms": 17.1017,
+  "max_cpu_frame_ms": 23.0232,
+  "gui_worker_ms": 149.6052,
+  "image_gpu_bytes": 270336,
+  "tissue_gpu_bytes": 12845056,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

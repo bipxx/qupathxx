@@ -1,0 +1,107 @@
+{
+  "source_tree": "013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941",
+  "plan": {
+    "slide": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-2.svs",
+    "source_sha256": "fb6df83bfd91a252185c9652aebeb00deff84e49329f7ff8f75744f31f475b08",
+    "dimensions": [
+      78000,
+      30462
+    ],
+    "selection": "Descending thumbnail OD-sum, deterministic tie/order, minimum separation min(width,height)/4; no segmentation outcomes used",
+    "recipe": {
+      "context": 0,
+      "step": 1,
+      "threshold": 0.4,
+      "sigma": 1,
+      "min_area": 16,
+      "max_area": 512,
+      "expansion": 5,
+      "processing": "QUPATH_070_V2",
+      "sampling": "AFFINE_INVERSE"
+    },
+    "criteria": {
+      "rgb": "exact",
+      "canonical_partitions": "exact",
+      "counts": "exact",
+      "compartment_pixels": "exact",
+      "rgb_and_od_mean_absolute_tolerance": 1e-10
+    },
+    "crops": [
+      {
+        "roi": [
+          23552,
+          21504,
+          512,
+          512
+        ],
+        "thumbnail_od_sum_score": 1.1035281613991894
+      },
+      {
+        "roi": [
+          58368,
+          17408,
+          512,
+          512
+        ],
+        "thumbnail_od_sum_score": 1.091589365051469
+      },
+      {
+        "roi": [
+          7168,
+          5120,
+          512,
+          512
+        ],
+        "thumbnail_od_sum_score": 1.0056545751528454
+      }
+    ]
+  },
+  "cases": [
+    {
+      "index": 0,
+      "roi": [
+        23552,
+        21504,
+        512,
+        512
+      ],
+      "cells": 2258,
+      "exact_rgb": true,
+      "exact_canonical_partitions": true,
+      "exact_calibration_and_global_rgb": true,
+      "independent_compartment_rgb_od_means_and_pixel_counts": true,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "index": 1,
+      "roi": [
+        58368,
+        17408,
+        512,
+        512
+      ],
+      "cells": 2266,
+      "exact_rgb": true,
+      "exact_canonical_partitions": true,
+      "exact_calibration_and_global_rgb": true,
+      "independent_compartment_rgb_od_means_and_pixel_counts": true,
+      "absolute_tolerance": 1e-10
+    },
+    {
+      "index": 2,
+      "roi": [
+        7168,
+        5120,
+        512,
+        512
+      ],
+      "cells": 2208,
+      "exact_rgb": true,
+      "exact_canonical_partitions": true,
+      "exact_calibration_and_global_rgb": true,
+      "independent_compartment_rgb_od_means_and_pixel_counts": true,
+      "absolute_tolerance": 1e-10
+    }
+  ],
+  "biological_accuracy_claim": false
+}

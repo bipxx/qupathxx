@@ -25,7 +25,7 @@ endif()
 include(ThirdPartyNotices)
 install(FILES third_party/imagej-shape-NOTICE.txt DESTINATION qupathxx/licenses/imagej-shape RENAME NOTICE.txt)
 add_library(qupathxx_core STATIC cpp/object_properties.cpp cpp/core.cpp cpp/tma.cpp cpp/tma_tables.cpp cpp/document_edits.cpp cpp/selection.cpp cpp/geometry.cpp cpp/spatial_index.cpp cpp/image_server.cpp cpp/openslide_server.cpp cpp/tile_scheduler.cpp cpp/view_tiles.cpp cpp/display.cpp cpp/project.cpp cpp/project_recovery.cpp cpp/project_save.cpp cpp/interchange.cpp cpp/stains.cpp cpp/analysis.cpp cpp/sha256.cpp cpp/analysis_records.cpp cpp/tissue.cpp cpp/tissue_contours.cpp cpp/tissue_records.cpp cpp/tissue_archive.cpp cpp/cells.cpp)
-target_sources(qupathxx_core PRIVATE cpp/image_axis_calibration.cpp cpp/image_analysis_settings.cpp cpp/image_data_properties.cpp cpp/qupath_project.cpp cpp/qupath_saved_data.cpp cpp/project_source.cpp)
+target_sources(qupathxx_core PRIVATE cpp/image_axis_calibration.cpp cpp/image_analysis_settings.cpp cpp/image_data_properties.cpp cpp/qupath_project.cpp cpp/qupath_saved_data.cpp cpp/qupath_polygon.cpp cpp/project_source.cpp)
 
 target_sources(qupathxx_core PRIVATE cpp/thumbnail.cpp cpp/resampling.cpp cpp/rgb_nominal.cpp)
 target_sources(qupathxx_core PRIVATE cpp/rgb_preview.cpp)
