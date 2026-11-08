@@ -32,7 +32,7 @@ is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 | Untangle | U1-U6 structural prerequisites, comment cleanup and behavioral test repair; [decision log](untangle-decision-log.md) | Complete - [evidence](benchmarks/untangle-codebase/README.md) |
 | L1 | Native watershed interior access; exact masks, edge widths, topology/cancel/budget checks | Complete - [evidence](benchmarks/cell-kernel-optimization/README.md) |
 | L2 | Buffered SHA updates preserve canonical bytes and Windows/portable digests/finish behavior | Complete |
-| L3 | Same immutable domain/digest reused internally without weakening per-raster admission/validation; retain simpler path if gain negligible | Deferred - profile remaining benefit before adding ownership complexity |
+| L3 | Same immutable nominal input digest reused internally for paired masks; separate label/admission/expected-identity checks retained | Selected nominal sharing delivered - [27.2% raster-stage reduction](benchmarks/native-detector-optimization/README.md); broader domain/general-grid sharing deferred, overall gain unproven |
 | L4 | Final changed-source correctness capture and disclosed candidate/reference/control timing; first unsettled reference retained | Complete |
 | L5 | Shared C++ density service; [NC01-NC14](consolidation-coverage.md) own detailed acceptance | Complete |
 | L6 | Native importer rules; [NC15-NC17](consolidation-coverage.md) | Complete |

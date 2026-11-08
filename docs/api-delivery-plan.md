@@ -3,7 +3,8 @@
 The [latest native kernel batch](benchmarks/cell-kernel-optimization/README.md)
 preserves exact outputs and improves the retained native control by~5.9%. The
 reference remains variable, so no general speed win is claimed. L1/L2/L4 are
-delivered; conditional L3 is deferred pending a measured benefit. L5-L7's shared
+delivered. L3 now shares the nominal mask input digest after a measured27.2%
+raster-stage benefit; broader sharing stays deferred and no overall gain is proven. L5-L7's shared
 native workflow/import migration is implemented and evidenced in the
 [28-item consolidation checklist](consolidation-coverage.md); final source handoff
 closes that selected phase. Historical reports retain

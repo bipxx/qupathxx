@@ -7,8 +7,11 @@
 void check_scientific_raster();
 void check(bool value) {if(!value) throw std::runtime_error("tissue contour check failed");}
 template<class Exception,class Action> void rejects(Action action) {try {action();} catch(const Exception&) {return;}throw std::logic_error("missing contour rejection");}
-int main() {
+void check_cell_raster_pair();
+void benchmark_cell_raster_pair(const std::string&);
+int main(int argc,char** argv) {
     try {
+        if(argc==3 && std::string(argv[1])=="--benchmark-pair"){benchmark_cell_raster_pair(argv[2]);return 0;}
         check_scientific_raster();
         using namespace qpx;StainTransform transform({{1,0,0},{0,1,0}});
         if(!has_geos()) {
@@ -19,6 +22,7 @@ int main() {
             rejects<std::runtime_error>([&]{job.request_contours();});
             std::cout<<"contour backend-disabled checks passed\n";return 0;
         }
+        check_cell_raster_pair();
         // Compare the nominal label-local graph against the independent
         // general scientific-grid route: diagonal contacts, shared boundaries,
         // background/enclosed labels, disconnected parts and nested holes.

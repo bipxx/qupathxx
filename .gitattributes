@@ -861,3 +861,7 @@ docs/benchmarks/consolidation/workflow-legacy*.log -text -whitespace
 
 # Preserve boundary validation output exactly.
 docs/benchmarks/consolidation/boundary*.log -text -whitespace
+
+# Preserve native detector diagnostic evidence verbatim.
+docs/benchmarks/native-detector-optimization/*.log -text -whitespace
+docs/benchmarks/native-detector-optimization/profile.patch -text -whitespace

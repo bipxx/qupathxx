@@ -7,6 +7,44 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - paired native raster identity optimization
+
+Owner-selected [native detector optimization](benchmarks/native-detector-optimization/README.md)
+removes duplicate source/domain hashing for nominal nucleus/body masks. In the
+isolated same-process alternating probe, raster construction21.28 ->15.49ms:
+27.2% stage reduction, about5.79ms saved. Both masks retain separate label/domain/
+counter/component/budget/expected-digest admission; only an internally produced
+identity is reused for the same immutable source/input. General rational-grid
+construction remains unchanged. No public trusted-hash API/cache/new worker.
+
+Full detector A/B/A medians329.8/334.0/330.0ms under31-36% other-process CPU load
+do not demonstrate an overall gain. Preserve those samples; do not rerun to chase
+a favorable median or claim QuPath parity. Diagnostic profile identifies contour
+trace~122ms and nuclei~86ms as larger costs; contour clipping/order is unchanged.
+The selected duplicate-work reduction is evidenced at its own stage only.
+
+Three affected native suites pass2.23s, plus the final pair test after opt-in probe
+edits. Pair-versus-single nominal/fractional/context/general values and exact
+per-mask budget/identity/label/cancel refusals pass. Full outputs preserve exact
+RGB, both masks, ordered geometry, stored features and density CSV for all2,237
+Cells. Fresh archive replay verifies in the final installed runtime. Final tree
+a3cbffa4ae17136523f40464a09acfc5504a8132231694cfcd4d82efa8b3f6e7 has568 inputs;
+source manifest/generated provenance/installed module agree. All38 binding objects
+remain byte-identical. Existing cache/runtime refreshed; frozen products/fixtures/
+archives and diagnosed failures remain intact. No new release or schema.
+
+Waste review: copy2 restored old timestamps and MSBuild reused a diagnostic object;
+retain that invalid candidate run, touch restored source and rebuild only the
+changed object/relink. Fix the probe's stain array/vector conversion and respect
+request tickets when verifying replay. Compare stored geometry directly; recompute
+one replay through the native request. The isolated alternating probe resolves
+duplicate-hash benefit without another full pipeline/QuPath campaign. Temporary
+profile instrumentation is removed. Durable lesson added to compilexx.
+
+Stop this bounded batch after matching source handoff. Further contour/nucleus
+changes need a specific measured optimization and exact identity evidence; broader
+speed superiority remains unproven. Consolidation remains28/28 complete.
+
 ## Delivered task - focused post-consolidation speed comparison
 
 Owner-selected fresh comparison is [complete](benchmarks/post-consolidation-speed/README.md):
