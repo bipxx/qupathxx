@@ -23,10 +23,12 @@ Two selected native CTest cases plus installed example pass with Python discover
 disabled. No binding targets; all38 binding objects preserved. Existing Windows
 GUI/SDK flags retained, optional Python configuration restored. New example source
 is included in the compiler-input manifest. Shell syntax and local links pass.
-Hosted minimal Linux run42513372855 passed configure but found ambiguous
-checkpoint lookup in cell intensity statistics under GCC. Qualify the four calls
-to the intended helper; no algorithm/cancellation semantics change. Validate the
-affected native cell target and example, then the changed Linux job.
+Initial Linux run42513372855 exposed ambiguous checkpoint lookup under GCC.
+Four calls now name the intended helper; algorithm/cancellation behavior unchanged.
+Affected local cells/example plus installed replay pass. Corrected Linux
+[run42513681737](https://github.com/bipxx/qupathxx/actions/runs/42513681737) passes
+all configure/build/tests/install/runtime-import/installed-consumer checks on
+source673caa69. This closes U01-U03 for the selected native usability slice.
 
 Waste review: one cache, example component install only; no binding rebuild,
 wheel, scientific campaign or release. GCC failure diagnosed before retry;

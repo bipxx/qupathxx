@@ -24,7 +24,11 @@ Python-disabled CI guard. No scientific kernel, binding API or release changed.
   existing cell-statistics helper ([diagnostics](initial-gcc-failure.log)). Four
   calls now explicitly name the intended intensity_detail helper; algorithm and
   cancellation semantics are unchanged. [Affected local tests](portability-tests.log)
-  pass; a changed-source hosted run is required before claiming Linux completion.
+  and [installed replay](portability-installed-test.log) pass. The
+  [corrected hosted Linux run](https://github.com/bipxx/qupathxx/actions/runs/42513681737)
+  passes configure, native build/tests, installation, runtime-import checks and
+  installed consumer replay/no-overwrite on source673caa69; [job/step metadata](hosted-ci.json).
+  No full matrix or release support claim follows from this bounded guard.
 
 Waste review: one existing cache, one optional example component install, two
 focused native checks and one installed check. Reused existing science evidence;
