@@ -1790,3 +1790,49 @@ compiled controller isolates subsequent UI changes; a shared-source mutation rac
 required one forced gui.cpp compilation. Compilexx records the durable correction.
 Next F01: reuse native raw TIFF/channel snapshots and existing segmentation kernels
 for nucleus/cell measurements, with explicit compartment/invalid/seam semantics.
+
+### Active F01: raw fluorescence cell service
+
+Changed inputs: additive fluorescence_cells native header/service and one focused
+native test target. Existing RGB/OD cell routes and binding ABI stay intact.
+Reused physical Gaussian, exact metric distance/watershed, calibrated expansion
+and compensated intensity moments. New raw reducer supports arbitrary channels,
+body/nucleus/cytoplasm, finite/nonfinite/invalid/zero distinctions and explicit
+binary64 integer admission. Raw source and segmentation/display values stay
+separate. Local ROI/raster/support truncation is retained and flagged.
+
+Decisive first check: independently defined masks/expansion, analytical four-channel
+compartments, empty/missing data, Gaussian impulse/original-value measurement,
+Otsu/constant cases, anisotropic area/radius, boundary flags, bounded/cancel and
+malformed input refusal. Run the admitted real TIFF only as a native geometry
+smoke; it has no admitted annotation and cannot close biological validation.
+F01 remains open for source-bound requests/jobs, object/recipe persistence,
+consumer integration, context/seam handling and an open annotated panel.
+No new dependency, restricted download, GUI/binding build or package. Confirm no
+live compiler before one existing-cache configure/build of the affected target.
+
+Initial F01 native checks pass (1 case,0.12s); admitted OME raw-source smoke runs
+and reports candidates without an annotation/accuracy claim. Final kernel review
+found the reused watershed's regional intensity-mean gate could threshold the
+already-thresholded foreground again. Pass the binary foreground to that gate,
+so nucleus membership has one strict intensity threshold and never depends on a
+rounded regional mean. Add a nextafter-threshold oracle. Rebuild only the changed
+native source/test; no frontend, binding or package. BBBC039 is a possible open
+annotated panel: the official page explicitly declares CC0 for v1, unlike the
+excluded NC examples. No archive/data from it has been downloaded/admitted yet.
+
+F01 native foundation passes its final affected check (0.15s), plus a native smoke
+on the preselected CC0 BBBC039 image (130 candidates, not annotation acceptance).
+The original TIFF/mask/official validation list are pinned in the existing fixture
+inventory and pass offline staging admission. Range acquisition transfers about
+511KiB including metadata, avoiding the78MB archive. Preserve its local recipe and
+hash/range receipts; no proprietary/NC material was acquired.
+
+F01 stays open and the checklist remains7 complete/15 pending: live source/ROI/
+series/Z/T requests and jobs, contour/object publication, recipe persistence,
+UI/CLI, context/seam behavior and declared annotated comparison are still needed.
+Waste review: shared-cache guard deferred one competing desktop build; isolated
+new native files avoided stale shared-header consumers. A reviewed binary-mask
+handoff removed the reused splitter's second intensity gate. No bindings, new
+library, full qualification, GUI build or release. Next continue the source-bound
+native workflow using this tested service and the existing raw currentness guard.

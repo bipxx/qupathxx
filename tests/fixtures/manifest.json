@@ -244,5 +244,70 @@
     "provenance": "Independent official QuPath v0.7.0 Windows runtime; archive and all extracted files verified before generation. Synthetic inputs; no patient/slide data.",
     "state": "captured gates pass with explicit loss-aware QuPath ellipse precision matching; broader interoperability remains partial",
     "purpose": "Live native-to-QuPath round trip, geometry/calibration, OD/stain kernels, exact sampling masks and tiled ROI means; retained quantization and decoder differences"
+  },
+  "fluorescence_evaluation": {
+    "dataset": "BBBC039v1",
+    "acquisition": "Opt-in archive members only; not ordinary reader fixture downloads. Each URL fragment names its member, whose extracted bytes/hash are pinned. Acquisition recipe and range receipts retained locally under build/feature-expansion/bbbc039-inputs.",
+    "selection": "First filename in official metadata/validation.txt, chosen before examining pixels/results",
+    "state": "admitted bytes; segmentation evaluation pending",
+    "files": [
+      {
+        "filename": "IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
+        "bytes": 726354,
+        "sha256": "9eacee0e5a4c29af70307af4d310320632e31ed84b4d8b5fd4fce42930f780ec",
+        "archive_member": "images/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
+        "url": "https://data.broadinstitute.org/bbbc/BBBC039/images.zip#images/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
+        "license": "CC0-1.0",
+        "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+        "purpose": "F01 single preselected validation panel; source/annotation decoding and tolerances remain to be qualified",
+        "material": {
+          "id": "bbbc039v1-validation-raw",
+          "category": "admitted_open",
+          "kind": "evaluation_data",
+          "license_id": "CC0-1.0",
+          "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+          "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+          "source_ids": []
+        }
+      },
+      {
+        "filename": "IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.png",
+        "bytes": 13080,
+        "sha256": "c56c246edcd456f81fb0d61d318c2b7a378afba207bd0b409834db16d30cfb72",
+        "archive_member": "masks/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.png",
+        "url": "https://data.broadinstitute.org/bbbc/BBBC039/masks.zip#masks/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.png",
+        "license": "CC0-1.0",
+        "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+        "purpose": "F01 single preselected validation panel; source/annotation decoding and tolerances remain to be qualified",
+        "material": {
+          "id": "bbbc039v1-validation-annotation",
+          "category": "admitted_open",
+          "kind": "evaluation_data",
+          "license_id": "CC0-1.0",
+          "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+          "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+          "source_ids": []
+        }
+      },
+      {
+        "filename": "validation.txt",
+        "bytes": 2900,
+        "sha256": "4fca45a79803e9abda51ecfca8acb97239b8e3183385c91c6f2c9f493174aa20",
+        "url": "https://data.broadinstitute.org/bbbc/BBBC039/metadata.zip#metadata/validation.txt",
+        "archive_member": "metadata/validation.txt",
+        "license": "CC0-1.0",
+        "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+        "purpose": "Official validation partition; first listed pair selected before examining results",
+        "material": {
+          "id": "bbbc039v1-validation-partition",
+          "category": "admitted_open",
+          "kind": "evaluation_data",
+          "license_id": "CC0-1.0",
+          "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+          "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+          "source_ids": []
+        }
+      }
+    ]
   }
 }

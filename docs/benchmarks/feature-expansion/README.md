@@ -212,3 +212,69 @@ Frontend checks ran on the combined integration tree, including the separately
 owned sidebar-form edits retained in this checkout. They qualify the named
 behavior on that tree, not a frozen standalone binary release from this feature
 commit. Release/source/package identity remains P02 work.
+
+F01 native foundation (not a completed checklist item):
+[fluorescence_cells.hpp](../../../cpp/include/qupathxx/fluorescence_cells.hpp)
+provides a pure level-zero raw-raster detector and a reducer for arbitrary
+channel counts. The existing physical Gaussian, metric distance/watershed,
+calibrated expansion and compensated moment implementations are reused without
+RGB conversion, optical density or preview values. Explicit strict intensity
+threshold or256-bin Otsu precedes distance watershed. The splitter receives the
+binary foreground so its existing regional-mean gate cannot silently threshold
+smoothed intensities again. Expansion retains the shared strict distance<radius
+and deterministic collision rules. Nonfinite/invalid segmentation pixels are
+excluded; original raw values supply measurements even when detection is smoothed.
+
+Each body includes its own nucleus; foreign-nucleus ownership refuses. Cytoplasm
+is body minus all nuclei and is absent when geometrically empty. Geometric and
+valid pixel counts are separate; each channel reports finite/nonfinite counts,
+optional sum/mean/min/max and optional sample SD. An all-nonfinite channel is
+missing, measured zeros remain zero and one finite sample has no sample SD.
+Signed intensities remain signed; int64/uint64 values outside the declared exact
+binary64 admission range[-2^53,2^53] refuse rather than lose precision. Malformed
+storage/type/validity/labels and work limits refuse before scientific publication.
+ROI/raster/segmentation-support boundary contacts are retained and flagged, never
+asserted as complete objects. No live-document authority is attached to a pure
+raster result; the source-bound workflow still needs its own currentness checks.
+
+Final affected native CTest fluorescence_cells passes (0.15s total). Independent
+fixtures prove exact two-nucleus masks, radius expansion and four-channel raw
+compartment values, empty/missing/invalid/zero cases, signed/nonfinite samples,
+integer precision refusal, anisotropic area/radius, constant/Otsu input, a Gaussian
+impulse with original-value measurement, strict nextafter-threshold membership,
+deterministic identities, boundary flags and budget/cancel/malformed refusal.
+Final log: workspace-root build/feature-expansion/f01-native-final/ctest.log.
+Native-only CI includes this target; hosted execution is not claimed. The admitted
+OME demo produces832 candidate objects in an initial raw-source smoke. The newly
+admitted BBBC039 raw TIFF produces130 candidates in the final smoke. Neither is
+an annotation comparison or biological-accuracy result. Initial and final logs
+remain f01-native and f01-native-final. No GUI/binding/package was built for F01.
+
+The [official BBBC039v1 page](https://bbbc.broadinstitute.org/BBBC039) declares CC0
+for its fluorescence images/annotations. This is distinct from the excluded
+BBBC017/020 NC material. The first filename in metadata/validation.txt was selected
+before inspecting image pixels or detector results:
+IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.
+The original TIFF, PNG mask and validation list have exact hashes/attribution in
+the existing [fixture inventory](../../../tests/fixtures/manifest.json), under
+fluorescence_evaluation; ordinary reader downloads are unchanged. The offline
+material-staging guard passes all3 original selected files. Annotation decoding
+and comparison against declared split/merge/measurement tolerances remain open.
+
+Acquisition is retained locally at build/feature-expansion/bbbc039-inputs:
+capture.py/capture.json record member paths, CRC-checked lossless extraction,
+ETags, archive sizes and transfer counts. HTTP ranges transfer441,446 image-
+archive bytes and63,881 mask-archive bytes; metadata.zip is17,816 bytes. No full
+77,915,748-byte image archive was downloaded. Selected staging files total742,334
+bytes. Unknown/restricted models/code were not fetched; the upstream decoder gist
+is reference only, not imported code. The first metadata inspection encountered
+an Apple resource-fork entry; explicitly inspect the named metadata members and
+skip __MACOSX instead of treating those auxiliary bytes as UTF-8 scientific input.
+
+Next F01 work: capture series/Z/T/ROI/calibration/source association in the native
+request, reuse existing jobs/currentness and object commands, store the exact
+recipe/results, wire consumers, and qualify an admitted annotated panel with
+explicit context/boundary/seam behavior. Do not route raw masks through an RGB
+ScientificRasterKernel by fabricating RGB provenance. Reuse its contour machinery
+through an appropriate typed raw-raster adapter. F01 remains unchecked; overall
+completion stays7/22. L01 final package membership also remains open.

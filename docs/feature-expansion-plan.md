@@ -223,6 +223,14 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   recipe/record identity and publish through existing native object commands.
   Exit: independent tiny masks plus an admitted annotated fluorescence panel with
   declared split/merge/measurement tolerances; no blanket biological-accuracy claim.
+  Progress: the native raw-raster service and arbitrary-channel compartment
+  reducer pass independent threshold/watershed/expansion/moment tests, including
+  physical units and boundary flags. Source-bound requests/jobs, native contour/
+  object publication, recipe persistence, UI/CLI and full context/seam acceptance
+  remain. One preselected BBBC039v1 image/mask/partition is CC0-admitted with exact
+  hashes; annotation decoding, frozen tolerances and comparison are still pending.
+  Keep this item unchecked until that complete workflow is evidenced; reuse the
+  [single receipt](benchmarks/feature-expansion/README.md).
 - [ ] **F02 — marker positivity and phenotype rules.** Reuse per-compartment raw
   measurements and native classification publication. Versioned per-marker gates
   and AND/OR rules include channel/compartment, threshold, units and measurement
