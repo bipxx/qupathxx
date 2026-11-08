@@ -83,8 +83,8 @@ public:
             initial_=false;try {if(record_)inspect(doc);else if(options_.run)measure(doc);}catch(const std::exception& e){error_=e.what();}
         }
         if(!open_)return;
-        ImGui::SetNextWindowSize(ImVec2(650,density()?std::min(850.f,ImGui::GetMainViewport()->WorkSize.y-60):630.f),ImGuiCond_FirstUseEver);
-        if(!ImGui::Begin("Spatial analysis",&open_)) {ImGui::End();return;}
+        ui::SetNextToolWindow("Spatial analysis",{650,density()?850.f:630.f});
+        if(!ImGui::Begin(ui::i18n::label("Spatial analysis").c_str(),&open_)) {ImGui::End();return;}
         const auto state=frontend_.report();const bool idle=!state.busy && !blocked && has_image;
         button(density()?"Selection as ROI windows":"Use selection as sources",GuiInputTarget::SpatialSources,idle,mark_target,[&]{sources_=selection.ids();});
         ImGui::SameLine();button(density()?"Selection as cells":"Use selection as targets",GuiInputTarget::SpatialTargets,idle,mark_target,[&]{targets_=selection.ids();});

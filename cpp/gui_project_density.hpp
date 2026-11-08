@@ -50,8 +50,8 @@ public:
         job_.poll();auto result=job_.result();
         if(result && result!=observed_) {observed_=result;if(result->state=="preview")preview_=result;}
         if(!open_)return;
-        ImGui::SetNextWindowSize({760,720},ImGuiCond_FirstUseEver);
-        if(!ImGui::Begin("Project-wide density",&open_)){ImGui::End();return;}
+        ui::SetNextToolWindow("Project-wide density",{760,720});
+        if(!ImGui::Begin(ui::i18n::label("Project-wide density").c_str(),&open_)){ImGui::End();return;}
         try {
             const auto path=project && !project->path().empty()?std::filesystem::weakly_canonical(std::filesystem::u8path(project->path())).u8string():std::string{};
             if((project?project->identity():std::string{})!=project_id_ || path!=source_) {

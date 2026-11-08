@@ -11,6 +11,7 @@
 #include "gui_design_system.hpp"
 #include "gui_layout.hpp"
 #include "gui_shell.hpp"
+#include "gui_workflow.hpp"
 
 namespace qpx {
 // All ImGui state belongs to the caller's context. Layout bytes never enter a
@@ -21,6 +22,7 @@ class GuiWorkspace {
     std::string path_,error_;
     ImGuiID dock_=0;
     int active_=0;
+    ui::WorkflowTask task_=ui::WorkflowTask::Measurements;
     static void prepare_node(ImGuiDockNode* node,ImGuiID active) {
         if(!node) return;
         node->SetLocalFlags((node->LocalFlags & ~ImGuiDockNodeFlags_HiddenTabBar)|ImGuiDockNodeFlags_NoTabBar|ImGuiDockNodeFlags_NoWindowMenuButton);
@@ -63,6 +65,10 @@ public:
             ui::i18n::load_preference(data);ui::design::load_preference(data);
             const auto header_end=data.find("[Window]");const auto header=data.substr(0,header_end);
             for(int i=0;i<4;++i) if(header.find(std::string("; qupathxx sidebar=")+keys[i]+"\n")!=std::string::npos || header.find(std::string("; qupathxx sidebar=")+keys[i]+"\r\n")!=std::string::npos) active_=i;
+            for(std::size_t i=0;i<ui::workflow_task_keys.size();++i) {
+                const auto marker=std::string("; qupathxx workflow=")+ui::workflow_task_keys[i];
+                if(header.find(marker+"\n")!=std::string::npos || header.find(marker+"\r\n")!=std::string::npos) task_=static_cast<ui::WorkflowTask>(i);
+            }
             if(reset_) return;
             const std::string gene_marker="; qupathxx gene-view=";
             const auto gene_start=data.find(gene_marker);
@@ -86,6 +92,8 @@ public:
     bool enabled() const {return enabled_;}
     bool loaded() const {return loaded_;}
     int active_pane() const {return active_;}
+    ui::WorkflowTask workflow_task() const {return task_;}
+    void select_task(ui::WorkflowTask task) {task_=task;}
     void select(const char* name) {
         for(int i=0;i<4;++i) if(ImHashStr(name)==ImHashStr(panes[i])) {active_=i;ImGui::SetWindowFocus(name);break;}
     }
@@ -162,7 +170,7 @@ public:
         try {
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
             if(gene_preference.size()>16384 || gene_preference.find_first_of("\r\n")!=std::string::npos)throw std::invalid_argument("Invalid gene-view workspace preference");
-            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n"+
+            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n; qupathxx workflow="+ui::workflow_task_keys[static_cast<std::size_t>(task_)]+"\n"+
                 (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n");
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();

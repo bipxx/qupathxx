@@ -7,6 +7,56 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered UI task - desktop layout and research workflows
+
+Owner requested three independent UI/UX reviews followed by improvements.
+The hierarchy, workflow and interaction reviewers independently covered all major
+desktop surfaces. [Findings, coverage and evidence](ui-ux-review.md).
+
+Project exposes Add; Image leads with Display/Calibration; Annotations leads with
+Name/Class and owns object exchange. Workflow has seven persistent task choices
+above its scrolling body; shortcuts reveal the corresponding task. Tools can
+inspect raw files without an ROI. Batch keeps progress/Cancel and Run reachable.
+Collections scale with readable rows; tool windows stay inside the viewport;
+icons show keyboard-focus hints. Failed overviews no longer intercept canvas
+input; retry controls stay stationary. New captions cover all16 languages.
+Native jobs, scientific results and the RmlUi shell retain their existing owners.
+
+Changed inputs were private frontend layout/navigation/helpers/captions and their
+replay tests. Reused the integration cache and staged one candidate runtime under
+workspace-root `build/ui-organization`. No scientific API, binding compilation,
+wheel or new numerical qualification belongs to this UI slice. The optional
+replay module links the38 retained binding objects; all38 final SHA256s match.
+
+Decisive checks: all5 native UI suites pass;145 distinct Python-native replay
+cases have a passing latest result. Coverage includes10 pane/task views across
+1×/2×, native region run/keep, failed-map selection/retry, batch visibility,
+classifier/file routes, F5 ownership and F6 export from another task. Exact
+project bytes/generation, object counts, camera and scientific RGB assertions
+remain intact. Real CMU-1 dark/Chinese-light captures are readable and unchanged
+in project/camera state. Standalone project startup from System32 with a
+Windows-only PATH exits0. No unresolved selected-check failure remains.
+
+Corrections: capture review caught a Tables action outside its task guard and
+excess task-child inset; fixed. Broader replay found moving overview retry
+controls; stabilized. Updated obsolete batch pixel/location assertions to actual
+window visibility while retaining exact science RGB checks; made saved-stain
+replay start explicitly in Image. Missing app staging and an initially skipped
+link-only target were repaired without compiling bindings. Initial structural
+edit stopped before writing on an exact-match assertion and was corrected.
+
+Outcome: requested organization changes and affected checks are complete in the
+active checkout. Detailed logs/captures remain in `build/ui-organization`.
+Advanced forms remain ImGui; no browser/release/performance claim is part of this
+task. Concurrent native expression/registration work is preserved and retains
+its separate qualification scope.
+
+Owner requested local merge to main. Commit the reviewed UI changes separately
+from unfinished spatial-import edits, then fast-forward main through the completed
+integration history. Reuse the passing checks above; merge changes no product
+inputs. Retain the active checkout/cache, fixtures and unfinished native work.
+No push, release or worktree removal is requested.
+
 ## Delivered UI task - RmlUi workspace shell
 
 Owner selected RmlUi. The default activity rail and slide toolbar now use

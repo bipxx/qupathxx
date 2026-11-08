@@ -143,12 +143,18 @@ public:
         bool cancel=shortcut && io.KeyShift;
         if(shortcut) open_=true;
         if(open_) {
-            const float scale=ImGui::GetFontSize()/13.f;
-            const ImVec2 initial_size{std::min(460.f*scale,io.DisplaySize.x-20),std::min(720.f*scale,io.DisplaySize.y-40)};
-            ImGui::SetNextWindowSize(initial_size,ImGuiCond_FirstUseEver);
-            ImGui::SetNextWindowPos({std::max(10.f,io.DisplaySize.x-initial_size.x-20),std::min(88.f*scale,std::max(10.f,io.DisplaySize.y-initial_size.y-10))},ImGuiCond_FirstUseEver);
-            if(ImGui::Begin("Project batch",&open_)) {
+            ui::SetNextToolWindow("Project batch",{460,720});
+            if(ImGui::Begin(ui::i18n::label("Project batch").c_str(),&open_)) {
             ImGui::PushID("project-batch");
+            if(job_.busy()) cancel=ui::Button("Cancel batch") || cancel;
+            ImGui::TextWrapped("Batch: %s / %s",stats_.state.c_str(),stats_.phase.c_str());
+            if(stats_.total_images) {
+                ImGui::ProgressBar(float(double(stats_.completed_images)/stats_.total_images));
+                ImGui::TextWrapped("Images: %zu / %zu   Objects: %zu / %zu",stats_.completed_images,stats_.total_images,stats_.completed_objects,stats_.total_objects);
+            }
+            if(const auto report=job_.result()) ui::TextWrapped("Saved: %zu   Reused: %zu   Failed: %zu",report->saved,report->reused,report->failed);
+            const float footer=ui::design::metrics.action_height*ui::design::scale()+ImGui::GetStyle().ItemSpacing.y;
+            ImGui::BeginChild("Batch recipe",{0,std::max(1.f,ImGui::GetContentRegionAvail().y-footer)},ImGuiChildFlags_None);
             ImGui::BeginDisabled(job_.busy() || blocked);
             ui::SetNextItemWidth(240);
             ui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
@@ -165,7 +171,7 @@ public:
                 if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
             }
             if(!raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
-            if(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
+            if(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in Workflow.");
             ImGui::BeginDisabled(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Roi) {options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;options_.roi_intensity_statistics=false;}
             if(options_.kind!=ProjectBatchKind::Tissue) {options_.tissue_grid.reset();options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;options_.tissue.smoothing_sigma=0;options_.tissue.median_cleanup=false;}
@@ -202,7 +208,7 @@ public:
             } else if(options_.kind==ProjectBatchKind::Pixels) {
                 ImGui::BeginDisabled(!pixel_model);if(ui::Button("Use active pixel model") && pixel_model) options_.pixel_model=*pixel_model;ImGui::EndDisabled();
                 if(options_.pixel_model) ImGui::TextWrapped("Pinned model: %s",options_.pixel_model->sha256().c_str());
-                else ImGui::TextWrapped(pixel_model?"Run captures the active pixel model.":"Train or load a pixel model in the image inspector first.");
+                else ImGui::TextWrapped(pixel_model?"Run captures the active pixel model.":"Train or load a pixel model in Pixel classifiers first.");
                 int block=static_cast<int>(options_.pixels.block_size),tile=static_cast<int>(options_.pixels.prediction.tile_size),mib=static_cast<int>(options_.pixels.prediction.work_bytes/(1024*1024));
                 if(ui::InputInt("Block size",&block)) options_.pixels.block_size=static_cast<std::size_t>(block);
                 if(ui::InputInt("Prediction tile size",&tile)) options_.pixels.prediction.tile_size=static_cast<std::size_t>(tile);
@@ -264,15 +270,7 @@ public:
             if(ui::Combo("On image error",&failure,"Stop\0Continue\0")) options_.failure=static_cast<ProjectBatchFailure>(failure);
             ui::Checkbox("Reuse matching checkpoints",&options_.resume);
             ImGui::TextWrapped(raw_classifier?"Uses the pinned raw model and exact sampling axes. Complete per-image projects are sealed before checkpoint reuse.":options_.kind==ProjectBatchKind::Raw?"Measures original TIFF samples at the selected axes. Each ROI retains its input hash and original labels in an independent checkpoint.":options_.kind==ProjectBatchKind::Pixels?"Uses the pinned pixel model. Each target produces a verified QPS file; only complete image bundles are reused. The open project is unchanged.":"Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
-            ImGui::BeginDisabled(!project || !project->active_image());
-            start=ui::Button("Run batch (Ctrl+Alt+B)") || start;
-            ImGui::EndDisabled();ImGui::EndDisabled();
-            if(job_.busy()) cancel=ui::Button("Cancel batch") || cancel;
-            ImGui::TextWrapped("Batch: %s / %s",stats_.state.c_str(),stats_.phase.c_str());
-            if(stats_.total_images) {
-                ImGui::ProgressBar(float(double(stats_.completed_images)/stats_.total_images));
-                ImGui::TextWrapped("Images: %zu / %zu   Objects: %zu / %zu",stats_.completed_images,stats_.total_images,stats_.completed_objects,stats_.total_objects);
-            }
+            ImGui::EndDisabled();
             if(const auto report=job_.result()) {
                 ImGui::TextWrapped("Saved: %zu   Reused: %zu   Failed: %zu",report->saved,report->reused,report->failed);
                 if(!report->report_path.empty()) ImGui::TextWrapped("Run report: %s",report->report_path.c_str());
@@ -284,6 +282,10 @@ public:
                 if(report->images.size()>20) ui::TextDisabled("More images in the run report.");
             }
             if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
+            ImGui::EndChild();
+            ImGui::BeginDisabled(job_.busy() || blocked || !project || !project->active_image());
+            start=ui::PrimaryButton("Run batch (Ctrl+Alt+B)") || start;
+            ImGui::EndDisabled();
             ImGui::PopID();
             }
             ImGui::End();

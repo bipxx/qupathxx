@@ -158,10 +158,16 @@ inline bool IconButton(const char* label,Icon icon,design::Action action=design:
     draw_icon(icon,lo,hi,ImGui::GetColorU32(ImGuiCol_Text));
     if(selected) ImGui::GetWindowDrawList()->AddRect(lo,hi,ImGui::GetColorU32(design::color(design::colors().accent)),design::metrics.control_radius*design::scale(),0,2*design::scale());
     observe(label);
-    if(ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip|ImGuiHoveredFlags_AllowWhenDisabled)) {
+    const bool focused=ImGui::IsItemFocused();
+    if(focused || ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip|ImGuiHoveredFlags_AllowWhenDisabled)) {
         const std::string caption(label,label_end(label));
-        if(*shortcut) ImGui::SetTooltip("%s (%s)",i18n::text(caption.c_str()),shortcut);
-        else ImGui::SetTooltip("%s",i18n::text(caption.c_str()));
+        std::string hint=i18n::text(caption.c_str());if(*shortcut) hint+=" ("+std::string(shortcut)+")";
+        if(focused) {
+            const auto* vp=ImGui::GetMainViewport();const auto text=ImGui::CalcTextSize(hint.c_str()),padding=ImGui::GetStyle().WindowPadding;
+            ImGui::SetNextWindowPos({std::clamp(lo.x,vp->WorkPos.x,std::max(vp->WorkPos.x,vp->WorkPos.x+vp->WorkSize.x-text.x-2*padding.x)),
+                std::clamp(hi.y+4*design::scale(),vp->WorkPos.y,std::max(vp->WorkPos.y,vp->WorkPos.y+vp->WorkSize.y-text.y-2*padding.y))});
+        }
+        ImGui::SetTooltip("%s",hint.c_str());
     }
     return pressed;
 }

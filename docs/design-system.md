@@ -149,6 +149,14 @@ overview and localized/scaled flows. Model file controls precede the long featur
 form; shorter classifier windows fold feature options. The raw-file panel fits
 the viewport with enough initial height for its common commands.
 
+The [desktop organization review](ui-ux-review.md) defines pane ownership and
+task navigation: Project owns sources; Image owns display/calibration;
+Annotations owns object identity/editing/exchange; Workflow keeps one selected
+task above its scrolling content. Reuse `CollectionHeight` for short collections
+and `SetNextToolWindow` for bounded native tool windows. Keep primary actions,
+progress and cancellation reachable; asynchronous status must not move its
+retry controls. These are presentation rules over the existing native services.
+
 When updating from the sibling project, review its `docs/design-system.md`,
 `src/index.css`, `src/theme/panelStyles.ts`, `buttonStyles.ts`, `formStyles.ts` and
 `selectionStyles.ts` together. Update the token snapshot deliberately. Keep

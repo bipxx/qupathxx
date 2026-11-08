@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_workflow.hpp"
 #include "gui_pixel_preview.hpp"
 #include "gui_pixel_archives.hpp"
 #include "gui_pixel_stream_browser.hpp"
@@ -170,7 +171,7 @@ public:
     Rect bounds(GuiInputTarget t) const {return GuiPixelStreamBrowser::handles(t)?browser_.bounds(t):targets_.at(index(t));}
     void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);browser_.finish(finite);update(doc,selection);}
     void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
-        if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
+        if(!ImGui::GetIO().WantTextInput && !blocked && ui::f5_action(ImGui::GetIO().KeyCtrl,ImGui::GetIO().KeyShift,ImGui::GetIO().KeyAlt)==ui::F5Action::PixelClassifier && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
         if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
         auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};

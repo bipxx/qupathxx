@@ -187,16 +187,27 @@ def test_gui_batch_uses_current_white_parameters_and_nullable_preset(tmp_path):
 def test_batch_window_remains_visible_after_canvas_focus(tmp_path):
     from PIL import Image
 
-    project, _, _ = scene(1)
+    project = q.Project()
+    doc = q.Document(q.Image(32,24,[30,120,210]*32*24))
+    doc.add_rectangle(q.Rect(1,2,20,16)); doc.set_calibration(.5,.25)
+    project.add_document(doc)
     o = options(tmp_path/'focus')
+    o.docked_workspace = True
+    o.layout_path = str(tmp_path/'batch-layout.ini')
     o.inputs = o.inputs + [replay(8, q.GuiInputKind.LEFT_DOWN, .1, .2),
                            replay(9, q.GuiInputKind.LEFT_UP, .1, .2)]
     capture = tmp_path/'focused.ppm'
     report = q.show(project, frame_limit=30, capture_path=str(capture), options=o)
     assert report.batch_state == 'succeeded'
     with Image.open(capture) as image:
-        # Blank window padding, inside the batch panel's left edge. Focusing
-        # the full-screen workspace must not cover this independent window.
-        x = int((o.width-476)*image.width/o.width)
-        y = int(160*image.height/o.height)
-        assert image.getpixel((x, y)) == (19, 22, 27)
+        # Derive the actual floating window, independent of its initial position
+        # and palette. It must still cover the blue science canvas after focus.
+        import re
+        text = Path(o.layout_path).read_text(encoding='utf8')
+        window = re.search(r'\[Window\]\[Project batch\]\s+Pos=(\d+),(\d+)\s+Size=(\d+),(\d+)',text)
+        assert window
+        x,y,width,height = map(int,window.groups())
+        pixel = image.getpixel((x+4,y+min(160,height//2)))
+        assert max(pixel)-min(pixel)<8 and pixel!=(30,120,210)
+        canvas = report.canvas_content_bounds
+        assert image.getpixel((int(canvas.x+canvas.width-25),int(canvas.y+canvas.height/2))) == (30,120,210)

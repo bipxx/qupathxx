@@ -157,6 +157,10 @@ def test_desktop_defaults_are_explicit_and_use_the_full_saved_basis(tmp_path,app
     source=foreign(tmp_path,'custom-three');preview=q.preview_qupath_project(str(source));path=tmp_path/'ui.qpxproj';project=preview.import_new(str(path),allow_losses=True)
     doc=project.document(project.images[0].id);saved=doc.image_analysis_settings
     options=q.GuiOptions();options.width=1600;options.height=1400;options.docked_workspace=True;options.settle_tiles=True;options.autosave_interval_seconds=0;options.analysis_white=[230,231,232]
+    # Saved image defaults are an explicit Image-pane action. Start there;
+    # Analyze then reveals the separate Region task through its native shortcut.
+    options.layout_path=str(tmp_path/'image-defaults.ini')
+    (tmp_path/'image-defaults.ini').write_text('; qupathxx workspace layout v1\n; qupathxx sidebar=image\n',encoding='utf8')
     events=[event(4,q.GuiInputKind.SELECT_ALL_KEY)]
     if apply:events += [event(7,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.USE_IMAGE_STAINS,q.GuiInputWait.TARGET_READY),event(8,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.USE_IMAGE_STAINS)]
     events += [event(12,q.GuiInputKind.ANALYZE_KEY),event(30,q.GuiInputKind.KEEP_ANALYSIS_KEY),event(48,q.GuiInputKind.SAVE_KEY)];options.inputs=events
