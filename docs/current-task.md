@@ -1425,7 +1425,7 @@ It is not the selected candidate; use only delivery-agpl or the prerelease asset
 
 Owner requested a plan for all eight remaining feature areas. The
 [canonical roadmap](feature-expansion-plan.md) defines22 implementation items
-(3 complete,19 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
+(4 complete,18 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
 native import preview come first, then registration/fluorescence, backed matrices/
 H5AD/OME-Zarr, molecular methods and SDK/release. Current active UI work is preserved.
 
@@ -1494,3 +1494,47 @@ exceed the shared request budget when combined. Charge their sum and add the
 near-limit retained-capacity case; rebuild only the affected native targets.
 Partial staging initially hit Windows text-mode newline translation; applying
 the same selected hunks as raw bytes preserved concurrent UI changes.
+
+### Active R01: explicit native coordinate frames and affine registration
+
+The previous turn made progress: S01/V01/I01 and the first L01 guard foundation
+are committed at3e0d7082. The desktop layout work remains uncommitted and is
+preserved. R01 proceeds independently without modifying its UI files.
+
+Changed inputs: native CoordinateFrame/Affine2D/RegistrationRequest service,
+typed ImageDataProperties persistence, affected test/CMake/CI registration.
+Original coordinates/counts stay unchanged; native acceptance recaptures source
+cohort and target identity before the existing undoable properties command.
+Linked sources reuse verified file versions/series; embedded RGB uses exact
+bytes, without process generation or display-window identity. Physical conversion
+requires explicit known pixel calibration. No new dependency or Python logic.
+
+Decisive check: analytical translation/scale/rotation/reflection, inverse and
+composition; anisotropic unit conversion/unknown calibration, stale count/geometry/
+image/calibration refusal, cancellation, retained outside positions, undo/redo and
+save/reopen. Build only registration/expression targets in the existing cache and
+run the real admitted mouse-brain registration check. No live compiler project
+command was found before this build; idle MSBuild node-reuse workers are retained.
+
+The first build command stopped before compilation: Visual Studio cannot build a
+new target until its project file exists. Explicitly regenerate the existing
+cache with unchanged options, then build the named targets; no new cache/install.
+
+R01 complete locally: registration/expression CTest passes (2 cases,0.21s) and
+the real2,702-spot project passes native transform/acceptance without changing
+counts/coordinates. Analytical affine/inverse/unit tests, linked/embedded identity,
+unknown calibration, stale geometry/count/image/calibration refusal, cancellation,
+outside-position retention, undo/redo and save/reopen all pass. Native-only CI is
+extended; no hosted result is inferred. No binding or GUI target rebuilt.
+Waste correction: explicitly regenerate the existing Visual Studio cache before
+the first invocation of a newly introduced target. Next connect V02 to the current
+desktop shell, preserving its existing layout changes and scientific authorities.
+
+Before closeout, add the admitted companion OME-TIFF check for the claimed
+display-window-independent image identity. This changes only the native test;
+build that target and run both real examples, without another science campaign.
+
+Both admitted real examples pass: mouse-brain original coordinates/counts stay
+exact after native acceptance, and fluorescence display-window changes preserve
+frame identity. No proprietary/NC data, new dependency, binding/GUI compilation or
+package was introduced. R01 is closed; R02 interactive landmarks remains open.

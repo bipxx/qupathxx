@@ -2,8 +2,8 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 3 complete, 19 pending**. It does not reopen completed
-FO00–FO05. Native S01/V01/I01 are delivered locally; their UI consumers remain
+checklist: **22 work items: 4 complete, 18 pending**. It does not reopen completed
+FO00–FO05. Native S01/V01/I01/R01 are delivered locally; their UI consumers remain
 pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
 [current-task.md](current-task.md) continues; this plan queues subsequent work.
 
@@ -129,7 +129,7 @@ Do not build a general workflow engine or distributed service for these tasks.
   native job. Save the explicit import recipe and source identities. Exit: complete
   the real open demo without shell commands; cancel/error leaves prior state and
   output files intact. Do not parse matrices in RML/JavaScript/Python.
-- [ ] **R01 — native coordinate-frame and affine contract.** Add versioned
+- [x] **R01 — native coordinate-frame and affine contract.** Add versioned
   `CoordinateFrame`, source→image-level-zero `Affine2D` and `RegistrationRequest`.
   Reuse native geometry/calibration. Store original coordinates, units, image/plane
   identity and transform separately; apply scale/translation/rotation/reflection

@@ -1,7 +1,7 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/I01 locally, plus an incomplete L01 guard
+authority. This receipt covers S01/V01/I01/R01 locally, plus an incomplete L01 guard
 foundation. No expanded GUI, release, speed or biological-accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
@@ -56,3 +56,24 @@ Waste review: native-only targets reused the existing cache; an extra affected
 build covered newly added persistence/recipe checks. Source provenance intentionally
 regenerates CMake when compiler inputs change, so settle each batch before build.
 No binding rebuild, second engine cache, full scientific campaign or packaging.
+
+R01 continuation: native CoordinateFrame/Affine2D/RegistrationRequest and a
+versioned typed registration definition preserve original coordinates/counts.
+Explicit matrices cover translation/rotation/scale/reflection, inverse/composition
+and calibrated anisotropic pixel/µm conversion. Ill-conditioned/nonfinite transforms
+and unknown physical calibration refuse conversion. Linked source identity reuses
+verified primary/companion versions and series; embedded RGB hashes exact bytes.
+Neither display windows nor process generations enter persistent frame identity.
+Acceptance recaptures the point cohort and target frame before the existing
+undoable image-data-properties command. Separate transformations retain outside
+points and save/reopen without rewriting source observations.
+
+Registration/expression CTest:2 cases pass (0.21s); the admitted2,702-spot real
+project also passes mapping/acceptance with unchanged coordinate/count identity.
+Fixtures check analytical transforms/inverse/composition, unit scale, numerical
+limits, budgets, cancellation, stale counts/geometry/image/calibration, immutable
+metadata, native undo/redo, persisted record validation and linked/lazy reopen.
+No interactive landmark-registration or GUI claim is made from this native check.
+The companion OME-TIFF real example additionally passes a display-window change
+with identical frame identity, checking the raw/display boundary on the real
+two-channel source. Original real projects were opened read-only and not saved.
