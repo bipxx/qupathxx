@@ -160,6 +160,19 @@ std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisR
 std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisRequest& source,const CellRgbInput& input,
     std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::atomic<bool>* cancelled) {
     if(input.area) return make(source,*input.area,std::move(labels),spec,cancelled);
+    return make_nominal(source,input,std::move(labels),spec,nullptr,cancelled);
+}
+std::pair<std::shared_ptr<const TissueResult>,std::shared_ptr<const TissueResult>> ScientificRasterKernel::make_pair(
+    const AnalysisRequest& source,const CellRgbInput& input,std::vector<std::uint32_t> nuclei,
+    std::vector<std::uint32_t> bodies,const ScientificRasterSpec& nucleus_spec,const ScientificRasterSpec& body_spec,
+    const std::atomic<bool>* cancelled) {
+    auto nucleus=make(source,input,std::move(nuclei),nucleus_spec,cancelled);
+    auto body=input.area?make(source,input,std::move(bodies),body_spec,cancelled):
+        make_nominal(source,input,std::move(bodies),body_spec,&nucleus->input_sha256(),cancelled);
+    return {std::move(nucleus),std::move(body)};
+}
+std::shared_ptr<const TissueResult> ScientificRasterKernel::make_nominal(const AnalysisRequest& source,const CellRgbInput& input,
+    std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::string* computed_digest,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);const auto& p=spec.parameters;const auto& grid=input.grid;p.validate();
     if(!spec.ticket || !grid.nominal || p.level!=0 || p.sampling_policy!=source.sampling_policy() ||
        source.kind()!=(p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans) || !source.provenance() ||
@@ -180,7 +193,7 @@ std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisR
     const auto charge=29ULL*labels.size()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
         source.provenance()->payload_bytes()+2ULL*source.roi().payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+sizeof(NominalCellSampling)+65536;
     if(charge>p.work_bytes) throw std::length_error("nominal cell raster exceeds work budget");
-    const auto digest=cell_raster_input_sha256(source,input,cancelled);
+    const auto digest=computed_digest?*computed_digest:cell_raster_input_sha256(source,input,cancelled);
     if(!spec.input_sha256.empty() && spec.input_sha256!=digest) throw std::invalid_argument("nominal cell raster input differs");
     auto result=std::shared_ptr<TissueResult>(new TissueResult());result->nominal_sampling_=grid.nominal;result->ticket_=spec.ticket;
     result->roi_=source.roi();result->provenance_=source.provenance();result->image_bounds_={0,0,double(grid.image_width()),double(grid.image_height())};

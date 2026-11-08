@@ -102,13 +102,18 @@ struct Backend {
         if(!reader) throw std::bad_alloc();return own(GEOSWKTReader_read_r(ctx,reader.get(),text.c_str()));
     }
 };
+struct NominalFace {std::uint32_t label;bool simple_cycle;};
+static_assert(2*sizeof(NominalFace)<=sizeof(detail::RawBoundaryCell)+sizeof(std::uint32_t),
+    "Growing nominal face metadata stays inside the historical query allowance");
 // General masks retain the shared noded-network polygonizer.
 template<class Mask> Geometry polygonize(Backend& backend,const Mask&,
-    const std::vector<const GEOSGeometry*>& lines,std::size_t,const std::atomic<bool>*) {
+    const std::vector<const GEOSGeometry*>& lines,std::size_t,std::vector<NominalFace>&,
+    std::size_t,const std::atomic<bool>*) {
     return backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
 }
 Geometry polygonize(Backend& backend,const TissueResult& mask,
-    const std::vector<const GEOSGeometry*>& lines,std::size_t limit,const std::atomic<bool>* cancelled) {
+    const std::vector<const GEOSGeometry*>& lines,std::size_t limit,std::vector<NominalFace>& face_labels,
+    std::size_t query_limit,const std::atomic<bool>* cancelled) {
     if(!mask.nominal_sampling())
         return backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
     // Nominal cell labels already identify the boundary on each side. Give
@@ -187,7 +192,13 @@ Geometry polygonize(Backend& backend,const TissueResult& mask,
                 throw std::runtime_error("invalid cell contour interior point");
             if(mask.labels()[std::size_t(std::floor(y))*std::size_t(mask.width())+std::size_t(std::floor(x))]!=label) continue;
             if(faces.size()>=limit) throw std::length_error("cell contour face limit exceeded");
-            owned.push_back(backend.own(GEOSGeom_clone_r(backend.ctx,face)));faces.push_back(owned.back().get());
+            if(faces.size()>=query_limit)throw std::length_error("tissue contour face-query work budget exceeded");
+            // The first interior lookup already establishes this face's label.
+            // Move a standalone polygon; collections still require extracting a clone.
+            if(count==1 && GEOSGeomTypeId_r(backend.ctx,polygons.get())==GEOS_POLYGON)
+                owned.push_back(std::move(polygons));
+            else owned.push_back(backend.own(GEOSGeom_clone_r(backend.ctx,face)));
+            faces.push_back(owned.back().get());face_labels.push_back({std::uint32_t(label),unambiguous && rings.size()==1});
         }
     }
     for(auto& face:owned) face.release();
@@ -267,7 +278,9 @@ struct TissueContourKernel {
                     auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
                 },cancelled);
             }
-            checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
+            std::vector<NominalFace> face_labels;
+            const auto query_limit=(options.work_bytes-result->work_)/(sizeof(detail::RawBoundaryCell)+sizeof(std::uint32_t));
+            checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,face_labels,query_limit,cancelled);
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
             struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};
@@ -289,19 +302,30 @@ struct TissueContourKernel {
             if(std::size_t(count)>options.max_edges || std::size_t(count)>(options.work_bytes-result->work_)/sizeof(detail::RawBoundaryCell))
                 throw std::length_error("tissue contour face-query work budget exceeded");
             result->work_+=std::size_t(count)*sizeof(detail::RawBoundaryCell);
-            std::vector<detail::RawBoundaryCell> cells;cells.reserve(count);
-            for(int i=0;i<count;++i) {
-                checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
-                auto point=backend.own(GEOSPointOnSurface_r(backend.ctx,face));double x,y;
-                if(!GEOSGeomGetX_r(backend.ctx,point.get(),&x) || !GEOSGeomGetY_r(backend.ctx,point.get(),&y) || !std::isfinite(x) || !std::isfinite(y) || x<0 || y<0 || x>=mask.width() || y>=mask.height()) throw std::runtime_error("invalid tissue contour interior point");
-                cells.push_back({std::int64_t(std::floor(x)),std::int64_t(std::floor(y))});
+            detail::RawBoundaryLabels located;
+            if(nominal) {
+                if(face_labels.size()!=std::size_t(count))throw std::logic_error("nominal face-label count differs");
+                located.estimated_work_bytes=std::size_t(count)*sizeof(std::uint32_t);
+            } else {
+                std::vector<detail::RawBoundaryCell> cells;cells.reserve(count);
+                for(int i=0;i<count;++i) {
+                    checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
+                    auto point=backend.own(GEOSPointOnSurface_r(backend.ctx,face));double x,y;
+                    if(!GEOSGeomGetX_r(backend.ctx,point.get(),&x) || !GEOSGeomGetY_r(backend.ctx,point.get(),&y) || !std::isfinite(x) || !std::isfinite(y) || x<0 || y<0 || x>=mask.width() || y>=mask.height()) throw std::runtime_error("invalid tissue contour interior point");
+                    cells.push_back({std::int64_t(std::floor(x)),std::int64_t(std::floor(y))});
+                }
+                located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
             }
-            const auto located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
             result->work_+=located.estimated_work_bytes;
             for(int i=0;i<count;++i) {
                 checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
-                const auto label=located.labels[std::size_t(i)];if(!label) continue;
-                if(label>grouped.size() || GEOSisValid_r(backend.ctx,face)!=1) throw std::runtime_error("invalid tissue contour face");
+                const auto label=nominal?face_labels[std::size_t(i)].label:located.labels[std::size_t(i)];if(!label) continue;
+                // Unique outgoing raster endpoints plus one fully visited cycle
+                // prove a simple shell in this noded planar boundary graph.
+                // Ambiguous/nested faces still use GEOS; final clipped ROIs are
+                // always validated by Roi::multipolygon below.
+                const bool simple_cycle=nominal && face_labels[std::size_t(i)].simple_cycle;
+                if(label>grouped.size() || (!simple_cycle && GEOSisValid_r(backend.ctx,face)!=1)) throw std::runtime_error("invalid tissue contour face");
                 double area=0;if(!GEOSArea_r(backend.ctx,face,&area) || !std::isfinite(area) || area<0 || area>mask.foreground_pixels() || std::abs(area-std::round(area))>1e-6) throw std::runtime_error("invalid tissue contour raster area");
                 areas[label-1]+=static_cast<std::uint64_t>(std::llround(area));
                 auto world=backend.own(GEOSGeom_transformXY_r(backend.ctx,face,[](double* xx,double* yy,void* user)->int {

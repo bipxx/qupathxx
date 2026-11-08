@@ -1,0 +1,14 @@
+{
+  "engine_pid": 164112,
+  "launcher_pid": 162028,
+  "process_wall_ms": 38384.13009978831,
+  "peak_working_set_bytes": 142139392,
+  "peak_pagefile_bytes": 764342272,
+  "memory_samples": 1488,
+  "exit_code": 0,
+  "memory_scope": "Actual engine process: startup, warmups/measured processing, one archive and one final oracle capture; OS peak counter sampled25ms",
+  "system_cpu_busy_fraction": 0.4094693345817982,
+  "engine_cpu_ms": 6906.25,
+  "other_process_cpu_fraction": 0.4004722454047672,
+  "cpu_scope": "Average across all logical CPUs over worker process lifetime, including startup/warmup/oracles; other-process value is system busy minus actual engine CPU, not attribution to a named app"
+}

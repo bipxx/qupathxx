@@ -272,8 +272,9 @@ std::shared_ptr<const CellResult> ScientificCellKernel::run(const CellRequest& r
     spec.parameters.work_bytes=p.work_bytes;spec.parameters.sampling_policy=p.sampling_policy;spec.ticket=request.ticket_;
     spec.raw_components=count;spec.threshold_pixels=detected.candidate_pixels;
     spec.algorithm_override=grid.mask_algorithm(false,p.processing);
-    result->nuclei_=ScientificRasterKernel::make(c.source,rgb,std::move(detected.labels),spec,cancelled);
-    spec.body=true;spec.algorithm_override=grid.mask_algorithm(true,p.processing);spec.input_sha256=result->nuclei_->input_sha256();result->cells_=ScientificRasterKernel::make(c.source,rgb,std::move(bodies),spec,cancelled);
+    auto body_spec=spec;body_spec.body=true;body_spec.algorithm_override=grid.mask_algorithm(true,p.processing);
+    auto masks=ScientificRasterKernel::make_pair(c.source,rgb,std::move(detected.labels),std::move(bodies),spec,body_spec,cancelled);
+    result->nuclei_=std::move(masks.first);result->cells_=std::move(masks.second);
     if(phase) phase->store(6);restore_cell_contours(*result,cancelled);checkpoint(cancelled);
     result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();if(phase) phase->store(7);
     return result;

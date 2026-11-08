@@ -1,0 +1,99 @@
+{
+  "engine": "development-archive-fix",
+  "source_revision": "a4990899f64ecd02df82a811d78e178b5ed69834+dirty",
+  "source_tree_sha256": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "roi": [
+    11392,
+    17792,
+    256,
+    256
+  ],
+  "context": 0,
+  "warmup_runs": 6,
+  "measured_runs": 6,
+  "one_archive_only": true,
+  "runs": [
+    {
+      "iteration": 0,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.707300070673227,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.11090002954006195,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 14.81370022520423,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 4.26580011844635,
+          "cpu_ms": 0.0
+        },
+        "keep_statistics": {
+          "wall_ms": 0.035599805414676666,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.1250002533197403,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 72.3532997071743,
+          "cpu_ms": 93.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.032899901270866394,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 0.9314999915659428,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 2.8332001529634,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.014899764209985733,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.271699883043766,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 37.870099768042564,
+          "cpu_ms": 31.25
+        },
+        "reopen_project": {
+          "wall_ms": 59.25639998167753,
+          "cpu_ms": 93.75
+        }
+      },
+      "workflow_ms": 216.49730019271374,
+      "cells": 558,
+      "density": 40994.49394226074,
+      "area_mm2": 0.013611584052871167,
+      "rgb_sha256": "5d0e737d540357fc76ea3208de71bb99bc3f91600f6c50592f31a7319de9fc65",
+      "rgb_sum": [
+        10287458,
+        6245201,
+        9063041
+      ],
+      "mask_sha256": {
+        "nucleus": "d16d0cc95a175474096c6b5ad4ee4013ce81e73c93e1147f5edae7a3ad4e73f5",
+        "body": "a2c5402f51462f468ea5fc454e92e2bd13f43d1183ec51c8f9687c1bba392c26"
+      },
+      "pixel_width_um": 0.45641259698767683,
+      "pixel_height_um": 0.4550625711035267,
+      "project_bytes": 1781760,
+      "nucleus_pixels": 29242,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "b697cbc1e888f5014ccb6984a9b11a1283f85111e723b86efc8d980389447a10"
+    }
+  ]
+}

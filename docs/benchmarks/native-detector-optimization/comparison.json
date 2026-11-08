@@ -1,0 +1,85 @@
+{
+  "comparisons": [
+    {
+      "name": "baseline-before",
+      "source_tree": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+      "wall_samples_ms": [
+        321.58440025523305,
+        321.5872999280691,
+        358.9456006884575,
+        341.3870995864272,
+        329.19410010799766,
+        330.30010014772415
+      ],
+      "wall_median_ms": 329.7471001278609,
+      "cpu_samples_ms": [
+        453.125,
+        453.125,
+        531.25,
+        468.75,
+        406.25,
+        437.5
+      ],
+      "cpu_median_ms": 453.125,
+      "other_cpu_fraction": 0.3115390142261819
+    },
+    {
+      "name": "candidate-final",
+      "source_tree": "806b11d80e14d3b50204c4cce5c98224bd89bb56fcdbb69db8a1598afb1cef0d",
+      "wall_samples_ms": [
+        324.26249980926514,
+        337.63459976762533,
+        349.598600063473,
+        330.3331998176873,
+        348.01730047911406,
+        328.3413997851312
+      ],
+      "wall_median_ms": 333.9838997926563,
+      "cpu_samples_ms": [
+        421.875,
+        484.375,
+        421.875,
+        421.875,
+        484.375,
+        453.125
+      ],
+      "cpu_median_ms": 437.5,
+      "other_cpu_fraction": 0.36389850057670126
+    },
+    {
+      "name": "baseline-after",
+      "source_tree": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+      "wall_samples_ms": [
+        323.82609974592924,
+        329.97379964217544,
+        374.47299994528294,
+        336.68990014120936,
+        325.0562995672226,
+        330.0363002344966
+      ],
+      "wall_median_ms": 330.005049938336,
+      "cpu_samples_ms": [
+        437.5,
+        437.5,
+        515.625,
+        468.75,
+        421.875,
+        453.125
+      ],
+      "cpu_median_ms": 445.3125,
+      "other_cpu_fraction": 0.3534211279702262
+    }
+  ],
+  "cells": 2237,
+  "exact_rgb_masks_density_csv": true,
+  "exact_ordered_geometry": true,
+  "exact_features": true,
+  "archive_reopen_verify": true,
+  "geometry": {
+    "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+    "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+  },
+  "feature_sha256": "9f83e4c89109dbf3ba8ab4ba2afd46fb37731fe6c9fd09f4cb148ca954556fc2",
+  "general_end_to_end_speedup_proven": false,
+  "limits": "Sequential A/B/A block under substantial other-process load; one ROI, no general speed or parity claim."
+}

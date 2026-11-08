@@ -111,6 +111,142 @@ comparison now covers the viewer surface it is intended to qualify. Scientific
 pixel, geometry and project assertions stay intact. Separate Annotations bounds
 from Project bounds when users move tabs. No further feature phase is selected.
 
+## Delivered task - candidate6 handoff and remaining gap status
+
+Owner selected G01-G05 closure; [checklist](remaining-gaps-checklist.md) records
+actual progress without converting broad unqualified claims into passes.
+G01 comparison is complete: native305.6ms /QuPath313.1ms, exact2,237-cell RGB/
+partitions; overlapping ranges/high load prevent general superiority.
+G02 selected coarse whole-slide case/repeats/viewer pass; wider level-zero cells,
+dense scenes, long-duration/GPU residency remain open. G03's new558-cell NDPI
+crop matches masks/RGB/calibration/independent arithmetic; broader biological/
+context domains remain open. G05 supported saved-data controls pass, but actual
+upstream crop data has an invalid self-intersecting ring and is refused before
+publication. Preserve strict refusal until explicit repair/admission semantics
+and decisive result-preservation checks are designed.
+
+G04 candidate6 freezes the exact tested tree2875ca45 without a native rebuild.
+Wheel69 immutable members/DLL origins, static wheel70/7 and native59/6 closures,
+installed native/Python density/import/bidirectional reuse, standalone app/batch,
+and uninstall with29 output hashes preserved pass. Source includes all568 raw
+compiler inputs,12 authenticated external dependency archives plus vendored
+LodePNG source/notices. No new binary qualification is borrowed from candidate5.
+[Candidate6 is public](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.6):
+all14 asset sizes/server SHA256 digests match before/after publication; tag targets
+f1bb522c, whose source archive contains the repaired test and identical568 compiler
+inputs. Matching wheel/native bytes were never rebuilt. G01/G04 closed; G02/G03/
+G05 remain partial. Next concrete task: native explicit-loss handling for the
+retained invalid-ring import case, with all558 masks and retained measurements
+compared against upstream; do not silently repair/drop geometry or accept
+arbitrary crossings. Broader domains/platforms need finite acceptance targets.
+[Evidence and limits](benchmarks/gap-closure/README.md).
+
+Waste/corrections: no compile, binding rebuild or corpus campaign. Removed unused
+SciPy assignment import and reused successful captures. Corrected one selected
+test name and used development pytest against the explicitly installed package.
+Two controls pass; the sole failing assertion expected obsolete class flattening.
+Replaced it with retained-parent/reopen checks; focused repair passes. Final source
+archive includes that test correction through a source-only refresh; wheel/native
+assets stayed unchanged. Draft lookup by tag returned404; fetched/verified and
+published the existing draft by release ID, without duplicate upload. No further timing search or intermediate
+binary packaging. Optional O01-O05 stay deferred, not parity obligations.
+
+## Delivered task - remaining gaps checklist
+
+[Remaining gaps checklist](remaining-gaps-checklist.md) separates the completed
+28/28 consolidation and contour optimization from five open evidence/delivery
+categories and five optional expansion categories. These are scope categories,
+not a count of defects or mandatory implementation tasks. No new feature,
+benchmark campaign or binary release is selected by this planning task.
+
+Suggested next for the speed question: G01, one bounded current-source/QuPath
+comparison using existing fixtures/harnesses. Latest native-versus-native timing
+does not establish a QuPath win. G02-G05 apply to selected workload/support claims;
+optional O01-O05 require a concrete user need.
+
+Check: local checklist links and git diff whitespace; documentation only.
+Waste review: reused existing acceptance records instead of creating another
+per-API ledger or rerunning builds. Corrected stale consolidation introduction
+and labeled the older direct QuPath comparison as historical. Next: select one
+outcome from the checklist; keep completed workflows closed.
+
+## Delivered task - exact nominal contour-cycle optimization
+
+[Contour evidence](benchmarks/contour-optimization/README.md): observed detector
+median341.3 ->302.9ms (11.2%) in six alternating baseline/candidate pairs on the
+selected512x512/2,237-cell ROI. Twelve serial contour pairs show nuclei113.7 ->100.0ms
+(12.0%) and bodies135.9 ->111.3ms (18.1%). This is a local matched result, not general
+QuPath superiority or an overall workflow/archive ratio.
+
+A single unambiguous closed cycle in the noded raster boundary graph proves a
+simple shell. Carry that certificate and known label to avoid duplicate pre-clip
+validity/interior queries; move standalone polygons into ownership. Ambiguous,
+multi-ring/hole/disconnected and non-nominal/general faces retain GEOS validity.
+All final clipped ROIs still pass full validity/nonempty/positive-area checks.
+Robust clipping, mapping, order, labels/area, limits and cancellation stay intact.
+No public trusted-validity parameter, schema, extra thread or new decoder.
+
+Three affected native suites pass2.62s. All596 nominal/general topology patterns
+compare exact WKT and admit exact work while refusing one byte less. Every measured
+pair has identical ordered geometry, edge/vertex/work/retained counts. Final
+installed replay preserves all2,237 cells' masks, ordered geometry and features.
+Final tree2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e
+(568 inputs) matches the source manifest/generated provenance/installed runtime.
+All38 binding objects reused; only changed private core/test/provenance inputs
+compiled and existing frontends relinked. Same cache/runtime and retained fixture;
+no new release, broad numerical campaign or repeated archive publication.
+
+Waste review: the duplicate-query/clone-only trial showed~0.6% median change within
+noise and was not accepted as a gain. Initial serial A/B/A drift likewise gave
+no usable speed claim. One bounded interleaved comparison resolved host-time drift;
+then the measured repeated validity cost justified the exact cycle proof. Four
+warmups/12 contour pairs and four warmups/six detector pairs retain all samples,
+never timing workers concurrently. Profiling source was restored with fresh
+timestamps; accepted workers emit no diagnostics. Trials/failures remain preserved,
+and durable notes are in compilexx.
+
+Stop this bounded batch after matching source handoff. Existing consolidation
+remains28/28 complete; remaining intersection/nucleus work requires a new measured
+opportunity. Do not add percentages across batches or claim general speed parity.
+
+## Delivered task - paired native raster identity optimization
+
+Owner-selected [native detector optimization](benchmarks/native-detector-optimization/README.md)
+removes duplicate source/domain hashing for nominal nucleus/body masks. In the
+isolated same-process alternating probe, raster construction21.28 ->15.49ms:
+27.2% stage reduction, about5.79ms saved. Both masks retain separate label/domain/
+counter/component/budget/expected-digest admission; only an internally produced
+identity is reused for the same immutable source/input. General rational-grid
+construction remains unchanged. No public trusted-hash API/cache/new worker.
+
+Full detector A/B/A medians329.8/334.0/330.0ms under31-36% other-process CPU load
+do not demonstrate an overall gain. Preserve those samples; do not rerun to chase
+a favorable median or claim QuPath parity. Diagnostic profile identifies contour
+trace~122ms and nuclei~86ms as larger costs; contour clipping/order is unchanged.
+The selected duplicate-work reduction is evidenced at its own stage only.
+
+Three affected native suites pass2.23s, plus the final pair test after opt-in probe
+edits. Pair-versus-single nominal/fractional/context/general values and exact
+per-mask budget/identity/label/cancel refusals pass. Full outputs preserve exact
+RGB, both masks, ordered geometry, stored features and density CSV for all2,237
+Cells. Fresh archive replay verifies in the final installed runtime. Final tree
+a3cbffa4ae17136523f40464a09acfc5504a8132231694cfcd4d82efa8b3f6e7 has568 inputs;
+source manifest/generated provenance/installed module agree. All38 binding objects
+remain byte-identical. Existing cache/runtime refreshed; frozen products/fixtures/
+archives and diagnosed failures remain intact. No new release or schema.
+
+Waste review: copy2 restored old timestamps and MSBuild reused a diagnostic object;
+retain that invalid candidate run, touch restored source and rebuild only the
+changed object/relink. Fix the probe's stain array/vector conversion and respect
+request tickets when verifying replay. Compare stored geometry directly; recompute
+one replay through the native request. The isolated alternating probe resolves
+duplicate-hash benefit without another full pipeline/QuPath campaign. Temporary
+profile instrumentation is removed. Durable lesson added to compilexx.
+
+Stop this bounded batch after matching source handoff. Further contour/nucleus
+changes need a specific measured optimization and exact identity evidence; broader
+speed superiority remains unproven. Consolidation remains28/28 complete.
+
 ## Delivered task - focused post-consolidation speed comparison
 
 Owner-selected fresh comparison is [complete](benchmarks/post-consolidation-speed/README.md):

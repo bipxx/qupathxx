@@ -1,0 +1,226 @@
+{
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "qupath": "0.7.0",
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "context": 0,
+  "cells": 2237,
+  "exact_rgb": true,
+  "exact_cross_engine_partitions": true,
+  "exact_retained_native_masks": true,
+  "native_mask_hashes": {
+    "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+    "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+  },
+  "calibration_um": [
+    0.499,
+    0.499
+  ],
+  "engines": {
+    "native": {
+      "pipeline": {
+        "wall_ms": {
+          "median": 305.5911499541253,
+          "minimum": 296.02850042283535,
+          "maximum": 316.6787000373006,
+          "samples": [
+            308.6091005243361,
+            298.74430038034916,
+            316.6787000373006,
+            296.02850042283535,
+            306.6051001660526,
+            304.577199742198
+          ]
+        },
+        "cpu_ms": {
+          "median": 398.4375,
+          "minimum": 375.0,
+          "maximum": 421.875,
+          "samples": [
+            375.0,
+            390.625,
+            421.875,
+            406.25,
+            375.0,
+            406.25
+          ]
+        }
+      },
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.676499905064702,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.047800131142139435,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.04520002566278,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.17425014451146,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.021900050342082977,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06125005893409252,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 300.6037496961653,
+          "cpu_ms": 390.625
+        },
+        "keep_cells": {
+          "wall_ms": 0.0212998129427433,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.32629999704659,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.579850127920508,
+          "cpu_ms": 15.625
+        }
+      },
+      "resource": {
+        "engine_pid": 164112,
+        "launcher_pid": 162028,
+        "process_wall_ms": 38384.13009978831,
+        "peak_working_set_bytes": 142139392,
+        "peak_pagefile_bytes": 764342272,
+        "memory_samples": 1488,
+        "exit_code": 0,
+        "memory_scope": "Actual engine process: startup, warmups/measured processing, one archive and one final oracle capture; OS peak counter sampled25ms",
+        "system_cpu_busy_fraction": 0.4094693345817982,
+        "engine_cpu_ms": 6906.25,
+        "other_process_cpu_fraction": 0.4004722454047672,
+        "cpu_scope": "Average across all logical CPUs over worker process lifetime, including startup/warmup/oracles; other-process value is system busy minus actual engine CPU, not attribution to a named app"
+      },
+      "final_single_archive_stages": {
+        "keep_density": {
+          "wall_ms": 0.02969987690448761,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.6960002034902573,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 158.99479994550347,
+          "cpu_ms": 31.25
+        },
+        "reopen_project": {
+          "wall_ms": 218.46409980207682,
+          "cpu_ms": 312.5
+        }
+      },
+      "measured_runs": 6,
+      "warmups": 6
+    },
+    "qupath": {
+      "pipeline": {
+        "wall_ms": {
+          "median": 313.05145,
+          "minimum": 295.1439,
+          "maximum": 331.7938,
+          "samples": [
+            295.1439,
+            331.7938,
+            311.6727,
+            313.4224,
+            325.5368,
+            312.6805
+          ]
+        },
+        "cpu_ms": {
+          "median": 367.1875,
+          "minimum": 296.875,
+          "maximum": 468.75,
+          "samples": [
+            296.875,
+            328.125,
+            468.75,
+            406.25,
+            437.5,
+            328.125
+          ]
+        }
+      },
+      "stages": {
+        "open_image": {
+          "wall_ms": 100.0449,
+          "cpu_ms": 109.375
+        },
+        "setup_roi": {
+          "wall_ms": 0.8468,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 1.64855,
+          "cpu_ms": 0.0
+        },
+        "scripted_rgb_statistics": {
+          "wall_ms": 24.106650000000002,
+          "cpu_ms": 23.4375
+        },
+        "cell_detection_and_publication": {
+          "wall_ms": 313.05145,
+          "cpu_ms": 367.1875
+        },
+        "density": {
+          "wall_ms": 1.52245,
+          "cpu_ms": 0.0
+        }
+      },
+      "resource": {
+        "engine_pid": 186788,
+        "launcher_pid": 84980,
+        "process_wall_ms": 34433.033800218254,
+        "peak_working_set_bytes": 1352511488,
+        "peak_pagefile_bytes": 7285395456,
+        "memory_samples": 808,
+        "exit_code": 0,
+        "memory_scope": "Actual engine process: startup, warmups/measured processing, one archive and one final oracle capture; OS peak counter sampled25ms",
+        "system_cpu_busy_fraction": 0.41274954627949184,
+        "engine_cpu_ms": 44875.0,
+        "other_process_cpu_fraction": 0.3475952813067151,
+        "cpu_scope": "Average across all logical CPUs over worker process lifetime, including startup/warmup/oracles; other-process value is system busy minus actual engine CPU, not attribution to a named app"
+      },
+      "final_single_archive_stages": {
+        "export_csv": {
+          "wall_ms": 2.3296,
+          "cpu_ms": 0.0
+        },
+        "save_image_data": {
+          "wall_ms": 59.8539,
+          "cpu_ms": 156.25
+        },
+        "reopen_image_data": {
+          "wall_ms": 190.374,
+          "cpu_ms": 687.5
+        }
+      },
+      "measured_runs": 6,
+      "warmups": 24
+    }
+  },
+  "observed_native_overhead_fraction": -0.023830907174762217,
+  "cell_wall_difference_ms": -7.460300045874703,
+  "limits": [
+    "Six alternating nonconcurrent measured pairs after separate warmups; lifetime resources include gate waits; one ROI, no general speed claim.",
+    "Process CPU covers all engine threads and can include JVM JIT/GC; Windows counters are quantized.",
+    "Native OD/RGB statistics and scripted reference RGB reduction differ; no statistics-kernel ratio.",
+    "QPX and QPData retain different content; one save/reopen each is descriptive, not an equivalent-work or cold-disk benchmark.",
+    "No code optimization is established by this timing-only check; unchanged science qualification is reused."
+  ]
+}

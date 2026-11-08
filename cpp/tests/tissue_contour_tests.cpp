@@ -7,8 +7,11 @@
 void check_scientific_raster();
 void check(bool value) {if(!value) throw std::runtime_error("tissue contour check failed");}
 template<class Exception,class Action> void rejects(Action action) {try {action();} catch(const Exception&) {return;}throw std::logic_error("missing contour rejection");}
-int main() {
+void check_cell_raster_pair();
+void benchmark_cell_raster_pair(const std::string&);
+int main(int argc,char** argv) {
     try {
+        if(argc==3 && std::string(argv[1])=="--benchmark-pair"){benchmark_cell_raster_pair(argv[2]);return 0;}
         check_scientific_raster();
         using namespace qpx;StainTransform transform({{1,0,0},{0,1,0}});
         if(!has_geos()) {
@@ -19,6 +22,7 @@ int main() {
             rejects<std::runtime_error>([&]{job.request_contours();});
             std::cout<<"contour backend-disabled checks passed\n";return 0;
         }
+        check_cell_raster_pair();
         // Compare the nominal label-local graph against the independent
         // general scientific-grid route: diagonal contacts, shared boundaries,
         // background/enclosed labels, disconnected parts and nested holes.
@@ -30,12 +34,13 @@ int main() {
             const auto area=read_scientific_rgb(*doc.server(),grid);
             const CellSamplingGrid nominal(7,7,NominalCellSampling(RgbNominalRequest(0,0,7,7),0,0));
             const auto rgb=read_cell_rgb(*doc.server(),nominal,nullptr);
-            for(unsigned trial=0;trial<84;++trial) {
+            for(unsigned trial=0;trial<596;++trial) {
                 std::vector<std::uint32_t> labels(49);unsigned value=trial;
                 if(trial<81) {
                     for(int y=0;y<2;++y) for(int x=0;x<2;++x) {labels[(y+2)*7+x+2]=value%3;value/=3;}
                 } else for(int y=0;y<7;++y) for(int x=0;x<7;++x) {
-                    if(trial==81) labels[y*7+x]=1+(x+y)%2;
+                    if(trial>=84) labels[y*7+x]=(x>=2 && x<=4 && y>=2 && y<=4 && ((trial-84)&(1u<<((y-2)*3+x-2))))?1:0;
+                    else if(trial==81) labels[y*7+x]=1+(x+y)%2;
                     else if(trial==82) labels[y*7+x]=(x==0 || y==0 || x==6 || y==6)?1:(x==1 || y==1 || x==5 || y==5)?2:0;
                     else labels[y*7+x]=(x<2 || x>4)?1:(y<2 || y>4)?2:3;
                 }
@@ -47,7 +52,11 @@ int main() {
                 ScientificRasterSpec spec;spec.ticket=std::make_shared<const char>();spec.raw_components=count;
                 for(auto label:labels) spec.threshold_pixels+=label!=0;
                 const auto general=trace_tissue(*ScientificRasterKernel::make(source,area,labels,spec));
-                const auto local=trace_tissue(*ScientificRasterKernel::make(source,rgb,labels,spec));
+                const auto nominal_mask=ScientificRasterKernel::make(source,rgb,labels,spec);
+                const auto local=trace_tissue(*nominal_mask);
+                TissueContourOptions exact;exact.work_bytes=local->estimated_work_bytes();
+                check(trace_tissue(*nominal_mask,exact)->vertex_count()==local->vertex_count());
+                --exact.work_bytes;rejects<std::length_error>([&]{trace_tissue(*nominal_mask,exact);});
                 check(local->components().size()==general->components().size());
                 for(std::size_t i=0;i<local->components().size();++i) {
                     const auto& a=local->components()[i];const auto& b=general->components()[i];

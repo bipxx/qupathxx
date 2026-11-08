@@ -1,0 +1,27 @@
+{
+  "source_tree": "a3cbffa4ae17136523f40464a09acfc5504a8132231694cfcd4d82efa8b3f6e7",
+  "compiler_inputs": 568,
+  "parent_commit": "4546b6e6",
+  "baseline_source": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+  "timed_candidate_source": "806b11d80e14d3b50204c4cce5c98224bd89bb56fcdbb69db8a1598afb1cef0d",
+  "final_source_changes_after_timing": "Only opt-in native test/probe code and generated provenance; product implementation identical.",
+  "stage_saved_ms": 5.7940000000000005,
+  "stage_reduction_fraction": 0.2722833927807776,
+  "end_to_end_speedup_proven": false,
+  "exact_scientific_outputs": true,
+  "binding_objects_reused": 38,
+  "native_suites": [
+    "cells",
+    "cell_records",
+    "tissue_contours"
+  ],
+  "installed_replay": true,
+  "new_public_api": false,
+  "release": false,
+  "failure_evidence_local": [
+    "candidate.log (invalid instrumented contour timing)",
+    "isolated-probe-build.log (stain array/vector type mismatch)",
+    "comparison.log (decoded result/request ticket mismatch)"
+  ],
+  "profile_build_identity": "4307ddcb8b78a52af80dc76e4346fce73d89466e2a6099e6feed888fa6b40eae"
+}

@@ -3,8 +3,8 @@
 Detailed acceptance checklist for L5-L7 of the [delivery plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan).
 [Current task](current-task.md) owns the execution queue; [phase summary](speed-gap-coverage.md)
 links here rather than maintaining a second detailed list. This is the single acceptance checklist for consolidation. Status records only
-evidenced work; consumer source edits are in progress and installed migration
-verification remains open.
+evidenced work; all28 items, including installed migration verification, are
+complete. Remaining scope is indexed in the [gap checklist](remaining-gaps-checklist.md).
 
 The outcome is one C++ authority for shipped selection, workflow state, reuse,
 import interpretation, scientific values, persistence and export. Python parses

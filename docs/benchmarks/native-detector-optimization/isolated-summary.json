@@ -1,0 +1,26 @@
+{
+  "separate_median_ms": 21.2793,
+  "paired_median_ms": 15.485299999999999,
+  "saved_ms": 5.7940000000000005,
+  "stage_reduction_fraction": 0.2722833927807776,
+  "measured_pairs": 12,
+  "warmup_pairs": 4,
+  "order": "alternates separate/paired and paired/separate",
+  "fixture": "candidate-final/11/study.qpxproj",
+  "cells": 2237,
+  "results_equal": true,
+  "profile_medians_ms": {
+    "rgb": 15.1207,
+    "domain": 5.1426,
+    "convert": 3.3185000000000002,
+    "gaussian": 3.96495,
+    "laplacian": 1.16365,
+    "nuclei": 86.3866,
+    "filter": 0.4909,
+    "expand": 15.3432,
+    "features": 21.727249999999998,
+    "rasters": 20.8921,
+    "contours": 129.07139999999998
+  },
+  "end_to_end_speedup_proven": false
+}

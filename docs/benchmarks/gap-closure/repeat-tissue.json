@@ -1,0 +1,239 @@
+{
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "iterations": 32,
+  "stable_identity": [
+    "beb57c98b821eb2423e56bd9d452527b8126f1ff1160fb129def142db28c39ab",
+    "3519357004833b074b2ba307584a94f22ff6d5c665e2aa2b740cbcb2729b25f3",
+    1083798,
+    688
+  ],
+  "private_range_after_8_bytes": 0,
+  "private_range_limit_bytes": 33554432,
+  "runs": [
+    {
+      "iteration": 0,
+      "wall_ms": 223.8306999206543,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 127717376
+    },
+    {
+      "iteration": 1,
+      "wall_ms": 190.02539990469813,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 2,
+      "wall_ms": 192.9301000200212,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 3,
+      "wall_ms": 185.10069977492094,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 4,
+      "wall_ms": 184.12189977243543,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 5,
+      "wall_ms": 189.27899980917573,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 6,
+      "wall_ms": 188.6149998754263,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 7,
+      "wall_ms": 187.73820018395782,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 8,
+      "wall_ms": 191.12559966742992,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 9,
+      "wall_ms": 186.15659978240728,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 10,
+      "wall_ms": 187.24410003051162,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 11,
+      "wall_ms": 184.28950011730194,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 12,
+      "wall_ms": 187.14640010148287,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 13,
+      "wall_ms": 188.4094001725316,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 14,
+      "wall_ms": 186.70840002596378,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 15,
+      "wall_ms": 189.71210019662976,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 16,
+      "wall_ms": 184.71960024908185,
+      "rss": 58048512,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 17,
+      "wall_ms": 188.63840028643608,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129032192
+    },
+    {
+      "iteration": 18,
+      "wall_ms": 191.5683001279831,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 19,
+      "wall_ms": 187.68629990518093,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 20,
+      "wall_ms": 191.65159994736314,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 21,
+      "wall_ms": 188.55480011552572,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 22,
+      "wall_ms": 189.65680012479424,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 23,
+      "wall_ms": 188.9870003797114,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 24,
+      "wall_ms": 188.2807998917997,
+      "rss": 58052608,
+      "private": 44363776,
+      "peak_rss": 129036288
+    },
+    {
+      "iteration": 25,
+      "wall_ms": 190.5493000522256,
+      "rss": 58056704,
+      "private": 44363776,
+      "peak_rss": 129040384
+    },
+    {
+      "iteration": 26,
+      "wall_ms": 186.41799967736006,
+      "rss": 58056704,
+      "private": 44363776,
+      "peak_rss": 129040384
+    },
+    {
+      "iteration": 27,
+      "wall_ms": 185.46489998698235,
+      "rss": 58056704,
+      "private": 44363776,
+      "peak_rss": 129040384
+    },
+    {
+      "iteration": 28,
+      "wall_ms": 185.19099988043308,
+      "rss": 58060800,
+      "private": 44363776,
+      "peak_rss": 129044480
+    },
+    {
+      "iteration": 29,
+      "wall_ms": 186.0152999870479,
+      "rss": 58060800,
+      "private": 44363776,
+      "peak_rss": 129044480
+    },
+    {
+      "iteration": 30,
+      "wall_ms": 189.1005001962185,
+      "rss": 58060800,
+      "private": 44363776,
+      "peak_rss": 129044480
+    },
+    {
+      "iteration": 31,
+      "wall_ms": 186.833499930799,
+      "rss": 58060800,
+      "private": 44363776,
+      "peak_rss": 129044480
+    }
+  ],
+  "scope": "32 repeats; no durable record accumulation; not long-duration leak, GPU process peak or level-zero cells acceptance"
+}

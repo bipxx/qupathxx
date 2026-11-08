@@ -1,0 +1,8 @@
+{
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "supported": false,
+  "error": "invalid geometry: Ring Self-intersection[11509 18024]",
+  "publication_absent": true,
+  "source_qpdata_sha256": "3683136df9c85b2023468a896dc434502788290d29b7ef2945d69903bfad8b7b",
+  "remaining_gap": "Real upstream ROI contains invalid/self-intersecting geometry; no repair or silent loss authorized by current format contract"
+}
