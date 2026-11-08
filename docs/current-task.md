@@ -7,6 +7,45 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - exact nominal contour-cycle optimization
+
+[Contour evidence](benchmarks/contour-optimization/README.md): observed detector
+median341.3 ->302.9ms (11.2%) in six alternating baseline/candidate pairs on the
+selected512x512/2,237-cell ROI. Twelve serial contour pairs show nuclei113.7 ->100.0ms
+(12.0%) and bodies135.9 ->111.3ms (18.1%). This is a local matched result, not general
+QuPath superiority or an overall workflow/archive ratio.
+
+A single unambiguous closed cycle in the noded raster boundary graph proves a
+simple shell. Carry that certificate and known label to avoid duplicate pre-clip
+validity/interior queries; move standalone polygons into ownership. Ambiguous,
+multi-ring/hole/disconnected and non-nominal/general faces retain GEOS validity.
+All final clipped ROIs still pass full validity/nonempty/positive-area checks.
+Robust clipping, mapping, order, labels/area, limits and cancellation stay intact.
+No public trusted-validity parameter, schema, extra thread or new decoder.
+
+Three affected native suites pass2.62s. All596 nominal/general topology patterns
+compare exact WKT and admit exact work while refusing one byte less. Every measured
+pair has identical ordered geometry, edge/vertex/work/retained counts. Final
+installed replay preserves all2,237 cells' masks, ordered geometry and features.
+Final tree2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e
+(568 inputs) matches the source manifest/generated provenance/installed runtime.
+All38 binding objects reused; only changed private core/test/provenance inputs
+compiled and existing frontends relinked. Same cache/runtime and retained fixture;
+no new release, broad numerical campaign or repeated archive publication.
+
+Waste review: the duplicate-query/clone-only trial showed~0.6% median change within
+noise and was not accepted as a gain. Initial serial A/B/A drift likewise gave
+no usable speed claim. One bounded interleaved comparison resolved host-time drift;
+then the measured repeated validity cost justified the exact cycle proof. Four
+warmups/12 contour pairs and four warmups/six detector pairs retain all samples,
+never timing workers concurrently. Profiling source was restored with fresh
+timestamps; accepted workers emit no diagnostics. Trials/failures remain preserved,
+and durable notes are in compilexx.
+
+Stop this bounded batch after matching source handoff. Existing consolidation
+remains28/28 complete; remaining intersection/nucleus work requires a new measured
+opportunity. Do not add percentages across batches or claim general speed parity.
+
 ## Delivered task - paired native raster identity optimization
 
 Owner-selected [native detector optimization](benchmarks/native-detector-optimization/README.md)

@@ -1,0 +1,59 @@
+diff --git a/cpp/tissue_contours.cpp b/cpp/tissue_contours.cpp
+index a5155ee1..67330b05 100644
+--- a/cpp/tissue_contours.cpp
++++ b/cpp/tissue_contours.cpp
+@@ -244,6 +244,9 @@ struct TissueContourKernel {
+         (void)mask;throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
+ #else
+         const auto began=std::chrono::steady_clock::now();
++        auto trace_stamp=began;std::array<double,7> trace_costs{};
++        auto trace_mark=[&](std::size_t stage){const auto now=std::chrono::steady_clock::now();trace_costs[stage]+=std::chrono::duration<double,std::milli>(now-trace_stamp).count();trace_stamp=now;};
++
+         if(mask.components().size()>options.max_components) throw std::length_error("tissue contour component limit exceeded");
+         const auto base=65536ull+boundary_payload(mask)+mask.components().size()*512ull+(options.clip_to_roi?2ull*mask.roi().payload_bytes():0);
+         if(base>options.work_bytes) throw std::length_error("tissue contour work budget exceeded");
+@@ -268,6 +271,7 @@ struct TissueContourKernel {
+                 },cancelled);
+             }
+             checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
++                trace_mark(0);
+             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
+             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
+             struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};
+@@ -298,12 +302,14 @@ struct TissueContourKernel {
+             }
+             const auto located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
+             result->work_+=located.estimated_work_bytes;
++                trace_mark(1);
+             for(int i=0;i<count;++i) {
+                 checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
+                 const auto label=located.labels[std::size_t(i)];if(!label) continue;
+                 if(label>grouped.size() || GEOSisValid_r(backend.ctx,face)!=1) throw std::runtime_error("invalid tissue contour face");
+                 double area=0;if(!GEOSArea_r(backend.ctx,face,&area) || !std::isfinite(area) || area<0 || area>mask.foreground_pixels() || std::abs(area-std::round(area))>1e-6) throw std::runtime_error("invalid tissue contour raster area");
+                 areas[label-1]+=static_cast<std::uint64_t>(std::llround(area));
++                trace_mark(2);
+                 auto world=backend.own(GEOSGeom_transformXY_r(backend.ctx,face,[](double* xx,double* yy,void* user)->int {
+                     const auto& m=*static_cast<Mapping*>(user);if(m.cancelled && m.cancelled->load(std::memory_order_relaxed)) return 0;
+                     if(m.nominal) {
+@@ -325,8 +331,11 @@ struct TissueContourKernel {
+                     } else {*xx=m.bounds.x+*xx*m.scale;*yy=m.bounds.y+*yy*m.scale;}
+                     return std::isfinite(*xx) && std::isfinite(*yy);
+                 },&mapping));
++                trace_mark(3);
+                 auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));
++                trace_mark(4);
+                 extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);
++                trace_mark(5);
+             }
+             for(std::size_t i=0;i<grouped.size();++i) {
+                 checkpoint(cancelled);const auto& component=mask.components()[i];
+@@ -337,7 +346,9 @@ struct TissueContourKernel {
+                 result->retained_+=geometry.payload_bytes();if(result->retained_>options.work_bytes) throw std::length_error("tissue contour retained geometry exceeds work budget");
+                 result->components_.push_back({component.label,component.pixels,std::move(geometry)});
+             }
++                trace_mark(6);
+         }
++        std::fprintf(stderr,"contour-profile components=%zu polygon=%.4f query=%.4f validity_area=%.4f mapping=%.4f intersection=%.4f extract=%.4f roi=%.4f\n",mask.components().size(),trace_costs[0],trace_costs[1],trace_costs[2],trace_costs[3],trace_costs[4],trace_costs[5],trace_costs[6]);
+         checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return result;
+ #endif
+     }

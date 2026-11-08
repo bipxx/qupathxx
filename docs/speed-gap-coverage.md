@@ -21,9 +21,10 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S14 | Six native suites, canonical records, source/runtime identity and test-stack isolation | Complete |
 | S15 | Six-warmup/six-measured oracle-free protocol corrects premature ordinary-timing parity | Complete |
 | S16 | Source-level speed diagnosis: exact-label original/interior/control probes isolate shape growth; scalar SHA overhead measured | Complete |
+| S17 | Exact simple nominal-cycle certificate replaces redundant pre-clip validation;596 nominal/general topology/budget cases and matched interleaved detector comparison | Complete - [11.2% observed local detector reduction](benchmarks/contour-optimization/README.md); general QuPath superiority unproven |
 
 The [C++ ownership/optimization plan](api-delivery-plan.md#c-logic-optimization-and-thin-python-control-plan)
-is ordered below. These are planned work, not delivered behavior. The diagnosis
+is recorded below with its current delivery states. The earlier diagnosis
 is in the [logic analysis](benchmarks/speed-gap-followup/logic-analysis.md).
 
 | Task | Completion requirement | State |

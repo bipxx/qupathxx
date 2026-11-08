@@ -1,14 +1,13 @@
 # API and workflow delivery paths
 
-The [latest native kernel batch](benchmarks/cell-kernel-optimization/README.md)
-preserves exact outputs and improves the retained native control by~5.9%. The
-reference remains variable, so no general speed win is claimed. L1/L2/L4 are
-delivered. L3 now shares the nominal mask input digest after a measured27.2%
-raster-stage benefit; broader sharing stays deferred and no overall gain is proven. L5-L7's shared
-native workflow/import migration is implemented and evidenced in the
-[28-item consolidation checklist](consolidation-coverage.md); final source handoff
-closes that selected phase. Historical reports retain
-their tested scope and published releases stay frozen.
+The [latest contour batch](benchmarks/contour-optimization/README.md) preserves
+exact outputs and shows an observed11.2% detector reduction in matched local
+baseline/candidate pairs. This is not a general QuPath speed claim. Earlier
+L1/L2/L4 and L3 nominal input-sharing evidence retain their own scope; do not add
+percentages across these different measurements. Broader domain sharing remains
+deferred. L5-L7's shared native workflow/import migration is implemented and
+evidenced in the [28-item consolidation checklist](consolidation-coverage.md).
+Historical reports retain their tested source scope and published releases stay frozen.
 
 Current status is maintained only in the [current task](current-task.md). Follow the [validation policy](api-delivery-plan.md#validation-and-build-policy); historical snapshots are preserved in [history](process-status-history-through308.md).
 

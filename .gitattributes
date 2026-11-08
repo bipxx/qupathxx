@@ -865,3 +865,9 @@ docs/benchmarks/consolidation/boundary*.log -text -whitespace
 # Preserve native detector diagnostic evidence verbatim.
 docs/benchmarks/native-detector-optimization/*.log -text -whitespace
 docs/benchmarks/native-detector-optimization/profile.patch -text -whitespace
+
+# Preserve contour profiling evidence and measurement controller bytes.
+docs/benchmarks/contour-optimization/*.log -text -whitespace
+docs/benchmarks/contour-optimization/profile.patch -text -whitespace
+docs/benchmarks/contour-optimization/*.py text eol=lf
+docs/benchmarks/contour-optimization/source-inputs.sha256 text eol=lf

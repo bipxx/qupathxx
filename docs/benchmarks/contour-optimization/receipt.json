@@ -1,0 +1,118 @@
+{
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "compiler_inputs": 568,
+  "parent_commit": "a4990899f64ecd02df82a811d78e178b5ed69834",
+  "topology_patterns": 596,
+  "native_suites_passed": 3,
+  "bindings_reused": 38,
+  "public_api_changed": false,
+  "new_threads": false,
+  "contour_warmups_per_worker": 4,
+  "contour_measured_pairs": 12,
+  "detector_warmups_per_worker": 4,
+  "detector_measured_pairs": 6,
+  "trace_summary": {
+    "nucleus": {
+      "baseline_median_ms": 113.71065024286509,
+      "candidate_median_ms": 100.03034980036318,
+      "median_paired_saving_ms": 17.49014970846474,
+      "reduction_fraction": 0.12030799589381724,
+      "baseline_samples": [
+        112.68389970064163,
+        115.36739999428391,
+        134.57729993388057,
+        109.1800001449883,
+        134.19760018587112,
+        110.88160006329417,
+        134.71620017662644,
+        130.28240017592907,
+        108.78830030560493,
+        109.4034998677671,
+        113.44920005649328,
+        113.97210042923689
+      ],
+      "candidate_samples": [
+        96.39139985665679,
+        89.55989964306355,
+        109.45370001718402,
+        100.96899978816509,
+        110.93159997835755,
+        115.55820005014539,
+        100.18999967724085,
+        98.44749979674816,
+        102.45530027896166,
+        90.71570029482245,
+        99.87069992348552,
+        99.86500022932887
+      ]
+    },
+    "body": {
+      "baseline_median_ms": 135.9474000055343,
+      "candidate_median_ms": 111.32409982383251,
+      "median_paired_saving_ms": 24.140599882230163,
+      "reduction_fraction": 0.18112373006544724,
+      "baseline_samples": [
+        131.9136000238359,
+        148.4562996774912,
+        146.22770017012954,
+        129.62700007483363,
+        127.07679998129606,
+        128.21129988878965,
+        151.72560000792146,
+        129.31759981438518,
+        159.0805002488196,
+        128.82820004597306,
+        139.98119998723269,
+        154.93320021778345
+      ],
+      "candidate_samples": [
+        107.03930025920272,
+        107.12329996749759,
+        107.93250007554889,
+        106.22010007500648,
+        129.993399605155,
+        112.87779966369271,
+        113.90719981864095,
+        111.43499985337257,
+        111.21319979429245,
+        106.82639991864562,
+        128.91749991104007,
+        117.48769972473383
+      ]
+    }
+  },
+  "detector_summary": {
+    "detector": {
+      "baseline_median_ms": 341.2912499625236,
+      "candidate_median_ms": 302.9335499741137,
+      "median_paired_saving_ms": 38.15925004892051,
+      "reduction_fraction": 0.1123899308658568,
+      "baseline_samples": [
+        343.96310010924935,
+        340.3922999277711,
+        357.66639979556203,
+        333.41770013794303,
+        342.19019999727607,
+        314.07879991456866
+      ],
+      "candidate_samples": [
+        283.6015000939369,
+        283.835900016129,
+        322.4921999499202,
+        292.27339988574386,
+        313.59370006248355,
+        315.0287000462413
+      ]
+    }
+  },
+  "exact_geometry_counts_work_and_retained": true,
+  "installed_masks_features_replay_exact": true,
+  "fixture": "build/native-detector-optimization/candidate-final/11/study.qpxproj (reused, unchanged)",
+  "diagnostic_profile_only": true,
+  "duplicate_work_trial_inconclusive": true,
+  "controller_sha256": {
+    "interleave.py": "4033f5c6fbbf2afd2caa0b1123df3a65ad9cf793abc5b6ba11d64084be3b7910",
+    "worker.py": "35b22a163e9ec89c81eae509e4ce371c69b8be0a7cb595e62cbd509c3a2cf0c9"
+  },
+  "scope": "One fixed Windows ROI and interleaved warmed workers; observed local improvement, not a general QuPath speed claim or binary release."
+}
