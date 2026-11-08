@@ -22,12 +22,13 @@ and [current task](current-task.md) after each task; do not replay completed wor
 
 Development runtime source tree:
 `2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e`
-(568 inputs). Published candidate5 is older; its qualification does not transfer
-to this development runtime.
+(568 inputs). Candidate6 now ships this exact runtime; candidate5 remains frozen and older.
+[Candidate6 handoff](benchmarks/gap-closure/publication.json) owns current binary
+evidence; earlier qualification retains its original source/support scope.
 
 ## Priority gaps to select from
 
-**G01 complete; G04 locally verified, publication pending; G02/G03/G05 partial.** Owner selected closure of the
+**2 complete (G01/G04); 3 partial (G02/G03/G05).** Owner selected closure of the
 priority gaps; optional expansion stays deferred. These
 are evidence/delivery boundaries, not five known bugs or an effort estimate.
 Only select a category for a required user workflow or claim.
@@ -37,12 +38,16 @@ Only select a category for a required user workflow or claim.
 | [x] | G01 | Current-source selected-ROI comparison complete; general speed unproven | Six alternating pairs: native305.6ms /QuPath313.1ms; exact RGB/partitions for2,237 cells. Overlapping ranges/background load prevent a general speed claim. [Current evidence](benchmarks/current-source-speed/README.md). |
 | [ ] | G02 | Partial: selected coarse whole-slide tissue passes; broader resources open | [Current case](benchmarks/gap-closure/README.md): exact256/512 tiles/independent threshold/cancel;32 repeats without post-warmup private drift; two settled viewer replays. Level-zero cells, dense scenes, long-duration memory and total GPU residency remain unqualified.  Choose one actual large-slide research workflow; reuse the tiled scheduler and existing fixtures. Check full/tiled seams and duplicate/lost objects where applicable, cancellation/stale results, process/GPU peaks, UI responsiveness and long-run memory for that workload. Optimize only the measured limiting stage. R12 in the [delivery plan](api-delivery-plan.md#dependency-lanes-and-immediate-queue). |
 | [ ] | G03 | Partial: new558-cell anisotropic NDPI crop exact; generalization open | [Current case](benchmarks/gap-closure/ndpi-checks.json): exact masks/RGB/calibration and independent compartment RGB. No new pathologist/independent-specimen/context-halo acceptance.  Select a rights-cleared specimen/context/vendor/feature-domain case missing from existing evidence. Capture inputs, calibration and recipe first; compare masks/counts/measurements with declared tolerances and preserve replay. The13 held-out plus nine prior zero-context original-slide workflows already match; do not reopen their eight historical resolved differences. [Held-out scope](cell-policy-heldout-gaps.md), [public contract](original-source-cell-integration.md). |
-| [ ] | G04 | Candidate6 local package/install/routes/removal verified; public handoff pending | [Evidence](benchmarks/gap-closure/README.md):69 immutable files, native/wheel closure, installed density/import/resume agreement,29 user files unchanged after removal.  Once a release is selected, freeze one combined source/runtime, update dependency/source/notices and support claims, then package matching wheel/native/source assets. Run only applicable changed-workflow and clean-host install/run/removal checks. Reuse candidate5 procedures; do not rebuild intermediate packages. [Packaging authority](windows-candidate5-coverage.md). |
+| [x] | G04 | Candidate6 published; local package/install/routes/removal verified | [Public candidate6](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.6):14 assets verified before/after publication, matching exact568-input source,69 immutable wheel files, native/wheel closure, installed density/import/resume agreement,29 files unchanged after removal. Local Windows CPython3.12 scope; no fresh-host/signing/stable/other-platform claim. [Evidence](benchmarks/gap-closure/README.md). |
 | [ ] | G05 | Partial: current Windows/NDPI supported route checked; invalid-ring import and platform expansion open | [Actual upstream .qpdata](benchmarks/gap-closure/qpdata-limit.json) refuses a self-intersecting ring before publication; supported saved-data controls pass. Define explicit repair/admission semantics before accepting this case; no silent geometry change.  Pick a specific additional eligible reader/codec, project-file version, or Linux/macOS package route required by a user. Reuse current adapters, loss-aware import and packaging. Close with exact pixels/calibration or loss reporting for that format, or installed workflow evidence for that host/package. Historical platform checks do not qualify the latest source. R2/R5/R14 in the [inventory](feature-matrix.md). |
 
 G01 is complete for the selected ROI; do not repeat it for status. The next concrete
-compatibility task is G05's refused upstream invalid-ring file; generalization
-and expanded support must keep bounded acceptance contracts. The latest11.2%
+compatibility task is G05's refused upstream invalid-ring file. Before accepting
+it, define native explicit-loss repair semantics and compare all558 imported
+cell/nucleus pixel-center partitions and retained measurements against the
+upstream capture. Keep arbitrary crossings unsupported unless separately
+evidenced. G02/G03/platform expansion need bounded acceptance contracts rather
+than an attempt to prove universal coverage. The latest11.2%
 local improvement compares two native versions, not QuPath. The earlier direct
 native324.8ms/QuPath314.1ms comparison predates the contour optimization and had
 substantial host load. Comparing today's302.9ms with that older314.1ms would not

@@ -7,7 +7,7 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active task - candidate6 handoff and remaining gap status
+## Delivered task - candidate6 handoff and remaining gap status
 
 Owner selected G01-G05 closure; [checklist](remaining-gaps-checklist.md) records
 actual progress without converting broad unqualified claims into passes.
@@ -27,8 +27,14 @@ installed native/Python density/import/bidirectional reuse, standalone app/batch
 and uninstall with29 output hashes preserved pass. Source includes all568 raw
 compiler inputs,12 authenticated external dependency archives plus vendored
 LodePNG source/notices. No new binary qualification is borrowed from candidate5.
-Next: publish the matching source/wheel/native candidate and verify asset hashes.
-Then keep broader G02/G03/G05 and concrete invalid-ring compatibility gap open.
+[Candidate6 is public](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.6):
+all14 asset sizes/server SHA256 digests match before/after publication; tag targets
+f1bb522c, whose source archive contains the repaired test and identical568 compiler
+inputs. Matching wheel/native bytes were never rebuilt. G01/G04 closed; G02/G03/
+G05 remain partial. Next concrete task: native explicit-loss handling for the
+retained invalid-ring import case, with all558 masks and retained measurements
+compared against upstream; do not silently repair/drop geometry or accept
+arbitrary crossings. Broader domains/platforms need finite acceptance targets.
 [Evidence and limits](benchmarks/gap-closure/README.md).
 
 Waste/corrections: no compile, binding rebuild or corpus campaign. Removed unused
@@ -36,8 +42,9 @@ SciPy assignment import and reused successful captures. Corrected one selected
 test name and used development pytest against the explicitly installed package.
 Two controls pass; the sole failing assertion expected obsolete class flattening.
 Replaced it with retained-parent/reopen checks; focused repair passes. Final source
-archive must include that test correction; refresh only source/receipt, not the
-already verified wheel/native assets. No further timing search or intermediate
+archive includes that test correction through a source-only refresh; wheel/native
+assets stayed unchanged. Draft lookup by tag returned404; fetched/verified and
+published the existing draft by release ID, without duplicate upload. No further timing search or intermediate
 binary packaging. Optional O01-O05 stay deferred, not parity obligations.
 
 ## Delivered task - remaining gaps checklist

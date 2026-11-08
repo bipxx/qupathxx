@@ -74,5 +74,12 @@ optional pytest in the consumer environment caused no product rerun; development
 pytest was pointed explicitly at the installed package. Log renderings retain the original
 failure and focused repair (trailing spaces normalized; raw logs stay local). [Known limits](KNOWN-LIMITS.md) define remaining scope.
 
-Public handoff follows this local package qualification; no hosted/full-platform
-campaign is implied.
+[Candidate6 is public](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.6).
+[Publication receipt](publication.json): all14 asset sizes and server SHA256
+digests agree before/after publication; tag targets source commitf1bb522c.
+One source-only refresh includes the corrected test/known limits and retains
+all568 exact compiler inputs; wheel/native bytes stayed identical. Draft lookup
+by tag returned404; release-ID lookup reused the existing uploaded draft. No
+second upload, hosted/full-platform campaign or native rebuild was needed.
+G01/G04 close their scoped checks; G02/G03/G05 remain partial as recorded in the
+[checklist](../../remaining-gaps-checklist.md).

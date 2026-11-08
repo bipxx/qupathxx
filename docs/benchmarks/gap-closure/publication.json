@@ -1,0 +1,95 @@
+{
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.6",
+  "release_id": 438295276,
+  "tag": "v0.1.0-windows-candidate.6",
+  "source_commit": "f1bb522cba913200c36ce0f0a1913127e545646a",
+  "published": true,
+  "prerelease": true,
+  "assets_verified": 14,
+  "assets": [
+    {
+      "name": "candidate.json",
+      "bytes": 1526,
+      "digest": "sha256:f4dfe10c6831e3f6f8d439f9525718832a93a580656d1edb9d79718a66bddc13",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/candidate.json"
+    },
+    {
+      "name": "dependency-sources.json",
+      "bytes": 4724,
+      "digest": "sha256:3bba9c87935ceb6dd73f2eea47029ea72957a1603fe52fd992f44899a3359547",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/dependency-sources.json"
+    },
+    {
+      "name": "installation.json",
+      "bytes": 4248,
+      "digest": "sha256:4d226e2b58f3fe2b284c370f2a9e1c51e94273c9cc247d92b6ae1e4aa9b3d305",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/installation.json"
+    },
+    {
+      "name": "installed-routes.json",
+      "bytes": 4693,
+      "digest": "sha256:b06b8e513c8723a7b8e38d708424beda47e1e0994b12356f279be5929018d97c",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/installed-routes.json"
+    },
+    {
+      "name": "KNOWN-LIMITS.md",
+      "bytes": 1627,
+      "digest": "sha256:b2822a8e2df148f44b34f892867f1f6fabe096ce556d67776c300df92860f1e9",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/KNOWN-LIMITS.md"
+    },
+    {
+      "name": "native-runtime.json",
+      "bytes": 47849,
+      "digest": "sha256:ed52aa3e2c75945862613b155494f55c3fa01ab6a9d3b20781bf4f6af97b0f43",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/native-runtime.json"
+    },
+    {
+      "name": "qupathxx-0.1.0-6-cp312-cp312-win_amd64.whl",
+      "bytes": 33527187,
+      "digest": "sha256:052b4f2de5a155d1c3921d934b17529a0952bb8508c33a290064422a604ee284",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/qupathxx-0.1.0-6-cp312-cp312-win_amd64.whl"
+    },
+    {
+      "name": "qupathxx-dependency-sources.zip",
+      "bytes": 135374582,
+      "digest": "sha256:a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/qupathxx-dependency-sources.zip"
+    },
+    {
+      "name": "qupathxx-source-f1bb522c.zip",
+      "bytes": 68516051,
+      "digest": "sha256:7da2ae0d28fe610cdd283ee2d98a797f26ddd006651c3976e6d7503054f8bfec",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/qupathxx-source-f1bb522c.zip"
+    },
+    {
+      "name": "qupathxx-windows-x64-candidate.zip",
+      "bytes": 28254616,
+      "digest": "sha256:88bd533bcd30d54fc3870cfcdcf45fcc5e0277ba81201357ba111049af86ec61",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/qupathxx-windows-x64-candidate.zip"
+    },
+    {
+      "name": "removal.json",
+      "bytes": 5318,
+      "digest": "sha256:5358ac019af342e616392ad90511d05a59b3ade7d9d17b27e2b4965763b7ad4a",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/removal.json"
+    },
+    {
+      "name": "RUN.md",
+      "bytes": 2174,
+      "digest": "sha256:7180683dfaca75028c1392ba714a35eb264e7d9a1a13acec46e765f6349e79a0",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/RUN.md"
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 1164,
+      "digest": "sha256:1c34b80a8142adb0b4848753128223e17539439982b9930c183d1db18f29abfc",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/SHA256SUMS"
+    },
+    {
+      "name": "wheel-runtime.json",
+      "bytes": 61145,
+      "digest": "sha256:6f0c68e7ecbda5bbe78ac9a0aad50e1f261ca92202e444e2e24408ebbbdeedec",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.6/wheel-runtime.json"
+    }
+  ]
+}
