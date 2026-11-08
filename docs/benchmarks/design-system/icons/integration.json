@@ -1,0 +1,11 @@
+{
+  "ui_commit": "69f83b12",
+  "local_main_merge": "6bd123da1244fb438efa796bfe3048524047cc48",
+  "merge_tree_matches_reviewed_ui_commit": true,
+  "verified_canonical_source_inputs": 17,
+  "verified_screenshots": 3,
+  "temporary_worktree_and_branch_removed": true,
+  "local_preview_and_failures_preserved": "build/icon-consistency",
+  "separate_scientific_checkout_preserved": "build/ci/scientific-grid-159",
+  "push_or_publication": false
+}

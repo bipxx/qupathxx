@@ -57,6 +57,11 @@ font object were retained;36 binding objects are hash-unchanged and two original
 sources were privately compiled for compatibility. Scientific cache/products,
 the concurrent migration, fixtures and failed attempts are preserved. No release
 or full scientific/binding rebuild was made.
+UI commit69f83b12 is merged into local main6bd123da. All17 canonical source and
+three screenshot hashes match after promotion. The temporary UI checkout and
+merged branch are removed; the preview, build helpers, failures and fixtures
+remain under main build/icon-consistency. The separate scientific checkout has
+advanced independently and is preserved. No push or publication.
 
 ## Delivered task - COLMAP WebView design system
 
