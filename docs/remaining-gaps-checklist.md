@@ -27,13 +27,14 @@ to this development runtime.
 
 ## Priority gaps to select from
 
-**5 open categories, 0 implementation tasks selected by this checklist.** These
+**1 scoped check complete, 4 open categories.** Owner selected closure of the
+priority gaps; optional expansion stays deferred. These
 are evidence/delivery boundaries, not five known bugs or an effort estimate.
 Only select a category for a required user workflow or claim.
 
 | Done | ID | Remaining gap | Easiest next action and completion rule |
 | --- | --- | --- | --- |
-| [ ] | G01 | Current-source speed versus QuPath is unconfirmed | Reuse the retained ROI, recipe and existing comparison harness. Run one bounded, alternating, nonconcurrent comparison of current native and QuPath with matched inputs/results; disclose all samples, host load and timing scope. Report uncertainty if ranges overlap. This closes only the selected ROI claim. [Speed authority](speed-gap-coverage.md). |
+| [x] | G01 | Current-source selected-ROI comparison complete; general speed unproven | Six alternating pairs: native305.6ms /QuPath313.1ms; exact RGB/partitions for2,237 cells. Overlapping ranges/background load prevent a general speed claim. [Current evidence](benchmarks/current-source-speed/README.md). |
 | [ ] | G02 | Representative whole-slide performance/resource coverage | Choose one actual large-slide research workflow; reuse the tiled scheduler and existing fixtures. Check full/tiled seams and duplicate/lost objects where applicable, cancellation/stale results, process/GPU peaks, UI responsiveness and long-run memory for that workload. Optimize only the measured limiting stage. R12 in the [delivery plan](api-delivery-plan.md#dependency-lanes-and-immediate-queue). |
 | [ ] | G03 | Scientific generalization beyond the accepted cell cases | Select a rights-cleared specimen/context/vendor/feature-domain case missing from existing evidence. Capture inputs, calibration and recipe first; compare masks/counts/measurements with declared tolerances and preserve replay. The13 held-out plus nine prior zero-context original-slide workflows already match; do not reopen their eight historical resolved differences. [Held-out scope](cell-policy-heldout-gaps.md), [public contract](original-source-cell-integration.md). |
 | [ ] | G04 | Ship the newer development work in a supported binary | Once a release is selected, freeze one combined source/runtime, update dependency/source/notices and support claims, then package matching wheel/native/source assets. Run only applicable changed-workflow and clean-host install/run/removal checks. Reuse candidate5 procedures; do not rebuild intermediate packages. [Packaging authority](windows-candidate5-coverage.md). |

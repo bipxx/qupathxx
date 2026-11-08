@@ -7,6 +7,43 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active task - close selected remaining gaps
+
+Owner selected closure of G01-G05. Execute one bounded outcome at a time;
+optional O01-O05 remain deferred under the no-full-parity scope policy.
+First G01: compare the installed tree2875ca45 against retained QuPath0.7.0 on
+CMU-1 ROI[29185,2048,512,512], with identical recipe/calibration and exact final
+RGB/partitions. Changed inputs: development contour optimization, not science
+parameters. Decisive check: six alternating nonconcurrent measured pairs after
+six native/24 JVM warmups, one final archive/oracle per engine, full samples and
+host-load disclosure. Gate waits stay outside timers; reuse existing scripts,
+cache/runtime/fixture and no build. Close the comparison even if inconclusive;
+do not search repeated runs for a favorable median.
+
+G01 complete: six alternating pairs native305.6ms /QuPath313.1ms; exact RGB,
+partitions and2,237 cells. Overlapping ranges and high load preclude general
+superiority. No rerun selected. Waste: one output pair only, no builds.
+G02 selected: CMU-1 canonical coarse whole-slide tissue (1.51G source pixels,
+5.91M sampled),256/512 tile equality, independent threshold, cancel, bounded
+repeat memory and current viewer CPU/GPU payload observations. Not level-zero
+whole-slide cells or hardware-wide latency qualification. First probe passes.
+G03 selected: new NDPI offset ROI[11392,17792,256,256], native/reference capture,
+anisotropic calibration, masks and independent compartment RGB arithmetic.
+G03 selected crop passes:558 cells, exact RGB/partitions/calibration and independent
+compartment RGB arithmetic. G02 probe/repeats/viewer pass;32 calls show no private
+memory drift after warmup, two240-frame replays settle. Broader context/specimen,
+full-resolution cell/dense-scene/long-duration/GPU residency limits stay open.
+Waste correction: removed an unused SciPy oracle import; reused successful
+captures, no dependency install or rerun. [Gap evidence](benchmarks/gap-closure/README.md).
+G04 selects candidate6 from exact already-tested installed bytes: one wheel,
+native and raw-source archive, regenerate RECORD, verify closure and isolated
+install/changed density/import routes/removal, then public handoff. No native
+rebuild/provenance relabel; preserve38 binding objects and candidate5.
+Then prepare one combined
+Windows binary handoff for G04. G05 claims require explicit format/platform scope;
+reuse actual evidence and record unsupported cells rather than invent support.
+Waste: no rebuild or repeat corpus campaign selected. Update after each result.
+
 ## Delivered task - remaining gaps checklist
 
 [Remaining gaps checklist](remaining-gaps-checklist.md) separates the completed

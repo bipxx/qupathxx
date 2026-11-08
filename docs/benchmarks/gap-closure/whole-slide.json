@@ -1,0 +1,45 @@
+{
+  "source": "a4990899f64ecd02df82a811d78e178b5ed69834+dirty",
+  "runs": [
+    {
+      "tile_size": 256,
+      "level": 2,
+      "width": 2875,
+      "height": 2057,
+      "samples": 5913875,
+      "foreground": 1083798,
+      "components": 688,
+      "native_work_bytes": 102136112,
+      "algorithm": "qpx.pyramid-threshold-components/1",
+      "input_format": "qpx.rgba-pyramid-origin-zero/1",
+      "input_sha256": "beb57c98b821eb2423e56bd9d452527b8126f1ff1160fb129def142db28c39ab",
+      "labels_sha256": "3519357004833b074b2ba307584a94f22ff6d5c665e2aa2b740cbcb2729b25f3",
+      "elapsed_seconds": 0.25
+    },
+    {
+      "tile_size": 512,
+      "level": 2,
+      "width": 2875,
+      "height": 2057,
+      "samples": 5913875,
+      "foreground": 1083798,
+      "components": 688,
+      "native_work_bytes": 105281840,
+      "algorithm": "qpx.pyramid-threshold-components/1",
+      "input_format": "qpx.rgba-pyramid-origin-zero/1",
+      "input_sha256": "beb57c98b821eb2423e56bd9d452527b8126f1ff1160fb129def142db28c39ab",
+      "labels_sha256": "3519357004833b074b2ba307584a94f22ff6d5c665e2aa2b740cbcb2729b25f3",
+      "elapsed_seconds": 0.25
+    }
+  ],
+  "label_differences": 0,
+  "foreground_differences": 0,
+  "first_foreground_differences": [],
+  "cancellation_state": "cancelled",
+  "cancelled_result_absent": true,
+  "retained_records_after_cancel": 0,
+  "canonical": true,
+  "independent_threshold_differences": 0,
+  "peak_working_set_bytes": 272302080,
+  "memory_scope": "observer process including Python oracle/decoder caches, not just native work allowance"
+}

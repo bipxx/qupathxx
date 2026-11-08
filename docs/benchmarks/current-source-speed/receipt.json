@@ -1,0 +1,14 @@
+{
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "checks": {
+    "exact_rgb": true,
+    "exact_cross_engine_partitions": true,
+    "exact_retained_native_masks": true
+  },
+  "scripts": {
+    "native.py": "693b1bae9ee4f6128d899349511d168d13331ab5b558f868f19d943b35af8ed6",
+    "qupath.groovy": "55cd7ab296c41fc5e399139ced1f5b3365afcb5e7286a9d7cda171debf53b6d5",
+    "run.py": "b47f8ac7d56ff2365750a581e70e153c495f2b0ec0c84db8769471d3c910975c",
+    "summarize.py": "15396eb04c4336aae48e872378ac16f51986c11d5972c5350b755ea83785d2df"
+  }
+}

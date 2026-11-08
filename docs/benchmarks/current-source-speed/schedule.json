@@ -1,0 +1,104 @@
+[
+  {
+    "pair": 0,
+    "order": [
+      "native",
+      "qupath"
+    ],
+    "windows": {
+      "native": {
+        "start_unix_ns": 1794146738555352500,
+        "end_unix_ns": 1794146739099807900
+      },
+      "qupath": {
+        "start_unix_ns": 1794146739099807900,
+        "end_unix_ns": 1794146739548507900
+      }
+    }
+  },
+  {
+    "pair": 1,
+    "order": [
+      "qupath",
+      "native"
+    ],
+    "windows": {
+      "qupath": {
+        "start_unix_ns": 1794146739549025300,
+        "end_unix_ns": 1794146740021158800
+      },
+      "native": {
+        "start_unix_ns": 1794146740021158800,
+        "end_unix_ns": 1794146740389575500
+      }
+    }
+  },
+  {
+    "pair": 2,
+    "order": [
+      "native",
+      "qupath"
+    ],
+    "windows": {
+      "native": {
+        "start_unix_ns": 1794146740389575500,
+        "end_unix_ns": 1794146740779271800
+      },
+      "qupath": {
+        "start_unix_ns": 1794146740779271800,
+        "end_unix_ns": 1794146741230773600
+      }
+    }
+  },
+  {
+    "pair": 3,
+    "order": [
+      "qupath",
+      "native"
+    ],
+    "windows": {
+      "qupath": {
+        "start_unix_ns": 1794146741230773600,
+        "end_unix_ns": 1794146741704104700
+      },
+      "native": {
+        "start_unix_ns": 1794146741704104700,
+        "end_unix_ns": 1794146742071781900
+      }
+    }
+  },
+  {
+    "pair": 4,
+    "order": [
+      "native",
+      "qupath"
+    ],
+    "windows": {
+      "native": {
+        "start_unix_ns": 1794146742071781900,
+        "end_unix_ns": 1794146742460352300
+      },
+      "qupath": {
+        "start_unix_ns": 1794146742460352300,
+        "end_unix_ns": 1794146742930417700
+      }
+    }
+  },
+  {
+    "pair": 5,
+    "order": [
+      "qupath",
+      "native"
+    ],
+    "windows": {
+      "qupath": {
+        "start_unix_ns": 1794146742930417700,
+        "end_unix_ns": 1794146744981534600
+      },
+      "native": {
+        "start_unix_ns": 1794146744981534600,
+        "end_unix_ns": 1794146745897780600
+      }
+    }
+  }
+]
