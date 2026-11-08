@@ -32,14 +32,27 @@ mask colors and image pixels remain owned by their existing rendering services.
 | Body text | IBM Plex Sans Regular, 14 logical pixels |
 | Section/modal title | IBM Plex Sans Semibold, 14 logical pixels |
 | Spacing ladder | 4, 8, 12, 16, 24, 32 logical pixels |
-| Panel body inset | 16 horizontal / 12 vertical |
+| Panel body inset | 12 horizontal / 8 vertical |
 | Floating panel radius / outline | 8 / 1 logical pixels |
 | Control radius | 4 logical pixels |
 | Standard text action | Minimum 32 logical pixels high |
 | Compact utility action | Minimum 24 logical pixels high |
 | Vector toolbar action | 28 logical pixels square |
+| Activity rail / row | 44 / 40 logical pixels |
+| Workspace outer / slide inset | 0 logical pixels |
 
 All geometry scales through the existing monitor/framebuffer/user scale model.
+The compact workspace uses a vertical activity rail for Project, Image,
+Annotations and Workflow, with Ctrl+1..4 and translated hover/navigation hints.
+A side indicator marks the selected activity, saved with the separate layout
+settings. The sidebar retains its resizable splitter. Legacy saved splits remain
+usable, with their dock-tab/menu arrows removed.
+
+The drawing toolbar belongs to the slide pane and wraps within it. It stays above
+the image as the window or sidebar changes size. The image has no inner gutter;
+the toolbar keeps8px horizontal/4px vertical inset. Fields use8px horizontal/4px
+vertical spacing. This density is an explicit owner override of the reference's
+looser16px/12px body inset; palettes, fonts and action hit areas remain shared.
 Docked edges stay attached; floating panels and dialogs use the rounded surface.
 Keep layout and scroll ownership in the panel instead of forcing every shell to
 the same width. Dialogs remain constrained to the current viewport.

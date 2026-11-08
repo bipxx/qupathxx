@@ -1240,9 +1240,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
 
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
-        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
+        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);ImGui::PopStyleVar();
         auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
-        auto focus_pane=[&](const char* name) {if(workspace.enabled()) ImGui::SetWindowFocus(name);};
+        auto focus_pane=[&](const char* name) {if(workspace.enabled()) workspace.select(name);};
         if(ImGui::BeginMenuBar()) {
             ImGui::BeginDisabled(editing_blocked);
             if(ui::BeginMenu("File")) {
@@ -1341,21 +1342,45 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
             if(ImGui::IsKeyPressed(ImGuiKey_H)) tool=7;
         }
+        if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
+        if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
+        auto draw_toolbar=[&] {
+            const float scale=ui::design::scale(),side=ui::design::metrics.icon_size*scale,gap=ui::design::spacing.xs*scale;
+            const bool docked=workspace.enabled();
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing,ImVec2(gap,gap));
+            if(docked) {
+                const int count=13+(document.server()->reader_id()=="tiff"?1:0);
+                const float width=std::max(side,ImGui::GetContentRegionAvail().x-2*ui::design::spacing.md*scale);
+                const int columns=std::max(1,static_cast<int>((width+gap)/(side+gap))),rows=(count+columns-1)/columns;
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(ui::design::spacing.md*scale,ui::design::spacing.sm*scale));
+                ImGui::BeginChild("Slide toolbar",{0,rows*(side+gap)-gap+2*ui::design::spacing.sm*scale},ImGuiChildFlags_AlwaysUseWindowPadding,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
+                ImGui::PopStyleVar();
+            }
+            ImGui::BeginDisabled(!has_image);
         const char* tool_names[]={"Select","Rectangle","Ellipse","Polygon","Polyline","Points","Edit vertices","Draw hole"};
         const char* tool_keys[]={"R to toggle rectangle","R","E","P","L","T","V","H"};
         for(int i=0;i<8;++i) {
             if(i && ui::available()<ui::design::metrics.icon_size*ui::design::scale()) ImGui::NewLine();
             if(ui::tool_button(i,tool,tool_names[i],tool_keys[i])) tool=i;
-            ImGui::SameLine(0,3*ui_scale.logical);
+            ImGui::SameLine();
         }
         if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
         if (ui::icon_action("##Fit image",ui::ActionIcon::Fit,"Fit image")) fit = true;
-        if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
-        if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ui::icon_action("##Undo",ui::ActionIcon::Undo,"Undo","Ctrl+Z")) history_action(false); ImGui::EndDisabled();
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ui::icon_action("##Redo",ui::ActionIcon::Redo,"Redo","Ctrl+Y")) history_action(true); ImGui::EndDisabled();
         ImGui::SameLine();spatial.open_icon(mark_target);
         if(document.server()->reader_id()=="tiff") {ImGui::SameLine();if(ui::IconButton("Raw channels (F2)",ui::Icon::Channels)) raw.open();}
+            ImGui::EndDisabled();
+            if(docked) {
+            ImGui::SameLine();
+            if(ui::icon_action("##Reset layout",ui::ActionIcon::Reset,"Reset layout")) workspace.reset();
+            layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
+                ImGui::EndChild();
+            }
+            ImGui::PopStyleVar();
+        };
+        if(!workspace.enabled()) draw_toolbar();
+        if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
         selected=selection->primary();
         if(!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
@@ -1368,11 +1393,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (selected && tool!=6 && !io.WantTextInput && !editing_blocked && has_image && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::EndDisabled();
         if(workspace.enabled()) {
-            ImGui::SameLine();
-            if(ui::icon_action("##Reset layout",ui::ActionIcon::Reset,"Reset layout")) workspace.reset();
-            layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
             if(!workspace.error().empty()) ui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
-            workspace.dockspace();
+            workspace.dockspace(editing_blocked);
             workspace.begin(GuiWorkspace::project_pane,workspace.browser);
         } else ImGui::BeginChild("Inspector", {std::min(285*ui_scale.logical,io.DisplaySize.x*.45f),0}, ImGuiChildFlags_Borders);
         if(options.project) {
@@ -2467,6 +2489,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!error.empty()) ui::TextWrapped("%s", error.c_str());
         if(workspace.enabled()) {
             ImGui::End();canvas_visible=workspace.begin("Slide",workspace.canvas,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
+            if(canvas_visible) draw_toolbar();
         } else {
             ImGui::EndChild(); ImGui::SameLine();
             ImGui::BeginChild("Canvas", {0,0}, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);

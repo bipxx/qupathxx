@@ -9,6 +9,7 @@
 #include <iterator>
 #include "gui_i18n.hpp"
 #include "gui_design_system.hpp"
+#include "gui_layout.hpp"
 
 namespace qpx {
 // All ImGui state belongs to the caller's context. Layout bytes never enter a
@@ -18,11 +19,25 @@ class GuiWorkspace {
     bool enabled_,reset_,loaded_=false,writable_=true,protected_=false;
     std::string path_,error_;
     ImGuiID dock_=0;
+    int active_=0;
+    static void prepare_node(ImGuiDockNode* node,ImGuiID active) {
+        if(!node) return;
+        node->SetLocalFlags((node->LocalFlags & ~ImGuiDockNodeFlags_HiddenTabBar)|ImGuiDockNodeFlags_NoTabBar|ImGuiDockNodeFlags_NoWindowMenuButton);
+        ImGuiID preferred=node->SelectedTabId;
+        for(auto* window:node->Windows) if(window->ID==active) preferred=ImHashStr("#TAB",0,active);
+        for(int i=0;i<node->Windows.Size;++i) if(ImHashStr("#TAB",0,node->Windows[i]->ID)==preferred) {
+            if(i) std::swap(node->Windows[0],node->Windows[i]);break;
+        }
+        if(!node->Windows.empty()) node->SelectedTabId=ImHashStr("#TAB",0,node->Windows[0]->ID);
+        prepare_node(node->ChildNodes[0],active);prepare_node(node->ChildNodes[1],active);
+    }
 public:
     static constexpr const char* project_pane="Project###Project and objects";
     static constexpr const char* image_pane="Image###Image and display";
     static constexpr const char* objects_pane="Annotations###Annotations";
     static constexpr const char* workflow_pane="Workflow###Measurements and jobs";
+    inline static constexpr const char* panes[]={project_pane,image_pane,objects_pane,workflow_pane};
+    inline static constexpr const char* keys[]={"project","image","annotations","workflow"};
     Rect browser{0,0,1,1},objects{0,0,1,1},display{0,0,1,1},measurements{0,0,1,1},canvas{0,0,1,1};
     explicit GuiWorkspace(const GuiOptions& options):enabled_(options.docked_workspace),reset_(options.reset_layout),path_(options.layout_path) {
         if(!enabled_ && (!path_.empty() || reset_)) throw std::invalid_argument("layout preferences require a docked workspace");
@@ -44,6 +59,8 @@ public:
             if(input.bad() || data.size()>limit) throw std::runtime_error("cannot read bounded workspace layout");
             if(data.rfind("; qupathxx workspace layout v1\n",0)!=0 && data.rfind("; qupathxx workspace layout v1\r\n",0)!=0) {if(reset_) return;throw std::runtime_error("unrecognized workspace layout; reset layout to replace it");}
             ui::i18n::load_preference(data);ui::design::load_preference(data);
+            const auto header_end=data.find("[Window]");const auto header=data.substr(0,header_end);
+            for(int i=0;i<4;++i) if(header.find(std::string("; qupathxx sidebar=")+keys[i]+"\n")!=std::string::npos || header.find(std::string("; qupathxx sidebar=")+keys[i]+"\r\n")!=std::string::npos) active_=i;
             if(reset_) return;
             // Retain the user's splits when opening a pre-tabbed workspace.
             for(const auto& names:{std::pair{"Project and objects",project_pane},std::pair{"Image and display",image_pane},std::pair{"Measurements and jobs",workflow_pane}}) {
@@ -60,6 +77,9 @@ public:
     }
     bool enabled() const {return enabled_;}
     bool loaded() const {return loaded_;}
+    void select(const char* name) {
+        for(int i=0;i<4;++i) if(ImHashStr(name)==ImHashStr(panes[i])) {active_=i;ImGui::SetWindowFocus(name);break;}
+    }
     const std::string& error() const {return error_;}
     void protect(const std::string& source) {
         if(path_.empty() || source.empty()) return;
@@ -71,12 +91,29 @@ public:
         }
     }
     void reset() {if(protected_) return;reset_=true;loaded_=false;writable_=true;error_.clear();}
-    void dockspace() {
+    void dockspace(bool blocked=false) {
         if(!enabled_) return;
         dock_=ImGui::GetID("Research workspace dockspace");
         auto size=ImGui::GetContentRegionAvail();size.x=std::max(1.f,size.x);
         const int footer_lines=size.x<60*ImGui::GetFontSize()?2:1;
         size.y=std::max(1.f,size.y-footer_lines*ImGui::GetTextLineHeightWithSpacing()-2*ui::design::spacing.sm*ui::design::scale());
+        const float scale=ui::design::scale(),rail=ui::design::metrics.activity_width*scale;
+        const auto origin=ImGui::GetCursorScreenPos();
+        if(!blocked) for(int i=0;i<4;++i) if(ImGui::Shortcut(ImGuiMod_Ctrl|static_cast<ImGuiKey>(ImGuiKey_1+i),ImGuiInputFlags_RouteGlobal)) select(panes[i]);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
+        ImGui::BeginChild("Activity rail",{rail,size.y},ImGuiChildFlags_None,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
+        constexpr ui::Icon icons[]={ui::Icon::Project,ui::Icon::Image,ui::Icon::Annotations,ui::Icon::Workflow};
+        constexpr const char* shortcuts[]={"Ctrl+1","Ctrl+2","Ctrl+3","Ctrl+4"};
+        for(int i=0;i<4;++i) {
+            ImGui::SetCursorPos({(rail-ui::design::metrics.icon_size*scale)/2,(ui::design::spacing.sm+i*ui::design::metrics.activity_row)*scale});
+            if(ui::IconButton(panes[i],icons[i],ui::design::Action::Ghost,shortcuts[i])) select(panes[i]);
+            if(active_==i) {
+                const auto p=ImGui::GetItemRectMin(),s=ImGui::GetItemRectSize();
+                ImGui::GetWindowDrawList()->AddRectFilled({origin.x,p.y},{origin.x+2*scale,p.y+s.y},ImGui::GetColorU32(ui::design::color(ui::design::colors().accent)));
+            }
+        }
+        ImGui::EndChild();ImGui::PopStyleVar();ImGui::SameLine(0,0);
+        size.x=std::max(1.f,size.x-rail);
         if(reset_ || !ImGui::DockBuilderGetNode(dock_)) {
             ImGui::DockBuilderRemoveNode(dock_);
             ImGui::DockBuilderAddNode(dock_,ImGuiDockNodeFlags_DockSpace);
@@ -93,12 +130,16 @@ public:
             ImGui::DockBuilderDockWindow("Slide",center);
             ImGui::DockBuilderFinish(dock_);reset_=false;
         }
-        ImGui::DockSpace(dock_,size);
+        prepare_node(ImGui::DockBuilderGetNode(dock_),ImHashStr(panes[active_]));
+        ImGui::DockSpace(dock_,size,ImGuiDockNodeFlags_NoTabBar|ImGuiDockNodeFlags_NoWindowMenuButton);
     }
     bool begin(const char* name,Rect& bounds,ImGuiWindowFlags flags=0) {
         const auto localized=ui::i18n::label(name);
         ui::design::Heading title;
+        const bool slide=ImHashStr(name)==ImHashStr("Slide");
+        if(slide) ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
         const bool visible=ImGui::Begin(localized.c_str(),nullptr,flags|ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoFocusOnAppearing);
+        if(slide) ImGui::PopStyleVar();
         const auto p=ImGui::GetWindowPos(),s=ImGui::GetWindowSize();
         bounds={p.x,p.y,s.x,s.y};
         return visible;
@@ -107,7 +148,7 @@ public:
         if(!enabled_ || path_.empty() || !writable_) return false;
         try {
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
-            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n";
+            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n";
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();
             if(!parent.empty()) std::filesystem::create_directories(parent);

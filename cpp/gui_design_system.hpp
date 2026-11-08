@@ -63,12 +63,13 @@ inline void load_preference(std::string_view text) {
 inline float scale(){return ImGui::GetFontSize()/metrics.font_size;}
 inline void apply(ImGuiStyle& s,Theme theme) {
     s=ImGuiStyle{};ImGui::StyleColorsDark(&s);const auto& p=palette(theme);auto* c=s.Colors;
-    s.FontSizeBase=metrics.font_size;s.WindowPadding={spacing.xl,spacing.lg};s.FramePadding={spacing.md,6};
-    s.ItemSpacing={spacing.md,spacing.md};s.ItemInnerSpacing={spacing.md,spacing.sm};
+    s.FontSizeBase=metrics.font_size;s.WindowPadding={metrics.panel_inset_x,metrics.panel_inset_y};s.FramePadding={spacing.md,5};
+    s.ItemSpacing={spacing.md,spacing.sm};s.ItemInnerSpacing={spacing.md,spacing.sm};
     s.WindowRounding=s.PopupRounding=s.ChildRounding=metrics.panel_radius;s.FrameRounding=s.GrabRounding=metrics.control_radius;
     s.TabRounding=metrics.control_radius;s.ScrollbarRounding=metrics.control_radius;s.ScrollbarSize=12;
     s.WindowBorderSize=s.ChildBorderSize=s.FrameBorderSize=s.PopupBorderSize=metrics.border;
-    s.DockingSeparatorSize=spacing.sm;s.TabBorderSize=0;s.SeparatorTextBorderSize=0;s.SeparatorTextPadding={0,spacing.md};
+    s.DockingSeparatorSize=spacing.sm;s.TabBorderSize=0;s.SeparatorTextBorderSize=0;s.SeparatorTextPadding={0,spacing.sm};
+    s.WindowMenuButtonPosition=ImGuiDir_None;
     s.DisabledAlpha=.5f;
     c[ImGuiCol_Text]=color(p.text_primary);c[ImGuiCol_TextDisabled]=color(p.text_muted);
     c[ImGuiCol_WindowBg]=color(p.bg_secondary);c[ImGuiCol_ChildBg]=color(p.bg_primary);c[ImGuiCol_PopupBg]=color(p.bg_secondary);

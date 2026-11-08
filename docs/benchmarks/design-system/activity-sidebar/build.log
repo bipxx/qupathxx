@@ -1,0 +1,5 @@
+gui.cpp
+gui_fonts.cpp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+   Creating library C:\Users\HEQ\Projects\qupathxx\build\activity-sidebar\runtime\qupathxx\_native.cp312-win_amd64.lib and object C:\Users\HEQ\Projects\qupathxx\build\activity-sidebar\runtime\qupathxx\_native.cp312-win_amd64.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library

@@ -25,6 +25,7 @@ struct Metrics {
     float font_size=14,panel_radius=8,control_radius=4,border=1;
     float action_height=32,compact_height=24,icon_size=28,sidebar_width=336;
     float dialog_width=560,overview_width=180,overview_margin=12;
+    float activity_width=44,activity_row=40,panel_inset_x=12,panel_inset_y=8;
 };
 inline constexpr Metrics metrics;
 enum class Theme {Dark,Light,System};

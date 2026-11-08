@@ -1,0 +1,29 @@
+{
+  "base_main": "3619963872294d21af5234428c28ca9756a2a22b",
+  "scope": "Windows GUI-only activity navigation, slide toolbar and compact padding",
+  "source_sha256_lf": {
+    "cpp/gui.cpp": "4048f82683ba06c84e12a14a4a7a96478c50181e9edf5c4a5ccbad6a61762ca3",
+    "cpp/gui_design_system.hpp": "96aecd4691ec7dbdd091c3d0973508af8a5a3a618b0dd5845e093fdf950f9b59",
+    "cpp/gui_design_tokens.hpp": "e417255d525d9158aa09da8fdabdbd7356cd07ac57fe5ca8113616cc58558808",
+    "cpp/gui_fonts.cpp": "d7be3e097ff39d328840082dd697dcb47a7ec362293ce503c0ea89bb55ddbb4f",
+    "cpp/gui_icons.hpp": "d4e9998f80d17668a801e5eaa1ae2767e3658526652953ab485a08532dc33ae5",
+    "cpp/gui_workspace.hpp": "c37ff63049f41f10cdbdb3442fe35bf4a1839ee26a9ac6bdaad1ba518c49c719",
+    "tests/test_gui_activity.py": "32c1dfbbcb6ea8a9ab81d01829052d68624051adfe46a454a9b4c852370a8679",
+    "tests/test_gui_docking.py": "58246177d768cf1e23d7e5a2bb23044d55c639b28e4c3c310925278797d90f6c",
+    "tests/test_gui_i18n.py": "74bd5f39fe026f2d0fb9dc65469216429753ba89b3aed7939736bab5667b3501"
+  },
+  "native_inputs": "../retained-native-inputs.json",
+  "retained_binding_objects": 38,
+  "validation": "101 passed in 62.82s; real-GL and source contracts; dark/light/Chinese real-slide screenshots inspected",
+  "binary_sha256": {
+    "qupathxx_app.exe": "0ccc9f070af72c03273c88565115e65f47e148d25cede54426c3680a065a7317",
+    "runtime/qupathxx/_native.cp312-win_amd64.pyd": "e23aefeda7f4c6b1d80f80a134faa72cee7e128d1e99637f13e17a1506deb44e"
+  },
+  "screenshot_sha256": {
+    "design-system-dark-en.png": "02bfe8f27ccbbcf0caba56e41c7943367a006a6ecc8ba3e793174a2c1ee8e6b1",
+    "design-system-light-en.png": "e3f6abdbc622834bd0637ee2921625f76a54a1081132eebe8c563de12dcd4f7c",
+    "design-system-dark-zh-CN.png": "9bad23d159e99925276f9f3eeafa28cb9568d6eff0206c3187856b880490bdb0"
+  },
+  "preview": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\activity-sidebar\\qupathxx_app.exe",
+  "publication": false
+}
