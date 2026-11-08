@@ -36,6 +36,7 @@
 #include "gui_tma.hpp"
 #include "gui_spatial.hpp"
 #include "gui_genes.hpp"
+#include "gui_spatial_import.hpp"
 #include "gui_project_density.hpp"
 #include "gui_raw.hpp"
 #include "gui_raw_pixel.hpp"
@@ -288,6 +289,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ui::design::Session design_session;
     GuiWorkspace workspace(options);
     detail::GuiGeneDisplay genes;genes.load_preference(workspace.gene_preference);
+    auto spatial_import=std::make_unique<detail::GuiSpatialImporter>();
     using Task=ui::WorkflowTask;
     bool focus_add_image=false,focus_open_project=false;
     Task last_workflow_task=workspace.workflow_task();
@@ -1348,6 +1350,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::MenuItem("Pixel classifiers...","F5")) pixel_classifier.open();
                 if(ui::MenuItem("Raw pixel classifier")) raw_pixel.open();
                 if(ui::MenuItem("Gene expression...",nullptr,false,has_image)) genes.open();
+                if(ui::MenuItem("Import spatial expression...")) spatial_import->open(options.project.get());
                 ImGui::EndMenu();
             }
             if(ui::BeginMenu("TMA",has_image)) {if(ui::MenuItem("Tissue microarray...")) tma.open();ImGui::EndMenu();}
@@ -2510,6 +2513,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ui::Button("Raw pixel classifier")) raw_pixel.open();
             if(ui::Button("Spatial...")) spatial.open();
             if(ui::Button("Gene expression...")) genes.open();
+            if(ui::Button("Import spatial expression...")) spatial_import->open(options.project.get());
             if(ui::Button("Batch analysis...")) batch.open();
             if(ui::Button("Tissue microarray...")) tma.open();
             if(options.project) project_density.open_button();
@@ -3077,6 +3081,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::End();
         spatial.draw(document,*selection,options.project.get(),&project_images,editing_blocked,has_image,mark_target);
         genes.draw(display);
+        if(const auto imported=spatial_import->draw(!options.project || editing_blocked || project_load.valid() || save_job.busy() || maintenance_job.valid());!imported.empty()) {
+            project_load_cancelled=false;loading_recovery=false;project_error.clear();copy_recovery_path(project_open_path,imported);
+            project_load=std::async(std::launch::async,load_project,imported,false,std::string{});
+        }
         if(tma.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target)) batch.open_tma();
         const auto raw_change=raw.draw(document,*selection,options.project.get(),editing_blocked,mark_target);
         if(raw_change.image) {pending_image=raw_change.image;project_catalog_dirty=true;}

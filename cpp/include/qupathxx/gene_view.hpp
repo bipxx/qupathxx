@@ -18,6 +18,8 @@ GeneWorkspacePreference parse_gene_workspace_preference(const std::string&);
 struct GeneFeaturePage {std::vector<std::size_t> indices;std::size_t matches=0,page=0;};
 GeneFeaturePage gene_feature_page(const ExpressionDataset&,const std::string& query,
     std::size_t page=0,std::size_t page_size=32);
+GeneFeaturePage gene_feature_page(const std::vector<std::string>&,const std::string& query,
+    std::size_t page=0,std::size_t page_size=32);
 // Serial owner-thread controller with one worker and latest-request coalescing.
 // Worker code receives only immutable native snapshots, never a Document/UI.
 class GeneViewSession {

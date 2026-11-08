@@ -1475,7 +1475,7 @@ It is not the selected candidate; use only delivery-agpl or the prerelease asset
 
 Owner requested a plan for all eight remaining feature areas. The
 [canonical roadmap](feature-expansion-plan.md) defines22 implementation items
-(5 complete,17 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
+(6 complete,16 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
 native import preview come first, then registration/fluorescence, backed matrices/
 H5AD/OME-Zarr, molecular methods and SDK/release. Current active UI work is preserved.
 
@@ -1649,3 +1649,62 @@ material. Waste review: one viewport-origin mistake was fixed in both oracle and
 drag logic; source persistence and drag checks closed concrete final-review gaps.
 Next I02: a shell-free import wizard over the existing native preview/job, without
 a second parser or Python orchestration.
+
+### Active I02: guided spatial import
+
+The previous turn made progress: V02 is committed atfc1d0016. I02 adds a separate
+wizard over SpatialImportJob and extends its shared native authority for feature/
+image catalogues, explicit three-column mappings, calibrated units and image
+inputs. The same feature parser serves catalogue and import; shared native search
+pages catalogue IDs. Image imports admit native RGB/PPM/TIFF only. Original source
+coordinates/units and the full mapping recipe remain separate from mapped point
+positions. Preview owns its image/points and never mutates the live study.
+
+Changed inputs: spatial_counts/import headers/services, narrow catalogue-search
+overload, standalone picker/wizard, app hooks and affected tests/CMake. No public
+GuiOptions/binding layout or new dependency. Decisive checks: existing sparse/CLI
+contracts plus native catalogue identities, header permutation, calibrated
+mapping/raw-coordinate persistence, direct PPM import and unknown-calibration
+refusal. GUI test clicks the actual import action, verifies prior file/live state
+and exact retained counts/positions, and imports the admitted real demo without
+shell commands. One cached native/frontend build after interfaces settle; preserve
+other completed UI edits. Explicitly configure the new Visual Studio test target,
+with a conditional live-process guard before using the shared cache.
+
+Native spatial_counts/CLI tests pass (2 cases,0.66s), including catalogue identity,
+calibrated/permuted coordinates, exact original-coordinate persistence, direct
+image import and unknown calibration. GUI test compilation stopped because the
+new target omitted MSVC /utf-8; add the existing frontend UTF-8 setting, without
+editing translated source. Final review also invalidates the saved-image choice
+when changing bases and requires reading its catalogue before preview; folder
+navigation now stops rendering the old page after selecting another directory.
+Retry only affected frontend/test targets using retained native objects.
+
+GUI publication passes, including the real2,702-spot import and unchanged prior
+study. Final review found repeated imports of the same input could collapse
+source cohorts and duplicate observation IDs in the gene viewer. New imports get
+an explicit recipe-scoped source identity; legacy objects without that optional
+scope retain their exact prior identity. Add repeated-import cohort checks and
+click the GUI Open action to verify its existing-loader handoff. Rebuild only
+affected native/frontend tests and app links for those changed inputs.
+
+I02 complete locally. Final expression/spatial_counts/CLI CTest passes3 cases
+(1.37s); shared catalogue search compatibility passes gene_view separately.
+GUI replay clicks Import and Open, retains exact data/coordinates and the prior
+study, and imports all2,702 spots/six markers from the admitted real demo without
+shell commands. Preview image completion/errors gate the Import button. Selected-
+gene storage is delivered here; full backed storage remains D01 scope.
+
+New recipe scopes distinguish repeated imported cohorts while retaining original
+raw-source hashes; they are not biological sample/replicate identities. Legacy
+objects without the optional scope retain their old identity. GUI image selection
+is invalidated when changing bases. The current app loader handles the returned
+new path and existing unsaved-work protection. Evidence is under workspace-root
+build/feature-expansion/gui-i02-final; no original demo was overwritten.
+
+Waste review: reused native parser, affine/calibration, jobs, tile preview, source
+guards and atomic save. One missing UTF-8 target option caused the compile failure;
+fixed it without editing translation data. Final checks closed actual stale-source/
+cohort and loader-handoff gaps. No binding compilation, dependency download, new
+cache, restricted material or package. Next R02: native landmark fit plus interactive
+preview/accept/undo through the delivered registration contract.

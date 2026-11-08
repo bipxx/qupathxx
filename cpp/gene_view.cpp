@@ -52,9 +52,12 @@ GeneViewOptions parse_gene_view_preference(const std::string& input) {
     options.validate();return options;
 }
 GeneFeaturePage gene_feature_page(const ExpressionDataset& dataset,const std::string& query,std::size_t page,std::size_t size) {
+    return gene_feature_page(dataset.features(),query,page,size);
+}
+GeneFeaturePage gene_feature_page(const std::vector<std::string>& features,const std::string& query,std::size_t page,std::size_t size) {
     feature_name(query);if(!size || size>256 || page>std::numeric_limits<std::size_t>::max()/size)throw std::invalid_argument("Invalid gene catalogue page");
     const auto needle=folded(query);GeneFeaturePage result;result.page=page;const auto start=page*size;
-    for(std::size_t i=0;i<dataset.features().size();++i)if(folded(dataset.features()[i]).find(needle)!=std::string::npos) {
+    for(std::size_t i=0;i<features.size();++i)if(folded(features[i]).find(needle)!=std::string::npos) {
         if(result.matches>=start && result.indices.size()<size)result.indices.push_back(i);++result.matches;
     }
     return result;

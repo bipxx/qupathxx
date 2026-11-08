@@ -2,9 +2,9 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 5 complete, 17 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/R01 are delivered locally; import/registration UI remains
-pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
+checklist: **22 work items: 6 complete, 16 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01 are delivered locally; interactive registration
+remains pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
 [current-task.md](current-task.md) continues; this plan queues subsequent work.
 
 All application/scientific interpretation, transforms, statistics, storage and
@@ -123,7 +123,7 @@ Do not build a general workflow engine or distributed service for these tasks.
   Extend only actual missing header/column mappings through explicit options.
   Reject ambiguous IDs/units, missing pairs and unsafe output collisions before
   publication. Retain the current strict profile and no-overwrite behavior.
-- [ ] **I02 — guided import UI.** Steps: choose image/files → map IDs/axes/units →
+- [x] **I02 — guided import UI.** Steps: choose image/files → map IDs/axes/units →
   select genes or backed storage → inspect overlay/limits → import a new project.
   Preview does not mutate the current study; progress/cancel/errors come from the
   native job. Save the explicit import recipe and source identities. Exit: complete
@@ -321,6 +321,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver I02 guided import on the settled desktop shell;
+parity. Next deliver R02 interactive landmark registration;
 finish L01 membership admission as actual release inputs settle. Native R01 can
 proceed without editing the concurrent desktop layout.

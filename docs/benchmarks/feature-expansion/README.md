@@ -1,7 +1,7 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/V02/I01/R01 locally, plus an incomplete L01
+authority. This receipt covers S01/V01/V02/I01/I02/R01 locally, plus an incomplete L01
 guard foundation. GUI claims cover only the named gene workflows below; no new
 release, speed or biological-accuracy claim.
 
@@ -111,3 +111,40 @@ too. Source persistence/drag checks were added for named final-review gaps.
 Only affected cached targets compiled; Python bindings, packages and historical
 science qualification were not rebuilt. The tool reuses the completed layout's
 bounded-window/collection helpers; other concurrent UI source is preserved.
+
+I02 continuation: Analyze → Import spatial expression (also Workflow → Tools)
+opens a four-step native wizard. Choose an image in a saved project or a PPM/TIFF
+file, choose local Matrix Market/TSV inputs and a new output, declare ID/X/Y column
+names and units, select genes from the paged native catalogue, then inspect mapped
+spot centers over the image before import. Position rows follow matrix-column
+order and feature rows follow matrix-row order; no ID/axis/unit guessing. Known
+image calibration is required for µm conversion; explicit scaling/offsets apply
+after that conversion. Original coordinates, units, source hashes and the full
+recipe are preserved separately from image-coordinate point geometry.
+
+Catalogue and import reuse the same native feature parser; UI uses the same
+native search/page function as gene display. SpatialImportJob owns catalogue,
+preview and publication work. Preview owns its image/coordinates and never mutates
+the live study. Its verified source identities refuse stale files/catalogues.
+Import requires a completed image preview and a new output; Open delegates to the
+existing app loader/unsaved-work protection. Local file choice scans bounded pages,
+does no decoding/download and introduces no proprietary reader. This first storage
+route embeds selected genes; full backed matrices remain the D01 work item.
+
+Final native expression/spatial_counts/CLI checks:3 cases pass (1.37s); gene_view
+passes separately for shared search compatibility. Added cases cover catalogue
+identity, explicit header permutation, independently expected anisotropic µm/px
+mapping, raw-coordinate persistence, direct PPM input and unknown-calibration
+refusal. Existing exact-count/strict-profile/no-overwrite/stale/cancel cases remain.
+Repeated imports now have recipe-scoped cohorts selectable independently; old
+objects without that optional scope retain their exact previous identity. Scope
+distinguishes import occurrences, not biological replicates.
+
+Native GUI replay clicks the actual Import and Open controls, verifies exact
+retained counts and mapped/original coordinates, unchanged prior project/live
+state, and the canonical new-project path handed to the loader. It also imports
+the admitted real2,702-spot/six-marker demo without a shell. Captured overlay/values
+are readable. Final evidence: workspace-root build/feature-expansion/gui-i02-final;
+initial passing GUI evidence remains in gui-i02. A missing /utf-8 option on the new
+MSVC test target caused the initial compiler failure; the translated sources were
+unchanged. No binding build, new dependency, new engine cache or package campaign.
