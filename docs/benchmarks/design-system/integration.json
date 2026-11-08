@@ -1,0 +1,15 @@
+{
+  "ui_commit": "b4aeb25f",
+  "local_main_merge": "37cfc747e80cdc4d20bedaf5b288027a42a7ab7a",
+  "merge_tree_matches_ui_commit": true,
+  "canonical_tested_input_hashes_verified_on_main": 23,
+  "temporary_worktree_git_registration_removed": true,
+  "merged_branch_removed": true,
+  "temporary_source_files_removed": true,
+  "private_build_files_preserved": 549,
+  "private_build_bytes_preserved": 16445383,
+  "private_build_location": "build/design-system-preview/dev-tools/source-worktree-build",
+  "cleanup_limit": "An empty C:/Users/HEQ/.codex/worktrees/b639/qupathxx folder remains. Git initially reported Permission denied; automatic approval review rejected subsequent empty-directory deletion with blocked by policy and no further reason. No retry or bypass.",
+  "separate_scientific_checkout_preserved": "build/ci/scientific-grid-159",
+  "push_or_publication": false
+}

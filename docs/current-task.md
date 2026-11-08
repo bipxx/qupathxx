@@ -52,8 +52,14 @@ text. Use the native language shortcut. A Russian200% save control was obscured
 by long utility labels; shared icon controls resolve it. Development fontTools
 initially selected Python3.14; reinstall only the private tools for Python3.12.
 Local preview inputs, failures and scripts stay under main build/design-system-preview.
-The temporary UI checkout is retired only after local main integration; the
-separate scientific integration checkout and its newer native work stay intact.
+UI commitb4aeb25f is merged into local main37cfc747. All23 canonical changed
+source/test/asset hashes match after promotion. The temporary checkout's files,
+Git registration and merged branch are retired;549 build/tool files (16,445,383
+bytes) are preserved in preview/dev-tools/source-worktree-build. Windows initially
+refused final directory removal; automatic approval review blocked the subsequent
+empty-folder removal with no reason beyond "blocked by policy". That empty folder
+remains. The separate scientific integration checkout and its newer native work
+stay intact. No push or publication.
 
 ## Delivered task - desktop UI merged to main and worktree retired
 
