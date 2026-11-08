@@ -7,6 +7,45 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - native-first application and optional Python
+
+[Boundary audit](consolidation-python-boundary.md) and [follow-up checklist](consolidation-coverage.md#native-first-optional-interface-follow-up):
+7/7 complete. Reviewed all3 package modules/11 supported examples. Scientific,
+cohort/import/reuse/persistence/export authority remains native; independent
+Python tools/oracles are development code, not a product dependency.
+
+Moved the duplicated desktop startup into shared C++ run_application, used by
+native executable and optional argv-only Python launcher. Moved raw-classifier
+lattice/tile/feature recipe, checkpoint/train/predict/retention/no-overwrite and
+native lifetime into run_raw_classifier_workflow, also exposed through the C++
+CLI. Python example now forwards arguments and displays native JSON. Normal
+complete runs avoid the old forced one-window/resume IO; explicit native resume
+APIs remain. No scientific algorithm or data schema changed.
+
+Plain CMake now defaults Python OFF; actual wheel backend settings explicitly
+opt in. Existing cache configured with Python/Python3/nanobind discovery disabled:
+no binding targets or installed Python files. Native GUI/CLI train/save/stream
+verify/project reopen run with interpreter directories absent from PATH; all6 PE
+closures have no Python DLL. Original Python, optional native interface, native
+CLI and Python-OFF install preserve identical36-row/four-window model/stream
+hashes. Default headless application entry compiles/links/runs against core alone.
+[Evidence](benchmarks/native-optional/README.md).
+
+Checks:11 controller/workflow cases,8 actual launcher cases,15 public-stub/API
+cases; native workflow contract plus GUI/headless entry checks pass.36/38 binding
+objects reused for new APIs (large bindings.cpp preserved); all38 unchanged
+through native-only/headless/restoration checks. Optional development cache and
+stage restored. Final source receipt owns current identity; earlier observations
+retain their tested source/configuration. AGENTS now enforces native-default,
+no Python process fallback, and delivered migration status.
+
+Waste/corrections: froze one old-workflow baseline and reused its input. First
+GUI selection skipped the opt-in tests; explicitly enabled the established flag
+and obtained actual coverage. Checked the newly introduced headless source branch
+without recompiling optional bindings. One cache, no duplicate checkout/wheel,
+full scientific campaign or new binary release. Candidate7 stays frozen. Stop the
+selected audit; future app-owned recipes go into shared native services.
+
 ## Delivered task - all five selected gaps closed
 
 [G01-G05 checklist](remaining-gaps-checklist.md): **5/5 complete** for the finite

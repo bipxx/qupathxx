@@ -1,3 +1,4 @@
+#include "qupathxx/application.hpp"
 #include "qupathxx/viewer_session.hpp"
 #include "qupathxx/stain_estimation.hpp"
 #include "qupathxx/project_batch.hpp"
@@ -10,6 +11,7 @@
 namespace nb=nanobind;using namespace nb::literals;
 void bind_viewer_session(nb::module_& m) {
     using namespace qpx;
+    m.def("run_application",&run_application,"arguments"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<ViewerLimits>(m,"ViewerLimits").def(nb::init<>())
         .def_rw("tickets",&ViewerLimits::tickets).def_rw("queued_bytes",&ViewerLimits::queued_bytes).def_rw("result_bytes",&ViewerLimits::result_bytes)
         .def_rw("command_bytes",&ViewerLimits::command_bytes).def_rw("max_edits",&ViewerLimits::max_edits).def_rw("region_bytes",&ViewerLimits::region_bytes).def_rw("snapshot_bytes",&ViewerLimits::snapshot_bytes).def("validate",&ViewerLimits::validate);

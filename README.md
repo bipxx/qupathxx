@@ -1,9 +1,40 @@
 # qupathxx
 
-A new C++17 bioimage analysis application with nanobind Python bindings and a
+A C++17 bioimage analysis application with optional nanobind Python bindings and a
 Dear ImGui desktop interface. Inspired by QuPath's workflows and the native-core
 architecture in `../naparixx`. This is an initial implementation, not a complete
 QuPath port or a compatible replacement for Java QuPath.
+
+## Native application; optional Python interface
+
+The GUI, CLI, scientific services, project persistence and workflow implementations
+are C++. Python is not needed to configure, build or run native products. Plain
+CMake defaults `QUPATHXX_BUILD_PYTHON=OFF`; enable GUI/readers/topology/training
+backends using their existing native build options/SDK dependencies.
+
+For a fresh standalone source checkout, a native GUI build starts with:
+
+```sh
+cmake -S . -B build/native -DQUPATHXX_BUILD_GUI=ON
+cmake --build build/native --config Release --target qupathxx_app qupathxx_batch qupathxx_region
+```
+
+Python users can install the package normally; the wheel backend explicitly enables
+the optional interface. A direct CMake binding build opts in with
+`-DQUPATHXX_BUILD_PYTHON=ON` and needs Python/nanobind. Native executables
+do not import the extension or invoke Python for an implementation.
+
+C++ entry points include `qupathxx/application.hpp` and
+`qupathxx/raw_classifier_workflow.hpp`. With project/TIFF/training support enabled:
+
+```sh
+qupathxx_batch --raw-classifier-workflow input.qpx new-output-directory 1 --channels 2
+```
+
+The same native pipeline is available through the optional Python function
+`run_raw_classifier_workflow`. Python examples configure/call native APIs;
+independent Python tests/oracles remain development tools.
+[Boundary audit and native-only proof](docs/benchmarks/native-optional/README.md).
 
 ## Implemented
 

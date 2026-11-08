@@ -1,6 +1,7 @@
 #include "native_workflow_cli.hpp"
 #include "qupathxx/density_workflow.hpp"
 #include "qupathxx/nucls_import.hpp"
+#include "qupathxx/raw_classifier_workflow.hpp"
 #include <charconv>
 #include <cmath>
 #include <iostream>
@@ -20,6 +21,15 @@ double real(const std::string& text) {
 std::optional<int> native_workflow_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2)return {};
     const auto& command=args[1];
+    if(command=="--raw-classifier-workflow") {
+        if(args.size()<5)throw std::invalid_argument("--raw-classifier-workflow PROJECT NEW_DIRECTORY IMAGE_ID [--channels N]");
+        std::uint32_t channels=1;
+        if(args.size()!=5) {
+            if(args.size()!=7 || args[5]!="--channels")throw std::invalid_argument("Expected --channels N");
+            const auto value=integer(args[6]);if(value>65536)throw std::invalid_argument("channel count exceeds65536");channels=static_cast<std::uint32_t>(value);
+        }
+        std::cout<<run_raw_classifier_workflow(args[2],args[3],integer(args[4]),channels,&cancelled)<<'\n';return 0;
+    }
     if(command!="--project-density" && command!="--density-manifest" && command!="--import-nucls")return {};
     if(command=="--project-density") {
         if(args.size()<4)throw std::invalid_argument("--project-density MANIFEST NEW_DIRECTORY [--resume-from DIRECTORY --recompute --stop-on-error --csv-bytes N --project-bytes N --checkpoint-bytes N]");

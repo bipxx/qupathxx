@@ -1,0 +1,19 @@
+{
+  "optional_python_restored": true,
+  "all38_binding_objects_preserved_during_cpp_only_proof": true,
+  "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx\\__init__.py",
+  "python_free_build_and_runtime": true,
+  "baseline_science_exact": true,
+  "measured_source_tree": "fa6f4a72f81a4300953d6ed82a751583b0ef372e161d869791ed2d43e9a33a39",
+  "final_source_tree": "7ed06256d279dadab1d0d39fd5d5a07cfd07172cf5e2acec9712f58957d67649",
+  "headless_entry_compiles_links_and_runs": true,
+  "later_source_change": "Native application-entry regression and CMake test wiring; final whitespace-only EOF cleanup in application.cpp. Product behavior unchanged.",
+  "product_authorities": {
+    "cpp/application.cpp": "8894006fc9f79b6a0e95fcd0cfeefd3a87c66979d589bcde428c1a954532a84b",
+    "cpp/raw_classifier_workflow.cpp": "222d59ceb4f51d2dd57cee0435dd967b633d1bb16f645add8d58beb02563640c",
+    "cpp/main.cpp": "bbe46c3b2757cbc3f56e2c557ef79d39748f1921d5137af6e4cd77df3888136a",
+    "cpp/native_workflow_cli.cpp": "e38eae499feecfc721d9388c0bc8df74a7e5952dfc7f5cbaea3a024e5b7bbf7d"
+  },
+  "final_source_inputs": 576,
+  "final_source_manifest": "source-inputs.sha256"
+}

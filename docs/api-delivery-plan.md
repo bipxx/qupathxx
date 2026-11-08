@@ -1,5 +1,11 @@
 # API and workflow delivery paths
 
+The native-first [optional Python boundary follow-up](benchmarks/native-optional/README.md)
+is delivered: shared C++ application/raw-workflow entry points, native-default
+CMake and actual Python-disabled build/run evidence. Python remains an optional
+controller; independent development oracles remain separate. No new release or
+parity phase is selected.
+
 The selected [G01-G05 gap closeout](remaining-gaps-checklist.md) is complete and
 [candidate7](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7)
 is public. It adds native reviewed vertex-touch saved-data compatibility and

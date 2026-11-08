@@ -1,0 +1,84 @@
+#include "qupathxx/core.hpp"
+#include "qupathxx/project.hpp"
+#include "qupathxx/raw_image.hpp"
+#include "qupathxx/thumbnail.hpp"
+#include "qupathxx/application.hpp"
+#include <cmath>
+#include <iostream>
+#include <vector>
+#include <filesystem>
+#include <string>
+int qpx::run_application(const std::vector<std::string>& arguments) {
+    try {
+        std::vector<std::string> argv{"qupathxx_app"};argv.insert(argv.end(),arguments.begin(),arguments.end());const auto argc=static_cast<int>(argv.size());
+        bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path,reader="auto"; std::uint64_t image_id=0; double ui_scale=1;std::optional<std::uint32_t> tiff_series;
+        qpx::ThumbnailOptions overview;
+        for (int i=1;i<argc;++i) {
+            auto arg=std::string(argv[i]);
+            if(arg=="--help" || arg=="-h") {std::cout<<"Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--reader auto|ppm|openslide|tiff] [--tiff-series N] [--image-id N] [--recovery-base path] [--compact | --layout path] [--reset-layout] [--ui-scale N] [--overview-source-pixels N] [--smoke]\n";return 0;}
+            if(arg=="--smoke") smoke=true;
+            else if(arg=="--reader" && i+1<argc) reader=argv[++i];
+            else if(arg=="--tiff-series" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoul(value,&used);if(value.empty() || value[0]=='-' || used!=value.size() || n>65535) throw std::invalid_argument("invalid TIFF series index");tiff_series=std::uint32_t(n);}
+            else if(arg=="--ui-scale" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;ui_scale=std::stod(value,&used);if(used!=value.size()) throw std::invalid_argument("invalid UI scale");}
+            else if(arg=="--overview-source-pixels" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoull(value,&used);if(value.empty() || value[0]=='-' || used!=value.size()) throw std::invalid_argument("--overview-source-pixels must be between 1 and 67108864");if(n<1 || n>67108864)throw std::invalid_argument("--overview-source-pixels must be between 1 and 67108864");overview.source_pixel_limit=n;overview.validate();}
+            else if(arg=="--compact") compact=true;
+            else if(arg=="--reset-layout") reset_layout=true;
+            else if(arg=="--layout" && i+1<argc) layout_path=argv[++i];
+            else if(arg=="--empty") empty=true;
+            else if(arg=="--project" && i+1<argc) project_path=argv[++i];
+            else if(arg=="--recover" && i+1<argc) recovery_path=argv[++i];
+            else if(arg=="--recovery-base" && i+1<argc) recovery_base=argv[++i];
+            else if(arg=="--image-id" && i+1<argc) { std::string value=argv[++i]; std::size_t used=0; image_id=std::stoull(value,&used); if(used!=value.size() || value.empty() || value[0]=='-' || !image_id) throw std::invalid_argument("--image-id must be positive"); }
+            else if(path.empty() && arg.rfind("--",0)!=0) path=arg;
+            else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--ui-scale multiplier] [--overview-source-pixels count] [--smoke]");
+        }
+        if(reader!="auto" && reader!="ppm" && reader!="openslide" && reader!="tiff")throw std::invalid_argument("invalid image reader");
+        if(!std::isfinite(ui_scale) || ui_scale<.5 || ui_scale>3)throw std::invalid_argument("--ui-scale must be between0.5 and3");
+        if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
+        if(tiff_series && path.empty()) throw std::invalid_argument("--tiff-series requires an image path");
+#ifdef QUPATHXX_APPLICATION_HAS_GUI
+        auto workspace_options=[&] {
+            qpx::GuiOptions options;options.ui_scale=ui_scale;options.docked_workspace=!compact;options.reset_layout=reset_layout;options.overview_source_pixel_limit=overview.source_pixel_limit;
+            options.image_reader=reader;if(tiff_series) {qpx::TiffOpenOptions tiff;tiff.view.series=*tiff_series;options.tiff_options=std::make_shared<const qpx::TiffOpenOptions>(tiff);options.image_reader="tiff";}
+            if(compact && (reset_layout || !layout_path.empty())) throw std::invalid_argument("--layout and --reset-layout require the docked workspace");
+            if(!compact) options.layout_path=layout_path.empty()?(smoke?std::string{}:qpx::default_workspace_layout_path()):layout_path;
+            return options;
+        };
+        if(!project_path.empty() || !recovery_path.empty() || empty) {
+            if(!path.empty() || (!project_path.empty() && !recovery_path.empty()) || (empty && (!project_path.empty() || !recovery_path.empty() || image_id))) throw std::invalid_argument("choose image, --project, --recover or --empty; --empty does not accept --image-id");
+            auto project=std::make_shared<qpx::Project>();
+            auto options=workspace_options(); options.project=project; options.recovery_path=recovery_path; options.recovery_base_path=recovery_base;
+            if(!empty) {
+                options.startup_kind=recovery_path.empty()?"project":"recovery";
+                options.startup_path=recovery_path.empty()?project_path:recovery_path;
+                options.startup_image_id=image_id;
+            }
+            auto report=qpx::run_project_gui(project,smoke?90:0,"",options);
+            if(!report.layout_error.empty()) std::cerr<<"Workspace layout: "<<report.layout_error<<'\n';
+            if(smoke && !empty && !report.startup_succeeded) throw std::runtime_error(report.project_error.empty()?"initial opening cancelled":report.project_error);
+            if(smoke && project->active_image() && !report.uploaded_tiles) throw std::runtime_error("project smoke run uploaded no tiles");
+            return 0;
+        }
+        if(image_id) throw std::invalid_argument("--image-id requires --project or --recover");
+        if(!path.empty()) {
+            auto project=std::make_shared<qpx::Project>(); auto options=workspace_options();
+            options.startup_kind="image"; options.startup_path=path;
+            auto report=qpx::run_project_gui(project,smoke?90:0,"",options);
+            if(!report.layout_error.empty()) std::cerr<<"Workspace layout: "<<report.layout_error<<'\n';
+            if(smoke && !report.startup_succeeded) throw std::runtime_error(report.project_error.empty()?"initial opening cancelled":report.project_error);
+            if(smoke && !report.uploaded_tiles) throw std::runtime_error("smoke run uploaded no image tiles");
+            return 0;
+        }
+        auto server=qpx::dense_image_server(qpx::Image::demo());
+        auto document=std::make_shared<qpx::Document>(server); auto options=workspace_options();
+        if(qpx::has_project()) { options.project=std::make_shared<qpx::Project>(); options.project->add_document(document,"",path); }
+        auto report=qpx::run_gui(*document, smoke ? 90 : 0,"",options);
+        if(!report.layout_error.empty()) std::cerr<<"Workspace layout: "<<report.layout_error<<'\n';
+        if (smoke && !report.uploaded_tiles) throw std::runtime_error("smoke run did not upload any image tiles");
+        return 0;
+#else
+        throw std::runtime_error("rebuild with QUPATHXX_BUILD_GUI=ON");
+#endif
+    } catch (const std::invalid_argument& e) {std::cerr<<e.what()<<'\n';return 2;}
+    catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
+}
