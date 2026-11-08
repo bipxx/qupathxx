@@ -1,0 +1,16 @@
+{
+  "merge_commit": "c2823c2bbb58866cb7f78d6867f6b19fd7d86172",
+  "parents": [
+    "62e35c8f4222b52c11effabe60576108fb52d37b",
+    "3d715c84727033cb55cf239f96e8de9b193a2918"
+  ],
+  "main_gui_blob_before": "877e149b1223c310e554aa3f73208735fd931533",
+  "merged_gui_blob": "877e149b1223c310e554aa3f73208735fd931533",
+  "native_source_tree_sha256": "6732170e07e258f79deaba0d4a724ad9b4d9713e713f78ee24fdd29999654084",
+  "binding_objects_preserved": 38,
+  "focused_native_tests_passed": 4,
+  "saved_spatial_project_gui_smoke_exit_code": 0,
+  "source_checkout": "build/ci/scientific-grid-159",
+  "new_build_cache": false,
+  "binary_release": false
+}

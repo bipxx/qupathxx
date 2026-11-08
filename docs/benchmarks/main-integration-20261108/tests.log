@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 1: spatial_counts
+1/4 Test #1: spatial_counts ...................   Passed    0.19 sec
+    Start 2: spatial_counts_cli
+2/4 Test #2: spatial_counts_cli ...............   Passed    0.37 sec
+    Start 3: fluorescence_workflow
+3/4 Test #3: fluorescence_workflow ............   Passed    0.19 sec
+    Start 5: application_entry
+4/4 Test #5: application_entry ................   Passed    0.12 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   1.00 sec

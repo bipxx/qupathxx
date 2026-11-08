@@ -7,20 +7,23 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active integration - merge native workflows into main
+## Delivered integration - native workflows merged into main
 
-Owner requested merging feature/scientific-grid-159 into main. Main62e35c8f
-contains independent activity-sidebar, command-icon and design-system work; retain
-it alongside feature3d715c84's native/optional-Python/fluorescence/spatial-count
-changes. Code/CMake merge automatically; only this task-history document conflicted.
-Preserve both delivered histories below.
+Owner requested merging feature/scientific-grid-159 into main. Mergec2823c2b
+preserves main62e35c8f activity sidebar/icons/design system plus feature3d715c84
+native/optional-Python/fluorescence/spatial-count work. Only this task-history
+document conflicted; both histories below are retained. GUI source is byte-identical
+to the main parent. [Integration evidence](benchmarks/main-integration-20261108/README.md).
 
-Before build: merged UI and shared application entry have not been linked together.
-Fast-forward the active integration checkout to the local merge commit, reuse its
-one cache and build only native app/new workflow tests/entry target. Run the three
-focused workflow cases plus native entry and a saved-project GUI smoke. No binding
-rebuild, scientific campaign, new checkout or binary release is selected. Push main
-only after these integration checks pass; preserve existing fixtures/open windows.
+Existing active checkout/cache synced to the merge; combined native app/entry/
+fluorescence/spatial targets build. All four selected native cases pass, and the
+merged GUI opens/renders the saved spatial-count project and exits0. All38 binding
+objects preserved. No new checkout, binding compilation, full science campaign,
+binary release or cleanup. Source main handoff follows these passing checks.
+
+Waste review: resolve only the one documentation conflict, preserve both UI and
+native changes, and verify the combined frontend/workflow link in the existing
+cache. Prior scientific/UI results retain their source scope; no duplicate campaign.
 
 ## Delivered task - open-format fluorescence and spatial counts
 
