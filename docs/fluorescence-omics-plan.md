@@ -1,9 +1,11 @@
 # Open-format fluorescence and spatial omics
 
 Owner approved a concrete fluorescence workflow first, followed by one spatial-
-omics import, restricted to open formats. This is the selected next phase, not
-a declaration that the planned workflows are already implemented. Existing
-native TIFF/raw analysis and spatial services remain delivered.
+omics import, restricted to open formats. FO01-FO04 now pass local native checks; installed CLI and saved-project viewer
+routes also pass. FO05 hosted Linux validation and final support documentation
+are in progress. Existing native TIFF/raw services are reused; the spatial-count
+reader/projection is new C++. Evidence is recorded in
+[the implementation receipt](benchmarks/fluorescence-omics/receipt.json).
 
 ## Format admission
 
@@ -106,13 +108,13 @@ Visium/Xenium/CosMx import.
 
 - [x] FO00: select open formats, verify primary license/specification sources,
   document native-only ownership and the explicit sparse association profile.
-- [ ] FO01: exercise the existing native fluorescence source/ROI/retention paths;
+- [x] FO01: exercise the existing native fluorescence source/ROI/retention paths;
   identify the actual missing consumer step before adding any service.
-- [ ] FO02: implement only the missing fluorescence recipe/controls; verify raw
+- [x] FO02: implement only the missing fluorescence recipe/controls; verify raw
   values and display independence, save/reopen/replay and Python-disabled use.
-- [ ] FO03: implement bounded native Matrix Market/TSV profile reading and
+- [x] FO03: implement bounded native Matrix Market/TSV profile reading and
   association with explicit IDs/coordinates; verify sparse numeric/refusal cases.
-- [ ] FO04: retain a selected-gene spatial projection using existing objects and
+- [x] FO04: retain a selected-gene spatial projection using existing objects and
   measurements; verify source digests, persistence, cancellation and no overwrite.
 - [ ] FO05: expose the native services through existing CLI/UI consumers; add an
   optional Python wrapper only if a named caller needs it. Run one focused native

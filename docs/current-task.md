@@ -7,19 +7,45 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected next phase - open-format fluorescence, then spatial counts
+## Active implementation - open-format fluorescence and spatial counts
 
 Owner selected a fluorescence workflow followed by one spatial-omics format,
 with open formats/readers/codecs only. [Detailed plan and checklist](fluorescence-omics-plan.md)
 own this phase. FO00 (format admission and finite contracts) is complete;
-FO01-FO05 implementation/validation are pending and are not support claims.
+FO01 found existing --kind raw/explicit-axis batch and native raw retention
+already supply the fluorescence implementation; add focused OME conformance
+fixtures, not another pipeline. FO02 checks uint16/float32 planes/values,
+nonfinites, display independence, CSV, batch and save/replay. FO03/FO04 add one
+bounded native Matrix Market/TSV reader and selected-gene point projection using
+existing ObjectProperties/append_objects/save_new. FO05 adds a standalone native
+CLI and reuses the existing viewer/measurement inspector.
 
-Active next task: FO01, exercise the existing OME-TIFF raw measurement/display/
-retention route before adding a missing native consumer. Then FO02 completes
-one explicit-channel/plane ROI workflow. Queue FO03/FO04 afterward: bounded
-Matrix Market integer sparse counts plus the documented feature/position TSV
-profile, selected-gene spatial projection and save/reopen. All interpretation,
-association/provenance and publication belong to C++; Python stays optional.
+Before build: changed native inputs are the new reader/CLI/tests and conditional
+CMake wiring; no scientific kernel or binding API changed. Use the single existing
+cache, disable Python discovery, build only new targets and required batch/viewer
+consumers, run focused tests and the installed CLI check. Existing binding objects
+must survive. Extend the existing headless native CI for TIFF plus these tests;
+no separate matrix, HDF5/Zarr dependency, wheel or new binary release.
+First compile found a missing concrete ObjectProperties include; add the direct
+include rather than depending on transitive headers. Spatial reader/CLI checks
+pass. Fluorescence fixture decoded, but its request used tile2 below the native
+minimum16; use16 without relaxing native validation. An invalid channel must
+be refused by analyze_raw (actual decoder boundary), not necessarily by snapshot
+construction; exercise that worker boundary explicitly. Only the fluorescence
+test input changed; reuse the passing spatial reader/CLI checks.
+
+FO01/FO02 complete locally: existing native raw batch is sufficient, no new
+fluorescence pipeline. uint16/float32 six-plane OME fixtures pass explicit axes,
+channel names, calibrated raw means/counts/nonfinites, display-independent hashes,
+CSV, saved replay, native batch and invalid/stale/no-overwrite controls.
+FO03/FO04 complete locally: sparse reader + selected-gene point projection and
+CLI pass exact2^53 counts, sparse zeros, provenance, existing-object retention,
+save/reopen, malformed associations/indices/counts, budgets and cancellation.
+
+Active FO05: install only the new native SpatialCounts component into the existing
+stage and exercise it without Python on PATH; open its project and fluorescence
+records in the unchanged native viewer. Add focused tests to the existing
+Python-disabled Linux job. Preserve all binding objects; no broad campaign.
 
 AnnData/H5AD and OME-Zarr are deferred open candidates, not required work or
 newly implemented readers. Closed vendor formats/required codecs are excluded
