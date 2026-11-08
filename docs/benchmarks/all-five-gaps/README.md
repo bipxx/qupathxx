@@ -2,7 +2,7 @@
 
 The owner's close-all request selected finite acceptance targets in current-task
 before execution. This closes those five targets, not100% QuPath parity or
-unbounded biological/platform claims. G04's new binary handoff is the final step.
+unbounded biological/platform claims. The final candidate7 binary handoff is published and verified.
 
 ## G05: actual saved-data compatibility
 
@@ -27,7 +27,9 @@ checks pass. [Python importer regression](python-import-tests.log):5 passes.
 ## G02: dense and sustained whole-slide resource acceptance
 
 Reuse the exact real-slide canonical tissue256/512 tile/oracle/cancel evidence
-from [the preceding case](../gap-closure/README.md). [Ten-minute run](sustained-tissue.json):
+from [the preceding case](../gap-closure/README.md); the explicit current
+[stale/cancel/result-lifetime/publication guards](tissue-publication-guards.log)
+add8 passes. [Ten-minute run](sustained-tissue.json):
 2,768 native calls over600.08s preserve every input/label/count identity, with no
 retained records. Private-memory range after eight warmups is1,122,304 bytes,
 within the predeclared32MiB limit. This is a fixed ten-minute stability acceptance,
@@ -82,10 +84,23 @@ records unchanged scientific inputs. General speed superiority remains unclaimed
 
 The initial cached build and narrow null-name/bound and robust-orientation review corrections reused
 all38 binding objects byte-for-byte. Final compiler-input treeb633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc
-owns current native/import evidence. Candidate6 remains frozen. Candidate7 will
-package the final matching wheel/native/source with open-codec notices and exact
-input hashes, then verify isolated installed routes, removal and public assets.
+owns current native/import evidence. Candidate6 remains frozen.
+[Candidate7 is public](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7).
+[Publication](publication.json) verifies14 asset sizes/server SHA256 digests
+before/after publication and exact source tag0ff8c5c3. Matching571-input raw source,
+notices,12 authenticated external open dependency archives and vendored LodePNG
+accompany the final wheel/native assets.
+[Installation](installation.json):69 immutable members and actual package DLL
+origins match. Static closures [wheel](wheel-runtime.json)70 files/7 binaries and
+[native](native-runtime.json)59/6 pass; standalone EXEs do not import Python.
+[Installed routes](installed-routes.json) prove density/import/reuse agreement;
+the final installed module also passes full558-cell/22,880-value preservation.
+Standalone app opens the normalized imported project, batch runs density, and
+[removal](removal.json) leaves all33 generated files unchanged. Candidate7 is
+local Windows x64/CPython3.12 engineering support, with explicit [limits](KNOWN-LIMITS.md).
+All five [acceptance targets](../../remaining-gaps-checklist.md) are closed.
 One pre-review local preparation was superseded when robust orientation replaced
 the cancellation-prone area sum; it remains local and will not be published.
 The final wheel/native bytes follow the passed correction; no binding recompile
-or repeated scientific campaign. Publication/installation receipts will close G04.
+or repeated scientific campaign. Stop this batch; optional capabilities are not
+a new automatic phase.

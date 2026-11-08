@@ -1,7 +1,7 @@
 {
   "final_source_tree": "b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc",
   "sustained_source_tree": "3d85e87586c87d15ef04d65e0ac94289e51457af6f20dafbbf534017f39fa0e6",
-  "sustained_compatibility": "Only native saved-data null-name preservation and the normalization-bound test changed after this run started; no tissue/scientific/geometry implementation changed. Existing runtime was not overwritten while active.",
+  "sustained_compatibility": "The measured worker used3d85e875. During its run only native saved-data null-name preservation and a normalization-bound test changed; robust private-import orientation changed afterward. No listed tissue/scientific/general-geometry authority changed. The active stage was not overwritten while its worker ran; observations remain scoped to that actual worker and are reused through the unchanged-authority proof.",
   "scientific_authorities": {
     "cpp/cells.cpp": "c1caf888ba465b2ae4ccc5ae1b4ae01c3d7c6b9e4197d1d37f9b6aea90099c9f",
     "cpp/scientific_cells.cpp": "7616f05a6a252f239c2fd42e80788b332037aee34bea86a7241f35c602cec16f",
@@ -16,5 +16,15 @@
   "public_api_changed": false,
   "python_product_logic_added": false,
   "pre_review_source_tree": "013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941",
-  "compatibility": "Final changes are confined to saved-data vertex-touch orientation/null-name preservation and native importer tests; scientific authorities listed below are unchanged. Intermediate source identities retain their own observations."
+  "compatibility": "Final changes are confined to saved-data vertex-touch orientation/null-name preservation and native importer tests; scientific authorities listed below are unchanged. Intermediate source identities retain their own observations.",
+  "scientific_authorities_match_candidate6_exactly": true,
+  "changed_compiler_inputs_since_candidate6": [
+    "CMakeLists.txt",
+    "cpp/qupath_polygon.cpp",
+    "cpp/qupath_polygon.hpp",
+    "cpp/qupath_saved_data.cpp",
+    "cpp/tests/qupath_polygon_checks.hpp",
+    "cpp/tests/qupath_project_tests.cpp"
+  ],
+  "build_scope": "Cached private importer/helper/provenance and affected tests compiled before final packaging;38 binding objects reused. native_bytes_rebuilt=false in candidate.json describes only the later freezer operation."
 }

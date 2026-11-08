@@ -1,5 +1,11 @@
 # API and workflow delivery paths
 
+The selected [G01-G05 gap closeout](remaining-gaps-checklist.md) is complete and
+[candidate7](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7)
+is public. It adds native reviewed vertex-touch saved-data compatibility and
+finite second-slide/dense/sustained acceptance; no100% parity or general speed
+claim is implied. Stop the selected batch; broader catalogue work stays optional.
+
 The [latest contour batch](benchmarks/contour-optimization/README.md) preserves
 exact outputs and shows an observed11.2% detector reduction in matched local
 baseline/candidate pairs. This is not a general QuPath speed claim. Earlier
