@@ -2,8 +2,9 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 pending work items**. It does not reopen completed FO00–FO05 or
-claim any of these additions implemented. Current desktop-layout work in
+checklist: **22 work items: 3 complete, 19 pending**. It does not reopen completed
+FO00–FO05. Native S01/V01/I01 are delivered locally; their UI consumers remain
+pending. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
 [current-task.md](current-task.md) continues; this plan queues subsequent work.
 
 All application/scientific interpretation, transforms, statistics, storage and
@@ -88,14 +89,17 @@ Do not build a general workflow engine or distributed service for these tasks.
   derivative lineage and notices offline. Exit: admitted open examples pass;
   restricted and unreviewed fixture/model records refuse staging. No restricted
   binaries or datasets need downloading to test the guard.
-- [ ] **S01 — expression dataset/value contract.** Add a small native
+  Progress: the offline guard and initial existing font/CC0 fixture annotations
+  are implemented/tested. Final dependency/package membership coverage remains
+  open; unknown historical assets still refuse admission.
+- [x] **S01 — expression dataset/value contract.** Add a small native
   `ExpressionDataset`/`FeatureSelection` interface with stable observation/feature
   IDs, count versus continuous-value domain, validity, source identity, plane and
   coordinate-frame reference. Start with an adapter over existing imported
   ObjectProperties; retain old projects and the current CLI. Zero is distinct from
   a missing/unimported gene. Keep raw counts integer-exact; legacy double-valued
   projections retain their2^53 admission limit. No new full-matrix schema yet.
-- [ ] **V01 — native gene display field.** `GeneDisplayRequest` captures a dataset,
+- [x] **V01 — native gene display field.** `GeneDisplayRequest` captures a dataset,
   gene, cohort and linear/log1p display policy; an owned `GeneDisplayField` supplies
   values/validity/colors to overlays. Native min/max or percentile range, explicit
   zero/missing colors, opacity, legend units and optional shared range for gene
@@ -112,7 +116,7 @@ Do not build a general workflow engine or distributed service for these tasks.
 
 ## Checklist: import and registration
 
-- [ ] **I01 — shared native import preview/job.** Wrap current sparse parsing and
+- [x] **I01 — shared native import preview/job.** Wrap current sparse parsing and
   project publication in `SpatialImportPreview` and an owned cancellable job;
   CLI and UI call the same services. Preview IDs/dimensions/genes, source hashes,
   coordinate frame, counts domain, selected projection and work/storage limits.
@@ -317,5 +321,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Start next with S01/V01 using already admitted data, after the active UI
-handoff allows consumer changes.
+parity. Next connect V02/I02 after the active UI handoff allows consumer changes;
+finish L01 membership admission as actual release inputs settle. Native R01 can
+proceed without editing the concurrent desktop layout.

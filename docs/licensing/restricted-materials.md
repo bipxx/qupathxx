@@ -53,3 +53,28 @@ Keep it local under the user's permissions and out of public logs/packages.
 The actual OME tubhiswt and 10x mouse-brain demonstration files have CC BY4.0
 evidence in [the open demo receipt](../benchmarks/real-data-demo/README.md); they
 are not proprietary/NC merely because an institution or commercial vendor owns them.
+
+## Offline staging admission
+
+[check_material_staging.py](../../tools/ci/check_material_staging.py) reads
+`material` annotations in the existing fixture/font/dependency inventories; it
+does not download data or classify unknown licenses automatically. Each record
+declares its ID, category, resource kind, exact hash, source reference, license
+evidence, attribution and source/derivative IDs. Staged bytes additionally require
+an exact byte size. Hash-only provenance parents can remain metadata references.
+The license-ID set is explicit; review an unsupported license before extending it.
+Mixed-license source bundles need their component records/lineage reviewed too.
+
+Run against a frozen staging directory with each relevant existing inventory:
+
+```text
+python tools/ci/check_material_staging.py --stage STAGE --inventory INVENTORY.json
+```
+
+Repeat `--inventory` and `--exclude-root` as needed. Every staged file must match
+an admitted record; missing/unreviewed/restricted bytes, restricted ancestors,
+unknown/cyclic derivative sources and linked/reparse paths refuse staging. An
+open derivative cannot reference an NC parent. This is development/release tooling,
+not a Python product dependency or a runtime restriction on private user input.
+The guard and initial font/CC0 annotations are tested; complete package/source-kit
+membership and release-pipeline integration remain pending under L01/P02.

@@ -1,4 +1,5 @@
 #include "qupathxx/spatial_counts.hpp"
+#include "qupathxx/spatial_import.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
@@ -47,7 +48,37 @@ int main(int argc,char** argv) {try {
     check(imported("output.qpx").find("qpx.spatial-counts/1")!=std::string::npos);verify(root/"output.qpx");
     const auto output_before=bytes(root/"output.qpx");rejects<WorkflowOutputExists>([&]{imported("output.qpx");});
     check(bytes(root/"input.qpx")==input_before && bytes(root/"output.qpx")==output_before);
+    SpatialImportRequest request;request.input_project=(root/"input.qpx").u8string();request.output_project=(root/"preview.qpx").u8string();
+    request.image_id=1;request.matrix=(root/"counts.mtx").u8string();request.features=(root/"features.tsv").u8string();
+    request.positions=(root/"positions.tsv").u8string();request.options=options;
+    const auto preview=preview_spatial_import(request);
+    check(!fs::exists(root/"preview.qpx") && bytes(root/"input.qpx")==input_before);
+    check(preview->projection().counts==actual.counts && preview->coordinate_frame()=="image-level-zero-px" && preview->project_sha256().size()==64);
+    check(preview->json().find("qpx.spatial-import-preview/1")!=std::string::npos);
+    request.options.features={"G3"};check(preview->projection().features==options.features);request.options=options;
+    SpatialImportJob job;check(job.publish(preview));job.wait();job.rethrow_error();
+    check(job.phase()==SpatialImportPhase::Complete && !job.report().empty());verify(root/"preview.qpx");
+    check(Project::open((root/"preview.qpx").u8string())->image_metadata(1).at("omics.import_recipe")==preview->json());
+    check(preview->json().find("\"max_entries\":1000000")!=std::string::npos && preview->json().find("\"feature_table\"")!=std::string::npos);
+    auto chained=request;chained.input_project=(root/"preview.qpx").u8string();chained.output_project=(root/"chained.qpx").u8string();
+    publish_spatial_import(*preview_spatial_import(chained));
+    auto chained_project=Project::open(chained.output_project);std::size_t recipes=0;
+    for(const auto& item:chained_project->image_metadata(1))if(item.first.find("omics.import_recipe:")==0)++recipes;
+    check(recipes==2 && chained_project->document(1)->object_count()==7);
+    rejects<WorkflowOutputExists>([&]{publish_spatial_import(*preview);});
+    request.output_project=(root/"stale.qpx").u8string();const auto stale=preview_spatial_import(request);
+    write(root/"positions.tsv",positions+"extra\t0\t0\n");rejects<WorkflowInputChanged>([&]{publish_spatial_import(*stale);});check(!fs::exists(root/"stale.qpx"));write(root/"positions.tsv",positions);
+    request.output_project=(root/"stale-project.qpx").u8string();const auto stale_project=preview_spatial_import(request);
+    auto revised=Project::open(request.input_project);revised->rename_image(1,"changed");revised->save(request.input_project);
+    rejects<WorkflowInputChanged>([&]{publish_spatial_import(*stale_project);});check(!fs::exists(root/"stale-project.qpx"));
+    write(root/"input.qpx",input_before);
+    request.output_project=(root/"collision.qpx").u8string();const auto collision=preview_spatial_import(request);
+    write(root/"collision.qpx","keep-me");rejects<WorkflowOutputExists>([&]{publish_spatial_import(*collision);});check(bytes(root/"collision.qpx")=="keep-me");
+    request.output_project=(root/"async-preview.qpx").u8string();check(job.preview(request));job.wait();job.rethrow_error();
+    check(job.phase()==SpatialImportPhase::Ready && job.result() && !fs::exists(root/"async-preview.qpx"));
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{read_spatial_counts("missing","missing","missing",options,&cancelled);});
+    rejects<WorkflowCancelled>([&]{preview_spatial_import(request,&cancelled);});
+    rejects<WorkflowCancelled>([&]{publish_spatial_import(*job.result(),&cancelled);});check(!fs::exists(root/"async-preview.qpx"));
     rejects<WorkflowCancelled>([&]{import_spatial_counts("missing",(root/"cancelled.qpx").u8string(),1,"missing","missing","missing",options,&cancelled);});check(!fs::exists(root/"cancelled.qpx"));
     options.work_bytes=1;rejects<WorkflowCaptureLimit>(read);options.work_bytes=128u*1024*1024;
     options.file_bytes=1;rejects<WorkflowCaptureLimit>(read);options.file_bytes=32u*1024*1024;
@@ -77,5 +108,5 @@ int main(int argc,char** argv) {try {
     write(root/"counts.mtx","%%MatrixMarket matrix coordinate integer general\n3 3 4\n1 1 5\n3 2 99\n1 2 9007199254740992\n2 1 2\n");
     const auto reordered=read();check(reordered.counts==actual.counts && reordered.source_sha256[0]!=actual.source_sha256[0]);
     check(bytes(root/"input.qpx")==input_before);
-    std::cout<<"Spatial counts: sparse selected values/zeros/exact integer limit, IDs/coordinates/provenance, atomic save/reopen, rejection, cancellation and budgets passed\n";
+    std::cout<<"Spatial counts: exact selected values, native preview/job/recipe lineage, atomic save/reopen, stale-input/collision refusal, cancellation and budgets passed\n";
 }catch(const std::exception& error){std::cerr<<error.what()<<'\n';return 1;}}

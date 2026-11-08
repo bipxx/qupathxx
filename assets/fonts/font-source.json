@@ -7,11 +7,62 @@
   "outputs": {
     "IBMPlexSans-Regular.ttf": {
       "bytes": 56000,
-      "sha256": "2cf8ca6d81dd4cfa11a236f9eb7bce6f7a9a4d1252f9154ab14ed1e2329141f3"
+      "sha256": "2cf8ca6d81dd4cfa11a236f9eb7bce6f7a9a4d1252f9154ab14ed1e2329141f3",
+      "source": "assets/fonts/font-source.json#original",
+      "material": {
+        "category": "admitted_open",
+        "license_id": "OFL-1.1",
+        "license_evidence": "assets/fonts/IBMPlexSans-OFL.txt",
+        "attribution": "Copyright 2019 IBM Corp.",
+        "id": "ibm-plex-sans-IBMPlexSans-Regular.ttf",
+        "kind": "derived_asset",
+        "source_ids": [
+          "ibm-plex-sans-5.3.0-original"
+        ]
+      }
     },
     "IBMPlexSans-Semibold.ttf": {
       "bytes": 56024,
-      "sha256": "4b7126390ae8a74bb6f56e7adf3561f038163360168dd7d17c78a4447ef524d8"
+      "sha256": "4b7126390ae8a74bb6f56e7adf3561f038163360168dd7d17c78a4447ef524d8",
+      "source": "assets/fonts/font-source.json#original",
+      "material": {
+        "category": "admitted_open",
+        "license_id": "OFL-1.1",
+        "license_evidence": "assets/fonts/IBMPlexSans-OFL.txt",
+        "attribution": "Copyright 2019 IBM Corp.",
+        "id": "ibm-plex-sans-IBMPlexSans-Semibold.ttf",
+        "kind": "derived_asset",
+        "source_ids": [
+          "ibm-plex-sans-5.3.0-original"
+        ]
+      }
+    }
+  },
+  "original": {
+    "sha256": "e2291e842cf5af167122a22881a740c7f2dda7716f1e8cd76680264f4a859470",
+    "source": "@fontsource-variable/ibm-plex-sans@5.3.0",
+    "material": {
+      "category": "admitted_open",
+      "license_id": "OFL-1.1",
+      "license_evidence": "assets/fonts/IBMPlexSans-OFL.txt",
+      "attribution": "Copyright 2019 IBM Corp.",
+      "id": "ibm-plex-sans-5.3.0-original",
+      "kind": "asset",
+      "source_ids": []
+    }
+  },
+  "notice": {
+    "sha256": "a8b8906fa622f65203a8c4eb7b467967c7823f4445ed7f05bd378d6b9ecf9b5d",
+    "bytes": 4522,
+    "source": "assets/fonts/IBMPlexSans-OFL.txt",
+    "material": {
+      "category": "admitted_open",
+      "license_id": "OFL-1.1",
+      "license_evidence": "assets/fonts/IBMPlexSans-OFL.txt",
+      "attribution": "Copyright 2019 IBM Corp.",
+      "id": "ibm-plex-sans-notice",
+      "kind": "notice",
+      "source_ids": []
     }
   }
 }

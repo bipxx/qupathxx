@@ -1,10 +1,9 @@
 #include "qupathxx/spatial_counts.hpp"
-#include "qupathxx/project.hpp"
-#include "qupathxx/object_properties.hpp"
+#include "qupathxx/spatial_import.hpp"
+#include "qupathxx/object_plane.hpp"
 #include "qupathxx/workflow.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
-#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <charconv>
 #include <cmath>
@@ -183,44 +182,8 @@ SpatialCountsProjection read_spatial_counts(const std::string& matrix_path,
 std::string import_spatial_counts(const std::string& input_project,const std::string& output_project,
     std::uint64_t image_id,const std::string& matrix,const std::string& features,const std::string& positions,
     const SpatialCountsOptions& options,const std::atomic<bool>* cancelled) {
-    options.validate();workflow_checkpoint(cancelled);
-    workflow_path_argument(input_project);workflow_path_argument(output_project);
-    if(!image_id)throw std::invalid_argument("Image ID must be positive");
-    if(std::filesystem::exists(std::filesystem::u8path(output_project)))throw WorkflowOutputExists("Choose a NEW spatial-count project");
-    auto projection=read_spatial_counts(matrix,features,positions,options,cancelled);
-    auto project=Project::open_without_journal_recovery(input_project);auto document=project->document(image_id);
-    const ObjectPlane plane(-1,options.z,options.t);document->validate_object_plane(plane);
-    const auto& metadata=document->metadata();
-    std::size_t per_object=2048;
-    for(const auto& feature:projection.features)per_object+=512+2*feature.size();
-    if(projection.observations.size()>options.work_bytes/per_object)
-        throw WorkflowCaptureLimit("Spatial-count object projection exceeds work budget");
-    std::vector<Annotation> objects;objects.reserve(projection.observations.size());
-    const std::map<std::string,std::string> provenance{{"omics.profile","qpx.spatial-counts/1"},
-        {"omics.matrix_sha256",projection.source_sha256[0]},{"omics.features_sha256",projection.source_sha256[1]},
-        {"omics.positions_sha256",projection.source_sha256[2]},{"omics.coordinate_system","level-zero pixels"},
-        {"omics.projection","selected genes; original full matrix not embedded"}};
-    for(std::size_t i=0;i<projection.observations.size();++i) {
-        workflow_checkpoint(cancelled);const auto& observation=projection.observations[i];
-        if(observation.position.x>=metadata.width || observation.position.y>=metadata.height)
-            throw std::invalid_argument("Spatial observation outside selected image");
-        std::map<std::string,double> values;
-        for(std::size_t c=0;c<projection.features.size();++c)
-            values.emplace("omics.count:"+projection.features[c],static_cast<double>(projection.counts[i*projection.features.size()+c]));
-        auto facts=provenance;facts.emplace("omics.observation_id",observation.id);
-        Annotation object{};object.id=i+1;object.name=observation.id;object.kind=ObjectKind::Detection;
-        object.geometry=Roi::points({observation.position});object.plane=plane;
-        object.properties=std::make_shared<const ObjectProperties>(std::move(facts),std::move(values));
-        objects.push_back(std::move(object));
-    }
-    workflow_checkpoint(cancelled);
-    const auto created=document->append_objects(objects,{},"Import spatial count projection");
-    document->clear_history();
-    project->save_new(output_project,options.work_bytes,1024ULL*1024*1024,cancelled);
-    return nlohmann::json{{"schema","qpx.spatial-counts/1"},{"project",output_project},{"image_id",image_id},
-        {"features",projection.features},{"observations",created.size()},{"object_ids",created},
-        {"matrix_features",projection.matrix_features},{"matrix_entries",projection.matrix_entries},
-        {"source_sha256",projection.source_sha256},{"z",options.z},{"t",options.t},
-        {"projection","selected genes; original full matrix not embedded"}}.dump();
+    SpatialImportRequest request;request.input_project=input_project;request.output_project=output_project;request.image_id=image_id;
+    request.matrix=matrix;request.features=features;request.positions=positions;request.options=options;
+    return publish_spatial_import(*preview_spatial_import(request,cancelled),cancelled);
 }
 }

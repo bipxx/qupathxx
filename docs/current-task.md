@@ -1419,3 +1419,78 @@ handoff and report the supported scope rather than pulling in new features.
 The superseded pre-license archive in build/windows-workflow-checkpoint/delivery
 remains after automatic cleanup review rejected deletion (blocked by policy).
 It is not the selected candidate; use only delivery-agpl or the prerelease assets.
+
+
+## Planned follow-up - eight-gap native expansion and material separation
+
+Owner requested a plan for all eight remaining feature areas. The
+[canonical roadmap](feature-expansion-plan.md) defines22 implementation items
+(3 complete,19 pending); the completed FO00-FO05 slice stays closed. Gene display/selector and
+native import preview come first, then registration/fluorescence, backed matrices/
+H5AD/OME-Zarr, molecular methods and SDK/release. Current active UI work is preserved.
+
+Proprietary and NC material have distinct metadata-only registers and separate
+external-pool rules; neither is an open dependency, CI fixture, trained-model
+source or release acceptance asset. Unknown terms remain unreviewed. No restricted
+material was downloaded. Primary format/license sources and task dependencies
+reviewed; unique-ID/link/diff checks only, no build or scientific campaign.
+
+Waste review: one roadmap/checklist, existing material inventories extended at
+L01, no second algorithm/state machine or duplicated validation ledger. Shared
+native providers precede new readers; full-matrix normalization cannot use only a
+selected-gene projection, and single-study spots cannot supply biological replicates.
+
+### Active native expansion: S01/V01 foundations
+
+The active closure goal selects the22-item roadmap for implementation. Current
+UI layout changes continue independently and are preserved. Native changes add
+owned expression snapshots over the admitted point projection and shared gene
+display requests/fields/cache; no Python logic or new dependency is introduced.
+Raw uint64 counts and missingness remain separate from display-domain doubles.
+
+Changed inputs: two native services/public headers, focused expression test and
+their CMake registrations. Unresolved risks: captured source/cohort identity,
+missing versus measured zero, retained-memory accounting and palette/range
+interpretation. Decisive check: build only qupathxx_expression_tests in the
+existing gridfrontends167-package cache, run its analytical/rejection cases and
+the admitted mouse-brain project. Do not rebuild bindings or GUI for this check.
+Existing MSBuild node-reuse workers are idle (no cmake/cl or active project
+command); recheck before starting the cached build.
+
+S01/V01 focused native checks and all six real mouse-brain marker fields pass;
+the extra save/reopen and retained-capacity cases also pass (expression CTest,
+2026-11-08). No GUI/binding rebuild. A second incremental test build was justified
+by newly added persistence/extreme-value/budget cases, not a repeated campaign.
+
+Next I01 changes: shared owned SpatialImportPreview and cancellable job; legacy
+CLI imports delegate to the same preview/publication service. Reuse native
+WorkflowInput versions and atomic save_new, with no second parser or per-object
+Python work. Decisive check: affected spatial_counts/CLI tests exercise read-only
+preview, exact imported values, saved recipe, stale source/project refusal,
+collision and cancellation; rerun expression once against the changed library.
+
+I01 native/CLI tests pass. Final review adds all source locators/resource limits
+to the stored recipe and retains earlier recipes by hash on repeated imports;
+one affected incremental rebuild/check covers these changed persistence inputs.
+L01 offline guard now reads material annotations in existing inventories and
+rejects absent records, restricted/unreviewed inputs, restricted ancestry and
+derivatives. Existing font/CC0 fixture records are annotated; two focused tests
+pass, and the link-creation case is unavailable on this Windows host. Complete
+package/dependency membership admission stays open through P02; this is not an
+audit of every historical archive. No restricted material was downloaded.
+
+Checkpoint: S01/V01/I01 complete locally. Final expression/spatial_counts/CLI
+CTest run passes all3 cases (0.71s); the real2,702-spot/six-marker check passes.
+See [the single progress receipt](benchmarks/feature-expansion/README.md).
+Native-only CI includes the new expression case; hosted execution is not claimed.
+Waste review: no repeated scientific campaign, bindings/UI compilation or new
+cache. One manual test wrote a311KiB project into the source checkout; that exact
+disposable file was removed and later checks ran from the existing cache.
+Next: V02/I02 on the settled desktop shell; independent R01 can proceed while UI
+work continues. L01 final membership and release-stage integration remain open.
+
+Final cache review found that separately admitted cohort capacity and work could
+exceed the shared request budget when combined. Charge their sum and add the
+near-limit retained-capacity case; rebuild only the affected native targets.
+Partial staging initially hit Windows text-mode newline translation; applying
+the same selected hunks as raw bytes preserved concurrent UI changes.

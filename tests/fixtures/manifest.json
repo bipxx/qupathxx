@@ -12,7 +12,16 @@
       "sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
       "license": "CC0-1.0",
       "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/",
-      "purpose": "Aperio vendor region reads and metadata; single pyramid level"
+      "purpose": "Aperio vendor region reads and metadata; single pyramid level",
+      "material": {
+        "id": "openslide-data-CMU-1-Small-Region.svs",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC0-1.0",
+        "license_evidence": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/",
+        "attribution": "OpenSlide test data contributors; CC0 declaration at source index",
+        "source_ids": []
+      }
     },
     {
       "filename": "CMU-1.svs",
@@ -40,7 +49,16 @@
       "pixel_size_um": [
         0.499,
         0.499
-      ]
+      ],
+      "material": {
+        "id": "openslide-data-CMU-1.svs",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC0-1.0",
+        "license_evidence": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/index.yaml",
+        "attribution": "OpenSlide test data contributors; CC0 declaration at source index",
+        "source_ids": []
+      }
     },
     {
       "filename": "CMU-1.ndpi",
@@ -99,7 +117,16 @@
         17664,
         256,
         256
-      ]
+      ],
+      "material": {
+        "id": "openslide-data-CMU-1.ndpi",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC0-1.0",
+        "license_evidence": "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu/index.yaml",
+        "attribution": "OpenSlide test data contributors; CC0 declaration at source index",
+        "source_ids": []
+      }
     }
   ],
   "generated": [
