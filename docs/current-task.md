@@ -7,6 +7,44 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active UI task - RmlUi workspace shell
+
+Owner selected RmlUi. Migrate the activity rail and slide toolbar to packaged,
+reloadable RML/RCSS with typed native commands and native state snapshots. Keep
+scientific rendering and workflow authorities in C++; retain advanced native
+panels during this first migration. Preserve all16 languages, themes, docking,
+icons and data/camera behavior. No Python runtime dependency.
+
+Changed inputs: GUI dependency wiring, shell resources/adapter, workspace/toolbar
+hosting and resource packaging. One cached frontend build adds pinned RmlUi and
+FreeType; reuse existing core and all38 binding objects. Decisive checks: native
+command/event routing, DPI/locales, resource reload/failure retention, actual
+slide capture and unchanged project/camera/scientific pixels. No binding, wheel
+or full scientific qualification build. The independent dataset-demo task below
+remains preserved.
+
+## Delivered task - real fluorescence and spatial-omics viewers
+
+Opened real openly licensed OME tubhiswt-2D and 10x V1_Adult_Mouse_Brain data.
+[Source/license/data-preparation receipt](benchmarks/real-data-demo/README.md).
+Both CC BY4.0; large input files/projects stay in main build/real-data-demo.
+Fluorescence has two512×512 uint8 channels, displayed with explicit7–48 and0–255
+windows without changing raw samples. Mouse-brain H&E has2,702 real tissue spots
+and six markers (Gad1, Slc17a7, Pcp4, Aqp4, Mbp, Plp1),14,550 selected nonzero
+counts. Counts remain unchanged; positions use the published0.17011142 hires scale.
+Both native windows render; whole-tissue alignment was inspected. Gene values
+are available through each point's existing imported-properties inspector.
+
+Waste review: checked licenses before admission (noncommercial samples excluded),
+downloaded only processed open files, and streamed the source matrix in C++ to a
+small selected-gene profile. Existing PNG/core/importer services perform all data
+interpretation. Lossless download/archive controls may use Python; the optional
+fluorescence script only forwards typed native options/statistics/save calls.
+One temporary data-preparation target used the existing cache; its project-include
+setting was cleared afterward. No product source/binding/release changes or full
+campaign. Native display defaults were too dark for the lower-range channel;
+explicit presentation windows fixed that without touching original values.
+
 ## Delivered integration - native workflows merged into main
 
 Owner requested merging feature/scientific-grid-159 into main. Mergec2823c2b

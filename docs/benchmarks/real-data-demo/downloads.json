@@ -1,0 +1,38 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\fluorescence\\tubhiswt_C0.ome.tif",
+    "url": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/tubhiswt_C0.ome.tif",
+    "bytes": 269568,
+    "sha256": "a1d99f0651baad26a6b5004c115a9c3f4e33d3d6e0b279b34cabbbe88d813ef2"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\fluorescence\\tubhiswt_C1.ome.tif",
+    "url": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/tubhiswt_C1.ome.tif",
+    "bytes": 269568,
+    "sha256": "c17cb626103d9a8b3f77b0d49fbff67ced2a6da83f6b2ae8beae183fb1a2a51f"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\fluorescence\\readme.txt",
+    "url": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+    "bytes": 267,
+    "sha256": "a333fca9b675dee18bce962a1167eded09215d9f13429dd9794a466f01439004"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\fluorescence\\COPYING",
+    "url": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/COPYING",
+    "bytes": 18652,
+    "sha256": "cce5d01fa4a83b794271bd2c28cffdf99afd43c803e6ddefddae39b591ea7448"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\omics\\counts.tar.gz",
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Adult_Mouse_Brain/V1_Adult_Mouse_Brain_filtered_feature_bc_matrix.tar.gz",
+    "bytes": 58400030,
+    "sha256": "929ce41be6f9491f3d23223110301ac6f05d57e227bf8fb2baa6c16a9c4254ba"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\omics\\spatial.tar.gz",
+    "url": "https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Adult_Mouse_Brain/V1_Adult_Mouse_Brain_spatial.tar.gz",
+    "bytes": 9039745,
+    "sha256": "46d6b05ba740f232d6bf4b27b9a8846815851e000985fb878f1364bab04e5bd4"
+  }
+]

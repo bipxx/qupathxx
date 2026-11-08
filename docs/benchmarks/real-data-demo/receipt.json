@@ -1,0 +1,89 @@
+{
+  "coordinate_transform": "x=published_fullres_column*scale; y=published_fullres_row*scale",
+  "counts_modified": false,
+  "height": 2000,
+  "license": "CC BY 4.0",
+  "native_import": {
+    "features": [
+      "Gad1|ENSMUSG00000070880",
+      "Slc17a7|ENSMUSG00000070570",
+      "Pcp4|ENSMUSG00000090223",
+      "Aqp4|ENSMUSG00000024411",
+      "Mbp|ENSMUSG00000041607",
+      "Plp1|ENSMUSG00000031425"
+    ],
+    "image_id": 1,
+    "matrix_entries": 14550,
+    "matrix_features": 6,
+    "observations": 2702,
+    "project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\mouse-brain\\mouse-brain-spatial.qpx",
+    "projection": "selected genes; original full matrix not embedded",
+    "schema": "qpx.spatial-counts/1",
+    "source_sha256": [
+      "ca0ee2406aca51d3b62ca9cf3590f765eb96f7115a2568391c209323a75aafd8",
+      "f1f8f36009672cf4dc4d9fe5285060ace679ebdfe17f30117fb5623779f412d1",
+      "dd313edd021d0f3fa95b7beed61e6e7ed495c9a3b50b24d5582ab6aeef5f9b4c"
+    ],
+    "t": 0,
+    "z": 0
+  },
+  "selected_feature_ids": [
+    "Gad1|ENSMUSG00000070880",
+    "Slc17a7|ENSMUSG00000070570",
+    "Pcp4|ENSMUSG00000090223",
+    "Aqp4|ENSMUSG00000024411",
+    "Mbp|ENSMUSG00000041607",
+    "Plp1|ENSMUSG00000031425"
+  ],
+  "selected_nonzero_counts": 14550,
+  "selected_symbols": [
+    "Gad1",
+    "Slc17a7",
+    "Pcp4",
+    "Aqp4",
+    "Mbp",
+    "Plp1"
+  ],
+  "source_dataset": "V1_Adult_Mouse_Brain",
+  "source_entries": 16031101,
+  "source_features": 32285,
+  "source_url": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+  "spots": 2702,
+  "tissue_hires_scalef": 0.17011142,
+  "width": 1921,
+  "tool_source_sha256": "7de8725482e7f250bf91836d1ae7d54f4e03b7b151d6a7ffc78635a31cb6b1c7",
+  "tool_binary_sha256": "e4c764867696d5213501db213ef355caa1a7a5d2a973ee954d484b1c1a2d18fa",
+  "rendering_verified": {
+    "spatial": "Native viewer, 2702 point detections aligned on the published tissue image; fit view inspected",
+    "fluorescence": "Native viewer, two-channel OME sample rendered; per-channel display windows explicit"
+  },
+  "fluorescence": {
+    "source": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/",
+    "license": "CC BY 4.0",
+    "license_text": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+    "shape": [
+      512,
+      512,
+      2
+    ],
+    "type": "uint8",
+    "display_rgb_channels": [
+      0,
+      1,
+      -1
+    ],
+    "display_lower": [
+      7,
+      0,
+      0
+    ],
+    "display_upper": [
+      48,
+      255,
+      1
+    ],
+    "raw_values_modified": false,
+    "project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-data-demo\\fluorescence\\real-fluorescence.qpx"
+  },
+  "temporary_cmake_project_include_cleared": true
+}
