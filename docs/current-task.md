@@ -23,10 +23,14 @@ Two selected native CTest cases plus installed example pass with Python discover
 disabled. No binding targets; all38 binding objects preserved. Existing Windows
 GUI/SDK flags retained, optional Python configuration restored. New example source
 is included in the compiler-input manifest. Shell syntax and local links pass.
-Hosted minimal Linux job awaits push; local Windows evidence does not claim it.
+Hosted minimal Linux run42513372855 passed configure but found ambiguous
+checkpoint lookup in cell intensity statistics under GCC. Qualify the four calls
+to the intended helper; no algorithm/cancellation semantics change. Validate the
+affected native cell target and example, then the changed Linux job.
 
 Waste review: one cache, example component install only; no binding rebuild,
-wheel, scientific campaign or release. No failed test/retry. Stop this usability
+wheel, scientific campaign or release. GCC failure diagnosed before retry;
+keep the original failed run as evidence. Stop this usability
 slice after source handoff and CI status; add further consumers for a named need.
 
 ## Delivered task - native-first application and optional Python

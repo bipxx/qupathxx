@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: native_project_example
+1/2 Test  #1: native_project_example ...........   Passed    0.17 sec
+    Start 30: cells
+2/2 Test #30: cells ............................   Passed    0.99 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   1.27 sec

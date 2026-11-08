@@ -36,7 +36,7 @@ std::vector<CellIntensityStatistics> measure_cell_intensity_statistics(
     const RGB& rgb,const Channels& channels,const std::vector<std::uint32_t>& nuclei,
     const std::vector<std::uint32_t>& bodies,std::size_t count,std::size_t work_bytes,
     const std::atomic<bool>* cancelled=nullptr) {
-    using namespace intensity_detail;checkpoint(cancelled);
+    using namespace intensity_detail;intensity_detail::checkpoint(cancelled);
     const auto n=nuclei.size();
     if(n>std::numeric_limits<std::size_t>::max()/3 || bodies.size()!=n || rgb.size()!=3*n || channels.size()!=3*n)
         throw std::invalid_argument("cell intensity statistics sample lattices differ");
@@ -45,7 +45,7 @@ std::vector<CellIntensityStatistics> measure_cell_intensity_statistics(
     std::vector<Cell> accumulators(count);
     std::vector<CellIntensityStatistics> result(count);
     for(std::size_t i=0;i<n;++i) {
-        if((i&4095)==0) checkpoint(cancelled);
+        if((i&4095)==0) intensity_detail::checkpoint(cancelled);
         const auto a=nuclei[i],b=bodies[i];
         if(a>count || b>count || (a && a!=b)) throw std::invalid_argument("cell intensity statistics labels are inconsistent");
         if(!b) continue;
@@ -59,11 +59,11 @@ std::vector<CellIntensityStatistics> measure_cell_intensity_statistics(
         if(a) cell.nucleus.add(color,transformed);else cell.cytoplasm.add(color,transformed);
     }
     for(std::size_t i=0;i<count;++i) {
-        if((i&4095)==0) checkpoint(cancelled);const auto& cell=accumulators[i];
+        if((i&4095)==0) intensity_detail::checkpoint(cancelled);const auto& cell=accumulators[i];
         if(!cell.nucleus.count) throw std::invalid_argument("cell intensity statistics component has no nucleus");
         result[i].nucleus=cell.nucleus.finish();result[i].cell=cell.cell.finish();
         if(cell.cytoplasm.count) result[i].cytoplasm=cell.cytoplasm.finish();
     }
-    checkpoint(cancelled);return result;
+    intensity_detail::checkpoint(cancelled);return result;
 }
 }

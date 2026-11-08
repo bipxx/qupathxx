@@ -1,0 +1,4 @@
+2026-11-08T19:08:28.8179450Z /home/runner/work/qupathxx/qupathxx/cpp/cell_intensity_statistics.hpp:39:48: error: call of overloaded ‘checkpoint(const std::atomic<bool>*&)’ is ambiguous
+2026-11-08T19:08:28.8191308Z /home/runner/work/qupathxx/qupathxx/cpp/cell_intensity_statistics.hpp:48:35: error: call of overloaded ‘checkpoint(const std::atomic<bool>*&)’ is ambiguous
+2026-11-08T19:08:28.8203175Z /home/runner/work/qupathxx/qupathxx/cpp/cell_intensity_statistics.hpp:62:35: error: call of overloaded ‘checkpoint(const std::atomic<bool>*&)’ is ambiguous
+2026-11-08T19:08:28.8222545Z /home/runner/work/qupathxx/qupathxx/cpp/cell_intensity_statistics.hpp:67:15: error: call of overloaded ‘checkpoint(const std::atomic<bool>*&)’ is ambiguous
