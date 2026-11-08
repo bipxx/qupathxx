@@ -269,8 +269,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 #ifdef __APPLE__
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -299,6 +301,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     GLint max_texture = 0; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture);
     if (max_texture<256) throw std::runtime_error("GPU does not support 256-pixel tile textures");
     detail::configure_gui_fonts(*ImGui::GetIO().Fonts,max_texture);
+    std::unique_ptr<ui::RmlShell> shell;
+    if(workspace.enabled()) shell=std::make_unique<ui::RmlShell>(session.window);
     // Private UI backing only: never insert this into a project or request its
     // pixels. It keeps empty-state bindings separate from any removed document.
     auto empty_document=std::make_shared<Document>(Image(1,1,std::vector<std::uint8_t>{0,0,0}));
@@ -1206,6 +1210,40 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         bool autosave_requested=false;
         const bool editing_blocked=language_dialog_active || bool(source_review) || editing_is_blocked();
         const auto& io = ImGui::GetIO();
+        auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
+        ImDrawList* shell_draw_list=nullptr;
+        if(shell) {
+            constexpr const char* names[]={"Project","Image","Annotations","Workflow","Select","Rectangle","Ellipse","Polygon","Polyline","Points","Edit vertices","Draw hole","Fit image","Undo","Redo","Spatial...","Raw channels (F2)","Reset layout"};
+            constexpr const char* chords[]={"Ctrl+1","Ctrl+2","Ctrl+3","Ctrl+4","","R","E","P","L","T","V","H","","Ctrl+Z","Ctrl+Y","","F2",""};
+            std::array<std::string,ui::shell_command_count> labels;
+            for(std::size_t i=0;i<labels.size();++i) {labels[i]=ui::i18n::text(names[i]);if(*chords[i]) labels[i]+=" ("+std::string(chords[i])+")";}
+            ui::ShellSnapshot snapshot{workspace.active_pane(),tool,has_image,document.can_undo(),document.can_redo(),document.server()->reader_id()=="tiff",editing_blocked || ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)};
+            shell->update(static_cast<int>(io.DisplaySize.x),static_cast<int>(io.DisplaySize.y),ui_scale.logical,applied_theme==ui::design::Theme::Light,snapshot,labels,std::max(io.DisplayFramebufferScale.x,io.DisplayFramebufferScale.y));
+            const auto* hovered=ImGui::GetCurrentContext()->HoveredWindow;
+            const bool native_overlay=io.WantTextInput || (hovered && hovered->RootWindow->ID!=ImHashStr("Workspace") && hovered->RootWindow->ID!=ImHashStr("Slide"));
+            shell->input({native_overlay?-10000.f:io.MousePos.x,native_overlay?-10000.f:io.MousePos.y,io.MouseWheel,ImGui::IsMouseClicked(0),ImGui::IsMouseReleased(0),
+                !native_overlay && ImGui::IsKeyPressed(ImGuiKey_Tab),!native_overlay && ImGui::IsKeyPressed(ImGuiKey_Enter),!native_overlay && ImGui::IsKeyPressed(ImGuiKey_Space),io.KeyShift,io.KeyCtrl});
+            // One keyboard focus owner: native widgets must not also activate
+            // when Tab/Enter/Space operate a retained shell control.
+            if(shell->keyboard_active()) {
+                input.ConfigFlags&=~ImGuiConfigFlags_NavEnableKeyboard;
+                for(auto key:{ImGuiKey_Tab,ImGuiKey_Enter,ImGuiKey_Space}) ImGui::SetKeyOwner(key,ImHashStr("RmlUi shell input"),ImGuiInputFlags_LockThisFrame);
+                ImGui::NavMoveRequestCancel();ImGui::GetCurrentContext()->NavActivateId=0;
+            } else input.ConfigFlags|=ImGuiConfigFlags_NavEnableKeyboard;
+            if(!io.WantTextInput && io.KeyCtrl && io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_R,false)) shell->reload();
+            for(auto command:shell->take_commands()) {
+                const int value=static_cast<int>(command);
+                if(!snapshot.enabled(command)) continue;
+                if(value<4) workspace.select(GuiWorkspace::panes[value]);
+                else if(value<12) tool=value-4;
+                else if(command==ui::ShellCommand::Fit) fit=true;
+                else if(command==ui::ShellCommand::Undo) history_action(false);
+                else if(command==ui::ShellCommand::Redo) history_action(true);
+                else if(command==ui::ShellCommand::Spatial) spatial.open();
+                else if(command==ui::ShellCommand::Channels) raw.open();
+                else if(command==ui::ShellCommand::ResetLayout) workspace.reset();
+            }
+        }
         auto clipboard_status=[&](const InterchangeReport& report,const char* action) {
             interchange_status=std::string(action)+" "+std::to_string(report.features)+" objects";
             for(const auto& issue:report.issues)interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
@@ -1242,7 +1280,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);ImGui::PopStyleVar();
-        auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
         auto focus_pane=[&](const char* name) {if(workspace.enabled()) workspace.select(name);};
         if(ImGui::BeginMenuBar()) {
             ImGui::BeginDisabled(editing_blocked);
@@ -1269,6 +1306,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::MenuItem("Annotations")) focus_pane(GuiWorkspace::objects_pane);
                 if(ui::MenuItem("Workflow / Measurements")) focus_pane(GuiWorkspace::workflow_pane);
                 if(ui::MenuItem("Reset layout",nullptr,false,workspace.enabled())) workspace.reset();
+                if(shell && ui::MenuItem("Reload UI resources","Ctrl+Shift+R")) shell->reload();
                 ImGui::Separator();
                 if(ui::MenuItem("Increase UI size",nullptr,false,ui_multiplier<3)) ui_multiplier=std::min(3.,ui_multiplier+.25);
                 if(ui::MenuItem("Decrease UI size",nullptr,false,ui_multiplier>.5)) ui_multiplier=std::max(.5,ui_multiplier-.25);
@@ -1333,7 +1371,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             else ui::TextDisabled("Ready");
         }
         ImGui::BeginDisabled(!has_image);
-        if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput && !editing_blocked && has_image) tool=tool==1?0:1;
+        if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.KeyCtrl && !io.KeyAlt && !io.WantTextInput && !editing_blocked && has_image) tool=tool==1?0:1;
         if(!io.WantTextInput && !editing_blocked && has_image) {
             if(ImGui::IsKeyPressed(ImGuiKey_E)) tool=2;
             if(ImGui::IsKeyPressed(ImGuiKey_P)) tool=3;
@@ -1345,6 +1383,19 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         auto draw_toolbar=[&] {
+            if(shell) {
+                const auto p=ImGui::GetCursorScreenPos();
+                const float height=shell->place_toolbar(p.x,p.y,ImGui::GetContentRegionAvail().x);
+                ImGui::Dummy({ImGui::GetContentRegionAvail().x,height});shell_draw_list=ImGui::GetWindowDrawList();
+                const auto reset=shell->bounds(ui::ShellCommand::ResetLayout);
+                layout_reset_offset={reset.x,reset.y};layout_reset_size={reset.width,reset.height};
+                const bool ready=!editing_blocked && !ImGui::GetTopMostPopupModal();
+                target_seen[static_cast<std::size_t>(GuiInputTarget::ResetLayout)]=ready?frames:-2;
+                const auto spatial_button=shell->bounds(ui::ShellCommand::Spatial);
+                spatial.shell_button({spatial_button.x,spatial_button.y,spatial_button.width,spatial_button.height},ready && has_image);
+                target_seen[static_cast<std::size_t>(GuiInputTarget::SpatialOpen)]=ready && has_image?frames:-2;
+                return;
+            }
             const float scale=ui::design::scale(),side=ui::design::metrics.icon_size*scale,gap=ui::design::spacing.xs*scale;
             const bool docked=workspace.enabled();
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing,ImVec2(gap,gap));
@@ -1394,7 +1445,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::EndDisabled();
         if(workspace.enabled()) {
             if(!workspace.error().empty()) ui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
-            workspace.dockspace(editing_blocked);
+            if(shell && !shell->error().empty()) ui::TextWrapped("UI resources: %s",shell->error().c_str());
+            workspace.dockspace(editing_blocked,shell.get());
             workspace.begin(GuiWorkspace::project_pane,workspace.browser);
         } else ImGui::BeginChild("Inspector", {std::min(285*ui_scale.logical,io.DisplaySize.x*.45f),0}, ImGuiChildFlags_Borders);
         if(options.project) {
@@ -2950,6 +3002,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform,{pixel_top_left.x,pixel_top_left.y,pixel_bottom_right.x-pixel_top_left.x,pixel_bottom_right.y-pixel_top_left.y});
         service_project(save_project_requested,autosave_requested,editing_blocked,true);
         profile.other_ms=profile_lap();
+        if(shell_draw_list) {
+            shell_draw_list->AddCallback([](const ImDrawList*,const ImDrawCmd* cmd) {
+                const auto& io=ImGui::GetIO();
+                static_cast<ui::RmlShell*>(cmd->UserCallbackData)->render(static_cast<int>(io.DisplaySize.x*io.DisplayFramebufferScale.x),static_cast<int>(io.DisplaySize.y*io.DisplayFramebufferScale.y));
+            },shell.get());
+            shell_draw_list->AddCallback(ImDrawCallback_ResetRenderState,nullptr);
+        }
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);
         glClearColor(.07f,.08f,.1f,1); glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

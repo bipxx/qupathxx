@@ -62,6 +62,8 @@ public:
     static constexpr bool handles(GuiInputTarget t) {return index(t)<input_targets.size();}
     bool enabled(GuiInputTarget t) const {return enabled_.at(index(t));}
     Rect bounds(GuiInputTarget t) const {return bounds_.at(index(t));}
+    void open() {open_=true;}
+    void shell_button(Rect bounds,bool enabled) {bounds_[index(GuiInputTarget::SpatialOpen)]=bounds;enabled_[index(GuiInputTarget::SpatialOpen)]=enabled;}
     template<class Mark>void open_button(Mark& mark_target) {button("Spatial...",GuiInputTarget::SpatialOpen,true,mark_target,[&]{open_=true;});}
     template<class Mark>void open_icon(Mark& mark_target) {
         if(ui::icon_action("##Spatial",ui::ActionIcon::Spatial,"Spatial...")) open_=true;

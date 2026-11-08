@@ -4,7 +4,8 @@ The desktop uses the design system from
 `../colmap_webview/colmap-webview` at commit
 `121bd73ae77686e42093918944cec1baa1164aa5`. Its Load Dataset panel is the visual
 reference: muted neutral surfaces, fine outlines, rounded floating panels,
-restrained typography and consistent spacing. This is a native ImGui port;
+restrained typography and consistent spacing. The [RmlUi workspace shell](rmlui.md)
+uses RML/RCSS, alongside the native ImGui inspectors;
 the application has no React/CSS dependency on the sibling checkout.
 
 ![Dark desktop over the retained CMU-1 research ROI](images/design-system-dark-en.png)
@@ -13,6 +14,8 @@ the application has no React/CSS dependency on the sibling checkout.
 
 | Concern | Owner | Use |
 | --- | --- | --- |
+| Activity rail and slide toolbar presentation | `assets/ui/workspace.rml`, `assets/ui/workspace.rcss` | Reloadable structure, themes, density, focus/selected/disabled recipes |
+| Presentation state and commands | `cpp/gui_shell.hpp` | Owned snapshot and typed command contract without runtime pointers |
 | Palettes, spacing, geometry, typography scale | `cpp/gui_design_tokens.hpp` | Semantic values matching the captured upstream CSS tokens |
 | ImGui style, appearance preference, heading/action recipes | `cpp/gui_design_system.hpp` | One shared mapping for every native panel |
 | Responsive fields, buttons, menus, modal sizing | `cpp/gui_layout.hpp` | Controls retain their IDs as labels, language and layout change |

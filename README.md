@@ -1,7 +1,7 @@
 # qupathxx
 
 A C++17 bioimage analysis application with optional nanobind Python bindings and a
-Dear ImGui desktop interface. Inspired by QuPath's workflows and the native-core
+[RmlUi workspace shell](docs/rmlui.md) with native ImGui inspectors. Inspired by QuPath's workflows and the native-core
 architecture in `../naparixx`. This is an initial implementation, not a complete
 QuPath port or a compatible replacement for Java QuPath.
 

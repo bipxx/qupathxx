@@ -10,6 +10,7 @@
 #include "gui_i18n.hpp"
 #include "gui_design_system.hpp"
 #include "gui_layout.hpp"
+#include "gui_shell.hpp"
 
 namespace qpx {
 // All ImGui state belongs to the caller's context. Layout bytes never enter a
@@ -77,6 +78,7 @@ public:
     }
     bool enabled() const {return enabled_;}
     bool loaded() const {return loaded_;}
+    int active_pane() const {return active_;}
     void select(const char* name) {
         for(int i=0;i<4;++i) if(ImHashStr(name)==ImHashStr(panes[i])) {active_=i;ImGui::SetWindowFocus(name);break;}
     }
@@ -91,15 +93,18 @@ public:
         }
     }
     void reset() {if(protected_) return;reset_=true;loaded_=false;writable_=true;error_.clear();}
-    void dockspace(bool blocked=false) {
+    void dockspace(bool blocked=false,ui::RmlShell* shell=nullptr) {
         if(!enabled_) return;
         dock_=ImGui::GetID("Research workspace dockspace");
         auto size=ImGui::GetContentRegionAvail();size.x=std::max(1.f,size.x);
         const int footer_lines=size.x<60*ImGui::GetFontSize()?2:1;
         size.y=std::max(1.f,size.y-footer_lines*ImGui::GetTextLineHeightWithSpacing()-2*ui::design::spacing.sm*ui::design::scale());
-        const float scale=ui::design::scale(),rail=ui::design::metrics.activity_width*scale;
+        const float scale=ui::design::scale(),rail=shell?shell->rail_width():ui::design::metrics.activity_width*scale;
         const auto origin=ImGui::GetCursorScreenPos();
         if(!blocked) for(int i=0;i<4;++i) if(ImGui::Shortcut(ImGuiMod_Ctrl|static_cast<ImGuiKey>(ImGuiKey_1+i),ImGuiInputFlags_RouteGlobal)) select(panes[i]);
+        if(shell) {
+            shell->place_rail(origin.x,origin.y,size.y);ImGui::Dummy({rail,size.y});ImGui::SameLine(0,0);
+        } else {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
         ImGui::BeginChild("Activity rail",{rail,size.y},ImGuiChildFlags_None,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
         constexpr ui::Icon icons[]={ui::Icon::Project,ui::Icon::Image,ui::Icon::Annotations,ui::Icon::Workflow};
@@ -113,6 +118,7 @@ public:
             }
         }
         ImGui::EndChild();ImGui::PopStyleVar();ImGui::SameLine(0,0);
+        }
         size.x=std::max(1.f,size.x-rail);
         if(reset_ || !ImGui::DockBuilderGetNode(dock_)) {
             ImGui::DockBuilderRemoveNode(dock_);

@@ -1,0 +1,27 @@
+/* Shared compact desktop recipes. Dimensions use density-independent pixels. */
+body { position: absolute; width: 100%; height: 100%; margin: 0; padding: 0;
+    font-family: IBM Plex Sans; font-size: 14dp; color: #e8e8e8; pointer-events: none; }
+.activity { position: absolute; width: 44dp; padding-top: 4dp;
+    box-sizing: border-box; background-color: #161616; border-right: 1dp #2a2a2a; }
+.toolbar { position: absolute; display: flex; flex-wrap: wrap; align-content: flex-start;
+    box-sizing: border-box; padding: 4dp 8dp; background-color: #161616; }
+button { display: block; box-sizing: border-box; width: 28dp; height: 28dp; padding: 0; margin: 0;
+    border: 0; border-radius: 4dp; background-color: transparent; color: #a8a8a8;
+    cursor: pointer; pointer-events: auto; tab-index: auto; }
+.activity button { margin: 0 auto 12dp auto; }
+.toolbar button { margin-right: 2dp; margin-bottom: 2dp; flex-shrink: 0; }
+button:hover { background-color: #262626; color: #e8e8e8; }
+button:focus { background-color: #262626; color: #ffffff; border: 1dp #b8b8b8; }
+button.selected { background-color: #262626; color: #e8e8e8; }
+.activity button.selected { border-left: 2dp #b8b8b8; }
+button:disabled { opacity: 0.4; cursor: unavailable; }
+qpx-icon { display: block; width: 100%; height: 100%; pointer-events: none; }
+#tooltip { display: none; position: absolute; padding: 6dp 8dp;
+    background-color: #242424; border: 1dp #3a3a3a; border-radius: 4dp;
+    max-width: 300dp; pointer-events: none; }
+body.light { color: #202322; }
+.light .activity, .light .toolbar { background-color: #fafaf9; border-color: #d4d6d1; }
+.light button { color: #4f5552; }
+.light button:hover, .light button:focus, .light button.selected { background-color: #e3e3e0; color: #202322; }
+.light .activity button.selected { border-color: #343e38; }
+.light #tooltip { background-color: #e8e8e5; border-color: #a1a69f; }

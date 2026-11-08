@@ -13,8 +13,8 @@ enum class Icon {
     SelectAll,Deselect,Select,Rectangle,Ellipse,Polygon,Polyline,Points,Vertices,Hole,
     Project,Image,Annotations,Workflow
 };
-inline void draw_icon(Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
-    auto* d=ImGui::GetWindowDrawList();const float k=std::min(hi.x-lo.x,hi.y-lo.y)/32;
+inline void draw_icon_to(ImDrawList* d,Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
+    const float k=std::min(hi.x-lo.x,hi.y-lo.y)/32;
     const ImVec2 origin{(lo.x+hi.x)/2-16*k,(lo.y+hi.y)/2-16*k};const float stroke=1.5f*k;
     auto at=[&](float x,float y){return ImVec2{origin.x+x*k,origin.y+y*k};};
     auto line=[&](float x,float y,float u,float v){d->AddLine(at(x,y),at(u,v),ink,stroke);};
@@ -82,4 +82,5 @@ inline void draw_icon(Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
     case Icon::Hole:d->AddCircle(at(16,16),9*k,ink,0,stroke);d->AddCircle(at(16,16),4*k,ink,0,stroke);break;
     }
 }
+inline void draw_icon(Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {draw_icon_to(ImGui::GetWindowDrawList(),icon,lo,hi,ink);}
 }

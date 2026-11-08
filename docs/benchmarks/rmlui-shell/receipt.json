@@ -1,0 +1,19 @@
+{
+  "object_count": 38,
+  "changed": [],
+  "installed_app_sha256": "ce447499ad08f0b16eebd62b2cdc921cc3df90acd97d75f2fde2b98c33232623",
+  "resources": {
+    "workspace.rcss": "9f9ceab204bae29799c4f59a1c07ac6311458f92197fab9324cedd2355c39d17",
+    "workspace.rml": "38df3ce015b9f9c6ce0be16667a4da912de4909a0302356464d7488ae54b4096"
+  },
+  "native_source_sha256": "63d7ebd544903a94e10f4d68a9c41696f6d199733c59e5bc270ad8ca1e6949fb",
+  "source_base": "d58d194d1f7d475524cd8c2514d1d880910262ca+dirty",
+  "native_configuration": {
+    "QUPATHXX_BUILD_GUI": true,
+    "QUPATHXX_BUILD_PYTHON": false,
+    "python_discovery_disabled": true,
+    "nanobind_discovery_disabled": true
+  },
+  "native_ctest_passed": 4,
+  "source_design_checks_passed": 3
+}

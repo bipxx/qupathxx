@@ -54,7 +54,7 @@ before installation. Default builds include them automatically.
 | `QUPATHXX_BUILD_INTERCHANGE` | ON | Pinned JSON; native GeoJSON interchange |
 | `QUPATHXX_BUILD_EXAMPLES` | OFF | Builds this project example; requires project storage |
 | `QUPATHXX_BUILD_TESTS` | OFF | Native CTest targets; build the selected tests before running them |
-| `QUPATHXX_BUILD_GUI` | OFF | Pinned ImGui/GLFW fetched by CMake; system OpenGL and Linux X11/Wayland development libraries; adds `qupathxx_app` |
+| `QUPATHXX_BUILD_GUI` | OFF | Pinned RmlUi/FreeType/ImGui/GLFW fetched by CMake; OpenGL 3.3 (macOS core 4.1) and Linux X11/Wayland development libraries; adds `qupathxx_app` with packaged [RML/RCSS resources](rmlui.md) |
 | `QUPATHXX_BUILD_TIFF` | OFF | Pinned native TIFF/compression sources fetched by CMake; quantitative TIFF/OME-TIFF |
 | `QUPATHXX_BUILD_OPENSLIDE` | OFF | OpenSlide SDK discoverable through `OpenSlide_ROOT`; supported whole-slide readers |
 | `QUPATHXX_BUILD_GEOS` | OFF | GEOS ≥3.12 CMake package; robust topology and project-density workflows |

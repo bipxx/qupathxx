@@ -7,21 +7,31 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active UI task - RmlUi workspace shell
+## Delivered UI task - RmlUi workspace shell
 
-Owner selected RmlUi. Migrate the activity rail and slide toolbar to packaged,
-reloadable RML/RCSS with typed native commands and native state snapshots. Keep
-scientific rendering and workflow authorities in C++; retain advanced native
-panels during this first migration. Preserve all16 languages, themes, docking,
-icons and data/camera behavior. No Python runtime dependency.
+Owner selected RmlUi. The default activity rail and slide toolbar now use
+reloadable packaged RML/RCSS, shared vector icons, themes and all16 languages.
+An owned snapshot and typed command queue separate presentation from native
+state/actions. Scientific rendering and workflow authorities stay in C++;
+advanced inspectors/menus/dialogs and the compact API layout retain ImGui.
+[Architecture](rmlui.md), [checks/corrections](benchmarks/rmlui-shell/README.md).
 
-Changed inputs: GUI dependency wiring, shell resources/adapter, workspace/toolbar
-hosting and resource packaging. One cached frontend build adds pinned RmlUi and
-FreeType; reuse existing core and all38 binding objects. Decisive checks: native
-command/event routing, DPI/locales, resource reload/failure retention, actual
-slide capture and unchanged project/camera/scientific pixels. No binding, wheel
-or full scientific qualification build. The independent dataset-demo task below
-remains preserved.
+Native-only CMake build/install and all4 selected native CTest cases pass, plus
+3 source design contracts. Real CMU-1 dark/light Chinese views render; native
+camera, object count, exact project bytes and scientific RGB checks pass.
+Installed app runs with Windows-only PATH from System32. All38 binding objects
+are byte-identical; optional SDK flags restored without compiling bindings.
+
+Owner requested merging this delivery into main. Promote the reviewed source,
+resources and evidence together using the existing passing checks; retain the
+active integration checkout/cache/runtime and unrelated local fixtures.
+
+Reused the active checkout/cache. A locked running demo required a separate
+runtime output directory in main build/rmlui-shell; old windows/products remain.
+Corrections addressed Windows resource URLs/UTF-8, border-box reservation, icon
+draw density and obsolete cosmetic font/contrast test assumptions. No scientific
+thresholds or stored identity checks changed. No wheel, binary release, web
+runtime, complete inspector migration or further feature phase is claimed.
 
 ## Delivered task - real fluorescence and spatial-omics viewers
 

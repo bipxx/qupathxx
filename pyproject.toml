@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "qupathxx"
 version = "0.1.0"
-description = "C++ bioimage analysis foundation with nanobind and Dear ImGui"
+description = "C++ bioimage analysis with optional nanobind and a RmlUi desktop workspace"
 readme = "README.md"
 license = "AGPL-3.0-only"
 license-files = ["LICENSE"]
