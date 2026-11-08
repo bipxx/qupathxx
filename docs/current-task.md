@@ -7,6 +7,28 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - native C++ usability and CI guard
+
+Owner approved one C++ example, native build/backend documentation and a
+Python-disabled CI configuration. No new binary release or scientific migration.
+
+- [x] U01: small project open/analyze/retain/save/reopen/replay example using
+  shared APIs, with a native synthetic input and no-overwrite check.
+- [x] U02: native build defaults/optional SDK requirements documented.
+- [x] U03: bounded headless Linux CI guard; default Python OFF, discovery disabled,
+  no binding targets/products/runtime imports; installed C++ consumer exercised.
+
+[Guide](native-build.md) and [evidence](benchmarks/native-usability/README.md).
+Two selected native CTest cases plus installed example pass with Python discovery
+disabled. No binding targets; all38 binding objects preserved. Existing Windows
+GUI/SDK flags retained, optional Python configuration restored. New example source
+is included in the compiler-input manifest. Shell syntax and local links pass.
+Hosted minimal Linux job awaits push; local Windows evidence does not claim it.
+
+Waste review: one cache, example component install only; no binding rebuild,
+wheel, scientific campaign or release. No failed test/retry. Stop this usability
+slice after source handoff and CI status; add further consumers for a named need.
+
 ## Delivered task - native-first application and optional Python
 
 [Boundary audit](consolidation-python-boundary.md) and [follow-up checklist](consolidation-coverage.md#native-first-optional-interface-follow-up):

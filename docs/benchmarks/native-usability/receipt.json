@@ -1,0 +1,13 @@
+{
+  "source_tree_sha256": "0abd23060e3c7d52987730a84b221f27517560806cec9e763259bc8f97497e9f",
+  "python_discovery_disabled_during_build": true,
+  "local_gui_enabled": true,
+  "local_optional_backends": "Retained existing SDKs; not a minimal Linux configuration",
+  "binding_objects_preserved": 38,
+  "local_selected_tests": 2,
+  "installed_native_example_passed": true,
+  "graph_has_no_binding_targets": true,
+  "workflow_shell_syntax": "bash -n passed for three run blocks",
+  "hosted_linux_ci": "pending push",
+  "release": "unchanged"
+}

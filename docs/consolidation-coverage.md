@@ -234,3 +234,13 @@ and [source-scoped evidence](benchmarks/native-optional/README.md).
   APIs; all38 preserved through native-only and restoration configurations.
 - [x] P07: update policy/audit/build guide/current task; source handoff with no
   intermediate wheel, new release or repeated scientific qualification campaign.
+
+## Native C++ usability follow-up
+
+- [x] U01: optional native project example and synthetic fixture; open/analyze/
+  retain/save/reopen/replay and no-overwrite checks pass.
+- [x] U02: native build defaults, reader/training/topology SDK requirements and
+  source-consumer linking documented in [the build guide](native-build.md).
+- [x] U03: bounded Python-disabled Linux CI guard added, including installation
+  and native runtime dependencies; local Windows check and shell syntax pass.
+  Hosted job execution tracked separately in [evidence](benchmarks/native-usability/README.md).

@@ -36,6 +36,9 @@ The same native pipeline is available through the optional Python function
 independent Python tests/oracles remain development tools.
 [Boundary audit and native-only proof](docs/benchmarks/native-optional/README.md).
 
+[Native build options and C++ project example](docs/native-build.md) provide a
+small open/analyze/save/replay consumer and a Python-disabled CI guard.
+
 ## Implemented
 
 - Tissue-aware cell density, radius neighborhoods and nearest-centroid distances
@@ -251,7 +254,8 @@ density or stain-specific quantification.
 
 ## Build and launch
 
-Requires Python 3.11+, CMake 3.24+ and a C++17 compiler. On Windows install Visual
+Native builds require CMake 3.24+ and a C++17 compiler; optional Python packages
+also require Python 3.11+. On Windows install Visual
 Studio's Desktop development with C++ workload. GUI builds fetch Dear ImGui
 v1.91.9b and GLFW 3.4 and require desktop OpenGL. Linux also needs GLFW's X11 or
 Wayland development dependencies; macOS needs Xcode command line tools.
