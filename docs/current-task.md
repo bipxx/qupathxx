@@ -7,24 +7,34 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Selected task - merge desktop UI to main and retire its worktree
+## Delivered task - desktop UI merged to main and worktree retired
 
-Owner requested merge and cleanup. Commit the tested UI/language changes, combine
-them with the latest integration state, and merge into local main. Keep the active
-integration checkout/cache/runtime and its untracked density fixture. Synchronize
-that checkout to the merged source so future integration work retains the UI.
+Owner requested merge and cleanup. UI commit87745eee and integration merge
+e26d773e are included in local main merge6a8b3274. The latest committed native
+integration state0ddf944f and remote main ancestry are retained. Reviewed tree
+identity and all six tested GUI C++/catalogue hashes match after promotion.
 
-Preserve [durable UI validation](benchmarks/desktop-ui/README.md) in Git. Archive
-the complete temporary build tree with per-file SHA256 verification before
-removing only the UI worktree and its merged branch. Preserve the local main
-workspace router separately when the canonical tracked AGENTS.md is merged.
-Do not delete the main build tree, published products or storage-cleanup-20261105.
+[Durable UI validation](benchmarks/desktop-ui/README.md) is committed. All594
+temporary build files (1,259,877,543 bytes) are SHA256-verified in a118,125,317-byte
+ZIP under main `build/ui-design-handoff-20261108`. Passing products, both recovery
+snapshots, fixtures and failures remain recoverable. The UI worktree and merged
+branch are removed; disposable Python/pytest caches are retired. About1.14GB net
+was reclaimed. The prior untracked main router is preserved there before the
+canonical tracked AGENTS.md was merged. Main build, published products and
+storage-cleanup-20261105 were not removed.
 
-Decisive checks: existing80-case GUI/native localization evidence and unchanged
-GUI source hashes; merge conflict/diff review; source/ancestor equality on main
-and integration; archive verification; no task preview process left at retirement.
-Only changed merge inputs require further validation. No numerical campaign or
-binary rebuild is selected by this source merge/cleanup.
+The active integration checkout/cache/runtime and its untracked density fixture
+remain. Native import work appeared there during this merge; its tracked and
+untracked edits were neither stashed nor overwritten. A fast-forward attempt
+stopped before changing files because CMake/current-task had pending edits.
+Synchronizing that checkout to main is deferred until that work can be reconciled.
+
+Checks: existing80-case GUI/native localization evidence, unchanged GUI hashes,
+merge ancestry/tree identity, per-file archive verification and no running preview
+process at retirement. Attribute/status merge conflicts retained both sides.
+An initial whole-history whitespace check encountered preserved old captures;
+the actual merged tree is exactly the reviewed integration tree. No historical
+capture was rewritten, numerical campaign rerun or native binary rebuilt.
 
 ## Delivered task - multilingual desktop UI
 
