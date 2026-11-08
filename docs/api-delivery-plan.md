@@ -1,5 +1,12 @@
 # API and workflow delivery paths
 
+Owner planning request2026-11-08: [eight-gap native expansion](feature-expansion-plan.md)
+defines22 pending tasks for visualization/import, registration, fluorescence,
+large data/open readers, molecular methods and SDK/release. The active desktop UI
+task remains in current-task.md; this planning request does not start another
+implementation or repeat the completed FO00-FO05 work. Proprietary and NC material
+have [separate excluded registers](licensing/restricted-materials.md).
+
 Owner selection2026-11-08: [open-format fluorescence and spatial-count phase](fluorescence-omics-plan.md).
 Native OME-TIFF ROI/batch checks and the new Matrix Market/TSV spatial-count
 reader/projection/CLI pass locally and in Python-disabled Linux CI; installed/

@@ -44,6 +44,13 @@ reused byte-for-byte; no Python product/domain logic was introduced.
 
 ## Support boundaries and optional expansion
 
+Owner planning update2026-11-08: the [eight-gap expansion checklist](feature-expansion-plan.md)
+now owns22 pending tasks selected after the real fluorescence/omics demonstration.
+This does not reopen G01-G05. The older optional categories below remain a
+reference: ICC/cosmetic parity, external model ecosystems and distributed execution
+are not automatically selected by the eight-gap plan. Proprietary and NC records
+remain [separate from the open implementation](licensing/restricted-materials.md).
+
 [Candidate7 limits](benchmarks/all-five-gaps/KNOWN-LIMITS.md) remain explicit:
 local Windows x64/CPython3.12 engineering support, requiring MSVC x64 runtime and
 OpenGL3.2. The selected whole-slide route is bounded coarse tissue, not level-zero

@@ -1,5 +1,11 @@
 # Open-format fluorescence and spatial omics
 
+The completed slice below stays frozen. The owner's subsequent
+[eight-gap expansion plan](feature-expansion-plan.md) now schedules the missing
+visualization/import/analysis/storage/readers/SDK capabilities, including bounded
+H5AD/OME-Zarr additions. Those22 tasks are pending, not part of FO00-FO05 completion.
+Proprietary and NC material are [kept separately](licensing/restricted-materials.md).
+
 Owner approved a concrete fluorescence workflow first, followed by one spatial-
 omics import, restricted to open formats. FO00-FO05 are complete for this finite workflow scope: local native checks,
 installed CLI/batch, saved-project viewer routes and the Python-disabled Linux job

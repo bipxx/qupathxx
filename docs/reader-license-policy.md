@@ -1,5 +1,22 @@
 # Reader licensing policy
 
+## Proprietary and noncommercial material separation
+
+Owner update2026-11-08: [the eight-gap expansion plan](feature-expansion-plan.md)
+keeps proprietary and noncommercial (NC) material separate from the open product
+and from one another. [Restricted references](licensing/restricted-materials.md)
+contain metadata only; any later explicitly authorized local artifacts belong in
+different external pools, not the source/build/fixture/package tree. Unreviewed
+terms do not grant admission. No restricted SDK, codec, weights, evaluation data
+or derivative asset becomes an open dependency because it is optional or converted
+to an open container. This does not authorize proprietary-format integration.
+
+Extend existing source/notice/fixture inventories and release staging checks at
+L01. Record code, codec, model and dataset rights independently. Preserve historical
+archives while classifying future release inputs; no cleanup/relicensing is implied.
+Private user research inputs remain local under their permissions and are not
+automatically project fixtures or distributable material.
+
 ## Additional open-format rule for fluorescence and spatial omics
 
 Owner update2026-11-08: new fluorescence/spatial-omics work must use open formats

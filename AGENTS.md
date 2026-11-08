@@ -121,3 +121,11 @@ For new fluorescence/spatial-omics work, the owner additionally requires open
 formats: use the selected formats in docs/fluorescence-omics-plan.md and the
 format admission policy. An open-source reader alone does not admit a closed
 vendor format. Keep implementation native and Python optional.
+
+The eight-gap follow-up is planned in docs/feature-expansion-plan.md; its22
+items do not reopen the completed fluorescence/omics slice or replace active UI
+work. Keep proprietary and NC material in distinct external pools/metadata
+registers (docs/licensing/restricted-materials.md), outside open dependencies,
+fixtures, model training, package inputs and release acceptance evidence. An open
+wrapper/container does not license restricted contents or derivatives. Unknown
+terms are unreviewed, not admitted; separation does not authorize a closed adapter.
