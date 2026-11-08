@@ -7,42 +7,38 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active task - close selected remaining gaps
+## Active task - candidate6 handoff and remaining gap status
 
-Owner selected closure of G01-G05. Execute one bounded outcome at a time;
-optional O01-O05 remain deferred under the no-full-parity scope policy.
-First G01: compare the installed tree2875ca45 against retained QuPath0.7.0 on
-CMU-1 ROI[29185,2048,512,512], with identical recipe/calibration and exact final
-RGB/partitions. Changed inputs: development contour optimization, not science
-parameters. Decisive check: six alternating nonconcurrent measured pairs after
-six native/24 JVM warmups, one final archive/oracle per engine, full samples and
-host-load disclosure. Gate waits stay outside timers; reuse existing scripts,
-cache/runtime/fixture and no build. Close the comparison even if inconclusive;
-do not search repeated runs for a favorable median.
+Owner selected G01-G05 closure; [checklist](remaining-gaps-checklist.md) records
+actual progress without converting broad unqualified claims into passes.
+G01 comparison is complete: native305.6ms /QuPath313.1ms, exact2,237-cell RGB/
+partitions; overlapping ranges/high load prevent general superiority.
+G02 selected coarse whole-slide case/repeats/viewer pass; wider level-zero cells,
+dense scenes, long-duration/GPU residency remain open. G03's new558-cell NDPI
+crop matches masks/RGB/calibration/independent arithmetic; broader biological/
+context domains remain open. G05 supported saved-data controls pass, but actual
+upstream crop data has an invalid self-intersecting ring and is refused before
+publication. Preserve strict refusal until explicit repair/admission semantics
+and decisive result-preservation checks are designed.
 
-G01 complete: six alternating pairs native305.6ms /QuPath313.1ms; exact RGB,
-partitions and2,237 cells. Overlapping ranges and high load preclude general
-superiority. No rerun selected. Waste: one output pair only, no builds.
-G02 selected: CMU-1 canonical coarse whole-slide tissue (1.51G source pixels,
-5.91M sampled),256/512 tile equality, independent threshold, cancel, bounded
-repeat memory and current viewer CPU/GPU payload observations. Not level-zero
-whole-slide cells or hardware-wide latency qualification. First probe passes.
-G03 selected: new NDPI offset ROI[11392,17792,256,256], native/reference capture,
-anisotropic calibration, masks and independent compartment RGB arithmetic.
-G03 selected crop passes:558 cells, exact RGB/partitions/calibration and independent
-compartment RGB arithmetic. G02 probe/repeats/viewer pass;32 calls show no private
-memory drift after warmup, two240-frame replays settle. Broader context/specimen,
-full-resolution cell/dense-scene/long-duration/GPU residency limits stay open.
-Waste correction: removed an unused SciPy oracle import; reused successful
-captures, no dependency install or rerun. [Gap evidence](benchmarks/gap-closure/README.md).
-G04 selects candidate6 from exact already-tested installed bytes: one wheel,
-native and raw-source archive, regenerate RECORD, verify closure and isolated
-install/changed density/import routes/removal, then public handoff. No native
-rebuild/provenance relabel; preserve38 binding objects and candidate5.
-Then prepare one combined
-Windows binary handoff for G04. G05 claims require explicit format/platform scope;
-reuse actual evidence and record unsupported cells rather than invent support.
-Waste: no rebuild or repeat corpus campaign selected. Update after each result.
+G04 candidate6 freezes the exact tested tree2875ca45 without a native rebuild.
+Wheel69 immutable members/DLL origins, static wheel70/7 and native59/6 closures,
+installed native/Python density/import/bidirectional reuse, standalone app/batch,
+and uninstall with29 output hashes preserved pass. Source includes all568 raw
+compiler inputs,12 authenticated external dependency archives plus vendored
+LodePNG source/notices. No new binary qualification is borrowed from candidate5.
+Next: publish the matching source/wheel/native candidate and verify asset hashes.
+Then keep broader G02/G03/G05 and concrete invalid-ring compatibility gap open.
+[Evidence and limits](benchmarks/gap-closure/README.md).
+
+Waste/corrections: no compile, binding rebuild or corpus campaign. Removed unused
+SciPy assignment import and reused successful captures. Corrected one selected
+test name and used development pytest against the explicitly installed package.
+Two controls pass; the sole failing assertion expected obsolete class flattening.
+Replaced it with retained-parent/reopen checks; focused repair passes. Final source
+archive must include that test correction; refresh only source/receipt, not the
+already verified wheel/native assets. No further timing search or intermediate
+binary packaging. Optional O01-O05 stay deferred, not parity obligations.
 
 ## Delivered task - remaining gaps checklist
 

@@ -55,7 +55,8 @@ def test_saved_settings_losses_require_review_and_explicit_admission(tmp_path):
     path=corpus(tmp_path,'losses');preview=q.preview_qupath_project(str(path))
     codes={issue.code for issue in preview.issues}
     assert not {'object_metadata_dropped','object_measurements_dropped','object_color_dropped','object_lock_dropped'} & codes
-    assert {'classification_hierarchy_flattened','workflow_dropped'}<=codes
+    assert 'workflow_dropped' in codes
+    assert 'classification_hierarchy_flattened' not in codes
     assert not {'image_settings_dropped','image_property_dropped'} & codes
     output=tmp_path/'loss.qpxproj'
     with pytest.raises(ValueError,match='loss'):preview.import_new(str(output))
@@ -67,6 +68,8 @@ def test_saved_settings_losses_require_review_and_explicit_admission(tmp_path):
     assert obj.locked and obj.color_rgb==0x123456
     assert obj.properties.metadata=={'note':'saved note'} and obj.properties.measurements=={'Synthetic':3.5}
     assert obj.name=='Lossy' and obj.class_name=='Tumor: Positive'
+    assert doc.object_class('Tumor: Positive').parent=='Tumor'
+    assert doc.object_class('Tumor').parent==''
 
 
 def test_nondefault_saved_plane_is_explicitly_refused(tmp_path):

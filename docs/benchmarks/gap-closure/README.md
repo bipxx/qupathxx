@@ -53,6 +53,26 @@ compiler-input source hash is authoritative. Reuse the authenticated12 dependenc
 archives; the added pinned Zlib-licensed LodePNG is vendored in the568-input
 application source. Published candidate5 remains unchanged.
 
-Installation, package closure, changed consumer-route checks and publication
-results will be attached here after they finish. Broader G02/G03/G05 claims remain
-explicit limits; this release is a local Windows CPython3.12 engineering route.
+[Installation](installation.json) verifies69 immutable files and actual package
+DLL origins. Static package closures: [wheel](wheel-runtime.json)70 files/7
+binaries, [native](native-runtime.json)59/6; native EXEs have no Python dependency.
+[Installed routes](installed-routes.json) retain8 exact density rows, native/Python
+CSV agreement, bidirectional resume and32/28 NuCLS objects/pixels/calibration/
+properties. Standalone app opens the imported project and standalone batch runs
+the selected density manifest successfully. [Removal](removal.json) proves package
+absence and all29 generated user output files unchanged. Native bytes were not
+rebuilt. [Candidate receipt](candidate.json) binds packages, source and licenses.
+
+G05 actual upstream NDPI saved-data import reveals an explicitly refused invalid
+ring; [compatibility limit](qpdata-limit.json) remains open. Supported installed
+saved-data checks give2 passes plus the repaired loss test's1 pass. Its older
+assertion expected classification hierarchy flattening; current native ancestry
+is retained. The repaired test asserts parent Tumor and intact nested class after
+reopen, and still requires workflow loss review/explicit admission. No product
+behavior or assertion tolerance changed. Initial test-selection typo and missing
+optional pytest in the consumer environment caused no product rerun; development
+pytest was pointed explicitly at the installed package. Log renderings retain the original
+failure and focused repair (trailing spaces normalized; raw logs stay local). [Known limits](KNOWN-LIMITS.md) define remaining scope.
+
+Public handoff follows this local package qualification; no hosted/full-platform
+campaign is implied.

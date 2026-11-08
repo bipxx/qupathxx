@@ -1,0 +1,23 @@
+{
+  "candidate": 6,
+  "source_commit": "99ccc28de1c0512fa7189dc18be4da17f382fd97",
+  "embedded_git_revision": "a4990899f64ecd02df82a811d78e178b5ed69834+dirty",
+  "source_tree_sha256": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "compiler_inputs": 568,
+  "wheel": "qupathxx-0.1.0-6-cp312-cp312-win_amd64.whl",
+  "wheel_sha256": "052b4f2de5a155d1c3921d934b17529a0952bb8508c33a290064422a604ee284",
+  "native_sha256": "88bd533bcd30d54fc3870cfcdcf45fcc5e0277ba81201357ba111049af86ec61",
+  "source_archive": "qupathxx-source-99ccc28d.zip",
+  "source_sha256": "1a91967ef473522464f004e77c55dd7c2fba30d0c5ef99b8b53c6546f5819876",
+  "dependency_archives_verified": 12,
+  "vendored_lodepng": {
+    "cpp/vendor/lodepng/LICENSE": "bdafa318b8e637d600ca1b60545e894881977a16a16b74809c95e805701621e3",
+    "cpp/vendor/lodepng/lodepng.cpp": "32cdd7a395b5476a3fe4615305a99066dc4d37aaea6988643cca8b4eccc352cc",
+    "cpp/vendor/lodepng/lodepng.h": "a49b98b45ea603a05e2a77bd6b0320e7535a9c6e18aef8ce904692a3e02b87ab",
+    "cpp/vendor/lodepng/README.md": "8b08a212c578fe1a687b14285cf865c6852615c599ed224d1669c22b8ecbd8b6"
+  },
+  "license": "AGPL-3.0-only",
+  "native_bytes_rebuilt": false,
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx",
+  "support": "Local Windows x64 CPython3.12 engineering prerelease; MSVC x64 runtime and OpenGL3.2 required. No fresh-host/signing/stable/other-platform/biology/general-speed claim."
+}
