@@ -7,6 +7,46 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - activity sidebar and compact workspace chrome
+
+Owner requests a VS Code-style left activity rail instead of tabs, drawing tools
+pinned above the slide, no side-panel dock dropdown arrows and less excess
+padding. Use shared native icons with translated hints, selected indicators and
+Ctrl+1..4 navigation; save the selected sidebar separately from project data.
+Keep existing pane identities, split sizing, legacy saved arrangements, scientific
+camera/pixels, disabled/modal routing and reset protections. Remove outer gutters,
+trim panel/form spacing and keep readable fonts and icon/action hit areas.
+
+Continue the named UI-worktree exception from main36199638: the active integration
+checkout has new dirty native-build/CI work. Do not merge over it or write its
+cache. Settle layout and tests before one GUI/font build (the shared metric
+header affects both), reusing retained native/entry and compatible binding
+objects. Check activity selection,
+persistence, toolbar alignment after resize/splits, old layouts, real saves,
+localized/scaled controls and exact image/camera/project invariants. No kernel,
+binding rebuild, new wheel or scientific campaign is selected.
+
+Initial checks: all activity clicks/persistence, toolbar ownership, legacy split
+geometry, saves and pixel/camera contracts pass. Eleven checks still assumed a
+tab-order suffix in ImGui DockId settings or the former sparse language-row
+spacing. Adapt those interaction helpers to hidden-tab serialization and the
+denser selector; retain the exact state/pixel assertions. No product rebuild is
+needed for these test-only corrections; preserve the first log/fixtures.
+
+Outcome:44px activity rail replaces sidebar tabs, with four shared vector icons,
+translated hints, selected indicator, Ctrl+1..4 and saved activity. Drawing tools
+belong to the slide pane and wrap there. Dock-tab/menu arrows are disabled in
+both default and retained layouts. Outer/slide gutters are zero; panel insets are
+12px/8px, toolbar8px/4px and field spacing8px/4px. Readable fonts and action hit
+areas stay intact. All101 focused cases pass, including real activity clicks,
+resize/split geometry, legacy layouts, hidden panes, language switching,200%
+controls, save/load/raw export and exact camera/pixel/project invariants. Updated
+dark/light/Chinese slide captures are visually inspected. See
+[validation](benchmarks/design-system/activity-sidebar/README.md).
+One GUI/font compile and relink reused all38 binding objects unchanged, the
+retained entry and native libraries. No scientific/cache/release changes.
+Preview and all passing/failed outputs remain in main build/activity-sidebar.
+
 ## Delivered task - consistent command icons
 
 Owner requested more consistent icon buttons. Reuse the native design system:

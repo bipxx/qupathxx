@@ -1,12 +1,15 @@
 # Docked research workspace
 
 The desktop launchers use the [shared native design system](design-system.md),
-based on COLMAP WebView, with Project, Image,
-Annotations and Workflow tabs on the left and a large slide canvas alongside.
+based on COLMAP WebView, with a VS Code-style activity rail for Project, Image,
+Annotations and Workflow on the left and a large slide canvas alongside.
 The clickable overview stays at the top right of the viewer. The menu bar and
-vector annotation toolbar sit above the workspace; the status bar shows image
-dimensions, zoom, object/selection counts and unsaved changes. Drag tabs to
-rearrange panels and splitters to resize them. Existing saved splits are retained.
+vector annotation toolbar have separate roles: the menu spans the window, while
+the toolbar stays above the slide inside its pane. The status bar shows image
+dimensions, zoom, object/selection counts and unsaved changes. Select an activity
+with its icon or Ctrl+1..4, and resize the sidebar with its splitter. Horizontal
+navigation tabs and dock dropdown arrows are removed. Existing saved splits are
+retained, with outer gutters and excess panel padding removed.
 The Reset layout button restores the default arrangement. Multiple native
 platform windows are not enabled; floating panels stay inside the main window.
 
@@ -16,7 +19,7 @@ Menus expose existing native commands; this visual update adds no analysis
 algorithm. The compact API layout remains supported with the shared palette and
 components. Dark is the default; View > Appearance offers Dark, Light and System.
 
-![Light workspace with a synthetic demo slide, annotation and viewer overview](images/qupath-style-workspace.png)
+![Compact workspace with activity navigation and a slide-owned toolbar](images/design-system-dark-en.png)
 
 Use **Language > Choose language** to search by native name, English name or
 language code. Selection takes effect immediately. **Automatic (system)** follows
@@ -101,7 +104,7 @@ root is available, the default path is empty. Smoke launches use in-memory
 preferences unless an explicit `--layout` path is supplied.
 
 Layout preferences are separate from project files. They contain ImGui window
-and docking settings with a `qupathxx workspace layout v1` marker, bounded to
+and docking settings plus the active sidebar, with a `qupathxx workspace layout v1` marker, bounded to
 1 MiB. Loading does not execute scripts. Preference loading is synchronous at
 viewer setup; saving uses an atomic replacement at normal viewer return.
 Preference errors are reported without closing or modifying the project.

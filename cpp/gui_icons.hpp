@@ -10,7 +10,8 @@ namespace qpx::ui {
 enum class Icon {
     Fit,Undo,Redo,Spatial,Reset,Save,Open,New,Refresh,Trash,Edit,Link,Copy,Paste,
     Import,Export,Settings,Channels,Check,Close,Plus,Minus,Up,Down,Left,Right,
-    SelectAll,Deselect,Select,Rectangle,Ellipse,Polygon,Polyline,Points,Vertices,Hole
+    SelectAll,Deselect,Select,Rectangle,Ellipse,Polygon,Polyline,Points,Vertices,Hole,
+    Project,Image,Annotations,Workflow
 };
 inline void draw_icon(Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
     auto* d=ImGui::GetWindowDrawList();const float k=std::min(hi.x-lo.x,hi.y-lo.y)/32;
@@ -20,6 +21,10 @@ inline void draw_icon(Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
     auto rect=[&](float x,float y,float u,float v){d->AddRect(at(x,y),at(u,v),ink,2*k,0,stroke);};
     auto path=[&](std::initializer_list<ImVec2> points,bool closed=false){d->AddPolyline(points.begin(),static_cast<int>(points.size()),ink,stroke,closed?ImDrawFlags_Closed:0);};
     switch(icon) {
+    case Icon::Project:rect(10,10,26,27);path({at(21,6),at(21,4),at(5,4),at(5,21),at(7,21)});line(14,15,22,15);line(14,20,22,20);break;
+    case Icon::Image:rect(5,6,27,26);d->AddCircle(at(11,12),2*k,ink,0,stroke);path({at(6,23),at(13,17),at(17,20),at(22,14),at(27,20)});break;
+    case Icon::Annotations:path({at(7,24),at(10,7),at(25,10),at(22,25)},true);for(auto p:{at(7,24),at(10,7),at(25,10),at(22,25)})d->AddRectFilled({p.x-2*k,p.y-2*k},{p.x+2*k,p.y+2*k},ink);break;
+    case Icon::Workflow:rect(5,5,12,12);rect(20,20,27,27);line(8,12,8,23);line(8,23,20,23);line(12,8,23,8);line(23,8,23,20);break;
     case Icon::Fit:
         for(float x:{7.f,25.f})for(float y:{7.f,25.f}){line(x,y,x+(x<16?6:-6),y);line(x,y,x,y+(y<16?6:-6));}break;
     case Icon::Undo:case Icon::Redo: {

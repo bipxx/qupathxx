@@ -1,0 +1,95 @@
+..............FFFFFF..F..............FFFF............................... [ 87%]
+..........                                                               [100%]
+================================== FAILURES ===================================
+_ test_selected_analysis_tab_preserves_image_camera_and_project[1-Image and display] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_ test_selected_analysis_tab_preserves_image_camera_and_project[1-Annotations] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_ test_selected_analysis_tab_preserves_image_camera_and_project[1-Measurements and jobs] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_ test_selected_analysis_tab_preserves_image_camera_and_project[2-Image and display] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_ test_selected_analysis_tab_preserves_image_camera_and_project[2-Annotations] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_ test_selected_analysis_tab_preserves_image_camera_and_project[2-Measurements and jobs] _
+tests\test_gui_docking.py:161: in test_selected_analysis_tab_preserves_image_camera_and_project
+    selected = select_pane(path, pane)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+____ test_tabbed_away_canvas_skips_uploads_without_overwriting_stored_view ____
+tests\test_gui_docking.py:221: in test_tabbed_away_canvas_skips_uploads_without_overwriting_stored_view
+    node = re.search(r'\[Window\]\[Measurements and jobs\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_______ test_hidden_project_pane_does_not_publish_a_save_button_target ________
+tests\test_gui_layout.py:98: in test_hidden_project_pane_does_not_publish_a_save_button_target
+    select_pane(path, 'Measurements and jobs')
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+__ test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters __
+tests\test_gui_layout.py:115: in test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters
+    select_pane(path, 'Image and display')
+tests\test_gui_docking.py:56: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_____ test_language_chooser_switches_live_and_blocks_background_edits[es] _____
+tests\test_gui_i18n.py:41: in test_language_chooser_switches_live_and_blocks_background_edits
+    assert f'; qupathxx language={language}\n' in path.read_text(encoding='utf8')
+E   AssertionError: assert '; qupathxx language=es\n' in '; qupathxx workspace layout v1\n; qupathxx language=fr\n; qupathxx theme=dark\n; qupathxx sidebar=project\n[Window][P...ID=0x00000002 Parent=0xDF6274B4 SizeRef=1057,850 CentralNode=1 NoTabBar=1 NoWindowMenuButton=1 Selected=0x0E2430AF\n\n'
+E    +  where '; qupathxx workspace layout v1\n; qupathxx language=fr\n; qupathxx theme=dark\n; qupathxx sidebar=project\n[Window][P...ID=0x00000002 Parent=0xDF6274B4 SizeRef=1057,850 CentralNode=1 NoTabBar=1 NoWindowMenuButton=1 Selected=0x0E2430AF\n\n' = read_text(encoding='utf8')
+E    +    where read_text = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/activity-sidebar/pytest-first/test_language_chooser_switches0/chooser.ini').read_text
+___ test_language_chooser_switches_live_and_blocks_background_edits[zh-CN] ____
+tests\test_gui_i18n.py:41: in test_language_chooser_switches_live_and_blocks_background_edits
+    assert f'; qupathxx language={language}\n' in path.read_text(encoding='utf8')
+E   AssertionError: assert '; qupathxx language=zh-CN\n' in '; qupathxx workspace layout v1\n; qupathxx language=ja\n; qupathxx theme=dark\n; qupathxx sidebar=project\n[Window][P...ID=0x00000002 Parent=0xDF6274B4 SizeRef=1057,850 CentralNode=1 NoTabBar=1 NoWindowMenuButton=1 Selected=0x0E2430AF\n\n'
+E    +  where '; qupathxx workspace layout v1\n; qupathxx language=ja\n; qupathxx theme=dark\n; qupathxx sidebar=project\n[Window][P...ID=0x00000002 Parent=0xDF6274B4 SizeRef=1057,850 CentralNode=1 NoTabBar=1 NoWindowMenuButton=1 Selected=0x0E2430AF\n\n' = read_text(encoding='utf8')
+E    +    where read_text = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/activity-sidebar/pytest-first/test_language_chooser_switches1/chooser.ini').read_text
+=========================== short test summary info ===========================
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[1-Image and display]
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[1-Annotations]
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[1-Measurements and jobs]
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[2-Image and display]
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[2-Annotations]
+FAILED tests/test_gui_docking.py::test_selected_analysis_tab_preserves_image_camera_and_project[2-Measurements and jobs]
+FAILED tests/test_gui_docking.py::test_tabbed_away_canvas_skips_uploads_without_overwriting_stored_view
+FAILED tests/test_gui_layout.py::test_hidden_project_pane_does_not_publish_a_save_button_target
+FAILED tests/test_gui_layout.py::test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters
+FAILED tests/test_gui_i18n.py::test_language_chooser_switches_live_and_blocks_background_edits[es]
+FAILED tests/test_gui_i18n.py::test_language_chooser_switches_live_and_blocks_background_edits[zh-CN]
+11 failed, 71 passed in 49.10s

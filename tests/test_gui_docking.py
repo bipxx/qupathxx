@@ -39,7 +39,7 @@ def bounds(rect):
 
 
 def select_pane(path, name):
-    """Select a persisted tab using ImGui 1.93's CRC32C window ID."""
+    """Select a saved activity and retain its stable ImGui pane identity."""
     def hash_id(text, seed=0):
         crc = seed ^ 0xffffffff
         for byte in text.encode('utf8'):
@@ -49,7 +49,11 @@ def select_pane(path, name):
         return crc ^ 0xffffffff
     selected = f'0x{hash_id("#TAB", hash_id(name)):08X}'
     text = path.read_text(encoding='utf8')
-    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+    activities = {'Project and objects': 'project', 'Image and display': 'image',
+                  'Annotations': 'annotations', 'Measurements and jobs': 'workflow'}
+    if '; qupathxx sidebar=' in text:
+        text = re.sub(r'; qupathxx sidebar=[^\n]*', '; qupathxx sidebar='+activities[name], text)
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+)', text).group(1)
     text = re.sub(r'(DockNode\s+ID='+node+r'[^\n]*Selected=)0x[0-9A-F]+', lambda m: m.group(1)+selected, text)
     path.write_text(text, encoding='utf8')
     return selected
@@ -184,8 +188,8 @@ def test_legacy_workspace_retains_splits_until_explicit_reset(tmp_path):
     assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
     # Moving Annotations to the right must not change the reported Project pane.
     text = path.read_text(encoding='utf8')
-    right = re.search(r'\[Window\]\[Image and display\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
-    text = re.sub(r'(\[Window\]\[Annotations\][\s\S]*?DockId=)0x[0-9A-F]+,\d+', lambda m: m.group(1)+right+',1', text)
+    right = re.search(r'\[Window\]\[Image and display\][\s\S]*?DockId=(0x[0-9A-F]+)', text).group(1)
+    text = re.sub(r'(\[Window\]\[Annotations\][\s\S]*?DockId=)0x[0-9A-F]+(?:,\d+)?', lambda m: m.group(1)+right+',1', text)
     path.write_text(text, encoding='utf8')
     moved = q.show(project, frame_limit=10, options=config(path))
     assert bounds(moved.browser_bounds) == pytest.approx(bounds(report.browser_bounds), abs=1)
@@ -211,11 +215,12 @@ def test_tabbed_away_canvas_skips_uploads_without_overwriting_stored_view(tmp_pa
     project, _ = workspace(tmp_path)
     path = tmp_path/'workspace.ini'
     q.show(project, frame_limit=10, options=config(path))
+    select_pane(path, 'Measurements and jobs')
     text = path.read_text(encoding='utf8')
     # A legitimate saved layout can tab the slide with the measurements pane.
     # Keep the measurements node selected to start with its slide tab hidden.
-    node = re.search(r'\[Window\]\[Measurements and jobs\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
-    text = re.sub(r'(\[Window\]\[Slide\][\s\S]*?DockId=)0x[0-9A-F]+,0', lambda m: m.group(1)+node+',1', text)
+    node = re.search(r'\[Window\]\[Measurements and jobs\][\s\S]*?DockId=(0x[0-9A-F]+)', text).group(1)
+    text = re.sub(r'(\[Window\]\[Slide\][\s\S]*?DockId=)0x[0-9A-F]+(?:,\d+)?', lambda m: m.group(1)+node+',1', text)
     path.write_text(text, encoding='utf8')
     generation = project.generation
     report = q.show(project, frame_limit=12, options=config(path))
