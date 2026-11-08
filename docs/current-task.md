@@ -7,6 +7,25 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - remaining gaps checklist
+
+[Remaining gaps checklist](remaining-gaps-checklist.md) separates the completed
+28/28 consolidation and contour optimization from five open evidence/delivery
+categories and five optional expansion categories. These are scope categories,
+not a count of defects or mandatory implementation tasks. No new feature,
+benchmark campaign or binary release is selected by this planning task.
+
+Suggested next for the speed question: G01, one bounded current-source/QuPath
+comparison using existing fixtures/harnesses. Latest native-versus-native timing
+does not establish a QuPath win. G02-G05 apply to selected workload/support claims;
+optional O01-O05 require a concrete user need.
+
+Check: local checklist links and git diff whitespace; documentation only.
+Waste review: reused existing acceptance records instead of creating another
+per-API ledger or rerunning builds. Corrected stale consolidation introduction
+and labeled the older direct QuPath comparison as historical. Next: select one
+outcome from the checklist; keep completed workflows closed.
+
 ## Delivered task - exact nominal contour-cycle optimization
 
 [Contour evidence](benchmarks/contour-optimization/README.md): observed detector

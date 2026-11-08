@@ -15,7 +15,7 @@ The optimization batch is delivered; the user's speed-parity objective remains o
 | S08 | Six affected suites pass; cached bindings reused; save/reopen exercised | Complete |
 | S09 | Final native/reference controls, late original-code control and host-load disclosure | Complete |
 | S10 | Source/runtime manifests, evidence, plan/notebook update and public source handoff | Complete |
-| S11 | Reliable cell speed parity remains unconfirmed: current native324.8ms versus QuPath314.1ms, overlapping ranges and substantial host load; [focused comparison](benchmarks/post-consolidation-speed/README.md) | Open - no general speed claim |
+| S11 | Reliable cell speed parity remains unconfirmed: pre-contour-optimization native324.8ms versus QuPath314.1ms, overlapping ranges and substantial host load; latest11.2% native-only improvement is not a new QuPath comparison; [focused comparison](benchmarks/post-consolidation-speed/README.md) | Open - no general speed claim |
 | S12 | Precise profile rules out context pooling; implicit nominal edges preserve ambiguous fallback | Complete |
 | S13 | Exact dense unit-grid boundary/area/inclusion proof, shifted-geometry refusal,65 patterns plus empty/hole cases | Complete |
 | S14 | Six native suites, canonical records, source/runtime identity and test-stack isolation | Complete |

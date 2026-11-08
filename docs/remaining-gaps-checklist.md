@@ -1,0 +1,80 @@
+# Remaining gaps checklist
+
+Reviewed against development source `981086cd` (2026-11-08). This is the
+selection index for remaining work, not another acceptance ledger. Detailed
+checks and evidence stay in the linked workflow records. Update the selected row
+and [current task](current-task.md) after each task; do not replay completed work.
+
+## Completed baseline
+
+- [x] Native application/workflow consolidation: **NC01-NC28, 28/28 complete**;
+  C++ owns shipped logic and Python controls native services.
+  [Acceptance](consolidation-coverage.md), [boundary review](consolidation-python-boundary.md).
+- [x] Selected density, neighborhoods, signed distances, project-density/resume,
+  NuCLS import and training-cohort consumers are delivered. Their broader
+  inventory rows do not mean these workflows need implementing again.
+- [x] Latest contour optimization: exact masks, geometry and measurements for
+  2,237 cells; 596 topology/budget patterns; observed matched local detector
+  median341.3 ->302.9ms (**11.2% reduction**).
+  [Evidence](benchmarks/contour-optimization/README.md).
+- [x] Windows candidate5 publication and its12 packaging checks are complete.
+  [Frozen release coverage](windows-candidate5-coverage.md).
+
+Development runtime source tree:
+`2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e`
+(568 inputs). Published candidate5 is older; its qualification does not transfer
+to this development runtime.
+
+## Priority gaps to select from
+
+**5 open categories, 0 implementation tasks selected by this checklist.** These
+are evidence/delivery boundaries, not five known bugs or an effort estimate.
+Only select a category for a required user workflow or claim.
+
+| Done | ID | Remaining gap | Easiest next action and completion rule |
+| --- | --- | --- | --- |
+| [ ] | G01 | Current-source speed versus QuPath is unconfirmed | Reuse the retained ROI, recipe and existing comparison harness. Run one bounded, alternating, nonconcurrent comparison of current native and QuPath with matched inputs/results; disclose all samples, host load and timing scope. Report uncertainty if ranges overlap. This closes only the selected ROI claim. [Speed authority](speed-gap-coverage.md). |
+| [ ] | G02 | Representative whole-slide performance/resource coverage | Choose one actual large-slide research workflow; reuse the tiled scheduler and existing fixtures. Check full/tiled seams and duplicate/lost objects where applicable, cancellation/stale results, process/GPU peaks, UI responsiveness and long-run memory for that workload. Optimize only the measured limiting stage. R12 in the [delivery plan](api-delivery-plan.md#dependency-lanes-and-immediate-queue). |
+| [ ] | G03 | Scientific generalization beyond the accepted cell cases | Select a rights-cleared specimen/context/vendor/feature-domain case missing from existing evidence. Capture inputs, calibration and recipe first; compare masks/counts/measurements with declared tolerances and preserve replay. The13 held-out plus nine prior zero-context original-slide workflows already match; do not reopen their eight historical resolved differences. [Held-out scope](cell-policy-heldout-gaps.md), [public contract](original-source-cell-integration.md). |
+| [ ] | G04 | Ship the newer development work in a supported binary | Once a release is selected, freeze one combined source/runtime, update dependency/source/notices and support claims, then package matching wheel/native/source assets. Run only applicable changed-workflow and clean-host install/run/removal checks. Reuse candidate5 procedures; do not rebuild intermediate packages. [Packaging authority](windows-candidate5-coverage.md). |
+| [ ] | G05 | Broader compatibility and platform claims | Pick a specific additional eligible reader/codec, project-file version, or Linux/macOS package route required by a user. Reuse current adapters, loss-aware import and packaging. Close with exact pixels/calibration or loss reporting for that format, or installed workflow evidence for that host/package. Historical platform checks do not qualify the latest source. R2/R5/R14 in the [inventory](feature-matrix.md). |
+
+G01 is the smallest follow-up for the owner's speed question. The latest11.2%
+local improvement compares two native versions, not QuPath. The earlier direct
+native324.8ms/QuPath314.1ms comparison predates the contour optimization and had
+substantial host load. Comparing today's302.9ms with that older314.1ms would not
+establish a speed win. More kernel work is not automatically required: profile
+current code only if the selected workload still demonstrates a bottleneck.
+
+G02/G03 must name a bounded workload/case before execution; they are not requests
+for exhaustive whole-slide or biological qualification. G04/G05 become release
+conditions only for the package/host/format support actually claimed.
+
+## Optional feature expansion
+
+**5 deferred categories. None is a mandatory parity requirement.** Select one
+only for a concrete research need; then create its small acceptance checklist
+using the existing shared C++ authority.
+
+| Selected | ID | Optional scope | Easiest existing path |
+| --- | --- | --- | --- |
+| [ ] | O01 | Advanced fluorescence, explicit ICC policy, additional monitor/DPI/international text behavior | Extend current channel/display transforms and font/tile pipeline; preserve measurement pixels and overlay registration. R3. |
+| [ ] | O02 | Additional classifier/model schemas and Cellpose/StarDist or OMERO/ImageJ integrations | Extend native model/import/export services for one named model or exchange contract; verify its feature/prediction or round-trip semantics. R8/R15. |
+| [ ] | O03 | Tiled spatial aggregation or additional TMA study workflows | Reuse delivered spatial index/density/distances and TMA proposal/editor/batch APIs. Add only missing aggregation or case-pooling semantics. R9/R10. |
+| [ ] | O04 | General multi-stage workflow grammar, dependencies/retries and broader pipeline replay | Build one versioned workflow over current native requests/jobs and persistence; keep CLI/ImGui/nanobind as consumers. Density resume/import are already delivered. R11. |
+| [ ] | O05 | Distributed execution or broader extension infrastructure | Start only after one measured workload needs it; extend existing jobs/archives rather than adding a second scientific authority. R15/R16. |
+
+The [workflow inventory](feature-matrix.md) and R0-R16 catalogue retain finer
+possibilities. Cosmetic QuPath equivalence, proprietary readers, Java plugin
+binary compatibility and100% feature parity are outside the selected scope.
+
+## Execution and waste controls
+
+1. Select one gap and state the user outcome, changed inputs and decisive check
+   in current-task.md before implementation or expensive validation.
+2. Reuse existing C++ APIs, fixtures, cache and installed-route evidence. Build
+   changed targets once; preserve costly binding objects and frozen releases.
+3. On completion or failure, update this row's scope/evidence and current-task's
+   outcome, check, waste/correction and next action. Do not add another ledger.
+4. Stop at that outcome. No automatic broad corpus/platform campaign, repeated
+   archive publication or new parity phase. Documentation uses link/diff checks.
