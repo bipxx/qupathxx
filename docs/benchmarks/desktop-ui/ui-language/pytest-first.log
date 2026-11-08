@@ -1,0 +1,100 @@
+FFFFFFFFFFFFFFFF......                                                   [100%]
+================================== FAILURES ===================================
+_______ test_language_persists_without_changing_user_data_or_camera[en] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[es] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[fr] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[de] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_____ test_language_persists_without_changing_user_data_or_camera[pt-BR] ______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[it] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_____ test_language_persists_without_changing_user_data_or_camera[zh-CN] ______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_____ test_language_persists_without_changing_user_data_or_camera[zh-TW] ______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[ja] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[ko] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[ru] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[tr] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[nl] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[pl] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[id] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+_______ test_language_persists_without_changing_user_data_or_camera[vi] _______
+tests\test_gui_i18n.py:21: in test_language_persists_without_changing_user_data_or_camera
+    doc.update_annotation(1, q.Rect(400, 300, 80, 60), 'Project')
+    ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'update_annotation'. Did you mean: 'rename_annotation'?
+=========================== short test summary info ===========================
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[en]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[es]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[fr]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[de]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[pt-BR]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[it]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[zh-CN]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[zh-TW]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[ja]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[ko]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[ru]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[tr]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[nl]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[pl]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[id]
+FAILED tests/test_gui_i18n.py::test_language_persists_without_changing_user_data_or_camera[vi]
+16 failed, 6 passed in 7.30s

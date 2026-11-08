@@ -120,6 +120,7 @@ def test_scaled_workspace_keeps_camera_and_routes_image_input(tmp_path, multipli
 
 
 def test_live_scale_changes_invalidate_cache_without_camera_drift(tmp_path):
+    from PIL import Image
     project, _ = workspace(tmp_path)
     generation = project.generation
     captures, reports = [], []
@@ -137,7 +138,12 @@ def test_live_scale_changes_invalidate_cache_without_camera_drift(tmp_path):
         assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
         assert report.final_zoom == 1.5 and report.tiles_settled and report.replay_complete
         reports.append(report)
-        captures.append(capture.read_bytes())
+        # The overlay cache owns the viewer. Fractional-DPI glyph rasterization
+        # in unrelated menu/inspector chrome is not a cache-correctness oracle.
+        canvas = report.canvas_bounds
+        with Image.open(capture) as frame:
+            captures.append(frame.crop((int(canvas.x), int(canvas.y),
+                                        int(canvas.x+canvas.width), int(canvas.y+canvas.height))).tobytes())
     assert captures[0] == captures[1]
     assert reports[1].overlay_cache_hits > 0 and reports[1].overlay_cache_builds >= 4
     assert project.generation == generation and not project.dirty

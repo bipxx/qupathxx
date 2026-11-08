@@ -1,0 +1,26 @@
+{
+  "base_commit": "4546b6e6",
+  "branch": "feature/qupath-ui-design",
+  "worktree": "C:\\Users\\HEQ\\.codex\\worktrees\\d2f5\\qupathxx",
+  "kind": "local GUI development overlay; no release qualification",
+  "native_cache": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package",
+  "retained_binding_objects": 38,
+  "source_sha256": {
+    "cpp\\gui.cpp": "a838d2b29f2d85300c8333b5285e7c1c09b3d80ee8f089ece5fbf836a8fc781d",
+    "cpp\\gui_workspace.hpp": "1fd282facd1314ef01e3ef8d4ce2de55a2cde06b07fa8a6dee904a70c74f3893",
+    "cpp\\gui_theme.hpp": "18cb24e6923236e7f3b19e1e797733b0a6d5df44aa61787b5ec6932c6589485b"
+  },
+  "validation_logs": [
+    "pytest-final-verified.log",
+    "smoke-empty.log"
+  ],
+  "build_notes": "Compile only gui.cpp; relink the standalone application and a test-only native module using retained libraries and 38 binding objects. Existing LNK4098 CRT-default warning remains in this development overlay.",
+  "gui_tests": {
+    "passed": 56,
+    "deselected": 5
+  },
+  "product_sha256": {
+    "build\\ui-design\\qupathxx_app.exe": "eda0dad792c0ecee6a69387395eb4c5b4cf0db064c3033fbc76076186622438f",
+    "build\\ui-design\\runtime\\qupathxx\\_native.cp312-win_amd64.pyd": "06c8bc409e03efdbdb79dcb8f6a135ef0fe95d4daaca8cda2a36ccc1f4d66255"
+  }
+}

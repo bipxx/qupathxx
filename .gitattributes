@@ -861,3 +861,12 @@ docs/benchmarks/consolidation/workflow-legacy*.log -text -whitespace
 
 # Preserve boundary validation output exactly.
 docs/benchmarks/consolidation/boundary*.log -text -whitespace
+
+# Preserve desktop validation output and the captured legacy layout verbatim.
+docs/benchmarks/desktop-ui/** -text -whitespace
+tests/fixtures/gui-legacy-layout.ini -text -whitespace
+
+# The UI-only Windows build tested these new UTF-8 headers with LF bytes.
+cpp/gui_i18n.hpp text eol=lf
+cpp/gui_theme.hpp text eol=lf
+cpp/tests/gui_i18n_tests.cpp text eol=lf

@@ -38,6 +38,23 @@ def bounds(rect):
     return rect.x, rect.y, rect.width, rect.height
 
 
+def select_pane(path, name):
+    """Select a persisted tab using ImGui 1.93's CRC32C window ID."""
+    def hash_id(text, seed=0):
+        crc = seed ^ 0xffffffff
+        for byte in text.encode('utf8'):
+            crc ^= byte
+            for _ in range(8):
+                crc = (crc >> 1) ^ (0x82f63b78 if crc & 1 else 0)
+        return crc ^ 0xffffffff
+    selected = f'0x{hash_id("#TAB", hash_id(name)):08X}'
+    text = path.read_text(encoding='utf8')
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+    text = re.sub(r'(DockNode\s+ID='+node+r'[^\n]*Selected=)0x[0-9A-F]+', lambda m: m.group(1)+selected, text)
+    path.write_text(text, encoding='utf8')
+    return selected
+
+
 def test_docked_default_panel_geometry_and_canvas_pixels(tmp_path):
     from PIL import Image
     project, _ = workspace(tmp_path)
@@ -49,8 +66,10 @@ def test_docked_default_panel_geometry_and_canvas_pixels(tmp_path):
     assert report.canvas_visible
     assert not report.layout_saved and not report.layout_loaded
     browser, display, measurement, canvas = report.browser_bounds, report.display_bounds, report.measurement_bounds, report.canvas_bounds
-    assert browser.x+browser.width <= canvas.x+5 and canvas.x+canvas.width <= display.x+5
-    assert canvas.y+canvas.height <= measurement.y+5 and measurement.x == pytest.approx(canvas.x, abs=5)
+    assert browser.x+browser.width <= canvas.x+5
+    assert bounds(display) == pytest.approx(bounds(browser), abs=1)
+    assert bounds(measurement) == pytest.approx(bounds(browser), abs=1)
+    assert canvas.width > report.framebuffer_width*.5
     assert all(rect.width > 200 and rect.height > 100 for rect in [browser, display, measurement, canvas])
     with Image.open(capture) as image:
         assert image.getpixel((int(canvas.x+canvas.width*.75), int(canvas.y+canvas.height*.6))) == (30, 120, 210)
@@ -115,6 +134,66 @@ def test_docked_native_resize_keeps_project_view(tmp_path):
     assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330) and report.final_zoom == 1.5
     assert (report.framebuffer_width, report.framebuffer_height) == (1100, 700)
     assert project.generation == generation and not project.dirty and doc.object_count == 1
+
+
+def test_viewer_overview_navigates_while_project_tab_is_selected(tmp_path):
+    project, doc = workspace(tmp_path)
+    options = config()
+    options.inputs = [replay(5, q.GuiInputKind.LEFT_DOWN, .5, .5, target=q.GuiInputTarget.OVERVIEW),
+                      replay(6, q.GuiInputKind.LEFT_UP, .5, .5, target=q.GuiInputTarget.OVERVIEW)]
+    report = q.show(project, frame_limit=16, options=options)
+    assert report.replay_complete and report.overview_state == 'succeeded'
+    assert report.final_center.x == pytest.approx(512, abs=1)
+    assert report.final_center.y == pytest.approx(384, abs=1)
+    assert report.final_zoom == 1.5 and doc.object_count == 1
+
+
+@pytest.mark.parametrize('pane', ['Image and display', 'Annotations', 'Measurements and jobs'])
+@pytest.mark.parametrize('scale', [1, 2])
+def test_selected_analysis_tab_preserves_image_camera_and_project(tmp_path, pane, scale):
+    project, doc = workspace(tmp_path)
+    path = tmp_path/'tabs.ini'
+    q.show(project, frame_limit=10, options=config(path))
+    selected = select_pane(path, pane)
+    generation = project.generation
+    options = config(path)
+    options.ui_scale = scale
+    report = q.show(project, frame_limit=12, options=options)
+    assert report.layout_loaded and report.layout_saved and not report.layout_error
+    assert report.canvas_visible and report.tiles_settled
+    assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
+    assert report.final_zoom == 1.5 and project.generation == generation and not project.dirty
+    assert doc.object_count == 1
+    assert report.ui_overflow_items == 0, (report.ui_overflow_label, report.ui_max_overflow)
+    # The selected tab survives a second open without changing project bytes.
+    assert 'Selected='+selected in path.read_text(encoding='utf8')
+
+
+def test_legacy_workspace_retains_splits_until_explicit_reset(tmp_path):
+    project, _ = workspace(tmp_path)
+    path = tmp_path/'legacy.ini'
+    fixture = Path(__file__).parent/'fixtures/gui-legacy-layout.ini'
+    path.write_bytes(fixture.read_bytes())
+    report = q.show(project, frame_limit=12, options=config(path))
+    assert report.layout_loaded and report.layout_saved and not report.layout_error
+    assert report.canvas_visible and report.tiles_settled
+    canvas = report.canvas_bounds
+    assert report.browser_bounds.x+report.browser_bounds.width <= canvas.x+5
+    assert canvas.x+canvas.width <= report.display_bounds.x+5
+    assert canvas.y+canvas.height <= report.measurement_bounds.y+5
+    assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
+    # Moving Annotations to the right must not change the reported Project pane.
+    text = path.read_text(encoding='utf8')
+    right = re.search(r'\[Window\]\[Image and display\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+    text = re.sub(r'(\[Window\]\[Annotations\][\s\S]*?DockId=)0x[0-9A-F]+,\d+', lambda m: m.group(1)+right+',1', text)
+    path.write_text(text, encoding='utf8')
+    moved = q.show(project, frame_limit=10, options=config(path))
+    assert bounds(moved.browser_bounds) == pytest.approx(bounds(report.browser_bounds), abs=1)
+    reset = config(path)
+    reset.reset_layout = True
+    report = q.show(project, frame_limit=10, options=reset)
+    assert bounds(report.display_bounds) == pytest.approx(bounds(report.browser_bounds), abs=1)
+    assert report.final_zoom == 1.5 and not project.dirty
 
 
 def test_docked_image_switch_restores_source_camera(tmp_path):

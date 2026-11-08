@@ -1,0 +1,376 @@
+F............FFFF.F.FF                                                   [100%]
+================================== FAILURES ===================================
+____________ test_docked_default_panel_geometry_and_canvas_pixels _____________
+tests\test_gui_docking.py:52: in test_docked_default_panel_geometry_and_canvas_pixels
+    assert browser.x+browser.width <= canvas.x+5 and canvas.x+canvas.width <= display.x+5
+E   assert ((10.0 + 319.0) <= (333.0 + 5) and (333.0 + 1097.0) <= (10.0 + 5))
+E    +  where 10.0 = <qupathxx._native.Rect object at 0x00000200A01D6590>.x
+E    +  and   319.0 = <qupathxx._native.Rect object at 0x00000200A01D6590>.width
+E    +  and   333.0 = <qupathxx._native.Rect object at 0x00000200A066FC30>.x
+E    +  and   333.0 = <qupathxx._native.Rect object at 0x00000200A066FC30>.x
+E    +  and   1097.0 = <qupathxx._native.Rect object at 0x00000200A066FC30>.width
+E    +  and   10.0 = <qupathxx._native.Rect object at 0x00000200A01D46B0>.x
+___________ test_responsive_docked_controls_and_camera[1440-900-2] ____________
+tests\test_gui_layout.py:27: in test_responsive_docked_controls_and_camera
+    assert report.ui_stacked_fields > 0
+E   assert 0 > 0
+E    +  where 0 = <qupathxx._native.GuiReport object at 0x00000200E8374AD0>.ui_stacked_fields
+___________ test_responsive_docked_controls_and_camera[1100-700-2] ____________
+tests\test_gui_layout.py:27: in test_responsive_docked_controls_and_camera
+    assert report.ui_stacked_fields > 0
+E   assert 0 > 0
+E    +  where 0 = <qupathxx._native.GuiReport object at 0x000002009FFC12F0>.ui_stacked_fields
+---------------------------- Captured stdout call -----------------------------
+rScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[000
+___________ test_responsive_docked_controls_and_camera[900-700-1.5] ___________
+tests\test_gui_layout.py:27: in test_responsive_docked_controls_and_camera
+    assert report.ui_stacked_fields > 0
+E   assert 0 > 0
+E    +  where 0 = <qupathxx._native.GuiReport object at 0x00000200E82E6010>.ui_stacked_fields
+---------------------------- Captured stdout call -----------------------------
+05] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00
+_____________ test_wrapped_save_project_button_performs_real_save _____________
+tests\test_gui_layout.py:46: in test_wrapped_save_project_button_performs_real_save
+    assert report.ui_wrapped_buttons > 0
+E   assert 0 > 0
+E    +  where 0 = <qupathxx._native.GuiReport object at 0x000002009D47B740>.ui_wrapped_buttons
+---------------------------- Captured stdout call -----------------------------
+011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00015] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00016] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00017] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00018] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00019] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00020] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00021] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00022] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00023] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00024] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00025] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00026] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00027] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00028] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00029] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00030] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00031] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00032] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00033] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00034] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00035] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00036] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetC
+__________ test_scaled_cached_canvas_matches_immediate_after_reflow ___________
+tests\test_gui_layout.py:82: in test_scaled_cached_canvas_matches_immediate_after_reflow
+    assert frames[0] == frames[1]
+E   AssertionError: assert b'P6\n1100 70...7\xbd\xc2\xc7' == b'P6\n1100 70...7\xbd\xc2\xc7'
+E     
+E     At index 1319425 diff: b'\xe5' != b'\xe9'
+E     Use -v to get more diff
+---------------------------- Captured stdout call -----------------------------
+ursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00037] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00038] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00039] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00040] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00041] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00015] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00016] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00017] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00018] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00019] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00020] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00021] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00022] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/Se
+_______ test_hidden_project_pane_does_not_publish_a_save_button_target ________
+tests\test_gui_layout.py:115: in test_hidden_project_pane_does_not_publish_a_save_button_target
+    with pytest.raises(RuntimeError, match='timed out'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE RuntimeError
+---------------------------- Captured stdout call -----------------------------
+etCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundarie
+__ test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters __
+tests\test_gui_layout.py:125: in test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters
+    assert painted.ui_wrapped_buttons > 0
+E   assert 0 > 0
+E    +  where 0 = <qupathxx._native.GuiReport object at 0x00000200E82A2010>.ui_wrapped_buttons
+=========================== short test summary info ===========================
+FAILED tests/test_gui_docking.py::test_docked_default_panel_geometry_and_canvas_pixels
+FAILED tests/test_gui_layout.py::test_responsive_docked_controls_and_camera[1440-900-2]
+FAILED tests/test_gui_layout.py::test_responsive_docked_controls_and_camera[1100-700-2]
+FAILED tests/test_gui_layout.py::test_responsive_docked_controls_and_camera[900-700-1.5]
+FAILED tests/test_gui_layout.py::test_wrapped_save_project_button_performs_real_save
+FAILED tests/test_gui_layout.py::test_scaled_cached_canvas_matches_immediate_after_reflow
+FAILED tests/test_gui_layout.py::test_hidden_project_pane_does_not_publish_a_save_button_target
+FAILED tests/test_gui_layout.py::test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters
+8 failed, 14 passed in 15.04s
+s.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00011] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00012] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00013] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00014] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00015] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00002] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00002] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00003] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00004] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00005] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00006] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00007] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00008] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00009] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.
+[00010] [imgui-error] In window 'Slide': Code uses SetCursorPos()/SetCursorScreenPos() to extend window/parent boundaries.
+Please submit an item e.g. Dummy() afterwards in order to grow window/parent boundaries.

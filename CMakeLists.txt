@@ -244,6 +244,9 @@ if(QUPATHXX_BUILD_GUI)
   # ImGui/backend translation unit on the same32-bit character ABI.
   set(QPX_IMGUI_UNICODE_DEFINITION IMGUI_USE_WCHAR32)
   target_compile_definitions(qupathxx_gui PRIVATE ${QPX_IMGUI_UNICODE_DEFINITION})
+  if(MSVC)
+    target_compile_options(qupathxx_gui PRIVATE /utf-8)
+  endif()
   target_link_libraries(qupathxx_gui PUBLIC qupathxx_core PRIVATE glfw OpenGL::GL ${CMAKE_DL_LIBS})
   target_link_libraries(qupathxx_gui PRIVATE qupathxx_density_workflow)
   if(WIN32)
@@ -520,6 +523,12 @@ if(QUPATHXX_BUILD_TESTS)
   qupathxx_copy_runtime(qupathxx_gui_replay_tests)
   add_test(NAME gui_replay COMMAND qupathxx_gui_replay_tests)
   if(QUPATHXX_BUILD_GUI)
+    add_executable(qupathxx_gui_i18n_tests cpp/tests/gui_i18n_tests.cpp)
+    target_compile_features(qupathxx_gui_i18n_tests PRIVATE cxx_std_17)
+    if(MSVC)
+      target_compile_options(qupathxx_gui_i18n_tests PRIVATE /utf-8)
+    endif()
+    add_test(NAME gui_i18n COMMAND qupathxx_gui_i18n_tests)
     add_executable(qupathxx_gui_target_membership_tests cpp/tests/gui_target_membership_tests.cpp)
     target_include_directories(qupathxx_gui_target_membership_tests PRIVATE ${imgui_SOURCE_DIR})
     target_compile_definitions(qupathxx_gui_target_membership_tests PRIVATE ${QPX_IMGUI_UNICODE_DEFINITION})
@@ -756,6 +765,7 @@ endif()
 # Record the actual checked-out source bytes, independently of Git cleanliness.
 file(GLOB_RECURSE QPX_BUILD_INPUTS CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.inc"
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*.in"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/*.py")
 list(APPEND QPX_BUILD_INPUTS "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt" "${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml")

@@ -1,0 +1,45 @@
+{
+  "branch": "feature/qupath-ui-design",
+  "base_commit": "4546b6e6",
+  "worktree": "C:\\Users\\HEQ\\.codex\\worktrees\\d2f5\\qupathxx",
+  "kind": "GUI development overlay; retained native libraries and 38 binding objects; no install/release qualification",
+  "source_sha256": {
+    "cpp/gui.cpp": "51721a98c13a0621c0a876fc8f1e9302d7995672ce35aa28acab610317c0ebf1",
+    "cpp/gui_layout.hpp": "1050ccae8a9aa1c833886164c92369bb1acbef65d5f85e8b80c7fb8a069f7a00",
+    "cpp/gui_workspace.hpp": "c0c5206cc03964b9a02d5967137b91e3301e3219c207e8b8a045b4d311cd2993",
+    "cpp/gui_i18n.hpp": "a91bc0d68e678caa586972b35dd4c473ea991d69e3b3b7cdd26abeea310a4bcc",
+    "cpp/gui_i18n_catalog.inc": "53b0de57ca20fa4a2cb871465c8d419defdbf88353d7f11f5b8f3090738fc46e",
+    "cpp/gui_theme.hpp": "ce53e4468ffe1975b879fa1f7fd31800d69fd616ebe1faeda92f4ad440ac6ddd",
+    "CMakeLists.txt": "8f7d1ebe5a526a41b1e15d9b0e68e71704d81d773c25bf275dd3984b5ec17cda"
+  },
+  "languages": [
+    "en",
+    "es",
+    "fr",
+    "de",
+    "pt-BR",
+    "it",
+    "zh-CN",
+    "zh-TW",
+    "ja",
+    "ko",
+    "ru",
+    "tr",
+    "nl",
+    "pl",
+    "id",
+    "vi"
+  ],
+  "catalogue_entries": 126,
+  "checks": {
+    "gui_passed": 80,
+    "deselected_unrelated_installed_subprocess_cases": 5,
+    "native": "catalogue, formats, locale matching, search, preference precedence, stable labels, session restoration"
+  },
+  "logs": [
+    "native-tests.log",
+    "pytest-combined.log",
+    "build.log"
+  ],
+  "scope": "Core UI and common controls localized; untranslated advanced labels/diagnostics use English; additional shaping/font scripts are not offered."
+}

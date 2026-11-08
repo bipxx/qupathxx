@@ -7,6 +7,110 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Selected task - merge desktop UI to main and retire its worktree
+
+Owner requested merge and cleanup. Commit the tested UI/language changes, combine
+them with the latest integration state, and merge into local main. Keep the active
+integration checkout/cache/runtime and its untracked density fixture. Synchronize
+that checkout to the merged source so future integration work retains the UI.
+
+Preserve [durable UI validation](benchmarks/desktop-ui/README.md) in Git. Archive
+the complete temporary build tree with per-file SHA256 verification before
+removing only the UI worktree and its merged branch. Preserve the local main
+workspace router separately when the canonical tracked AGENTS.md is merged.
+Do not delete the main build tree, published products or storage-cleanup-20261105.
+
+Decisive checks: existing80-case GUI/native localization evidence and unchanged
+GUI source hashes; merge conflict/diff review; source/ancestor equality on main
+and integration; archive verification; no task preview process left at retirement.
+Only changed merge inputs require further validation. No numerical campaign or
+binary rebuild is selected by this source merge/cleanup.
+
+## Delivered task - multilingual desktop UI
+
+Owner requested popular languages with a proper selection system in the UI
+worktree. Deliver16 built-in languages for desktop chrome/common controls,
+native and English language names, search, Automatic system-language selection,
+immediate switching and saved per-workspace choice. Preserve English fallback
+for advanced messages without a translation; document the coverage boundary.
+Do not offer complex-script languages before the renderer can shape them.
+
+Changed inputs: GUI translation catalogue/helpers, workspace preferences and
+GUI call sites. Keep numerical locale, scientific state, user text and widget/
+dock/popup identities unchanged. Validate catalogue/format/ID and locale mapping
+cheaply first, then one GUI-only cached compile/relink, language-specific real-GL
+save/reopen/camera/DPI and selector checks, plus affected English UI regressions.
+Reuse native libraries and binding objects; no core rebuild, wheel or release.
+
+Outcome:16 languages and126 shared translation entries are delivered with a
+searchable native/English/code chooser, case-insensitive Latin/Cyrillic search,
+immediate switching, system detection and `.ini` preference persistence. Reset
+layout preserves the choice. Stable English widget/popup/dock IDs and session
+restoration prevent preference changes from touching scientific/user state.
+The chooser blocks background editing. [Guide and language coverage](docked-workspace.md).
+Arabic/Indic shaping and full advanced-dialog translation remain outside this
+initial catalogue; missing entries use the declared English fallback.
+
+Checks:80 real-GL GUI cases pass in `build/ui-language/pytest-combined.log`;
+five unrelated installed-subprocess font/launcher cases are deselected. Native
+catalogue/format/locale/search/identity/preference/session checks pass in
+`build/ui-language/native-tests.log`. Both live chooser paths,16 saved-language
+roundtrips, localized save at200%, hidden controls, exact viewer pixels, camera
+and unchanged stored user text/project bytes are covered. Two rendered previews
+are linked in the guide. Scripts/build/receipt remain under `build/ui-language`;
+`qupathxx_app.exe` there is the new local preview. The UI-only cache rebuild reused
+native libraries and38 binding objects; there is no new scientific qualification.
+
+Waste/correction: the first preference test used a nonexistent update_annotation
+method; use the existing rename_annotation API and rerun those cases. Quote/run
+Windows batch paths natively rather than passing slash-separated relative paths
+to cmd. Native replay proved the chooser flow after desktop click timing was
+ambiguous. Include the catalogue `.inc` in source manifests and use UTF-8 on MSVC.
+No additional feature phase or publication is selected.
+
+## Delivered task - QuPath-style desktop UI
+
+Owner requested a separate UI worktree. Branch `feature/qupath-ui-design` starts
+at integration commit4546b6e6; uncommitted detector optimization remains untouched
+in `build/ci/scientific-grid-159`. This explicit scope supersedes the previous
+single-checkout restriction for this UI task. Preserve its cache and runtime.
+
+Deliver light desktop chrome, a menu bar, vector drawing toolbar and a left
+Project/Image/Annotations/Workflow tab group around the existing image viewer.
+Keep native scientific services, pixels, result colors and project semantics.
+Existing layouts retain their splits; Reset layout selects the new default.
+
+Changed inputs are `gui.cpp`, `gui_workspace.hpp` and `gui_theme.hpp`. Before
+building, decisive checks are a GUI-only compile/relink using retained native
+libraries and binding objects into this worktree's `build/ui-design`, then
+changed desktop flows, tab navigation, saved layout, DPI/resize, image input and
+save/reopen. No native kernel rebuild, wheel, release or numerical campaign.
+
+Outcome: the light theme, native menus, vector drawing tools, left analysis tabs,
+viewer overview and status bar are delivered. [Guide and preview](docked-workspace.md).
+The GUI-only development overlay is `build/ui-design/qupathxx_app.exe`; the
+test-only Python runtime is under `build/ui-design/runtime`. Retained core
+libraries and all38 binding objects were reused; the integration cache and
+installed runtime were not rebuilt or installed by this UI task.
+
+Validation:56 Windows real-GL GUI cases pass in `build/ui-design/pytest-final-verified.log`
+(docking, layout, overview and scaling). Five unrelated font-package/launcher
+cases were deselected because isolated Python subprocesses use the installed
+runtime. Checks include save/reopen, exact cached viewer pixels,100%/200% tab
+contents, camera/project invariants, hidden-control readiness, legacy split
+preservation and Reset layout. Manual desktop checks confirm menu tab navigation
+and rectangle drawing. Local build/receipt/scripts remain in `build/ui-design`.
+This is a development UI preview, not a newly qualified scientific release.
+
+Waste/correction: an open task-owned demo initially locked the preview executable;
+close it and relink existing objects. The first viewer overview restored a cursor
+outside the content boundary; remove that restoration rather than suppress ImGui
+diagnostics. Persisted tab selection uses each window's seeded `#TAB` ID. A later
+cache comparison differed in34 fractional-DPI chrome glyph pixels; its exact
+comparison now covers the viewer surface it is intended to qualify. Scientific
+pixel, geometry and project assertions stay intact. Separate Annotations bounds
+from Project bounds when users move tabs. No further feature phase is selected.
+
 ## Delivered task - focused post-consolidation speed comparison
 
 Owner-selected fresh comparison is [complete](benchmarks/post-consolidation-speed/README.md):

@@ -11,8 +11,9 @@ This follows GLFW's distinction between
 The larger axis is used for the isotropic UI when reported axes differ.
 
 `GuiOptions.ui_scale` sets the user multiplier, default `1`, range `0.5..3`.
-Both desktop launchers accept `--ui-scale 1.5`. The UI minus/plus buttons adjust
-the multiplier in 25 percentage-point steps; Auto UI restores `1`.
+Both desktop launchers accept `--ui-scale 1.5`. View > Increase UI size and
+Decrease UI size adjust the multiplier in 25 percentage-point steps;
+View > Automatic UI size restores `1`.
 These controls work in compact and docked workspaces. The multiplier belongs
 to the viewer invocation, is not persisted in layout preferences and never
 enters project history. `GuiReport.ui_scale` reports the effective logical
@@ -42,8 +43,8 @@ multiplier does not emulate OS monitor delivery. Physical mixed-DPI monitor
 moves, macOS Retina and fractional-density hardware acceptance remain open.
 The [responsive workspace](responsive-workspace.md) addresses the clipped
 inspector labels and toolbar hint observed at 200% in a 1440 x 900 window.
-Field labels stack, long buttons wrap and the toolbar offers Help when its
-full hint does not fit. Physical monitor delivery and full high-DPI hardware
+Field labels stack, long buttons wrap and navigation shortcuts are available
+from the Help menu. Physical monitor delivery and full high-DPI hardware
 acceptance remain open.
 
 To collect a navigation sample with live scale changes from an installed GUI
