@@ -39,6 +39,11 @@ independent Python tests/oracles remain development tools.
 [Native build options and C++ project example](docs/native-build.md) provide a
 small open/analyze/save/replay consumer and a Python-disabled CI guard.
 
+The [next fluorescence/spatial-omics phase](docs/fluorescence-omics-plan.md) is
+restricted to open formats and native open readers/codecs. OME-TIFF ROI workflows
+come first, then a Matrix Market/TSV spatial-count projection; these planned
+additions are not yet a claim of end-to-end fluorescence/omics support.
+
 ## Implemented
 
 - Tissue-aware cell density, radius neighborhoods and nearest-centroid distances

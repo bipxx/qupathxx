@@ -7,6 +7,33 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Selected next phase - open-format fluorescence, then spatial counts
+
+Owner selected a fluorescence workflow followed by one spatial-omics format,
+with open formats/readers/codecs only. [Detailed plan and checklist](fluorescence-omics-plan.md)
+own this phase. FO00 (format admission and finite contracts) is complete;
+FO01-FO05 implementation/validation are pending and are not support claims.
+
+Active next task: FO01, exercise the existing OME-TIFF raw measurement/display/
+retention route before adding a missing native consumer. Then FO02 completes
+one explicit-channel/plane ROI workflow. Queue FO03/FO04 afterward: bounded
+Matrix Market integer sparse counts plus the documented feature/position TSV
+profile, selected-gene spatial projection and save/reopen. All interpretation,
+association/provenance and publication belong to C++; Python stays optional.
+
+AnnData/H5AD and OME-Zarr are deferred open candidates, not required work or
+newly implemented readers. Closed vendor formats/required codecs are excluded
+from new fluorescence/omics admission even when an open wrapper exists.
+No automatic registration, normalization/clustering, spectral unmixing or broad
+multiplex/biological validation is selected. Existing native reader support and
+frozen releases retain their original scope.
+
+Planning check: primary format/license sources and current native authorities
+reviewed; local links/diff checked. Waste review: reuse TIFF/raw measurement,
+point objects/measurements/project persistence; first omics profile needs no
+HDF5/Zarr dependency. Documentation-only selection needs no build, binding,
+package or replayed scientific campaign. Record actual results after each task.
+
 ## Delivered task - native C++ usability and CI guard
 
 Owner approved one C++ example, native build/backend documentation and a

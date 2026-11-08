@@ -1,5 +1,10 @@
 # QuPath workflow inventory
 
+Selected next phase: [open-format fluorescence and spatial counts](fluorescence-omics-plan.md).
+Existing native TIFF/raw measurements are reused; the end-to-end fluorescence
+consumer and Matrix Market/TSV spatial-count importer are planned, not delivered.
+Advanced fluorescence and broader omics methods remain outside this finite slice.
+
 The current [speed follow-up](benchmarks/speed-gap-followup/README.md) preserves
 exact outputs with a guarded integer-grid proof and a corrected steady timing
 protocol. [Current task](current-task.md) and [coverage](speed-gap-coverage.md)

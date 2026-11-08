@@ -117,3 +117,7 @@ Do not regenerate retired products merely because a historical receipt names the
 Readers and required codecs must be openly licensed. Keep owner scope/license/
 support/publication decisions attached to their actual claims and continue
 independent authorized work; do not invent additional permission gates.
+For new fluorescence/spatial-omics work, the owner additionally requires open
+formats: use the selected formats in docs/fluorescence-omics-plan.md and the
+format admission policy. An open-source reader alone does not admit a closed
+vendor format. Keep implementation native and Python optional.

@@ -1,5 +1,24 @@
 # Reader licensing policy
 
+## Additional open-format rule for fluorescence and spatial omics
+
+Owner update2026-11-08: new fluorescence/spatial-omics work must use open formats
+as well as openly licensed readers and codecs. The legacy allowance for a vendor
+format through an open implementation is insufficient for this new phase.
+See the selected formats, source evidence and excluded/deferred scope in the
+[fluorescence/omics plan](fluorescence-omics-plan.md#format-admission).
+OME-TIFF and the documented Matrix Market/TSV profile are selected; AnnData/H5AD
+is an open candidate requiring a separate native dependency/encoding admission.
+No existing reader is removed and no new reader is declared implemented here.
+
+The format/schema must have published reusable terms; the exact reader, required
+codec/filter stack and fixture rights must also be established. Closed containers,
+NDA-only schemas, closed required decoders and research/noncommercial restrictions
+are excluded. Exporting data into an eligible open format is a separate supported
+path only when that format's declared schema and coordinate contract are met.
+
+## Existing reader admission policy
+
 Owner decision: 2026-10-25. Only open-source-licensed image readers and their
 required decoder dependencies are eligible for qupathxx integration, optional
 adapters, runtime download or distribution. This requirement applies to all
