@@ -183,6 +183,8 @@ def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_byt
                 require(str(parent).casefold() not in by_case, 'archive directory parent is also a file')
     prefix = '' if native_archive else 'qupathxx/'
     roots = [prefix+'qupathxx_batch.exe', prefix+'qupathxx_region.exe']
+    if prefix+'qupathxx_spatial_counts.exe' in binaries:
+        roots.append(prefix+'qupathxx_spatial_counts.exe')
     if not native_archive:
         roots.insert(0, prefix+f'_native.{python_tag}-win_amd64.pyd')
     if gui:

@@ -1,10 +1,11 @@
 # API and workflow delivery paths
 
 Owner selection2026-11-08: [open-format fluorescence and spatial-count phase](fluorescence-omics-plan.md).
-Implement one native OME-TIFF ROI workflow first, then the open Matrix Market/TSV
-spatial-count profile. Format admission is complete; workflow implementation is
-pending. This supersedes older blanket fluorescence/integration deferrals only
-for this finite scope. Current-task.md owns the active task; no new release.
+Native OME-TIFF ROI/batch checks and the new Matrix Market/TSV spatial-count
+reader/projection/CLI pass locally and in Python-disabled Linux CI; installed/
+native-viewer routes pass. See [usage and limits](fluorescence-omics.md); evidence is in
+current-task.md. This supersedes older blanket deferrals only for this finite
+scope. No new release, closed format or broader fluorescence/omics claim.
 
 The native-first [optional Python boundary follow-up](benchmarks/native-optional/README.md)
 is delivered: shared C++ application/raw-workflow entry points, native-default

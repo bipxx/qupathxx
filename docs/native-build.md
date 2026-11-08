@@ -43,7 +43,8 @@ installed `find_package(qupathxx)` SDK contract.
 `cmake --install build/native --config Release --prefix path/to/new-stage` installs
 the selected executables under `qupathxx/`, including the example when enabled.
 For a selective build, build the always-installed CLI targets `qupathxx_batch` and
-`qupathxx_region` before installation. Default builds include them automatically.
+`qupathxx_region` and (with project storage enabled) `qupathxx_spatial_counts`
+before installation. Default builds include them automatically.
 
 ## Choose native capabilities
 
@@ -75,7 +76,9 @@ its OFF default, disables Python/Python3/nanobind discovery and rejects binding
 targets. It builds only the required native consumers/tests, exercises save/replay
 and no-overwrite, installs them, checks installed files and Linux runtime imports,
 then repeats the same small consumer check against the installed executable.
-It does not run the Python matrix or download scientific image fixtures.
+It also enables the existing native TIFF stack for the focused fluorescence and
+spatial-count tests and exercises the installed spatial CLI. It does not run the
+Python matrix or download scientific image fixtures.
 
 This headless Linux guard complements the existing
 [Windows GUI/native-only evidence](benchmarks/native-optional/README.md); it is

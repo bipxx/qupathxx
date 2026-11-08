@@ -16,7 +16,7 @@ For a fresh standalone source checkout, a native GUI build starts with:
 
 ```sh
 cmake -S . -B build/native -DQUPATHXX_BUILD_GUI=ON
-cmake --build build/native --config Release --target qupathxx_app qupathxx_batch qupathxx_region
+cmake --build build/native --config Release --target qupathxx_app qupathxx_batch qupathxx_region qupathxx_spatial_counts
 ```
 
 Python users can install the package normally; the wheel backend explicitly enables
@@ -39,10 +39,10 @@ independent Python tests/oracles remain development tools.
 [Native build options and C++ project example](docs/native-build.md) provide a
 small open/analyze/save/replay consumer and a Python-disabled CI guard.
 
-The [next fluorescence/spatial-omics phase](docs/fluorescence-omics-plan.md) is
-restricted to open formats and native open readers/codecs. OME-TIFF ROI workflows
-come first, then a Matrix Market/TSV spatial-count projection; these planned
-additions are not yet a claim of end-to-end fluorescence/omics support.
+[Native fluorescence and spatial-count workflows](docs/fluorescence-omics.md)
+provide OME-TIFF ROI measurements and a Matrix Market/TSV selected-gene spatial
+projection, using open formats/readers/codecs. These are bounded research workflows;
+advanced fluorescence and broader omics methods remain outside the declared scope.
 
 ## Implemented
 

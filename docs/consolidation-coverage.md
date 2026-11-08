@@ -244,3 +244,13 @@ and [source-scoped evidence](benchmarks/native-optional/README.md).
 - [x] U03: bounded Python-disabled Linux CI guard added, including installation
   and native runtime dependencies; local Windows check and shell syntax pass.
   Hosted job execution tracked separately in [evidence](benchmarks/native-usability/README.md).
+
+## Open-format fluorescence and spatial counts
+
+- [x] FO00: open format/reader/codec scope and explicit association profile.
+- [x] FO01/FO02: reuse native raw measurement/batch services; uint16/float32 OME
+  axes/values/display/CSV/save/replay/stale/no-overwrite checks pass.
+- [x] FO03/FO04: bounded C++ Matrix Market/TSV reader and selected-gene point
+  projection; exact counts, sparse zeros, associations, budgets/cancel/persistence.
+- [x] FO05: installed native CLI/batch and existing viewer checks pass; hosted
+  Python-disabled Linux CI passes on source99e75706. [Usage](fluorescence-omics.md), [evidence](benchmarks/fluorescence-omics/README.md).

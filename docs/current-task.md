@@ -7,58 +7,45 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active implementation - open-format fluorescence and spatial counts
+## Delivered task - open-format fluorescence and spatial counts
 
-Owner selected a fluorescence workflow followed by one spatial-omics format,
-with open formats/readers/codecs only. [Detailed plan and checklist](fluorescence-omics-plan.md)
-own this phase. FO00 (format admission and finite contracts) is complete;
-FO01 found existing --kind raw/explicit-axis batch and native raw retention
-already supply the fluorescence implementation; add focused OME conformance
-fixtures, not another pipeline. FO02 checks uint16/float32 planes/values,
-nonfinites, display independence, CSV, batch and save/replay. FO03/FO04 add one
-bounded native Matrix Market/TSV reader and selected-gene point projection using
-existing ObjectProperties/append_objects/save_new. FO05 adds a standalone native
-CLI and reuses the existing viewer/measurement inspector.
+[Plan/checklist](fluorescence-omics-plan.md), [usage](fluorescence-omics.md) and
+[evidence](benchmarks/fluorescence-omics/README.md). FO00-FO05 complete for the
+selected finite workflows; local and hosted native-only checks pass.
 
-Before build: changed native inputs are the new reader/CLI/tests and conditional
-CMake wiring; no scientific kernel or binding API changed. Use the single existing
-cache, disable Python discovery, build only new targets and required batch/viewer
-consumers, run focused tests and the installed CLI check. Existing binding objects
-must survive. Extend the existing headless native CI for TIFF plus these tests;
-no separate matrix, HDF5/Zarr dependency, wheel or new binary release.
-First compile found a missing concrete ObjectProperties include; add the direct
-include rather than depending on transitive headers. Spatial reader/CLI checks
-pass. Fluorescence fixture decoded, but its request used tile2 below the native
-minimum16; use16 without relaxing native validation. An invalid channel must
-be refused by analyze_raw (actual decoder boundary), not necessarily by snapshot
-construction; exercise that worker boundary explicitly. Only the fluorescence
-test input changed; reuse the passing spatial reader/CLI checks.
+Reused existing --kind raw/explicit-axis batch, TIFF/raw measurements and
+retention instead of adding a fluorescence pipeline. Independent uint16/float32
+OME fixtures pass axes/names/calibration/high/zero/nonfinite values, display-
+independent hashes, CSV, save/replay, batch and invalid/stale/no-overwrite checks.
+New C++ Matrix Market/TSV reader keeps bounded sparse input and only densifies the
+selected projection. Existing point detections/ObjectProperties/save_new retain
+selected genes, exact counts≤2^53, IDs/coordinates and input digests. No new project
+schema, HDF5/Zarr dependency or Python implementation. CLI imported projects and
+saved fluorescence records open in the existing viewer/properties inspector.
 
-FO01/FO02 complete locally: existing native raw batch is sufficient, no new
-fluorescence pipeline. uint16/float32 six-plane OME fixtures pass explicit axes,
-channel names, calibrated raw means/counts/nonfinites, display-independent hashes,
-CSV, saved replay, native batch and invalid/stale/no-overwrite controls.
-FO03/FO04 complete locally: sparse reader + selected-gene point projection and
-CLI pass exact2^53 counts, sparse zeros, provenance, existing-object retention,
-save/reopen, malformed associations/indices/counts, budgets and cancellation.
+Three focused native tests pass; installed CLI/no-overwrite and explicit-channel
+fluorescence batch pass with PATH=Windows System32. Both saved-project viewer
+smokes pass. Python discovery was disabled; no binding targets, all38 binding
+objects preserved. New executable admission in Windows/Linux package dependency
+manifests passes109 focused archive/runtime regressions, including refusal of a
+Python-dependent spatial CLI. This does not publish/qualify a new wheel.
 
-Active FO05: install only the new native SpatialCounts component into the existing
-stage and exercise it without Python on PATH; open its project and fluorescence
-records in the unchanged native viewer. Add focused tests to the existing
-Python-disabled Linux job. Preserve all binding objects; no broad campaign.
+[Linux native-only run42516464079](https://github.com/bipxx/qupathxx/actions/runs/42516464079)
+passes configure/build/tests/install/runtime-dependency and installed-consumer
+checks on native source99e75706. Optional-interface cache flags restored without
+binding rebuild. Usage/support documentation and source handoff complete.
+No further biological/parity feature, full matrix, new binary release or dataset
+download is selected. H5AD/Zarr, unmixing/segmentation/normalization/clustering and
+vendor-native formats remain outside this slice.
 
-AnnData/H5AD and OME-Zarr are deferred open candidates, not required work or
-newly implemented readers. Closed vendor formats/required codecs are excluded
-from new fluorescence/omics admission even when an open wrapper exists.
-No automatic registration, normalization/clustering, spectral unmixing or broad
-multiplex/biological validation is selected. Existing native reader support and
-frozen releases retain their original scope.
-
-Planning check: primary format/license sources and current native authorities
-reviewed; local links/diff checked. Waste review: reuse TIFF/raw measurement,
-point objects/measurements/project persistence; first omics profile needs no
-HDF5/Zarr dependency. Documentation-only selection needs no build, binding,
-package or replayed scientific campaign. Record actual results after each task.
+Waste/corrections: direct ObjectProperties include missing on first compile;
+test fixture used tile2 below native minimum16; bad-channel rejection belongs at
+analyze_raw's actual worker boundary, not necessarily snapshot construction.
+Fixed inputs/includes without weakening production checks/assertions/tolerances.
+Reused passing spatial evidence during fluorescence repairs. One cache/component
+install, no binding compilation. Existing viewer/schema reused. New native CLI
+must be admitted as an explicit package entry point so Python-independence checks
+also cover it; synthetic PE/ELF archive tests avoid a packaging rebuild.
 
 ## Delivered task - native C++ usability and CI guard
 

@@ -39,7 +39,14 @@
   ],
   "viewer_scope": "Existing unchanged native viewer/stage; no new schema or viewer implementation. Saved point rendering/imported-properties inspector are reused.",
   "fluorescence_batch_scope": "Existing installed native batch consumer; source algorithm unchanged. New native fixture/recipe verifies the selected workflow.",
-  "hosted_linux_ci": "pending push",
+  "hosted_linux_ci": {
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/42516464079",
+    "source_commit": "99e757063c813240910d4098f1126c92db812bb5",
+    "conclusion": "success",
+    "metadata": "hosted-ci.json"
+  },
   "scientific_scope": "Synthetic engineering fixtures, not biological validation or vendor compatibility",
-  "release": "none"
+  "release": "none",
+  "optional_python_configuration_restored": true,
+  "package_manifest_regressions_passed": 109
 }

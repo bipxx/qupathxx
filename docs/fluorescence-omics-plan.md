@@ -1,9 +1,9 @@
 # Open-format fluorescence and spatial omics
 
 Owner approved a concrete fluorescence workflow first, followed by one spatial-
-omics import, restricted to open formats. FO01-FO04 now pass local native checks; installed CLI and saved-project viewer
-routes also pass. FO05 hosted Linux validation and final support documentation
-are in progress. Existing native TIFF/raw services are reused; the spatial-count
+omics import, restricted to open formats. FO00-FO05 are complete for this finite workflow scope: local native checks,
+installed CLI/batch, saved-project viewer routes and the Python-disabled Linux job
+pass. [Usage/limits](fluorescence-omics.md) describe the delivered support. Existing native TIFF/raw services are reused; the spatial-count
 reader/projection is new C++. Evidence is recorded in
 [the implementation receipt](benchmarks/fluorescence-omics/receipt.json).
 
@@ -116,7 +116,7 @@ Visium/Xenium/CosMx import.
   association with explicit IDs/coordinates; verify sparse numeric/refusal cases.
 - [x] FO04: retain a selected-gene spatial projection using existing objects and
   measurements; verify source digests, persistence, cancellation and no overwrite.
-- [ ] FO05: expose the native services through existing CLI/UI consumers; add an
+- [x] FO05: expose the native services through existing CLI/UI consumers; add an
   optional Python wrapper only if a named caller needs it. Run one focused native
   integration check, publish the actual support limits and update this checklist.
 

@@ -145,6 +145,8 @@ def inspect_wheel(path, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1
                 require(len(data) == entry.file_size and len(data) <= max_file_bytes, 'archive file size differs')
                 total += len(data)
                 files.append(dict(path=name, bytes=len(data), mode=mode & 0o7777, sha256=hashlib.sha256(data).hexdigest()))
+                if name == 'qupathxx/qupathxx_spatial_counts':
+                    roots.append(name)
                 native_name = bool(re.search(r'\.so(?:\.[0-9]+)*$', name)) or name in roots
                 require(not data.startswith((b'MZ', b'\xcf\xfa\xed\xfe', b'\xfe\xed\xfa\xcf'))
                         and PurePosixPath(name).suffix.lower() not in ('.pyd', '.dll', '.exe', '.dylib'), 'non-Linux binary in Linux wheel')
