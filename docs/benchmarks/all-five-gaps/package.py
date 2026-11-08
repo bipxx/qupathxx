@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[3]
 BUILD=ROOT.parents[1]
 work=Path(sys.argv[1]).resolve();delivery=work/'delivery';delivery.mkdir(parents=True,exist_ok=False)
 package=Path(q.__file__).resolve().parent
-expected='013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941'
+expected='b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc'
 assert q.build_environment().source_tree_sha256==expected
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 tracked=[p for p in subprocess.check_output(['git','-C',str(ROOT),'ls-files','-z']).decode().split('\0') if p]

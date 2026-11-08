@@ -1,10 +1,10 @@
-Start testing: Nov 08 09:36 Eastern Standard Time
+Start testing: Nov 08 09:52 Eastern Standard Time
 ----------------------------------------------------------
 56/82 Testing: qupath_project
 56/82 Test: qupath_project
 Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qupath_project_tests.exe"
 Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
-"qupath_project" start time: Nov 08 09:36 Eastern Standard Time
+"qupath_project" start time: Nov 08 09:52 Eastern Standard Time
 Output:
 ----------------------------------------------------------
 Saved PolygonROI vertex-touch normalization: 30 exact winding/coordinate cases; crossings, spikes, cancellation and limits refused
@@ -13,11 +13,11 @@ Native saved TMA grid: identity slots, missing/case state, legacy fallback and m
 Class binary/project corpus: exact ancestry/raw colors, UUID/geometry, native/assisted palette precedence, repeated defaults, empty projects, reopen and refusal passed
 QuPath project native preview, source guards, new publication and replay refusal passed
 <end of output>
-Test time =   0.47 sec
+Test time =   0.78 sec
 ----------------------------------------------------------
 Test Passed.
-"qupath_project" end time: Nov 08 09:36 Eastern Standard Time
+"qupath_project" end time: Nov 08 09:52 Eastern Standard Time
 "qupath_project" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Nov 08 09:36 Eastern Standard Time
+End testing: Nov 08 09:52 Eastern Standard Time

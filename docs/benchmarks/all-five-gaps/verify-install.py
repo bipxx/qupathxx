@@ -30,7 +30,7 @@ for name in ['geos.dll', 'geos_c.dll', 'libopenslide-1.dll']:
     assert Path(text.value).parent.resolve() == package, text.value
     origins[name] = text.value
 environment = q.build_environment()
-assert environment.source_tree_sha256 == '013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941'
+assert environment.source_tree_sha256 == 'b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc'
 result = dict(source_revision=environment.git_revision, source_tree_sha256=environment.source_tree_sha256,
     wheel_sha256=hashlib.sha256(wheel.read_bytes()).hexdigest(), installed_package=str(package),
     immutable_members_verified=len(verified), verified_members=verified, mapped_dlls=origins)

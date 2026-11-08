@@ -60,10 +60,21 @@ float32-OD means and physical sample areas at1e-10. Five affected Python importe
 regressions pass; final native importer suite passes0.47s. No cases/tolerances
 were removed. [Evidence](benchmarks/all-five-gaps/README.md).
 
-G04 now selects a single candidate7 handoff from final571-input tree013006a1.
+G04 selects the final candidate7 handoff from571-input treeb633f992.
 Candidate6 stays frozen. Package/install/current-import/standalone/removal/asset
 checks remain, using existing freezer and installed-route drivers. Stage is
 refreshed after the sustained worker exited;38 binding objects remain exact.
+
+Final native review correction before publication: determine each simple cycle's
+winding with GEOS robust orientation at its convex lexicographic extreme instead
+of a cancellation-prone global area sum. This protects large/near-cancelling float
+coordinates without a tolerance or new coordinate construction. Named kernel
+inputs/outputs outside the private importer stay unchanged. Rebuild only helper/
+provenance and relink, then rerun affected native/558-cell preservation checks;
+retire the prepared013006a1 package locally and freeze the final bytes once the
+review correction passes. Correction now passes0.78s plus the full558-cell/
+22,880-value preservation check; all38 binding objects still match. Final tree
+b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc. Do not publish the superseded preparation.
 
 Build risk/decisive check: only private importer/helper and affected native tests
 should compile, then relink consumers once. Preserve candidate6 and archived

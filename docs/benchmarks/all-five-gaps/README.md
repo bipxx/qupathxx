@@ -9,7 +9,8 @@ unbounded biological/platform claims. G04's new binary handoff is the final step
 The shared C++ reader now decomposes repeated-vertex PolygonROI walks using their
 nonzero winding, without moving coordinates. It validates cycles and final
 shell/hole/part topology, rejects crossings/spikes/empty results and bounds work.
-Normalization is an explicit counted issue requiring the existing loss-admission
+Cycle direction uses GEOS robust orientation at a convex extreme, avoiding a
+cancellation-prone global signed-area sum. Normalization is an explicit counted issue requiring the existing loss-admission
 gate. No Python scientific fallback, generic MakeValid, new public API or binding
 compile. Native null-name preservation also fixes an older silent default-name
 substitution discovered by the strict comparator.
@@ -79,9 +80,12 @@ contour, geometry or measurement implementations, so no new timing search or
 speed-superiority claim is needed for this private importer change. [Source scope](source-scope.json)
 records unchanged scientific inputs. General speed superiority remains unclaimed.
 
-One combined cached build plus the diagnosed null-name/test-bound repair reused
-all38 binding objects byte-for-byte. Final compiler-input tree013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941
+The initial cached build and narrow null-name/bound and robust-orientation review corrections reused
+all38 binding objects byte-for-byte. Final compiler-input treeb633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc
 owns current native/import evidence. Candidate6 remains frozen. Candidate7 will
 package the final matching wheel/native/source with open-codec notices and exact
 input hashes, then verify isolated installed routes, removal and public assets.
-No intermediate wheel was built. Publication/installation receipts will close G04.
+One pre-review local preparation was superseded when robust orientation replaced
+the cancellation-prone area sum; it remains local and will not be published.
+The final wheel/native bytes follow the passed correction; no binding recompile
+or repeated scientific campaign. Publication/installation receipts will close G04.

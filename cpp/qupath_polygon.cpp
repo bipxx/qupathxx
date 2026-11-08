@@ -3,6 +3,9 @@
 #include <cmath>
 #include <map>
 #include <stdexcept>
+#ifdef QUPATHXX_HAS_GEOS
+#include <geos_c.h>
+#endif
 
 namespace qpx::detail {
 Roi qupath_saved_polygon(Ring input,bool& normalized,const std::atomic<bool>* cancelled) {
@@ -11,8 +14,16 @@ Roi qupath_saved_polygon(Ring input,bool& normalized,const std::atomic<bool>* ca
     poll();
     try {return Roi::polygon(input);}
     catch(const std::invalid_argument&) {}
+#ifndef QUPATHXX_HAS_GEOS
+    throw std::runtime_error("saved polygon topology requires GEOS");
+#else
     if(input.size()>1 && input.front().x==input.back().x && input.front().y==input.back().y)input.pop_back();
     if(input.size()<3 || input.size()>100000)throw std::invalid_argument("saved polygon normalization exceeds3..100000 vertices");
+    struct Context {
+        GEOSContextHandle_t handle=GEOS_init_r();
+        ~Context() {if(handle)GEOS_finish_r(handle);}
+    } context;
+    if(!context.handle)throw std::bad_alloc();
     struct Cycle {Ring ring;Roi roi;int sign=0,winding=0;std::size_t owner=0;};
     std::vector<Cycle> cycles;
     Ring stack;
@@ -29,15 +40,13 @@ Roi qupath_saved_polygon(Ring input,bool& normalized,const std::atomic<bool>* ca
         if(cycles.size()>=1024)throw std::length_error("saved polygon normalization exceeds1024 cycles");
         Ring ring(stack.begin()+begin,stack.end());
         auto roi=Roi::polygon(ring); // Crossings without repeated vertices remain invalid.
-        long double area=0;
-        const auto origin=ring.front();
-        for(std::size_t j=0;j<ring.size();++j) {
-            const auto a=ring[j],b=ring[(j+1)%ring.size()];
-            area+=(static_cast<long double>(a.x)-origin.x)*(static_cast<long double>(b.y)-origin.y)
-                 -(static_cast<long double>(b.x)-origin.x)*(static_cast<long double>(a.y)-origin.y);
-        }
-        if(area==0 || !std::isfinite(area))throw std::invalid_argument("invalid saved polygon winding");
-        cycles.push_back({std::move(ring),std::move(roi),area>0?1:-1,0,0});
+        // A simple ring's lexicographic minimum is a convex extreme. Use the
+        // robust local orientation, avoiding cancellation in a global area sum.
+        const auto extreme=std::min_element(ring.begin(),ring.end(),[](auto a,auto b){return a.x<b.x || (a.x==b.x && a.y<b.y);})-ring.begin();
+        const auto a=ring[(extreme+ring.size()-1)%ring.size()],b=ring[extreme],c=ring[(extreme+1)%ring.size()];
+        const auto sign=GEOSOrientationIndex_r(context.handle,a.x,a.y,b.x,b.y,c.x,c.y);
+        if(sign!=1 && sign!=-1)throw std::invalid_argument("invalid saved polygon winding");
+        cycles.push_back({std::move(ring),std::move(roi),sign,0,0});
         for(std::size_t j=begin+1;j<stack.size();++j)positions.erase({stack[j].x,stack[j].y});
         stack.resize(begin+1);
     }
@@ -70,5 +79,6 @@ Roi qupath_saved_polygon(Ring input,bool& normalized,const std::atomic<bool>* ca
     auto result=Roi::multipolygon(std::move(parts));
     normalized=true;
     return result;
+#endif
 }
 }
