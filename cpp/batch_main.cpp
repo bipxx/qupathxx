@@ -100,6 +100,7 @@ int execute(const std::vector<std::string>& args) {
             "             --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N\n"
             "             --min-component-area N --max-component-area N --min-component-extent N\n"
             "             --max-fit-error N --max-rotation N --max-candidates N --pair-checks N --qptma-bytes N --name TEXT\n"
+            "       qupathxx_batch --raw-classifier-workflow PROJECT NEW_DIRECTORY IMAGE_ID [--channels N]\n"
             "       qupathxx_batch --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [raw options]\n"
             "       qupathxx_batch --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [raw options]\n"
             "       qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT [contour options]\n"

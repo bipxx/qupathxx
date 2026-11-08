@@ -1,0 +1,52 @@
+{
+  "native_source_tree_sha256": "235b5e3865d593159d5a3578016dab459b03a81c76f8d0d84916f3ac69fa0576",
+  "binding_objects_preserved": 38,
+  "python_disabled_in_local_build": true,
+  "python_binding_targets_absent": true,
+  "installed_cli_sha256": "4c2919815de23a9307ab3c2337fd8be5414aa99a127e773ad608f2d576526f31",
+  "installed_cli_runtime": {
+    "format": "PE32+",
+    "machine": "x86_64",
+    "kind": "exe",
+    "imports": [
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-environment-l1-1-0.dll",
+      "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "api-ms-win-crt-time-l1-1-0.dll",
+      "api-ms-win-crt-utility-l1-1-0.dll",
+      "bcrypt.dll",
+      "geos_c.dll",
+      "kernel32.dll",
+      "libopenslide-1.dll",
+      "msvcp140.dll",
+      "msvcp140_2.dll",
+      "vcruntime140.dll",
+      "vcruntime140_1.dll"
+    ],
+    "delay_imports": [],
+    "export_forwarders": []
+  },
+  "restricted_path": "Windows System32 only for installed spatial CLI/fixture, fluorescence batch and two viewer checks",
+  "native_viewer_checks": [
+    "saved spatial counts project",
+    "saved float32 fluorescence records"
+  ],
+  "viewer_scope": "Existing unchanged native viewer/stage; no new schema or viewer implementation. Saved point rendering/imported-properties inspector are reused.",
+  "fluorescence_batch_scope": "Existing installed native batch consumer; source algorithm unchanged. New native fixture/recipe verifies the selected workflow.",
+  "hosted_linux_ci": {
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/42516464079",
+    "source_commit": "99e757063c813240910d4098f1126c92db812bb5",
+    "conclusion": "success",
+    "metadata": "hosted-ci.json"
+  },
+  "scientific_scope": "Synthetic engineering fixtures, not biological validation or vendor compatibility",
+  "release": "none",
+  "optional_python_configuration_restored": true,
+  "package_manifest_regressions_passed": 109
+}

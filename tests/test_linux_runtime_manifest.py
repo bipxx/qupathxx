@@ -192,3 +192,18 @@ def test_cli_new_publication_exact_verification_and_json_controls(tmp_path):
     output.write_bytes(original)
     assert subprocess.run(command+['--verify', str(output)], capture_output=True).returncode == 0
     assert not list(tmp_path.glob('.*.qpx-tmp-*'))
+
+
+@pytest.mark.parametrize('python_dependency', [False, True])
+def test_spatial_counts_entry_point_keeps_native_python_independence(tmp_path, python_dependency):
+    name = 'qupathxx/qupathxx_spatial_counts'
+    binary = image(needed=('libpython3.12.so.1.0' if python_dependency else 'libc.so.6',),
+        runpath='$ORIGIN', soname=None, executable=True, interpreter='/lib64/ld-linux-x86-64.so.2')
+    path = wheel(tmp_path, {name: binary})
+    if python_dependency:
+        with pytest.raises(ValueError, match='native executable transitively depends on Python'):
+            runtime.inspect_wheel(path)
+    else:
+        result = runtime.inspect_wheel(path)
+        assert any(entry['entry_point'] == name for entry in result['entry_points'])
+        assert result['native_executables_python_independent']

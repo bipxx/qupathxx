@@ -148,6 +148,7 @@ def main():
                     line=native.splitlines()[method.lineno-1]
                     native=native.replace(line,line.replace('arg: object','arg: '+annotation),1)
         native=numpy_annotation_alias(native)
+        native=re.sub(r'(def run_raw_classifier_workflow\([^\n]*)',lambda m:m.group(0).replace('image_id: object','image_id: int').replace('channels: object','channels: int'),native)
         validate_native_signatures(native)
     tree=ast.parse((package/'__init__.py').read_text(encoding='utf8'))
     names=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='__all__' for t in n.targets))

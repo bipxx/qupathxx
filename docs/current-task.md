@@ -7,6 +7,168 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active integration - merge native workflows into main
+
+Owner requested merging feature/scientific-grid-159 into main. Main62e35c8f
+contains independent activity-sidebar, command-icon and design-system work; retain
+it alongside feature3d715c84's native/optional-Python/fluorescence/spatial-count
+changes. Code/CMake merge automatically; only this task-history document conflicted.
+Preserve both delivered histories below.
+
+Before build: merged UI and shared application entry have not been linked together.
+Fast-forward the active integration checkout to the local merge commit, reuse its
+one cache and build only native app/new workflow tests/entry target. Run the three
+focused workflow cases plus native entry and a saved-project GUI smoke. No binding
+rebuild, scientific campaign, new checkout or binary release is selected. Push main
+only after these integration checks pass; preserve existing fixtures/open windows.
+
+## Delivered task - open-format fluorescence and spatial counts
+
+[Plan/checklist](fluorescence-omics-plan.md), [usage](fluorescence-omics.md) and
+[evidence](benchmarks/fluorescence-omics/README.md). FO00-FO05 complete for the
+selected finite workflows; local and hosted native-only checks pass.
+
+Reused existing --kind raw/explicit-axis batch, TIFF/raw measurements and
+retention instead of adding a fluorescence pipeline. Independent uint16/float32
+OME fixtures pass axes/names/calibration/high/zero/nonfinite values, display-
+independent hashes, CSV, save/replay, batch and invalid/stale/no-overwrite checks.
+New C++ Matrix Market/TSV reader keeps bounded sparse input and only densifies the
+selected projection. Existing point detections/ObjectProperties/save_new retain
+selected genes, exact counts≤2^53, IDs/coordinates and input digests. No new project
+schema, HDF5/Zarr dependency or Python implementation. CLI imported projects and
+saved fluorescence records open in the existing viewer/properties inspector.
+
+Three focused native tests pass; installed CLI/no-overwrite and explicit-channel
+fluorescence batch pass with PATH=Windows System32. Both saved-project viewer
+smokes pass. Python discovery was disabled; no binding targets, all38 binding
+objects preserved. New executable admission in Windows/Linux package dependency
+manifests passes109 focused archive/runtime regressions, including refusal of a
+Python-dependent spatial CLI. This does not publish/qualify a new wheel.
+
+[Linux native-only run42516464079](https://github.com/bipxx/qupathxx/actions/runs/42516464079)
+passes configure/build/tests/install/runtime-dependency and installed-consumer
+checks on native source99e75706. Optional-interface cache flags restored without
+binding rebuild. Usage/support documentation and source handoff complete.
+No further biological/parity feature, full matrix, new binary release or dataset
+download is selected. H5AD/Zarr, unmixing/segmentation/normalization/clustering and
+vendor-native formats remain outside this slice.
+
+Waste/corrections: direct ObjectProperties include missing on first compile;
+test fixture used tile2 below native minimum16; bad-channel rejection belongs at
+analyze_raw's actual worker boundary, not necessarily snapshot construction.
+Fixed inputs/includes without weakening production checks/assertions/tolerances.
+Reused passing spatial evidence during fluorescence repairs. One cache/component
+install, no binding compilation. Existing viewer/schema reused. New native CLI
+must be admitted as an explicit package entry point so Python-independence checks
+also cover it; synthetic PE/ELF archive tests avoid a packaging rebuild.
+
+## Delivered task - native C++ usability and CI guard
+
+Owner approved one C++ example, native build/backend documentation and a
+Python-disabled CI configuration. No new binary release or scientific migration.
+
+- [x] U01: small project open/analyze/retain/save/reopen/replay example using
+  shared APIs, with a native synthetic input and no-overwrite check.
+- [x] U02: native build defaults/optional SDK requirements documented.
+- [x] U03: bounded headless Linux CI guard; default Python OFF, discovery disabled,
+  no binding targets/products/runtime imports; installed C++ consumer exercised.
+
+[Guide](native-build.md) and [evidence](benchmarks/native-usability/README.md).
+Two selected native CTest cases plus installed example pass with Python discovery
+disabled. No binding targets; all38 binding objects preserved. Existing Windows
+GUI/SDK flags retained, optional Python configuration restored. New example source
+is included in the compiler-input manifest. Shell syntax and local links pass.
+Initial Linux run42513372855 exposed ambiguous checkpoint lookup under GCC.
+Four calls now name the intended helper; algorithm/cancellation behavior unchanged.
+Affected local cells/example plus installed replay pass. Corrected Linux
+[run42513681737](https://github.com/bipxx/qupathxx/actions/runs/42513681737) passes
+all configure/build/tests/install/runtime-import/installed-consumer checks on
+source673caa69. This closes U01-U03 for the selected native usability slice.
+
+Waste review: one cache, example component install only; no binding rebuild,
+wheel, scientific campaign or release. GCC failure diagnosed before retry;
+keep the original failed run as evidence. Stop this usability
+slice after source handoff and CI status; add further consumers for a named need.
+
+## Delivered task - native-first application and optional Python
+
+[Boundary audit](consolidation-python-boundary.md) and [follow-up checklist](consolidation-coverage.md#native-first-optional-interface-follow-up):
+7/7 complete. Reviewed all3 package modules/11 supported examples. Scientific,
+cohort/import/reuse/persistence/export authority remains native; independent
+Python tools/oracles are development code, not a product dependency.
+
+Moved the duplicated desktop startup into shared C++ run_application, used by
+native executable and optional argv-only Python launcher. Moved raw-classifier
+lattice/tile/feature recipe, checkpoint/train/predict/retention/no-overwrite and
+native lifetime into run_raw_classifier_workflow, also exposed through the C++
+CLI. Python example now forwards arguments and displays native JSON. Normal
+complete runs avoid the old forced one-window/resume IO; explicit native resume
+APIs remain. No scientific algorithm or data schema changed.
+
+Plain CMake now defaults Python OFF; actual wheel backend settings explicitly
+opt in. Existing cache configured with Python/Python3/nanobind discovery disabled:
+no binding targets or installed Python files. Native GUI/CLI train/save/stream
+verify/project reopen run with interpreter directories absent from PATH; all6 PE
+closures have no Python DLL. Original Python, optional native interface, native
+CLI and Python-OFF install preserve identical36-row/four-window model/stream
+hashes. Default headless application entry compiles/links/runs against core alone.
+[Evidence](benchmarks/native-optional/README.md).
+
+Checks:11 controller/workflow cases,8 actual launcher cases,15 public-stub/API
+cases; native workflow contract plus GUI/headless entry checks pass.36/38 binding
+objects reused for new APIs (large bindings.cpp preserved); all38 unchanged
+through native-only/headless/restoration checks. Optional development cache and
+stage restored. Final source receipt owns current identity; earlier observations
+retain their tested source/configuration. AGENTS now enforces native-default,
+no Python process fallback, and delivered migration status.
+
+Waste/corrections: froze one old-workflow baseline and reused its input. First
+GUI selection skipped the opt-in tests; explicitly enabled the established flag
+and obtained actual coverage. Checked the newly introduced headless source branch
+without recompiling optional bindings. One cache, no duplicate checkout/wheel,
+full scientific campaign or new binary release. Candidate7 stays frozen. Stop the
+selected audit; future app-owned recipes go into shared native services.
+
+## Delivered task - all five selected gaps closed
+
+[G01-G05 checklist](remaining-gaps-checklist.md): **5/5 complete** for the finite
+Windows research acceptance targets selected before execution. [Candidate7 is
+public](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7):
+all14 asset sizes/SHA256 digests match before/after publication; source tag0ff8c5c3
+matches the571-input raw source kit and native tree
+b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc.
+
+G01 comparison remains source-scoped, with overlapping native305.6ms /QuPath313.1ms
+ranges and no general speed claim. All scientific inputs match that measured
+source; only private importer/tests/CMake registration changed. G02:2,768 identical
+coarse tissue calls/600.08s,1.07MiB private range within32MiB bound,100,001-object/
+600-frame viewer with actual OS GPU process counters, exact tiles/oracle/cancel
+and8 publication guards. G03: fixed independent CMU-2 crops give6,732 exact cells;
+20,196 quantitative compartment domains pass. G05: native vertex-touch admission
+and unnamed-object retention preserve all558 cells/559 objects and22,880 bit-exact
+stored values plus masks/names/parents/calibration/reopen. Native controls and5
+Python importer regressions pass. [Evidence](benchmarks/all-five-gaps/README.md).
+
+G04:69 immutable installed wheel members/DLL origins, static wheel70/7 and native
+59/6 closures, installed density/import/bidirectional reuse and full558-cell
+preservation, standalone app/batch and removal with33 output hashes unchanged.
+Matching source/notices/12 open external dependency archives plus vendored
+LodePNG are published. All38 binding objects reused; new logic is C++ only.
+Candidate6 and earlier releases remain frozen. Native's historical f110c183+dirty
+label is disclosed; raw compiler-input/source/runtime receipts own provenance.
+
+Waste review: fixed a wrong float64-per-pixel OD oracle by using the declared
+float32 domain, retaining1e-10 tolerance and all cases; recovered its successful
+saved archive without redetection. Strict comparison found/fixed null-name loss.
+Robust orientation review required a narrow correction and superseded one local
+preparation, not another scientific campaign. Both preparations/failures remain
+local; only final bytes published. Corrected Windows text decoding/field-scoped
+release lookup without a duplicate upload. No full binding/platform/corpus rebuild.
+
+Stop this selected batch. Remaining unselected capability/support boundaries are
+in the checklist/known limits; do not convert them into another automatic parity
+phase. No universal speed, biological, lifetime/hardware or additional-platform
+claim is made. Future work needs a real workflow and finite acceptance target.
 ## Delivered task - activity sidebar and compact workspace chrome
 
 Owner requests a VS Code-style left activity rail instead of tabs, drawing tools

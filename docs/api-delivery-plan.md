@@ -1,5 +1,24 @@
 # API and workflow delivery paths
 
+Owner selection2026-11-08: [open-format fluorescence and spatial-count phase](fluorescence-omics-plan.md).
+Native OME-TIFF ROI/batch checks and the new Matrix Market/TSV spatial-count
+reader/projection/CLI pass locally and in Python-disabled Linux CI; installed/
+native-viewer routes pass. See [usage and limits](fluorescence-omics.md); evidence is in
+current-task.md. This supersedes older blanket deferrals only for this finite
+scope. No new release, closed format or broader fluorescence/omics claim.
+
+The native-first [optional Python boundary follow-up](benchmarks/native-optional/README.md)
+is delivered: shared C++ application/raw-workflow entry points, native-default
+CMake and actual Python-disabled build/run evidence. Python remains an optional
+controller; independent development oracles remain separate. No new release or
+parity phase is selected.
+
+The selected [G01-G05 gap closeout](remaining-gaps-checklist.md) is complete and
+[candidate7](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7)
+is public. It adds native reviewed vertex-touch saved-data compatibility and
+finite second-slide/dense/sustained acceptance; no100% parity or general speed
+claim is implied. Stop the selected batch; broader catalogue work stays optional.
+
 The [latest contour batch](benchmarks/contour-optimization/README.md) preserves
 exact outputs and shows an observed11.2% detector reduction in matched local
 baseline/candidate pairs. This is not a general QuPath speed claim. Earlier

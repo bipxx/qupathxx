@@ -1,9 +1,48 @@
 # qupathxx
 
-A new C++17 bioimage analysis application with nanobind Python bindings and a
+A C++17 bioimage analysis application with optional nanobind Python bindings and a
 Dear ImGui desktop interface. Inspired by QuPath's workflows and the native-core
 architecture in `../naparixx`. This is an initial implementation, not a complete
 QuPath port or a compatible replacement for Java QuPath.
+
+## Native application; optional Python interface
+
+The GUI, CLI, scientific services, project persistence and workflow implementations
+are C++. Python is not needed to configure, build or run native products. Plain
+CMake defaults `QUPATHXX_BUILD_PYTHON=OFF`; enable GUI/readers/topology/training
+backends using their existing native build options/SDK dependencies.
+
+For a fresh standalone source checkout, a native GUI build starts with:
+
+```sh
+cmake -S . -B build/native -DQUPATHXX_BUILD_GUI=ON
+cmake --build build/native --config Release --target qupathxx_app qupathxx_batch qupathxx_region qupathxx_spatial_counts
+```
+
+Python users can install the package normally; the wheel backend explicitly enables
+the optional interface. A direct CMake binding build opts in with
+`-DQUPATHXX_BUILD_PYTHON=ON` and needs Python/nanobind. Native executables
+do not import the extension or invoke Python for an implementation.
+
+C++ entry points include `qupathxx/application.hpp` and
+`qupathxx/raw_classifier_workflow.hpp`. With project/TIFF/training support enabled:
+
+```sh
+qupathxx_batch --raw-classifier-workflow input.qpx new-output-directory 1 --channels 2
+```
+
+The same native pipeline is available through the optional Python function
+`run_raw_classifier_workflow`. Python examples configure/call native APIs;
+independent Python tests/oracles remain development tools.
+[Boundary audit and native-only proof](docs/benchmarks/native-optional/README.md).
+
+[Native build options and C++ project example](docs/native-build.md) provide a
+small open/analyze/save/replay consumer and a Python-disabled CI guard.
+
+[Native fluorescence and spatial-count workflows](docs/fluorescence-omics.md)
+provide OME-TIFF ROI measurements and a Matrix Market/TSV selected-gene spatial
+projection, using open formats/readers/codecs. These are bounded research workflows;
+advanced fluorescence and broader omics methods remain outside the declared scope.
 
 ## Implemented
 
@@ -224,7 +263,8 @@ density or stain-specific quantification.
 
 ## Build and launch
 
-Requires Python 3.11+, CMake 3.24+ and a C++17 compiler. On Windows install Visual
+Native builds require CMake 3.24+ and a C++17 compiler; optional Python packages
+also require Python 3.11+. On Windows install Visual
 Studio's Desktop development with C++ workload. GUI builds fetch Dear ImGui
 v1.91.9b and GLFW 3.4 and require desktop OpenGL. Linux also needs GLFW's X11 or
 Wayland development dependencies; macOS needs Xcode command line tools.

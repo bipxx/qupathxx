@@ -1,0 +1,24 @@
+{
+  "python_discovery_disabled_during_build": true,
+  "local_gui_enabled": true,
+  "local_optional_backends": "Retained existing SDKs; not a minimal Linux configuration",
+  "binding_objects_preserved": 38,
+  "local_selected_tests": 2,
+  "installed_native_example_passed": true,
+  "graph_has_no_binding_targets": true,
+  "workflow_shell_syntax": "bash -n passed for three run blocks",
+  "hosted_linux_ci": {
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/42513681737",
+    "conclusion": "success",
+    "source_commit": "673caa6936d736010d6dc103b6e20b8f6dc3e7b4",
+    "summary": "hosted-ci.json"
+  },
+  "release": "unchanged",
+  "initial_cpp_only_source_tree_sha256": "0abd23060e3c7d52987730a84b221f27517560806cec9e763259bc8f97497e9f",
+  "initial_cpp_only_source_commit": "c3f9fba66ec98d65655e57b4199d7cb0d01264aa",
+  "portability_fix_commit": "673caa6936d736010d6dc103b6e20b8f6dc3e7b4",
+  "portability_checked_windows_source_tree_sha256": "870fec272af6fb72db97fe99945d3158f5d49fede91ee98ac11cb1f78210a961",
+  "portability_local_tests": "native_project_example and cells pass; installed example passes again",
+  "portability_local_configuration": "Optional Python-ON/GUI-ON cache restored; selected native targets only, no binding rebuild",
+  "installed_example_sha256": "0ae43f1958874a5a06c3c6a59dd614f1efe335c4a02317549605084a2e81515c"
+}

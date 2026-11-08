@@ -1,0 +1,164 @@
+{
+  "package_modules": 3,
+  "optional_examples": 11,
+  "scientific_python_imports_absent": true,
+  "surfaces": [
+    {
+      "path": "examples/density_manifest.py",
+      "sha256": "0c80eb39ecadf63a7be930ecdfa0b45ae32203feef720d7abf1d7cd9fd66ed7a",
+      "lines": 58,
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx",
+        "qupathxx._workflow_control",
+        "typing"
+      ]
+    },
+    {
+      "path": "examples/density_workflow.py",
+      "sha256": "6aee77159ad4b876554bd5fe1ec8d0c0342e95a3f8bb0666d7c4b6ce7df6e1ba",
+      "lines": 57,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/live_workflow.py",
+      "sha256": "2a3eff7aec69b5f3752efcc54c041f3c6dd5b44441a87cc77958517af5cd2b5c",
+      "lines": 43,
+      "imports": [
+        "argparse",
+        "pathlib",
+        "qupathxx",
+        "threading"
+      ]
+    },
+    {
+      "path": "examples/neighborhood_workflow.py",
+      "sha256": "e9c6800454a18b11d22789d00a0eb6f0702a807074933eafca1e1a244e9a190b",
+      "lines": 57,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/nucls_import.py",
+      "sha256": "52d415e4e7c33c0326168b3679c6638c6d5f0ababf76f0e0e7d1eeb441723170",
+      "lines": 52,
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx",
+        "qupathxx._workflow_control"
+      ]
+    },
+    {
+      "path": "examples/pixel_classifier.py",
+      "sha256": "0755b79e099980ce1543b4c756d95083c055c277b8739bae9a8a340124b3f641",
+      "lines": 46,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/pixel_workflow.py",
+      "sha256": "8865767a5d5abb19b8f0805cd9a2f0141e5e8d8e1e28ffdb2c7029b26190ce3e",
+      "lines": 58,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/project_density.py",
+      "sha256": "7b078a682bedc49c632e3e22359695addb22a4148db869e670b558317800ee5d",
+      "lines": 73,
+      "imports": [
+        "__future__",
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx",
+        "qupathxx._workflow_control",
+        "signal",
+        "threading",
+        "typing"
+      ]
+    },
+    {
+      "path": "examples/raw_classifier_workflow.py",
+      "sha256": "6d2d406174d445e3179a467ae2c01905966b0945c394662b45793b7081cecd40",
+      "lines": 26,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/region_workflow.py",
+      "sha256": "21cfa050ec62df86970b0a05a83d5a700bf84711e13eb7afee451810173e0ed0",
+      "lines": 110,
+      "imports": [
+        "argparse",
+        "json",
+        "pathlib",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "examples/rgb_nominal_preview.py",
+      "sha256": "b1b67d2334c35bb4b6328fc95d3b40bfadd23280e6236ebf8456bdb4b46e9ba0",
+      "lines": 47,
+      "imports": [
+        "argparse",
+        "json",
+        "qupathxx"
+      ]
+    },
+    {
+      "path": "src/qupathxx/__init__.py",
+      "sha256": "d5e717eaf6dcfa85780e4592127a02bd7422d2b937ba38985791f186a5e8da1f",
+      "lines": 198,
+      "imports": [
+        "_native"
+      ]
+    },
+    {
+      "path": "src/qupathxx/__main__.py",
+      "sha256": "3580f5a6ff0769d1f0acb905c6feb12241423bd699b6ed7de2337cdf2d1d6fdb",
+      "lines": 11,
+      "imports": [
+        "_native",
+        "sys"
+      ]
+    },
+    {
+      "path": "src/qupathxx/_workflow_control.py",
+      "sha256": "9244c2716322c2595f86a565ae411a0bf6535812cb976feccae6af024be0ec0f",
+      "lines": 38,
+      "imports": [
+        "__future__",
+        "json",
+        "time"
+      ]
+    }
+  ]
+}

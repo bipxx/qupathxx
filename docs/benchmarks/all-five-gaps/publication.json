@@ -1,0 +1,96 @@
+{
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.7",
+  "release_id": 438318352,
+  "tag": "v0.1.0-windows-candidate.7",
+  "source_commit": "0ff8c5c3257c9084a8f77cad0126f6104f6a5cb1",
+  "source_tree": "b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc",
+  "published": true,
+  "prerelease": true,
+  "assets_verified": 14,
+  "assets": [
+    {
+      "name": "candidate.json",
+      "bytes": 1494,
+      "digest": "sha256:80b7e004bd6efaab5a3ed9d41f65c986748f7b4d55d7098daa637bc588f755d9",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/candidate.json"
+    },
+    {
+      "name": "dependency-sources.json",
+      "bytes": 4724,
+      "digest": "sha256:3bba9c87935ceb6dd73f2eea47029ea72957a1603fe52fd992f44899a3359547",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/dependency-sources.json"
+    },
+    {
+      "name": "installation.json",
+      "bytes": 4280,
+      "digest": "sha256:24c2c59e94dcc3d7bc2a234b869cda6ea144432ad8bfac60226e1ad609d2fc2b",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/installation.json"
+    },
+    {
+      "name": "installed-routes.json",
+      "bytes": 4733,
+      "digest": "sha256:15023b19dc406f74d468262b757c173896bebe0401970db1b16559507b797897",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/installed-routes.json"
+    },
+    {
+      "name": "KNOWN-LIMITS.md",
+      "bytes": 1610,
+      "digest": "sha256:962d276f2b18ba0303a522473ce3d88d63ad77ffd12e5bb81337c3c7c397ec2d",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/KNOWN-LIMITS.md"
+    },
+    {
+      "name": "native-runtime.json",
+      "bytes": 47849,
+      "digest": "sha256:c04bf214f6ea315704b4c444954e799197610d5f78ae483593875c5e4fd66407",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/native-runtime.json"
+    },
+    {
+      "name": "qupathxx-0.1.0-7-cp312-cp312-win_amd64.whl",
+      "bytes": 33547522,
+      "digest": "sha256:97945db9dd79fbc3d3198a7e3edb59651b8b5be922bd3d9c28f8677c8c9e0342",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/qupathxx-0.1.0-7-cp312-cp312-win_amd64.whl"
+    },
+    {
+      "name": "qupathxx-dependency-sources.zip",
+      "bytes": 135374582,
+      "digest": "sha256:a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/qupathxx-dependency-sources.zip"
+    },
+    {
+      "name": "qupathxx-source-0ff8c5c3.zip",
+      "bytes": 68643671,
+      "digest": "sha256:ed0bf0311de825eddb605af5fa406d0761dd0af83bc7f7af71290e4c5cbbafd1",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/qupathxx-source-0ff8c5c3.zip"
+    },
+    {
+      "name": "qupathxx-windows-x64-candidate.zip",
+      "bytes": 28265197,
+      "digest": "sha256:2b7372e6501598279a6ac227d4549a0d90f6117342edc3a215398576127ff000",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/qupathxx-windows-x64-candidate.zip"
+    },
+    {
+      "name": "removal.json",
+      "bytes": 6274,
+      "digest": "sha256:2639e8872ba8c3f7bc95695259d876b931c21e0072d027aad98475eedca69b69",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/removal.json"
+    },
+    {
+      "name": "RUN.md",
+      "bytes": 2638,
+      "digest": "sha256:98180001b90e6fc364b1316ada26c0f9983b8ba25bf0b4eda806afda93311f70",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/RUN.md"
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 1164,
+      "digest": "sha256:465f4a74e65ba8ac9ef81c1c9461d3997d3efa2f2d683cd6bc7e13b1ac44e835",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/SHA256SUMS"
+    },
+    {
+      "name": "wheel-runtime.json",
+      "bytes": 61145,
+      "digest": "sha256:89a0acdf4ac5183788f4ed550a4f3aefca000e7dd6f1147ab0d711198e3b9edf",
+      "url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.7/wheel-runtime.json"
+    }
+  ]
+}

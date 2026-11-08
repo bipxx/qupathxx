@@ -1,0 +1,29 @@
+{
+  "source_tree": "013006a18dc7e472531f3288326cb37f09b827796a5b580c7f5eedac6e437941",
+  "cases": [
+    {
+      "case": 0,
+      "cells": 2258,
+      "compartments_checked": 6774,
+      "calibrated_sample_areas": true,
+      "rgb_od_and_cytoplasm_means": true
+    },
+    {
+      "case": 1,
+      "cells": 2266,
+      "compartments_checked": 6798,
+      "calibrated_sample_areas": true,
+      "rgb_od_and_cytoplasm_means": true
+    },
+    {
+      "case": 2,
+      "cells": 2208,
+      "compartments_checked": 6624,
+      "calibrated_sample_areas": true,
+      "rgb_od_and_cytoplasm_means": true
+    }
+  ],
+  "tolerance": 1e-10,
+  "od_domain": "float32 per pixel; double mean, matching declared FloatRgbImage domain",
+  "no_redetection": true
+}

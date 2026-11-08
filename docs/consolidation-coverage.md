@@ -212,3 +212,45 @@ Finish when NC01-NC28 are evidenced: one headless C++ workflow/import authority,
 compatible saved data/receipts and thin consumers. No100% QuPath parity, cosmetic
 campaign, whole-slide performance acceptance, optional feature expansion or binary
 publication is implied. Deferred L3 optimization stays separate from this queue.
+
+
+## Native-first optional-interface follow-up
+
+Owner-requested boundary follow-up, separate from the completed28 historical
+acceptance items. **7/7 complete**; see [boundary review](consolidation-python-boundary.md)
+and [source-scoped evidence](benchmarks/native-optional/README.md).
+
+- [x] P01: audit all3 package modules/11 examples; distinguish product authority
+  from optional caller controls and independent development oracles.
+- [x] P02: share C++ application startup between native executable/nanobind;
+  Python CLI forwards only argv/result. Validate actual launch/recovery/error paths.
+- [x] P03: move raw-classifier recipe/pipeline/retention to C++ service/CLI;
+  preserve baseline scientific identity and no-overwrite behavior.
+- [x] P04: default ordinary CMake to Python OFF; explicit wheel opt-in verified
+  with the installed backend settings reader.
+- [x] P05: Python discovery disabled, no binding targets/files/imported DLLs;
+  restricted-PATH native GUI/train/save/verify/reopen and headless entry pass.
+- [x] P06: focused controls/stubs/tests pass;36/38 binding objects reused for new
+  APIs; all38 preserved through native-only and restoration configurations.
+- [x] P07: update policy/audit/build guide/current task; source handoff with no
+  intermediate wheel, new release or repeated scientific qualification campaign.
+
+## Native C++ usability follow-up
+
+- [x] U01: optional native project example and synthetic fixture; open/analyze/
+  retain/save/reopen/replay and no-overwrite checks pass.
+- [x] U02: native build defaults, reader/training/topology SDK requirements and
+  source-consumer linking documented in [the build guide](native-build.md).
+- [x] U03: bounded Python-disabled Linux CI guard added, including installation
+  and native runtime dependencies; local Windows check and shell syntax pass.
+  Hosted job execution tracked separately in [evidence](benchmarks/native-usability/README.md).
+
+## Open-format fluorescence and spatial counts
+
+- [x] FO00: open format/reader/codec scope and explicit association profile.
+- [x] FO01/FO02: reuse native raw measurement/batch services; uint16/float32 OME
+  axes/values/display/CSV/save/replay/stale/no-overwrite checks pass.
+- [x] FO03/FO04: bounded C++ Matrix Market/TSV reader and selected-gene point
+  projection; exact counts, sparse zeros, associations, budgets/cancel/persistence.
+- [x] FO05: installed native CLI/batch and existing viewer checks pass; hosted
+  Python-disabled Linux CI passes on source99e75706. [Usage](fluorescence-omics.md), [evidence](benchmarks/fluorescence-omics/README.md).

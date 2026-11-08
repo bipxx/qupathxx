@@ -1,5 +1,6 @@
 #include "qupathxx/density_workflow.hpp"
 #include "qupathxx/nucls_import.hpp"
+#include "qupathxx/raw_classifier_workflow.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/map.h>
@@ -41,6 +42,10 @@ std::vector<std::uint64_t> ids(nb::handle values) {
 }
 void bind_native_workflows(nb::module_& m) {
     using namespace qpx;
+    m.def("run_raw_classifier_workflow",[](const std::string& input,const std::string& output,nb::handle image,nb::handle channels) {
+        const auto id=number<std::uint64_t>(image);const auto count=number<std::uint32_t>(channels);
+        nb::gil_scoped_release release;return run_raw_classifier_workflow(input,output,id,count);
+    },"input_project"_a,"output_directory"_a,"image_id"_a,"channels"_a=1);
     m.attr("has_native_workflows")=true;
     nb::exception<WorkflowInputChanged>(m,"WorkflowInputChanged",PyExc_RuntimeError);
     nb::exception<WorkflowOutputExists>(m,"WorkflowOutputExists",PyExc_FileExistsError);

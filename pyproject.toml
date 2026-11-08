@@ -26,5 +26,8 @@ cmake.build-type = "Release"
 build-dir = "build/{wheel_tag}"
 wheel.packages = ["src/qupathxx"]
 
+[tool.scikit-build.cmake.define]
+QUPATHXX_BUILD_PYTHON = "ON"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

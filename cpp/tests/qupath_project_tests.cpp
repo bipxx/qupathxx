@@ -9,9 +9,11 @@ using namespace qpx;
 void check(bool value) {if(!value)throw std::runtime_error("QuPath project check failed");}
 template<class F>void rejects(F f){try{f();}catch(const std::exception&){return;}throw std::runtime_error("missing import refusal");}
 #include "class_project_checks.hpp"
+#include "qupath_polygon_checks.hpp"
 int main() {
     try {
         if(!has_project() || !has_interchange()) {rejects([]{preview_qupath_project("missing.qpproj");});std::cout<<"QuPath project capability disabled and refused\n";return 0;}
+        polygon_walk_checks();
         const auto fixture=std::filesystem::path(QPX_PROJECT_SOURCE_ROOT)/"tests/fixtures/qupath-project-0.7.0/project/data/1/data.qpdata";
         std::ifstream input(fixture,std::ios::binary);check(bool(input));
         const std::string data(std::istreambuf_iterator<char>(input),{});

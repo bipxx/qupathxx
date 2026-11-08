@@ -473,6 +473,7 @@ from ._native import (
     capture_labelled_raw_pixel_training as capture_labelled_raw_pixel_training,
     make_rgb_nominal_preview as make_rgb_nominal_preview,
     open_rgb_nominal_source as open_rgb_nominal_source,
+    run_application as run_application,
     WorkflowInputChanged as WorkflowInputChanged,
     WorkflowOutputExists as WorkflowOutputExists,
     WorkflowCaptureLimit as WorkflowCaptureLimit,
@@ -499,6 +500,7 @@ from ._native import (
     NuclsImportProgress as NuclsImportProgress,
     NuclsImportJob as NuclsImportJob,
     import_nucls as import_nucls,
+    run_raw_classifier_workflow as run_raw_classifier_workflow,
 )
 
 __all__: list[str]

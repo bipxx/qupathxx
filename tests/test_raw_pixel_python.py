@@ -387,7 +387,7 @@ def test_installed_project_to_project_example(raw, tmp_path):
 
 @pytest.mark.skipif(not q.has_project or not q.has_classifier_training, reason="example needs project/training")
 @pytest.mark.parametrize("optimized", [False, True], ids=["normal", "optimized"])
-def test_raw_classifier_example_resumes_and_retains(optimized, tmp_path):
+def test_raw_classifier_example_completes_and_retains(optimized, tmp_path):
     pixels = tmp_path / "example-input.tif"
     tiff(pixels)
     project = q.Project()

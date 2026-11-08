@@ -1,0 +1,73 @@
+name: Native C++ without Python
+
+on:
+  push:
+    branches: [main, feature/scientific-grid-159]
+    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', '.github/workflows/native-only.yml']
+  pull_request:
+    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', '.github/workflows/native-only.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-only-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Configure without Python or nanobind discovery
+        run: |
+          cmake -S . -B build/native-only -DCMAKE_BUILD_TYPE=Release \
+            -DQUPATHXX_BUILD_TESTS=ON -DQUPATHXX_BUILD_EXAMPLES=ON -DQUPATHXX_BUILD_TIFF=ON \
+            -DCMAKE_DISABLE_FIND_PACKAGE_Python=TRUE \
+            -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE \
+            -DCMAKE_DISABLE_FIND_PACKAGE_nanobind=TRUE \
+            --graphviz=build/native-only/targets.dot
+          grep -qx 'QUPATHXX_BUILD_PYTHON:BOOL=OFF' build/native-only/CMakeCache.txt
+          if grep -E 'label = "(_native|nanobind[^" ]*)"' build/native-only/targets.dot; then
+            echo 'Unexpected Python binding target'; exit 1
+          fi
+      - name: Build and exercise native APIs
+        run: |
+          cmake --build build/native-only --parallel 2 --target \
+            qupathxx_project_example qupathxx_application_entry_tests qupathxx_batch qupathxx_region \
+            qupathxx_fluorescence_tests qupathxx_spatial_counts qupathxx_spatial_counts_tests
+          ctest --test-dir build/native-only --output-on-failure \
+            --no-tests=error -R '^(native_project_example|application_entry|fluorescence_workflow|spatial_counts|spatial_counts_cli)$'
+      - name: Install and exercise the native consumer
+        run: |
+          cmake --install build/native-only --prefix "$PWD/build/native-only-stage"
+          if test -n "$(find build/native-only-stage -type f \( -iname '*.py' -o -iname '*.pyc' -o -iname '*.pyd' -o -iname '*_native*.so' \) -print -quit)"; then
+            echo 'Unexpected Python product in native install'; exit 1
+          fi
+          for binary in qupathxx_project_example qupathxx_batch qupathxx_region qupathxx_spatial_counts; do
+            ldd "build/native-only-stage/qupathxx/$binary" >> build/native-only/dependencies.log
+          done
+          if grep -Ei 'python|not found' build/native-only/dependencies.log; then
+            echo 'Python or unresolved native dependency'; exit 1
+          fi
+          cmake -DEXAMPLE="$PWD/build/native-only-stage/qupathxx/qupathxx_project_example" \
+            -DWORK="$PWD/build/native-only/installed-example" -P tools/ci/check_native_example.cmake
+          cmake -DIMPORTER="$PWD/build/native-only-stage/qupathxx/qupathxx_spatial_counts" \
+            -DFIXTURE="$PWD/build/native-only/qupathxx_spatial_counts_tests" \
+            -DWORK="$PWD/build/native-only/installed-spatial-counts" -P tools/ci/check_spatial_counts.cmake
+      - name: Native check reports
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: native-only
+          retention-days: 7
+          if-no-files-found: warn
+          path: |
+            build/native-only/CMakeCache.txt
+            build/native-only/targets.dot
+            build/native-only/dependencies.log
+            build/native-only/Testing/Temporary/LastTest.log

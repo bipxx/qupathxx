@@ -30,9 +30,17 @@ Put segmentation, geometry, measurements, selection/cohort rules, identity/reuse
 checks, import interpretation, persistence and result export in shared native
 services. ImGui, CLI and nanobind must call those same authorities.
 
+Plain CMake builds default QUPATHXX_BUILD_PYTHON=OFF. Python packaging explicitly
+opts in; native GUI/CLI/workflow targets must configure, build and run without
+Python/nanobind discovery or Python runtime dependencies. Do not shell out to
+Python as a native implementation. Keep new application-owned entry points and
+pipeline recipes in shared C++ services callable without the bindings.
+
 Do not add Python per-pixel/per-object analysis or duplicate recipe/reuse/state
-machines. Move the existing density runner/manifest and NuCLS domain logic by
-the selected plan; these are identified migration gaps, not already compliant.
+machines. Density/manifest/NuCLS/cohort consolidation is delivered; desktop startup
+and the complete raw-classifier recipe now have shared native services. Reuse
+[the boundary audit](docs/consolidation-python-boundary.md) and its source-scoped
+native-only evidence rather than reopening completed migrations.
 Independent test/reference oracles and development benchmark analysis may remain
 Python; they are not product fallbacks or an alternate scientific authority.
 Keep native file/data validation at its actual trust boundary. Python argument
@@ -109,3 +117,7 @@ Do not regenerate retired products merely because a historical receipt names the
 Readers and required codecs must be openly licensed. Keep owner scope/license/
 support/publication decisions attached to their actual claims and continue
 independent authorized work; do not invent additional permission gates.
+For new fluorescence/spatial-omics work, the owner additionally requires open
+formats: use the selected formats in docs/fluorescence-omics-plan.md and the
+format admission policy. An open-source reader alone does not admit a closed
+vendor format. Keep implementation native and Python optional.

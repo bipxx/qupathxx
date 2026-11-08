@@ -190,3 +190,9 @@ if has_native_workflows:
 
 from ._native import make_rgb_nominal_preview, open_rgb_nominal_source
 __all__ += ["make_rgb_nominal_preview", "open_rgb_nominal_source"]
+
+from ._native import run_application
+__all__ += ["run_application"]
+if has_native_workflows:
+    from ._native import run_raw_classifier_workflow
+    __all__ += ["run_raw_classifier_workflow"]

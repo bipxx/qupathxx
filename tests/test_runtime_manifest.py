@@ -272,3 +272,16 @@ def test_dependency_walk_is_linear_in_source_edge_inspections():
     for row, root in zip(result, roots):
         assert row == dict(entry_point=root, bundled_images=sorted([root, *names]), external_requirements=[
             dict(name='kernel32.dll', kind='windows-system'), dict(name='vcruntime140.dll', kind='msvc-runtime')])
+
+
+@pytest.mark.parametrize('python_dependency', [False, True])
+def test_spatial_counts_entry_point_keeps_native_python_independence(tmp_path, python_dependency):
+    name = 'qupathxx/qupathxx_spatial_counts.exe'
+    path = wheel(tmp_path, {name: image(['python312.dll' if python_dependency else 'KERNEL32.dll'], dll=False)})
+    if python_dependency:
+        with pytest.raises(ValueError, match='native executable transitively depends on Python'):
+            runtime.inspect_wheel(path)
+    else:
+        result = runtime.inspect_wheel(path)
+        assert any(entry['entry_point'] == name for entry in result['entry_points'])
+        assert result['native_executables_python_independent']

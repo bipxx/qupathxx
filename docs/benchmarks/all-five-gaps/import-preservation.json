@@ -1,0 +1,25 @@
+{
+  "source_tree": "b633f9924589299be1a4900f3f4afc37aa12d270251822f0bcaffe04c67869fc",
+  "cells": 558,
+  "objects": 559,
+  "measurement_values_bit_exact": 22880,
+  "canonical_nucleus_body_partitions_exact": true,
+  "hierarchy_names_classes_preserved": true,
+  "calibration_um": [
+    0.45641259698767683,
+    0.4550625711035267
+  ],
+  "explicit_issues": [
+    {
+      "code": "workflow_dropped",
+      "count": 1,
+      "message": "NDPI cells: Saved workflow history is not executable in the native project"
+    },
+    {
+      "code": "polygon_vertex_touches_normalized",
+      "count": 2,
+      "message": "NDPI cells: Saved PolygonROI vertex-touch walk decomposed without moving coordinates; stored measurements retained"
+    }
+  ],
+  "source_qpdata_sha256": "3683136df9c85b2023468a896dc434502788290d29b7ef2945d69903bfad8b7b"
+}

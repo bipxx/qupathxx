@@ -1,0 +1,73 @@
+{
+  "run_url": "https://github.com/bipxx/qupathxx/actions/runs/42513681737",
+  "head_sha": "673caa6936d736010d6dc103b6e20b8f6dc3e7b4",
+  "initial_failed_run": "https://github.com/bipxx/qupathxx/actions/runs/42513372855",
+  "jobs": [
+    {
+      "id": 128831945998,
+      "name": "native-only",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T19:10:23Z",
+      "completed_at": "2026-11-08T19:13:24Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:10:23Z",
+          "completed_at": "2026-11-08T19:10:24Z"
+        },
+        {
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:10:24Z",
+          "completed_at": "2026-11-08T19:10:27Z"
+        },
+        {
+          "name": "Configure without Python or nanobind discovery",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:10:27Z",
+          "completed_at": "2026-11-08T19:10:30Z"
+        },
+        {
+          "name": "Build and exercise native APIs",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:10:30Z",
+          "completed_at": "2026-11-08T19:13:21Z"
+        },
+        {
+          "name": "Install and exercise the native consumer",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:13:21Z",
+          "completed_at": "2026-11-08T19:13:21Z"
+        },
+        {
+          "name": "Native check reports",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:13:21Z",
+          "completed_at": "2026-11-08T19:13:22Z"
+        },
+        {
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:13:22Z",
+          "completed_at": "2026-11-08T19:13:22Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-08T19:13:22Z",
+          "completed_at": "2026-11-08T19:13:22Z"
+        }
+      ]
+    }
+  ]
+}

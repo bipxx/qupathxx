@@ -1,0 +1,226 @@
+#include "qupathxx/spatial_counts.hpp"
+#include "qupathxx/project.hpp"
+#include "qupathxx/object_properties.hpp"
+#include "qupathxx/workflow.hpp"
+#include "sha256.hpp"
+#include "utf8_text.hpp"
+#include <nlohmann/json.hpp>
+#include <algorithm>
+#include <charconv>
+#include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <set>
+#include <string_view>
+#include <unordered_set>
+
+namespace qpx {
+namespace {
+constexpr std::uint64_t exact_integer=9007199254740992ULL;
+struct Budget {
+    std::size_t used=0,limit;
+    void charge(std::size_t bytes) {workflow_capture_charge(used,bytes,limit);}
+};
+std::string identifier(std::string_view text) {
+    std::string value(text);
+    detail::bounded_utf8(value,256);
+    if(value.empty() || value.find_first_of("\t\r\n")!=std::string::npos)
+        throw std::invalid_argument("Empty or invalid spatial-count identifier");
+    return value;
+}
+std::uint64_t integer(std::string_view text) {
+    std::uint64_t value=0;
+    const auto p=std::from_chars(text.data(),text.data()+text.size(),value);
+    if(text.empty() || p.ec!=std::errc{} || p.ptr!=text.data()+text.size())
+        throw std::invalid_argument("Expected unsigned spatial-count integer");
+    return value;
+}
+double coordinate(std::string_view text) {
+    double value=0;
+    const auto p=std::from_chars(text.data(),text.data()+text.size(),value);
+    if(text.empty() || p.ec!=std::errc{} || p.ptr!=text.data()+text.size() || !std::isfinite(value) || value<0)
+        throw std::invalid_argument("Expected finite nonnegative level-zero pixel coordinate");
+    return value;
+}
+struct Lines {
+    std::string_view remaining;
+    bool next(std::string_view& line) {
+        if(remaining.empty())return false;
+        const auto at=remaining.find('\n');line=remaining.substr(0,at);
+        remaining=at==std::string_view::npos?std::string_view{}:remaining.substr(at+1);
+        if(!line.empty() && line.back()=='\r')line.remove_suffix(1);
+        if(line.size()>4096 || line.find('\0')!=std::string_view::npos)
+            throw std::invalid_argument("Spatial-count line exceeds limits or contains NUL");
+        return true;
+    }
+    bool matrix_line(std::string_view& line) {
+        while(next(line)) {
+            const auto at=line.find_first_not_of(" \t");
+            if(at!=std::string_view::npos && line[at]!='%')return true;
+        }
+        return false;
+    }
+};
+std::vector<std::string_view> words(std::string_view line,bool tabs=false) {
+    std::vector<std::string_view> values;
+    while(true) {
+        if(!tabs) {
+            const auto start=line.find_first_not_of(" \t");
+            if(start==std::string_view::npos)break;
+            line.remove_prefix(start);
+        }
+        const auto end=tabs?line.find('\t'):line.find_first_of(" \t");
+        values.push_back(line.substr(0,end));
+        if(values.size()>3)throw std::invalid_argument("Extra spatial-count fields");
+        if(end==std::string_view::npos)break;
+        line.remove_prefix(end+1);
+    }
+    return values;
+}
+std::string snapshot(const std::string& path,const SpatialCountsOptions& options,
+    Budget& budget,std::string& hash,const std::atomic<bool>* cancelled) {
+    workflow_path_argument(path);workflow_checkpoint(cancelled);
+    const auto file=std::filesystem::u8path(path);
+    if(!std::filesystem::is_regular_file(file))throw std::invalid_argument("Spatial-count input must be a regular file");
+    const auto size=std::filesystem::file_size(file);
+    if(size>options.file_bytes)throw WorkflowCaptureLimit("Spatial-count file byte limit exceeded");
+    budget.charge(static_cast<std::size_t>(size));
+    std::ifstream input(file,std::ios::binary);
+    if(!input)throw std::runtime_error("Cannot open spatial-count input");
+    std::string text(static_cast<std::size_t>(size),'\0');Sha256 digest;
+    for(std::size_t at=0;at<text.size();) {
+        workflow_checkpoint(cancelled);const auto n=std::min<std::size_t>(65536,text.size()-at);
+        input.read(text.data()+at,static_cast<std::streamsize>(n));
+        if(!input)throw WorkflowInputChanged("Spatial-count input truncated during capture");
+        digest.update(text.data()+at,n);at+=n;
+    }
+    if(input.peek()!=std::char_traits<char>::eof())throw WorkflowInputChanged("Spatial-count input grew during capture");
+    hash=digest.finish();return text;
+}
+}
+void SpatialCountsOptions::validate() const {
+    if(features.empty() || features.size()>64)throw std::invalid_argument("Select between1 and64 feature IDs");
+    std::set<std::string> unique;
+    for(const auto& feature:features)if(!unique.insert(identifier(feature)).second)
+        throw std::invalid_argument("Duplicate selected feature ID");
+    if(!file_bytes || file_bytes>1024ULL*1024*1024 || !work_bytes || work_bytes>1024ULL*1024*1024 ||
+       !max_features || max_features>1000000 || !max_observations || max_observations>100000 ||
+       !max_entries || max_entries>5000000)
+        throw std::invalid_argument("Invalid spatial-count resource limits");
+    ObjectPlane(-1,z,t).validate();
+}
+SpatialCountsProjection read_spatial_counts(const std::string& matrix_path,
+    const std::string& feature_path,const std::string& position_path,
+    const SpatialCountsOptions& options,const std::atomic<bool>* cancelled) {
+    options.validate();workflow_checkpoint(cancelled);Budget budget{0,options.work_bytes};
+    SpatialCountsProjection result;result.features=options.features;
+    const auto matrix=snapshot(matrix_path,options,budget,result.source_sha256[0],cancelled);
+    Lines entries{matrix};std::string_view line;
+    if(!entries.next(line) || line!="%%MatrixMarket matrix coordinate integer general")
+        throw std::invalid_argument("Only Matrix Market coordinate integer general is supported");
+    if(!entries.matrix_line(line))throw std::invalid_argument("Missing matrix dimensions");
+    const auto dimensions=words(line);
+    if(dimensions.size()!=3)throw std::invalid_argument("Expected matrix rows, columns and entry count");
+    const auto rows=integer(dimensions[0]),columns=integer(dimensions[1]),nnz=integer(dimensions[2]);
+    if(!rows || rows>options.max_features || !columns || columns>options.max_observations || nnz>options.max_entries)
+        throw WorkflowCaptureLimit("Spatial-count matrix dimensions/entries exceed limits");
+    result.matrix_features=static_cast<std::uint32_t>(rows);result.matrix_entries=nnz;
+    budget.charge(static_cast<std::size_t>(rows)*sizeof(std::int32_t));
+    std::vector<std::int32_t> selected(static_cast<std::size_t>(rows),-1);
+    const auto feature_text=snapshot(feature_path,options,budget,result.source_sha256[1],cancelled);
+    Lines features{feature_text};
+    if(!features.next(line) || line!="feature_id")throw std::invalid_argument("Expected feature_id TSV header");
+    std::unordered_set<std::string> ids;std::size_t found=0;
+    for(std::size_t row=0;row<rows;++row) {
+        workflow_checkpoint(cancelled);
+        if(!features.next(line))throw std::invalid_argument("Truncated feature table");
+        budget.charge(512+line.size());const auto id=identifier(line);
+        if(!ids.insert(id).second)throw std::invalid_argument("Duplicate feature ID");
+        const auto match=std::find(options.features.begin(),options.features.end(),id);
+        if(match!=options.features.end()) {selected[row]=static_cast<std::int32_t>(match-options.features.begin());++found;}
+    }
+    if(features.next(line) || found!=options.features.size())throw std::invalid_argument("Feature count mismatch or selected ID absent");
+    ids.clear();
+    const auto position_text=snapshot(position_path,options,budget,result.source_sha256[2],cancelled);
+    Lines positions{position_text};
+    if(!positions.next(line) || line!="observation_id\tx_px\ty_px")
+        throw std::invalid_argument("Expected observation_id, x_px, y_px TSV header");
+    budget.charge(static_cast<std::size_t>(columns)*sizeof(SpatialObservation));
+    result.observations.reserve(static_cast<std::size_t>(columns));
+    for(std::size_t column=0;column<columns;++column) {
+        workflow_checkpoint(cancelled);
+        if(!positions.next(line))throw std::invalid_argument("Truncated position table");
+        const auto fields=words(line,true);
+        if(fields.size()!=3)throw std::invalid_argument("Expected observation ID and two pixel coordinates");
+        budget.charge(512+fields[0].size());auto id=identifier(fields[0]);
+        if(!ids.insert(id).second)throw std::invalid_argument("Duplicate observation ID");
+        result.observations.push_back({std::move(id),{coordinate(fields[1]),coordinate(fields[2])}});
+    }
+    if(positions.next(line))throw std::invalid_argument("Extra position records");
+    const auto count=static_cast<std::size_t>(columns)*result.features.size();
+    budget.charge(count*sizeof(std::uint64_t));result.counts.resize(count,0);
+    // Includes conservative node/bucket storage for duplicate detection; never
+    // allocate a full feature-by-observation matrix.
+    budget.charge(static_cast<std::size_t>(nnz)*128);
+    std::unordered_set<std::uint64_t> seen;
+    for(std::uint64_t n=0;n<nnz;++n) {
+        workflow_checkpoint(cancelled);
+        if(!entries.matrix_line(line))throw std::invalid_argument("Truncated matrix entries");
+        const auto fields=words(line);
+        if(fields.size()!=3)throw std::invalid_argument("Expected matrix row, column and count");
+        const auto row=integer(fields[0]),column=integer(fields[1]),value=integer(fields[2]);
+        if(!row || row>rows || !column || column>columns)throw std::invalid_argument("Matrix entry index outside dimensions");
+        if(!seen.insert((row-1)*columns+column-1).second)throw std::invalid_argument("Duplicate sparse matrix coordinate");
+        const auto feature=selected[static_cast<std::size_t>(row-1)];
+        if(feature>=0) {
+            if(value>exact_integer)throw std::invalid_argument("Selected count exceeds exact project integer representation");
+            result.counts[static_cast<std::size_t>(column-1)*result.features.size()+feature]=value;
+        }
+    }
+    if(entries.matrix_line(line))throw std::invalid_argument("Extra matrix entries");
+    workflow_checkpoint(cancelled);return result;
+}
+std::string import_spatial_counts(const std::string& input_project,const std::string& output_project,
+    std::uint64_t image_id,const std::string& matrix,const std::string& features,const std::string& positions,
+    const SpatialCountsOptions& options,const std::atomic<bool>* cancelled) {
+    options.validate();workflow_checkpoint(cancelled);
+    workflow_path_argument(input_project);workflow_path_argument(output_project);
+    if(!image_id)throw std::invalid_argument("Image ID must be positive");
+    if(std::filesystem::exists(std::filesystem::u8path(output_project)))throw WorkflowOutputExists("Choose a NEW spatial-count project");
+    auto projection=read_spatial_counts(matrix,features,positions,options,cancelled);
+    auto project=Project::open_without_journal_recovery(input_project);auto document=project->document(image_id);
+    const ObjectPlane plane(-1,options.z,options.t);document->validate_object_plane(plane);
+    const auto& metadata=document->metadata();
+    std::size_t per_object=2048;
+    for(const auto& feature:projection.features)per_object+=512+2*feature.size();
+    if(projection.observations.size()>options.work_bytes/per_object)
+        throw WorkflowCaptureLimit("Spatial-count object projection exceeds work budget");
+    std::vector<Annotation> objects;objects.reserve(projection.observations.size());
+    const std::map<std::string,std::string> provenance{{"omics.profile","qpx.spatial-counts/1"},
+        {"omics.matrix_sha256",projection.source_sha256[0]},{"omics.features_sha256",projection.source_sha256[1]},
+        {"omics.positions_sha256",projection.source_sha256[2]},{"omics.coordinate_system","level-zero pixels"},
+        {"omics.projection","selected genes; original full matrix not embedded"}};
+    for(std::size_t i=0;i<projection.observations.size();++i) {
+        workflow_checkpoint(cancelled);const auto& observation=projection.observations[i];
+        if(observation.position.x>=metadata.width || observation.position.y>=metadata.height)
+            throw std::invalid_argument("Spatial observation outside selected image");
+        std::map<std::string,double> values;
+        for(std::size_t c=0;c<projection.features.size();++c)
+            values.emplace("omics.count:"+projection.features[c],static_cast<double>(projection.counts[i*projection.features.size()+c]));
+        auto facts=provenance;facts.emplace("omics.observation_id",observation.id);
+        Annotation object{};object.id=i+1;object.name=observation.id;object.kind=ObjectKind::Detection;
+        object.geometry=Roi::points({observation.position});object.plane=plane;
+        object.properties=std::make_shared<const ObjectProperties>(std::move(facts),std::move(values));
+        objects.push_back(std::move(object));
+    }
+    workflow_checkpoint(cancelled);
+    const auto created=document->append_objects(objects,{},"Import spatial count projection");
+    document->clear_history();
+    project->save_new(output_project,options.work_bytes,1024ULL*1024*1024,cancelled);
+    return nlohmann::json{{"schema","qpx.spatial-counts/1"},{"project",output_project},{"image_id",image_id},
+        {"features",projection.features},{"observations",created.size()},{"object_ids",created},
+        {"matrix_features",projection.matrix_features},{"matrix_entries",projection.matrix_entries},
+        {"source_sha256",projection.source_sha256},{"z",options.z},{"t",options.t},
+        {"projection","selected genes; original full matrix not embedded"}}.dump();
+}
+}
