@@ -7,6 +7,38 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - focused post-consolidation speed comparison
+
+Owner-selected fresh comparison is [complete](benchmarks/post-consolidation-speed/README.md):
+current native cell pipeline median324.8ms versus314.1ms QuPath, an observed10.7ms/
+3.4% native overhead on the same512x512 ROI. Native range320.4-330.3ms overlaps
+reference294.9-346.3ms; other-process CPU averages23.5%/26.8% of logical capacity
+over complete engine lifetimes. This one block establishes neither a reliable
+remaining wall-time gap nor speed parity/superiority. No product change is justified
+by this small noisy difference alone.
+
+Exact RGB and canonical nucleus/body partitions agree across engines for all2,237
+Cells. Native ordered mask hashes match the retained accepted result; calibration,
+analysis area and RGB sums agree. Six native/24 JVM warmups and six measured
+samples each use the existing recipe. Native cell detection dominates at320.5ms;
+publication4.3ms, capture0.06ms, read7.8ms and density9.4ms are separate. CPU is
+reported for all engine threads and includes possible JVM JIT/GC effects.
+
+CSV/archive/reopen ran once each, retaining about13.6MiB total evidence instead
+of per-iteration large archives. The formats/retained work differ, so their single
+observations are descriptive, not a save/reopen or whole-workflow speed ratio.
+Native versus scripted reference statistics also have no equivalent-work ratio.
+Source/runtime remains15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011;
+no C++ rebuild, new runtime, wheel, release or broad test campaign occurred.
+
+Waste review: reuse accepted scientific qualification, capture one final oracle
+pair and keep every timing sample. Do not repeat blocks merely for a favorable
+median or change scientific safeguards to chase an overlapping10ms observation.
+Stop this measurement. If further latency/CPU reduction is selected, the useful
+next task is a bounded internal profile of the current native detector before
+choosing a specific optimization. Consolidation remains28/28 complete; broader
+QuPath parity and reliable general speed superiority are unclaimed.
+
 ## Delivered phase - native consolidation NC01-NC28
 
 The [single consolidation checklist](consolidation-coverage.md) records **28 complete,
