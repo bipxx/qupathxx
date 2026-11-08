@@ -16,7 +16,8 @@ the application has no React/CSS dependency on the sibling checkout.
 | Palettes, spacing, geometry, typography scale | `cpp/gui_design_tokens.hpp` | Semantic values matching the captured upstream CSS tokens |
 | ImGui style, appearance preference, heading/action recipes | `cpp/gui_design_system.hpp` | One shared mapping for every native panel |
 | Responsive fields, buttons, menus, modal sizing | `cpp/gui_layout.hpp` | Controls retain their IDs as labels, language and layout change |
-| Drawing and utility icons | `cpp/gui_theme.hpp` | Vector glyphs, shared dimensions, translated hover/focus hints |
+| Command/drawing glyphs | `cpp/gui_icons.hpp` | One vector stroke family without font or platform substitutions |
+| Icon buttons and toolbar adapters | `cpp/gui_layout.hpp`, `cpp/gui_theme.hpp` | Shared targets, translated hover/focus hints and selected/disabled behavior |
 | Font sources and authenticated loading | `cmake/GuiFonts.cmake`, `cpp/gui_fonts.cpp` | Packaged IBM Plex Sans with existing international fallbacks |
 | Default panel composition and separate settings | `cpp/gui_workspace.hpp` | Attached panes, detached panels, bounded layout/language/theme preferences |
 
@@ -47,7 +48,26 @@ the same width. Dialogs remain constrained to the current viewport.
 main confirmation, `ui::DangerButton` for explicit destructive confirmations and
 `ui::GhostButton` for low-emphasis actions. Disabled controls keep their recipe
 with reduced opacity and native disabled behavior. `SmallButton` uses compact
-geometry. `icon_action` provides localized hover and keyboard-focus hints.
+geometry. `ui::IconButton` provides localized hover and keyboard-focus hints.
+
+Use icon buttons for familiar project/file, add/remove, copy/paste, refresh/reset,
+list navigation/reordering and dismiss actions. All use the shared28px square,
+stroke weight, theme foreground, hover treatment and focus ring. Primary Save and
+danger actions retain their semantic colors. The label argument is the complete
+English command caption, including a shortcut where available; it becomes the
+translated tooltip and preserves the original widget ID. Keep distinct captions
+and existing ID scopes for repeated controls. Never use an icon glyph as the ID.
+
+Drawing tools, project/image controls, clipboard, overview budgets, class/default
+editors, metadata/tags and model-file controls use this same recipe. Existing
+replay targets, keyboard shortcuts and native validation stay attached to each
+command. Disabled icons are native disabled buttons and still explain their
+command on hover. Selected drawing tools retain their outlined state.
+
+Keep visible text on complex scientific commands and explicit destructive
+confirmations so the action and its scope remain clear. Use the same shared text
+button variants for those cases. The icon family belongs in gui_icons.hpp;
+panels must not draw their own command glyphs.
 
 The toolbar uses compact vector controls to keep localized labels from consuming
 the workspace at 200% scaling. Full command names remain in menus and tooltips.
@@ -106,6 +126,12 @@ checks explicit/system theme resolution, text/action contrast and target sizes.
 Real-GL tests cover appearance persistence, unchanged image pixels and project
 bytes, camera geometry, localized save at 200%, modal routing, compact spatial
 actions and existing docking/Unicode behavior.
+
+The [command-icon follow-up](benchmarks/design-system/icons/README.md) adds80
+focused passing checks of icon-based file/save/load, clipboard, model-file,
+overview and localized/scaled flows. Model file controls precede the long feature
+form; shorter classifier windows fold feature options. The raw-file panel fits
+the viewport with enough initial height for its common commands.
 
 When updating from the sibling project, review its `docs/design-system.md`,
 `src/index.css`, `src/theme/panelStyles.ts`, `buttonStyles.ts`, `formStyles.ts` and

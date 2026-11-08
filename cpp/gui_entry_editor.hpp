@@ -2,6 +2,7 @@
 
 #include "qupathxx/project.hpp"
 #include <imgui.h>
+#include "gui_layout.hpp"
 #include <imgui_internal.h>
 #include <array>
 #include <cstring>
@@ -59,10 +60,10 @@ public:
         const bool same=project==owner_ && (project_mode_ || image==image_);
         ImGui::TextUnformatted("Changes stay in this draft until Apply. Save the project to persist them.");
         if(!same)ImGui::TextWrapped("The active project or image changed. Reload the current entry or cancel.");
-        if(ImGui::Button(project_mode_?"Reload current project":"Reload current entry")) {
+        if(ui::IconButton(project_mode_?"Reload current project":"Reload current entry",ui::Icon::Refresh)) {
             try {load(project,image);}catch(const std::exception& e){error_=e.what();}
         }
-        ImGui::SameLine();if(ImGui::Button("Cancel / close")) {ImGui::CloseCurrentPopup();owner_.reset();}
+        ImGui::SameLine();if(ui::IconButton("Cancel / close",ui::Icon::Close)) {ImGui::CloseCurrentPopup();owner_.reset();}
         if(!error_.empty())ImGui::TextWrapped("%s",error_.c_str());
         ImGui::BeginDisabled(!same);
         if(ImGui::BeginTabBar("Entry fields")) {
@@ -78,16 +79,16 @@ public:
                     }
                 }ImGui::EndChild();
                 ImGui::BeginDisabled(metadata_.size()>=4096);
-                if(ImGui::Button("Add metadata")) {metadata_.emplace_back();select_metadata(static_cast<int>(metadata_.size()-1));}
+                if(ui::IconButton("Add metadata",ui::Icon::Plus)) {metadata_.emplace_back();select_metadata(static_cast<int>(metadata_.size()-1));}
                 ImGui::EndDisabled();ImGui::SameLine();
                 ImGui::BeginDisabled(metadata_row_<0);
-                if(ImGui::Button("Remove metadata")) {metadata_.erase(metadata_.begin()+metadata_row_);select_metadata(metadata_.empty()?-1:0);}
+                if(ui::IconButton("Remove metadata",ui::Icon::Minus)) {metadata_.erase(metadata_.begin()+metadata_row_);select_metadata(metadata_.empty()?-1:0);}
                 if(metadata_row_>=0) {
                     if(ImGui::InputTextMultiline("Key",key_.data(),key_.size(),{0,55},ImGuiInputTextFlags_AllowTabInput))metadata_[metadata_row_].first=key_.data();
                     if(ImGui::InputTextMultiline("Value",value_.data(),value_.size(),{0,80},ImGuiInputTextFlags_AllowTabInput))metadata_[metadata_row_].second=value_.data();
                 }
                 ImGui::EndDisabled();
-                if(ImGui::Button("Clear metadata")) {metadata_.clear();select_metadata(-1);}
+                if(ui::IconButton("Clear metadata",ui::Icon::Trash)) {metadata_.clear();select_metadata(-1);}
                 if(ImGui::Button("Apply metadata")) {
                     try {
                         if((project_mode_?project->metadata():project->image_metadata(image_))!=baseline_metadata_)throw std::runtime_error("Metadata changed outside this draft. Reload before applying.");
@@ -112,12 +113,12 @@ public:
                     }
                 }ImGui::EndChild();
                 ImGui::BeginDisabled(tags_.size()>=4096);
-                if(ImGui::Button("Add tag")) {tags_.emplace_back();select_tag(static_cast<int>(tags_.size()-1));}
+                if(ui::IconButton("Add tag",ui::Icon::Plus)) {tags_.emplace_back();select_tag(static_cast<int>(tags_.size()-1));}
                 ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(tag_row_<0);
-                if(ImGui::Button("Remove tag")) {tags_.erase(tags_.begin()+tag_row_);select_tag(tags_.empty()?-1:0);}
+                if(ui::IconButton("Remove tag",ui::Icon::Minus)) {tags_.erase(tags_.begin()+tag_row_);select_tag(tags_.empty()?-1:0);}
                 if(tag_row_>=0 && ImGui::InputTextMultiline("Tag",tag_.data(),tag_.size(),{0,55},ImGuiInputTextFlags_AllowTabInput))tags_[tag_row_]=tag_.data();
                 ImGui::EndDisabled();
-                if(ImGui::Button("Clear tags")) {tags_.clear();select_tag(-1);}
+                if(ui::IconButton("Clear tags",ui::Icon::Trash)) {tags_.clear();select_tag(-1);}
                 if(ImGui::Button("Apply description and tags")) {
                     try {
                         if(project->image_description(image_)!=baseline_description_ || project->image_tags(image_)!=baseline_tags_)throw std::runtime_error("Description or tags changed outside this draft. Reload before applying.");

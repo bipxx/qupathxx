@@ -75,17 +75,17 @@ public:
         const bool visible=visible_=ImGui::Begin("Saved pixel stream files",&open_);
         if(!open_) {if(busy()) job_.cancel();else job_.close();update();}
         if(!visible || !open_) {ImGui::End();return;}
-        auto button=[&](const char* label,GuiInputTarget target,bool is_disabled) {ImGui::BeginDisabled(is_disabled);const bool clicked=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
+        auto button=[&](const char* label,GuiInputTarget target,bool is_disabled,std::optional<ui::Icon> icon={}) {ImGui::BeginDisabled(is_disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
         auto disabled=[&] {return blocked || busy();};auto loaded=[&] {return bool(stats_.declared_summary) && stats_.state!="cancelled" && stats_.state!="cancelling";};
         ImGui::BeginDisabled(disabled());ui::InputText("Saved stream file",path_.data(),path_.size());ui::InputScalar("Block index (zero based)",ImGuiDataType_U64,&index_);ImGui::EndDisabled();
         if(ImGui::CollapsingHeader("File size limit")) {ImGui::BeginDisabled(disabled());std::uint64_t gib=max_bytes_/(1ULL<<30);if(ui::InputScalar("Maximum file size (GiB)",ImGuiDataType_U64,&gib)) max_bytes_=std::clamp<std::uint64_t>(gib,1,65536)*(1ULL<<30);ImGui::EndDisabled();}
         if(button("Open stream file",GuiInputTarget::OpenPixelStreamFile,disabled() || !path_[0])) run([&] {job_.open(path_.data(),index_,max_bytes_);});ImGui::SameLine();
         if(button("Read block",GuiInputTarget::ReadPixelStreamBlock,disabled() || !loaded())) run([&] {job_.read(index_);});
-        if(button("Previous block",GuiInputTarget::PreviousPixelStreamBlock,disabled() || !loaded() || !stats_.block_index || stats_.block_index>=stats_.declared_summary->blocks)) run([&] {index_=stats_.block_index-1;job_.read(index_);});ImGui::SameLine();
-        if(button("Next block",GuiInputTarget::NextPixelStreamBlock,disabled() || !loaded() || stats_.block_index>=stats_.declared_summary->blocks-1)) run([&] {index_=stats_.block_index+1;job_.read(index_);});
+        if(button("Previous block",GuiInputTarget::PreviousPixelStreamBlock,disabled() || !loaded() || !stats_.block_index || stats_.block_index>=stats_.declared_summary->blocks,ui::Icon::Left)) run([&] {index_=stats_.block_index-1;job_.read(index_);});ImGui::SameLine();
+        if(button("Next block",GuiInputTarget::NextPixelStreamBlock,disabled() || !loaded() || stats_.block_index>=stats_.declared_summary->blocks-1,ui::Icon::Right)) run([&] {index_=stats_.block_index+1;job_.read(index_);});
         if(button("Verify all blocks",GuiInputTarget::VerifyPixelStreamFile,disabled() || !loaded())) run([&] {job_.verify();});ImGui::SameLine();
-        if(button("Cancel reading",GuiInputTarget::CancelPixelStreamRead,blocked || !busy())) run([&] {job_.cancel();});ImGui::SameLine();
-        if(button("Close file",GuiInputTarget::ClosePixelStreamFile,disabled() || !stats_.declared_summary)) run([&] {job_.close();});
+        if(button("Cancel reading",GuiInputTarget::CancelPixelStreamRead,blocked || !busy(),ui::Icon::Close)) run([&] {job_.cancel();});ImGui::SameLine();
+        if(button("Close file",GuiInputTarget::ClosePixelStreamFile,disabled() || !stats_.declared_summary,ui::Icon::Close)) run([&] {job_.close();});
         ImGui::TextWrapped("%s%s",stats_.state.c_str(),stats_.verified?" / full file verified":" / whole-file totals not verified");
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
         if(stats_.declared_summary) {const auto& summary=*stats_.declared_summary;ImGui::TextWrapped("%llu blocks / %llu bytes / %s",static_cast<unsigned long long>(summary.blocks),static_cast<unsigned long long>(summary.bytes),stats_.windowed?"windowed target":"full target");ImGui::TextWrapped("%llu valid / %llu classified pixels (%s totals)",static_cast<unsigned long long>(summary.valid_pixels),static_cast<unsigned long long>(summary.classified_pixels),stats_.verified?"verified":"declared");}

@@ -257,7 +257,7 @@ public:
         auto tab=[&](const char* title,int number,GuiInputTarget target) {const auto shown=ImGui::BeginTabItem(title,nullptr,activate_tab_ && number==initial_tab_?ImGuiTabItemFlags_SetSelected:0);remember(target,false);return shown;};
         auto perform=[&](auto&& action) {try {action();error_.clear();}catch(const std::exception& error) {failure(error);task_="failed";}};
         if(metadata_) ImGui::TextWrapped("%s / %u channels / %u Z planes / %u timepoints",sample_name(metadata_->sample_type).c_str(),metadata_->channels,metadata_->z_planes,metadata_->timepoints);
-        else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a TIFF/OME-TIFF with the quantitative TIFF reader.");else if((state_=="failed" || state_=="cancelled") && ui::Button("Retry channel metadata")) state_="waiting";}
+        else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a TIFF/OME-TIFF with the quantitative TIFF reader.");else if((state_=="failed" || state_=="cancelled") && ui::IconButton("Retry channel metadata",ui::Icon::Refresh)) state_="waiting";}
         if(metadata_) {
             try {
                 const auto z=doc.z_position_um(options_.view.z),t=doc.timepoint_seconds(options_.view.t);
@@ -318,8 +318,8 @@ public:
                         ImGui::PushID(std::to_string(record->id).c_str());if(ImGui::Selectable(label.c_str(),selected_==record->id)) {selected_=record->id;verified_=false;}ImGui::PopID();}
                     ImGui::EndListBox();
                 }
-                ImGui::BeginDisabled(previous_.empty());if(ui::Button("Previous records")) {cursor_=previous_.back();previous_.pop_back();}ImGui::EndDisabled();
-                ImGui::SameLine();ImGui::BeginDisabled(page.size()<64);if(ui::Button("Next records")) {previous_.push_back(cursor_);cursor_=page.back()->id;}ImGui::EndDisabled();
+                ImGui::BeginDisabled(previous_.empty());if(ui::IconButton("Previous records",ui::Icon::Left)) {cursor_=previous_.back();previous_.pop_back();}ImGui::EndDisabled();
+                ImGui::SameLine();ImGui::BeginDisabled(page.size()<64);if(ui::IconButton("Next records",ui::Icon::Right)) {previous_.push_back(cursor_);cursor_=page.back()->id;}ImGui::EndDisabled();
                 std::shared_ptr<const RawAnalysisRecord> selected;if(selected_) try {selected=doc.raw_analysis_record(selected_);}catch(const std::out_of_range&) {selected_=0;}
                 if(button("Recompute and verify",GuiInputTarget::VerifyRawAnalysisRecord,disabled || !selected)) perform([&]{verify_record(doc);});
                 if(button("Remove saved measurement",GuiInputTarget::RemoveRawAnalysisRecord,disabled || !selected)) perform([&]{doc.remove_raw_analysis(selected_);selected_=0;selected.reset();verified_=false;});

@@ -6,9 +6,11 @@
 #include <cstdint>
 #include <cstring>
 #include <utility>
+#include <optional>
 #include <string>
 #include "gui_i18n.hpp"
 #include "gui_design_system.hpp"
+#include "gui_icons.hpp"
 
 namespace qpx::ui {
 struct LayoutStats {
@@ -141,6 +143,28 @@ inline bool SmallButton(const char* label) {
 inline bool PrimaryButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Primary);}
 inline bool DangerButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Danger);}
 inline bool GhostButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Ghost);}
+// The hidden ID hashes to the original English caption, as the text button did.
+// Language, tooltip and presentation changes therefore preserve focus/replay IDs.
+inline bool IconButton(const char* label,Icon icon,design::Action action=design::Action::Ghost,const char* shortcut="",bool selected=false) {
+    if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    const float side=design::metrics.icon_size*design::scale();
+    if(ImGui::GetCurrentWindow()->DC.IsSameLine && available()<side) ImGui::NewLine();
+    const auto* stable=std::strstr(label,"###");const std::string id=std::string("###")+(stable?stable+3:label);
+    design::ActionStyle recipe(action);
+    if(selected) ImGui::PushStyleColor(ImGuiCol_Button,ImGui::GetStyleColorVec4(ImGuiCol_HeaderActive));
+    const bool pressed=ImGui::Button(id.c_str(),{std::min(side,available()),side});
+    if(selected) ImGui::PopStyleColor();
+    const auto lo=ImGui::GetItemRectMin(),hi=ImGui::GetItemRectMax();
+    draw_icon(icon,lo,hi,ImGui::GetColorU32(ImGuiCol_Text));
+    if(selected) ImGui::GetWindowDrawList()->AddRect(lo,hi,ImGui::GetColorU32(design::color(design::colors().accent)),design::metrics.control_radius*design::scale(),0,2*design::scale());
+    observe(label);
+    if(ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip|ImGuiHoveredFlags_AllowWhenDisabled)) {
+        const std::string caption(label,label_end(label));
+        if(*shortcut) ImGui::SetTooltip("%s (%s)",i18n::text(caption.c_str()),shortcut);
+        else ImGui::SetTooltip("%s",i18n::text(caption.c_str()));
+    }
+    return pressed;
+}
 inline bool Checkbox(const char* label,bool* value) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
     const auto* original=label;const auto localized=i18n::label(label);label=localized.c_str();

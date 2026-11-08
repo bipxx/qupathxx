@@ -1,0 +1,93 @@
+{
+  "base_main": "96319e4f8fd1005417125639edd7aa7f46b9f716",
+  "scope": "Windows local GUI-only follow-up; native libraries and published artifacts preserved",
+  "validation": "80 passed in 55.74s; final GUI/source-contract checks; dark/light/Chinese slide captures visually inspected",
+  "sources": {
+    "cpp/gui.cpp": {
+      "sha256_windows_input": "3f6c759aae03ec282cd9a68127c589b8e9f454bdfc6c68e65497afecffdfaec7",
+      "sha256_lf": "fe115d40ac0a3b6eff41890c5d2b7e4190d7922bc0a8804d9b5a62979fb37f46"
+    },
+    "cpp/gui_class_editor.hpp": {
+      "sha256_windows_input": "4c353de1303b0f0333c8120c7e08a014914f7b7e67112b009195d6e78b745637",
+      "sha256_lf": "d3abeee4b98e8a15fa416a4da0b4639cc81f9a3a3aec6ce3afe61c5dde194fa2"
+    },
+    "cpp/gui_entry_editor.hpp": {
+      "sha256_windows_input": "ff262b66409badf4e24b735e131634c778895c108ea28719e8a68022f8acebc5",
+      "sha256_lf": "e97ef3a6b719e595832192313392146c4069471112d870970d536b327cd605b9"
+    },
+    "cpp/gui_fonts.cpp": {
+      "sha256_windows_input": "7a484f81ac36b973ff0f60c8573ef904cbad23c8047630fbfba663b920e8ee49",
+      "sha256_lf": "d7be3e097ff39d328840082dd697dcb47a7ec362293ce503c0ea89bb55ddbb4f"
+    },
+    "cpp/gui_icons.hpp": {
+      "sha256_windows_input": "2ad3a79cec0c0842cffdd33ea0db265f1b63228ebbf096a665079d108abab4ab",
+      "sha256_lf": "2ad3a79cec0c0842cffdd33ea0db265f1b63228ebbf096a665079d108abab4ab"
+    },
+    "cpp/gui_layout.hpp": {
+      "sha256_windows_input": "ed58719c8cc0b4db8c398035144732eca793f28433d68c8aa31b5bf87a2b427b",
+      "sha256_lf": "3bfc55831da9da78cbea8da7d777c85a7ba0cf6dec712f63a451c27d69a44bde"
+    },
+    "cpp/gui_object_classifier.hpp": {
+      "sha256_windows_input": "c8acd5286eedc57bcce1cf53f5b313cffdc2ef1ffbc79906ad908368693a5c73",
+      "sha256_lf": "29c7278620d6a3b0de62c7db6eda46930f71d10dc9f26ffc3fda7f91d1fa6017"
+    },
+    "cpp/gui_pixel_classifier.hpp": {
+      "sha256_windows_input": "3775fd86cf676e7cf8a304a12c0cd58d2baa630577bca370fe545c1db65390f2",
+      "sha256_lf": "d130a5d9a2eb219c76270b45225fe68ffb22283d01449967854578d36e3c4110"
+    },
+    "cpp/gui_pixel_stream_browser.hpp": {
+      "sha256_windows_input": "97e6b9ed7b81efc9197730353483356b3310a0eecbd3d9d8f3d0dcec9a35b4a2",
+      "sha256_lf": "f20f853b5e8369d680a8e5dd29c5bd1e23f05355d3b70d82ecc2a2dc1496f75e"
+    },
+    "cpp/gui_project_density.hpp": {
+      "sha256_windows_input": "289d8e9b9a52feaa78966111f46daeb234841c7e0ee484afea1ad08903fa2b67",
+      "sha256_lf": "f2c320f151e98d1d6be44e557a925b6b90ee96152c734009c296d9e0d8231a83"
+    },
+    "cpp/gui_raw.hpp": {
+      "sha256_windows_input": "ecf94795375016d93f6b8f3a1f7e0e7d1833be0fb311873ff82d1295962dae56",
+      "sha256_lf": "5f5f285e9cecc2f598657b746fc9cdc6c401c9f34eae42394b7c6db523a811f2"
+    },
+    "cpp/gui_raw_pixel.hpp": {
+      "sha256_windows_input": "03d512c330bcb1222bd2277f37757da0c36b97e53cf909f38c3781d320f33442",
+      "sha256_lf": "d593d65f5e042da838b0f895bcdbe49476a26f97af7c9ecf93bb758cc7d39567"
+    },
+    "cpp/gui_theme.hpp": {
+      "sha256_windows_input": "0e372df05a387b526ce0afcb6f93cd5c81ee6a6eb8cbd153e6b1be9775442b3f",
+      "sha256_lf": "0e372df05a387b526ce0afcb6f93cd5c81ee6a6eb8cbd153e6b1be9775442b3f"
+    },
+    "cpp/main.cpp": {
+      "sha256_windows_input": "642fe59f3b7e0535315b1dfcf7368a25ec41835e237da2765843ce041733c726",
+      "sha256_lf": "0f1c39aa029d2460275d996d6b3a5aaaaea8ae34e62862338c51ba255f47f167"
+    },
+    "cpp/native_workflow_bindings.cpp": {
+      "sha256_windows_input": "18dee0d759431a3f6a2cd21a3b51c5a2dfe2f5d821f0a82339ee5bf4d7a99677",
+      "sha256_lf": "cfae3fe235e53dfd60deba93bb63eb7805ae23d3dcda6dd9268b7aac1a6cdae0"
+    },
+    "cpp/viewer_bindings.cpp": {
+      "sha256_windows_input": "102fc1a1fab896a25e13b1d69c41df7b843c5dd2e08257257fc4f5687528db14",
+      "sha256_lf": "f9500a81dc2257538e0772fc8af2cc0f265d94c34666e618f393d37d5d5ad162"
+    },
+    "tests/test_gui_project.py": {
+      "sha256_windows_input": "e34aa3425bd0b68eea0a593a107433b6f89332623303fd270034d99fb2bfaf54",
+      "sha256_lf": "ec531fed242df884703bf4c6dafc2ef184b7130e8a06912678d172c354619641"
+    }
+  },
+  "reused_native_inputs": "../retained-native-inputs.json",
+  "reused_binding_objects": 36,
+  "private_compatibility_sources": [
+    "cpp/viewer_bindings.cpp",
+    "cpp/native_workflow_bindings.cpp"
+  ],
+  "note": "Original shared-cache binding objects advanced in the concurrent migration; private original sources restore compatibility without changing that cache. Only GUI corrections were rebuilt thereafter.",
+  "binaries": {
+    "qupathxx_app.exe": "5015f6ea8921c78dcbdd6eb7181e74153f276696c9229c3fb96c6af6d6658fde",
+    "runtime/qupathxx/_native.cp312-win_amd64.pyd": "893f798a4649456e4830e03270c0d4a5a7564d28a02b4efdb9c5849933c6e2c7"
+  },
+  "screenshots": {
+    "design-system-dark-en.png": "bf90833f23bd5f7539d21181b8ef9a69da18f4210568d946faf6f2a5b0576208",
+    "design-system-light-en.png": "5e013fa1cb0d9de0b055d52446bba253c2c80f473d10c3e77e81af1bd62b68c6",
+    "design-system-dark-zh-CN.png": "de6ff40d80040cbd7c69ad0c38b474447551e9a8e5f6373506a3e13c5621baad"
+  },
+  "local_preview": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\icon-consistency\\qupathxx_app.exe",
+  "publication": false
+}

@@ -1,0 +1,33 @@
+..............................F..............F......................F... [ 93%]
+.F...                                                                    [100%]
+================================== FAILURES ===================================
+______ test_sessions_restore_english_and_language_changes_draw_real_text ______
+tests\test_gui_i18n.py:114: in test_sessions_restore_english_and_language_changes_draw_real_text
+    assert captures[0] == captures[2]
+E   AssertionError: assert b'P6\n1440 90...9\x12\x14\x19' == b'P6\n1440 90...9\x12\x14\x19'
+E     
+E     At index 1549664 diff: b'x' != b'l'
+E     Use -v to get more diff
+_________ test_each_image_retains_independent_display_settings[True] __________
+tests\test_gui_project.py:93: in test_each_image_retains_independent_display_settings
+    assert frame.getpixel((int(frame.width*.65), frame.height//2)) == ((210, 60, 30) if finish_on_second else (30, 30, 30))
+E   assert (210, 210, 210) == (210, 60, 30)
+E     
+E     At index 1 diff: 210 != 60
+E     Use -v to get more diff
+___ test_loaded_model_predicts_and_applies_in_responsive_window[size1-1.25] ___
+tests\test_gui_object_classifier.py:72: in test_loaded_model_predicts_and_applies_in_responsive_window
+    report = q.show(doc, frame_limit=70, options=options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: GUI replay timed out waiting for event at logical frame 4
+________ test_desktop_train_keep_preview_save_and_export_retained_file ________
+tests\test_gui_raw_pixel.py:85: in test_desktop_train_keep_preview_save_and_export_retained_file
+    report = q.show(p, frame_limit=85, options=o)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: GUI replay timed out waiting for event at logical frame 44
+=========================== short test summary info ===========================
+FAILED tests/test_gui_i18n.py::test_sessions_restore_english_and_language_changes_draw_real_text
+FAILED tests/test_gui_project.py::test_each_image_retains_independent_display_settings[True]
+FAILED tests/test_gui_object_classifier.py::test_loaded_model_predicts_and_applies_in_responsive_window[size1-1.25]
+FAILED tests/test_gui_raw_pixel.py::test_desktop_train_keep_preview_save_and_export_retained_file
+4 failed, 73 passed in 84.72s (0:01:24)

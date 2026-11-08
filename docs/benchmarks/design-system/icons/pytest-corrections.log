@@ -1,0 +1,26 @@
+.FF.F.                                                                   [100%]
+================================== FAILURES ===================================
+_________ test_each_image_retains_independent_display_settings[False] _________
+tests\test_gui_project.py:88: in test_each_image_retains_independent_display_settings
+    select_pane(tmp_path / "display-layout.ini", "Image")
+tests\test_gui_docking.py:52: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+_________ test_each_image_retains_independent_display_settings[True] __________
+tests\test_gui_project.py:88: in test_each_image_retains_independent_display_settings
+    select_pane(tmp_path / "display-layout.ini", "Image")
+tests\test_gui_docking.py:52: in select_pane
+    node = re.search(r'\[Window\]\['+re.escape(name)+r'\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'NoneType' object has no attribute 'group'
+___ test_loaded_model_predicts_and_applies_in_responsive_window[size1-1.25] ___
+tests\test_gui_object_classifier.py:72: in test_loaded_model_predicts_and_applies_in_responsive_window
+    report = q.show(doc, frame_limit=70, options=options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: GUI replay timed out waiting for event at logical frame 24
+=========================== short test summary info ===========================
+FAILED tests/test_gui_project.py::test_each_image_retains_independent_display_settings[False]
+FAILED tests/test_gui_project.py::test_each_image_retains_independent_display_settings[True]
+FAILED tests/test_gui_object_classifier.py::test_loaded_model_predicts_and_applies_in_responsive_window[size1-1.25]
+3 failed, 3 passed in 10.76s

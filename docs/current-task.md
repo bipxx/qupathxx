@@ -7,6 +7,57 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered task - consistent command icons
+
+Owner requested more consistent icon buttons. Reuse the native design system:
+one vector stroke family and IconButton recipe for project/image/file commands,
+refresh/reset, clipboard, list controls, dismiss and metadata/class utilities.
+Keep translated hover/focus captions, native disabled/selected behavior, stable
+English widget IDs and existing replay targets. Analysis commands and explicit
+destructive confirmations retain text when an icon alone is ambiguous.
+
+Continue the named UI-worktree exception from main96319e4f; the separate native
+Python-boundary migration is active in scientific-grid-159 and is untouched.
+Before compiling, settle all frontend/icon changes; then compile gui.cpp and the
+unchanged standalone entry (to avoid a moving cache's launcher object),
+reuse retained font/native/binding inputs and relink a separate icon preview.
+Decisive checks: existing routed save/display/overview/clipboard/class/metadata
+flows, translated and200% layouts, disabled controls, camera/project invariants
+and rendered dark/light icon screens. No kernel/full binding rebuild or publication.
+
+Build correction: the GUI and unchanged standalone entry compile/link successfully.
+The separate migration replaced viewer_bindings/native_workflow_bindings in the
+shared cache with calls absent from the retained native libraries. Preserve that
+failed link; compile only those two unchanged binding sources from this UI branch
+into private compatibility objects, reusing the other36 and the passing GUI object.
+Do not recompile gui.cpp or touch the migrating cache to fix this source mismatch.
+
+UI verification found a new default-focus tooltip and exposed existing clipped
+model-load/display-reset targets (confirmed on the retained baseline), plus a
+clipped raw export. Use ImGui's native hover/navigation tooltip policy, place
+model file icons before the long form and constrain the raw panel to the viewport
+with more usable initial height. The per-image display test now selects the
+visible Image tab and samples its canvas center, retaining exact expected RGB.
+Recompile only gui.cpp for these corrections; retain first checks/screens/logs.
+The first correction made file Load visible but Apply still needed scrolling at
+125%; fold feature options on short windows while preserving their values and
+validation. Correct the test's tab caption to its stable Image and display ID.
+
+Outcome: one shared vector family and IconButton now covers drawing, project/
+image/file, refresh/reset, clipboard, class/default, metadata/tag, model-file and
+record-navigation utilities. Translated hover/navigation hints, keyboard focus,
+disabled/selected styling, stable IDs and existing native command targets remain.
+Complex analysis commands and destructive confirmations retain explicit text.
+All80 focused GUI/source-contract checks pass, including real save/load/export,
+clipboard persistence, exact RGB, all16 locales and200% layouts. Updated dark,
+light and Chinese slide screenshots are visually inspected. See
+[validation and corrections](benchmarks/design-system/icons/README.md).
+The preview is main build/icon-consistency/qupathxx_app.exe. Native libraries and
+font object were retained;36 binding objects are hash-unchanged and two original
+sources were privately compiled for compatibility. Scientific cache/products,
+the concurrent migration, fixtures and failed attempts are preserved. No release
+or full scientific/binding rebuild was made.
+
 ## Delivered task - COLMAP WebView design system
 
 Owner selected `../colmap_webview/colmap-webview` as the new UI reference.

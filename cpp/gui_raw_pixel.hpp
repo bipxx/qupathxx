@@ -84,13 +84,18 @@ public:
     Rect bounds(GuiInputTarget target) const {return targets_.at(std::size_t(target)-std::size_t(first));}
     void finish(Document& doc,bool finite) {if(!finite) jobs_.cancel();jobs_.wait(doc);update(doc);}
     void draw(Document& doc,const ObjectSelection& selection,const Project* project,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark) {
-        targets_.fill({});enabled_.fill(false);if(!options_.open) return;ImGui::SetNextWindowSize({480,700},ImGuiCond_FirstUseEver);
+        targets_.fill({});enabled_.fill(false);if(!options_.open) return;
+        const auto* viewport=ImGui::GetMainViewport();const auto extent=viewport->WorkSize;const float scale=ui::design::scale();
+        const ImVec2 panel{std::min(480.f*scale,extent.x*.9f),std::min(900.f*scale,extent.y*.9f)};
+        ImGui::SetNextWindowSize(panel,ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({viewport->WorkPos.x+std::min(60.f*scale,extent.x-panel.x),viewport->WorkPos.y+std::min(60.f*scale,extent.y-panel.y)},ImGuiCond_Appearing);
+        ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,extent.x),std::min(160.f*scale,extent.y)},extent);
         if(!ImGui::Begin("Raw pixel classifier",&options_.open)) {ImGui::End();return;}
         auto item=[&](GuiInputTarget target,bool on=true) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();const auto i=std::size_t(target)-std::size_t(first);targets_[i]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[i]=on;if(on) mark(target);};
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled=false) {ImGui::BeginDisabled(disabled);const bool hit=ui::Button(label);item(target,!disabled);ImGui::EndDisabled();return hit;};
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled=false,std::optional<ui::Icon> icon={}) {ImGui::BeginDisabled(disabled);const bool hit=(icon?ui::IconButton(label,*icon):ui::Button(label));item(target,!disabled);ImGui::EndDisabled();return hit;};
         const auto current=jobs_.report();const bool disabled=blocked || !has_image || jobs_.busy();
         ImGui::TextWrapped("%s",current.state.c_str());const auto shown=report();if(!shown.error.empty()) ImGui::TextWrapped("%s",shown.error.c_str());
-        if(button("Cancel operation",GuiInputTarget::RawPixelCancel,!jobs_.busy())) jobs_.cancel();ImGui::SameLine();if(button("Hide panel",GuiInputTarget::RawPixelHide)) options_.open=false;
+        if(button("Cancel operation",GuiInputTarget::RawPixelCancel,!jobs_.busy(),ui::Icon::Close)) jobs_.cancel();ImGui::SameLine();if(button("Hide panel",GuiInputTarget::RawPixelHide,false,ui::Icon::Close)) options_.open=false;
         if(ImGui::BeginTabBar("raw-pixel-tabs")) {
             bool tab=ImGui::BeginTabItem("Training");item(GuiInputTarget::RawPixelTrainingTab);if(tab) {
                 ImGui::BeginDisabled(disabled);
@@ -111,7 +116,7 @@ public:
                 const auto file_report=jobs_.report();if(button("Apply reverified contours",GuiInputTarget::RawPixelApplyFile,disabled || !file_report.file_replay || !file_report.stream_contours || file_report.contours_published || !contour_ready_)) run([&] {jobs_.publish(doc,contour_prefix_.data());});
                 if(file_report.historical_contours || (file_report.file_replay && file_report.stream_contours)) {if(file_report.contours_published) ImGui::Text("Applied %zu reverified annotations",file_report.published_ids.size());else ImGui::TextWrapped(file_report.file_replay?"Reverified against current pixels; ready for atomic apply.":"Historical geometry only. Reverify current pixels before applying.");draw_contours(doc,file_report.historical_model);}
                 ImGui::BeginDisabled(jobs_.busy());ui::InputText("Model path",model_path_.data(),model_path_.size());ImGui::Checkbox("Replace model",&options_.replace_model);ImGui::EndDisabled();
-                if(button("Load raw model",GuiInputTarget::RawPixelLoadModel,jobs_.busy())) run([&] {jobs_.load_model(model_path_.data());});ImGui::SameLine();if(button("Save raw model",GuiInputTarget::RawPixelSaveModel,disabled || !current.model)) run([&] {guard_raw_pixel_frontend_output(project,model_path_.data());jobs_.save_model(model_path_.data(),options_.replace_model);});
+                if(button("Load raw model",GuiInputTarget::RawPixelLoadModel,jobs_.busy(),ui::Icon::Open)) run([&] {jobs_.load_model(model_path_.data());});ImGui::SameLine();if(button("Save raw model",GuiInputTarget::RawPixelSaveModel,disabled || !current.model,ui::Icon::Save)) run([&] {guard_raw_pixel_frontend_output(project,model_path_.data());jobs_.save_model(model_path_.data(),options_.replace_model);});
                 ImGui::InputScalar("First sample X",ImGuiDataType_S64,&px_);ImGui::InputScalar("First sample Y",ImGuiDataType_S64,&py_);ImGui::InputScalar("Preview width",ImGuiDataType_S64,&pw_);ImGui::InputScalar("Preview height",ImGuiDataType_S64,&ph_);
                 if(button("Predict raw window",GuiInputTarget::RawPixelPredict,disabled || !current.model)) run([&] {const auto grid=lattice(doc);if(px_<0 || py_<0 || px_>=grid.x().samples() || py_>=grid.y().samples()) throw std::invalid_argument("Preview starts outside the global sample lattice");const auto w=std::min(pw_,grid.x().samples()-px_),h=std::min(ph_,grid.y().samples()-py_);if(w<1 || h<1 || std::uint64_t(w)*std::uint64_t(h)>options_.preview_budget/9) throw std::length_error("Choose a smaller raw preview window");jobs_.predict(doc,*current.model,grid.window(px_,py_,w,h),options_.object_id?options_.object_id:selection.primary(),options_.stream.min_vote_fraction,options_.stream.work_bytes);});
                 bool changed=ImGui::Checkbox("Show raw overlay",&options_.show_overlay);item(GuiInputTarget::RawPixelToggleOverlay);(void)changed;

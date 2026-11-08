@@ -173,7 +173,7 @@ public:
         if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
         if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled){ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
         const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
         // Primary actions remain above advanced controls in narrow windows.
         if(button("Train labelled areas",GuiInputTarget::TrainPixelClassifier,disabled || !has_classifier_training() || (!selected_only_ && !catalog_complete_))) {try {train(doc,selection,transform(options_.features.stains));}catch(const std::exception& e) {error_=e.what();}}
@@ -185,7 +185,7 @@ public:
         if(button("Trace pixel contours",GuiInputTarget::TracePixelContours,disabled || !has_geos() || !prediction_.result() || !prediction_request_ || published_)) trace(doc);
         ImGui::SameLine();
         if(button("Publish class annotations",GuiInputTarget::PublishPixelContours,disabled || !contours_ready() || published_)) publish(doc);
-        if(button("Cancel pixel work",GuiInputTarget::CancelPixelClassifier,blocked || !busy)) {stream_.cancel();archives_.cancel();cancel_training();cancel_prediction();io_cancelled_.store(true);}
+        if(button("Cancel pixel work",GuiInputTarget::CancelPixelClassifier,blocked || !busy,ui::Icon::Close)) {stream_.cancel();archives_.cancel();cancel_training();cancel_prediction();io_cancelled_.store(true);}
         ImGui::SameLine();
         if(button(show_?"Hide pixel overlay":"Show pixel overlay",GuiInputTarget::TogglePixelOverlay,blocked)) show_=!show_;
         if(button("Keep training cohort",GuiInputTarget::KeepPixelTraining,disabled || !training_request_ || !training_.table() || !training_.model())) archives_.keep(*training_request_,training_.table(),training_.model());
@@ -222,7 +222,7 @@ public:
         if(stream_stats_.state!="idle") ImGui::TextWrapped("Stream: %s (%llu/%llu blocks)%s",stream_stats_.state.c_str(),static_cast<unsigned long long>(stream_stats_.completed_blocks),static_cast<unsigned long long>(stream_stats_.total_blocks),stream_stats_.current?"":" / captured historical input");
         // Model I/O remains accessible without scrolling past feature settings.
         ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel model file",path_.data(),path_.size());ui::Checkbox("Replace an existing pixel model",&replace_);ImGui::EndDisabled();
-        if(button("Save pixel model",GuiInputTarget::SavePixelModel,blocked || busy || !model_ || !path_[0])) file(true);ImGui::SameLine();if(button("Load pixel model",GuiInputTarget::LoadPixelModel,blocked || busy || !path_[0])) file(false);
+        if(button("Save pixel model",GuiInputTarget::SavePixelModel,blocked || busy || !model_ || !path_[0],ui::Icon::Save)) file(true);ImGui::SameLine();if(button("Load pixel model",GuiInputTarget::LoadPixelModel,blocked || busy || !path_[0],ui::Icon::Open)) file(false);
         if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
         if(ImGui::CollapsingHeader("Stream export settings")) {
             ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel stream file",stream_path_.data(),stream_path_.size());ui::Checkbox("Replace a verified pixel stream file",&stream_replace_);

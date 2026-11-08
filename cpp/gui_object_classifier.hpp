@@ -132,19 +132,27 @@ public:
         ImGui::SetNextWindowPos({viewport->WorkPos.x+size.x*.5f,viewport->WorkPos.y+size.y*.5f},ImGuiCond_Appearing,{.5f,.5f});
         ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,size.x),std::min(160.f*scale,size.y)},size);
         if(!ImGui::Begin("Object classifiers",&open_)) {ImGui::End();return;}
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled) {
-            ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(label);
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}) {
+            ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));
             const auto lo=ImGui::GetItemRectMin(),hi=ImGui::GetItemRectMax();targets_[index(target)]={lo.x,lo.y,hi.x-lo.x,hi.y-lo.y};mark(target);ImGui::EndDisabled();return clicked;
         };
+        ui::InputText("Model file",path_.data(),path_.size());
+        const bool file_busy=blocked || job_.busy() || io_.valid();
+        if(button("Save model",GuiInputTarget::SaveClassifierModel,file_busy || !model_ || !path_[0],ui::Icon::Save)) file(true);ImGui::SameLine();
+        if(button("Load model",GuiInputTarget::LoadClassifierModel,file_busy || !path_[0],ui::Icon::Open)) file(false);ImGui::SameLine();ui::Checkbox("Replace an existing model file",&replace_);
+        if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());
+        if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
         ImGui::BeginDisabled(job_.busy() || io_.valid() || blocked);
         bool changed=ui::Checkbox("Use selected objects (otherwise all cells)",&selected_only_);
         changed=ui::Checkbox("Predict unclassified objects only",&unclassified_only_) || changed;
+        if(ui::CollapsingHeader("Feature options",ImGui::GetWindowHeight()>720*ui::design::scale()?ImGuiTreeNodeFlags_DefaultOpen:0)) {
         changed=ui::Checkbox("Use calibration when available",&features_.calibrated) || changed;
         if(ImGui::IsItemHovered()) ImGui::SetTooltip("Unknown calibration uses pixel units. Prediction requires matching model feature units.");
         changed=ui::Checkbox("Include nucleus shape",&features_.nucleus_shape) || changed;
         changed=ui::Checkbox("Include verified cell and nucleus RGB",&features_.cell_rgb) || changed;
-        if(!features_.cell_rgb) features_.cytoplasm_rgb=false;
         ImGui::BeginDisabled(!features_.cell_rgb);changed=ui::Checkbox("Include cytoplasm RGB",&features_.cytoplasm_rgb) || changed;ImGui::EndDisabled();
+        }
+        if(!features_.cell_rgb) features_.cytoplasm_rgb=false;
         if(ImGui::CollapsingHeader("Training settings")) {
             ui::SetNextItemWidth(120);changed=ui::InputScalar("Trees",ImGuiDataType_U32,&parameters_.trees) || changed;
             ui::SetNextItemWidth(120);changed=ui::InputScalar("Maximum depth",ImGuiDataType_U32,&parameters_.max_depth) || changed;
@@ -167,7 +175,7 @@ public:
         if(button("Apply predictions (one Undo)",GuiInputTarget::ApplyObjectClasses,unavailable() || !predicted())) {
             try {changed_=job_.apply(doc,minimum_).size();record_id_=doc.revision();stats_=job_.poll(doc);applied_=true;error_.clear();}catch(const std::exception& e) {error_=e.what();}
         }
-        if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,!job_.busy() && !io_.valid())) {job_.cancel();io_cancelled_.store(true);applied_=false;}
+        if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,!job_.busy() && !io_.valid(),ui::Icon::Close)) {job_.cancel();io_cancelled_.store(true);applied_=false;}
         if(job_.busy()) ImGui::Text("%s: %llu / %llu feature rows",stats_.phase.c_str(),static_cast<unsigned long long>(stats_.completed_rows),static_cast<unsigned long long>(stats_.total_rows));
         if(applied_) ImGui::Text("Changed %zu objects (Undo available)",changed_);
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
@@ -179,12 +187,6 @@ public:
                 ImGui::TextWrapped("Training input: %s",model_->training_sha256().c_str());
             }
         }
-        ui::InputText("Model file",path_.data(),path_.size());ui::Checkbox("Replace an existing model file",&replace_);
-        const bool file_busy=blocked || job_.busy() || io_.valid();
-        if(button("Save model",GuiInputTarget::SaveClassifierModel,file_busy || !model_ || !path_[0])) file(true);
-        if(button("Load model",GuiInputTarget::LoadClassifierModel,file_busy || !path_[0])) file(false);
-        if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());
-        if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
         if(doc.classifier_record_count() && ImGui::CollapsingHeader("Project classifier records",!model_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
         const auto records=doc.classifier_records();std::shared_ptr<const ObjectClassifierRecord> selected;
         for(const auto& r:records) if(r->id==selected_record_) selected=r;
