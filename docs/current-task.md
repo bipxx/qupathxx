@@ -51,11 +51,11 @@ Advanced forms remain ImGui; no browser/release/performance claim is part of thi
 task. Concurrent native expression/registration work is preserved and retains
 its separate qualification scope.
 
-Owner requested local merge to main. Commit the reviewed UI changes separately
-from unfinished spatial-import edits, then fast-forward main through the completed
-integration history. Reuse the passing checks above; merge changes no product
-inputs. Retain the active checkout/cache, fixtures and unfinished native work.
-No push, release or worktree removal is requested.
+Local main fast-forwarded through UI commite76d9677 and the completed integration
+history at the owner's request. Unfinished spatial-import edits remain separate
+and intact in the active checkout. Reused the passing checks above; merge changes
+no product inputs. The active checkout/cache, fixtures and unfinished native work
+are retained. No push, release or worktree removal was performed.
 
 ## Delivered UI task - RmlUi workspace shell
 
