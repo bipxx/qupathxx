@@ -1,0 +1,46 @@
+{
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_gui.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_gui.lib",
+    "sha256": "bd268561bce55935f93f72351641bf8509a5dfb30f9ca90d69dd6da696f066e0"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\glfw-build\\src\\Release\\glfw3.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\_deps\\glfw-build\\src\\Release\\glfw3.lib",
+    "sha256": "9c3b765921bef2344dc3017c9ccd64890c9da8787f2d2b2976278076a64c807f"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_density_workflow.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_density_workflow.lib",
+    "sha256": "09b45793f8f9f358274f253f2b88aa89ebcaf23ae20e72ffbc84e14fdb8e0e7e"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_core.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_core.lib",
+    "sha256": "734210885705eca8b0180882ee4a48f39c2458401678ea7be02275624b55c1ad"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiff.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiff.lib",
+    "sha256": "770215e1d1d6a2a771053564f126d5a9379092c7220bb13e614ee3ea2a2fdc21"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_zlib-build\\Release\\zs.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\_deps\\qpx_zlib-build\\Release\\zs.lib",
+    "sha256": "1e2f667f8ca2fdddeb4e83d06e982d8957cbcb81b22acbb8c40f83a7281edcde"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_jpeg-build\\Release\\jpeg-static.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\_deps\\qpx_jpeg-build\\Release\\jpeg-static.lib",
+    "sha256": "fa8fe4780abc003993fca99f32700485e851e9d6f30222b50878925ff177178e"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_tiff_xml.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_tiff_xml.lib",
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_sqlite.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_sqlite.lib",
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\nanobind-static.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\nanobind-static.lib",
+    "sha256": "6615aedc2ad674d06ffefb292d92bce9807636945fdce093c63352495f0e30fc"
+  },
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_nucls_import.lib": {
+    "snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\design-system-preview\\inputs\\Release\\qupathxx_nucls_import.lib",
+    "sha256": "7c938f89ee113d086e5ddfc1f6155a26b4f5569493d31a802c74c88c29756541"
+  }
+}

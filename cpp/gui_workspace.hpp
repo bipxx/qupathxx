@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iterator>
 #include "gui_i18n.hpp"
+#include "gui_design_system.hpp"
 
 namespace qpx {
 // All ImGui state belongs to the caller's context. Layout bytes never enter a
@@ -42,7 +43,7 @@ public:
             std::string data(limit+1,'\0');input.read(data.data(),static_cast<std::streamsize>(data.size()));data.resize(static_cast<std::size_t>(input.gcount()));
             if(input.bad() || data.size()>limit) throw std::runtime_error("cannot read bounded workspace layout");
             if(data.rfind("; qupathxx workspace layout v1\n",0)!=0 && data.rfind("; qupathxx workspace layout v1\r\n",0)!=0) {if(reset_) return;throw std::runtime_error("unrecognized workspace layout; reset layout to replace it");}
-            ui::i18n::load_preference(data);
+            ui::i18n::load_preference(data);ui::design::load_preference(data);
             if(reset_) return;
             // Retain the user's splits when opening a pre-tabbed workspace.
             for(const auto& names:{std::pair{"Project and objects",project_pane},std::pair{"Image and display",image_pane},std::pair{"Measurements and jobs",workflow_pane}}) {
@@ -74,14 +75,15 @@ public:
         if(!enabled_) return;
         dock_=ImGui::GetID("Research workspace dockspace");
         auto size=ImGui::GetContentRegionAvail();size.x=std::max(1.f,size.x);
-        size.y=std::max(1.f,size.y-ImGui::GetFrameHeightWithSpacing());
+        const int footer_lines=size.x<60*ImGui::GetFontSize()?2:1;
+        size.y=std::max(1.f,size.y-footer_lines*ImGui::GetTextLineHeightWithSpacing()-2*ui::design::spacing.sm*ui::design::scale());
         if(reset_ || !ImGui::DockBuilderGetNode(dock_)) {
             ImGui::DockBuilderRemoveNode(dock_);
             ImGui::DockBuilderAddNode(dock_,ImGuiDockNodeFlags_DockSpace);
             ImGui::DockBuilderSetNodePos(dock_,ImGui::GetCursorScreenPos());
             ImGui::DockBuilderSetNodeSize(dock_,size);
             ImGuiID center=dock_,left=0;
-            const float sidebar=std::min(size.x*.42f,320.f*ImGui::GetFontSize()/13.f);
+            const float sidebar=std::min(size.x*.42f,ui::design::metrics.sidebar_width*ui::design::scale());
             ImGui::DockBuilderSplitNode(center,ImGuiDir_Left,sidebar/size.x,&left,&center);
             ImGui::DockBuilderDockWindow(project_pane,left);
             ImGui::DockBuilderDockWindow(image_pane,left);
@@ -95,6 +97,7 @@ public:
     }
     bool begin(const char* name,Rect& bounds,ImGuiWindowFlags flags=0) {
         const auto localized=ui::i18n::label(name);
+        ui::design::Heading title;
         const bool visible=ImGui::Begin(localized.c_str(),nullptr,flags|ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoFocusOnAppearing);
         const auto p=ImGui::GetWindowPos(),s=ImGui::GetWindowSize();
         bounds={p.x,p.y,s.x,s.y};
@@ -104,7 +107,7 @@ public:
         if(!enabled_ || path_.empty() || !writable_) return false;
         try {
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
-            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n";
+            const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n";
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();
             if(!parent.empty()) std::filesystem::create_directories(parent);

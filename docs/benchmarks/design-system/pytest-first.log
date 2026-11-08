@@ -1,0 +1,13 @@
+....................................................F...........         [100%]
+================================== FAILURES ===================================
+____________ test_overview_is_complete_bounded_and_captured[False] ____________
+tests\test_gui_thumbnail.py:40: in test_overview_is_complete_bounded_and_captured
+    assert xs.max()-xs.min() >= 195
+E   assert (np.int64(248) - np.int64(56)) >= 195
+E    +  where np.int64(248) = <built-in method max of numpy.ndarray object at 0x0000021714026BB0>()
+E    +    where <built-in method max of numpy.ndarray object at 0x0000021714026BB0> = array([ 56,  57,  58, ..., 246, 247, 248], shape=(27020,)).max
+E    +  and   np.int64(56) = <built-in method min of numpy.ndarray object at 0x0000021714026BB0>()
+E    +    where <built-in method min of numpy.ndarray object at 0x0000021714026BB0> = array([ 56,  57,  58, ..., 246, 247, 248], shape=(27020,)).min
+=========================== short test summary info ===========================
+FAILED tests/test_gui_thumbnail.py::test_overview_is_complete_bounded_and_captured[False]
+1 failed, 63 passed, 6 deselected in 37.72s

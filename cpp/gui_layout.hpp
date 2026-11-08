@@ -8,6 +8,7 @@
 #include <utility>
 #include <string>
 #include "gui_i18n.hpp"
+#include "gui_design_system.hpp"
 
 namespace qpx::ui {
 struct LayoutStats {
@@ -28,7 +29,7 @@ inline const char* label_end(const char* label) {const auto* end=std::strstr(lab
 inline void label_text(const char* label,const char* end) {
     ImGui::PushTextWrapPos(0);ImGui::TextUnformatted(label,end);ImGui::PopTextWrapPos();
 }
-inline void SetNextItemWidth(float width) {ImGui::SetNextItemWidth(width>0?width*ImGui::GetFontSize()/13.f:width);}
+inline void SetNextItemWidth(float width) {ImGui::SetNextItemWidth(width>0?width*design::scale():width);}
 
 // The hidden widget ID is identical in the stacked and inline presentations.
 // Groups forward hover/active state and keep each field a single flow item.
@@ -109,8 +110,10 @@ inline bool BeginCombo(const char* label,const char* preview,ImGuiComboFlags fla
 }
 inline void EndCombo() {ImGui::EndCombo();observe();ImGui::PopID();}
 
-inline bool Button(const char* label,ImVec2 size={0,0}) {
+inline bool Button(const char* label,ImVec2 size={0,0},design::Action action=design::Action::Secondary) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    design::ActionStyle recipe(action);
+    size.y=std::max(size.y,(design::compact_actions?design::metrics.compact_height:design::metrics.action_height)*design::scale());
     const auto localized=i18n::label(label);label=localized.c_str();
     const auto* end=label_end(label);const auto padding=ImGui::GetStyle().FramePadding;
     const float natural=ImGui::CalcTextSize(label,end).x+2*padding.x;
@@ -131,9 +134,13 @@ inline bool Button(const char* label,ImVec2 size={0,0}) {
     observe(label);return pressed;
 }
 inline bool SmallButton(const char* label) {
+    design::CompactActions compact;
     auto padding=ImGui::GetStyle().FramePadding;padding.y=0;
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,padding);const bool pressed=Button(label);ImGui::PopStyleVar();return pressed;
 }
+inline bool PrimaryButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Primary);}
+inline bool DangerButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Danger);}
+inline bool GhostButton(const char* label,ImVec2 size={0,0}) {return Button(label,size,design::Action::Ghost);}
 inline bool Checkbox(const char* label,bool* value) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
     const auto* original=label;const auto localized=i18n::label(label);label=localized.c_str();
@@ -152,9 +159,10 @@ inline bool Checkbox(const char* label,bool* value) {
 inline bool BeginPopupModal(const char* name,bool* open=nullptr,ImGuiWindowFlags flags=0) {
     const auto size=ImGui::GetIO().DisplaySize;
     const float margin=std::max(16.f,ImGui::GetFontSize());
-    const float width=std::max(1.f,std::min(560.f*ImGui::GetFontSize()/13.f,size.x-2*margin));
+    const float width=std::max(1.f,std::min(design::metrics.dialog_width*design::scale(),size.x-2*margin));
     ImGui::SetNextWindowSize({width,0},ImGuiCond_Appearing);
     ImGui::SetNextWindowSizeConstraints({width,0},{width,std::max(1.f,size.y-2*margin)});
+    design::Heading title;
     return ImGui::BeginPopupModal(i18n::label(name).c_str(),open,flags);
 }
 inline void TextDisabled(const char* format,...) {
@@ -162,6 +170,7 @@ inline void TextDisabled(const char* format,...) {
 }
 inline void SeparatorText(const char* label) {
     if(ImGui::GetCurrentWindow()->SkipItems) return;
+    design::Heading title;
     label=i18n::text(label);
     if(ImGui::CalcTextSize(label).x+2*ImGui::GetStyle().SeparatorTextPadding.x<=available()) ImGui::SeparatorText(label);
     else {ImGui::Separator();label_text(label,label_end(label));}
@@ -170,7 +179,7 @@ inline bool BeginMenu(const char* label,bool enabled=true) {return ImGui::BeginM
 inline bool MenuItem(const char* label,const char* shortcut=nullptr,bool selected=false,bool enabled=true) {
     return ImGui::MenuItem(i18n::label(label).c_str(),shortcut,selected,enabled);
 }
-inline bool CollapsingHeader(const char* label,ImGuiTreeNodeFlags flags=0) {return ImGui::CollapsingHeader(i18n::label(label).c_str(),flags);}
+inline bool CollapsingHeader(const char* label,ImGuiTreeNodeFlags flags=0) {design::Heading title;return ImGui::CollapsingHeader(i18n::label(label).c_str(),flags);}
 // Use these only for application-owned captions/formats. User-supplied strings
 // continue to use TextUnformatted and never pass through the catalogue.
 inline void Text(const char* format,...) {va_list args;va_start(args,format);ImGui::TextV(i18n::text(format),args);va_end(args);}

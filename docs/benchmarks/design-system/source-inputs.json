@@ -1,0 +1,136 @@
+{
+  "CMakeLists.txt": {
+    "bytes": 56972,
+    "sha256_windows_input": "03eb425f4d234fce1a9db6c311f9e002d36aa56f731949a4cd9faf6f8391731b",
+    "sha256_lf": "e98dfa73376ff097ad9d39c9747fb6e004a4d860751b4988a6f3d104d07d5b1a",
+    "crlf_lines": 807
+  },
+  "assets/fonts/IBMPlexSans-OFL.txt": {
+    "bytes": 4429,
+    "sha256_windows_input": "d0283623ef57e722fd0eb688a8041589670c608ab780cd3612d06ba6f153d3fd",
+    "sha256_lf": "d0283623ef57e722fd0eb688a8041589670c608ab780cd3612d06ba6f153d3fd",
+    "crlf_lines": 0
+  },
+  "assets/fonts/IBMPlexSans-Regular.ttf": {
+    "bytes": 56000,
+    "sha256_windows_input": "2cf8ca6d81dd4cfa11a236f9eb7bce6f7a9a4d1252f9154ab14ed1e2329141f3"
+  },
+  "assets/fonts/IBMPlexSans-Semibold.ttf": {
+    "bytes": 56024,
+    "sha256_windows_input": "4b7126390ae8a74bb6f56e7adf3561f038163360168dd7d17c78a4447ef524d8"
+  },
+  "assets/fonts/font-source.json": {
+    "bytes": 689,
+    "sha256_windows_input": "690c4580402e711aa5a0c0c2983ca11ca839db6b77cc6542e0ac56fbbda096c2",
+    "sha256_lf": "38643dbf184d980df77c3061f8abfee329f990b905fb5660be78f6683f3ea303",
+    "crlf_lines": 17
+  },
+  "cmake/GuiFonts.cmake": {
+    "bytes": 5318,
+    "sha256_windows_input": "940c81a2215220ec3451c683e5701b13f3635b15fe7e56ad562f07f1a01a51dc",
+    "sha256_lf": "5d6b1f73a01752636d0df297ace3238c6b3e3b961156f01d79f161979eba5d90",
+    "crlf_lines": 78
+  },
+  "cmake/gui_font_manifest.hpp.in": {
+    "bytes": 866,
+    "sha256_windows_input": "7930eecbf5d1ae605b383c82e2813b928e14033b95b3f20d513d7a623e965284",
+    "sha256_lf": "7cc8689484cd9ace5ed894b1805ff9a6f4b7eabaf4c287760d8ea5e72e02d0bf",
+    "crlf_lines": 16
+  },
+  "cpp/gui.cpp": {
+    "bytes": 270893,
+    "sha256_windows_input": "a92494893e1a837a45b8c4a549cdb629edf41f3af483dc671919f546f9d39b84",
+    "sha256_lf": "44b4a0afe3203ae1e5622281949edf777c02295f202a1fc8cd68a39140116fc5",
+    "crlf_lines": 3097
+  },
+  "cpp/gui_design_system.hpp": {
+    "bytes": 7379,
+    "sha256_windows_input": "462b275755703c58a41e6f9bfab8fc2a675983bc0853f1bc6910b83ced77fe2a",
+    "sha256_lf": "462b275755703c58a41e6f9bfab8fc2a675983bc0853f1bc6910b83ced77fe2a",
+    "crlf_lines": 0
+  },
+  "cpp/gui_design_tokens.hpp": {
+    "bytes": 1622,
+    "sha256_windows_input": "d07e0f2825e596ba283c501edf95f91fec10ac601f34582bb8891896135c4658",
+    "sha256_lf": "d07e0f2825e596ba283c501edf95f91fec10ac601f34582bb8891896135c4658",
+    "crlf_lines": 0
+  },
+  "cpp/gui_fonts.cpp": {
+    "bytes": 4682,
+    "sha256_windows_input": "7a484f81ac36b973ff0f60c8573ef904cbad23c8047630fbfba663b920e8ee49",
+    "sha256_lf": "d7be3e097ff39d328840082dd697dcb47a7ec362293ce503c0ea89bb55ddbb4f",
+    "crlf_lines": 80
+  },
+  "cpp/gui_fonts.hpp": {
+    "bytes": 626,
+    "sha256_windows_input": "af129cc7ea41c446a18a2587ece290cef6a137545253bd0711ab231c72275302",
+    "sha256_lf": "00b0e63ccbdd5d0801ca8de49105d077ab1cd51373c512a17253e5c468ca3f1f",
+    "crlf_lines": 15
+  },
+  "cpp/gui_i18n_catalog.inc": {
+    "bytes": 43669,
+    "sha256_windows_input": "c3bd92b7b33f6c17eeb4889fd061f6eca31522d2e861a55562891f0a58243a98",
+    "sha256_lf": "367521580069733d263ab6e18396e6d2c476130dfbc71c8c0ec3c419f1c686b0",
+    "crlf_lines": 132
+  },
+  "cpp/gui_layout.hpp": {
+    "bytes": 12334,
+    "sha256_windows_input": "928c560145427156de2c312fff4a5d432ef8e12d3633047f25ba682e86c1f2f8",
+    "sha256_lf": "d329c215b0b68d78b3bca2f0fa8433d539564a0cd62df54616477b2f81ebe868",
+    "crlf_lines": 188
+  },
+  "cpp/gui_spatial.hpp": {
+    "bytes": 19171,
+    "sha256_windows_input": "e06d2a7cb81e4a1d4adcafd5c8de9bc764b4c5fec81a3408dd153bd8dddbc551",
+    "sha256_lf": "39cc3132512194d27888f1b7913286e5cf339e209cb9985d444526a20729cfb2",
+    "crlf_lines": 207
+  },
+  "cpp/gui_theme.hpp": {
+    "bytes": 4290,
+    "sha256_windows_input": "c9f82e0e9c214df82b75253b2c942734381799a8ff70cad73277a66397daf54c",
+    "sha256_lf": "daf4497698ddaaa990ee9bb32c30895ebe6f6c9ba876b517a52f382b61221c48",
+    "crlf_lines": 62
+  },
+  "cpp/gui_workspace.hpp": {
+    "bytes": 7611,
+    "sha256_windows_input": "bb3fec2e3b0e8381777396765d92fdad28f9e124e378839132ffe5c97d41e71e",
+    "sha256_lf": "1950ff7eeda6360d2c554e840cf918d3acf6fd3b82f19616586fe9ef4668a6d9",
+    "crlf_lines": 118
+  },
+  "cpp/tests/gui_design_tests.cpp": {
+    "bytes": 1609,
+    "sha256_windows_input": "2c2e2ec6c9913878c2c1f7190006852dddd9f61c6b980a3a45fbffeb2f23dc92",
+    "sha256_lf": "2c2e2ec6c9913878c2c1f7190006852dddd9f61c6b980a3a45fbffeb2f23dc92",
+    "crlf_lines": 0
+  },
+  "tests/fixtures/colmap-design-system.json": {
+    "bytes": 1586,
+    "sha256_windows_input": "236777d56d5d6c709ae10ab2c997996a18ba75bca802aa77e1ab14cd464edd96",
+    "sha256_lf": "eae7da1b629d27b84b6f15ab261043e131ca68883db29359cb7381de3e5e5462",
+    "crlf_lines": 59
+  },
+  "tests/test_gui_design.py": {
+    "bytes": 4296,
+    "sha256_windows_input": "5ad201aa572e3c0cf82fe57367eb06a9620813cb3c1fce8aa698c1b824e303af",
+    "sha256_lf": "5ad201aa572e3c0cf82fe57367eb06a9620813cb3c1fce8aa698c1b824e303af",
+    "crlf_lines": 0
+  },
+  "tests/test_gui_design_contract.py": {
+    "bytes": 2131,
+    "sha256_windows_input": "c8df049f17c5fbc9e1b6533b90ac0b22360cbc32788eecd89746fdbeefe024de",
+    "sha256_lf": "b27b4079a9c425cfcb3c4a5f8494489ec5225102d1505bfe8a97c75249bd422b",
+    "crlf_lines": 39
+  },
+  "tests/test_gui_i18n.py": {
+    "bytes": 6322,
+    "sha256_windows_input": "491ea09af0031fdb095d3e0734fa66cc7056fe6de693cb07f872bf4f6f034c3f",
+    "sha256_lf": "c58eb4019e6b233d26af2e6d7594324041d919f95823e0a66c59f8b87ca73f69",
+    "crlf_lines": 114
+  },
+  "tests/test_gui_thumbnail.py": {
+    "bytes": 7269,
+    "sha256_windows_input": "00156b949bd3bb5a149b4078bd9529b1ef911009f1423c3a8a1a70600f2fca48",
+    "sha256_lf": "abc226097ea2839252a75bc9770b593c9058e6f438e485f4a92677a538a85b73",
+    "crlf_lines": 136
+  }
+}

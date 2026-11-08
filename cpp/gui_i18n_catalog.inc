@@ -125,3 +125,8 @@
 {"Zoom", {"Zoom", "Zoom", "Zoom", "Zoom", "Zoom", "缩放", "縮放", "ズーム", "확대", "Масштаб", "Yakınlaştırma", "Zoom", "Powiększenie", "Pembesaran", "Thu phóng"}},
 {"objects", {"objetos", "objets", "Objekte", "objetos", "oggetti", "个对象", "個物件", "オブジェクト", "객체", "объектов", "nesne", "objecten", "obiektów", "objek", "đối tượng"}},
 {"selected", {"seleccionados", "sélectionnés", "ausgewählt", "selecionados", "selezionati", "个选中", "個選取", "選択中", "선택됨", "выбрано", "seçilen", "geselecteerd", "zaznaczonych", "dipilih", "đã chọn"}},
+{"Appearance", {"Apariencia", "Apparence", "Darstellung", "Aparência", "Aspetto", "外观", "外觀", "外観", "모양", "Оформление", "Görünüm", "Uiterlijk", "Wygląd", "Tampilan", "Giao diện"}},
+{"Dark", {"Oscuro", "Sombre", "Dunkel", "Escuro", "Scuro", "深色", "深色", "ダーク", "어둡게", "Тёмная", "Koyu", "Donker", "Ciemny", "Gelap", "Tối"}},
+{"Light", {"Claro", "Clair", "Hell", "Claro", "Chiaro", "浅色", "淺色", "ライト", "밝게", "Светлая", "Açık", "Licht", "Jasny", "Terang", "Sáng"}},
+{"System", {"Sistema", "Système", "System", "Sistema", "Sistema", "跟随系统", "跟隨系統", "システム", "시스템", "Системная", "Sistem", "Systeem", "System", "Sistem", "Hệ thống"}},
+{"Project tools", {"Herramientas del proyecto", "Outils du projet", "Projektwerkzeuge", "Ferramentas do projeto", "Strumenti del progetto", "项目工具", "專案工具", "プロジェクトツール", "프로젝트 도구", "Инструменты проекта", "Proje araçları", "Projectgereedschap", "Narzędzia projektu", "Alat proyek", "Công cụ dự án"}},

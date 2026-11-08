@@ -1,0 +1,59 @@
+{
+  "reference_commit": "121bd73ae77686e42093918944cec1baa1164aa5",
+  "reference_css_sha256": "9371fa14c2ac07a68b0ee8c2b0cb5de6d32d9aed47a224e42f527af6c80c33c5",
+  "font_family": "IBM Plex Sans",
+  "spacing": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32
+  ],
+  "panel_radius": 8,
+  "action_height": 32,
+  "palettes": {
+    "dark": {
+      "bg-void": "#0a0a0a",
+      "bg-primary": "#0f0f0f",
+      "bg-secondary": "#161616",
+      "bg-tertiary": "#1e1e1e",
+      "bg-hover": "#262626",
+      "bg-input": "#1a1a1a",
+      "bg-elevated": "#242424",
+      "text-primary": "#e8e8e8",
+      "text-secondary": "#a8a8a8",
+      "text-muted": "#858585",
+      "border-color": "#2a2a2a",
+      "border-light": "#3a3a3a",
+      "border-subtle": "#222222",
+      "accent": "#b8b8b8",
+      "accent-hover": "#d0d0d0",
+      "success": "#6b9b6b",
+      "warning": "#b89b6b",
+      "error": "#b86b6b",
+      "info": "#6b8bb8"
+    },
+    "light": {
+      "bg-void": "#ffffff",
+      "bg-primary": "#f5f5f4",
+      "bg-secondary": "#fafaf9",
+      "bg-tertiary": "#eeeeec",
+      "bg-hover": "#e3e3e0",
+      "bg-input": "#ffffff",
+      "bg-elevated": "#e8e8e5",
+      "text-primary": "#202322",
+      "text-secondary": "#4f5552",
+      "text-muted": "#626861",
+      "border-color": "#d4d6d1",
+      "border-light": "#a1a69f",
+      "border-subtle": "#e1e3dd",
+      "accent": "#343e38",
+      "accent-hover": "#202923",
+      "success": "#326b3b",
+      "warning": "#805b18",
+      "error": "#a23c3c",
+      "info": "#365d93"
+    }
+  }
+}

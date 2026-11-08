@@ -1,0 +1,14 @@
+........................................................................ [ 80%]
+......F..........                                                        [100%]
+================================== FAILURES ===================================
+____________ test_overview_is_complete_bounded_and_captured[True] _____________
+tests\test_gui_thumbnail.py:42: in test_overview_is_complete_bounded_and_captured
+    assert (xs.max()-xs.min())/(ys.max()-ys.min()) == pytest.approx(result.plan.width/result.plan.height, abs=.05)
+E   assert np.float64(0.3848797250859107) == 1.3333333333333333 �� 0.05
+E     
+E     comparison failed
+E     Obtained: 0.3848797250859107
+E     Expected: 1.3333333333333333 �� 0.05
+=========================== short test summary info ===========================
+FAILED tests/test_gui_thumbnail.py::test_overview_is_complete_bounded_and_captured[True]
+1 failed, 88 passed, 5 deselected in 51.91s

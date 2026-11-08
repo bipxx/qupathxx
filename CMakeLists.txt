@@ -250,7 +250,9 @@ if(QUPATHXX_BUILD_GUI)
   target_link_libraries(qupathxx_gui PUBLIC qupathxx_core PRIVATE glfw OpenGL::GL ${CMAKE_DL_LIBS})
   target_link_libraries(qupathxx_gui PRIVATE qupathxx_density_workflow)
   if(WIN32)
-    target_link_libraries(qupathxx_gui PRIVATE shell32)
+    target_link_libraries(qupathxx_gui PRIVATE shell32 advapi32)
+  elseif(APPLE)
+    target_link_libraries(qupathxx_gui PRIVATE "-framework CoreFoundation")
   endif()
   set_target_properties(qupathxx_gui PROPERTIES POSITION_INDEPENDENT_CODE ON)
   add_executable(qupathxx_app cpp/main.cpp)
@@ -524,6 +526,9 @@ if(QUPATHXX_BUILD_TESTS)
   qupathxx_copy_runtime(qupathxx_gui_replay_tests)
   add_test(NAME gui_replay COMMAND qupathxx_gui_replay_tests)
   if(QUPATHXX_BUILD_GUI)
+    add_executable(qupathxx_gui_design_tests cpp/tests/gui_design_tests.cpp)
+    target_compile_features(qupathxx_gui_design_tests PRIVATE cxx_std_17)
+    add_test(NAME gui_design COMMAND qupathxx_gui_design_tests)
     add_executable(qupathxx_gui_i18n_tests cpp/tests/gui_i18n_tests.cpp)
     target_compile_features(qupathxx_gui_i18n_tests PRIVATE cxx_std_17)
     if(MSVC)
@@ -767,6 +772,7 @@ endif()
 file(GLOB_RECURSE QPX_BUILD_INPUTS CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/cpp/*.inc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts/*.ttf"
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*.in"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/*.py")
 list(APPEND QPX_BUILD_INPUTS "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt" "${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml")

@@ -880,3 +880,10 @@ docs/benchmarks/contour-optimization/*.log -text -whitespace
 docs/benchmarks/contour-optimization/profile.patch -text -whitespace
 docs/benchmarks/contour-optimization/*.py text eol=lf
 docs/benchmarks/contour-optimization/source-inputs.sha256 text eol=lf
+
+# Canonical design-system headers and captured validation evidence.
+cpp/gui_design_tokens.hpp text eol=lf
+cpp/gui_design_system.hpp text eol=lf
+cpp/tests/gui_design_tests.cpp text eol=lf
+assets/fonts/*.ttf binary
+docs/benchmarks/design-system/** -text -whitespace
