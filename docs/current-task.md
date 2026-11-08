@@ -46,6 +46,10 @@ dark/light/Chinese slide captures are visually inspected. See
 One GUI/font compile and relink reused all38 binding objects unchanged, the
 retained entry and native libraries. No scientific/cache/release changes.
 Preview and all passing/failed outputs remain in main build/activity-sidebar.
+UI commit3f9a92d6 is merged into local main3d869792. Nine canonical source hashes
+and all three capture hashes match after promotion. The temporary UI worktree
+and merged branch are removed; the independently advancing native integration
+checkout is preserved. No push or publication.
 
 ## Delivered task - consistent command icons
 
